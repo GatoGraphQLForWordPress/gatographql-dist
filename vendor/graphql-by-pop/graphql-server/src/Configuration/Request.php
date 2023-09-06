@@ -1,0 +1,35 @@
+<?php
+
+declare (strict_types=1);
+namespace GraphQLByPoP\GraphQLServer\Configuration;
+
+use PoP\Root\App;
+use GraphQLByPoP\GraphQLServer\Constants\Params;
+use GraphQLByPoP\GraphQLServer\Environment;
+use PoP\Root\Module\EnvironmentValueHelpers;
+class Request
+{
+    public static function getMutationScheme() : ?string
+    {
+        if (!Environment::enableSettingMutationSchemeByURLParam()) {
+            return null;
+        }
+        $scheme = App::request(Params::MUTATION_SCHEME) ?? App::query(Params::MUTATION_SCHEME);
+        if ($scheme === null) {
+            return null;
+        }
+        $schemes = [\GraphQLByPoP\GraphQLServer\Configuration\MutationSchemes::STANDARD, \GraphQLByPoP\GraphQLServer\Configuration\MutationSchemes::NESTED_WITH_REDUNDANT_ROOT_FIELDS, \GraphQLByPoP\GraphQLServer\Configuration\MutationSchemes::NESTED_WITHOUT_REDUNDANT_ROOT_FIELDS];
+        if (!\in_array($scheme, $schemes)) {
+            return null;
+        }
+        return $scheme;
+    }
+    public static function enableGraphQLIntrospection() : ?bool
+    {
+        $enableGraphQLIntrospection = App::request(Params::ENABLE_GRAPHQL_INTROSPECTION) ?? App::query(Params::ENABLE_GRAPHQL_INTROSPECTION);
+        if ($enableGraphQLIntrospection === null) {
+            return null;
+        }
+        return EnvironmentValueHelpers::toBool($enableGraphQLIntrospection);
+    }
+}

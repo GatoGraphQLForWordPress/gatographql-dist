@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace GatoGraphQL\GatoGraphQL\Services\SchemaConfigurationExecuters;
+
+use GatoGraphQL\GatoGraphQL\Services\Blocks\BlockInterface;
+use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurationExecuters\AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter;
+use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurationExecuters\EndpointSchemaConfigurationExecuterServiceTagInterface;
+use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurationExecuters\PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface;
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\SchemaConfigurationFunctionalityModuleResolver;
+use GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigMultiFieldDirectivesBlock;
+use PoP\GraphQLParser\Module as GraphQLParserModule;
+use PoP\GraphQLParser\Environment as GraphQLParserEnvironment;
+
+class MultiFieldDirectivesBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
+{
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigMultiFieldDirectivesBlock|null
+     */
+    private $schemaConfigMultiFieldDirectivesBlock;
+
+    final public function setSchemaConfigMultiFieldDirectivesBlock(SchemaConfigMultiFieldDirectivesBlock $schemaConfigMultiFieldDirectivesBlock): void
+    {
+        $this->schemaConfigMultiFieldDirectivesBlock = $schemaConfigMultiFieldDirectivesBlock;
+    }
+    final protected function getSchemaConfigMultiFieldDirectivesBlock(): SchemaConfigMultiFieldDirectivesBlock
+    {
+        if ($this->schemaConfigMultiFieldDirectivesBlock === null) {
+            /** @var SchemaConfigMultiFieldDirectivesBlock */
+            $schemaConfigMultiFieldDirectivesBlock = $this->instanceManager->getInstance(SchemaConfigMultiFieldDirectivesBlock::class);
+            $this->schemaConfigMultiFieldDirectivesBlock = $schemaConfigMultiFieldDirectivesBlock;
+        }
+        return $this->schemaConfigMultiFieldDirectivesBlock;
+    }
+
+    public function getEnablingModule(): ?string
+    {
+        return SchemaConfigurationFunctionalityModuleResolver::MULTIFIELD_DIRECTIVES;
+    }
+
+    protected function getBlock(): BlockInterface
+    {
+        return $this->getSchemaConfigMultiFieldDirectivesBlock();
+    }
+
+    public function getHookModuleClass(): string
+    {
+        return GraphQLParserModule::class;
+    }
+
+    public function getHookEnvironmentClass(): string
+    {
+        return GraphQLParserEnvironment::ENABLE_MULTIFIELD_DIRECTIVES;
+    }
+}

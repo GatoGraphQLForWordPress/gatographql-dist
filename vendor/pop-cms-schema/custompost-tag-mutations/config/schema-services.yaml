@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\:
+        resource: '../src/RelationalTypeDataLoaders/*'
+
+    PoPCMSSchema\CustomPostTagMutations\TypeResolvers\:
+        resource: '../src/TypeResolvers/*'
