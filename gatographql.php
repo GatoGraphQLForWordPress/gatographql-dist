@@ -3,7 +3,7 @@
 Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 Description: Interact with all your data in WordPress.
-Version: 1.0.6
+Version: 1.0.7
 Requires at least: 5.4
 Requires PHP: 7.2
 Author: Gato GraphQL
@@ -44,7 +44,7 @@ if (!defined('ABSPATH')) {
  *
  * @see src/OnDemand/Symplify/MonorepoBuilder/Release/ReleaseWorker/ConvertVersionForProdInPluginMainFileReleaseWorker.php
  */
-$pluginVersion = '1.0.6';
+$pluginVersion = '1.0.7';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
@@ -67,7 +67,7 @@ if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsV
  * It will be replaced in the CI to append "#{commit hash}"
  * when generating the plugin. 
  */
-$commitHash = 'b7e74d2c5b45f168adb41823e538562f6577158b';
+$commitHash = 'ceb896b5e9f6b5455671998a76a0eb4ba8a43573';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

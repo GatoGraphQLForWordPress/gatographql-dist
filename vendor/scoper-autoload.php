@@ -29,24 +29,24 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
     }
 }
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
-humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
-humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
-humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
-humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
-humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
 humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
+humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
+humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
+humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
+humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
-humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
+humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
+humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
+humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
+humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
-humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
-humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
-humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
 humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit9ef3b585641065e42d02668a6969c84d', 'PrefixedByPoP\ComposerAutoloaderInit9ef3b585641065e42d02668a6969c84d');
+humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit3d8edb8edc351c19f3770eda0013efea', 'PrefixedByPoP\ComposerAutoloaderInit3d8edb8edc351c19f3770eda0013efea');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
