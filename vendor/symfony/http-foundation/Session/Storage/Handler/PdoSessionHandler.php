@@ -160,7 +160,7 @@ class PdoSessionHandler extends AbstractSessionHandler
      *  * lock_mode: The strategy for locking, see constants [default: LOCK_TRANSACTIONAL]
      *  * ttl: The time to live in seconds.
      *
-     * @param \PDO|string $pdoOrDsn A \PDO instance or DSN string or URL string or null
+     * @param \PDO|string|null $pdoOrDsn A \PDO instance or DSN string or URL string or null
      *
      * @throws \InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      */

@@ -340,7 +340,7 @@ abstract class AbstractDocument extends UpstreamDocument
         return $objectResolvedFieldValueReferences;
     }
     /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface|mixed[] $argumentValue
+     * @param WithValueInterface|array<WithValueInterface|array<mixed>> $argumentValue
      * @return ObjectResolvedFieldValueReference[]
      */
     protected function getObjectResolvedFieldValueReferencesInArgumentValue($argumentValue) : array

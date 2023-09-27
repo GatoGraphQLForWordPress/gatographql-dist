@@ -46,11 +46,10 @@ humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMat
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
 humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
 humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit3d8edb8edc351c19f3770eda0013efea', 'PrefixedByPoP\ComposerAutoloaderInit3d8edb8edc351c19f3770eda0013efea');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit6671cd2f215ba1fa9d2cf8aa69456910', 'PrefixedByPoP\ComposerAutoloaderInit6671cd2f215ba1fa9d2cf8aa69456910');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
-if (!function_exists('add_action')) { function add_action() { return \PrefixedByPoP\add_action(...func_get_args()); } }
 if (!function_exists('array_key_first')) { function array_key_first() { return \PrefixedByPoP\array_key_first(...func_get_args()); } }
 if (!function_exists('array_key_last')) { function array_key_last() { return \PrefixedByPoP\array_key_last(...func_get_args()); } }
 if (!function_exists('ctype_alnum')) { function ctype_alnum() { return \PrefixedByPoP\ctype_alnum(...func_get_args()); } }

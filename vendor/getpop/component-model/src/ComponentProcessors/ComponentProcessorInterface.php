@@ -74,35 +74,35 @@ interface ComponentProcessorInterface
      */
     public function initRequestProps(Component $component, array &$props) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function setProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function appendGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function appendProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function mergeGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -121,21 +121,21 @@ interface ComponentProcessorInterface
      */
     public function getProp(Component $component, array &$props, string $property, array $starting_from_componentPath = array());
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function mergeGroupIterateKeyProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
      */
     public function mergeIterateKeyProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value

@@ -236,7 +236,7 @@ EOPHP;
      */
     public static function exportType($owner, bool $noBuiltin = \false, \ReflectionType $type = null) : ?string
     {
-        if (!($type = $type ?? ($owner instanceof \ReflectionFunctionAbstract ? $owner->getReturnType() : $owner->getType()))) {
+        if (!($type = $type ?? ($owner instanceof \ReflectionFunctionAbstract ? $owner->getReturnType() : (\method_exists($owner, 'getType') ? $owner->getType() : null)))) {
             return null;
         }
         $class = null;

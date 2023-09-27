@@ -1238,7 +1238,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * Resolves env parameter placeholders in a string or an array.
      *
-     * @param string|bool $format A sprintf() format returning the replacement for each env var name or
+     * @param string|true|null $format    A sprintf() format returning the replacement for each env var name or
      *                                    null to resolve back to the original "%env(VAR)%" format or
      *                                    true to resolve to the actual values of the referenced env vars
      * @param array            &$usedEnvs Env vars found while resolving are added to this array

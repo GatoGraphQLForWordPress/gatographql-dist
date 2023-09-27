@@ -49,9 +49,9 @@ class RequestMatcher implements RequestMatcherInterface
      */
     private $schemes = [];
     /**
-     * @param string|mixed[] $methods
-     * @param string|mixed[] $ips
-     * @param string|mixed[] $schemes
+     * @param string|string[]|null $methods
+     * @param string|string[]|null $ips
+     * @param string|string[]|null $schemes
      */
     public function __construct(string $path = null, string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, int $port = null)
     {

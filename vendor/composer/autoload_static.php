@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
+class ComposerStaticInit6671cd2f215ba1fa9d2cf8aa69456910
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -16,7 +16,6 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'b686b8e46447868025a15ce5d0cb2634' => __DIR__ . '/..' . '/symfony/polyfill-php74/bootstrap.php',
         '0dcd945be12852345e1baa7d5341bf0e' => __DIR__ . '/..' . '/jrfnl/php-cast-to-type/class.cast-to-type.php',
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
@@ -56,9 +55,7 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
             'PrefixedByPoP\\GuzzleHttp\\Psr7\\' => 30,
             'PrefixedByPoP\\GuzzleHttp\\Promise\\' => 33,
             'PrefixedByPoP\\GuzzleHttp\\' => 25,
-            'PrefixedByPoP\\FastRoute\\' => 24,
             'PrefixedByPoP\\Composer\\Semver\\' => 30,
-            'PrefixedByPoP\\Brain\\' => 20,
             'PoP\\Root\\' => 9,
             'PoP\\RootWP\\' => 11,
             'PoP\\MarkdownConvertor\\' => 22,
@@ -313,17 +310,9 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'PrefixedByPoP\\FastRoute\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
-        ),
         'PrefixedByPoP\\Composer\\Semver\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
-        ),
-        'PrefixedByPoP\\Brain\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/brain/cortex/src',
         ),
         'PoP\\Root\\' => 
         array (
@@ -743,7 +732,7 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         ),
         'PoPBackbone\\PHPHooks\\' => 
         array (
-            0 => __DIR__ . '/..' . '/pop-backbone/php-hooks/src',
+            0 => __DIR__ . '/..' . '/pop-backbone/php-hooks/upstream-src',
         ),
         'PoPAPI\\GraphQLAPI\\' => 
         array (
@@ -1562,7 +1551,7 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         'PoPAPI\\GraphQLAPI\\Environment' => __DIR__ . '/..' . '/pop-api/api-graphql/src/Environment.php',
         'PoPAPI\\GraphQLAPI\\Module' => __DIR__ . '/..' . '/pop-api/api-graphql/src/Module.php',
         'PoPAPI\\GraphQLAPI\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-api/api-graphql/src/ModuleConfiguration.php',
-        'PoPBackbone\\PHPHooks\\PHPHooks' => __DIR__ . '/..' . '/pop-backbone/php-hooks/src/PHPHooks.php',
+        'PoPBackbone\\PHPHooks\\PHPHooks' => __DIR__ . '/..' . '/pop-backbone/php-hooks/upstream-src/PHPHooks.php',
         'PoPCMSSchema\\CategoriesWP\\Hooks\\RoutingStateHookSet' => __DIR__ . '/..' . '/pop-cms-schema/categories-wp/src/Hooks/RoutingStateHookSet.php',
         'PoPCMSSchema\\CategoriesWP\\LooseContracts\\LooseContractResolutionSet' => __DIR__ . '/..' . '/pop-cms-schema/categories-wp/src/LooseContracts/LooseContractResolutionSet.php',
         'PoPCMSSchema\\CategoriesWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/categories-wp/src/Module.php',
@@ -3718,32 +3707,6 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         'PoP\\Root\\State\\AppStateProviderInterface' => __DIR__ . '/..' . '/getpop/root/src/State/AppStateProviderInterface.php',
         'PoP\\Root\\Translation\\BasicTranslationAPI' => __DIR__ . '/..' . '/getpop/root/src/Translation/BasicTranslationAPI.php',
         'PoP\\Root\\Translation\\TranslationAPIInterface' => __DIR__ . '/..' . '/getpop/root/src/Translation/TranslationAPIInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex' => __DIR__ . '/..' . '/brain/cortex/src/Cortex.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Controller\\ControllerInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Controller/ControllerInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Controller\\QueryVarsController' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Controller/QueryVarsController.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Controller\\RedirectController' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Controller/RedirectController.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Group\\Group' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Group/Group.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Group\\GroupCollection' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Group/GroupCollection.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Group\\GroupCollectionInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Group/GroupCollectionInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Group\\GroupInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Group/GroupInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\ActionRoute' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/ActionRoute.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\DerivativeRouteTrait' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/DerivativeRouteTrait.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\PriorityRouteCollection' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/PriorityRouteCollection.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\QueryRoute' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/QueryRoute.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\RedirectRoute' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/RedirectRoute.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\Route' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/Route.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\RouteCollectionInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/RouteCollectionInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Route\\RouteInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Route/RouteInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\MatchingResult' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/MatchingResult.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\ResultHandler' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/ResultHandler.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\ResultHandlerInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/ResultHandlerInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\RouteFilterIterator' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/RouteFilterIterator.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\Router' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/Router.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Router\\RouterInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Router/RouterInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Uri\\PsrUri' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Uri/PsrUri.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Uri\\UriInterface' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Uri/UriInterface.php',
-        'PrefixedByPoP\\Brain\\Cortex\\Uri\\WordPressUri' => __DIR__ . '/..' . '/brain/cortex/src/Cortex/Uri/WordPressUri.php',
-        'PrefixedByPoP\\Brain\\Routes' => __DIR__ . '/..' . '/brain/cortex/src/Routes.php',
         'PrefixedByPoP\\Composer\\Semver\\Comparator' => __DIR__ . '/..' . '/composer/semver/src/Comparator.php',
         'PrefixedByPoP\\Composer\\Semver\\CompilingMatcher' => __DIR__ . '/..' . '/composer/semver/src/CompilingMatcher.php',
         'PrefixedByPoP\\Composer\\Semver\\Constraint\\Bound' => __DIR__ . '/..' . '/composer/semver/src/Constraint/Bound.php',
@@ -3756,23 +3719,6 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
         'PrefixedByPoP\\Composer\\Semver\\Intervals' => __DIR__ . '/..' . '/composer/semver/src/Intervals.php',
         'PrefixedByPoP\\Composer\\Semver\\Semver' => __DIR__ . '/..' . '/composer/semver/src/Semver.php',
         'PrefixedByPoP\\Composer\\Semver\\VersionParser' => __DIR__ . '/..' . '/composer/semver/src/VersionParser.php',
-        'PrefixedByPoP\\FastRoute\\BadRouteException' => __DIR__ . '/..' . '/nikic/fast-route/src/BadRouteException.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator\\CharCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/CharCountBased.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator\\GroupCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/GroupCountBased.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator\\GroupPosBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/GroupPosBased.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator\\MarkBased' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/MarkBased.php',
-        'PrefixedByPoP\\FastRoute\\DataGenerator\\RegexBasedAbstract' => __DIR__ . '/..' . '/nikic/fast-route/src/DataGenerator/RegexBasedAbstract.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher\\CharCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/CharCountBased.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher\\GroupCountBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/GroupCountBased.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher\\GroupPosBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/GroupPosBased.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher\\MarkBased' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/MarkBased.php',
-        'PrefixedByPoP\\FastRoute\\Dispatcher\\RegexBasedAbstract' => __DIR__ . '/..' . '/nikic/fast-route/src/Dispatcher/RegexBasedAbstract.php',
-        'PrefixedByPoP\\FastRoute\\Route' => __DIR__ . '/..' . '/nikic/fast-route/src/Route.php',
-        'PrefixedByPoP\\FastRoute\\RouteCollector' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteCollector.php',
-        'PrefixedByPoP\\FastRoute\\RouteParser' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteParser.php',
-        'PrefixedByPoP\\FastRoute\\RouteParser\\Std' => __DIR__ . '/..' . '/nikic/fast-route/src/RouteParser/Std.php',
         'PrefixedByPoP\\GuzzleHttp\\BodySummarizer' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/BodySummarizer.php',
         'PrefixedByPoP\\GuzzleHttp\\BodySummarizerInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/BodySummarizerInterface.php',
         'PrefixedByPoP\\GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
@@ -4509,9 +4455,9 @@ class ComposerStaticInit3d8edb8edc351c19f3770eda0013efea
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3d8edb8edc351c19f3770eda0013efea::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3d8edb8edc351c19f3770eda0013efea::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3d8edb8edc351c19f3770eda0013efea::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6671cd2f215ba1fa9d2cf8aa69456910::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6671cd2f215ba1fa9d2cf8aa69456910::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6671cd2f215ba1fa9d2cf8aa69456910::$classMap;
 
         }, null, ClassLoader::class);
     }

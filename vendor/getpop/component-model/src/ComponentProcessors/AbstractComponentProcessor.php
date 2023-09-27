@@ -394,14 +394,14 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
      * (the current one, or its descendant), or a targetted path
      * of components
      *
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      */
     private function isComponentPath($component_or_componentPath) : bool
     {
         return \is_array($component_or_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      */
     private function isDescendantComponent($component_or_componentPath, array &$props) : bool
@@ -418,7 +418,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         return $componentFullName !== $this->getComponentHelpers()->getComponentFullName($component);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @return string[]
      * @param array<string,mixed> $props
      */
@@ -442,7 +442,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         return \array_merge($ret, \array_map(\Closure::fromCallable([$this->getComponentHelpers(), 'getComponentFullName']), $componentPath));
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param array<string,mixed> $options
@@ -555,7 +555,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         return $component_props[$componentFullName][$group] ?? array();
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -565,7 +565,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -575,7 +575,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->addGroupProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -585,7 +585,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('append' => \true));
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -595,7 +595,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->appendGroupProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -605,7 +605,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('array' => \true, 'merge' => \true));
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -633,7 +633,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         return $this->getGroupProp(Props::ATTRIBUTES, $component, $props, $property, $starting_from_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -643,7 +643,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('array' => \true, 'merge-iterate-key' => \true));
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value
@@ -653,7 +653,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         $this->mergeGroupIterateKeyProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
     /**
-     * @param mixed[]|\PoP\ComponentModel\Component\Component $component_or_componentPath
+     * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param mixed $value

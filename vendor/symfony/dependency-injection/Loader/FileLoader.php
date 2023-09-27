@@ -83,7 +83,7 @@ abstract class FileLoader extends BaseFileLoader
      * @param Definition           $prototype A definition to use as template
      * @param string               $namespace The namespace prefix of classes in the scanned directory
      * @param string               $resource  The directory to look for classes, glob-patterns allowed
-     * @param string|mixed[] $exclude A globbed path of files to exclude or an array of globbed paths of files to exclude
+     * @param string|string[]|null $exclude   A globbed path of files to exclude or an array of globbed paths of files to exclude
      * @param string|null          $source    The path to the file that defines the auto-discovery rule
      *
      * @return void

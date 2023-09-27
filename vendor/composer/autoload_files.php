@@ -15,7 +15,6 @@ return array(
     '0d59ee240a4cd96ddbb4ff164fccea4d' => $vendorDir . '/symfony/polyfill-php73/bootstrap.php',
     'b686b8e46447868025a15ce5d0cb2634' => $vendorDir . '/symfony/polyfill-php74/bootstrap.php',
     '0dcd945be12852345e1baa7d5341bf0e' => $vendorDir . '/jrfnl/php-cast-to-type/class.cast-to-type.php',
-    '253c157292f75eb38082b5acb06f3f01' => $vendorDir . '/nikic/fast-route/src/functions.php',
     '7b11c4dc42b3b3023073cb14e519683c' => $vendorDir . '/ralouphie/getallheaders/src/getallheaders.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
 );
