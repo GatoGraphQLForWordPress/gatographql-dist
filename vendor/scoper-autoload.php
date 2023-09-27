@@ -46,7 +46,7 @@ humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMat
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
 humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
 humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit6671cd2f215ba1fa9d2cf8aa69456910', 'PrefixedByPoP\ComposerAutoloaderInit6671cd2f215ba1fa9d2cf8aa69456910');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitd85de1f2f83e5ff52cd5d97c8f191103', 'PrefixedByPoP\ComposerAutoloaderInitd85de1f2f83e5ff52cd5d97c8f191103');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
