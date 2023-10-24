@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103
+class ComposerStaticInite2a2e6befb85c3ed83c34c2c62662d05
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -986,6 +986,7 @@ class ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103
         'GatoGraphQL\\GatoGraphQL\\PluginManagement\\ExtensionManager' => __DIR__ . '/../..' . '/src/PluginManagement/ExtensionManager.php',
         'GatoGraphQL\\GatoGraphQL\\PluginManagement\\MainPluginManager' => __DIR__ . '/../..' . '/src/PluginManagement/MainPluginManager.php',
         'GatoGraphQL\\GatoGraphQL\\PluginManagement\\PluginOptionsFormHandler' => __DIR__ . '/../..' . '/src/PluginManagement/PluginOptionsFormHandler.php',
+        'GatoGraphQL\\GatoGraphQL\\PluginMetadata' => __DIR__ . '/../..' . '/src/PluginMetadata.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractBundleExtension' => __DIR__ . '/../..' . '/src/PluginSkeleton/AbstractBundleExtension.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractBundleExtensionModule' => __DIR__ . '/../..' . '/src/PluginSkeleton/AbstractBundleExtensionModule.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractExtension' => __DIR__ . '/../..' . '/src/PluginSkeleton/AbstractExtension.php',
@@ -4455,9 +4456,9 @@ class ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd85de1f2f83e5ff52cd5d97c8f191103::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite2a2e6befb85c3ed83c34c2c62662d05::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite2a2e6befb85c3ed83c34c2c62662d05::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite2a2e6befb85c3ed83c34c2c62662d05::$classMap;
 
         }, null, ClassLoader::class);
     }

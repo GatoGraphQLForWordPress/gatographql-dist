@@ -65,7 +65,7 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
     {
         switch ($fieldName) {
             case 'metaValue':
-                return $this->getAnyBuiltInScalarScalarTypeResolver();
+                return $this->getStringScalarTypeResolver();
             case 'metaValues':
                 return $this->getAnyBuiltInScalarScalarTypeResolver();
             default:

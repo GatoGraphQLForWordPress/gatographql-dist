@@ -300,7 +300,7 @@ class RedisCluster5Proxy extends \RedisCluster implements ResetInterface, LazyOb
     }
     public function hscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function hset($key, $member, $value)
     {
@@ -512,7 +512,7 @@ class RedisCluster5Proxy extends \RedisCluster implements ResetInterface, LazyOb
     }
     public function scan(&$i_iterator, $str_node, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($i_iterator, $str_node, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($i_iterator, ...\array_slice(\func_get_args(), 1));
     }
     public function scard($key)
     {
@@ -596,7 +596,7 @@ class RedisCluster5Proxy extends \RedisCluster implements ResetInterface, LazyOb
     }
     public function sscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function strlen($key)
     {
@@ -776,7 +776,7 @@ class RedisCluster5Proxy extends \RedisCluster implements ResetInterface, LazyOb
     }
     public function zscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function zscore($key, $member)
     {

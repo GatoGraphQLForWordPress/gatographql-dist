@@ -344,7 +344,7 @@ class Redis5Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     }
     public function hscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function incr($key)
     {
@@ -600,7 +600,7 @@ class Redis5Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     }
     public function scan(&$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 3));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($i_iterator, ...\array_slice(\func_get_args(), 1));
     }
     public function scard($key)
     {
@@ -676,7 +676,7 @@ class Redis5Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     }
     public function sscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function strlen($key)
     {
@@ -860,7 +860,7 @@ class Redis5Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     }
     public function zscan($str_key, &$i_iterator, $str_pattern = null, $i_count = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($str_key, $i_iterator, $str_pattern, $i_count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($str_key, $i_iterator, ...\array_slice(\func_get_args(), 2));
     }
     public function zunionstore($key, $keys, $weights = null, $aggregate = null)
     {

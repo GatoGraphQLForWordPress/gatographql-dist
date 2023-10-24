@@ -280,7 +280,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         }
     }
     /**
-     * @return string|int|float|bool|mixed[]|null
+     * @return string|int|float|bool|mixed[]|\UnitEnum|null
      */
     private function freeze($value, string $key)
     {

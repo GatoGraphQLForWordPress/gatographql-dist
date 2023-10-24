@@ -203,6 +203,7 @@ return array(
     'GatoGraphQL\\GatoGraphQL\\PluginManagement\\ExtensionManager' => $baseDir . '/src/PluginManagement/ExtensionManager.php',
     'GatoGraphQL\\GatoGraphQL\\PluginManagement\\MainPluginManager' => $baseDir . '/src/PluginManagement/MainPluginManager.php',
     'GatoGraphQL\\GatoGraphQL\\PluginManagement\\PluginOptionsFormHandler' => $baseDir . '/src/PluginManagement/PluginOptionsFormHandler.php',
+    'GatoGraphQL\\GatoGraphQL\\PluginMetadata' => $baseDir . '/src/PluginMetadata.php',
     'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractBundleExtension' => $baseDir . '/src/PluginSkeleton/AbstractBundleExtension.php',
     'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractBundleExtensionModule' => $baseDir . '/src/PluginSkeleton/AbstractBundleExtensionModule.php',
     'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\AbstractExtension' => $baseDir . '/src/PluginSkeleton/AbstractExtension.php',

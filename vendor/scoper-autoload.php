@@ -22,31 +22,31 @@ if (isset($existingComposerAutoloadFiles)) {
 // Class aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#class-aliases
 if (!function_exists('humbug_phpscoper_expose_class')) {
-    function humbug_phpscoper_expose_class(string $exposed, string $prefixed): void {
+    function humbug_phpscoper_expose_class($exposed, $prefixed) {
         if (!class_exists($exposed, false) && !interface_exists($exposed, false) && !trait_exists($exposed, false)) {
             spl_autoload_call($prefixed);
         }
     }
 }
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
+humbug_phpscoper_expose_class('ComposerAutoloaderInite2a2e6befb85c3ed83c34c2c62662d05', 'PrefixedByPoP\ComposerAutoloaderInite2a2e6befb85c3ed83c34c2c62662d05');
 humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
-humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
-humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
 humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
-humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
-humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
-humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
+humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
+humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
-humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
+humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
+humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
+humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
 humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('ComposerAutoloaderInitd85de1f2f83e5ff52cd5d97c8f191103', 'PrefixedByPoP\ComposerAutoloaderInitd85de1f2f83e5ff52cd5d97c8f191103');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

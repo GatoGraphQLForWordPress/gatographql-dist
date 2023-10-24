@@ -560,6 +560,13 @@ class RelayProxy extends Relay implements ResetInterface, LazyObjectInterface
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->bitcount(...\func_get_args());
     }
     /**
+     * @return \Relay\Relay|mixed[]|false
+     */
+    public function bitfield($key, ...$args)
+    {
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->bitfield(...\func_get_args());
+    }
+    /**
      * @return \Relay\Relay|mixed[]|bool
      */
     public function config($operation, $key = null, $value = null)
@@ -670,6 +677,13 @@ class RelayProxy extends Relay implements ResetInterface, LazyObjectInterface
     public function publish($channel, $message)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->publish(...\func_get_args());
+    }
+    /**
+     * @return mixed
+     */
+    public function pubsub($operation, ...$args)
+    {
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->pubsub(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|false|int
@@ -1258,28 +1272,28 @@ class RelayProxy extends Relay implements ResetInterface, LazyObjectInterface
      */
     public function scan(&$iterator, $match = null, $count = 0, $type = null)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($iterator, $match, $count, $type, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->scan($iterator, ...\array_slice(\func_get_args(), 1));
     }
     /**
      * @return mixed[]|false
      */
     public function hscan($key, &$iterator, $match = null, $count = 0)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($key, $iterator, $match, $count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hscan($key, $iterator, ...\array_slice(\func_get_args(), 2));
     }
     /**
      * @return mixed[]|false
      */
     public function sscan($key, &$iterator, $match = null, $count = 0)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($key, $iterator, $match, $count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sscan($key, $iterator, ...\array_slice(\func_get_args(), 2));
     }
     /**
      * @return mixed[]|false
      */
     public function zscan($key, &$iterator, $match = null, $count = 0)
     {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($key, $iterator, $match, $count, ...\array_slice(\func_get_args(), 4));
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscan($key, $iterator, ...\array_slice(\func_get_args(), 2));
     }
     /**
      * @return \Relay\Relay|mixed[]|false
