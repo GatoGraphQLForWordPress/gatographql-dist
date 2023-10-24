@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, content sync, headless, site migrations, rest api, endpoint, wp-cli, notifications, cloud, translation, gutenberg
 Requires at least: 5.4
 Tested up to: 6.3
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -163,6 +163,9 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Recipes section contains example queries ready to copy/paste and use 
 
 == Changelog ==
+
+= 1.0.11 =
+* The `operationName` param can be obtained from the URL even when doing `POST`
 
 = 1.0.10 =
 * Return `String` in fields `Root.optionValue` and `WithMeta.metaValue`
