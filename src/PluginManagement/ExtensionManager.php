@@ -297,7 +297,7 @@ class ExtensionManager extends AbstractPluginManager
             //     return;
             // }
             $activateExtensionsSettingsURL = AdminHelpers::getSettingsPageTabURL(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS);
-            printf(
+            $adminNotice_safe = sprintf(
                 '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
                 sprintf(
                     __('<strong>Gato GraphQL - %s</strong>: %s.', 'gatographql'),
@@ -309,6 +309,7 @@ class ExtensionManager extends AbstractPluginManager
                     )
                 )
             );
+            echo $adminNotice_safe;
         });
     }
 

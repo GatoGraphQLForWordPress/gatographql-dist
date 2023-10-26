@@ -717,10 +717,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                         $inititalizationException->getTraceAsString()
                     )
                 );
-                _e(sprintf(
+                $adminNotice_safe = sprintf(
                     '<div class="notice notice-error">%s</div>',
                     $errorMessage
-                ));
+                );
+                echo $adminNotice_safe;
             }
         );
     }

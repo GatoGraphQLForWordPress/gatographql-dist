@@ -185,7 +185,7 @@ abstract class AbstractControlBlock extends AbstractBlock
             $blockDataContent .= sprintf($blockDataPlaceholder, __('Directives', 'gatographql'), $directiveContent);
         }
 
-        $blockContentPlaceholder = <<<EOT
+        $blockContentPlaceholder = '
         <div class="%s">
             <div class="%s">
                 <h3 class="%s">%s</h3>
@@ -196,7 +196,7 @@ abstract class AbstractControlBlock extends AbstractBlock
                 %s
             </div>
         </div>
-EOT;
+';
         return sprintf(
             $blockContentPlaceholder,
             $className . ' ' . $this->getAlignClassName(),

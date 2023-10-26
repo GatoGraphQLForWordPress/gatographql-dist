@@ -124,12 +124,7 @@ class PersistedQueryEndpointAPIHierarchyBlock extends AbstractBlock implements P
             );
         }
 
-        $blockContentPlaceholder = <<<EOT
-    <div class="%s">
-        <h3 class="%s">%s</h3>
-        %s
-    </div>
-EOT;
+        $blockContentPlaceholder = '<div class="%s"><h3 class="%s">%s</h3>%s</div>';
 
         return sprintf(
             $blockContentPlaceholder,

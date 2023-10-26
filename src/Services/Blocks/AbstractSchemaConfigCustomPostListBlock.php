@@ -135,12 +135,7 @@ abstract class AbstractSchemaConfigCustomPostListBlock extends AbstractSchemaCon
 
     protected function getBlockSectionContentHTML(string $sectionHeader, string $sectionContent): string
     {
-        $blockContentPlaceholder = <<<HTML
-    <div class="%s">
-        <h4 class="%s">%s</strong></h4>
-        %s
-    </div>
-HTML;
+        $blockContentPlaceholder = '<div class="%s"><h4 class="%s">%s</strong></h4>%s</div>';
         $className = $this->getBlockClassName();
         return sprintf(
             $blockContentPlaceholder,

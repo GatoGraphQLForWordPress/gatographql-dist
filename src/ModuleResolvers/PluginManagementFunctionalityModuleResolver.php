@@ -243,12 +243,11 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
         } elseif ($module === self::RESET_SETTINGS) {
             $settingsCategoryRegistry = $this->getSettingsCategoryRegistry();
             $resetSettingsButtonsHTML = sprintf(
-                <<<HTML
-    <a href="#" class="button secondary gatographql-show-settings-items">
-        %1\$s
-    </a>
-HTML
-,
+                '
+                    <a href="#" class="button secondary gatographql-show-settings-items">
+                        %1$s
+                    </a>
+                ',
                 \__('Show options to reset the Settings', 'gatographql')
             );
             $moduleSettings[] = [

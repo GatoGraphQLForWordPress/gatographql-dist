@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 
 use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
+use GatoGraphQL\GatoGraphQL\ContentProcessors\ContentParserOptions;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\NoDocsFolderPluginMarkdownContentRetrieverTrait;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\Extensions\BundleExtensionModuleResolver;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\Extensions\ExtensionModuleResolver;
@@ -73,6 +74,17 @@ class RecipesMenuPage extends AbstractVerticalTabDocsMenuPage
     }
 
     /**
+     * @return array<string,mixed>
+     */
+    protected function getMarkdownContentOptions(): array
+    {
+        $siteURL = str_replace(['https://', 'http://'], '', \get_site_url());
+        return array_merge(parent::getMarkdownContentOptions(), [ContentParserOptions::REPLACEMENTS => [
+            'mysite.com' => $siteURL,
+        ]]);
+    }
+
+    /**
      * @param array{0:string,1:string,2?:string[],3?:string[]} $entry
      */
     protected function getEntryContent(string $entryContent, array $entry): string
@@ -115,12 +127,7 @@ class RecipesMenuPage extends AbstractVerticalTabDocsMenuPage
                 )
             )
         );
-        return sprintf(<<<HTML
-    <div class="%s">
-        %s
-    </div>
-HTML
-, 'extension-highlight', $messageHTML) . $entryContent;
+        return sprintf('<div class="%s">%s</div>', 'extension-highlight', $messageHTML) . $entryContent;
     }
 
     /**
@@ -604,17 +611,16 @@ HTML
                 ]
             ],
             [
-                'distributing-content-from-an-upstream-to-multiple-downstream-sites',
-                \__('Distributing content from an upstream to multiple downstream sites', 'gatographql'),
+                'automatically-sending-newsletter-subscribers-from-instawp-to-mailchimp',
+                \__('Automatically sending newsletter subscribers from InstaWP to Mailchimp', 'gatographql'),
                 [
-                    ExtensionModuleResolver::FIELD_ON_FIELD,
                     ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
                     ExtensionModuleResolver::FIELD_TO_INPUT,
-                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
                     ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::HTTP_REQUEST_VIA_SCHEMA,
                     ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
                     ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
-                    ExtensionModuleResolver::RESPONSE_ERROR_TRIGGER,
                 ],
                 [
                     BundleExtensionModuleResolver::APPLICATION_GLUE_AND_AUTOMATOR,

@@ -15,4 +15,5 @@ class ContentParserOptions
     public const EMBED_VIDEOS = 'embedVideos';
     public const HIGHLIGHT_CODE = 'highlightCode';
     public const TAB_CONTENT = 'tabContent';
+    public const REPLACEMENTS = 'replacements';
 }

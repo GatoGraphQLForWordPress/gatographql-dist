@@ -6,7 +6,6 @@ namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 
 use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
-use GatoGraphQL\GatoGraphQL\ContentProcessors\ContentParserOptions;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\PluginMarkdownContentRetrieverTrait;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\AbstractDocsMenuPage;
 
@@ -40,15 +39,14 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
         $class = 'wrap vertical-tabs gatographql-tabpanel';
 
         $markdownContent = sprintf(
-            <<<HTML
-<div id="%s" class="%s">
-    <h1>%s</h1>
-    %s
-    <div class="nav-tab-container">
-        <!-- Tabs -->
-        <h2 class="nav-tab-wrapper">
-HTML
-,
+            '
+            <div id="%s" class="%s">
+                <h1>%s</h1>
+                %s
+                <div class="nav-tab-container">
+                    <!-- Tabs -->
+                    <h2 class="nav-tab-wrapper">
+            ',
             $this->getContentID(),
             $class,
             $this->getPageTitle(),
@@ -95,10 +93,10 @@ HTML
             );
         }
 
-        $markdownContent .= <<<HTML
-            </h2>
-            <div class="nav-tab-content">
-HTML;
+        $markdownContent .= '
+                    </h2>
+                    <div class="nav-tab-content">
+        ';
 
         foreach ($entries as $entry) {
             $entryName = $entry[0];
@@ -109,9 +107,7 @@ HTML;
             $entryContent = $this->getMarkdownContent(
                 $entryName,
                 $entryRelativePathDir,
-                [
-                    ContentParserOptions::TAB_CONTENT => $this->useTabpanelForContent(),
-                ]
+                $this->getMarkdownContentOptions()
             ) ?? sprintf(
                 '<p>%s</p>',
                 sprintf(
@@ -129,13 +125,12 @@ HTML;
 
             $entryID = $this->getEntryID($entryName);
             $markdownContent .= sprintf(
-                <<<HTML
-    <div id="%s" class="%s" style="%s">
-        <h2 class="doc-title">%s</h2><hr/>
-        %s
-    </div>
-HTML
-,
+                '
+                    <div id="%s" class="%s" style="%s">
+                        <h2 class="doc-title">%s</h2><hr/>
+                        %s
+                    </div>
+                ',
                 $entryID,
                 'tab-content',
                 sprintf(
@@ -147,11 +142,11 @@ HTML
             );
         }
 
-        $markdownContent .= <<<HTML
-        </div> <!-- class="nav-tab-content" -->
-    </div> <!-- class="nav-tab-container" -->
-</div>
-HTML;
+        $markdownContent .= '
+                </div> <!-- class="nav-tab-content" -->
+            </div> <!-- class="nav-tab-container" -->
+        </div>
+        ';
         return $markdownContent;
     }
 
