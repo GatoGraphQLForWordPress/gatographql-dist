@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, content sync, headless, site migrations, rest api, endpoint, wp-cli, notifications, cloud, translation, gutenberg
 Requires at least: 5.4
 Tested up to: 6.3
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -169,6 +169,13 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Recipes section contains example queries ready to copy/paste and use 
 
 == Changelog ==
+
+= 1.0.13 =
+* Fixed passing dynamic variables 2 levels down
+* Fixed not opening link in modal window when current page is in a modal window
+* Fixed the newsletter form "action" attribute
+* Added scalar type `AnyScalar`
+* Added documentation for new field `_arrayGenerateAllCombinationsOfItems` from the "Helper Function Collection" extension
 
 = 1.0.12 =
 * Adapted the plugin following the assessment by the WordPress Plugin Review team.

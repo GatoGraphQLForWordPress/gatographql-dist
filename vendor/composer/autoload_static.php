@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbf874ebe9cb75632e66466540b30d466
+class ComposerStaticInit5b7338abc9637a73e881a834240c9e8f
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -3355,6 +3355,7 @@ class ComposerStaticInitbf874ebe9cb75632e66466540b30d466
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AbstractIntScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AbstractIntScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AbstractScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AbstractScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyBuiltInScalarScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyBuiltInScalarScalarTypeResolver.php',
+        'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyScalarScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyScalarScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BooleanScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/BooleanScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BuiltInScalarTypeResolverTrait' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/BuiltInScalarTypeResolverTrait.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\DangerouslyNonSpecificScalarTypeScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/DangerouslyNonSpecificScalarTypeScalarTypeResolver.php',
@@ -4456,9 +4457,9 @@ class ComposerStaticInitbf874ebe9cb75632e66466540b30d466
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbf874ebe9cb75632e66466540b30d466::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbf874ebe9cb75632e66466540b30d466::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitbf874ebe9cb75632e66466540b30d466::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5b7338abc9637a73e881a834240c9e8f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5b7338abc9637a73e881a834240c9e8f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5b7338abc9637a73e881a834240c9e8f::$classMap;
 
         }, null, ClassLoader::class);
     }

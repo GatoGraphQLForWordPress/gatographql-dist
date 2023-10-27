@@ -2572,6 +2572,7 @@ return array(
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AbstractIntScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/AbstractIntScalarTypeResolver.php',
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AbstractScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/AbstractScalarTypeResolver.php',
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyBuiltInScalarScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyBuiltInScalarScalarTypeResolver.php',
+    'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyScalarScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyScalarScalarTypeResolver.php',
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BooleanScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/BooleanScalarTypeResolver.php',
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BuiltInScalarTypeResolverTrait' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/BuiltInScalarTypeResolverTrait.php',
     'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\DangerouslyNonSpecificScalarTypeScalarTypeResolver' => $vendorDir . '/getpop/component-model/src/TypeResolvers/ScalarType/DangerouslyNonSpecificScalarTypeScalarTypeResolver.php',

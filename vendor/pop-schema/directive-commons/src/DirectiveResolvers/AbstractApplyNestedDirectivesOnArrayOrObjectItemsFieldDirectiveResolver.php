@@ -278,7 +278,20 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
                         }
                         if ($this->passKeyOnwardsAsVariable() && !empty($passKeyOnwardsAs)) {
                             /** @var Argument $keyArgument */
-                            $objectResolvedDynamicVariablesService->setObjectResolvedDynamicVariableInAppState($relationalTypeResolver, $arrayItemField, $object, $id, $key, \true, $passKeyOnwardsAs, [$arrayItemField], $keyArgument, $this->directive, $engineIterationFeedbackStore);
+                            $objectResolvedDynamicVariablesService->setObjectResolvedDynamicVariableInAppState(
+                                $relationalTypeResolver,
+                                $arrayItemField,
+                                $object,
+                                $id,
+                                $key,
+                                \false,
+                                // For the key, do NOT serialize the value! Because the fieldTypeModifiers apply to the value, not to the key
+                                $passKeyOnwardsAs,
+                                [$arrayItemField],
+                                $keyArgument,
+                                $this->directive,
+                                $engineIterationFeedbackStore
+                            );
                         }
                         /**
                          * Allow the Field created by @underJSONObjectProperty
