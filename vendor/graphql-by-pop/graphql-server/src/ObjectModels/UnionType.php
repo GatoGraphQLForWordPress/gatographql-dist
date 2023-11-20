@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
+/** @internal */
 class UnionType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType implements \GraphQLByPoP\GraphQLServer\ObjectModels\HasPossibleTypesTypeInterface
 {
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasPossibleTypesTypeTrait;

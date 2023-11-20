@@ -26,6 +26,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\SessionStorag
  * @author Drak <drak@zikula.org>
  *
  * @implements \IteratorAggregate<string, mixed>
+ * @internal
  */
 class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Countable
 {

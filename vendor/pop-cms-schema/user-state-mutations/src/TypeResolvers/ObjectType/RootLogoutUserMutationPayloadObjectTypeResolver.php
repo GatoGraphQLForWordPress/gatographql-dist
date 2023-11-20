@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
+/** @internal */
 class RootLogoutUserMutationPayloadObjectTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\AbstractUserStateMutationPayloadObjectTypeResolver
 {
     public function getTypeName() : string

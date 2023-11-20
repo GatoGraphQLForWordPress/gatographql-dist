@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\TypeResolvers\UnionType;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use function explode;
+/** @internal */
 class UnionTypeHelpers
 {
     /**

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Schema;
 
+/** @internal */
 class GraphQLSchemaHelpers
 {
     /**

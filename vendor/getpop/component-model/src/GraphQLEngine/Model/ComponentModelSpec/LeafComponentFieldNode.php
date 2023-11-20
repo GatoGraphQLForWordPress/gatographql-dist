@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
+/** @internal */
 class LeafComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
 {
     /**

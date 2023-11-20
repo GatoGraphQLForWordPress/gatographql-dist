@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Schema;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface;
+/** @internal */
 class SchemaDefinitionServiceFacade
 {
     public static function getInstance() : SchemaDefinitionServiceInterface

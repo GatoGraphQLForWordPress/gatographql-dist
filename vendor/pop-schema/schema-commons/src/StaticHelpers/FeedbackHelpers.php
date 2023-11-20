@@ -6,6 +6,7 @@ namespace PoPSchema\SchemaCommons\StaticHelpers;
 use PoPSchema\SchemaCommons\FeedbackItemProviders\ErrorFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use function preg_last_error_msg;
+/** @internal */
 class FeedbackHelpers
 {
     public static function getLastPregReplaceErrorFeedbackItemResolution() : FeedbackItemResolution

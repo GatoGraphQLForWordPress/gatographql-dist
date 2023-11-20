@@ -8,6 +8,7 @@ use GraphQLByPoP\GraphQLServer\ModuleConfiguration;
 use PoP\Root\App;
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

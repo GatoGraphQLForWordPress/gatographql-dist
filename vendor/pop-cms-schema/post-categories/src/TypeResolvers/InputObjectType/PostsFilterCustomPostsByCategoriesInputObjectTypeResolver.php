@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver;
+/** @internal */
 class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver
 {
     /**

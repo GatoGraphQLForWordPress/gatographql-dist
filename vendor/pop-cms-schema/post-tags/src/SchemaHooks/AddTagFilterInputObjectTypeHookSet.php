@@ -7,6 +7,7 @@ use PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\PostsFilterCustomPostsBy
 use PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostsFilterInputObjectTypeResolverInterface;
 use PoPCMSSchema\Tags\SchemaHooks\AbstractAddTagFilterInputObjectTypeHookSet;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\FilterCustomPostsByTagsInputObjectTypeResolverInterface;
+/** @internal */
 class AddTagFilterInputObjectTypeHookSet extends AbstractAddTagFilterInputObjectTypeHookSet
 {
     /**

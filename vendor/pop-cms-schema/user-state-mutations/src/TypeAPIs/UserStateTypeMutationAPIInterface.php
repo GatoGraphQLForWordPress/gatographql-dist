@@ -6,6 +6,7 @@ namespace PoPCMSSchema\UserStateMutations\TypeAPIs;
 use PoPCMSSchema\UserStateMutations\Exception\UserStateMutationException;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface UserStateTypeMutationAPIInterface
 {

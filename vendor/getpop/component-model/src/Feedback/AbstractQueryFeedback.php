@@ -8,6 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 /**
  * Error that concern the GraphQL query. the `$astNode` is the
  * node in the AST where the error happens.
+ * @internal
  */
 abstract class AbstractQueryFeedback extends \PoP\ComponentModel\Feedback\AbstractDocumentFeedback implements \PoP\ComponentModel\Feedback\QueryFeedbackInterface
 {

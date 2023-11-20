@@ -5,6 +5,7 @@ namespace PoP\Root\Services;
 
 use PoP\Root\Instances\InstanceManagerInterface;
 use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
+/** @internal */
 trait WithInstanceManagerServiceTrait
 {
     /**

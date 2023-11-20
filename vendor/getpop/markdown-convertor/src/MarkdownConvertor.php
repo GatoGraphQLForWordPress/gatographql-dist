@@ -8,6 +8,7 @@ use PrefixedByPoP\Michelf\MarkdownExtra;
  * Markdown formatter provided by `michelf/php-markdown`
  *
  * @see https://michelf.ca/projects/php-markdown/extra/
+ * @internal
  */
 class MarkdownConvertor implements \PoP\MarkdownConvertor\MarkdownConvertorInterface
 {

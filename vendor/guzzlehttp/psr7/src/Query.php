@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PrefixedByPoP\GuzzleHttp\Psr7;
 
+/** @internal */
 final class Query
 {
     /**

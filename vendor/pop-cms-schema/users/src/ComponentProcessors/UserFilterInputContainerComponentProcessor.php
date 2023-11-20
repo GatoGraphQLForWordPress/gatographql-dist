@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Users\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\AbstractFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Users\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
+/** @internal */
 class UserFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

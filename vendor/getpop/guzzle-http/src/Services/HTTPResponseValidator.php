@@ -7,6 +7,7 @@ use PoP\GuzzleHTTP\Exception\GuzzleHTTPInvalidResponseException;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use stdClass;
+/** @internal */
 class HTTPResponseValidator implements \PoP\GuzzleHTTP\Services\HTTPResponseValidatorInterface
 {
     use BasicServiceTrait;

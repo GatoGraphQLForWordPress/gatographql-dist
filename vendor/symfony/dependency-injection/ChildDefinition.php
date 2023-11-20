@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\OutOfBoundsExc
  * This definition extends another definition.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ChildDefinition extends Definition
 {

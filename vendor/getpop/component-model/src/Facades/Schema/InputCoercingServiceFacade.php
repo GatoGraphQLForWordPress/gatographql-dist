@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Schema;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Schema\InputCoercingServiceInterface;
+/** @internal */
 class InputCoercingServiceFacade
 {
     public static function getInstance() : InputCoercingServiceInterface

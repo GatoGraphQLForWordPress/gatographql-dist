@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\ComponentFiltering;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentFilters\ComponentFilterInterface;
+/** @internal */
 interface ComponentFilterManagerInterface
 {
     public function addComponentFilter(ComponentFilterInterface $componentFilter) : void;

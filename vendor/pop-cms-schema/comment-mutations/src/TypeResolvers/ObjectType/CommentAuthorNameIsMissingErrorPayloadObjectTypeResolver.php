@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
 use PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class CommentAuthorNameIsMissingErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
     /**

@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the Request URL path info matches a regular expression.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class PathRequestMatcher implements RequestMatcherInterface
 {

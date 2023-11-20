@@ -7,6 +7,7 @@ use PoP\ComponentModel\Cache\PersistentCacheInterface;
 use PoP\ComponentModel\Cache\TransientCacheInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 abstract class AbstractCacheHookSet extends AbstractHookSet
 {
     /**

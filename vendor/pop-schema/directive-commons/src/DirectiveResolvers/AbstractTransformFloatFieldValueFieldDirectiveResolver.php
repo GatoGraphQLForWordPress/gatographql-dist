@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\FloatScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\NumericScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractTransformFloatFieldValueFieldDirectiveResolver extends \PoPSchema\DirectiveCommons\DirectiveResolvers\AbstractTransformTypedFieldValueFieldDirectiveResolver
 {
     /**

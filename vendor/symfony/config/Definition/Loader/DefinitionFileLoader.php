@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
  * The PHP file is required.
  *
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 class DefinitionFileLoader extends FileLoader
 {

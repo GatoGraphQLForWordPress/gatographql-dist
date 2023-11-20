@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\VarExporter;
  * @author Piotr Stankowski <git@trakos.pl>
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Rob Frawley 2nd <rmf@src.run>
+ * @internal
  */
 class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
 {

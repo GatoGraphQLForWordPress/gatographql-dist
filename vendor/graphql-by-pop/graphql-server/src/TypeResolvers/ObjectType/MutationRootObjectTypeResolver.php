@@ -11,6 +11,7 @@ use PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterfac
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
 use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
+/** @internal */
 class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractUseRootAsSourceForSchemaObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;

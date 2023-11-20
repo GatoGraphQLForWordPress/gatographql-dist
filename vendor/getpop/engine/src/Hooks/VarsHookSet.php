@@ -8,6 +8,7 @@ use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Engine\Module;
 use PoP\Engine\ModuleConfiguration;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
     protected function init() : void

@@ -8,6 +8,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\UserStateMutations\Constants\MutationInputProperties;
+/** @internal */
 class LoginCredentialsInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
     /**

@@ -21,6 +21,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage;
  * or session.* PHP ini directives.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class MockFileSessionStorage extends MockArraySessionStorage
 {

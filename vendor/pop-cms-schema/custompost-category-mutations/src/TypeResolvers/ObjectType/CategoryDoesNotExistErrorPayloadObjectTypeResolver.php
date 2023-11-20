@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\ObjectType;
 use PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\ObjectType\CategoryDoesNotExistErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class CategoryDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
     /**

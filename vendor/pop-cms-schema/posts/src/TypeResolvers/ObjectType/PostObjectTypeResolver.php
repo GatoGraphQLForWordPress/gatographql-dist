@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Posts\TypeResolvers\ObjectType;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
 use PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLoader;
+/** @internal */
 class PostObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
 {
     /**

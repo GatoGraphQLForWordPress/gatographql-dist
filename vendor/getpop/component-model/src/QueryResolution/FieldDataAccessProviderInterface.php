@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\QueryResolution;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 interface FieldDataAccessProviderInterface
 {
     /**

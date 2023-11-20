@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\TagDoesNotExistErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractTagDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
     /**

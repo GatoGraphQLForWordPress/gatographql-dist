@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
  * An attribute to tell under which alias a service should be registered or to use the implemented interface if no parameter is given.
  *
  * @author Alan Poulain <contact@alanpoulain.eu>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 final class AsAlias

@@ -13,10 +13,12 @@ namespace PrefixedByPoP\Symfony\Component\Cache\Exception;
 use PrefixedByPoP\Psr\Cache\CacheException as Psr6CacheInterface;
 use PrefixedByPoP\Psr\SimpleCache\CacheException as SimpleCacheInterface;
 if (\interface_exists(SimpleCacheInterface::class)) {
+    /** @internal */
     class CacheException extends \Exception implements Psr6CacheInterface, SimpleCacheInterface
     {
     }
 } else {
+    /** @internal */
     class CacheException extends \Exception implements Psr6CacheInterface
     {
     }

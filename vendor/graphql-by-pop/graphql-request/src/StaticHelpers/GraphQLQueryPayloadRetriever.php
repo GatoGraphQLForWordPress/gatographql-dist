@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLRequest\StaticHelpers;
 
 use PoP\Root\App;
 use stdClass;
+/** @internal */
 class GraphQLQueryPayloadRetriever
 {
     /**

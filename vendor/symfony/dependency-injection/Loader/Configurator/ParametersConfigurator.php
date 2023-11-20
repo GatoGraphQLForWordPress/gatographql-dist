@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ParametersConfigurator extends AbstractConfigurator
 {

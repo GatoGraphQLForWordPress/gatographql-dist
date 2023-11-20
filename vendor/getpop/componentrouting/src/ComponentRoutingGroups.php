@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentRouting;
 
+/** @internal */
 class ComponentRoutingGroups
 {
     // We have at least one Group defined: the Entry Module (not mandatory to use it though)

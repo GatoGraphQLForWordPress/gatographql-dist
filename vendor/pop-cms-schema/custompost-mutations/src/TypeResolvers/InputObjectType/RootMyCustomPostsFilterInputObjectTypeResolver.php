@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType;
 
+/** @internal */
 class RootMyCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractMyCustomPostsFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

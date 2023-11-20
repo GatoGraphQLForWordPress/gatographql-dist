@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Comments\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
+/** @internal */
 trait MaybeCommentableCustomPostObjectTypeFieldResolverTrait
 {
     protected abstract function getCommentTypeAPI() : CommentTypeAPIInterface;

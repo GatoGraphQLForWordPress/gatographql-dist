@@ -26,6 +26,7 @@ use PrefixedByPoP\Symfony\Component\Mime\MimeTypes;
  * @author Bernhard Schussek <bschussek@gmail.com>
  * @author Florian Eckerstorfer <florian@eckerstorfer.org>
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class UploadedFile extends File
 {

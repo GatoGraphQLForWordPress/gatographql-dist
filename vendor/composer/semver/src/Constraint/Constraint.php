@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Composer\Semver\Constraint;
 
 /**
  * Defines a constraint.
+ * @internal
  */
 class Constraint implements ConstraintInterface
 {

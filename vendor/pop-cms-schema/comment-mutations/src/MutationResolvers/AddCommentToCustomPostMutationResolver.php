@@ -25,6 +25,7 @@ use PoPCMSSchema\CommentMutations\Constants\HookNames;
 use stdClass;
 /**
  * Add a comment to a custom post. The user may be logged-in or not
+ * @internal
  */
 class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
 {

@@ -8,6 +8,7 @@ use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
+/** @internal */
 trait PayloadableUpdateCustomPostMutationResolverTrait
 {
     use PayloadableMutationResolverTrait, \PoPCMSSchema\CustomPostMutations\MutationResolvers\UpdateCustomPostMutationResolverTrait {

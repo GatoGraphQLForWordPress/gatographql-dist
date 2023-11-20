@@ -8,6 +8,7 @@ use PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProce
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProcessorTrait;
+/** @internal */
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;

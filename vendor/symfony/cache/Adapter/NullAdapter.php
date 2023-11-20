@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
 use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ * @internal
  */
 class NullAdapter implements AdapterInterface, CacheInterface
 {

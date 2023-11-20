@@ -4,6 +4,7 @@ namespace PrefixedByPoP\GuzzleHttp\Cookie;
 
 /**
  * Persists cookies in the client session
+ * @internal
  */
 class SessionCookieJar extends CookieJar
 {

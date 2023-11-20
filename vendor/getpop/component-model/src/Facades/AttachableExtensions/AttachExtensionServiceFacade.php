@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\AttachableExtensions;
 
 use PoP\Root\App;
 use PoP\ComponentModel\AttachableExtensions\AttachExtensionServiceInterface;
+/** @internal */
 class AttachExtensionServiceFacade
 {
     public static function getInstance() : AttachExtensionServiceInterface

@@ -8,6 +8,7 @@ use PoPAPI\API\Response\Schemes as APISchemes;
 use PoP\ComponentRouting\AbstractEntryComponentRoutingProcessor;
 use PoPCMSSchema\Pages\ComponentProcessors\FieldDataloadComponentProcessor;
 use PoPCMSSchema\Pages\Routing\RequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**

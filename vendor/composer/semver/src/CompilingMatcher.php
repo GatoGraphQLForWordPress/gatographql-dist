@@ -14,6 +14,7 @@ use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
 use PrefixedByPoP\Composer\Semver\Constraint\ConstraintInterface;
 /**
  * Helper class to evaluate constraint by compiling and reusing the code to evaluate
+ * @internal
  */
 class CompilingMatcher
 {

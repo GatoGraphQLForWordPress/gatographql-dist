@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Traits\FilesystemTrait;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  * @author André Rømcke <andre.romcke+symfony@gmail.com>
+ * @internal
  */
 class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements PruneableInterface
 {

@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 use PrefixedByPoP\Symfony\Contracts\Cache\TagAwareCacheInterface;
 /**
  * @author Robin Chalas <robin.chalas@gmail.com>
+ * @internal
  */
 class TraceableTagAwareAdapter extends TraceableAdapter implements TagAwareAdapterInterface, TagAwareCacheInterface
 {

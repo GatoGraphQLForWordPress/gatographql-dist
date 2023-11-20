@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLRequest\Facades\Execution;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface;
+/** @internal */
 class QueryRetrieverFacade
 {
     public static function getInstance() : QueryRetrieverInterface

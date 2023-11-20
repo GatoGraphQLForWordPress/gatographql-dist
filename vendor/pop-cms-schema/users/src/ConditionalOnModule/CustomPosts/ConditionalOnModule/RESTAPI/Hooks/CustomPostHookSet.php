@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\ConditionalOnModule
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPAPI\RESTAPI\Hooks\AbstractRESTHookSet;
 use PoPCMSSchema\CustomPosts\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors\AbstractCustomPostRESTEntryComponentRoutingProcessor;
+/** @internal */
 class CustomPostHookSet extends AbstractRESTHookSet
 {
     const AUTHOR_RESTFIELDS = 'author { id name url }';

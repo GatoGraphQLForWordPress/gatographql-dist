@@ -5,6 +5,7 @@ namespace PoPCMSSchema\SchemaCommons\CMS;
 
 use PoP\ComponentModel\Misc\GeneralUtils;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class CMSHelperService implements \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface
 {
     use BasicServiceTrait;

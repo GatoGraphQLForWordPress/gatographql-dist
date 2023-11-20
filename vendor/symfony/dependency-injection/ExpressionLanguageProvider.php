@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\ExpressionFunctionProvide
  * To get an env variable, use env('SOME_VARIABLE').
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {

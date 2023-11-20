@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\GraphQLParser\Query;
 
 use stdClass;
+/** @internal */
 interface GraphQLQueryStringFormatterInterface
 {
     /**

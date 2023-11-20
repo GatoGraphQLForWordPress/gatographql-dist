@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Settings\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface;
+/** @internal */
 class SettingsTypeAPIFacade
 {
     public static function getInstance() : SettingsTypeAPIInterface

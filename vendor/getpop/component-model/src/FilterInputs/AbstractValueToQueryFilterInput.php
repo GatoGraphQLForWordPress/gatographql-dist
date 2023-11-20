@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\FilterInputs;
 
+/** @internal */
 abstract class AbstractValueToQueryFilterInput extends \PoP\ComponentModel\FilterInputs\AbstractFilterInput
 {
     /**

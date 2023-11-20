@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\Root\Translation\TranslationAPIInterface;
 use PoPCMSSchema\UserRoles\Module;
 use PoPCMSSchema\UserRoles\ModuleConfiguration;
+/** @internal */
 trait RolesObjectTypeFieldResolverTrait
 {
     protected abstract function getTranslationAPI() : TranslationAPIInterface;

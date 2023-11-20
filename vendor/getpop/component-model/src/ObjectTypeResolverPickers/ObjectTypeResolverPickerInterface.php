@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ObjectTypeResolverPickers;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 interface ObjectTypeResolverPickerInterface extends AttachableExtensionInterface
 {
     /**

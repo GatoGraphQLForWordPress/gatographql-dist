@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst;
 use PoP\GraphQLParser\Spec\Parser\Location;
+/** @internal */
 class Enum extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface
 {
     /**

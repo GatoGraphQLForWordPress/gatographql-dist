@@ -9,6 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Location;
  * Class that leverages the syntax of a Variable (i.e. $someVarName)
  * to provide additional functionalities, with the value
  * to be calculated on runtime and provided via a Promise.
+ * @internal
  */
 abstract class AbstractRuntimeVariableReference extends VariableReference implements \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\RuntimeVariableReferenceInterface
 {

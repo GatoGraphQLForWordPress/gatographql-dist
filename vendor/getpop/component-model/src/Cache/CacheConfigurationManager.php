@@ -8,6 +8,7 @@ use PoP\Root\Environment;
  * Inject configuration to the cache
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 class CacheConfigurationManager implements \PoP\ComponentModel\Cache\CacheConfigurationManagerInterface
 {

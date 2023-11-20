@@ -26,6 +26,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
  * They are saved and deleted in all adapters at once.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @internal
  */
 class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {

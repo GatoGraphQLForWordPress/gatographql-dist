@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\Hooks;
 use PoPAPI\API\Constants\HookNames;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class DBEntriesHookSet extends AbstractHookSet
 {
     protected function init() : void

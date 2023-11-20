@@ -28,6 +28,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\GraphQLParser\Spec\Parser\Ast\Variable;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 class ExecutableDocument extends AbstractExecutableDocument
 {
     /**

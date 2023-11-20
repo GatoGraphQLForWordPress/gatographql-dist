@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\FilterInput;
 
+/** @internal */
 class FilterInputHelper
 {
     public const NON_EXISTING_CUSTOM_POST_TYPE = 'non-existing-customp-post-type';

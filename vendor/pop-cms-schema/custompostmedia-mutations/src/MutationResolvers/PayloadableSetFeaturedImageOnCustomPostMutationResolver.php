@@ -7,6 +7,7 @@ use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
+/** @internal */
 class PayloadableSetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolver
 {
     use PayloadableMutationResolverTrait;

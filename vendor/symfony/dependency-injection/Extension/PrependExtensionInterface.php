@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Extension;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+/** @internal */
 interface PrependExtensionInterface
 {
     /**

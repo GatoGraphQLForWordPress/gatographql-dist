@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
 use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 /**
  * Interface for session with a flashbag.
+ * @internal
  */
 interface FlashBagAwareSessionInterface extends SessionInterface
 {

@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Resolvers;
 use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
+/** @internal */
 trait TypeSchemaDefinitionResolverTrait
 {
     /**

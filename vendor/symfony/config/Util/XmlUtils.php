@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Config\Util\Exception\XmlParsingException;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Martin Hasoň <martin.hason@gmail.com>
  * @author Ole Rößner <ole@roessner.it>
+ * @internal
  */
 class XmlUtils
 {

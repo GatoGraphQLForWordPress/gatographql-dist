@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader;
  * DirectoryLoader is a recursive loader to go through directories.
  *
  * @author Sebastien Lavoie <seb@wemakecustom.com>
+ * @internal
  */
 class DirectoryLoader extends FileLoader
 {

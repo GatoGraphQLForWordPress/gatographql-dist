@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node\Node;
  * Represents an already parsed expression.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParsedExpression extends Expression
 {

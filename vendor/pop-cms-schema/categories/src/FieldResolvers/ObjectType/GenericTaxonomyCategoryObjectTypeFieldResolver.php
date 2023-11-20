@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Categories\FieldResolvers\ObjectType;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver;
 use PoPCMSSchema\Taxonomies\FieldResolvers\ObjectType\AbstractGenericTaxonomyObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class GenericTaxonomyCategoryObjectTypeFieldResolver extends AbstractGenericTaxonomyObjectTypeFieldResolver
 {
     /**

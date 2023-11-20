@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\Registries;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+/** @internal */
 class CompilerPassRegistry implements \PoP\Root\Registries\CompilerPassRegistryInterface
 {
     /**

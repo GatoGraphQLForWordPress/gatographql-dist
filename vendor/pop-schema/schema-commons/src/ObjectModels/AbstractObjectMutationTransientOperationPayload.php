@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\ObjectModels;
 
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use RuntimeException;
+/** @internal */
 abstract class AbstractObjectMutationTransientOperationPayload extends \PoPSchema\SchemaCommons\ObjectModels\AbstractTransientOperationPayload
 {
     /**

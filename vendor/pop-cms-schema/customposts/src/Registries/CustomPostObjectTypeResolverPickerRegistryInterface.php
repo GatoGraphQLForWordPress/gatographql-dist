@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\Registries;
 
 use PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerInterface;
+/** @internal */
 interface CustomPostObjectTypeResolverPickerRegistryInterface
 {
     public function addCustomPostObjectTypeResolverPicker(CustomPostObjectTypeResolverPickerInterface $customPostObjectTypeResolverPicker) : void;

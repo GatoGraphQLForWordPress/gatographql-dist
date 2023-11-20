@@ -7,6 +7,7 @@ use PoP\ComponentModel\App;
 use PoP\ComponentModel\Directives\DirectiveLocations;
 use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleConfiguration;
+/** @internal */
 class DirectiveLocationEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\AbstractIntrospectionEnumTypeResolver
 {
     public function getTypeName() : string

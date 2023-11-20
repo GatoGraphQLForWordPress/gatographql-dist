@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\AbstractTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface
 {
     /**

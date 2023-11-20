@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoPCMSSchema\CustomPostMedia\TypeResolvers\InterfaceType\WithFeaturedImageInterfaceTypeResolver;
 use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
+/** @internal */
 class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
     /**

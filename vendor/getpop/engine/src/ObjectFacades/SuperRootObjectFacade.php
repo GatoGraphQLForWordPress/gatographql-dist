@@ -5,6 +5,7 @@ namespace PoP\Engine\ObjectFacades;
 
 use PoP\Root\App;
 use PoP\Engine\ObjectModels\SuperRoot;
+/** @internal */
 class SuperRootObjectFacade
 {
     public static function getInstance() : SuperRoot

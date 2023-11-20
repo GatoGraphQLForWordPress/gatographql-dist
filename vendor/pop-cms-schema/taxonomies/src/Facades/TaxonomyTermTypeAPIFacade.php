@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Taxonomies\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
+/** @internal */
 class TaxonomyTermTypeAPIFacade
 {
     public static function getInstance() : TaxonomyTermTypeAPIInterface

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\FormInputs;
 
 use PoP\Engine\FormInputs\SelectFormInput;
+/** @internal */
 class OrderFormInput extends SelectFormInput
 {
     public const SEPARATOR = '|';

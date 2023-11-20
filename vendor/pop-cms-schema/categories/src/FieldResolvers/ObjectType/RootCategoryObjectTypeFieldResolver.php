@@ -24,6 +24,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;

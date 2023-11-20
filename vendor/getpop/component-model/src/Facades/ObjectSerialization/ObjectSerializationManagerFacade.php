@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ObjectSerialization;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface;
+/** @internal */
 class ObjectSerializationManagerFacade
 {
     public static function getInstance() : ObjectSerializationManagerInterface

@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\State;
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\Tags\Routing\RequestNature;
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

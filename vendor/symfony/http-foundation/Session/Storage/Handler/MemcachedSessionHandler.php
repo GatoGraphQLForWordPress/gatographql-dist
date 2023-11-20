@@ -17,6 +17,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
  * @see https://php.net/memcached
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class MemcachedSessionHandler extends AbstractSessionHandler
 {

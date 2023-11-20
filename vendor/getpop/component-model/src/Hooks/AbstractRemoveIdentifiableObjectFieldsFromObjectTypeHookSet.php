@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  *
  * - RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait
  * - AbstractTransientObject
+ * @internal
  */
 abstract class AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet extends \PoP\ComponentModel\Hooks\AbstractRemoveFieldsFromObjectTypeHookSet
 {

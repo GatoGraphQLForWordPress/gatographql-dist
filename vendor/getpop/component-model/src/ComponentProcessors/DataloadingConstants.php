@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentProcessors;
 
+/** @internal */
 class DataloadingConstants
 {
     const SKIPDATALOAD = 'skip-data-load';

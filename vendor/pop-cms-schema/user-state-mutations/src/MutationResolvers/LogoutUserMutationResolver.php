@@ -11,6 +11,7 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
+/** @internal */
 class LogoutUserMutationResolver extends AbstractMutationResolver
 {
     use \PoPCMSSchema\UserStateMutations\MutationResolvers\ValidateUserLoggedInMutationResolverTrait;

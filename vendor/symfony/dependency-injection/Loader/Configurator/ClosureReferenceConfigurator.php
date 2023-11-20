@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
+/** @internal */
 class ClosureReferenceConfigurator extends ReferenceConfigurator
 {
 }

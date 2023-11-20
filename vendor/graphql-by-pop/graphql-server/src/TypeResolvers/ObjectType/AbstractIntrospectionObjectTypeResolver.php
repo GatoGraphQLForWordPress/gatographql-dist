@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\TypeResolvers\IntrospectionTypeResolverTrait;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
+/** @internal */
 abstract class AbstractIntrospectionObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use IntrospectionTypeResolverTrait;

@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Resource;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
+ * @internal
  */
 class ComposerResource implements SelfCheckingResourceInterface
 {

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
  * Represents a collection of services found by tag name to lazily iterate over.
  *
  * @author Roland Franssen <franssen.roland@gmail.com>
+ * @internal
  */
 class TaggedIteratorArgument extends IteratorArgument
 {

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Variables;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Variables\VariableManagerInterface;
+/** @internal */
 class VariableManagerFacade
 {
     public static function getInstance() : VariableManagerInterface

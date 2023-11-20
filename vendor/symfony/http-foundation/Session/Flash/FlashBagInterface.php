@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  * FlashBagInterface.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 interface FlashBagInterface extends SessionBagInterface
 {

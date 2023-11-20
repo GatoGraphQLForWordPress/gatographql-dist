@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ComponentPath;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface;
+/** @internal */
 class ComponentPathManagerFacade
 {
     public static function getInstance() : ComponentPathManagerInterface

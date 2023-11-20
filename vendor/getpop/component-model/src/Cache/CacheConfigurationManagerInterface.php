@@ -7,6 +7,7 @@ namespace PoP\ComponentModel\Cache;
  * Inject configuration to the cache
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 interface CacheConfigurationManagerInterface
 {

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\UnionType\RootLoginUserMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class RootLoginUserMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\AbstractUserStateMutationErrorPayloadUnionTypeResolver
 {
     /**

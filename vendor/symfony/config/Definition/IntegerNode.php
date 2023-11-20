@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidTypeExcep
  * This node represents an integer value in the config tree.
  *
  * @author Jeanmonod David <david.jeanmonod@gmail.com>
+ * @internal
  */
 class IntegerNode extends NumericNode
 {

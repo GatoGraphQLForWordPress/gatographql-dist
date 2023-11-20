@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType;
 
+/** @internal */
 class RootSetTagsOnPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\AbstractPostTagsMutationPayloadObjectTypeResolver
 {
     public function getTypeName() : string

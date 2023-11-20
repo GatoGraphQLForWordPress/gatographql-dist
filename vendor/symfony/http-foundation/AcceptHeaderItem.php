@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * Represents an Accept-* header item.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
+ * @internal
  */
 class AcceptHeaderItem
 {

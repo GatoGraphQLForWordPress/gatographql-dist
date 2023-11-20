@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentFilters;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface;
 use PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface;
+/** @internal */
 class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractComponentFilter
 {
     /**

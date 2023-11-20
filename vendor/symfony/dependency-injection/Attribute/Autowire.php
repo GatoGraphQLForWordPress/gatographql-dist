@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  * Attribute to tell a parameter how to be autowired.
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class Autowire

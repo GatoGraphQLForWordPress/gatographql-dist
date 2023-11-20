@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
  * Adds basic `SessionUpdateTimestampHandlerInterface` behaviors to another `SessionHandlerInterface`.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class StrictSessionHandler extends AbstractSessionHandler
 {

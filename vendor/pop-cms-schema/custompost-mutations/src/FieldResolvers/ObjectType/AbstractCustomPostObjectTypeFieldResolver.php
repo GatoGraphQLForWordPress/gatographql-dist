@@ -13,6 +13,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

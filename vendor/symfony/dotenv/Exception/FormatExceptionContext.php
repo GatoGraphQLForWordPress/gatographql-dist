@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\Dotenv\Exception;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 final class FormatExceptionContext
 {

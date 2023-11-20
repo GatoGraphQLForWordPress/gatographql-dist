@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
 use PoP\Root\Services\ServiceInterface;
+/** @internal */
 interface AttachableExtensionInterface extends ServiceInterface
 {
     /**

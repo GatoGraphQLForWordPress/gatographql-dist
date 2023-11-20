@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
  * Represents a complex argument containing nested values.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ * @internal
  */
 interface ArgumentInterface
 {

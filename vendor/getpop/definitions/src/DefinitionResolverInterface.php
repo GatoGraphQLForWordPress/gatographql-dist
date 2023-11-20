@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Definitions;
 
+/** @internal */
 interface DefinitionResolverInterface
 {
     public function getDefinition(string $name, string $group) : string;

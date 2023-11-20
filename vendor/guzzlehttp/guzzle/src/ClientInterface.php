@@ -9,6 +9,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 use PrefixedByPoP\Psr\Http\Message\UriInterface;
 /**
  * Client interface for sending HTTP requests.
+ * @internal
  */
 interface ClientInterface
 {

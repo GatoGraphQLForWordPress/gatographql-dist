@@ -10,6 +10,7 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFi
 use PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDsFilterInput;
+/** @internal */
 abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements \PoPCMSSchema\Pages\TypeResolvers\InputObjectType\PagesFilterInputObjectTypeResolverInterface
 {
     /**

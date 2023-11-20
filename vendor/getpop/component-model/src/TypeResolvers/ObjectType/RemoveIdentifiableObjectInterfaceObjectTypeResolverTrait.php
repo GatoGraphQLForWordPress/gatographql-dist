@@ -11,6 +11,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
  *
  * - AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet
  * - AbstractTransientObject
+ * @internal
  */
 trait RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait
 {

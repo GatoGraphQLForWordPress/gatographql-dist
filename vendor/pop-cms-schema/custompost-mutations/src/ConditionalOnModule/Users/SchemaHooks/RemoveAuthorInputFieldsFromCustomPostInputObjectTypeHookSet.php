@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMutations\ConditionalOnModule\Users\SchemaHooks
 use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractMyCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\SchemaHooks\AbstractRemoveAuthorInputFieldsInputObjectTypeHookSet;
+/** @internal */
 class RemoveAuthorInputFieldsFromCustomPostInputObjectTypeHookSet extends AbstractRemoveAuthorInputFieldsInputObjectTypeHookSet
 {
     /**

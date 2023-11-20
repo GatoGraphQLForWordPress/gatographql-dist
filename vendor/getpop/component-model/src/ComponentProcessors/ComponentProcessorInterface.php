@@ -13,6 +13,7 @@ use PoP\ComponentModel\MutationResolverBridges\ComponentMutationResolverBridgeIn
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 interface ComponentProcessorInterface
 {
     /**

@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionUtils;
  * enabling strict and lazy session handling.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 abstract class AbstractSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {

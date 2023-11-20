@@ -5,6 +5,7 @@ namespace PoPSchema\ExtendedSchemaCommons\HelperServices;
 
 use PoP\Engine\Exception\RuntimeOperationException;
 use stdClass;
+/** @internal */
 interface ArrayOrJSONObjectTraversionHelperServiceInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\Engine;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function disableRedundantRootTypeMutationFields() : bool

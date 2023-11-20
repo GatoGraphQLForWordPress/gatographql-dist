@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\ObjectModels\InvalidUsernameErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class InvalidUsernameErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

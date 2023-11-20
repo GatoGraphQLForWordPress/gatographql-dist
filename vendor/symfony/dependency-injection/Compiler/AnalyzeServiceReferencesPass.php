@@ -27,6 +27,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AnalyzeServiceReferencesPass extends AbstractRecursivePass
 {

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLRequest\ObjectModels;
 
+/** @internal */
 class GraphQLQueryPayload
 {
     /**

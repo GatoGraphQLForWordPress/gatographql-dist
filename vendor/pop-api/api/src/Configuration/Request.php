@@ -6,6 +6,7 @@ namespace PoPAPI\API\Configuration;
 use PoP\Root\App;
 use PoPAPI\API\Constants\Params;
 use PoPAPI\API\Environment;
+/** @internal */
 class Request
 {
     public static function mustNamespaceTypes() : ?bool

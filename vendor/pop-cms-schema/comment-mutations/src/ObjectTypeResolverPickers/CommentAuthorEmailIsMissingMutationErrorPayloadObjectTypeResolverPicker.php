@@ -8,6 +8,7 @@ use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class CommentAuthorEmailIsMissingMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers\AbstractCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolverPicker
 {
     /**

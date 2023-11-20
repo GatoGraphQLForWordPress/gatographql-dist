@@ -7,6 +7,7 @@ use PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterfa
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 interface UnionTypeResolverInterface extends RelationalTypeResolverInterface
 {
     // public function addTypeToID(string|int $objectID): string;

@@ -12,6 +12,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
  * { posts } => []
  * { ...on CustomPost { posts } } => ["CustomPost"]
  * { ...on CustomPost { ...on Post { posts } } } => ["CustomPost", "Post"]
+ * @internal
  */
 class FieldFragmentModelsTuple
 {

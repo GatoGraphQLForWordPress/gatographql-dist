@@ -15,6 +15,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 /**
  * Override fields from the upstream class, getting the data from the user
+ * @internal
  */
 class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResolver
 {

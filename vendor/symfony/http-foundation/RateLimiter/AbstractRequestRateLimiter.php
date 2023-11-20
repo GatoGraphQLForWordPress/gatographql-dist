@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
  * fits most use-cases.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
+ * @internal
  */
 abstract class AbstractRequestRateLimiter implements PeekableRequestRateLimiterInterface
 {

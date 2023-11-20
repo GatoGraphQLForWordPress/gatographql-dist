@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostCategoryMutations\ObjectModels\CategoryDoesNotExistEr
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCustomPostMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
+/** @internal */
 trait PayloadableSetCategoriesOnCustomPostMutationResolverTrait
 {
     use PayloadableCustomPostMutationResolverTrait {

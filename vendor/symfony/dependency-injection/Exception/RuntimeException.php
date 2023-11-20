@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
  * Base RuntimeException for Dependency Injection component.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

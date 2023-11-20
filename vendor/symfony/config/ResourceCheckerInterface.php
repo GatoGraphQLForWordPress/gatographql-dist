@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
  *
  * @author Matthias Pigulla <mp@webfactory.de>
  * @author Benjamin Klotz <bk@webfactory.de>
+ * @internal
  */
 interface ResourceCheckerInterface
 {

@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostMutations\SchemaHooks;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
 use PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\CreatePostInputObjectTypeResolverInterface;
 use PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\UpdatePostInputObjectTypeResolverInterface;
+/** @internal */
 trait PostMutationResolverHookSetTrait
 {
     protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool

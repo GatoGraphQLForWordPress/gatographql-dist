@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface;
+/** @internal */
 class CustomPostMetaTypeAPIFacade
 {
     public static function getInstance() : CustomPostMetaTypeAPIInterface

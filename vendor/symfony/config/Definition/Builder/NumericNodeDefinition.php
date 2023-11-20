@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidDefinitio
  * Abstract class that contains common code of integer and float node definitions.
  *
  * @author David Jeanmonod <david.jeanmonod@gmail.com>
+ * @internal
  */
 abstract class NumericNodeDefinition extends ScalarNodeDefinition
 {

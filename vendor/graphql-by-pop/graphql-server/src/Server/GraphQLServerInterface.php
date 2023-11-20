@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Server;
 
 use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\Root\HttpFoundation\Response;
+/** @internal */
 interface GraphQLServerInterface
 {
     /**

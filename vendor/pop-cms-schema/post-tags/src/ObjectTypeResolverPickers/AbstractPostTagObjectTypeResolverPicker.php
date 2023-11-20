@@ -9,6 +9,7 @@ use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractPostTagObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements TagObjectTypeResolverPickerInterface
 {
     use TagObjectTypeResolverPickerTrait;

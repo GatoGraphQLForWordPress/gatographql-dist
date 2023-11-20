@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
 {

@@ -8,6 +8,7 @@ use PoPCMSSchema\PostTags\RelationalTypeDataLoaders\ObjectType\PostTagObjectType
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\AbstractTagObjectTypeResolver;
+/** @internal */
 class PostTagObjectTypeResolver extends AbstractTagObjectTypeResolver
 {
     /**

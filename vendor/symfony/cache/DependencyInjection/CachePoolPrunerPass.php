@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Rob Frawley 2nd <rmf@src.run>
+ * @internal
  */
 class CachePoolPrunerPass implements CompilerPassInterface
 {

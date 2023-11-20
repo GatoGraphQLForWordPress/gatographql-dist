@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Definition\Builder;
  * An interface that must be implemented by nodes which can have children.
  *
  * @author Victor Berchet <victor@suumit.com>
+ * @internal
  */
 interface ParentNodeDefinitionInterface extends BuilderAwareInterface
 {

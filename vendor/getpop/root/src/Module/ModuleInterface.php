@@ -6,6 +6,7 @@ namespace PoP\Root\Module;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Initialize module
+ * @internal
  */
 interface ModuleInterface
 {

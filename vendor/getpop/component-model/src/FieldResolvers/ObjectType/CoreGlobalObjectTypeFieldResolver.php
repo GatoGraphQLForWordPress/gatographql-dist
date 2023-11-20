@@ -23,6 +23,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
+/** @internal */
 class CoreGlobalObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractGlobalObjectTypeFieldResolver
 {
     /**

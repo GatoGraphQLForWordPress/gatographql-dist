@@ -8,6 +8,7 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
+/** @internal */
 class NumericScalarTypeResolver extends AbstractScalarTypeResolver
 {
     public function getTypeName() : string

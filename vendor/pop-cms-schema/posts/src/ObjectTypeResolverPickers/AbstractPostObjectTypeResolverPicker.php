@@ -7,6 +7,7 @@ use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicke
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
+/** @internal */
 abstract class AbstractPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
     /**

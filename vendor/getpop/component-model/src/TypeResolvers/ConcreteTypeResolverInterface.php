@@ -21,6 +21,7 @@ namespace PoP\ComponentModel\TypeResolvers;
  *
  * Currently there is no OutputTypeResolver because
  * there is no need for it.
+ * @internal
  */
 interface ConcreteTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {

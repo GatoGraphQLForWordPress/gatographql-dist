@@ -51,6 +51,7 @@ use SplObjectStorage;
  * gets cached at the AST node level. By duplicating the node, both
  * references will be resolved independently, and the second reference
  * will then produce "Updated title".
+ * @internal
  */
 class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
 {

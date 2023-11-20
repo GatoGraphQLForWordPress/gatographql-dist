@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
 \class_exists(MockFileSessionStorage::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class MockFileSessionStorageFactory implements SessionStorageFactoryInterface
 {

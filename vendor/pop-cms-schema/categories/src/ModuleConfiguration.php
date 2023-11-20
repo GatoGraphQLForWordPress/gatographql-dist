@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Categories;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function getCategoryListDefaultLimit() : ?int

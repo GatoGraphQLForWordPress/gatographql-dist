@@ -26,6 +26,7 @@ use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
  * is successful (2 backend ops).
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ * @internal
  */
 interface PeekableRequestRateLimiterInterface extends RequestRateLimiterInterface
 {

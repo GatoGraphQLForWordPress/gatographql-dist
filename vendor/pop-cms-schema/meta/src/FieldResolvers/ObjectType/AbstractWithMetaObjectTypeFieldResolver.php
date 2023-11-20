@@ -13,6 +13,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\Meta\FeedbackItemProviders\FeedbackItemProvider;
 use PoPCMSSchema\Meta\FieldResolvers\InterfaceType\WithMetaInterfaceTypeFieldResolver;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
+/** @internal */
 abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

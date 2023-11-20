@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
+/** @internal */
 class AttachableExtensionGroups
 {
     public const OBJECT_TYPE_FIELD_RESOLVERS = 'object-type-field-resolvers';

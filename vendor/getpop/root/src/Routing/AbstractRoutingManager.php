@@ -5,6 +5,7 @@ namespace PoP\Root\Routing;
 
 use PoP\Root\Configuration\Request;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractRoutingManager implements \PoP\Root\Routing\RoutingManagerInterface
 {
     use BasicServiceTrait;

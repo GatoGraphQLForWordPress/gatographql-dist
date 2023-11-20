@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 
 /**
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 abstract class AbstractProxy
 {

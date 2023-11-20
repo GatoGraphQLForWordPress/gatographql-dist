@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * Inject a data collector to all the cache services to be able to get detailed statistics.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @internal
  */
 class CacheCollectorPass implements CompilerPassInterface
 {

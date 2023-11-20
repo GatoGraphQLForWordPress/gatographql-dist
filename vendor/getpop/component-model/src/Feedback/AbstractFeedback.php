@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractFeedback implements \PoP\ComponentModel\Feedback\FeedbackInterface
 {
     /**

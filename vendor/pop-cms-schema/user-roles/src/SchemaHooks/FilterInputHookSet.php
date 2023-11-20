@@ -8,6 +8,7 @@ use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\UserRoles\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
 use PoPCMSSchema\Users\ComponentProcessors\UserFilterInputContainerComponentProcessor;
+/** @internal */
 class FilterInputHookSet extends AbstractHookSet
 {
     protected function init() : void

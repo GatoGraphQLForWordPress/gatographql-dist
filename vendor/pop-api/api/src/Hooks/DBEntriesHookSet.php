@@ -7,6 +7,7 @@ use PoPAPI\API\Constants\HookNames;
 use PoP\ComponentModel\Response\DatabaseEntryManager;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class DBEntriesHookSet extends AbstractHookSet
 {
     protected function init() : void

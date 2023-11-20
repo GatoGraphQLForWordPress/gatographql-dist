@@ -18,6 +18,7 @@ use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\Settings\FeedbackItemProviders\FeedbackItemProvider;
 use PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface;
+/** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

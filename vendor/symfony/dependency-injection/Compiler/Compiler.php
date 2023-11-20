@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvParameterEx
  * This class is used to remove circular dependencies between individual passes.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class Compiler
 {

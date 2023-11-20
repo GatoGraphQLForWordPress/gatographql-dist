@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPostTagMutations\SchemaHooks\AbstractCustomPostMutationRe
 use PoPCMSSchema\PostMutations\SchemaHooks\PostMutationResolverHookSetTrait;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
+/** @internal */
 class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use PostMutationResolverHookSetTrait;

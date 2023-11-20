@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Pages\Hooks;
 
 use PoPCMSSchema\CustomPosts\Hooks\AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
+/** @internal */
 class PageAddDefaultCustomPostTypeModuleConfigurationHookSet extends AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet
 {
     /**

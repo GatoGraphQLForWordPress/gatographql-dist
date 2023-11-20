@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType;
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\AbstractCategoryObjectTypeDataLoader;
 use PoPCMSSchema\Categories\TypeAPIs\CategoryListTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface;
+/** @internal */
 class QueryableCategoryListObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
     /**

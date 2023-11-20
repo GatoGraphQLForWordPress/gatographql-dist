@@ -3,6 +3,7 @@
 namespace PrefixedByPoP\GuzzleHttp;
 
 use PrefixedByPoP\Psr\Http\Message\MessageInterface;
+/** @internal */
 interface BodySummarizerInterface
 {
     /**

@@ -4,6 +4,7 @@ namespace PrefixedByPoP\Psr\Log;
 
 /**
  * Describes a logger-aware instance.
+ * @internal
  */
 interface LoggerAwareInterface
 {

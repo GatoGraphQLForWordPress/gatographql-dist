@@ -5,6 +5,7 @@ namespace PoP\Root\Module;
 
 /**
  * Helpers to convert environment values
+ * @internal
  */
 class EnvironmentValueHelpers
 {

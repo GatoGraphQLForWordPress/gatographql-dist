@@ -6,6 +6,7 @@ namespace PrefixedByPoP\GuzzleHttp\Psr7;
 use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator that prevents a stream from being seeked.
+ * @internal
  */
 final class NoSeekStream implements StreamInterface
 {

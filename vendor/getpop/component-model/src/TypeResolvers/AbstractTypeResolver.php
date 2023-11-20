@@ -8,6 +8,7 @@ use PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface;
 use PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface;
 use PoP\ComponentModel\Schema\SchemaNamespacingServiceInterface;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {
     use BasicServiceTrait;

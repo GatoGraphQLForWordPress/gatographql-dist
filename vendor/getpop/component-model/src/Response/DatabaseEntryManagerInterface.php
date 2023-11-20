@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Response;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 interface DatabaseEntryManagerInterface
 {
     /**

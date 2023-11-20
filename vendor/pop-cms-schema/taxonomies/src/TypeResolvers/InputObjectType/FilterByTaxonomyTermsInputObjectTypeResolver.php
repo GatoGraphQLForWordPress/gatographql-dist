@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjec
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
+/** @internal */
 class FilterByTaxonomyTermsInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
     /**

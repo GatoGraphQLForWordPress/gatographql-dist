@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeReso
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
+/** @internal */
 abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
     /**

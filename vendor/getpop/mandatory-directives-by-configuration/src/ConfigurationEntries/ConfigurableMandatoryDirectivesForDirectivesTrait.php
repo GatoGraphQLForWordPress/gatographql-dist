@@ -5,6 +5,7 @@ namespace PoP\MandatoryDirectivesByConfiguration\ConfigurationEntries;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
 use PoP\Root\Instances\InstanceManagerInterface;
+/** @internal */
 trait ConfigurableMandatoryDirectivesForDirectivesTrait
 {
     protected abstract function getInstanceManager() : InstanceManagerInterface;

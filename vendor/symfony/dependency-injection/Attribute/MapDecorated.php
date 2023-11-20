@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 trigger_deprecation('symfony/dependency-injection', '6.3', 'The "%s" class is deprecated, use "%s" instead.', MapDecorated::class, AutowireDecorated::class);
 /**
  * @deprecated since Symfony 6.3, use AutowireDecorated instead
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class MapDecorated

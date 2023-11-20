@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Schema;
 
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 interface SchemaDefinitionServiceInterface
 {
     /**

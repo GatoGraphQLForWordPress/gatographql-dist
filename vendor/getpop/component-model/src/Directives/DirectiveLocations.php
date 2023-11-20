@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Directives;
 
 /**
  * @see https://spec.graphql.org/draft/#DirectiveLocation
+ * @internal
  */
 class DirectiveLocations
 {

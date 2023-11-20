@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class ConditionalLeafComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
 {
     /**

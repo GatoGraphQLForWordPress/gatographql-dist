@@ -19,6 +19,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * sorted by descending quality.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
+ * @internal
  */
 class AcceptHeader
 {

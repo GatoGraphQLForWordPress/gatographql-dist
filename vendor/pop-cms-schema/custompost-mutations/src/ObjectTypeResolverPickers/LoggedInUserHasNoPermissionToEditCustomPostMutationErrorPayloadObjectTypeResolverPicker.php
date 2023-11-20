@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\AbstractCustomPostUpdateMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class LoggedInUserHasNoPermissionToEditCustomPostMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers\AbstractLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolverPicker
 {
     /**

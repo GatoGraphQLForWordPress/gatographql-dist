@@ -10,6 +10,7 @@ use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldR
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 use PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
+/** @internal */
 class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     /**

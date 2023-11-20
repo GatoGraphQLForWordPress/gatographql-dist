@@ -9,6 +9,7 @@ use PoPCMSSchema\PostTagMutations\TypeAPIs\PostTagTypeMutationAPIInterface;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
+/** @internal */
 class MutationResolverHookSet extends AbstractMutationResolverHookSet
 {
     /**

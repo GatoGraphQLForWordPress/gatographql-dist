@@ -10,6 +10,7 @@ use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
 use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
     protected function init() : void

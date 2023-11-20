@@ -5,6 +5,7 @@ namespace PoP\Root\Services;
 
 use PoP\Root\Facades\Translation\TranslationAPIFacade;
 use PoP\Root\Translation\TranslationAPIInterface;
+/** @internal */
 trait StandaloneServiceTrait
 {
     protected function getTranslationAPI() : TranslationAPIInterface

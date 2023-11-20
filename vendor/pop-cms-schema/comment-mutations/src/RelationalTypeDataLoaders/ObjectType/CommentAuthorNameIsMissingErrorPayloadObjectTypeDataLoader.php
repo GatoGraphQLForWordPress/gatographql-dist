@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CommentMutations\ObjectModels\CommentAuthorNameIsMissingErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class CommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

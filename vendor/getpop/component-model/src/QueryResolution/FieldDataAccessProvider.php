@@ -48,6 +48,7 @@ use SplObjectStorage;
  * 2. The ObjectTypeResolver: directly the same ObjectTypeResolver when coming from there,
  *    or each of the targetObjectTypeResolvers when coming from an UnionTypeResolver
  * 3. The object, or a special "wildcard object" to signify "all objects"
+ * @internal
  */
 class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface
 {

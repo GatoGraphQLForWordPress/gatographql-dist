@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Feedback;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface;
+/** @internal */
 class FeedbackEntryManagerFacade
 {
     public static function getInstance() : FeedbackEntryManagerInterface

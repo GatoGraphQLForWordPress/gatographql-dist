@@ -8,6 +8,7 @@ use PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Root\App;
+/** @internal */
 class SuperRootGraphQLRelationalFieldDataloadComponentProcessor extends \GraphQLByPoP\GraphQLServer\ComponentProcessors\AbstractGraphQLRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_SUPERROOT = 'dataload-relationalfields-superroot';

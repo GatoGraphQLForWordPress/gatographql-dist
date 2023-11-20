@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage;
 use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 interface SessionStorageFactoryInterface
 {

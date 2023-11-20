@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\UserRoles\FilterInputs\ExcludeUserRolesFilterInput;
 use PoPCMSSchema\UserRoles\FilterInputs\UserRolesFilterInput;
+/** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
     public const COMPONENT_FILTERINPUT_USER_ROLES = 'filterinput-user-roles';

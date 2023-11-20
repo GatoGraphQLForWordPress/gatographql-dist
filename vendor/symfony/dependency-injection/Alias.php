@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+/** @internal */
 class Alias
 {
     private const DEFAULT_DEPRECATION_TEMPLATE = 'The "%alias_id%" service alias is deprecated. You should stop using it, as it will be removed in the future.';

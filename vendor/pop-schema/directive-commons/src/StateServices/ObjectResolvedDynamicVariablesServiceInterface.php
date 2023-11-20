@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface ObjectResolvedDynamicVariablesServiceInterface
 {
     /**

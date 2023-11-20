@@ -10,6 +10,7 @@ use stdClass;
  *
  * As it is stored in SplObjectStorage, this object instance must be unique,
  * hence the Singleton pattern.
+ * @internal
  */
 class FieldDataAccessWildcardObjectFactory
 {

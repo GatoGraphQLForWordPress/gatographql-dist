@@ -10,6 +10,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use SplObjectStorage;
+/** @internal */
 interface DocumentInterface
 {
     /**

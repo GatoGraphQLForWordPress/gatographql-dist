@@ -5,6 +5,7 @@ namespace PoPAPI\APIEndpoints;
 
 use PoP\Root\App;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
+/** @internal */
 abstract class AbstractEndpointHandler extends AbstractAutomaticallyInstantiatedService implements \PoPAPI\APIEndpoints\EndpointHandlerInterface
 {
     /**

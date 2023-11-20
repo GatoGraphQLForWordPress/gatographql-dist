@@ -8,6 +8,7 @@ use PoP\Root\App;
 use PoPAPI\API\Schema\QueryInputs;
 /**
  * @see layers/Engine/packages/component-model/src/Configuration/EngineRequest.php
+ * @internal
  */
 class EngineRequest
 {

@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Location;
+/** @internal */
 abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
 {
     /**

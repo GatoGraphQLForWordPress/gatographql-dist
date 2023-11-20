@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Messenger\MessageBusInterface;
 use PrefixedByPoP\Symfony\Component\Messenger\Stamp\HandledStamp;
 /**
  * Sends the computation of cached values to a message bus.
+ * @internal
  */
 class EarlyExpirationDispatcher
 {

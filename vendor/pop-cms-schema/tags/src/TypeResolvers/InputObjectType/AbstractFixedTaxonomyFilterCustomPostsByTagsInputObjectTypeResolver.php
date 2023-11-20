@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
 use stdClass;
+/** @internal */
 abstract class AbstractFixedTaxonomyFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
     protected function addTagTaxonomyFilterInput() : bool

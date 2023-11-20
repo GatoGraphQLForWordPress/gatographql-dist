@@ -18,6 +18,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 class GraphQLDataStructureFormatter extends MirrorQueryDataStructureFormatter
 {
     private const ADDITIONAL_FEEDBACK = 'additionalFeedback';

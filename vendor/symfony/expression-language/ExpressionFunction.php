@@ -26,6 +26,7 @@ namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
  * arguments as remaining arguments).
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ExpressionFunction
 {

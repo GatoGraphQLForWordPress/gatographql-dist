@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\DataLoading;
 
+/** @internal */
 class ReturnTypes
 {
     public const ARRAY = 'array';

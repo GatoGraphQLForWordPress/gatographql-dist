@@ -13,6 +13,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class ErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Cache\TransientCacheInterface;
+/** @internal */
 class TransientCacheManagerFacade
 {
     public static function getInstance() : TransientCacheInterface

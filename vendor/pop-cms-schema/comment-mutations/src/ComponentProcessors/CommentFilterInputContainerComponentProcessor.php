@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 use PoPCMSSchema\Comments\ComponentProcessors\CommentFilterInputContainerComponentProcessor as UpstreamCommentFilterInputContainerComponentProcessor;
+/** @internal */
 class CommentFilterInputContainerComponentProcessor extends UpstreamCommentFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

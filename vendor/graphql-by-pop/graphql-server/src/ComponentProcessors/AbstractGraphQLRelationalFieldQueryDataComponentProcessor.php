@@ -10,6 +10,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractGraphQLRelationalFieldQueryDataComponentProcessor extends AbstractRelationalFieldQueryDataComponentProcessor
 {
     /**

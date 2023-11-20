@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType;
 
+/** @internal */
 class RootRemoveFeaturedImageFromCustomPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\AbstractCustomPostMediaMutationPayloadObjectTypeResolver
 {
     public function getTypeName() : string

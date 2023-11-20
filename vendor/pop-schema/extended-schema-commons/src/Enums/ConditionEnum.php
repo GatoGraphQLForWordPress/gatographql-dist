@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\ExtendedSchemaCommons\Enums;
 
+/** @internal */
 class ConditionEnum
 {
     public const IS_NULL = 'IS_NULL';

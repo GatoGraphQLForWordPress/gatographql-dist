@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Pages;
 
+/** @internal */
 class Environment
 {
     public const PAGE_LIST_DEFAULT_LIMIT = 'PAGE_LIST_DEFAULT_LIMIT';

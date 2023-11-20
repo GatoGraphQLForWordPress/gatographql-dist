@@ -16,6 +16,7 @@ use PoPCMSSchema\PostCategories\ModuleConfiguration;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\Posts\Module as PostsModule;
 use PoPCMSSchema\Posts\ModuleConfiguration as PostsModuleConfiguration;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;

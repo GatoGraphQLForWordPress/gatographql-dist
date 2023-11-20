@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CommentMutations\TypeAPIs\CommentTypeMutationAPIInterface;
+/** @internal */
 class CommentTypeMutationAPIFacade
 {
     public static function getInstance() : CommentTypeMutationAPIInterface

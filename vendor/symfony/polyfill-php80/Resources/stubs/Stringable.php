@@ -11,6 +11,7 @@
  * file that was distributed with this source code.
  */
 if (\PHP_VERSION_ID < 80000) {
+    /** @internal */
     interface Stringable
     {
         /**

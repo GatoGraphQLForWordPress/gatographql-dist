@@ -13,6 +13,7 @@ namespace PoP\ComponentModel\DirectiveResolvers;
  * different directives, to provide this functionality.
  *
  * @see https://github.com/graphql/graphql-spec/issues/583
+ * @internal
  */
 interface DynamicVariableDefinerFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {

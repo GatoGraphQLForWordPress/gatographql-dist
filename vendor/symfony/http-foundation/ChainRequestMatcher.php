@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * ChainRequestMatcher verifies that all checks match against a Request instance.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ChainRequestMatcher implements RequestMatcherInterface
 {

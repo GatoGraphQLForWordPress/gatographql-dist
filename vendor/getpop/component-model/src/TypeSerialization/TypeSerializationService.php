@@ -17,6 +17,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface
 {
     use BasicServiceTrait;

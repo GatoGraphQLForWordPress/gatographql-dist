@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
  * TaggedContainerInterface is the interface implemented when a container knows how to deals with tags.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface TaggedContainerInterface extends ContainerInterface
 {

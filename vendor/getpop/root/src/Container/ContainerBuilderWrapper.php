@@ -5,6 +5,7 @@ namespace PoP\Root\Container;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+/** @internal */
 final class ContainerBuilderWrapper implements \PoP\Root\Container\ContainerBuilderWrapperInterface
 {
     /**

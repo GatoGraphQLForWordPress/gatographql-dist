@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ServiceConfigurator extends AbstractServiceConfigurator
 {

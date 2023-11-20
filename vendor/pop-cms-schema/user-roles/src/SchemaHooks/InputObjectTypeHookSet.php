@@ -16,6 +16,7 @@ use PoPCMSSchema\UserRoles\FilterInputs\UserRolesFilterInput;
 use PoPCMSSchema\UserRoles\Module;
 use PoPCMSSchema\UserRoles\ModuleConfiguration;
 use PoPCMSSchema\Users\TypeResolvers\InputObjectType\AbstractUsersFilterInputObjectTypeResolver;
+/** @internal */
 class InputObjectTypeHookSet extends AbstractHookSet
 {
     /**

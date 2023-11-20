@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\HelperServices;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface DataloadHelperServiceInterface
 {
     /**

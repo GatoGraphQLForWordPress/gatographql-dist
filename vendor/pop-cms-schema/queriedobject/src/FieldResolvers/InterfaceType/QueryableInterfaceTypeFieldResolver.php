@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\QueriedObject\TypeResolvers\InterfaceType\QueryableInterfaceTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLAbsolutePathScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
+/** @internal */
 class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
     /**

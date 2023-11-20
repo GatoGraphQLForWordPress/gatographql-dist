@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Container\CompilerPasses;
 use PoP\ComponentModel\Registries\TypeRegistryInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterTypeResolverCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

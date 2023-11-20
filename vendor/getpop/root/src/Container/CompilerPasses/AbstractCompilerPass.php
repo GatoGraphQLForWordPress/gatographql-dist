@@ -13,6 +13,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  * This class enables to leak the implementation of Compiler Passes to the application.
  * This is needed to add compiler passes on "-wp" packages, which are not scoped
  * with PHP-Scoper. Then, in these packages we can't reference Symfony (or any 3rd party)
+ * @internal
  */
 abstract class AbstractCompilerPass implements CompilerPassInterface
 {

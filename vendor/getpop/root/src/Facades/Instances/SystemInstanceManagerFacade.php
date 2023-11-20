@@ -5,6 +5,7 @@ namespace PoP\Root\Facades\Instances;
 
 use PoP\Root\App;
 use PoP\Root\Instances\InstanceManagerInterface;
+/** @internal */
 class SystemInstanceManagerFacade
 {
     public static function getInstance() : InstanceManagerInterface

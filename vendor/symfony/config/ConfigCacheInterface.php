@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
  * Interface for ConfigCache.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface ConfigCacheInterface
 {

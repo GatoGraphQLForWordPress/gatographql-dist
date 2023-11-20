@@ -5,6 +5,7 @@ namespace PoP\Root\Configuration;
 
 use PoP\Root\App;
 use PoP\Root\Constants\Params;
+/** @internal */
 class Request
 {
     public static function getRoute() : ?string

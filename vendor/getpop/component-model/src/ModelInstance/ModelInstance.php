@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoP\ComponentModel\Info\ApplicationInfoInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\Definitions\DefinitionManagerInterface;
+/** @internal */
 class ModelInstance implements \PoP\ComponentModel\ModelInstance\ModelInstanceInterface
 {
     use BasicServiceTrait;

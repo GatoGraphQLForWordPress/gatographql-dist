@@ -10,6 +10,7 @@ use PoPAPI\API\ObjectModels\SchemaDefinition\RootObjectTypeSchemaDefinitionProvi
 /**
  * The RootObject has the special role of also calculating the
  * global fields, connections and directives
+ * @internal
  */
 class RootObjectTypeSchemaDefinitionProvider extends UpstreamRootObjectTypeSchemaDefinitionProvider
 {

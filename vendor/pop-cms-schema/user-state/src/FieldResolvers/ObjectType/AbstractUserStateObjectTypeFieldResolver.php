@@ -8,6 +8,7 @@ use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
+/** @internal */
 abstract class AbstractUserStateObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

@@ -9,6 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
+/** @internal */
 class RelationalField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField implements \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;

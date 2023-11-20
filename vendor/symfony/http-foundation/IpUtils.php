@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * Http utility functions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class IpUtils
 {

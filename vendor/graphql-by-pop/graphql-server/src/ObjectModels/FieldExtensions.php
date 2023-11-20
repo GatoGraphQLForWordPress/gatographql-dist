@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
+/** @internal */
 class FieldExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
     public function isGlobal() : bool

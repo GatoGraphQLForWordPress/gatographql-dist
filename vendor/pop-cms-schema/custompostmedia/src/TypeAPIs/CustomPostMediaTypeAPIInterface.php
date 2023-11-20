@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMedia\TypeAPIs;
 
+/** @internal */
 interface CustomPostMediaTypeAPIInterface
 {
     public function doesCustomPostTypeSupportFeaturedImage(string $customPostType) : bool;

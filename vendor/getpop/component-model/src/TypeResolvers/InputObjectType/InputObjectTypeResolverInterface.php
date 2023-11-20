@@ -12,6 +12,7 @@ use stdClass;
  * Based on GraphQL InputObject Type
  *
  * @see https://spec.graphql.org/draft/#sec-Input-Objects
+ * @internal
  */
 interface InputObjectTypeResolverInterface extends DeprecatableInputTypeResolverInterface
 {

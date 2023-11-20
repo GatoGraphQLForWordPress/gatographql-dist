@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
+/** @internal */
 abstract class AbstractDictionaryObjectTypeDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader
 {
     /**

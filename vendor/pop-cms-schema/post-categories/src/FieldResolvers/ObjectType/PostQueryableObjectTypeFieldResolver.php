@@ -10,6 +10,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverI
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
+/** @internal */
 class PostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableObjectTypeFieldResolver
 {
     /**

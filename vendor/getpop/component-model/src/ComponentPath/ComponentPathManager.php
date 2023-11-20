@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\ComponentPath;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 class ComponentPathManager implements \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface
 {
     /**

@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 abstract class AbstractFilterInputComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractFormInputComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FilterInputComponentProcessorInterface
 {
     /**

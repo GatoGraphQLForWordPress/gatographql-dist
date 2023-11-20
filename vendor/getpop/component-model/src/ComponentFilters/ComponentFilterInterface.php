@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentFilters;
 
 use PoP\ComponentModel\Component\Component;
+/** @internal */
 interface ComponentFilterInterface
 {
     public function getName() : string;

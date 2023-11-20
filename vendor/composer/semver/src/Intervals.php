@@ -26,6 +26,7 @@ use PrefixedByPoP\Composer\Semver\Constraint\MultiConstraint;
  *  - checking whether one subset is a subset of another.
  *
  * Note: You should call clear to free memoization memory  usage when you are done using this class
+ * @internal
  */
 class Intervals
 {

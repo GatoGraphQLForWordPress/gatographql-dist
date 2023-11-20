@@ -11,6 +11,7 @@ use PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements \PoPCMSSchema\Tags\ObjectTypeResolverPickers\TagObjectTypeResolverPickerInterface
 {
     /**

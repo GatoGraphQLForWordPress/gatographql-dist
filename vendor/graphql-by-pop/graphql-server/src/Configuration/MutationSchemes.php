@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Configuration;
 
+/** @internal */
 class MutationSchemes
 {
     public const STANDARD = 'standard';

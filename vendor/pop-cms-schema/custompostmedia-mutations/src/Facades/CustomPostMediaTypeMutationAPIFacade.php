@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface;
+/** @internal */
 class CustomPostMediaTypeMutationAPIFacade
 {
     public static function getInstance() : CustomPostMediaTypeMutationAPIInterface

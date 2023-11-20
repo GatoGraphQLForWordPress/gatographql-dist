@@ -8,6 +8,7 @@ use PoPCMSSchema\CommentMutations\Module;
 use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
+/** @internal */
 trait AddCommentToCustomPostObjectTypeFieldResolverTrait
 {
     protected abstract function getUserTypeAPI() : UserTypeAPIInterface;

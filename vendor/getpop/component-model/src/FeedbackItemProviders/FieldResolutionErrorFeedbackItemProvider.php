@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\Root\Feedback\FeedbackCategories;
+/** @internal */
 class FieldResolutionErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const E2 = '2';

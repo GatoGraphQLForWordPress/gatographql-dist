@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  *
  * @final
+ * @internal
  */
 class Configuration implements ConfigurationInterface
 {

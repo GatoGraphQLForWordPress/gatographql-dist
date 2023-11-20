@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInt
  * This class is currently not used, but its code can
  * eventually be useful, hence it's been kept as an
  * abstract class.
+ * @internal
  */
 abstract class AbstractSwitchAppThreadStandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\StandaloneGraphQLServer
 {

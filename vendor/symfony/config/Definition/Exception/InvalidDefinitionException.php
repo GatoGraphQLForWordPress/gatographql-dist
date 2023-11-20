@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Definition\Exception;
  * Thrown when an error is detected in a node Definition.
  *
  * @author Victor Berchet <victor.berchet@suumit.com>
+ * @internal
  */
 class InvalidDefinitionException extends Exception
 {

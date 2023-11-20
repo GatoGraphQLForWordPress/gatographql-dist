@@ -23,6 +23,7 @@ use PoP\GraphQLParser\Exception\AbstractQueryException;
 use PoP\GraphQLParser\Exception\Parser\AbstractASTNodeParserException;
 use PoP\GraphQLParser\Exception\Parser\AbstractParserException;
 use PoP\Root\State\AbstractAppStateProvider;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

@@ -13,6 +13,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
  * a directive pipeline stage. The `$astNode` is where the error
  * happens, and the `$directive` is the Directive executing that
  * stage on the pipeline.
+ * @internal
  */
 class ObjectResolutionFeedback extends \PoP\ComponentModel\Feedback\AbstractQueryFeedback implements \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface
 {

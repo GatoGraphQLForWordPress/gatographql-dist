@@ -5,6 +5,7 @@ namespace PoP\Root\Services;
 
 /**
  * Default implementation for services
+ * @internal
  */
 trait ServiceTrait
 {

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\QueryResolution;
 
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface FieldDataAccessorInterface extends \PoP\ComponentModel\QueryResolution\FieldOrDirectiveDataAccessorInterface
 {
     public function getField() : FieldInterface;

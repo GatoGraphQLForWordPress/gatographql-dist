@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 interface SessionStorageInterface
 {

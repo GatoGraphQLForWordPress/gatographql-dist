@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
  * IniFileLoader loads parameters from INI files.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class IniFileLoader extends FileLoader
 {

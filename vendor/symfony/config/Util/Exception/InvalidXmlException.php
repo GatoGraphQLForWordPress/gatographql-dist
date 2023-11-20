@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Util\Exception;
  * to the actual XML parsing.
  *
  * @author Ole Rößner <ole@roessner.it>
+ * @internal
  */
 class InvalidXmlException extends XmlParsingException
 {

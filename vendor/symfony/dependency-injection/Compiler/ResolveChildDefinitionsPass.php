@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircula
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ResolveChildDefinitionsPass extends AbstractRecursivePass
 {

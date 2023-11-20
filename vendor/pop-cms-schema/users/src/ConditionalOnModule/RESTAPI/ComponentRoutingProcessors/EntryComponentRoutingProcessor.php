@@ -14,6 +14,7 @@ use PoPCMSSchema\Users\ConditionalOnModule\API\ComponentProcessors\FieldDataload
 use PoPCMSSchema\Users\Module;
 use PoPCMSSchema\Users\ModuleConfiguration;
 use PoPCMSSchema\Users\Routing\RequestNature as UserRequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     protected function doGetGraphQLQueryToResolveRESTEndpoint() : string

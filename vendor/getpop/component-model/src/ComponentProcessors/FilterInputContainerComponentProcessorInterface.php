@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 interface FilterInputContainerComponentProcessorInterface extends \PoP\ComponentModel\ComponentProcessors\FilterDataComponentProcessorInterface
 {
     /**

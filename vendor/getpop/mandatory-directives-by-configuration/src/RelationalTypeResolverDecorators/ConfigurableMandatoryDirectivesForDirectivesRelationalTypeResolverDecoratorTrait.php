@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\MandatoryDirectivesByConfiguration\ConfigurationEntries\ConfigurableMandatoryDirectivesForDirectivesTrait;
 use PoP\Root\Instances\InstanceManagerInterface;
+/** @internal */
 trait ConfigurableMandatoryDirectivesForDirectivesRelationalTypeResolverDecoratorTrait
 {
     use ConfigurableMandatoryDirectivesForDirectivesTrait;

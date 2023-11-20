@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserAvatars\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserAvatars\TypeAPIs\UserAvatarTypeAPIInterface;
+/** @internal */
 class UserAvatarTypeAPIFacade
 {
     public static function getInstance() : UserAvatarTypeAPIInterface

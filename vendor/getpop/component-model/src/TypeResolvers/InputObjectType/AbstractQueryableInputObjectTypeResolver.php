@@ -7,6 +7,7 @@ use PoP\ComponentModel\FilterInputs\FilterInputInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\QueryableInputObjectTypeResolverInterface;
 use PoP\Root\App;
 use stdClass;
+/** @internal */
 abstract class AbstractQueryableInputObjectTypeResolver extends \PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver implements QueryableInputObjectTypeResolverInterface
 {
     /** @var array<string,?FilterInputInterface> */

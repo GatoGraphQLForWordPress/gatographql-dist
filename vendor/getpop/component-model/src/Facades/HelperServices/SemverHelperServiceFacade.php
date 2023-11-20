@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\HelperServices\SemverHelperServiceInterface;
+/** @internal */
 class SemverHelperServiceFacade
 {
     public static function getInstance() : SemverHelperServiceInterface

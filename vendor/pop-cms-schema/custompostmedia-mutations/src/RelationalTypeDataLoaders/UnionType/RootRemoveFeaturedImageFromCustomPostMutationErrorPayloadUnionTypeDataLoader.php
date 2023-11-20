@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionT
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
     /**

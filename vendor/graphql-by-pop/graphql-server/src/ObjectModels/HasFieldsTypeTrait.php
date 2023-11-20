@@ -10,6 +10,7 @@ use GraphQLByPoP\GraphQLServer\Schema\SchemaDefinitionHelpers;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoP\Root\App;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
+/** @internal */
 trait HasFieldsTypeTrait
 {
     /**

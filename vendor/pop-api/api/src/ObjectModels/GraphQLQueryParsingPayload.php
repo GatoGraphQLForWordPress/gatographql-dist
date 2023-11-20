@@ -5,6 +5,7 @@ namespace PoPAPI\API\ObjectModels;
 
 use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class GraphQLQueryParsingPayload
 {
     /**

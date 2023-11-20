@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\LooseContracts;
 
 use PoP\Root\Services\WithInstanceManagerServiceTrait;
+/** @internal */
 abstract class AbstractNameResolver implements \PoP\LooseContracts\NameResolverInterface
 {
     use WithInstanceManagerServiceTrait;

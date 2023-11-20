@@ -24,6 +24,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractUnionTypeResolver extends AbstractRelationalTypeResolver implements \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface
 {
     /**

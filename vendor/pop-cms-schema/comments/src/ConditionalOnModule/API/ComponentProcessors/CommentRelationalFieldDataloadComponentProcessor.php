@@ -10,6 +10,7 @@ use PoP\ComponentModel\QueryInputOutputHandlers\QueryInputOutputHandlerInterface
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\Comments\ComponentProcessors\CommentFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
+/** @internal */
 class CommentRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_COMMENTS = 'dataload-relationalfields-comments';

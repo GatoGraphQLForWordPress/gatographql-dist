@@ -5,6 +5,7 @@ namespace PoP\Root\Services;
 
 /**
  * Container services
+ * @internal
  */
 interface ServiceInterface
 {

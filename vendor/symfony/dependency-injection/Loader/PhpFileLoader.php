@@ -28,6 +28,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Cont
  * used within the file to change the container.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class PhpFileLoader extends FileLoader
 {

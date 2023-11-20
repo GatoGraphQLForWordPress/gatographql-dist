@@ -38,6 +38,7 @@ if (!\class_exists('PrefixedByPoP\\CastToType')) {
      * @copyright (c) 2006-2022, Advies en zo, Meedenken en -doen <casttotype@adviesenzo.nl>
      *            All rights reserved.
      * @license   http://www.opensource.org/licenses/lgpl-license.php GNU Lesser General Public License.
+     * @internal
      */
     class CastToType
     {

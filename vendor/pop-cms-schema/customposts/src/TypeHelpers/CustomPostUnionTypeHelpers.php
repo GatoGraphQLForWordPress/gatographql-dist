@@ -13,6 +13,7 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver
 /**
  * In the context of WordPress, "Custom Posts" are all posts (eg: posts, pages, attachments, events, etc)
  * Hence, this class can simply inherit from the Post dataloader, and add the post-types for all required types
+ * @internal
  */
 class CustomPostUnionTypeHelpers
 {

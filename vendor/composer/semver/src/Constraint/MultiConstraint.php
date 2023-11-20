@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Composer\Semver\Constraint;
 
 /**
  * Defines a conjunctive or disjunctive set of constraints.
+ * @internal
  */
 class MultiConstraint implements ConstraintInterface
 {

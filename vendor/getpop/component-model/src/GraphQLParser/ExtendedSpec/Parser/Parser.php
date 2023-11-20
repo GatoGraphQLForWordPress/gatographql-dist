@@ -17,6 +17,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
+/** @internal */
 class Parser extends AbstractParser
 {
     /**

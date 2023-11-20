@@ -20,6 +20,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;

@@ -14,6 +14,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  *
  * @see layers/GraphQLByPoP/packages/graphql-server/src/Helpers/TypeResolverHelper.php
  * @see function `getObjectTypeResolverMandatoryFields`
+ * @internal
  */
 class RemoveIdentifiableObjectFieldsFromMutationRootObjectTypeHookSet extends AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet
 {

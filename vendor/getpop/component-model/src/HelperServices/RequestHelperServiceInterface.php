@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\HelperServices;
 
+/** @internal */
 interface RequestHelperServiceInterface
 {
     /**

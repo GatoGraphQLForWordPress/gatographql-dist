@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Antonio Jose Cerezo Aranda <aj.cerezo@gmail.com>
+ * @internal
  */
 class CouchbaseBucketAdapter extends AbstractAdapter
 {

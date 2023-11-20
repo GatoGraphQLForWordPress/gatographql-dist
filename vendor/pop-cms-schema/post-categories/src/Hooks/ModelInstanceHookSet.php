@@ -9,6 +9,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
+/** @internal */
 class ModelInstanceHookSet extends AbstractHookSet
 {
     public const HOOK_VARY_MODEL_INSTANCE_BY_CATEGORY = __CLASS__ . ':vary-model-instance-by-category';

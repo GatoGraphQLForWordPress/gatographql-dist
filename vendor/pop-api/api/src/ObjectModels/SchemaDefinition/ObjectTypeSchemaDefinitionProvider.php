@@ -14,6 +14,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinitionHelpers;
 use PoPAPI\API\Schema\TypeKinds;
+/** @internal */
 class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**

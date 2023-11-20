@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
 use PoPCMSSchema\Pages\RelationalTypeDataLoaders\ObjectType\PageObjectTypeDataLoader;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
+/** @internal */
 class PageObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
 {
     /**

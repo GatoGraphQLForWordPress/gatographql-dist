@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\AbstractSetCatego
 use PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMutationAPIInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
+/** @internal */
 class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomPostMutationResolver
 {
     /**

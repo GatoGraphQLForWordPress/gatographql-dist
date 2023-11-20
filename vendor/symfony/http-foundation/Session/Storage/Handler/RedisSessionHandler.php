@@ -17,6 +17,7 @@ use PrefixedByPoP\Relay\Relay;
  * provided by the PHP redis extension.
  *
  * @author Dalibor Karlović <dalibor@flexolabs.io>
+ * @internal
  */
 class RedisSessionHandler extends AbstractSessionHandler
 {

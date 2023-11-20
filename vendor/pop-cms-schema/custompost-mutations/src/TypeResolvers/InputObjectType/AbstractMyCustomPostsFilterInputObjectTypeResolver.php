@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInputObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractMyCustomPostsFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements CustomPostsFilterInputObjectTypeResolverInterface
 {
     protected function treatCustomPostStatusAsSensitiveData() : bool

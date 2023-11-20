@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the Request content is valid JSON.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class IsJsonRequestMatcher implements RequestMatcherInterface
 {

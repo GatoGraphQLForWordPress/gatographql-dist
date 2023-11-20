@@ -10,6 +10,7 @@ use PoPAPI\API\Schema\TypeKinds;
 use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleConfiguration;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class UnionTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**

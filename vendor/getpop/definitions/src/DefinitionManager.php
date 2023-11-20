@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Definitions;
 
 use PoP\Definitions\Configuration\Request;
+/** @internal */
 class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
 {
     /**

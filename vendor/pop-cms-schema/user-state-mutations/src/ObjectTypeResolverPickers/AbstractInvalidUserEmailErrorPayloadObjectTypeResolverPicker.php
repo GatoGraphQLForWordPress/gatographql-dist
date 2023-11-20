@@ -7,6 +7,7 @@ use PoPCMSSchema\UserStateMutations\ObjectModels\InvalidUserEmailErrorPayload;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUserEmailErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractInvalidUserEmailErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
     /**

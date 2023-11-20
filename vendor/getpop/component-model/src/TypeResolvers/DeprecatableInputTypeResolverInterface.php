@@ -8,6 +8,7 @@ use stdClass;
  * Input types which can be deprecated:
  *
  * - EnumType
+ * @internal
  */
 interface DeprecatableInputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface
 {

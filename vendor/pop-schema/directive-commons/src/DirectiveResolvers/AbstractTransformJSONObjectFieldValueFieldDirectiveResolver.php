@@ -11,6 +11,7 @@ use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractTransformJSONObjectFieldValueFieldDirectiveResolver extends \PoPSchema\DirectiveCommons\DirectiveResolvers\AbstractTransformTypedFieldValueFieldDirectiveResolver
 {
     /**

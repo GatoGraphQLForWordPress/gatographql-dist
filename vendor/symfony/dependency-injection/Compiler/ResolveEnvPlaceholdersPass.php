@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * Replaces env var placeholders by their current values.
+ * @internal
  */
 class ResolveEnvPlaceholdersPass extends AbstractRecursivePass
 {

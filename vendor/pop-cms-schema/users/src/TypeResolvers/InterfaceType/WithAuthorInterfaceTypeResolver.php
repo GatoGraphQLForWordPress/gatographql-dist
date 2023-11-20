@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InterfaceType\AbstractInterfaceTypeResolver;
+/** @internal */
 class WithAuthorInterfaceTypeResolver extends AbstractInterfaceTypeResolver
 {
     public function getTypeName() : string

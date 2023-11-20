@@ -9,6 +9,7 @@ namespace PoP\ComponentModel\Dictionaries;
  * This class is (among others) used by Transient Objects,
  * which are created on runtime and need to be stored as
  * to be accessed through their ID in the GraphQL query.
+ * @internal
  */
 class ObjectDictionary implements \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface
 {

@@ -14,6 +14,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
  * Field or Directive or Argument), and the `$fields` are all the
  * Fields that must be set to `null` (we'd normally the field to be only 1,
  * but if the $astNode is a Directive, then it can affect multiple Fields).
+ * @internal
  */
 class SchemaFeedback extends \PoP\ComponentModel\Feedback\AbstractQueryFeedback implements \PoP\ComponentModel\Feedback\SchemaFeedbackInterface
 {

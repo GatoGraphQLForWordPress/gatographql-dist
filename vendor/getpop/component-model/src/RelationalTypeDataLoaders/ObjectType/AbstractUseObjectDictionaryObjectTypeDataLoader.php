@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType;
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

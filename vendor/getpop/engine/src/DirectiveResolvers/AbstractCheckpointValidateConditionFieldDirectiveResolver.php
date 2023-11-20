@@ -10,6 +10,7 @@ use PoP\ComponentModel\Feedback\EngineIterationFeedbackStore;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractCheckpointValidateConditionFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractValidateConditionFieldDirectiveResolver
 {
     /**

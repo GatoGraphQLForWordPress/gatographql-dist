@@ -13,6 +13,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class NestedMutationHookSet extends AbstractHookSet
 {
     /**

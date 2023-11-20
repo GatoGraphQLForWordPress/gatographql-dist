@@ -22,6 +22,7 @@ use stdClass;
  *
  * For whenever the option values may not satisfy these constraints,
  * this type can be used instead
+ * @internal
  */
 abstract class AbstractEnumStringScalarTypeResolver extends AbstractScalarTypeResolver implements \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EnumStringScalarTypeResolverInterface
 {

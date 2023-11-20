@@ -6,6 +6,7 @@ namespace PrefixedByPoP\GuzzleHttp\Psr7;
 use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * Decorator used to return only a subset of a stream.
+ * @internal
  */
 final class LimitStream implements StreamInterface
 {

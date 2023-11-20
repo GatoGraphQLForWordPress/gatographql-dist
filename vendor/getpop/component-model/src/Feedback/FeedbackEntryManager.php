@@ -23,6 +23,7 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
+/** @internal */
 class FeedbackEntryManager implements \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface
 {
     use BasicServiceTrait;

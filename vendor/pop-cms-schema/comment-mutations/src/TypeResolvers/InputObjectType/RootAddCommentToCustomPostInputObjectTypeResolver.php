@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
+/** @internal */
 class RootAddCommentToCustomPostInputObjectTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\AbstractAddCommentToCustomPostInputObjectTypeResolver
 {
     public function getTypeName() : string

@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractRelationalTypeResolverDecorator implements \PoP\ComponentModel\RelationalTypeResolverDecorators\RelationalTypeResolverDecoratorInterface
 {
     use AttachableExtensionTrait;

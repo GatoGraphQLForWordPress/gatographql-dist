@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Config\Resource\SelfCheckingResourceChecker;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class ConfigCache extends ResourceCheckerConfigCache
 {

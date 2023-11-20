@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\LazyServiceDumper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class LazyServiceInstantiator implements InstantiatorInterface
 {

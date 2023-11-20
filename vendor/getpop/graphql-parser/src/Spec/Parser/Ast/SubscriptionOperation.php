@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
+/** @internal */
 class SubscriptionOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractOperation
 {
     public function getOperationType() : string

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType;
 
+/** @internal */
 class PostSetCategoriesMutationPayloadObjectTypeResolver extends \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\AbstractPostCategoriesMutationPayloadObjectTypeResolver
 {
     public function getTypeName() : string

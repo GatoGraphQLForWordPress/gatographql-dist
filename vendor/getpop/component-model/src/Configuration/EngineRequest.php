@@ -19,6 +19,7 @@ use PoP\Root\App;
  *
  * By setting this flag in false, users cannot modify the behavior of the application,
  * which is defined via AppStateProvider classes.
+ * @internal
  */
 class EngineRequest
 {

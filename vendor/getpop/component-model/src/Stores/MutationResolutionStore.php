@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Stores;
 
+/** @internal */
 class MutationResolutionStore implements \PoP\ComponentModel\Stores\MutationResolutionStoreInterface
 {
     /**

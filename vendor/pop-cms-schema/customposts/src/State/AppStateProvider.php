@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPosts\State;
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

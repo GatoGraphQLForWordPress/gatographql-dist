@@ -16,6 +16,7 @@ use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;

@@ -5,6 +5,7 @@ namespace PoP\Root\Container;
 
 /**
  * Configuration to cache the container
+ * @internal
  */
 class ContainerCacheConfiguration
 {

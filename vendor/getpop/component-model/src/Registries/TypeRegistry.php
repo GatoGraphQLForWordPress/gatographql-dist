@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class TypeRegistry implements \PoP\ComponentModel\Registries\TypeRegistryInterface
 {
     /**

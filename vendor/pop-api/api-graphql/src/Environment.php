@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPAPI\GraphQLAPI;
 
+/** @internal */
 class Environment
 {
     public const PRINT_DYNAMIC_FIELD_IN_EXTENSIONS_OUTPUT = 'PRINT_DYNAMIC_FIELD_IN_EXTENSIONS_OUTPUT';

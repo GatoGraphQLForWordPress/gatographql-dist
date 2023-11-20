@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PrefixedByPoP\League\Pipeline;
 
+/** @internal */
 class PipelineBuilder implements PipelineBuilderInterface
 {
     /**

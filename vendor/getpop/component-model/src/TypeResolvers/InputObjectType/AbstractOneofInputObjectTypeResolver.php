@@ -10,6 +10,7 @@ use stdClass;
  * Oneof InputObject Type, as proposed for the GraphQL spec:
  *
  * @see https://github.com/graphql/graphql-spec/pull/825
+ * @internal
  */
 abstract class AbstractOneofInputObjectTypeResolver extends \PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver implements \PoP\ComponentModel\TypeResolvers\InputObjectType\OneofInputObjectTypeResolverInterface
 {

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
  * ContainerAware trait.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 trait ContainerAwareTrait
 {

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
 
+/** @internal */
 class RootAddCommentToCustomPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\AbstractCommentMutationPayloadObjectTypeResolver
 {
     public function getTypeName() : string

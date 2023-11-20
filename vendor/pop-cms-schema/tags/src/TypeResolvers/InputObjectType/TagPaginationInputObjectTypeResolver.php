@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoPCMSSchema\Tags\Module;
 use PoPCMSSchema\Tags\ModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\PaginationInputObjectTypeResolver;
+/** @internal */
 class TagPaginationInputObjectTypeResolver extends PaginationInputObjectTypeResolver
 {
     public function getTypeName() : string

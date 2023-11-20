@@ -8,6 +8,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use stdClass;
+/** @internal */
 trait ObjectTypeOrFieldDirectiveResolverTrait
 {
     /**

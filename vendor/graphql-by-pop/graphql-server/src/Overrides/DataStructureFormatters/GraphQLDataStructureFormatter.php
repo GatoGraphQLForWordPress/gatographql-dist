@@ -20,6 +20,7 @@ use PoP\Root\App;
  * - move "location" up from under "extensions"
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 class GraphQLDataStructureFormatter extends UpstreamGraphQLDataStructureFormatter
 {

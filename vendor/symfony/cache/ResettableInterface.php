@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\Cache;
 use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
 /**
  * Resets a pool's local state.
+ * @internal
  */
 interface ResettableInterface extends ResetInterface
 {

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
 use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
+/** @internal */
 class TransientCacheManagerItemPoolFacade
 {
     public static function getInstance() : CacheItemPoolInterface

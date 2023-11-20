@@ -25,6 +25,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
  * @template-covariant T of mixed
  *
  * @implements ServiceProviderInterface<T>
+ * @internal
  */
 class ServiceLocator implements ServiceProviderInterface, \Countable
 {

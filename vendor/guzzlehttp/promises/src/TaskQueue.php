@@ -13,6 +13,7 @@ namespace PrefixedByPoP\GuzzleHttp\Promise;
  *     GuzzleHttp\Promise\Utils::queue()->run();
  *
  * @final
+ * @internal
  */
 class TaskQueue implements TaskQueueInterface
 {

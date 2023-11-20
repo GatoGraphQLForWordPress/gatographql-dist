@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\API\Schema;
 
 use PoP\Engine\Schema\SchemaDefinitionServiceInterface as UpstreamSchemaDefinitionServiceInterface;
+/** @internal */
 interface SchemaDefinitionServiceInterface extends UpstreamSchemaDefinitionServiceInterface
 {
     /**

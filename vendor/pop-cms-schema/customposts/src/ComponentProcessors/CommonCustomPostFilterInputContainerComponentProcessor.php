@@ -9,6 +9,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoPCMSSchema\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\AbstractFilterInputContainerComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputComponentProcessor;
+/** @internal */
 class CommonCustomPostFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

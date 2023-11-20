@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException
  * Holds read-only parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class FrozenParameterBag extends ParameterBag
 {

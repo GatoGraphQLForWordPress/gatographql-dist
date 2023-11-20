@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface;
+/** @internal */
 class UserStateTypeMutationAPIFacade
 {
     public static function getInstance() : UserStateTypeMutationAPIInterface

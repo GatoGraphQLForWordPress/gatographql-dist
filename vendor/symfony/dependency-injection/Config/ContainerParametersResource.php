@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
  *
  * @final
+ * @internal
  */
 class ContainerParametersResource implements ResourceInterface
 {

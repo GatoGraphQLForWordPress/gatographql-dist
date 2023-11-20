@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\OutOfBoundsExc
  * Definition represents a service definition.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Definition
 {

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
  * Native session handler using PHP's built in file storage.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class NativeFileSessionHandler extends \SessionHandler
 {

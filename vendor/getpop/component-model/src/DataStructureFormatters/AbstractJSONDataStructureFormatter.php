@@ -8,6 +8,7 @@ use PoP\ComponentModel\Constants\DatabasesOutputModes;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 abstract class AbstractJSONDataStructureFormatter extends \PoP\ComponentModel\DataStructureFormatters\AbstractDataStructureFormatter
 {
     public function getContentType() : string

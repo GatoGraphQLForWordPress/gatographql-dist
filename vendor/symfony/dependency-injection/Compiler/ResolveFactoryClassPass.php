@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 /**
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
+ * @internal
  */
 class ResolveFactoryClassPass extends AbstractRecursivePass
 {

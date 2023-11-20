@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Comments\ConditionalOnModule\Users\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
+/** @internal */
 class CustomPostAuthorIDsFilterInput extends AbstractValueToQueryFilterInput
 {
     protected function getQueryArgKey() : string

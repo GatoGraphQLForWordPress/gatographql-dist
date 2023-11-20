@@ -6,6 +6,7 @@ namespace PoP\Root\Hooks;
 use PoP\Root\App;
 use PoP\Root\Constants\HookNames;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 abstract class AbstractAfterAppBootHookSet extends AbstractHookSet
 {
     /**

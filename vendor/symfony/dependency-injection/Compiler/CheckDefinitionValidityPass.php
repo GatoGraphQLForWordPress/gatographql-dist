@@ -25,6 +25,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\FileLoader;
  * - synthetic services are always public
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class CheckDefinitionValidityPass implements CompilerPassInterface
 {

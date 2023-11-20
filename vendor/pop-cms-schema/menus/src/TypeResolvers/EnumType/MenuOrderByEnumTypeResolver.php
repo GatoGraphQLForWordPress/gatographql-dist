@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Menus\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Menus\Constants\MenuOrderBy;
+/** @internal */
 class MenuOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

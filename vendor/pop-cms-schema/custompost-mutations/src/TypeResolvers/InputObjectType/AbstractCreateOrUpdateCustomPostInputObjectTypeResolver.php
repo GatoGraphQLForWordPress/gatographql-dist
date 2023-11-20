@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver;
+/** @internal */
 abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
     /**

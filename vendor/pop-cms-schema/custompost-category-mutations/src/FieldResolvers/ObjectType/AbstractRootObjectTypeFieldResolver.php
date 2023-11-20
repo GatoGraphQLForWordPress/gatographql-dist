@@ -15,6 +15,7 @@ use PoP\Engine\Module as EngineModule;
 use PoP\Engine\ModuleConfiguration as EngineModuleConfiguration;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Root\App;
+/** @internal */
 abstract class AbstractRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver implements \PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType\SetCategoriesOnCustomPostObjectTypeFieldResolverInterface
 {
     use \PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType\SetCategoriesOnCustomPostObjectTypeFieldResolverTrait;

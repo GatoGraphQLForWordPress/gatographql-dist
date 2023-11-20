@@ -30,6 +30,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Yaml;
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  * @author Robin Chalas <robin.chalas@gmail.com>
+ * @internal
  */
 class LintCommand extends Command
 {

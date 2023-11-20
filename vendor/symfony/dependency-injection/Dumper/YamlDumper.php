@@ -32,6 +32,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Yaml;
  * YamlDumper dumps a service container as a YAML string.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class YamlDumper extends Dumper
 {

@@ -17,6 +17,7 @@ use stdClass;
  * For instance, type `DangerouslyNonSpecificScalar` could have values
  * `"hello"` and `["hello"]`, but in GraphQL we must differentiate
  * these values by types `String` and `[String]`.
+ * @internal
  */
 class DangerouslyNonSpecificScalarTypeScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver
 {

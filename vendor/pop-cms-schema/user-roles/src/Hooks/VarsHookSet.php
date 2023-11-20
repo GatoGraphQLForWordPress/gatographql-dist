@@ -9,6 +9,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\UserRoles\Constants\ModelInstanceComponentTypes;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
 use PoPCMSSchema\Users\Routing\RequestNature;
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
     /**

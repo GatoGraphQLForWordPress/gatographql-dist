@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Posts\TypeAPIs;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface PostTypeAPIInterface extends CustomPostTypeAPIInterface
 {

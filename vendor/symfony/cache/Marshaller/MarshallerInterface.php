@@ -17,6 +17,7 @@ namespace PrefixedByPoP\Symfony\Component\Cache\Marshaller;
  * also deal with forward and backward compatibility at the storage format level.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface MarshallerInterface
 {

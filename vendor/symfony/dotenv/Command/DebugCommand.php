@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Component\Dotenv\Dotenv;
  * A console command to debug current dotenv files with variables and values.
  *
  * @author Christopher Hertel <mail@christopher-hertel.de>
+ * @internal
  */
 #[AsCommand(name: 'debug:dotenv', description: 'Lists all dotenv files with variables and values')]
 final class DebugCommand extends Command

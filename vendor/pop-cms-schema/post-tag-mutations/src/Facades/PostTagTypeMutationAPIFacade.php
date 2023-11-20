@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostTagMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\PostTagMutations\TypeAPIs\PostTagTypeMutationAPIInterface;
+/** @internal */
 class PostTagTypeMutationAPIFacade
 {
     public static function getInstance() : PostTagTypeMutationAPIInterface

@@ -14,6 +14,7 @@ use stdClass;
  * GraphQL Custom Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Custom-Scalars
+ * @internal
  */
 class UUIDScalarTypeResolver extends AbstractScalarTypeResolver
 {

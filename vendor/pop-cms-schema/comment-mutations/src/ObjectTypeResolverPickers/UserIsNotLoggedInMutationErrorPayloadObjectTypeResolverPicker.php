@@ -9,6 +9,7 @@ use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutatio
 use PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers\AbstractUserIsNotLoggedInErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker extends AbstractUserIsNotLoggedInErrorPayloadObjectTypeResolverPicker
 {
     /**

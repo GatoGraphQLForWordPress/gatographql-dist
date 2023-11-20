@@ -14,6 +14,7 @@ use PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver;
  *
  * FieldDirectiveResolvers can also handle Operation Directives,
  * by having these be duplicated into the SuperRoot type fields.
+ * @internal
  */
 abstract class AbstractFieldDirectiveResolver extends UpstreamAbstractFieldDirectiveResolver
 {

@@ -10,6 +10,7 @@ use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\HttpFoundation\Response;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Server\GraphQLServerInterface
 {
     use StandaloneServiceTrait;

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\StateManagers;
 
 use PoPBackbone\PHPHooks\PHPHooks;
+/** @internal */
 class HookManager implements \PoP\Root\StateManagers\HookManagerInterface
 {
     /**

@@ -9,6 +9,7 @@ use PoPCMSSchema\CustomPosts\FieldResolvers\ObjectType\AbstractCustomPostListObj
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
+/** @internal */
 class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListObjectTypeFieldResolver
 {
     /**

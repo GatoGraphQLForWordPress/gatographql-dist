@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Categories\Registries;
 
 use PoPCMSSchema\Categories\ObjectTypeResolverPickers\CategoryObjectTypeResolverPickerInterface;
+/** @internal */
 class CategoryObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Categories\Registries\CategoryObjectTypeResolverPickerRegistryInterface
 {
     /**

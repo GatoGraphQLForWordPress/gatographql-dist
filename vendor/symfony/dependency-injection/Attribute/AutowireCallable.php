@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * Attribute to tell which callable to give to an argument of type Closure.
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class AutowireCallable extends Autowire

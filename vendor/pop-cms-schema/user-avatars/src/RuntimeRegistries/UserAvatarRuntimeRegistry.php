@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\UserAvatars\RuntimeRegistries;
 
 use PoPCMSSchema\UserAvatars\ObjectModels\UserAvatar;
+/** @internal */
 class UserAvatarRuntimeRegistry implements \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface
 {
     /** @var array<string|int,UserAvatar> */

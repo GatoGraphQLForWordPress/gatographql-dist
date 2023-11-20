@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostTags;
 
+/** @internal */
 class Environment
 {
     // public final const POSTTAG_LIST_DEFAULT_LIMIT = 'POSTTAG_LIST_DEFAULT_LIMIT';

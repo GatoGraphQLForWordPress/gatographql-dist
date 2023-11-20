@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\Registries;
 
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
+/** @internal */
 interface FeedbackItemRegistryInterface
 {
     public function useFeedbackItemProvider(FeedbackItemProviderInterface $feedbackItemProvider) : void;

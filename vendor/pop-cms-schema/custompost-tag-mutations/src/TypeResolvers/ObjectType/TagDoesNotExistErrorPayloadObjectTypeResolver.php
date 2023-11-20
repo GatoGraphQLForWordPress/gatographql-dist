@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType;
 use PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\ObjectType\TagDoesNotExistErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class TagDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
     /**

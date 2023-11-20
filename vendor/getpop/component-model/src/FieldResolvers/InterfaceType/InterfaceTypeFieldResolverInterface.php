@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\FieldResolvers\FieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
+/** @internal */
 interface InterfaceTypeFieldResolverInterface extends FieldResolverInterface, \PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     /**

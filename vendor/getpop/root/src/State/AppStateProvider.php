@@ -8,6 +8,7 @@ use PoP\Root\Module;
 use PoP\Root\ModuleConfiguration;
 use PoP\Root\Routing\RequestNature;
 use PoP\Root\Routing\RoutingManagerInterface;
+/** @internal */
 class AppStateProvider extends \PoP\Root\State\AbstractAppStateProvider
 {
     /**

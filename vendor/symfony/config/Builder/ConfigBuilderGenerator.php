@@ -28,6 +28,7 @@ use PrefixedByPoP\Symfony\Component\Config\Loader\ParamConfigurator;
  * Generate ConfigBuilders to help create valid config.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @internal
  */
 class ConfigBuilderGenerator implements ConfigBuilderGeneratorInterface
 {

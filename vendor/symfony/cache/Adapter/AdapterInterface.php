@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
  * Interface for adapters managing instances of Symfony's CacheItem.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @internal
  */
 interface AdapterInterface extends CacheItemPoolInterface
 {

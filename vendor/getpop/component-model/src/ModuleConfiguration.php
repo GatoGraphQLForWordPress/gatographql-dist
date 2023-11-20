@@ -9,6 +9,7 @@ use PoP\Root\Module\EnvironmentValueHelpers;
 use PoP\Root\Environment as RootEnvironment;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function includeSchemaTypeDirectivesInSchema() : bool

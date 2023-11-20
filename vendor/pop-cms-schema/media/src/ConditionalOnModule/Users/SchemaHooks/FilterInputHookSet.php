@@ -8,6 +8,7 @@ use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Media\ComponentProcessors\MediaFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
+/** @internal */
 class FilterInputHookSet extends AbstractHookSet
 {
     protected function init() : void

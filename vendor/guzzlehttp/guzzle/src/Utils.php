@@ -8,6 +8,7 @@ use PrefixedByPoP\GuzzleHttp\Handler\CurlMultiHandler;
 use PrefixedByPoP\GuzzleHttp\Handler\Proxy;
 use PrefixedByPoP\GuzzleHttp\Handler\StreamHandler;
 use PrefixedByPoP\Psr\Http\Message\UriInterface;
+/** @internal */
 final class Utils
 {
     /**

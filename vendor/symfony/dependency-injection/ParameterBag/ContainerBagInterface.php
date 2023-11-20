@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFo
  * ContainerBagInterface is the interface implemented by objects that manage service container parameters.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface ContainerBagInterface extends ContainerInterface
 {

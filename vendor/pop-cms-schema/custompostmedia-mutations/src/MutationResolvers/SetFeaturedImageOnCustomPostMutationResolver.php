@@ -13,6 +13,7 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
+/** @internal */
 class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
 {
     use \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolverTrait;

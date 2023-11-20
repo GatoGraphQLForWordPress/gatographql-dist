@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Facades\Registries;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface;
+/** @internal */
 class MandatoryOperationDirectiveResolverRegistryFacade
 {
     public static function getInstance() : MandatoryOperationDirectiveResolverRegistryInterface

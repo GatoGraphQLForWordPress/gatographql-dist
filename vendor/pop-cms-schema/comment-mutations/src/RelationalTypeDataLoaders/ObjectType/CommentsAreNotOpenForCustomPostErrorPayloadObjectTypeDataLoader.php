@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CommentMutations\ObjectModels\CommentsAreNotOpenForCustomPostErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

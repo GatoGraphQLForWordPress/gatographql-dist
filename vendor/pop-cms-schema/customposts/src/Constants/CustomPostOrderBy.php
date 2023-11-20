@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\Constants;
 
+/** @internal */
 class CustomPostOrderBy
 {
     public const ID = 'ID';

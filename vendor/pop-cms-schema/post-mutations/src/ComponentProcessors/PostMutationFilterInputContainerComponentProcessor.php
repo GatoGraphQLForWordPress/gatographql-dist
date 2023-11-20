@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoPCMSSchema\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor as CustomPostFilterInputComponentProcessor;
 use PoPCMSSchema\Posts\ComponentProcessors\AbstractPostFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Posts\ComponentProcessors\PostFilterInputContainerComponentProcessor;
+/** @internal */
 class PostMutationFilterInputContainerComponentProcessor extends AbstractPostFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

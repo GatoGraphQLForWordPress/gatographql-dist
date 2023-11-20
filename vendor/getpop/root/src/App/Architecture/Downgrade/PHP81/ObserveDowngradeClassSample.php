@@ -10,6 +10,7 @@ namespace PoP\Root\App\Architecture\Downgrade\PHP81;
  * If this feature is not present in the code anymore, then it's been downgraded.
  *
  * @see AppArchitecture::isDowngraded()
+ * @internal
  */
 class ObserveDowngradeClassSample
 {

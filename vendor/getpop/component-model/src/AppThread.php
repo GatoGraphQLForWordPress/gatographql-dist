@@ -25,6 +25,7 @@ use PoP\Root\AppThread as RootAppThread;
  * `null` and in that moment the PHP logic will throw an
  * Exception, and that's OK (since this would be a development
  * error, not expected to happen otherwise).
+ * @internal
  */
 class AppThread extends RootAppThread implements AppThreadInterface
 {

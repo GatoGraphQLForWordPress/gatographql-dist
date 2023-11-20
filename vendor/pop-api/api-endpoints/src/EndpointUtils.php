@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPAPI\APIEndpoints;
 
+/** @internal */
 class EndpointUtils
 {
     /**

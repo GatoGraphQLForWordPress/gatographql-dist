@@ -18,6 +18,7 @@ namespace PrefixedByPoP\Masterminds\HTML5\Parser;
  * responsibility of the event handler implementation.
  *
  * See HTML5 spec section 8.2.4
+ * @internal
  */
 interface EventHandler
 {

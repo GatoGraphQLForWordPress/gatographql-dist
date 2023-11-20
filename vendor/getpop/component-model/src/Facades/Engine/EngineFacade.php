@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Engine;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Engine\EngineInterface;
+/** @internal */
 class EngineFacade
 {
     public static function getInstance() : EngineInterface

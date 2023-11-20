@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\ObjectFacades;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot;
+/** @internal */
 class MutationRootObjectFacade
 {
     public static function getInstance() : MutationRoot

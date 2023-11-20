@@ -6,6 +6,7 @@ namespace PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\RootLoginUserMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers\AbstractInvalidUsernameErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class InvalidUsernameMutationErrorPayloadObjectTypeResolverPicker extends AbstractInvalidUsernameErrorPayloadObjectTypeResolverPicker
 {
     /**

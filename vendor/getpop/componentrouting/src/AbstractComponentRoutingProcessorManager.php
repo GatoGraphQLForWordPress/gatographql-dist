@@ -6,6 +6,7 @@ namespace PoP\ComponentRouting;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentRouting\Helpers\Methods;
 use PoP\Root\App;
+/** @internal */
 abstract class AbstractComponentRoutingProcessorManager implements \PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface
 {
     /**

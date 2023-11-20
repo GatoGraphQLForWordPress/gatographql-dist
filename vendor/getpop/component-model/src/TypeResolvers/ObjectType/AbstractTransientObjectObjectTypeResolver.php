@@ -7,6 +7,7 @@ use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverIn
 use PoP\ComponentModel\ObjectModels\TransientObjectInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
+/** @internal */
 abstract class AbstractTransientObjectObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;

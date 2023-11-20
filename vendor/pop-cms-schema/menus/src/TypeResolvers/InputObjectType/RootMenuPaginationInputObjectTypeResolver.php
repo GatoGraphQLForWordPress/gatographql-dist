@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoPCMSSchema\Menus\Module;
 use PoPCMSSchema\Menus\ModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\PaginationInputObjectTypeResolver;
+/** @internal */
 class RootMenuPaginationInputObjectTypeResolver extends PaginationInputObjectTypeResolver
 {
     public function getTypeName() : string

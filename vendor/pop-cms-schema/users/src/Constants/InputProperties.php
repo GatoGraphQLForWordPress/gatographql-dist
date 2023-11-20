@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Users\Constants;
 
+/** @internal */
 class InputProperties
 {
     public const ID = 'id';

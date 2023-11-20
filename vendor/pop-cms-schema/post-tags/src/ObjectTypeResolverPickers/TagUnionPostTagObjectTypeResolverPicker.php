@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostTags\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class TagUnionPostTagObjectTypeResolverPicker extends \PoPCMSSchema\PostTags\ObjectTypeResolverPickers\AbstractPostTagObjectTypeResolverPicker
 {
     /**

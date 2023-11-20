@@ -26,6 +26,7 @@ namespace PoP\ComponentModel\TypeResolvers;
  * In the "serialize" step, the directive takes the objects
  * stored in $resolvedIDFieldValues, such as a DateTime object,
  * and converts them to string for printing in the response.
+ * @internal
  */
 class PipelinePositions
 {

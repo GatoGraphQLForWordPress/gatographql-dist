@@ -5,6 +5,7 @@ namespace PoPCMSSchema\TaxonomyMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
+/** @internal */
 interface TaxonomyMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**

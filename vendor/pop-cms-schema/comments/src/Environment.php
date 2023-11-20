@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments;
 
+/** @internal */
 class Environment
 {
     public const ROOT_COMMENT_LIST_DEFAULT_LIMIT = 'ROOT_COMMENT_LIST_DEFAULT_LIMIT';

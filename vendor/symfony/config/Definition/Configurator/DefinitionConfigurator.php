@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use PrefixedByPoP\Symfony\Component\Config\Definition\Loader\DefinitionFileLoader;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 class DefinitionConfigurator
 {

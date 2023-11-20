@@ -10,6 +10,7 @@ use PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldResolver;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
+/** @internal */
 class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     /**

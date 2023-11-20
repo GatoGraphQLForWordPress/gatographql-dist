@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
+/** @internal */
 abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface
 {
     /**

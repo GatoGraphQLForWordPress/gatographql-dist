@@ -7,6 +7,7 @@ use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicke
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
+/** @internal */
 abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
     /**

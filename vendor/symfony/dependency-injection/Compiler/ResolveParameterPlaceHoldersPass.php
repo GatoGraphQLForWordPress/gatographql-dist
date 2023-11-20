@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBa
  * Resolves all parameter placeholders "%somevalue%" to their real values.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
 {

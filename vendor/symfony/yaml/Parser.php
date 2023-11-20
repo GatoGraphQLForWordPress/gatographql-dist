@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Tag\TaggedValue;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @internal
  */
 class Parser
 {
@@ -186,9 +187,8 @@ class Parser
                     $data[] = new TaggedValue($subTag, $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(null, \true), $flags));
                 } else {
                     if (isset($values['leadspaces']) && ('!' === $values['value'][0] || self::preg_match('#^(?P<key>' . Inline::REGEX_QUOTED_STRING . '|[^ \'"\\{\\[].*?) *\\:(\\s+(?P<value>.+?))?\\s*$#u', $this->trimTag($values['value']), $matches))) {
-                        // this is a compact notation element, add to next block and parse
                         $block = $values['value'];
-                        if ($this->isNextLineIndented()) {
+                        if ($this->isNextLineIndented() || isset($matches['value']) && '>-' === $matches['value']) {
                             $block .= "\n" . $this->getNextEmbedBlock($this->getCurrentLineIndentation() + \strlen($values['leadspaces']) + 1);
                         }
                         $data[] = $this->parseBlock($this->getRealCurrentLineNb(), $block, $flags);
@@ -806,6 +806,9 @@ class Parser
             }
         } while (!$EOF && ($this->isCurrentLineEmpty() || $this->isCurrentLineComment()));
         if ($EOF) {
+            for ($i = 0; $i < $movements; ++$i) {
+                $this->moveToPreviousLine();
+            }
             return \false;
         }
         $ret = $this->getCurrentLineIndentation() > $currentIndentation;

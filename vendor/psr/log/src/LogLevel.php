@@ -4,6 +4,7 @@ namespace PrefixedByPoP\Psr\Log;
 
 /**
  * Describes log levels.
+ * @internal
  */
 class LogLevel
 {

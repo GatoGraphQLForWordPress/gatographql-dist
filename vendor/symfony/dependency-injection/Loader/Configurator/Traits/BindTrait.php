@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\DefaultsConfigurator;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
+/** @internal */
 trait BindTrait
 {
     /**

@@ -7,6 +7,7 @@ use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsLoggedInErrorPayload;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\UserIsLoggedInErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractUserIsLoggedInErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
     /**

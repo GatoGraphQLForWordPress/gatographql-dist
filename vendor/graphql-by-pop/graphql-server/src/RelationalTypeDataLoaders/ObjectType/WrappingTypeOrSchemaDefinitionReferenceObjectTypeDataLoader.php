@@ -12,6 +12,7 @@ use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInter
 use GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface;
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
+/** @internal */
 class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostUserMutations\RelationalTypeDataLoaders\ObjectT
 
 use PoPCMSSchema\CustomPostUserMutations\ObjectModels\UserDoesNotExistErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class UserDoesNotExistErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

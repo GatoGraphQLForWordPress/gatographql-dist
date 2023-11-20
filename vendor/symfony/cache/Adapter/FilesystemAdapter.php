@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
 use PrefixedByPoP\Symfony\Component\Cache\Traits\FilesystemTrait;
+/** @internal */
 class FilesystemAdapter extends AbstractAdapter implements PruneableInterface
 {
     use FilesystemTrait;

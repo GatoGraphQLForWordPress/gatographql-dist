@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 abstract class AbstractAddCategoryFilterInputObjectTypeHookSet extends AbstractHookSet
 {
     protected function init() : void

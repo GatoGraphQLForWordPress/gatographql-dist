@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\CommentReplyMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class CommentReplyMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutationErrorPayloadUnionTypeResolver
 {
     /**

@@ -8,6 +8,7 @@ use PrefixedByPoP\Psr\Http\Message\StreamInterface;
  * Converts Guzzle streams into PHP stream resources.
  *
  * @see https://www.php.net/streamwrapper
+ * @internal
  */
 final class StreamWrapper
 {

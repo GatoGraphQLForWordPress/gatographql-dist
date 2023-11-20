@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentHelpers;
 use PoP\ComponentModel\Component\Component;
 use PoP\Definitions\DefinitionManagerInterface;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class ComponentHelpers implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
 {
     use BasicServiceTrait;

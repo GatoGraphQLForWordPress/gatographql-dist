@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
  * Represents a closure acting as a service locator.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ServiceLocatorArgument implements ArgumentInterface
 {

@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Container\CompilerPasses;
 use PoP\ComponentModel\AttachableExtensions\AttachExtensionServiceInterface;
 use PoP\Root\Container\CompilerPasses\AbstractCompilerPass;
 use PoP\Root\Container\ContainerBuilderWrapperInterface;
+/** @internal */
 abstract class AbstractAttachExtensionCompilerPass extends AbstractCompilerPass
 {
     protected function doProcess(ContainerBuilderWrapperInterface $containerBuilderWrapper) : void

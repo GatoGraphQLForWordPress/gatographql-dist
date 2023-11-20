@@ -8,6 +8,7 @@ use PoP\ComponentModel\EntryComponent\EntryComponentManagerInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\ComponentRouting\ComponentRoutingGroups;
 use PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface;
+/** @internal */
 class EntryComponentManager implements EntryComponentManagerInterface
 {
     use BasicServiceTrait;

@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\Filesystem\Exception\IOException;
  * Provides basic utility to manipulate the file system.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Filesystem
 {

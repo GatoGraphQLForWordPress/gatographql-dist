@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Schema;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface;
+/** @internal */
 interface SchemaCastingServiceInterface
 {
     /**

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Settings\TypeAPIs;
 
 use PoPCMSSchema\Settings\Exception\OptionNotAllowedException;
+/** @internal */
 interface SettingsTypeAPIInterface
 {
     /**

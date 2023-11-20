@@ -13,6 +13,7 @@ use PoP\Root\Facades\Translation\TranslationAPIFacade;
 use PoP\Root\Translation\TranslationAPIInterface;
 /**
  * Keep a reference to the global, shared state by the App
+ * @internal
  */
 class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterface
 {

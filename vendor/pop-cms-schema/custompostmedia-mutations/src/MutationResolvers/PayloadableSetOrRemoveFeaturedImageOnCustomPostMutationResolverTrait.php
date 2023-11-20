@@ -9,6 +9,7 @@ use PoPCMSSchema\CustomPostMediaMutations\ObjectModels\MediaItemDoesNotExistErro
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCustomPostMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
+/** @internal */
 trait PayloadableSetOrRemoveFeaturedImageOnCustomPostMutationResolverTrait
 {
     use PayloadableCustomPostMutationResolverTrait {

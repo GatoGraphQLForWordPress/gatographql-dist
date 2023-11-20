@@ -11,6 +11,7 @@ use PoP\ComponentModel\QueryInputOutputHandlers\QueryInputOutputHandlerInterface
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
 use PoPCMSSchema\Posts\ComponentProcessors\PostFilterInputContainerComponentProcessor;
+/** @internal */
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORCUSTOMPOSTLIST = 'dataload-relationalfields-authorcustompostlist';

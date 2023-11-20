@@ -5,6 +5,7 @@ namespace PoPSchema\DirectiveCommons\ObjectModels;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 class TypedDataValidationPayload
 {
     /**

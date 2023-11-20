@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidDefinitio
  * This class provides a fluent interface for defining a node.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class BooleanNodeDefinition extends ScalarNodeDefinition
 {

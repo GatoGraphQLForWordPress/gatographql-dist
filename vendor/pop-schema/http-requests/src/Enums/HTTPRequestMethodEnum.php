@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\HTTPRequests\Enums;
 
+/** @internal */
 class HTTPRequestMethodEnum
 {
     public const GET = 'GET';

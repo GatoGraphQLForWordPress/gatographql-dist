@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQu
 use PoPCMSSchema\Categories\TypeAPIs\CategoryListTypeAPIInterface;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
+/** @internal */
 abstract class AbstractCategoryObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     public abstract function getCategoryListTypeAPI() : CategoryListTypeAPIInterface;

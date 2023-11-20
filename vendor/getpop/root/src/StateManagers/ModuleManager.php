@@ -7,6 +7,7 @@ use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Exception\ComponentNotExistsException;
 /**
  * Keep a reference to all Components
+ * @internal
  */
 class ModuleManager implements \PoP\Root\StateManagers\ModuleManagerInterface
 {

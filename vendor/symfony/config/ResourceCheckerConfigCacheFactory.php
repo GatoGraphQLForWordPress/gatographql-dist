@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Symfony\Component\Config;
  * cache with an arbitrary set of ResourceCheckers.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class ResourceCheckerConfigCacheFactory implements ConfigCacheFactoryInterface
 {

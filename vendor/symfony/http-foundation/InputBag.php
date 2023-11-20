@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException
  * InputBag is a container for user input values such as $_GET, $_POST, $_REQUEST, and $_COOKIE.
  *
  * @author Saif Eddin Gmati <azjezz@protonmail.com>
+ * @internal
  */
 final class InputBag extends ParameterBag
 {

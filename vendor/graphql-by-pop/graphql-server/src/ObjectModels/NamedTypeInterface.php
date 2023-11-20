@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
+/** @internal */
 interface NamedTypeInterface extends \GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface, \GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface
 {
     public function getNamespacedName() : string;

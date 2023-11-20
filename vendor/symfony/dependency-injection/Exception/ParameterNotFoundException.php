@@ -15,6 +15,7 @@ use PrefixedByPoP\Psr\Container\NotFoundExceptionInterface;
  * This exception is thrown when a non-existent parameter is used.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParameterNotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface
 {

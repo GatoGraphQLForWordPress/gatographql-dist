@@ -5,6 +5,7 @@ namespace PoP\Engine\Schema;
 
 use PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface as UpstreamSchemaDefinitionServiceInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 interface SchemaDefinitionServiceInterface extends UpstreamSchemaDefinitionServiceInterface
 {
     public function getSchemaRootObjectTypeResolver() : ObjectTypeResolverInterface;

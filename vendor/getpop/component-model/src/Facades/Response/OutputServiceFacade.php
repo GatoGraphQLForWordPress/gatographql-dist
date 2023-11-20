@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Response;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Response\OutputServiceInterface;
+/** @internal */
 class OutputServiceFacade
 {
     public static function getInstance() : OutputServiceInterface

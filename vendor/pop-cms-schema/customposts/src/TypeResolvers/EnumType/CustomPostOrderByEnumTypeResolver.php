@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\CustomPosts\Constants\CustomPostOrderBy;
+/** @internal */
 class CustomPostOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

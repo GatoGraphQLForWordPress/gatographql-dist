@@ -12,6 +12,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 use PrefixedByPoP\Psr\Http\Message\UriInterface;
 /**
  * @final
+ * @internal
  */
 class Client implements ClientInterface, \PrefixedByPoP\Psr\Http\Client\ClientInterface
 {

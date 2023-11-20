@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\ObjectTypeResolverPickers;
 use PoPCMSSchema\Tags\Module;
 use PoPCMSSchema\Tags\ModuleConfiguration;
 use PoP\ComponentModel\App;
+/** @internal */
 trait TagObjectTypeResolverPickerTrait
 {
     public abstract function getTagTaxonomy() : string;

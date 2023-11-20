@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ServiceLocator;
  * Applies the "container.service_locator" tag by wrapping references into ServiceClosureArgument instances.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class ServiceLocatorTagPass extends AbstractRecursivePass
 {

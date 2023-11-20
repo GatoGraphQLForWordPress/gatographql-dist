@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
  * Can be used in unit testing or in a situations where persisted sessions are not desired.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class NullSessionHandler extends AbstractSessionHandler
 {

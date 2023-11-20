@@ -8,6 +8,7 @@ use PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
 use PoP\Root\State\AbstractAppStateProvider;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

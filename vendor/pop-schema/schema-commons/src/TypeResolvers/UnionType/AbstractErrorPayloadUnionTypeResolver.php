@@ -6,6 +6,7 @@ namespace PoPSchema\SchemaCommons\TypeResolvers\UnionType;
 use PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
+/** @internal */
 abstract class AbstractErrorPayloadUnionTypeResolver extends AbstractUnionTypeResolver
 {
     /**

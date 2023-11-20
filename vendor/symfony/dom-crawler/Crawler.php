@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\CssSelector\CssSelectorConverter;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @implements \IteratorAggregate<int, \DOMNode>
+ * @internal
  */
 class Crawler implements \Countable, \IteratorAggregate
 {

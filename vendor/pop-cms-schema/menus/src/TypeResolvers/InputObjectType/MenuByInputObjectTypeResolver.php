@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Menus\TypeResolvers\InputObjectType;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
+/** @internal */
 class MenuByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
     /**

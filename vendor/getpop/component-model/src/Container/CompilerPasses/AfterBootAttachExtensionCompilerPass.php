@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Container\CompilerPasses;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionGroups;
 use PoP\ComponentModel\RelationalTypeResolverDecorators\RelationalTypeResolverDecoratorInterface;
 use PoP\Root\Module\ApplicationEvents;
+/** @internal */
 class AfterBootAttachExtensionCompilerPass extends \PoP\ComponentModel\Container\CompilerPasses\AbstractAttachExtensionCompilerPass
 {
     protected function getAttachExtensionEvent() : string

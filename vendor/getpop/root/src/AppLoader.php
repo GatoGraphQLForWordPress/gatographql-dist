@@ -12,6 +12,7 @@ use PoP\Root\Module\ModuleInterface;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Application Loader
+ * @internal
  */
 class AppLoader implements \PoP\Root\AppLoaderInterface
 {

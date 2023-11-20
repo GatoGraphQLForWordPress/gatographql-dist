@@ -8,6 +8,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\IdentifiableObjectInterfaceTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
+/** @internal */
 class IdentifiableObjectInterfaceTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver
 {
     /**

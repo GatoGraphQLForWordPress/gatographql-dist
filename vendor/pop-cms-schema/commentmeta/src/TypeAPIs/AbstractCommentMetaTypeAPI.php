@@ -8,6 +8,7 @@ use PoPCMSSchema\CommentMeta\Module;
 use PoPCMSSchema\CommentMeta\ModuleConfiguration;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
+/** @internal */
 abstract class AbstractCommentMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface
 {
     /**

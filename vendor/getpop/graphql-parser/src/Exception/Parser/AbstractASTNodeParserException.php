@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Exception\Parser;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractASTNodeParserException extends \PoP\GraphQLParser\Exception\Parser\AbstractParserException
 {
     /**

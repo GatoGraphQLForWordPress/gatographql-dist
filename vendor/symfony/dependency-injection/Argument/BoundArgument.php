@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
 
 /**
  * @author Guilhem Niot <guilhem.niot@gmail.com>
+ * @internal
  */
 final class BoundArgument implements ArgumentInterface
 {

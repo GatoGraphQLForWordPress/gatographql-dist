@@ -25,6 +25,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\App;
+/** @internal */
 abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver implements \PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface
 {
     use AttachableExtensionTrait;

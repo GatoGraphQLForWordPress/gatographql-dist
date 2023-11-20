@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPosts\Module as CustomPostsModule;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration as CustomPostsModuleConfiguration;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
+/** @internal */
 class UnionCustomPostTypesFilterInput extends AbstractValueToQueryFilterInput
 {
     protected function getQueryArgKey() : string

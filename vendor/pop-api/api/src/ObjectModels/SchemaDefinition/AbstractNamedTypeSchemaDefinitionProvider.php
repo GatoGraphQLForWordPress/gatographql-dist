@@ -6,6 +6,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\OneofInputObjectTypeResolverInterface;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EnumStringScalarTypeResolverInterface;
+/** @internal */
 abstract class AbstractNamedTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractTypeSchemaDefinitionProvider
 {
     /**

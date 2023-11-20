@@ -10,6 +10,7 @@ use PoP\ComponentModel\ModuleConfiguration;
 use PoP\Definitions\Constants\Params as DefinitionsParams;
 use PoP\Root\App;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class RequestHelperService implements \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface
 {
     use BasicServiceTrait;

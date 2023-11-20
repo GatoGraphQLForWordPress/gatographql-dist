@@ -7,6 +7,7 @@ use PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {
     /**

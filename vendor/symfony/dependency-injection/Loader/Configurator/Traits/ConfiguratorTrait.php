@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
+/** @internal */
 trait ConfiguratorTrait
 {
     /**

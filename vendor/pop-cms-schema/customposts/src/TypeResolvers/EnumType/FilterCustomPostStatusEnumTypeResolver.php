@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\TypeResolvers\EnumType;
 
 /**
  * Enable to search custom posts by additional statuses, such as "any"
+ * @internal
  */
 class FilterCustomPostStatusEnumTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver
 {

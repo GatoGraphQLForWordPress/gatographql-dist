@@ -16,6 +16,7 @@ use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CustomPostCommentsFilter
 use PoPCMSSchema\Comments\TypeResolvers\InterfaceType\CommentableInterfaceTypeResolver;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
+/** @internal */
 class CommentableInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterfaceTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;

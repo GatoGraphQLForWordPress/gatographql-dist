@@ -14,6 +14,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
  * nodes, one for each FragmentReference). In this case,
  * keep a reference to this "static" or "upstream" AST node,
  * so the path to them can still be added in the response errors.
+ * @internal
  */
 class RuntimeLocation extends \PoP\GraphQLParser\Spec\Parser\Location
 {

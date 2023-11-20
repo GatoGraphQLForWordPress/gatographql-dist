@@ -9,6 +9,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
+/** @internal */
 class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
     /**

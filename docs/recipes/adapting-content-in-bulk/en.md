@@ -10,7 +10,7 @@ For this GraphQL query to work, the [Schema Configuration](https://gatographql.c
 
 </div>
 
-The GraphQL query below retrieves the data for the multiple posts, executes a search and replace on both `title` and `excerpt` fields for each of them, and exports a single dynamic variable `$postInputs` with all the results as a dictionary, with format:
+The GraphQL query below retrieves the data for the multiple posts, executes a search and replace on the `title`, `content` and `excerpt` fields for each of them, adapts these as inputs to the mutation, and exports a single dynamic variable `$postInputs` with all the results as a dictionary, with format:
 
 ```json
 {
@@ -28,33 +28,88 @@ In the `mutation` operation, each of these entries is then retrieved via `_objec
 query TransformAndExportData(
   $limit: Int! = 5,
   $offset: Int! = 0,
-  $replaceFrom: String!
-  $replaceTo: String!
+  $replaceFrom: [String!]!
+  $replaceTo: [String!]!
 ) {
   posts: posts(
     pagination: { limit: $limit, offset: $offset }
     sort: { by: ID, order: ASC }
   ) {
-    title
-    excerpt
+    rawTitle
+    rawContent
+    rawExcerpt
       @strReplaceMultiple(
         search: $replaceFrom
         replaceWith: $replaceTo
-        affectAdditionalFieldsUnderPos: 1
+        affectAdditionalFieldsUnderPos: [1, 2]
       )
       @deferredExport(
-        as: "postInputs"
+        as: "postAdaptedSources"
         type: DICTIONARY
-        affectAdditionalFieldsUnderPos: 1
+        affectAdditionalFieldsUnderPos: [1, 2]
       )
   }
+}
+
+query AdaptDataForMutationInput
+  @depends(on: "TransformAndExportData")
+{
+  postInputs: _echo(value: $postAdaptedSources)
+    @underEachJSONObjectProperty(
+      passValueOnwardsAs: "adaptedSource",
+      affectDirectivesUnderPos: [1, 2, 3, 4]
+    )
+      @applyField(
+        name: "_objectProperty",
+        arguments: {
+          object: $adaptedSource,
+          by: {
+            key: "rawTitle"
+          }
+        },
+        passOnwardsAs: "adaptedTitle"
+      )
+      @applyField(
+        name: "_objectProperty",
+        arguments: {
+          object: $adaptedSource,
+          by: {
+            key: "rawExcerpt"
+          }
+        },
+        passOnwardsAs: "adaptedExcerpt"
+      )
+      @applyField(
+        name: "_objectProperty",
+        arguments: {
+          object: $adaptedSource,
+          by: {
+            key: "rawContent"
+          }
+        },
+        passOnwardsAs: "adaptedContent"
+      )
+      @applyField(
+        name: "_echo",
+        arguments: {
+          value: {
+            title: $adaptedTitle,
+            excerpt: $adaptedExcerpt,
+            contentAs: {
+              html: $adaptedContent
+            }
+          }
+        },
+        setResultInResponse: true
+      )
+    @export(as: "postInputs")
 }
 
 mutation UpdatePost(
   $limit: Int! = 5,
   $offset: Int! = 0
 )
-  @depends(on: "TransformAndExportData")
+  @depends(on: "AdaptDataForMutationInput")
 {
   adaptedPosts: posts(
     pagination: { limit: $limit, offset: $offset }

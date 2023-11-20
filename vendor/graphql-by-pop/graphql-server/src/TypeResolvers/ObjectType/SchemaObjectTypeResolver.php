@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 use GraphQLByPoP\GraphQLServer\ObjectModels\Schema;
 use GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class SchemaObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
     /**

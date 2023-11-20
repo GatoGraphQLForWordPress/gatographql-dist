@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Engine\Constants;
 
+/** @internal */
 class FormInputConstants
 {
     // Instead of using true/false values, use representative string, so it can be operated through #compare as a string (otherwise, true != 'true')

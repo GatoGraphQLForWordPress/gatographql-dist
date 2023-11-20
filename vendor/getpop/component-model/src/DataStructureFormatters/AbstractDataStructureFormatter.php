@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\DataStructureFormatters;
 
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractDataStructureFormatter implements \PoP\ComponentModel\DataStructureFormatters\DataStructureFormatterInterface
 {
     use BasicServiceTrait;

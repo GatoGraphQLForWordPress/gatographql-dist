@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Alias;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AliasConfigurator extends AbstractServiceConfigurator
 {

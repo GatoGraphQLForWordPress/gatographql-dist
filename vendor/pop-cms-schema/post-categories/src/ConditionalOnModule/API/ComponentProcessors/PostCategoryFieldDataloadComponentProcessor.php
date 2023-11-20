@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\Categories\ConditionalOnModule\API\ComponentProcessors\AbstractFieldDataloadComponentProcessor;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
+/** @internal */
 class PostCategoryFieldDataloadComponentProcessor extends AbstractFieldDataloadComponentProcessor
 {
     /**

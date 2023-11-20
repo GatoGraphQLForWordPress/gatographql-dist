@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInt
  * PoP architecture that renders the response, hence the
  * constructor must emulate the initialization of the
  * whole application.
+ * @internal
  */
 class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\AbstractGraphQLServer
 {

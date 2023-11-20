@@ -17,6 +17,7 @@ use PoP\Engine\ObjectModels\SuperRoot;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class SuperRootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

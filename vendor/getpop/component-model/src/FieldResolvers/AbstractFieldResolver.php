@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\FieldResolvers;
 
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractFieldResolver implements \PoP\ComponentModel\FieldResolvers\FieldResolverInterface
 {
     use BasicServiceTrait;

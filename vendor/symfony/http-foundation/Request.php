@@ -35,6 +35,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionInterface;
  *   * getUriForPath
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Request
 {

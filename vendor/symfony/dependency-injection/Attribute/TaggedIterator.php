@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+/** @internal */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class TaggedIterator extends Autowire
 {

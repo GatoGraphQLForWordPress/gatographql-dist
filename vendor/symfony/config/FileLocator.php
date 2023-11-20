@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Exception\FileLocatorFileNotFoundExce
  * FileLocator uses an array of pre-defined paths to find files.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class FileLocator implements FileLocatorInterface
 {

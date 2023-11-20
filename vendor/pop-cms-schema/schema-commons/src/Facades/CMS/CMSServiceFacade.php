@@ -5,6 +5,7 @@ namespace PoPCMSSchema\SchemaCommons\Facades\CMS;
 
 use PoP\Root\App;
 use PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface;
+/** @internal */
 class CMSServiceFacade
 {
     public static function getInstance() : CMSServiceInterface

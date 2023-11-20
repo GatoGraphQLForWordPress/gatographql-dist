@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQu
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
+/** @internal */
 class MediaObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     /**

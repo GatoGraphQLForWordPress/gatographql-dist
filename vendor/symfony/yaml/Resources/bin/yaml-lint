@@ -20,6 +20,7 @@ if ('cli' !== \PHP_SAPI) {
  */
 use PrefixedByPoP\Symfony\Component\Console\Application;
 use PrefixedByPoP\Symfony\Component\Yaml\Command\LintCommand;
+/** @internal */
 function includeIfExists(string $file) : bool
 {
     return \file_exists($file) && (include $file);

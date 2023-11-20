@@ -17,6 +17,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\Exception\AbstractException;
 use stdClass;
+/** @internal */
 abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;

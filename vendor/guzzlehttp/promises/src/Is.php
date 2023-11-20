@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PrefixedByPoP\GuzzleHttp\Promise;
 
+/** @internal */
 final class Is
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\Root\Container\CompilerPasses;
 
 use PoP\Root\Container\ContainerBuilderWrapperInterface;
 use PoP\Root\Container\ServiceInstantiatorInterface;
+/** @internal */
 abstract class AbstractInstantiateServiceCompilerPass extends \PoP\Root\Container\CompilerPasses\AbstractCompilerPass
 {
     use \PoP\Root\Container\CompilerPasses\AutoconfigurableServicesCompilerPassTrait;

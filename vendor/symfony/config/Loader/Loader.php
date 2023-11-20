@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
  * Loader is the abstract class used by all built-in loaders.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 abstract class Loader implements LoaderInterface
 {

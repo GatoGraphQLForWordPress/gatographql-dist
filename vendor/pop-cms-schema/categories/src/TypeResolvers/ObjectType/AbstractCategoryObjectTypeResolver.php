@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Categories\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Taxonomies\TypeResolvers\ObjectType\AbstractTaxonomyObjectTypeResolver;
+/** @internal */
 abstract class AbstractCategoryObjectTypeResolver extends AbstractTaxonomyObjectTypeResolver implements \PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface
 {
     public abstract function getCategoryTypeAPI() : CategoryTypeAPIInterface;

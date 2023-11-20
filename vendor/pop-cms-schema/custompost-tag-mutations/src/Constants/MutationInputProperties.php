@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations\Constants;
 
+/** @internal */
 class MutationInputProperties
 {
     public const INPUT = 'input';

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds;
+/** @internal */
 class TypeKindEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\AbstractIntrospectionEnumTypeResolver
 {
     public function getTypeName() : string

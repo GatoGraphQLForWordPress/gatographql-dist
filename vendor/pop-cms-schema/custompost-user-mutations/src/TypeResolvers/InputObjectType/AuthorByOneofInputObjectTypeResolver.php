@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostUserMutations\TypeResolvers\InputObjectType;
 use PoPCMSSchema\Users\Constants\InputProperties;
 use PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserByOneofInputObjectTypeResolver;
 use PoP\ComponentModel\FilterInputs\FilterInputInterface;
+/** @internal */
 class AuthorByOneofInputObjectTypeResolver extends UserByOneofInputObjectTypeResolver
 {
     public function getTypeName() : string

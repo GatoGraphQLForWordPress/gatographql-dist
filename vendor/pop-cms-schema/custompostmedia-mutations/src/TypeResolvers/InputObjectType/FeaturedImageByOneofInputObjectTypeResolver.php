@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType;
 use PoPCMSSchema\Media\Constants\InputProperties;
 use PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemByOneofInputObjectTypeResolver;
 use PoP\ComponentModel\FilterInputs\FilterInputInterface;
+/** @internal */
 class FeaturedImageByOneofInputObjectTypeResolver extends MediaItemByOneofInputObjectTypeResolver
 {
     public function getTypeName() : string

@@ -21,6 +21,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
+/** @internal */
 class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers\ObjectType\AbstractPostObjectTypeFieldResolver
 {
     /**

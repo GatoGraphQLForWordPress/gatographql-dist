@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
+/** @internal */
 interface CommentMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**

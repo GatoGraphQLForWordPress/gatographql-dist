@@ -13,6 +13,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class SchemaCastingService implements \PoP\ComponentModel\Schema\SchemaCastingServiceInterface
 {
     use BasicServiceTrait;

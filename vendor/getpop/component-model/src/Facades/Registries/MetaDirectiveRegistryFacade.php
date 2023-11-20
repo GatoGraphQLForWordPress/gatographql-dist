@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\MetaDirectiveRegistryInterface;
+/** @internal */
 class MetaDirectiveRegistryFacade
 {
     public static function getInstance() : MetaDirectiveRegistryInterface

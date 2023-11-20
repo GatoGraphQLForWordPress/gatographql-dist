@@ -8,6 +8,7 @@ use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\ComponentModel\Module as ComponentModelModule;
 use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function useSchemaDefinitionCache() : bool

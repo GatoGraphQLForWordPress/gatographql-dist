@@ -61,6 +61,7 @@ use SplObjectStorage;
  *
  * FieldDirectiveResolvers can also handle Operation Directives,
  * by having these be duplicated into the SuperRoot type fields.
+ * @internal
  */
 abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {

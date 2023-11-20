@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\Constants;
 
+/** @internal */
 class MutationInputProperties
 {
     public const BY = 'by';

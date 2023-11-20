@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Filesystem\Filesystem;
  * to check whether cached data is still fresh.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class ResourceCheckerConfigCache implements ConfigCacheInterface
 {

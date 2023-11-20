@@ -22,6 +22,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * @see flush()
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class StreamedResponse extends Response
 {

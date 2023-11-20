@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Definitions;
 
+/** @internal */
 class Environment
 {
     public static function disableDefinitions() : bool

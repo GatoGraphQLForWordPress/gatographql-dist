@@ -5,6 +5,7 @@ namespace PoP\Engine\Facades\Formatters;
 
 use PoP\Root\App;
 use PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface;
+/** @internal */
 class DateFormatterFacade
 {
     public static function getInstance() : DateFormatterInterface

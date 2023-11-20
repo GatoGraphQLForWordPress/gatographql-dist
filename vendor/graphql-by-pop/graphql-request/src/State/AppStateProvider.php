@@ -8,6 +8,7 @@ use PoPAPI\API\Response\Schemes as APISchemes;
 use PoPAPI\API\Routing\RequestNature;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 use PoP\Root\State\AbstractAppStateProvider;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

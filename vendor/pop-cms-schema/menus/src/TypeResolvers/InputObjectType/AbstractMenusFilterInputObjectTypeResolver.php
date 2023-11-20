@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
+/** @internal */
 abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
     /**

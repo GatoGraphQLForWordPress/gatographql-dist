@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Michelf;
 
 /**
  * Markdown Parser Interface
+ * @internal
  */
 interface MarkdownInterface
 {

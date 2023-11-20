@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsNotLoggedInErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class UserIsNotLoggedInErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

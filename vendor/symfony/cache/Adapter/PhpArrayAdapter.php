@@ -26,6 +26,7 @@ use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {

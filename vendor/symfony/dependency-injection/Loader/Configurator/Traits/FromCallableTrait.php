@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\FromCallableConfigurator;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
+/** @internal */
 trait FromCallableTrait
 {
     /**

@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Composer\Semver\Constraint;
  * in libraries relying on composer/semver but creating your own constraint class
  * that implements this interface is not a supported use case and will cause the
  * composer/semver components to return unexpected results.
+ * @internal
  */
 interface ConstraintInterface
 {

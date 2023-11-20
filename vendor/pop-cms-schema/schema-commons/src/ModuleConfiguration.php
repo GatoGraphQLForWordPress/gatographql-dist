@@ -5,6 +5,7 @@ namespace PoPCMSSchema\SchemaCommons;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     /**

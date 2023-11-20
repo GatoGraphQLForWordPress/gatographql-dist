@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuObjectTypeDataLoader;
 use PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface;
+/** @internal */
 class MenuObjectTypeResolver extends AbstractObjectTypeResolver
 {
     /**

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Exception;
  * Exception class for when a resource cannot be loaded or imported.
  *
  * @author Ryan Weaver <ryan@thatsquality.com>
+ * @internal
  */
 class LoaderLoadException extends \Exception
 {

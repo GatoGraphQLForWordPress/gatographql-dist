@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Taxonomies\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Taxonomies\Constants\TaxonomyOrderBy;
+/** @internal */
 class TaxonomyOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

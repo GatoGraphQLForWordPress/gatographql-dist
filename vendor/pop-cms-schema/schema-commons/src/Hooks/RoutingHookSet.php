@@ -10,6 +10,7 @@ use PoP\Root\Routing\HookNames;
 use PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface;
 use PoPCMSSchema\SchemaCommons\Module;
 use PoPCMSSchema\SchemaCommons\ModuleConfiguration;
+/** @internal */
 class RoutingHookSet extends AbstractHookSet
 {
     /**

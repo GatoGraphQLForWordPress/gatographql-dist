@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root\Instances;
 
+/** @internal */
 interface InstanceManagerInterface
 {
     public function getInstance(string $class) : object;

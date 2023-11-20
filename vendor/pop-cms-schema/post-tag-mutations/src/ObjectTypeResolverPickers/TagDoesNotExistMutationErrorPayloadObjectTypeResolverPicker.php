@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostTagMutations\ObjectTypeResolverPickers;
 use PoPCMSSchema\CustomPostTagMutations\ObjectTypeResolverPickers\AbstractTagDoesNotExistErrorPayloadObjectTypeResolverPicker;
 use PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractPostTagsMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class TagDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends AbstractTagDoesNotExistErrorPayloadObjectTypeResolverPicker
 {
     /**

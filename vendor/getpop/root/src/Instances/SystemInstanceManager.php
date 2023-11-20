@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\Instances;
 
 use PoP\Root\App;
+/** @internal */
 class SystemInstanceManager implements \PoP\Root\Instances\InstanceManagerInterface
 {
     public function getInstance(string $class) : object

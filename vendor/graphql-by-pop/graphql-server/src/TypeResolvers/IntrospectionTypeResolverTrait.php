@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\TypeResolvers;
 use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
 /**
  * Introspection types need not be namespaced
+ * @internal
  */
 trait IntrospectionTypeResolverTrait
 {

@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Schema;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPAPI\API\Schema\SchemaDefinitionServiceInterface;
+/** @internal */
 interface GraphQLSchemaDefinitionServiceInterface extends SchemaDefinitionServiceInterface
 {
     public function getSchemaQueryRootObjectTypeResolver() : ObjectTypeResolverInterface;

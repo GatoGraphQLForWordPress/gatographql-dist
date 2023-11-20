@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
  * Represents a PHP type-hinted service reference.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class TypedReference extends Reference
 {

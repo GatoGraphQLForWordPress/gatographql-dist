@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\Services;
 
 use PoPSchema\SchemaCommons\Constants\Behaviors;
+/** @internal */
 class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface
 {
     /**

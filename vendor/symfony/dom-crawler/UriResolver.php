@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\DomCrawler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+ * @internal
  */
 class UriResolver
 {

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Syntax;
 
+/** @internal */
 class GraphQLSyntaxService implements \GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface
 {
     /**

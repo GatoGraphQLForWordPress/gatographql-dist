@@ -8,6 +8,7 @@ use PoP\ComponentModel\App;
 use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\Root\AppThreadInterface;
 use PoP\Root\HttpFoundation\Response;
+/** @internal */
 abstract class AbstractAttachedGraphQLServer extends AbstractGraphQLServer
 {
     /**

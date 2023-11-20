@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
  *
  * @author Sebastien Morel (Plopix) <morel.seb@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AutowireRequiredPropertiesPass extends AbstractRecursivePass
 {

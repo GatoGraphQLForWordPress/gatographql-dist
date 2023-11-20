@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeExcepti
  * Applies instanceof conditionals to definitions.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ResolveInstanceofConditionalsPass implements CompilerPassInterface
 {

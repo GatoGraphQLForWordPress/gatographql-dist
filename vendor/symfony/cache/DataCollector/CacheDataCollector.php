@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\HttpKernel\DataCollector\LateDataCollectorIn
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  *
  * @final
+ * @internal
  */
 class CacheDataCollector extends DataCollector implements LateDataCollectorInterface
 {

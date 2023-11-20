@@ -6,6 +6,7 @@ namespace PoP\Root\Feedback;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class FeedbackItemResolution
 {
     /**

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
+/** @internal */
 class CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
     public function getTypeName() : string

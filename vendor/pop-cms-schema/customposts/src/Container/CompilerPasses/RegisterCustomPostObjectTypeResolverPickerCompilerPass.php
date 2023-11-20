@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPosts\Container\CompilerPasses;
 use PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerInterface;
 use PoPCMSSchema\CustomPosts\Registries\CustomPostObjectTypeResolverPickerRegistryInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterCustomPostObjectTypeResolverPickerCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

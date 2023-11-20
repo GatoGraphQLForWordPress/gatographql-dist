@@ -10,6 +10,7 @@ use GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot;
 use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface;
 use PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT = 'dataload-relationalfields-queryroot';

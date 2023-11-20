@@ -8,6 +8,7 @@ use PoPCMSSchema\Categories\TypeAPIs\CategoryListTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
+/** @internal */
 class PostCategoryObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
     /**

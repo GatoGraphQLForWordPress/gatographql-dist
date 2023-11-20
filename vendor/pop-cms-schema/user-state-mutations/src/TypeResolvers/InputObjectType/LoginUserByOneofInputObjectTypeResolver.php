@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
+/** @internal */
 class LoginUserByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
     /**

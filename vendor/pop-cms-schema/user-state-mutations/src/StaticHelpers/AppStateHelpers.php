@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\StaticHelpers;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserState\Facades\UserStateTypeAPIFacade;
+/** @internal */
 class AppStateHelpers
 {
     /**

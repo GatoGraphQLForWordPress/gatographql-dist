@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Comments\ConditionalOnModule\RESTAPI\Hooks\RESTFields;
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPAPI\RESTAPI\Hooks\AbstractRESTHookSet;
 use PoPCMSSchema\CustomPosts\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors\AbstractCustomPostRESTEntryComponentRoutingProcessor;
+/** @internal */
 class CustomPostHookSet extends AbstractRESTHookSet
 {
     const COMMENT_RESTFIELDS = 'comments { id content }';

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\TypeAPIs;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
+/** @internal */
 abstract class AbstractCustomPostTypeAPI implements \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface
 {
     use BasicServiceTrait;

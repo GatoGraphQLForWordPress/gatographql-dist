@@ -9,6 +9,7 @@ use PoPCMSSchema\Settings\Module;
 use PoPCMSSchema\Settings\ModuleConfiguration;
 use PoPCMSSchema\Settings\Exception\OptionNotAllowedException;
 use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
+/** @internal */
 abstract class AbstractSettingsTypeAPI implements \PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface
 {
     use BasicServiceTrait;

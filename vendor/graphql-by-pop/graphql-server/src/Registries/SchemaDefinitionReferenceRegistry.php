@@ -25,6 +25,7 @@ use PoPAPI\API\Module as APIModule;
 use PoPAPI\API\ModuleConfiguration as APIModuleConfiguration;
 use PoPAPI\API\Schema\SchemaDefinitionServiceInterface;
 use PoPAPI\API\Schema\TypeKinds;
+/** @internal */
 class SchemaDefinitionReferenceRegistry implements \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface
 {
     use BasicServiceTrait;

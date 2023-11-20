@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostUserMutations\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
+/** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const E1 = 'e1';

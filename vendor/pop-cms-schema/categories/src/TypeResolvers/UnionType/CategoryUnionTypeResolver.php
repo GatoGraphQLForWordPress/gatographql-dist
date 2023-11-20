@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\UnionType\CategoryUnionTypeDataLoader;
 use PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeResolver;
+/** @internal */
 class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
 {
     /**

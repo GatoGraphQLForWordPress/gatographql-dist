@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers;
 
+/** @internal */
 trait OverridingTypeResolverTrait
 {
     protected function getClassToNamespace() : string

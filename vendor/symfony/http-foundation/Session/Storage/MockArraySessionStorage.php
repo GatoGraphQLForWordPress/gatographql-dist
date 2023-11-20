@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bulat Shakirzyanov <mallluhuct@gmail.com>
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class MockArraySessionStorage implements SessionStorageInterface
 {

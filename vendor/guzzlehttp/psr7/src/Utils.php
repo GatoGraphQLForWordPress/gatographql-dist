@@ -7,6 +7,7 @@ use PrefixedByPoP\Psr\Http\Message\RequestInterface;
 use PrefixedByPoP\Psr\Http\Message\ServerRequestInterface;
 use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 use PrefixedByPoP\Psr\Http\Message\UriInterface;
+/** @internal */
 final class Utils
 {
     /**

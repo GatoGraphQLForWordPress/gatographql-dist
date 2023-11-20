@@ -5,6 +5,7 @@ namespace PoP\ComponentRouting\Facades;
 
 use PoP\Root\App;
 use PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface;
+/** @internal */
 class ComponentRoutingProcessorManagerFacade
 {
     public static function getInstance() : ComponentRoutingProcessorManagerInterface

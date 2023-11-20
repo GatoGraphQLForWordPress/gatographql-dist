@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Media;
 
+/** @internal */
 class Environment
 {
     public const MEDIA_LIST_DEFAULT_LIMIT = 'MEDIA_LIST_DEFAULT_LIMIT';

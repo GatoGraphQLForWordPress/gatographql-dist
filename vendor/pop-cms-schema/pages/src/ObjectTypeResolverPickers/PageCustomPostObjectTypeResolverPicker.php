@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResol
 use PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerTrait;
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class PageCustomPostObjectTypeResolverPicker extends \PoPCMSSchema\Pages\ObjectTypeResolverPickers\AbstractPageObjectTypeResolverPicker implements CustomPostObjectTypeResolverPickerInterface
 {
     use CustomPostObjectTypeResolverPickerTrait;

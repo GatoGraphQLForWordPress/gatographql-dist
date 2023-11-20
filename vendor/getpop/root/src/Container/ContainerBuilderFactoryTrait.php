@@ -11,6 +11,7 @@ use RuntimeException;
 use PrefixedByPoP\Symfony\Component\Config\ConfigCache;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+/** @internal */
 trait ContainerBuilderFactoryTrait
 {
     /**

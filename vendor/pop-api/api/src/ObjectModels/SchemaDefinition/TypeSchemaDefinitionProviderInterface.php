@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 interface TypeSchemaDefinitionProviderInterface extends \PoPAPI\API\ObjectModels\SchemaDefinition\SchemaDefinitionProviderInterface
 {
     public function getTypeKind() : string;

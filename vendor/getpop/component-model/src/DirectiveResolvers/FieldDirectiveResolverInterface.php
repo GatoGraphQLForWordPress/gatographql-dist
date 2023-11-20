@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 interface FieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface, AttachableExtensionInterface, \PoP\ComponentModel\DirectiveResolvers\SchemaFieldDirectiveResolverInterface
 {
     /**

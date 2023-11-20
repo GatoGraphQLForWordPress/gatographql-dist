@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class ComponentProcessorManager implements \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface
 {
     use BasicServiceTrait;

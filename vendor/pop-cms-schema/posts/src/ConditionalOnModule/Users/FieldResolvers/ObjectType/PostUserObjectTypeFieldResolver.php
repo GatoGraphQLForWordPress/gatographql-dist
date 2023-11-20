@@ -7,6 +7,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\Posts\FieldResolvers\ObjectType\AbstractPostObjectTypeFieldResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
+/** @internal */
 class PostUserObjectTypeFieldResolver extends AbstractPostObjectTypeFieldResolver
 {
     /**

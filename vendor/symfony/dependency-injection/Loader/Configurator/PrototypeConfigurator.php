@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class PrototypeConfigurator extends AbstractServiceConfigurator
 {

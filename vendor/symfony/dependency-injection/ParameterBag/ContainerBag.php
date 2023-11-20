@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Container;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ContainerBag extends FrozenParameterBag implements ContainerBagInterface
 {

@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\ResourceCheckerInterface;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
+ * @internal
  */
 class ContainerParametersResourceChecker implements ResourceCheckerInterface
 {

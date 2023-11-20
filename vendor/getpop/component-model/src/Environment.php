@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel;
 
 use PoP\Definitions\Configuration\Request as DefinitionsRequest;
+/** @internal */
 class Environment
 {
     public const INCLUDE_SCHEMA_TYPE_DIRECTIVES_IN_SCHEMA = 'INCLUDE_SCHEMA_TYPE_DIRECTIVES_IN_SCHEMA';

@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Ahmed TAILOULOUTE <ahmed.tailouloute@gmail.com>
+ * @internal
  */
 class IdentityMarshaller implements MarshallerInterface
 {

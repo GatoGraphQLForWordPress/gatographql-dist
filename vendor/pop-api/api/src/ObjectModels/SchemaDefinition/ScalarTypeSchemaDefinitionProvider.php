@@ -6,6 +6,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\TypeKinds;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
+/** @internal */
 class ScalarTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**

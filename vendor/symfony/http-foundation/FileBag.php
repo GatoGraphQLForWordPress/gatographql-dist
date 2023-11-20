@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\File\UploadedFile;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bulat Shakirzyanov <mallluhuct@gmail.com>
+ * @internal
  */
 class FileBag extends ParameterBag
 {

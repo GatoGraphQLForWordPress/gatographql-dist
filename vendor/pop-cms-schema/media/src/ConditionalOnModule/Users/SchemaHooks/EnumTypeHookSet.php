@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\EnumType\HookNames;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Media\ConditionalOnModule\Users\Constants\MediaItemOrderBy;
 use PoPCMSSchema\Media\TypeResolvers\EnumType\MediaItemOrderByEnumTypeResolver;
+/** @internal */
 class EnumTypeHookSet extends AbstractHookSet
 {
     protected function init() : void

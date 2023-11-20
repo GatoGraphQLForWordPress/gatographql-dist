@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
+/** @internal */
 trait FilterDataComponentProcessorTrait
 {
     protected abstract function getComponentProcessorManager() : \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;

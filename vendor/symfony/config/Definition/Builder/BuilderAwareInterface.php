@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Definition\Builder;
  * An interface that can be implemented by nodes which build other nodes.
  *
  * @author Roland Franssen <franssen.roland@gmail.com>
+ * @internal
  */
 interface BuilderAwareInterface
 {

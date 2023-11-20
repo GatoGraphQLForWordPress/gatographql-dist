@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Builder;
  * A ConfigBuilder provides helper methods to build a large complex array.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @internal
  */
 interface ConfigBuilderInterface
 {

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserRoles;
 
+/** @internal */
 class Environment
 {
     public const TREAT_USER_ROLE_AS_SENSITIVE_DATA = 'TREAT_USER_ROLE_AS_SENSITIVE_DATA';

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Menus\TypeResolvers\InputObjectType;
 
+/** @internal */
 class RootMenusFilterInputObjectTypeResolver extends \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\AbstractMenusFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

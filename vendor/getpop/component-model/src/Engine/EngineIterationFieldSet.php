@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Engine;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 class EngineIterationFieldSet
 {
     /**

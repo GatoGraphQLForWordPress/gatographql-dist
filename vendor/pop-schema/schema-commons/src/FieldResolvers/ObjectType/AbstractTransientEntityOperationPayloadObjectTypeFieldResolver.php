@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 abstract class AbstractTransientEntityOperationPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

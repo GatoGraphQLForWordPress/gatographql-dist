@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Composer\Semver\Constraint;
 
+/** @internal */
 class Bound
 {
     /**

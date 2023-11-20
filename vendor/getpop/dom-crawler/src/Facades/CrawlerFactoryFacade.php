@@ -5,6 +5,7 @@ namespace PoP\DOMCrawler\Facades;
 
 use PoP\Root\App;
 use PoP\DOMCrawler\CrawlerFactoryInterface;
+/** @internal */
 class CrawlerFactoryFacade
 {
     public static function getInstance() : CrawlerFactoryInterface

@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Container\CompilerPasses;
 use PoP\ComponentModel\DirectiveResolvers\MetaFieldDirectiveResolverInterface;
 use PoP\ComponentModel\Registries\MetaDirectiveRegistryInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterMetaFieldDirectiveResolverCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy\Abstrac
 \class_exists(PhpBridgeSessionStorage::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
 {

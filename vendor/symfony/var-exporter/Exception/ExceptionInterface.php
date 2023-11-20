@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\VarExporter\Exception;
 
+/** @internal */
 interface ExceptionInterface extends \Throwable
 {
 }

@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\NodeInterface;
  * This is the entry class for building a config tree.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class TreeBuilder implements NodeParentInterface
 {

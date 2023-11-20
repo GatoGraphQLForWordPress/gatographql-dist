@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType\CommentObjectTypeDataLoader;
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
+/** @internal */
 class CommentObjectTypeResolver extends AbstractObjectTypeResolver
 {
     /**

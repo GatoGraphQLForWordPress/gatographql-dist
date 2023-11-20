@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class HookNames
 {
     public const QUERYDATA_WHITELISTEDPARAMS = __CLASS__ . ':request:whitelistedParams';

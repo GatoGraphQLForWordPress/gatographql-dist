@@ -7,6 +7,7 @@ use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMu
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class CommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers\AbstractCommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPicker
 {
     /**

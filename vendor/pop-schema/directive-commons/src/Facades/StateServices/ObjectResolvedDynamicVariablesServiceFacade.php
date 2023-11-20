@@ -5,6 +5,7 @@ namespace PoPSchema\DirectiveCommons\Facades\StateServices;
 
 use PoP\Root\App;
 use PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface;
+/** @internal */
 class ObjectResolvedDynamicVariablesServiceFacade
 {
     public static function getInstance() : ObjectResolvedDynamicVariablesServiceInterface

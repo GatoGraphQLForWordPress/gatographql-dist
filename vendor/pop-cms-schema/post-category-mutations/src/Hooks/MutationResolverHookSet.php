@@ -9,6 +9,7 @@ use PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMuta
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
+/** @internal */
 class MutationResolverHookSet extends AbstractMutationResolverHookSet
 {
     /**

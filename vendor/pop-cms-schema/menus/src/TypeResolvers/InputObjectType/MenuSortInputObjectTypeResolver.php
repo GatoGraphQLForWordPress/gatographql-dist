@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Menus\Constants\MenuOrderBy;
 use PoPCMSSchema\Menus\TypeResolvers\EnumType\MenuOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
+/** @internal */
 class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
     /**

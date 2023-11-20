@@ -18,6 +18,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler
  *
  * @author Ross Motley <ross.motley@amara.com>
  * @author Oliver Radwell <oliver.radwell@amara.com>
+ * @internal
  */
 class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Yaml\Exception;
  * Exception class thrown when an error occurs during parsing.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParseException extends RuntimeException
 {

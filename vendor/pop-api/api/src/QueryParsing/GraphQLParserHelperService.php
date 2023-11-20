@@ -13,6 +13,7 @@ use PoP\GraphQLParser\ExtendedSpec\Parser\ParserInterface;
 use PoP\GraphQLParser\Spec\Execution\Context;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class GraphQLParserHelperService implements \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface
 {
     use BasicServiceTrait;

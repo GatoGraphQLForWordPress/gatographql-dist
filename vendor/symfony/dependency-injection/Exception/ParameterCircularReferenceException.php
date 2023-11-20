@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
  * This exception is thrown when a circular reference in a parameter is detected.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParameterCircularReferenceException extends RuntimeException
 {

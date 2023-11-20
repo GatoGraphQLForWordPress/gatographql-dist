@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\AbstractPostCategoriesMutationErrorPayloadUnionTypeResolver
 {
     /**

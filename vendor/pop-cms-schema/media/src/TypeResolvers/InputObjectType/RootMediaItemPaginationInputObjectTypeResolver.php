@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoPCMSSchema\Media\Module;
 use PoPCMSSchema\Media\ModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\PaginationInputObjectTypeResolver;
+/** @internal */
 class RootMediaItemPaginationInputObjectTypeResolver extends PaginationInputObjectTypeResolver
 {
     public function getTypeName() : string

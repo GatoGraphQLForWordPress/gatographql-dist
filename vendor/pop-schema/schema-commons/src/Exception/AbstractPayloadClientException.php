@@ -11,6 +11,7 @@ use Throwable;
  *
  * Useful for passing extra data to a ObjectMutationPayload type,
  * instead of printing the error under `errors`
+ * @internal
  */
 abstract class AbstractPayloadClientException extends AbstractClientException
 {

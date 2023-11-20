@@ -6,6 +6,7 @@ namespace PoPCMSSchema\UserStateMutations\MutationResolvers;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\App;
 use PoPCMSSchema\UserStateMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
+/** @internal */
 trait ValidateUserLoggedInMutationResolverTrait
 {
     /**

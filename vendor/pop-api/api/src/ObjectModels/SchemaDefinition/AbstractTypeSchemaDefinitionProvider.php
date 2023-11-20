@@ -6,6 +6,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
+/** @internal */
 abstract class AbstractTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectModels\SchemaDefinition\TypeSchemaDefinitionProviderInterface
 {
     /**

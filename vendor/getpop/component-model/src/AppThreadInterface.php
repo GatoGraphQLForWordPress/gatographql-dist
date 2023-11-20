@@ -8,6 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackStore;
 use PoP\ComponentModel\Stores\MutationResolutionStoreInterface;
 use PoP\ComponentModel\Tracing\TracingStore;
 use PoP\Root\AppThreadInterface as UpstreamAppThreadInterface;
+/** @internal */
 interface AppThreadInterface extends UpstreamAppThreadInterface
 {
     public function getFeedbackStore() : FeedbackStore;

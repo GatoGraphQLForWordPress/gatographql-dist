@@ -11,6 +11,7 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\OrderByFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\OrderFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\EnumType\OrderEnumTypeResolver;
 use PoPSchema\SchemaCommons\Constants\Order;
+/** @internal */
 class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
     /**

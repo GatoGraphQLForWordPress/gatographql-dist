@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Dictionaries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
+/** @internal */
 class ObjectDictionaryFacade
 {
     public static function getInstance() : ObjectDictionaryInterface

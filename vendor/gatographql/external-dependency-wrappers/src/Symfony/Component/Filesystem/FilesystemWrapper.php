@@ -6,14 +6,13 @@ namespace GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Filesystem;
 use Exception;
 use GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Exception\IOException;
 use PoP\ComponentModel\Misc\GeneralUtils;
-use PoP\Root\Services\StandaloneServiceTrait;
 use PrefixedByPoP\Symfony\Component\Filesystem\Filesystem;
 /**
  * Wrapper for Symfony\Component\Filesystem\Filesystem
+ * @internal
  */
 class FilesystemWrapper
 {
-    use StandaloneServiceTrait;
     /**
      * @readonly
      * @var \Symfony\Component\Filesystem\Filesystem
@@ -38,10 +37,10 @@ class FilesystemWrapper
             if (\is_string($files)) {
                 $fileItems = $files;
             } else {
-                $fileItems = \implode($this->getTranslationAPI()->__(', ', 'external-dependency-wrappers'), GeneralUtils::iterableToArray($files));
+                $fileItems = \implode(', ', GeneralUtils::iterableToArray($files));
             }
             // Throw own exception
-            throw new IOException(\sprintf($this->getTranslationAPI()->__('Could not remove file(s) or folder(s): %s', 'external-dependency-wrappers'), $fileItems), 0, $e);
+            throw new IOException(\sprintf('Could not remove file(s) or folder(s): %s', $fileItems), 0, $e);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace PoP\DOMCrawler;
 
 use DOMNodeList;
 use DOMNode;
+/** @internal */
 interface CrawlerFactoryInterface
 {
     /**

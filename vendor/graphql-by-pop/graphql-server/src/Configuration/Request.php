@@ -7,6 +7,7 @@ use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Constants\Params;
 use GraphQLByPoP\GraphQLServer\Environment;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class Request
 {
     public static function getMutationScheme() : ?string

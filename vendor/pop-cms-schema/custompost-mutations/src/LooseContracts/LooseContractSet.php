@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\LooseContracts;
 
 use PoP\LooseContracts\AbstractLooseContractSet;
+/** @internal */
 class LooseContractSet extends AbstractLooseContractSet
 {
     public const NAME_EDIT_CUSTOMPOSTS_CAPABILITY = 'popcms:capability:editCustomPosts';

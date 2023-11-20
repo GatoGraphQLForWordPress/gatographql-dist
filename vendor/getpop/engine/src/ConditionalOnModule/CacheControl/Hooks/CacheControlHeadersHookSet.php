@@ -7,6 +7,7 @@ use PoP\CacheControl\Managers\CacheControlEngineInterface;
 use PoP\ComponentModel\Engine\EngineHookNames;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class CacheControlHeadersHookSet extends AbstractHookSet
 {
     /**

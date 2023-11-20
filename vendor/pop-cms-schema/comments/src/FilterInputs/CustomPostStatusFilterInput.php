@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Comments\FilterInputs;
 
 use PoPCMSSchema\CustomPosts\FilterInputs\CustomPostStatusFilterInput as UpstreamCustomPostStatusFilterInput;
+/** @internal */
 class CustomPostStatusFilterInput extends UpstreamCustomPostStatusFilterInput
 {
     protected function getQueryArgKey() : string

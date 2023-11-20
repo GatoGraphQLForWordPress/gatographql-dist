@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\UserState\ConditionalOnModule\CacheControl\DirectiveResolvers;
 
 use PoP\CacheControl\DirectiveResolvers\AbstractCacheControlFieldDirectiveResolver;
+/** @internal */
 class NoCacheCacheControlFieldDirectiveResolver extends AbstractCacheControlFieldDirectiveResolver
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Response;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Response\DatabaseEntryManagerInterface;
+/** @internal */
 class DatabaseEntryManagerFacade
 {
     public static function getInstance() : DatabaseEntryManagerInterface

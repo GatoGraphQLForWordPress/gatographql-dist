@@ -5,6 +5,7 @@ namespace PoPAPI\API\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface;
+/** @internal */
 class ApplicationStateFillerServiceFacade
 {
     public static function getInstance() : ApplicationStateFillerServiceInterface

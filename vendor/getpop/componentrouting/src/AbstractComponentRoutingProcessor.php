@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentRouting;
 
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractComponentRoutingProcessor implements \PoP\ComponentRouting\ComponentRoutingProcessorInterface
 {
     use BasicServiceTrait;

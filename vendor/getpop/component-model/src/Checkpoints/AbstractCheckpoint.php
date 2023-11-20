@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Checkpoints;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractCheckpoint implements \PoP\ComponentModel\Checkpoints\CheckpointInterface
 {
     use BasicServiceTrait;

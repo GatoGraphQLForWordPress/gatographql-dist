@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\FieldResolvers\InterfaceType;
 use PoPCMSSchema\Tags\TypeResolvers\InterfaceType\TagInterfaceTypeResolver;
 use PoPCMSSchema\Taxonomies\FieldResolvers\InterfaceType\AbstractIsTaxonomyInterfaceTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
+/** @internal */
 class TagInterfaceTypeFieldResolver extends AbstractIsTaxonomyInterfaceTypeFieldResolver
 {
     /**

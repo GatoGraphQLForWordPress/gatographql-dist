@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 interface SessionFactoryInterface
 {

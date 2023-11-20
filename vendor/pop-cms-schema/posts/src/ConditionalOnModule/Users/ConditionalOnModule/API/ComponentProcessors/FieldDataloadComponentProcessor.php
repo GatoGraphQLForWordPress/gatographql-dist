@@ -11,6 +11,7 @@ use PoP\ComponentModel\QueryInputOutputHandlers\QueryInputOutputHandlerInterface
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\Posts\ComponentProcessors\PostFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
+/** @internal */
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORPOSTLIST = 'dataload-relationalfields-authorpostlist';

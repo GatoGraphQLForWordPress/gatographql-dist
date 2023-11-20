@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Container\CompilerPasses;
 use PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface;
 use PoP\ComponentModel\ObjectSerialization\ObjectSerializerInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterObjectSerializerCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

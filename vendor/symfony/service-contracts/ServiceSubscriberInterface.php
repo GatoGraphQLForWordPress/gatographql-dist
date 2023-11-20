@@ -25,6 +25,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
  * injection is recommended.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface ServiceSubscriberInterface
 {

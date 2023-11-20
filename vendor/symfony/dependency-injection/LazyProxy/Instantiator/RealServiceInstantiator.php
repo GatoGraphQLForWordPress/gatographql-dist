@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
  * Noop proxy instantiator - produces the real service instead of a proxy instance.
  *
  * @author Marco Pivetta <ocramius@gmail.com>
+ * @internal
  */
 class RealServiceInstantiator implements InstantiatorInterface
 {

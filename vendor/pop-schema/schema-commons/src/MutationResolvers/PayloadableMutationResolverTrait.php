@@ -10,6 +10,7 @@ use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
 use PoPSchema\SchemaCommons\ObjectModels\ObjectMutationPayload;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
+/** @internal */
 trait PayloadableMutationResolverTrait
 {
     /**

@@ -20,6 +20,7 @@ trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is depreca
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @deprecated since Symfony 6.2, use "Symfony\Component\HttpFoundation\RequestMatcher\ExpressionRequestMatcher" instead
+ * @internal
  */
 class ExpressionRequestMatcher extends RequestMatcher
 {

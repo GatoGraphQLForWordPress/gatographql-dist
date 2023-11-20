@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Categories\TypeAPIs;
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTypeAPIInterface;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface CategoryTypeAPIInterface extends TaxonomyTypeAPIInterface
 {

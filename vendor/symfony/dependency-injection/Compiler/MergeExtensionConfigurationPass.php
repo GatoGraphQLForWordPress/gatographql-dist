@@ -24,6 +24,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBa
  * Merges extension configs into the container builder.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class MergeExtensionConfigurationPass implements CompilerPassInterface
 {

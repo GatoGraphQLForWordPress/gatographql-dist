@@ -10,6 +10,7 @@ namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
  * implementation.
  *
  * @see http://www.w3.org/TR/2012/CR-html5-20121217/syntax.html#serializing-html-fragments
+ * @internal
  */
 class Traverser
 {

@@ -8,6 +8,7 @@ use PoPCMSSchema\Comments\ComponentProcessors\FormInputs\FilterInputComponentPro
 use PoPCMSSchema\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor as CustomPostFilterInputComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\AbstractFilterInputContainerComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputComponentProcessor;
+/** @internal */
 class CommentFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

@@ -25,6 +25,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 trait ExtensionTrait
 {

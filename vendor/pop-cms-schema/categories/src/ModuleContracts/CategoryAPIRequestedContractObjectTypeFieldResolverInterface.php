@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Categories\ModuleContracts;
 
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
+/** @internal */
 interface CategoryAPIRequestedContractObjectTypeFieldResolverInterface
 {
     public function getCategoryTypeAPI() : CategoryTypeAPIInterface;

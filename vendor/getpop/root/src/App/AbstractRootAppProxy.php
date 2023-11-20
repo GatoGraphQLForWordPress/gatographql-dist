@@ -20,6 +20,7 @@ use PoP\Root\StateManagers\ModuleManagerInterface;
 /**
  * Using proxy instead of inheritance, so that the upstream App
  * class is still the single source of truth for its own state
+ * @internal
  */
 abstract class AbstractRootAppProxy implements RootAppInterface
 {

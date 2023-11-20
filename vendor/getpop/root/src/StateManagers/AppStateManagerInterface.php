@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\StateManagers;
 
 use PoP\Root\Exception\AppStateNotExistsException;
+/** @internal */
 interface AppStateManagerInterface
 {
     /**

@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\FilterInputs\FilterInputInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostByOneofInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput;
+/** @internal */
 class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputObjectTypeResolver
 {
     /**

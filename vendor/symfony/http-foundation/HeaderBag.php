@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @implements \IteratorAggregate<string, list<string|null>>
+ * @internal
  */
 class HeaderBag implements \IteratorAggregate, \Countable
 {

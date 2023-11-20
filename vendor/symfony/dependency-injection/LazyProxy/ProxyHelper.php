@@ -15,6 +15,7 @@ trigger_deprecation('symfony/dependency-injection', '6.2', 'The "%s" class is de
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @deprecated since Symfony 6.2, use VarExporter's ProxyHelper instead
+ * @internal
  */
 class ProxyHelper
 {

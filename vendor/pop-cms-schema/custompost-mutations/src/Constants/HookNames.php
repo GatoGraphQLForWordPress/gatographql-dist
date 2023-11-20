@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\Constants;
 
+/** @internal */
 class HookNames
 {
     public const VALIDATE_CREATE_OR_UPDATE = __CLASS__ . ':validate-create-or-update';

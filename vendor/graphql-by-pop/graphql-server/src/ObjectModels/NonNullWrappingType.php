@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaHelpers;
+/** @internal */
 class NonNullWrappingType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractWrappingType
 {
     public function getName() : string

@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CommentMutations;
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Module\AbstractModule;
 use PoPCMSSchema\Users\Module as UsersModule;
+/** @internal */
 class Module extends AbstractModule
 {
     protected function requiresSatisfyingModule() : bool

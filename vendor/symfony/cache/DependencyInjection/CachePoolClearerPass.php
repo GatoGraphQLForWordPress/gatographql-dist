@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class CachePoolClearerPass implements CompilerPassInterface
 {

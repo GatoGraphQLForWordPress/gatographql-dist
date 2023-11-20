@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Tags\ModuleContracts;
 
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
+/** @internal */
 interface TagAPIRequestedContractObjectTypeFieldResolverInterface
 {
     public function getTagTypeAPI() : TagTypeAPIInterface;

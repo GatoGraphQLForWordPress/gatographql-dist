@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\API\PersistedQueries;
 
 use PoPAPI\API\Schema\SchemaDefinition;
+/** @internal */
 class PersistedFragmentManager implements \PoPAPI\API\PersistedQueries\PersistedFragmentManagerInterface
 {
     /**

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractArrayValuesToQueryFilterInput;
+/** @internal */
 class SortFilterInput extends AbstractArrayValuesToQueryFilterInput
 {
     /**

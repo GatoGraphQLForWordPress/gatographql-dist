@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
+/** @internal */
 interface UserMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**

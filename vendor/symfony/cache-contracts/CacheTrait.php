@@ -19,6 +19,7 @@ use PrefixedByPoP\Psr\Log\LoggerInterface;
  * An implementation of CacheInterface for PSR-6 CacheItemPoolInterface classes.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 trait CacheTrait
 {

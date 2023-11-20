@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFo
  * ParameterBagInterface is the interface implemented by objects that manage service container parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface ParameterBagInterface
 {

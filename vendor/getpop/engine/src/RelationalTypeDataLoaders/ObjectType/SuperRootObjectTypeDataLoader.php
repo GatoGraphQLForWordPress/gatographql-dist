@@ -5,6 +5,7 @@ namespace PoP\Engine\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoP\Engine\ObjectModels\SuperRoot;
+/** @internal */
 class SuperRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

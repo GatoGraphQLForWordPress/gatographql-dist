@@ -24,6 +24,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Values;
  * By leveraging OPcache, the generated PHP code is faster than doing the same with unserialize().
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class VarExporter
 {

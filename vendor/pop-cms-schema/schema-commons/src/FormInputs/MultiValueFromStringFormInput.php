@@ -5,6 +5,7 @@ namespace PoPCMSSchema\SchemaCommons\FormInputs;
 
 use PoP\ComponentModel\FormInputs\FormInput;
 use PoP\ComponentModel\Tokens\Param;
+/** @internal */
 class MultiValueFromStringFormInput extends FormInput
 {
     /**

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
+/** @internal */
 class ScalarType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType
 {
     public function getKind() : string

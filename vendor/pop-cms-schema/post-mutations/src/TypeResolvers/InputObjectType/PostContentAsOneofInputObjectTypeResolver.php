@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostContentAsOneofInputObjectTypeResolver;
+/** @internal */
 class PostContentAsOneofInputObjectTypeResolver extends AbstractCustomPostContentAsOneofInputObjectTypeResolver
 {
     public function getTypeName() : string

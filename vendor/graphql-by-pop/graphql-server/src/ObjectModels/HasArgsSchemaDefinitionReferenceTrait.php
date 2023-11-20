@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoPAPI\API\Schema\SchemaDefinition;
+/** @internal */
 trait HasArgsSchemaDefinitionReferenceTrait
 {
     /**

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Tracing;
 
+/** @internal */
 class TracingStore
 {
     /** @var TraceInterface[] */

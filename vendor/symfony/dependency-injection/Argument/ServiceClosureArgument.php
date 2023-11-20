@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
  * Represents a service wrapped in a memoizing closure.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ServiceClosureArgument implements ArgumentInterface
 {

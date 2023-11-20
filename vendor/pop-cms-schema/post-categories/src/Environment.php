@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories;
 
+/** @internal */
 class Environment
 {
     // public final const POSTCATEGORY_LIST_DEFAULT_LIMIT = 'POSTCATEGORY_LIST_DEFAULT_LIMIT';

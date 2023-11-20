@@ -11,6 +11,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 use PoP\Root\Module\ModuleConfigurationHelpers;
 /**
  * Add a default CPT for Custom Posts
+ * @internal
  */
 abstract class AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet extends AbstractHookSet
 {

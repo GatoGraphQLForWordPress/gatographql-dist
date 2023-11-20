@@ -15,6 +15,7 @@ use PoP\Root\App\AbstractRootAppProxy;
  * This interface contains all the methods from the
  * AppThreadInterface (to provide access to them)
  * but as static.
+ * @internal
  */
 class App extends AbstractRootAppProxy implements \PoP\ComponentModel\AppInterface
 {

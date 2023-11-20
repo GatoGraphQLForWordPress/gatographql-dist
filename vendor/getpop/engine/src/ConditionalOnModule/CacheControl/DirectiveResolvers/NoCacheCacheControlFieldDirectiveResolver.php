@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Engine\ConditionalOnModule\CacheControl\DirectiveResolvers;
 
 use PoP\CacheControl\DirectiveResolvers\AbstractCacheControlFieldDirectiveResolver;
+/** @internal */
 class NoCacheCacheControlFieldDirectiveResolver extends AbstractCacheControlFieldDirectiveResolver
 {
     /**

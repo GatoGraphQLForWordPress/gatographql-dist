@@ -10,6 +10,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+/** @internal */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 final class Attribute
 {
@@ -36,4 +37,5 @@ final class Attribute
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+/** @internal */
 //\class_alias('PrefixedByPoP\\Attribute', 'Attribute', \false);

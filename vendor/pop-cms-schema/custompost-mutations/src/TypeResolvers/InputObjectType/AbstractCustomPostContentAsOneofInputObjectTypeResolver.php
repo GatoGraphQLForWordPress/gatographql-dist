@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTyp
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /**
  * @todo In addition to "html", support additional oneof properties for the mutation (eg: provide "blocks" for Gutenberg)
+ * @internal
  */
 abstract class AbstractCustomPostContentAsOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {

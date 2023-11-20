@@ -16,6 +16,7 @@ namespace PoP\GuzzleHTTP\Upstream;
  * More documentation for each option can be found at http://guzzlephp.org/.
  *
  * @link http://docs.guzzlephp.org/en/v6/request-options.html
+ * @internal
  */
 final class RequestOptions
 {

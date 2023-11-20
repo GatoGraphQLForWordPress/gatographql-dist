@@ -7,6 +7,7 @@ use PoP\ComponentModel\AttachableExtensions\AttachableExtensionGroups;
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\AbstractTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ExcludeFieldNamesFromSchemaTypeResolverTrait;
+/** @internal */
 abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface
 {
     use ExcludeFieldNamesFromSchemaTypeResolverTrait;

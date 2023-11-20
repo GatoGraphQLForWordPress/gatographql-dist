@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Comments\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
+/** @internal */
 class CommentTypeAPIFacade
 {
     public static function getInstance() : CommentTypeAPIInterface

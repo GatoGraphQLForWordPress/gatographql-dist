@@ -5,6 +5,7 @@ namespace PoP\DOMCrawler;
 
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Module\AbstractModule;
+/** @internal */
 class Module extends AbstractModule
 {
     /**

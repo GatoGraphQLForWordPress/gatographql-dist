@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
  * An attribute to tell how a dependency is used and hint named autowiring aliases.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 final class Target

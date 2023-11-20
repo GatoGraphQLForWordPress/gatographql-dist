@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeAPIs;
 
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTypeAPIInterface;
+/** @internal */
 interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
 {
     /**

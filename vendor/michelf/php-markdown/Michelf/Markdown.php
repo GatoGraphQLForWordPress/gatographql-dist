@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Michelf;
 
 /**
  * Markdown Parser Class
+ * @internal
  */
 class Markdown implements MarkdownInterface
 {

@@ -9,6 +9,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Comments\ConditionalOnModule\Users\ComponentProcessors\FormInputs\FilterInputComponentProcessor as UserFilterInputComponentProcessor;
 use PoPCMSSchema\Comments\ComponentProcessors\CommentFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
+/** @internal */
 class FilterInputHookSet extends AbstractHookSet
 {
     protected function init() : void

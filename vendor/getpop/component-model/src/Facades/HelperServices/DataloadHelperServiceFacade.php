@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface;
+/** @internal */
 class DataloadHelperServiceFacade
 {
     public static function getInstance() : DataloadHelperServiceInterface

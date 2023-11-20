@@ -13,6 +13,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class VersioningService implements \PoP\ComponentModel\Versioning\VersioningServiceInterface
 {
     use BasicServiceTrait;

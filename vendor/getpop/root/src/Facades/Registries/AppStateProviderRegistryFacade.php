@@ -5,6 +5,7 @@ namespace PoP\Root\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\Root\Registries\AppStateProviderRegistryInterface;
+/** @internal */
 class AppStateProviderRegistryFacade
 {
     public static function getInstance() : AppStateProviderRegistryInterface

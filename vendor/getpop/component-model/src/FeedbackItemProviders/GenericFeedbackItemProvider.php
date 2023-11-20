@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FeedbackItemProviders;
 
 use PoP\ComponentModel\Feedback\FeedbackCategories;
 use PoP\Root\FeedbackItemProviders\GenericFeedbackItemProvider as UpstreamGenericFeedbackItemProvider;
+/** @internal */
 class GenericFeedbackItemProvider extends UpstreamGenericFeedbackItemProvider
 {
     public const W1 = 'w1';

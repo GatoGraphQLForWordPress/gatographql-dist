@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\Config;
  * cache if necessary.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface ConfigCacheFactoryInterface
 {

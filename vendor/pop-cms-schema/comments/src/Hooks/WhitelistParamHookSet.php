@@ -7,6 +7,7 @@ use PoP\ComponentModel\Constants\HookNames;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Comments\Constants\Params;
+/** @internal */
 class WhitelistParamHookSet extends AbstractHookSet
 {
     protected function init() : void

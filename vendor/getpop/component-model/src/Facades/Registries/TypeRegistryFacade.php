@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\TypeRegistryInterface;
+/** @internal */
 class TypeRegistryFacade
 {
     public static function getInstance() : TypeRegistryInterface

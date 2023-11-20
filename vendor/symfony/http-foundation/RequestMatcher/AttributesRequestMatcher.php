@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the Request attributes matches all regular expressions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class AttributesRequestMatcher implements RequestMatcherInterface
 {

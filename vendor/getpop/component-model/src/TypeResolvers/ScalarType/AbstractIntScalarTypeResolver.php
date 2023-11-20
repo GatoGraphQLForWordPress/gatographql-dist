@@ -11,6 +11,7 @@ use stdClass;
  * GraphQL Built-in Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars
+ * @internal
  */
 abstract class AbstractIntScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver
 {

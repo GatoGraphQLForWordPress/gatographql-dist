@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CommentMutations;
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
 use PoPCMSSchema\Users\Module as UsersModule;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function mustUserBeLoggedInToAddComment() : bool

@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoP\Root\Helpers\ClassHelpers;
 use PoP\Root\Module\ModuleInterface;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+/** @internal */
 abstract class AbstractModule implements ModuleInterface
 {
     use \PoP\Root\Module\InitializeContainerServicesInModuleTrait;

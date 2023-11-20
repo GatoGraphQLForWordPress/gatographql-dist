@@ -7,6 +7,7 @@ use PoPCMSSchema\UserStateMutations\ObjectModels\PasswordIsIncorrectErrorPayload
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractPasswordIsIncorrectErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
     /**

@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceClosureA
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * Attribute to wrap a service in a closure that returns it.
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class AutowireServiceClosure extends Autowire

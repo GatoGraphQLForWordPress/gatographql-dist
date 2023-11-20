@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\SessionStorag
 \class_exists(Session::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class SessionFactory implements SessionFactoryInterface
 {

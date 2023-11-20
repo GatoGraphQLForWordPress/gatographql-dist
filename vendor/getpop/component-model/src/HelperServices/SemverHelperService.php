@@ -5,13 +5,19 @@ namespace PoP\ComponentModel\HelperServices;
 
 use PrefixedByPoP\Composer\Semver\Semver;
 use Exception;
+/** @internal */
 class SemverHelperService implements \PoP\ComponentModel\HelperServices\SemverHelperServiceInterface
 {
     /**
      * Determine if given version satisfies given constraints.
+     *
+     * Use "*" to mean "any version"
      */
     public function satisfies(string $version, string $constraints) : bool
     {
+        if ($constraints === '*') {
+            return \true;
+        }
         /**
          * If passing a wrong value to validate against
          * (eg: "saraza" instead of "1.0.0"),

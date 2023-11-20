@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers;
 
+/** @internal */
 class HookHelpers
 {
     public const HOOK_ENABLED_FIELD_NAMES = __CLASS__ . ':enabled_field_names';

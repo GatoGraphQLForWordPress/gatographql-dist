@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception;
  * Thrown when the access on a file was denied.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
+ * @internal
  */
 class AccessDeniedException extends FileException
 {

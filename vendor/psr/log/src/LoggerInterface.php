@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Psr\Log;
  *
  * See https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
  * for the full interface specification.
+ * @internal
  */
 interface LoggerInterface
 {

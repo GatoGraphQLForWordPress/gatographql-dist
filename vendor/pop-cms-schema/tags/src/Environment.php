@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Tags;
 
+/** @internal */
 class Environment
 {
     public const TAG_LIST_DEFAULT_LIMIT = 'TAG_LIST_DEFAULT_LIMIT';

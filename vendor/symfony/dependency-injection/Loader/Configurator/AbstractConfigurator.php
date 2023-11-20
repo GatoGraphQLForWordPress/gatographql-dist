@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Parameter;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
+/** @internal */
 abstract class AbstractConfigurator
 {
     public const FACTORY = 'unknown';

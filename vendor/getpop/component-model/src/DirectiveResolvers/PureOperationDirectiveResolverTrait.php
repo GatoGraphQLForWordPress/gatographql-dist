@@ -16,6 +16,7 @@ use SplObjectStorage;
  * and not Field Directive too.
  *
  * Eg: directive `@depends(on: "OpName")`
+ * @internal
  */
 trait PureOperationDirectiveResolverTrait
 {

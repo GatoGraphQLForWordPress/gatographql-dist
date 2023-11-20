@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Symfony\Component\Filesystem\Exception;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Christian Gärtner <christiangaertner.film@googlemail.com>
+ * @internal
  */
 class FileNotFoundException extends IOException
 {

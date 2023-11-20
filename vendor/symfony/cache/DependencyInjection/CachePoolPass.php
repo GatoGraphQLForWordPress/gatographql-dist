@@ -24,6 +24,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumen
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class CachePoolPass implements CompilerPassInterface
 {

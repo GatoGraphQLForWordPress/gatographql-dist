@@ -17,6 +17,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Loader;
  * Each loader determines whether it can load a resource and how.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class LoaderResolver implements LoaderResolverInterface
 {

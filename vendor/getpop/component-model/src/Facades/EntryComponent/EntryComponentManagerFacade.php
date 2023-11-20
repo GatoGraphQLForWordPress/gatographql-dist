@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\EntryComponent;
 
 use PoP\Root\App;
 use PoP\ComponentModel\EntryComponent\EntryComponentManagerInterface;
+/** @internal */
 class EntryComponentManagerFacade
 {
     public static function getInstance() : EntryComponentManagerInterface

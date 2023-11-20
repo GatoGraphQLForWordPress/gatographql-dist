@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectState;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectTrait;
+/** @internal */
 trait LazyGhostTrait
 {
     use LazyObjectTrait;

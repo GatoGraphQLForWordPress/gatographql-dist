@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface;
+/** @internal */
 class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

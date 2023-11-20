@@ -5,6 +5,7 @@ namespace PoP\Root\Module;
 
 /**
  * Helpers for the ModuleConfiguration class
+ * @internal
  */
 class ModuleConfigurationHelpers
 {

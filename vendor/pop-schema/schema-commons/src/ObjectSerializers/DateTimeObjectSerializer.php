@@ -8,6 +8,7 @@ use DateTime;
 use PoPSchema\SchemaCommons\Polyfill\PHP72\DateTimeInterface;
 use PoP\ComponentModel\ObjectSerialization\AbstractObjectSerializer;
 use stdClass;
+/** @internal */
 class DateTimeObjectSerializer extends AbstractObjectSerializer
 {
     public function getObjectClassToSerialize() : string

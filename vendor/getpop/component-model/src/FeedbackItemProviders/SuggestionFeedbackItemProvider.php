@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
+/** @internal */
 class SuggestionFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const S1 = 's1';

@@ -7,6 +7,7 @@ use PoPCMSSchema\Tags\TypeAPIs\TagListTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface PostTagTypeAPIInterface extends TagTypeAPIInterface, TagListTypeAPIInterface
 {

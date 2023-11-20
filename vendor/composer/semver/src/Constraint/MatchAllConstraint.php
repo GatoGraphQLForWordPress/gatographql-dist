@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Composer\Semver\Constraint;
  * Defines the absence of a constraint.
  *
  * This constraint matches everything.
+ * @internal
  */
 class MatchAllConstraint implements ConstraintInterface
 {

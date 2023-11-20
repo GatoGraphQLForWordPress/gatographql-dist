@@ -11,6 +11,7 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 trait SetCategoriesOnCustomPostMutationResolverTrait
 {
     /**

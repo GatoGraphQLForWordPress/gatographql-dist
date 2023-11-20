@@ -15,6 +15,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers\ObjectType\AbstractUserObjectTypeFieldResolver
 {
     /**

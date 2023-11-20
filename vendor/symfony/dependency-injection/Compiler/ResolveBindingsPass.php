@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\TypedReference;
 use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
 /**
  * @author Guilhem Niot <guilhem.niot@gmail.com>
+ * @internal
  */
 class ResolveBindingsPass extends AbstractRecursivePass
 {

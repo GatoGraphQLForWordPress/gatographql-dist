@@ -5,6 +5,7 @@ namespace PoP\Root\Routing;
 
 use PoP\Root\App;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class RoutingHelperService implements \PoP\Root\Routing\RoutingHelperServiceInterface
 {
     use BasicServiceTrait;

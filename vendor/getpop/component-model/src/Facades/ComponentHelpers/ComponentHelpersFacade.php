@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ComponentHelpers;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface;
+/** @internal */
 class ComponentHelpersFacade
 {
     public static function getInstance() : ComponentHelpersInterface

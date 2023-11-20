@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Tags\SchemaHooks;
 
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\FilterCustomPostsByTagsInputObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractCustomPostAddTagFilterInputObjectTypeHookSet extends \PoPCMSSchema\Tags\SchemaHooks\AbstractAddTagFilterInputObjectTypeHookSet
 {
     /**

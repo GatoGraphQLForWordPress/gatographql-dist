@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * - target definitions are not abstract
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class CheckReferenceValidityPass extends AbstractRecursivePass
 {

@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\File\File;
  * @author Igor Wiedler <igor@wiedler.ch>
  * @author Jordan Alliot <jordan.alliot@gmail.com>
  * @author Sergey Linnik <linniksa@gmail.com>
+ * @internal
  */
 class BinaryFileResponse extends Response
 {

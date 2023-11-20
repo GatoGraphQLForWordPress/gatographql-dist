@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserAvatars\ObjectModels;
 
+/** @internal */
 class UserAvatar
 {
     /**

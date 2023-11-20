@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\EnumNode;
  * Enum Node Definition.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class EnumNodeDefinition extends ScalarNodeDefinition
 {

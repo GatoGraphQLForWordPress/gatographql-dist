@@ -9,6 +9,7 @@ use PrefixedByPoP\Psr\Http\Message\RequestInterface;
  * Provides basic proxies for handlers.
  *
  * @final
+ * @internal
  */
 class Proxy
 {

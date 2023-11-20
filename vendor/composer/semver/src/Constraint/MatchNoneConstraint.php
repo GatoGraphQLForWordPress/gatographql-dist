@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Composer\Semver\Constraint;
 
 /**
  * Blackhole of constraints, nothing escapes it
+ * @internal
  */
 class MatchNoneConstraint implements ConstraintInterface
 {

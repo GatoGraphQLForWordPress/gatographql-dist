@@ -14,6 +14,7 @@ use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 class EnabledMutationsCheckpoint extends \PoP\ComponentModel\StandaloneCheckpoints\AbstractStandaloneCheckpoint
 {
     /**

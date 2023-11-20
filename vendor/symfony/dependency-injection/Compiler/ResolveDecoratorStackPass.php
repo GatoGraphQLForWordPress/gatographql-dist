@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircula
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ResolveDecoratorStackPass implements CompilerPassInterface
 {

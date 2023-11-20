@@ -9,6 +9,7 @@ use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResolver
 {
     use AddCommentToCustomPostObjectTypeFieldResolverTrait;

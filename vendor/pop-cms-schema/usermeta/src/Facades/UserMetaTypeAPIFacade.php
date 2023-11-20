@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface;
+/** @internal */
 class UserMetaTypeAPIFacade
 {
     public static function getInstance() : UserMetaTypeAPIInterface

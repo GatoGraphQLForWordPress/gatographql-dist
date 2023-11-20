@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPosts\ConditionalOnModule\RESTAPI\ComponentRoutingP
 use PoP\Root\App;
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPAPI\RESTAPI\ComponentRoutingProcessors\AbstractRESTEntryComponentRoutingProcessor;
+/** @internal */
 class AbstractCustomPostRESTEntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     protected function doGetGraphQLQueryToResolveRESTEndpoint() : string

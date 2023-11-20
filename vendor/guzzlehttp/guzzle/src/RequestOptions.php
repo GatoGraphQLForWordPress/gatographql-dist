@@ -8,6 +8,7 @@ namespace PrefixedByPoP\GuzzleHttp;
  * More documentation for each option can be found at http://guzzlephp.org/.
  *
  * @see http://docs.guzzlephp.org/en/v6/request-options.html
+ * @internal
  */
 final class RequestOptions
 {

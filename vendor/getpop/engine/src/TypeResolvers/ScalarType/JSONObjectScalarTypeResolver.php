@@ -12,6 +12,7 @@ use stdClass;
  * handled via an stdClass object on the server-side
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Custom-Scalars
+ * @internal
  */
 class JSONObjectScalarTypeResolver extends AbstractScalarTypeResolver
 {

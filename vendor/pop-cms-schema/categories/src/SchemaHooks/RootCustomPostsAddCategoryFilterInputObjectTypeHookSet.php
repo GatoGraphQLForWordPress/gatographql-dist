@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Categories\SchemaHooks;
 
 use PoPCMSSchema\Categories\SchemaHooks\AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\RootCustomPostsFilterInputObjectTypeResolver;
+/** @internal */
 class RootCustomPostsAddCategoryFilterInputObjectTypeHookSet extends AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet
 {
     protected function getInputObjectTypeResolverClass() : string

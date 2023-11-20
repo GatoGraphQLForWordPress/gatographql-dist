@@ -19,6 +19,7 @@ use PoP\GraphQLParser\Module as GraphQLParserModule;
 use PoP\GraphQLParser\ModuleConfiguration as GraphQLParserModuleConfiguration;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 class SkipFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
     use \PoP\Engine\DirectiveResolvers\FilterIDsSatisfyingConditionFieldDirectiveResolverTrait;

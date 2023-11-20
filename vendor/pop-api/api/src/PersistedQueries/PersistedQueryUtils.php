@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPAPI\API\PersistedQueries;
 
+/** @internal */
 class PersistedQueryUtils
 {
     /**

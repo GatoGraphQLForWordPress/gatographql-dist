@@ -8,6 +8,7 @@ use PoP\Root\App;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\ObjectModels\Root;
 use PoP\Engine\Schema\SchemaDefinitionServiceInterface;
+/** @internal */
 class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor
 {
     public const COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT = 'dataload-relationalfields-root';

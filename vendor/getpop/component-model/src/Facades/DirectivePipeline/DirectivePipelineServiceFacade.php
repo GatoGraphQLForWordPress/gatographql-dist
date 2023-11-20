@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\DirectivePipeline;
 
 use PoP\Root\App;
 use PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface;
+/** @internal */
 class DirectivePipelineServiceFacade
 {
     public static function getInstance() : DirectivePipelineServiceInterface

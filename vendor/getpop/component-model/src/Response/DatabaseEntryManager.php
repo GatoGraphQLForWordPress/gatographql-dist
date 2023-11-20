@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
+/** @internal */
 class DatabaseEntryManager implements \PoP\ComponentModel\Response\DatabaseEntryManagerInterface
 {
     use BasicServiceTrait;

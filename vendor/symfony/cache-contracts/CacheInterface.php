@@ -16,6 +16,7 @@ use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
  * Covers most simple to advanced caching needs.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface CacheInterface
 {

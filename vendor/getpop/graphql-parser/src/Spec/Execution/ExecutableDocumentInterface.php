@@ -7,6 +7,7 @@ use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
+/** @internal */
 interface ExecutableDocumentInterface
 {
     /**

@@ -14,6 +14,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
+/** @internal */
 abstract class AbstractCommentableCustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use \PoPCMSSchema\Comments\FieldResolvers\ObjectType\MaybeCommentableCustomPostObjectTypeFieldResolverTrait;

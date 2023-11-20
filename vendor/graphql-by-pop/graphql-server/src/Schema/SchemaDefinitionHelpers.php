@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Schema;
 
 use GraphQLByPoP\GraphQLServer\Facades\Registries\SchemaDefinitionReferenceRegistryFacade;
 use GraphQLByPoP\GraphQLServer\ObjectModels\Field;
+/** @internal */
 class SchemaDefinitionHelpers
 {
     public const PATH_SEPARATOR = '.';

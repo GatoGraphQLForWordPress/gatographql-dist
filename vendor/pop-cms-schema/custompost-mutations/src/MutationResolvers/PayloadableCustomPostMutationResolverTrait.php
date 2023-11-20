@@ -14,6 +14,7 @@ use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
+/** @internal */
 trait PayloadableCustomPostMutationResolverTrait
 {
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface

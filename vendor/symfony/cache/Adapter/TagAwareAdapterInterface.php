@@ -15,6 +15,7 @@ use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
  * Interface for invalidating cached items using tags.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface TagAwareAdapterInterface extends AdapterInterface
 {

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Menus\ObjectModels;
 
 /**
  * Make properties public so they can be accessed directly
+ * @internal
  */
 class MenuItem
 {

@@ -13,6 +13,7 @@ use PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnPostMuta
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
+/** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
     /**

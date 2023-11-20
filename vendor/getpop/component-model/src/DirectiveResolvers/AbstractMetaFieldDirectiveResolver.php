@@ -19,6 +19,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractMetaFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractFieldDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\MetaFieldDirectiveResolverInterface
 {
     /** @var SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]> */

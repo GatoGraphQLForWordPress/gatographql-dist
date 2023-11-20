@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
+/** @internal */
 interface AstInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\LocatableInterface
 {
     public function asQueryString() : string;

@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue;
 use PoP\GraphQLParser\ExtendedSpec\Execution\ObjectFieldValuePromise;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
+/** @internal */
 class ObjectResolvedFieldValueReference extends \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\AbstractRuntimeVariableReference
 {
     /**

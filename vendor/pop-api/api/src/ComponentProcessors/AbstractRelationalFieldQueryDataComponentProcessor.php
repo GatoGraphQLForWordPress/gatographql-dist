@@ -27,6 +27,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractRelationalFieldQueryDataComponentProcessor extends AbstractQueryDataComponentProcessor
 {
     protected const COMPONENT_ATTS_FIELD_IDS = 'fieldIDs';

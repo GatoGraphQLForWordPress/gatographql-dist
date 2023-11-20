@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy\Abstrac
 \class_exists(NativeSessionStorage::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class NativeSessionStorageFactory implements SessionStorageFactoryInterface
 {

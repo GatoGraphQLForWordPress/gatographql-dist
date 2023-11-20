@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLRequest\Execution;
 
 use GraphQLByPoP\GraphQLRequest\ObjectModels\GraphQLQueryPayload;
 use GraphQLByPoP\GraphQLRequest\StaticHelpers\GraphQLQueryPayloadRetriever;
+/** @internal */
 class QueryRetriever implements \GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface
 {
     public function extractRequestedGraphQLQueryPayload() : GraphQLQueryPayload

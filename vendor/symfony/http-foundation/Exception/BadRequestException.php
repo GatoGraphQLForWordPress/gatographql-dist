@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
 
 /**
  * Raised when a user sends a malformed request.
+ * @internal
  */
 class BadRequestException extends \UnexpectedValueException implements RequestExceptionInterface
 {

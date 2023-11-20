@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface;
+/** @internal */
 class MenuItemObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

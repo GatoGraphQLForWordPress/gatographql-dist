@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
  * EnvVarLoaderInterface objects return key/value pairs that are added to the list of available env vars.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface EnvVarLoaderInterface
 {

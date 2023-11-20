@@ -30,6 +30,7 @@ use PrefixedByPoP\Symfony\Contracts\Cache\TagAwareCacheInterface;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Sergey Belyshkin <sbelyshkin@gmail.com>
+ * @internal
  */
 class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterface, PruneableInterface, ResettableInterface, LoggerAwareInterface
 {

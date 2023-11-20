@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Schema;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Schema\SchemaCastingServiceInterface;
+/** @internal */
 class SchemaCastingServiceFacade
 {
     public static function getInstance() : SchemaCastingServiceInterface

@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\ComponentProcessors;
 
 use PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor;
 use PoP\ComponentModel\Component\Component;
+/** @internal */
 abstract class AbstractGraphQLRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     protected function getRelationalFieldInnerComponent(Component $component) : Component

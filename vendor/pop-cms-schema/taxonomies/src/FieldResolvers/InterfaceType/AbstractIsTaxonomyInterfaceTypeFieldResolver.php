@@ -8,6 +8,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
+/** @internal */
 abstract class AbstractIsTaxonomyInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterfaceTypeFieldResolver
 {
     /**

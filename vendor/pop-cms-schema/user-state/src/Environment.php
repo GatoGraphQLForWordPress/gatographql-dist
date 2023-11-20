@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserState;
 
+/** @internal */
 class Environment
 {
 }

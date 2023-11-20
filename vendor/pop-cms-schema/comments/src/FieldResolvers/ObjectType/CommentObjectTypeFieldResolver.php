@@ -37,6 +37,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 class CommentObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;

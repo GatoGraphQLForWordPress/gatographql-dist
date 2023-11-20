@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\DataStructureFormatters;
 use PoP\ComponentModel\DataStructureFormatters\AbstractDataStructureFormatter;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 class HTMLDataStructureFormatter extends AbstractDataStructureFormatter
 {
     public function getName() : string

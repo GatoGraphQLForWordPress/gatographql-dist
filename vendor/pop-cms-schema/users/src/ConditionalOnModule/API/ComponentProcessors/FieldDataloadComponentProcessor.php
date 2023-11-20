@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProcessorTrait;
 use PoPCMSSchema\Users\ComponentProcessors\UserFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
+/** @internal */
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;

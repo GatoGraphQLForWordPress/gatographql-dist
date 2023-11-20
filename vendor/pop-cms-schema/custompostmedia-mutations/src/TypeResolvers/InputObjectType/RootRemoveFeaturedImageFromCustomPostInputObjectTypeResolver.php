@@ -8,6 +8,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
+/** @internal */
 class RootRemoveFeaturedImageFromCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
     /**

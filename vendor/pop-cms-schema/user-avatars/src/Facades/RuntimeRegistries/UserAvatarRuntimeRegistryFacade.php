@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserAvatars\Facades\RuntimeRegistries;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface;
+/** @internal */
 class UserAvatarRuntimeRegistryFacade
 {
     public static function getInstance() : UserAvatarRuntimeRegistryInterface

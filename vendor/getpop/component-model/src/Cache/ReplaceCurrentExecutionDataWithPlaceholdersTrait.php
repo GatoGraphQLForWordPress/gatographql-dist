@@ -7,6 +7,7 @@ use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleInfo;
 use PoP\ComponentModel\Constants\CachePlaceholders;
 use PoP\Root\App;
+/** @internal */
 trait ReplaceCurrentExecutionDataWithPlaceholdersTrait
 {
     /**

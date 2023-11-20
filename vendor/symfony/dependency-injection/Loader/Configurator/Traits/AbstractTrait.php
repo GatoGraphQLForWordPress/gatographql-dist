@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
+/** @internal */
 trait AbstractTrait
 {
     /**

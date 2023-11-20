@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\RelationalTypeDataLoaders;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\LooseContracts\NameResolverInterface;
+/** @internal */
 abstract class AbstractRelationalTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface
 {
     use BasicServiceTrait;

@@ -6,6 +6,7 @@ namespace PrefixedByPoP\GuzzleHttp\Psr7;
 use PrefixedByPoP\Psr\Http\Message\MessageInterface;
 use PrefixedByPoP\Psr\Http\Message\RequestInterface;
 use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+/** @internal */
 final class Message
 {
     /**

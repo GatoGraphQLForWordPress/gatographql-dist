@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Response;
 
 use stdClass;
+/** @internal */
 interface OutputServiceInterface
 {
     /**

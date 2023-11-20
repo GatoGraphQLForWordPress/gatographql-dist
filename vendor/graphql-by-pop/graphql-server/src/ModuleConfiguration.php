@@ -8,6 +8,7 @@ use PoP\Root\Module\AbstractModuleConfiguration;
 use PoPAPI\API\Module as APIModule;
 use PoPAPI\API\ModuleConfiguration as APIModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function sortGraphQLSchemaAlphabetically() : bool

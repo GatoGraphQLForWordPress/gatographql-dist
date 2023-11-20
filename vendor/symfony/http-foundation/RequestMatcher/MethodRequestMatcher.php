@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the HTTP method of a Request.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class MethodRequestMatcher implements RequestMatcherInterface
 {

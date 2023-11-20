@@ -7,6 +7,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * PSR-7 response implementation.
+ * @internal
  */
 class Response implements ResponseInterface
 {

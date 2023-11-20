@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use PrefixedByPoP\Symfony\Component\Config\Loader\ParamConfigurator;
+/** @internal */
 class EnvConfigurator extends ParamConfigurator
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\Root\Dotenv;
 
 use PoP\Root\App;
 use PrefixedByPoP\Symfony\Component\Dotenv\Dotenv;
+/** @internal */
 class DotenvBuilderFactory
 {
     /**

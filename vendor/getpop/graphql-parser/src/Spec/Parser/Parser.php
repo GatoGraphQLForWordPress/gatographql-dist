@@ -32,6 +32,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Variable;
 use PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\GraphQLParser\Spec\Parser\ParserInterface
 {
     /** @var OperationInterface[] */

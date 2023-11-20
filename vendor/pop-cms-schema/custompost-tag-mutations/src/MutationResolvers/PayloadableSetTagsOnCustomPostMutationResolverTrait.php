@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCustomPostMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
+/** @internal */
 trait PayloadableSetTagsOnCustomPostMutationResolverTrait
 {
     use PayloadableCustomPostMutationResolverTrait {

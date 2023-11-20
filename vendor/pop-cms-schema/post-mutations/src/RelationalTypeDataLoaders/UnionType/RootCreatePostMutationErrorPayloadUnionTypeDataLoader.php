@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostMutations\RelationalTypeDataLoaders\UnionType;
 use PoPCMSSchema\PostMutations\TypeResolvers\UnionType\RootCreatePostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class RootCreatePostMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
     /**

@@ -9,6 +9,7 @@ use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
+/** @internal */
 class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFieldResolver
 {
     /**

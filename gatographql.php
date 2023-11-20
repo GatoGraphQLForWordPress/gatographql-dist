@@ -3,7 +3,7 @@
 Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 Description: Interact with all your data in WordPress.
-Version: 1.0.15
+Version: 1.1.0
 Requires at least: 5.4
 Requires PHP: 7.2
 Author: Gato GraphQL
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '1.0.15';
+$pluginVersion = '1.1.0';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
@@ -71,7 +71,7 @@ if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsV
  *
  * @gatographql-readonly-code
  */
-$commitHash = 'bd696dc76eb55f68a6ee4492cdaad4822af50f9e';
+$commitHash = '4f02b0a197205d60c73b18605f0685928e43bf5a';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

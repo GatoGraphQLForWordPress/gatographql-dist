@@ -5,6 +5,7 @@ namespace PoPCMSSchema\QueriedObject\Facades\Routing;
 
 use PoP\Root\App;
 use PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface;
+/** @internal */
 class CMSRoutingStateServiceFacade
 {
     public static function getInstance() : CMSRoutingStateServiceInterface

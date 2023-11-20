@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Media\TypeResolvers\InputObjectType;
 
+/** @internal */
 class RootMediaItemsFilterInputObjectTypeResolver extends \PoPCMSSchema\Media\TypeResolvers\InputObjectType\AbstractMediaItemsFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

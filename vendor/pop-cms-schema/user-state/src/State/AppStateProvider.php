@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserState\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

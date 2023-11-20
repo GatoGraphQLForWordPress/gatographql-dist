@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentRouting;
 
+/** @internal */
 abstract class AbstractEntryComponentRoutingProcessor extends \PoP\ComponentRouting\AbstractComponentRoutingProcessor
 {
     /**

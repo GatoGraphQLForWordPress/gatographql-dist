@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\Exception;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\AbstractClientException;
+/** @internal */
 abstract class AbstractLocationableException extends AbstractClientException
 {
     /**

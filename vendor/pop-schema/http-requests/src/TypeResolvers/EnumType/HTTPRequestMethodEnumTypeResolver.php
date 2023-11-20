@@ -5,6 +5,7 @@ namespace PoPSchema\HTTPRequests\TypeResolvers\EnumType;
 
 use PoPSchema\HTTPRequests\Enums\HTTPRequestMethodEnum;
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
+/** @internal */
 class HTTPRequestMethodEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

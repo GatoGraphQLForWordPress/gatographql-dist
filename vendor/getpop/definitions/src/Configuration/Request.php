@@ -6,6 +6,7 @@ namespace PoP\Definitions\Configuration;
 use PoP\Root\App;
 use PoP\Definitions\Constants\Params;
 use PoP\Definitions\Constants\ParamValues;
+/** @internal */
 class Request
 {
     public static function isMangled() : bool

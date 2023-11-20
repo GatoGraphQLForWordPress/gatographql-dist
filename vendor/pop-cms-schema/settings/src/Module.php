@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Settings;
 
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Module\AbstractModule;
+/** @internal */
 class Module extends AbstractModule
 {
     protected function requiresSatisfyingModule() : bool

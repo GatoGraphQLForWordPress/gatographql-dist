@@ -10,6 +10,7 @@ use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\ObjectModels\RequestInput;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseWrapper;
+/** @internal */
 class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
 {
     /**

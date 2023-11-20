@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPAPI\API;
 
+/** @internal */
 class Environment
 {
     public const USE_SCHEMA_DEFINITION_CACHE = 'USE_SCHEMA_DEFINITION_CACHE';

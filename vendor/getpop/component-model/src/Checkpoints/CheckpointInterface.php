@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Checkpoints;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 interface CheckpointInterface
 {
     /**

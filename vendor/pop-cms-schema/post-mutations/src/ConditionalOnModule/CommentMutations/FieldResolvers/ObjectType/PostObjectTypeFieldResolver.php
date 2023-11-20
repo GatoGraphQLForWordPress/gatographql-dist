@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  * Please notice: It extends a class under ConditionalOnModule/Users/
  * but there's no need to do the same, as Users will already exist
  * for Mutations packages
+ * @internal
  */
 class PostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {

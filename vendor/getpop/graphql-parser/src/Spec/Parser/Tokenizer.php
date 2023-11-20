@@ -7,6 +7,7 @@ use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\GraphQLParser\Exception\Parser\SyntaxErrorParserException;
 use PoP\GraphQLParser\FeedbackItemProviders\GraphQLParserErrorFeedbackItemProvider;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class Tokenizer
 {
     use StandaloneServiceTrait;

@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBa
  * Validates environment variable placeholders used in extension configuration with dummy values.
  *
  * @author Roland Franssen <franssen.roland@gmail.com>
+ * @internal
  */
 class ValidateEnvPlaceholdersPass implements CompilerPassInterface
 {

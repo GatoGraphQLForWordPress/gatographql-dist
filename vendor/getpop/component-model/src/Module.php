@@ -7,6 +7,7 @@ use PoP\Root\Module\ModuleInterface;
 use PoP\ComponentModel\Facades\AttachableExtensions\AttachExtensionServiceFacade;
 use PoP\Root\Module\AbstractModule;
 use PoP\Root\Module\ApplicationEvents;
+/** @internal */
 class Module extends AbstractModule
 {
     /**

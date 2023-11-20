@@ -6,6 +6,7 @@ namespace PoP\Root\Container\CompilerPasses;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
 use PoP\Root\Registries\AppStateProviderRegistryInterface;
 use PoP\Root\State\AppStateProviderInterface;
+/** @internal */
 class RegisterAppStateProviderCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

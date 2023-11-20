@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
 use PoP\ComponentModel\Constants\ConfigurationValues;
+/** @internal */
 class AttachableExtensionManager implements \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface
 {
     /**

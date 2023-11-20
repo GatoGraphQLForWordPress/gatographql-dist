@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidTypeExcep
  * this interface yourself.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 interface NodeInterface
 {

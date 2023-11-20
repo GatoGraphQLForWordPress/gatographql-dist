@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Menus\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface;
+/** @internal */
 class MenuTypeAPIFacade
 {
     public static function getInstance() : MenuTypeAPIInterface

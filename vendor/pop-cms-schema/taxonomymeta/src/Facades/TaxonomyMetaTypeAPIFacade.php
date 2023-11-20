@@ -5,6 +5,7 @@ namespace PoPCMSSchema\TaxonomyMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface;
+/** @internal */
 class TaxonomyMetaTypeAPIFacade
 {
     public static function getInstance() : TaxonomyMetaTypeAPIInterface

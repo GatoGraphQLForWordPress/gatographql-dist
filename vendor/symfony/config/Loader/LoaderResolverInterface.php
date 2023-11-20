@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Loader;
  * LoaderResolverInterface selects a loader for a given resource.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface LoaderResolverInterface
 {

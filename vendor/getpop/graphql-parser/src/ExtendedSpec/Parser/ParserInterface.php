@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\ExtendedSpec\Parser;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\ParserInterface as UpstreamParserInterface;
+/** @internal */
 interface ParserInterface extends UpstreamParserInterface
 {
     /**

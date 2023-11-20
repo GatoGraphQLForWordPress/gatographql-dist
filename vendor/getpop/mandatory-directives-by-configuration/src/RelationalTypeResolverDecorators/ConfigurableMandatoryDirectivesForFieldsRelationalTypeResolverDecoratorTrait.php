@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\MandatoryDirectivesByConfiguration\ConfigurationEntries\ConfigurableMandatoryDirectivesForFieldsTrait;
+/** @internal */
 trait ConfigurableMandatoryDirectivesForFieldsRelationalTypeResolverDecoratorTrait
 {
     use ConfigurableMandatoryDirectivesForFieldsTrait;

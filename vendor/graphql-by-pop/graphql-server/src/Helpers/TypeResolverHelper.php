@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Helpers;
 
+/** @internal */
 class TypeResolverHelper implements \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface
 {
     /**

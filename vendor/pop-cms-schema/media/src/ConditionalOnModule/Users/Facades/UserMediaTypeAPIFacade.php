@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Media\ConditionalOnModule\Users\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Media\ConditionalOnModule\Users\TypeAPIs\UserMediaTypeAPIInterface;
+/** @internal */
 class UserMediaTypeAPIFacade
 {
     public static function getInstance() : UserMediaTypeAPIInterface

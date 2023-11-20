@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Schema;
 
 use PoP\Root\Helpers\ClassHelpers;
+/** @internal */
 class SchemaNamespacingService implements \PoP\ComponentModel\Schema\SchemaNamespacingServiceInterface
 {
     /**

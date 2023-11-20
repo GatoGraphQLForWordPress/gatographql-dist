@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
+/** @internal */
 trait RemoveIDFieldSetFieldDirectiveResolverTrait
 {
     /**

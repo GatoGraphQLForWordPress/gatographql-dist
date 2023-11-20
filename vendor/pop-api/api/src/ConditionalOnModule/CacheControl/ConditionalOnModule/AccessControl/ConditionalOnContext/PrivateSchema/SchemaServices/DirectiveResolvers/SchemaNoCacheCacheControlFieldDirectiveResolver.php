@@ -6,6 +6,7 @@ namespace PoPAPI\API\ConditionalOnModule\CacheControl\ConditionalOnModule\Access
 use PoP\CacheControl\DirectiveResolvers\AbstractCacheControlFieldDirectiveResolver;
 /**
  * This class is not to be initialized immediately, but only depending on the values of environment variables
+ * @internal
  */
 class SchemaNoCacheCacheControlFieldDirectiveResolver extends AbstractCacheControlFieldDirectiveResolver
 {

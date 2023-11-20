@@ -3,14 +3,18 @@
 declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Execution;
 
-use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
+use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\FeedbackItemProviders\GraphQLSpecErrorFeedbackItemProvider;
+use PoP\GraphQLParser\Module;
+use PoP\GraphQLParser\ModuleConfiguration;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
+use PoP\Root\App;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\ExecutableDocumentInterface
 {
     /**
@@ -101,6 +105,16 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
             $operationCount = \count($operations);
             if ($operationCount > 1) {
                 $lastOperation = $operations[$operationCount - 1];
+                /**
+                 * Check if the last operation is to be used
+                 * when no ?operationName=... is provided
+                 */
+                /** @var ModuleConfiguration */
+                $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+                if ($moduleConfiguration->useLastOperationInDocumentForMultipleQueryExecutionWhenOperationNameNotProvided()) {
+                    return $lastOperation;
+                }
+                // Return an error...
                 throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_6_1_B), $lastOperation);
             }
             // There is exactly 1 operation

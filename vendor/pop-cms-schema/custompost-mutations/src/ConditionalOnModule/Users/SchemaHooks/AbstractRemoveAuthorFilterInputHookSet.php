@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\SchemaHooks\FilterInputHookSet as UserCustomPostFilterInputHookSet;
+/** @internal */
 abstract class AbstractRemoveAuthorFilterInputHookSet extends AbstractHookSet
 {
     /**

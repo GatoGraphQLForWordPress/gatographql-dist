@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec;
 use PoP\ComponentModel\Component\Component;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
+/** @internal */
 class RelationalComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
 {
     /**

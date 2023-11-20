@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception;
  * Thrown when an UPLOAD_ERR_PARTIAL error occurred with UploadedFile.
  *
  * @author Florent Mata <florentmata@gmail.com>
+ * @internal
  */
 class PartialFileException extends FileException
 {

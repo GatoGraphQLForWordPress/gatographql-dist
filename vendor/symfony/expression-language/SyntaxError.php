@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
 
+/** @internal */
 class SyntaxError extends \LogicException
 {
     public function __construct(string $message, int $cursor = 0, string $expression = '', string $subject = null, array $proposals = null)

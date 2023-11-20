@@ -8,6 +8,7 @@ use PoPAPI\API\Module as APIModule;
 use PoPAPI\API\Constants\Actions;
 use PoPAPI\API\Response\Schemes as APISchemes;
 use PoP\ComponentModel\Constants\DataOutputModes;
+/** @internal */
 trait RemoveEntryComponentFromOutputEngineTrait
 {
     /**

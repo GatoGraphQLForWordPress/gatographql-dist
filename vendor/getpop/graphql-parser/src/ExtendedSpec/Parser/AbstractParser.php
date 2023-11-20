@@ -33,6 +33,7 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\GraphQLParser\Spec\Parser\Parser as UpstreamParser;
 use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLParser\ExtendedSpec\Parser\ParserInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace PrefixedByPoP\GuzzleHttp\Cookie;
 use PrefixedByPoP\GuzzleHttp\Utils;
 /**
  * Persists non-session cookies using a JSON formatted file
+ * @internal
  */
 class FileCookieJar extends CookieJar
 {

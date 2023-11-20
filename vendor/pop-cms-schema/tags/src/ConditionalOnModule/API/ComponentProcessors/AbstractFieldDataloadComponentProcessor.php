@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProcessorTrait;
 use PoPCMSSchema\Tags\ComponentProcessors\TagFilterInputContainerComponentProcessor;
+/** @internal */
 abstract class AbstractFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;

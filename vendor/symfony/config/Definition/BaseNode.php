@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\UnsetKeyExceptio
  * The base node class.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 abstract class BaseNode implements NodeInterface
 {

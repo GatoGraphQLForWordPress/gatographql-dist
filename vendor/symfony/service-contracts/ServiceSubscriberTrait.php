@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
  * method return types. Service ids are available as "ClassName::methodName".
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 trait ServiceSubscriberTrait
 {

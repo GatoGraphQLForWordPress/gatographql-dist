@@ -8,6 +8,7 @@ use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\UserState\Constants\HookNames;
 use PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver;
+/** @internal */
 class DBEntriesHookSet extends AbstractHookSet
 {
     /**

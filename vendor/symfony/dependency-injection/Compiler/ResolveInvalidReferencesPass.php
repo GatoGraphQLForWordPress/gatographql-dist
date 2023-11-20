@@ -24,6 +24,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\TypedReference;
  * container.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ResolveInvalidReferencesPass implements CompilerPassInterface
 {

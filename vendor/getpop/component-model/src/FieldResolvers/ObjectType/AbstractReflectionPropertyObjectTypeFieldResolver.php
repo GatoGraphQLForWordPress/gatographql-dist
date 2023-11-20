@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use ReflectionClass;
 use ReflectionProperty;
+/** @internal */
 abstract class AbstractReflectionPropertyObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver
 {
     /**

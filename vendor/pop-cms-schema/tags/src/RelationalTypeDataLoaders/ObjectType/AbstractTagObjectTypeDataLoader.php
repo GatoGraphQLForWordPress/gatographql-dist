@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQu
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPCMSSchema\Tags\TypeAPIs\TagListTypeAPIInterface;
+/** @internal */
 abstract class AbstractTagObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     public abstract function getTagListTypeAPI() : TagListTypeAPIInterface;

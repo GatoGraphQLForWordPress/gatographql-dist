@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType;
 use PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
     /**

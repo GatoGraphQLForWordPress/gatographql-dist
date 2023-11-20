@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostCategoryMutations\FieldResolvers\ObjectType;
 use PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\AbstractPostCategoriesMutationPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractTransientEntityOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class PostMutationTransientEntityOperationPayloadObjectTypeFieldResolver extends AbstractTransientEntityOperationPayloadObjectTypeFieldResolver
 {
     protected function getObjectIDFieldName() : string

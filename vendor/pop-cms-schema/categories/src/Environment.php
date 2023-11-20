@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Categories;
 
+/** @internal */
 class Environment
 {
     public const CATEGORY_LIST_DEFAULT_LIMIT = 'CATEGORY_LIST_DEFAULT_LIMIT';

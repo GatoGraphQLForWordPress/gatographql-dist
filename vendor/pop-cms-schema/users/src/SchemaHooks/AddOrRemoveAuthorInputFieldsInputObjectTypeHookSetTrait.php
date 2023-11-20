@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\SchemaHooks;
 
 use PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 trait AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait
 {
     protected abstract function getFilterByAuthorInputObjectTypeResolver() : FilterByAuthorInputObjectTypeResolver;

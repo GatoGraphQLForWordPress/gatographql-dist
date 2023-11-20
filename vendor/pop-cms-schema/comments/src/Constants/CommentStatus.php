@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments\Constants;
 
+/** @internal */
 class CommentStatus
 {
     public const APPROVE = 'approve';

@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
+/** @internal */
 class HookNames
 {
     public const DIRECTIVE_ARG_NAME_TYPE_RESOLVERS = __CLASS__ . ':directive-arg-name-type-resolvers';

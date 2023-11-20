@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\EnumType\HookNames;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\Constants\CustomPostOrderBy;
+/** @internal */
 class CustomPostOrderByEnumTypeHookSet extends AbstractHookSet
 {
     protected function init() : void

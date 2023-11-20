@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\TypeResolvers\EnumType;
 
 use PoPSchema\SchemaCommons\Enums\OperationStatusEnum;
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
+/** @internal */
 class OperationStatusEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

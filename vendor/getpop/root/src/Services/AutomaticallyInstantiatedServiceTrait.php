@@ -8,6 +8,7 @@ use PoP\Root\Module\ApplicationEvents;
  * A service which must always be instantiated,
  * so it's done automatically by the application.
  * Eg: hooks.
+ * @internal
  */
 trait AutomaticallyInstantiatedServiceTrait
 {

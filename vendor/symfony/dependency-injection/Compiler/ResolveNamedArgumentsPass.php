@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
  * Resolves named arguments to their corresponding numeric index.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @internal
  */
 class ResolveNamedArgumentsPass extends AbstractRecursivePass
 {

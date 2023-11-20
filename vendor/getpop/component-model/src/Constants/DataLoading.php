@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class DataLoading
 {
     public const DATA_ACCESS_CHECKPOINTS = 'dataaccess-checkpoints';

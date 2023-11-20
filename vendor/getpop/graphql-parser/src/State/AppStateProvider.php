@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\GraphQLParser\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

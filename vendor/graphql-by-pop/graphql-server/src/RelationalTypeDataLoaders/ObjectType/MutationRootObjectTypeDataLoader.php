@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
+/** @internal */
 class MutationRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

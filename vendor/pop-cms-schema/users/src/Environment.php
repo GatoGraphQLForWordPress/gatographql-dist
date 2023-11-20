@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Users;
 
+/** @internal */
 class Environment
 {
     public const USER_LIST_DEFAULT_LIMIT = 'USER_LIST_DEFAULT_LIMIT';

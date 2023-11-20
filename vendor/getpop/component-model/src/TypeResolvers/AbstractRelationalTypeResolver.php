@@ -28,6 +28,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeResolvers\AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
 {
     use \PoP\ComponentModel\TypeResolvers\ExcludeFieldNamesFromSchemaTypeResolverTrait;

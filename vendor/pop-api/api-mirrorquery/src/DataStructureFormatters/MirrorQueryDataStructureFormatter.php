@@ -17,6 +17,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\App;
 use SplObjectStorage;
+/** @internal */
 class MirrorQueryDataStructureFormatter extends AbstractJSONDataStructureFormatter
 {
     /**

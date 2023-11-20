@@ -6,6 +6,7 @@ use PrefixedByPoP\Psr\Http\Message\RequestInterface;
 use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 /**
  * Cookie jar that stores cookies as an array
+ * @internal
  */
 class CookieJar implements CookieJarInterface
 {

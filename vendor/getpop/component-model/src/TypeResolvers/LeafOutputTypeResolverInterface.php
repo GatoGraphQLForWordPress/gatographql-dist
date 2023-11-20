@@ -18,6 +18,7 @@ use stdClass;
  * - EnumType
  *
  * Only these types need be called ->serialize() on them
+ * @internal
  */
 interface LeafOutputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\OutputTypeResolverInterface
 {

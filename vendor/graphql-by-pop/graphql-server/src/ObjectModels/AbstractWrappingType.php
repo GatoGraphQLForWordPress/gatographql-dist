@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
+/** @internal */
 abstract class AbstractWrappingType implements \GraphQLByPoP\GraphQLServer\ObjectModels\WrappingTypeInterface
 {
     /**

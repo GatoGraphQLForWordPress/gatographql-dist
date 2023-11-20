@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\QueryResolution;
 
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
+/** @internal */
 class DirectiveDataAccessor implements \PoP\ComponentModel\QueryResolution\DirectiveDataAccessorInterface
 {
     /**

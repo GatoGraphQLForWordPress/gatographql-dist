@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * Throws an exception for any Definitions that have errors and still exist.
  *
  * @author Ryan Weaver <ryan@knpuniversity.com>
+ * @internal
  */
 class DefinitionErrorExceptionPass extends AbstractRecursivePass
 {

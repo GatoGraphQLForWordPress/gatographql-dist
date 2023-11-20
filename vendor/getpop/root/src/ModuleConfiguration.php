@@ -5,6 +5,7 @@ namespace PoP\Root;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function enablePassingStateViaRequest() : bool

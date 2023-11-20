@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\Filesystem\Exception;
 
 /**
  * @author Théo Fidry <theo.fidry@gmail.com>
+ * @internal
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

@@ -11,6 +11,7 @@
  * file that was distributed with this source code.
  */
 if (\PHP_VERSION_ID < 80300) {
+    /** @internal */
     class DateObjectError extends DateError
     {
     }

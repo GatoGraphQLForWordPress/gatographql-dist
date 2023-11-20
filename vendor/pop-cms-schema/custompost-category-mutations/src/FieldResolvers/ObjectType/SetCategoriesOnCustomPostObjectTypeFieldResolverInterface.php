@@ -7,6 +7,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverI
 use PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\AbstractSetCategoriesOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+/** @internal */
 interface SetCategoriesOnCustomPostObjectTypeFieldResolverInterface
 {
     public function getCustomPostObjectTypeResolver() : CustomPostObjectTypeResolverInterface;

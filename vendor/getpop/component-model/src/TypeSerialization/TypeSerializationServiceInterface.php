@@ -12,6 +12,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 interface TypeSerializationServiceInterface
 {
     /**

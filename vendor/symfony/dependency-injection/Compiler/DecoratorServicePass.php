@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Diego Saint Esteben <diego@saintesteben.me>
+ * @internal
  */
 class DecoratorServicePass extends AbstractRecursivePass
 {

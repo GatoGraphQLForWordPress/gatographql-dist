@@ -26,6 +26,7 @@ use PoP\Root\StateManagers\HookManagerInterface;
  * this class provides a new state.
  *
  * Needed for PHPUnit.
+ * @internal
  */
 interface AppThreadInterface
 {

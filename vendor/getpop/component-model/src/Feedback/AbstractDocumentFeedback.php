@@ -7,6 +7,7 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 /**
  * Error that concern the GraphQL document. The `$location` is where the error happens.
+ * @internal
  */
 abstract class AbstractDocumentFeedback extends \PoP\ComponentModel\Feedback\AbstractFeedback implements \PoP\ComponentModel\Feedback\DocumentFeedbackInterface
 {

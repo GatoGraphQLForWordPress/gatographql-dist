@@ -28,6 +28,7 @@ use SplObjectStorage;
  * the $fieldName to obtain the ObjectTypeFieldResolver is ambiguous.
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 trait AliasSchemaObjectTypeFieldResolverTrait
 {

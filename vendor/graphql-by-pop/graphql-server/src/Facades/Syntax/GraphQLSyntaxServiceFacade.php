@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Facades\Syntax;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface;
+/** @internal */
 class GraphQLSyntaxServiceFacade
 {
     public static function getInstance() : GraphQLSyntaxServiceInterface

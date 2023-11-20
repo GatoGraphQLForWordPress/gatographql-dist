@@ -66,6 +66,7 @@ use SplObjectStorage;
  *             # ...
  *   }
  *   ```
+ * @internal
  */
 class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {

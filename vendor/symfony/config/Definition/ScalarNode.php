@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidTypeExcep
  *   * floats
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ScalarNode extends VariableNode
 {

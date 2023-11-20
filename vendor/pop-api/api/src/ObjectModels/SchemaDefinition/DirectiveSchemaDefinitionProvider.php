@@ -13,6 +13,7 @@ use PoP\Root\App;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinitionHelpers;
+/** @internal */
 class DirectiveSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectModels\SchemaDefinition\SchemaDefinitionProviderInterface
 {
     /**

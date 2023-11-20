@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType;
 
+/** @internal */
 class TaxonomyTaxonomiesFilterInputObjectTypeResolver extends \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\AbstractTaxonomiesFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

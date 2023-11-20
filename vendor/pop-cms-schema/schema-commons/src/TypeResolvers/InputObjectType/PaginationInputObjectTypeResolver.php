@@ -14,6 +14,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\SchemaCommons\FeedbackItemProviders\FeedbackItemProvider;
 use PoPCMSSchema\SchemaCommons\FilterInputs\LimitFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\OffsetFilterInput;
+/** @internal */
 class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
     /**

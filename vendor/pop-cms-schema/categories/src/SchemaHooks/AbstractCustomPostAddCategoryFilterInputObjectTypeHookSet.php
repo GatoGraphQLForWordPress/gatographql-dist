@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Categories\SchemaHooks;
 
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCategoriesInputObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends \PoPCMSSchema\Categories\SchemaHooks\AbstractAddCategoryFilterInputObjectTypeHookSet
 {
     /**

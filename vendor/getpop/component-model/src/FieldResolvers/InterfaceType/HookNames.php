@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\FieldResolvers\InterfaceType;
 
+/** @internal */
 class HookNames
 {
     public const INTERFACE_TYPE_FIELD_DESCRIPTION = __CLASS__ . ':interface-type-field-description';

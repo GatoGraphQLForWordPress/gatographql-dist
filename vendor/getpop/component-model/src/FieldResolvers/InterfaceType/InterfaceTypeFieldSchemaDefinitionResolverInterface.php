@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface InterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     /**

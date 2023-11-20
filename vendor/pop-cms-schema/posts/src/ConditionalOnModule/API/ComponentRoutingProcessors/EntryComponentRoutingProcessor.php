@@ -12,6 +12,7 @@ use PoPCMSSchema\CustomPosts\Routing\RequestNature as CustomPostRequestNature;
 use PoPCMSSchema\Posts\Module;
 use PoPCMSSchema\Posts\ModuleConfiguration;
 use PoPCMSSchema\Posts\ConditionalOnModule\API\ComponentProcessors\FieldDataloadComponentProcessor;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**

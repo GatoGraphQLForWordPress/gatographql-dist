@@ -12,6 +12,7 @@ namespace PoP\ComponentModel\DirectiveResolvers;
  * but the GraphQL spec does not define it. Then, through this
  * interface, we can provide different variations, or even
  * different directives, to provide this functionality.
+ * @internal
  */
 interface OperationDependencyDefinerFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {

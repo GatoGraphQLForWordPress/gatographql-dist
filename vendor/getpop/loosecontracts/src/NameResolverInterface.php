@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\LooseContracts;
 
+/** @internal */
 interface NameResolverInterface
 {
     public function getName(string $name) : string;

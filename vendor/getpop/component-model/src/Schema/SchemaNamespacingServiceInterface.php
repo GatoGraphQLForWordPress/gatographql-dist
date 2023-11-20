@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Schema;
 
+/** @internal */
 interface SchemaNamespacingServiceInterface
 {
     public function addSchemaNamespaceForClassOwnerAndProjectNamespace(string $classOwnerAndProjectNamespace, string $schemaNamespace) : void;

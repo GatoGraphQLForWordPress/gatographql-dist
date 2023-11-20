@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
+/** @internal */
 interface OperationInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
     public function getName() : string;

@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Versioning;
 use PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface VersioningServiceInterface
 {
     /**

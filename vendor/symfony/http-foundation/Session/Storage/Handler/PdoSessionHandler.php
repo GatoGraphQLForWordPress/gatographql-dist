@@ -38,6 +38,7 @@ use PrefixedByPoP\Doctrine\DBAL\Types\Types;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Michael Williams <michael.williams@funsational.com>
  * @author Tobias Schultze <http://tobion.de>
+ * @internal
  */
 class PdoSessionHandler extends AbstractSessionHandler
 {
@@ -103,14 +104,14 @@ class PdoSessionHandler extends AbstractSessionHandler
     private $ttl;
     /**
      * Username when lazy-connect.
-     * @var string
+     * @var string|null
      */
-    private $username = '';
+    private $username;
     /**
      * Password when lazy-connect.
-     * @var string
+     * @var string|null
      */
-    private $password = '';
+    private $password;
     /**
      * Connection options when lazy-connect.
      * @var mixed[]

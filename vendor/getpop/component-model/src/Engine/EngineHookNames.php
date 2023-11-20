@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Engine;
 
+/** @internal */
 class EngineHookNames
 {
     public const ENGINE_ITERATION_START = __CLASS__ . ':engine-iteration-start';

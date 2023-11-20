@@ -15,6 +15,7 @@ use PrefixedByPoP\Psr\Container\NotFoundExceptionInterface;
  * This exception is thrown when a non-existent service is requested.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ServiceNotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface
 {

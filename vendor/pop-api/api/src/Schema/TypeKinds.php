@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPAPI\API\Schema;
 
+/** @internal */
 class TypeKinds
 {
     public const OBJECT = 'Object';

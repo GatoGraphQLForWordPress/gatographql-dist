@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostCategories\ConditionalOnModule\RESTAPI\Hooks;
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPCMSSchema\Posts\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors\EntryComponentRoutingProcessor;
 use PoPAPI\RESTAPI\Hooks\AbstractRESTHookSet;
+/** @internal */
 class PostHookSet extends AbstractRESTHookSet
 {
     const CATEGORY_RESTFIELDS = 'categories { id name url }';

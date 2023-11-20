@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\DomCrawler;
 
 /**
  * Image represents an HTML image (an HTML img tag).
+ * @internal
  */
 class Image extends AbstractUriElement
 {

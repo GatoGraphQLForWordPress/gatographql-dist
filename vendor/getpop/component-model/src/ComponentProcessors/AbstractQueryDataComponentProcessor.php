@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\QueryInputOutputHandlers\ActionExecutionQueryInputOutputHandler;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractQueryDataComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractFilterDataComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\QueryDataComponentProcessorInterface
 {
     use \PoP\ComponentModel\ComponentProcessors\QueryDataComponentProcessorTrait;

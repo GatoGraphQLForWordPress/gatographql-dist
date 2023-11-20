@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\DataStructureFormatters;
 
 use SimpleXMLElement;
+/** @internal */
 trait XMLDataStructureFormatterTrait
 {
     public function getContentType() : string

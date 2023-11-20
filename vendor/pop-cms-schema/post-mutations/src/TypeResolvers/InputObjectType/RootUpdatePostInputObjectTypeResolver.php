@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostContentAsOneofInputObjectTypeResolver;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\RootUpdateCustomPostInputObjectTypeResolver;
+/** @internal */
 class RootUpdatePostInputObjectTypeResolver extends RootUpdateCustomPostInputObjectTypeResolver implements \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\UpdatePostInputObjectTypeResolverInterface
 {
     /**

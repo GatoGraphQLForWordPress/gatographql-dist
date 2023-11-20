@@ -5,6 +5,7 @@ namespace PoP\Root\Container;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+/** @internal */
 interface ContainerBuilderWrapperInterface
 {
     public function getContainerBuilder() : ContainerBuilder;

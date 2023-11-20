@@ -5,6 +5,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
+/** @internal */
 abstract class AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectModels\SchemaDefinition\SchemaDefinitionProviderInterface
 {
     /**

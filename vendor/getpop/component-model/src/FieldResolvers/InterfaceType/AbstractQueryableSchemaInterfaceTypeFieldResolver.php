@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
 use PoP\ComponentModel\Resolvers\QueryableFieldResolverTrait;
+/** @internal */
 abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;

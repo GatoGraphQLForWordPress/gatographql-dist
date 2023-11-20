@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Julien Maulny <jmaulny@darkmira.fr>
+ * @internal
  */
 class InvalidParameterTypeException extends InvalidArgumentException
 {

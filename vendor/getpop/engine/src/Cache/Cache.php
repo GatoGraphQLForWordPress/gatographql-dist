@@ -5,6 +5,7 @@ namespace PoP\Engine\Cache;
 
 use PoP\ComponentModel\Cache\Cache as UpstreamCache;
 use PrefixedByPoP\Psr\Cache\CacheItemInterface;
+/** @internal */
 class Cache extends UpstreamCache
 {
     /**

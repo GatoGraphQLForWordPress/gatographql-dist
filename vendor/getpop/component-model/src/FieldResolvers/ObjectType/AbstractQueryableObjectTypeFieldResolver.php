@@ -15,6 +15,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\QueryableInputObjectTypeRes
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
+/** @internal */
 abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\ObjectType\QueryableObjectTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;

@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Exception\LogicException;
 use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class LazyServiceDumper implements DumperInterface
 {

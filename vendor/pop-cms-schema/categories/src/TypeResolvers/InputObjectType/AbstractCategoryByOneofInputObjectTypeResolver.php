@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\AbstractTaxonomyByInputObjectTypeResolver;
+/** @internal */
 abstract class AbstractCategoryByOneofInputObjectTypeResolver extends AbstractTaxonomyByInputObjectTypeResolver
 {
     public function getInputFieldDescription(string $inputFieldName) : ?string

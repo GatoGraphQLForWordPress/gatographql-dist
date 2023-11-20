@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\State;
 
 use PoP\Root\Services\ServiceInterface;
+/** @internal */
 interface AppStateProviderInterface extends ServiceInterface
 {
     /**

@@ -11,6 +11,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 use PrefixedByPoP\Psr\Log\LoggerInterface;
 /**
  * Functions used to create and wrap handlers with handler middleware.
+ * @internal
  */
 final class Middleware
 {

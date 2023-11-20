@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractValidateConditionFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractValidateFieldDirectiveResolver
 {
     /**

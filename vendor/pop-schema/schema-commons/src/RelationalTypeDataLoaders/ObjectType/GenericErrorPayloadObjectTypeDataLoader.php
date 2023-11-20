@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType;
 
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
+/** @internal */
 class GenericErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
     protected function getObjectClass() : string

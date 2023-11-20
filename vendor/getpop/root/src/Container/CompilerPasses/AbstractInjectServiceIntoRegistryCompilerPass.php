@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\Container\CompilerPasses;
 
 use PoP\Root\Container\ContainerBuilderWrapperInterface;
+/** @internal */
 abstract class AbstractInjectServiceIntoRegistryCompilerPass extends \PoP\Root\Container\CompilerPasses\AbstractCompilerPass
 {
     use \PoP\Root\Container\CompilerPasses\AutoconfigurableServicesCompilerPassTrait;

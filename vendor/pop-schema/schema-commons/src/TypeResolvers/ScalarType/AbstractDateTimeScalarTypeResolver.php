@@ -16,6 +16,7 @@ use stdClass;
  * GraphQL Custom Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Custom-Scalars
+ * @internal
  */
 abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeResolver
 {

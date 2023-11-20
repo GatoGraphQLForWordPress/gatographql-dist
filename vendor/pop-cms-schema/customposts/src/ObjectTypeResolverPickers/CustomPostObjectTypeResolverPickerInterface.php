@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface;
+/** @internal */
 interface CustomPostObjectTypeResolverPickerInterface extends ObjectTypeResolverPickerInterface
 {
     /**

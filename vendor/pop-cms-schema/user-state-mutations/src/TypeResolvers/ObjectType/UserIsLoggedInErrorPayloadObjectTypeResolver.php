@@ -6,6 +6,7 @@ namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\UserIsLoggedInErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class UserIsLoggedInErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
     /**

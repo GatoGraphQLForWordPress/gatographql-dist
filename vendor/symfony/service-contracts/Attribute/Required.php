@@ -17,6 +17,7 @@ namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
  * considered during the instantiation process of the containing class.
  *
  * @author Alexander M. Turek <me@derrabus.de>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
 final class Required

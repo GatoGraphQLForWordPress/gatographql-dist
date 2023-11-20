@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostCategoryMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
+/** @internal */
 class PostCategoryTypeMutationAPIFacade
 {
     public static function getInstance() : PostCategoryTypeMutationAPIInterface

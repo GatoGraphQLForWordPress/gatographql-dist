@@ -19,6 +19,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
 use PoP\Root\Exception\AbstractClientException;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractComponentMutationResolverBridge implements \PoP\ComponentModel\MutationResolverBridges\ComponentMutationResolverBridgeInterface
 {
     use BasicServiceTrait;

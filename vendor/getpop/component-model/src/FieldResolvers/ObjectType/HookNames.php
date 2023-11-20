@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
+/** @internal */
 class HookNames
 {
     public const OBJECT_TYPE_FIELD_DESCRIPTION = __CLASS__ . ':object-type-field-description';

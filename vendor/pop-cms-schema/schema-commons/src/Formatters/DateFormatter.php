@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\Formatters;
 
+/** @internal */
 class DateFormatter implements \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface
 {
     /**

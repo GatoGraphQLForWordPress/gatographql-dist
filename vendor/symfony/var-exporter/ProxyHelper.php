@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class ProxyHelper
 {

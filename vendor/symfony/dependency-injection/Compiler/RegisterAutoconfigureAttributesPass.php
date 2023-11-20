@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * and don't have the "container.ignore_attributes" tag.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
 {

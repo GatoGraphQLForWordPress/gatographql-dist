@@ -20,6 +20,7 @@ use PrefixedByPoP\Psr\Container\NotFoundExceptionInterface;
  *
  * @author Robin Chalas <robin.chalas@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 trait ServiceLocatorTrait
 {
@@ -36,7 +37,7 @@ trait ServiceLocatorTrait
      */
     private $providedTypes;
     /**
-     * @param callable[] $factories
+     * @param array<string, callable> $factories
      */
     public function __construct(array $factories)
     {

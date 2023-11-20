@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Component;
 
+/** @internal */
 final class Component
 {
     /**

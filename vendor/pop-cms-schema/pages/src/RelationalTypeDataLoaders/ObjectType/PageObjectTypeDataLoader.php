@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Pages\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\AbstractCustomPostObjectTypeDataLoader;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
+/** @internal */
 class PageObjectTypeDataLoader extends AbstractCustomPostObjectTypeDataLoader
 {
     /**

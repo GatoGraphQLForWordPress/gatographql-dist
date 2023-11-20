@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\EnumType\HookNames;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\Comments\ConditionalOnModule\Users\Constants\CommentOrderBy;
 use PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentOrderByEnumTypeResolver;
+/** @internal */
 class EnumTypeHookSet extends AbstractHookSet
 {
     protected function init() : void

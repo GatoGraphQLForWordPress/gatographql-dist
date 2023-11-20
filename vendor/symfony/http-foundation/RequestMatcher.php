@@ -17,6 +17,7 @@ trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is depreca
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @deprecated since Symfony 6.2, use ChainRequestMatcher instead
+ * @internal
  */
 class RequestMatcher implements RequestMatcherInterface
 {

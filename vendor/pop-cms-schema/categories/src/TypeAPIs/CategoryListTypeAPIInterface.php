@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeAPIs;
 
+/** @internal */
 interface CategoryListTypeAPIInterface
 {
     /**

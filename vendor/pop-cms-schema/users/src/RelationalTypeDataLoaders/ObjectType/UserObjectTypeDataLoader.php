@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQu
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
+/** @internal */
 class UserObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     /**

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\Users\Routing\RequestNature;
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**

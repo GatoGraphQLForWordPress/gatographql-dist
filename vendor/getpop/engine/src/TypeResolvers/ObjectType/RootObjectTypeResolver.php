@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\Engine\ObjectModels\Root;
 use PoP\Engine\RelationalTypeDataLoaders\ObjectType\RootObjectTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
+/** @internal */
 class RootObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;

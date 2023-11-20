@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Media\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
+/** @internal */
 class MediaTypeAPIFacade
 {
     public static function getInstance() : MediaTypeAPIInterface

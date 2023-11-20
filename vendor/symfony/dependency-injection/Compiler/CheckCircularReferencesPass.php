@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircula
  * Circular reference from method calls will only be detected at run-time.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class CheckCircularReferencesPass implements CompilerPassInterface
 {

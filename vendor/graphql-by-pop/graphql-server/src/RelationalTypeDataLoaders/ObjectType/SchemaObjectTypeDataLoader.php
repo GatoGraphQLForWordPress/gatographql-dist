@@ -9,6 +9,7 @@ use GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaObjectTypeResolver
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractUseObjectDictionaryObjectTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDataLoader
 {
     /**

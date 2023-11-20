@@ -9,6 +9,7 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /**
  * A Transient Object is automatically added to the Object Dictionary
  * under the class of the object.
+ * @internal
  */
 abstract class AbstractTransientObject implements \PoP\ComponentModel\ObjectModels\TransientObjectInterface
 {

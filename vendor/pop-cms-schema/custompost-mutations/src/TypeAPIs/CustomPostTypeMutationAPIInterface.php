@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMutations\TypeAPIs;
 use PoPCMSSchema\CustomPostMutations\Exception\CustomPostCRUDMutationException;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface CustomPostTypeMutationAPIInterface
 {

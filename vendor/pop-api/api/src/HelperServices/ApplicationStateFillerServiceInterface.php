@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\API\HelperServices;
 
 use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
+/** @internal */
 interface ApplicationStateFillerServiceInterface
 {
     /**

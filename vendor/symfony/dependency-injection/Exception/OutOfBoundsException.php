@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
 
 /**
  * Base OutOfBoundsException for Dependency Injection component.
+ * @internal
  */
 class OutOfBoundsException extends \OutOfBoundsException implements ExceptionInterface
 {

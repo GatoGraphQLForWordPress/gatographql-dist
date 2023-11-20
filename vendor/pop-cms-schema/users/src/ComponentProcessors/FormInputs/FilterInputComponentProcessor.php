@@ -13,6 +13,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\Users\FilterInputs\EmailOrEmailsFilterInput;
 use PoPCMSSchema\Users\FilterInputs\NameFilterInput;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver;
+/** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
     public const COMPONENT_FILTERINPUT_NAME = 'filterinput-name';

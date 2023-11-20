@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Removes abstract Definitions.
+ * @internal
  */
 class RemoveAbstractDefinitionsPass implements CompilerPassInterface
 {

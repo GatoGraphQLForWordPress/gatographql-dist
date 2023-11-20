@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Exception;
  * File locator exception if a file does not exist.
  *
  * @author Leo Feyer <https://github.com/leofeyer>
+ * @internal
  */
 class FileLocatorFileNotFoundException extends \InvalidArgumentException
 {

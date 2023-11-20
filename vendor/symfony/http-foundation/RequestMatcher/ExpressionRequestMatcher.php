@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * ExpressionRequestMatcher uses an expression to match a Request.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ExpressionRequestMatcher implements RequestMatcherInterface
 {

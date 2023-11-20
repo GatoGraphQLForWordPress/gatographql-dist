@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionInterface;
  * Request stack that controls the lifecycle of requests.
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @internal
  */
 class RequestStack
 {

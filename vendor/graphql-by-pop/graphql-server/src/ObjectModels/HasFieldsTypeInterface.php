@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
+/** @internal */
 interface HasFieldsTypeInterface extends \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
 {
     /**

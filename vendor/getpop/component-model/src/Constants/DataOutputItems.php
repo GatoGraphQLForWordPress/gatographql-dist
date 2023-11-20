@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class DataOutputItems
 {
     public const META = 'meta';

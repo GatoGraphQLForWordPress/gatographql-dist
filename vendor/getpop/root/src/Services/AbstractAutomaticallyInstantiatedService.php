@@ -7,6 +7,7 @@ namespace PoP\Root\Services;
  * A service which must always be instantiated,
  * so it's done automatically by the application.
  * Eg: hooks.
+ * @internal
  */
 abstract class AbstractAutomaticallyInstantiatedService implements \PoP\Root\Services\AutomaticallyInstantiatedServiceInterface
 {

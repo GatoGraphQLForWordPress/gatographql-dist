@@ -18,6 +18,7 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class Variable extends AbstractAst implements WithValueInterface
 {
     /**

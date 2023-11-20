@@ -9,6 +9,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoPCMSSchema\Users\TypeResolvers\InterfaceType\WithAuthorInterfaceTypeResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
+/** @internal */
 class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
     /**

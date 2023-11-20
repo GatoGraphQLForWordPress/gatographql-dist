@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPostMedia\FieldResolvers\ObjectType\AbstractWithFeaturedI
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
     /**

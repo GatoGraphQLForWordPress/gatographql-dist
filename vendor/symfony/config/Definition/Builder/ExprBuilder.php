@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\UnsetKeyExceptio
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Christophe Coevoet <stof@notk.org>
+ * @internal
  */
 class ExprBuilder
 {

@@ -8,6 +8,7 @@ use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverIn
 use PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 trait ConfigurableMandatoryDirectivesForFieldsTrait
 {
     /**

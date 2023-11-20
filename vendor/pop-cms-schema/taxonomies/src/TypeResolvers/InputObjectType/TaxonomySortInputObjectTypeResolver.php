@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Taxonomies\Constants\TaxonomyOrderBy;
 use PoPCMSSchema\Taxonomies\TypeResolvers\EnumType\TaxonomyOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
+/** @internal */
 class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
     /**

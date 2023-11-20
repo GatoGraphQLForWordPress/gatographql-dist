@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class DataProperties
 {
     public const DIRECT_COMPONENT_FIELD_NODES = 'direct-component-field-nodes';

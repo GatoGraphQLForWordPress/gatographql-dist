@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class MediaItemDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers\AbstractMediaItemDoesNotExistErrorPayloadObjectTypeResolverPicker
 {
     /**

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
  * Lexes an expression.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Lexer
 {

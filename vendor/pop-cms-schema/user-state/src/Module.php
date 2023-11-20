@@ -8,6 +8,7 @@ use PoP\ComponentModel\App;
 use PoP\Root\Exception\ComponentNotExistsException;
 use PoP\Root\Module\AbstractModule;
 use PoP\Root\Module\ModuleInterface;
+/** @internal */
 class Module extends AbstractModule
 {
     protected function requiresSatisfyingModule() : bool

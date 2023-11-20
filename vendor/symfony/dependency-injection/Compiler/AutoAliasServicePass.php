@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 /**
  * Sets a service to be an alias of another one, given a format pattern.
+ * @internal
  */
 class AutoAliasServicePass implements CompilerPassInterface
 {

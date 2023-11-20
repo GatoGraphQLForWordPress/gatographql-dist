@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Loader;
  * LoaderInterface is the interface implemented by all loader classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface LoaderInterface
 {

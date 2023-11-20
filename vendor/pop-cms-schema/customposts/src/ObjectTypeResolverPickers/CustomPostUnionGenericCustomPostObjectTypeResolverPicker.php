@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class CustomPostUnionGenericCustomPostObjectTypeResolverPicker extends \PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\AbstractGenericCustomPostObjectTypeResolverPicker
 {
     /**

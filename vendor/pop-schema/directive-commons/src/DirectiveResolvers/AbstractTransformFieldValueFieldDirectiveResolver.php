@@ -14,6 +14,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\DirectiveResolvers\AbstractFieldDirectiveResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractTransformFieldValueFieldDirectiveResolver extends AbstractFieldDirectiveResolver
 {
     /**

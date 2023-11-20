@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Response;
 
 use PoP\Root\Services\BasicServiceTrait;
 use stdClass;
+/** @internal */
 class OutputService implements \PoP\ComponentModel\Response\OutputServiceInterface
 {
     use BasicServiceTrait;

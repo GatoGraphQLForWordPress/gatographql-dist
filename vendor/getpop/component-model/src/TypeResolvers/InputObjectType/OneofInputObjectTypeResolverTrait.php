@@ -10,6 +10,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Translation\TranslationAPIInterface;
 use stdClass;
+/** @internal */
 trait OneofInputObjectTypeResolverTrait
 {
     protected abstract function getTranslationAPI() : TranslationAPIInterface;

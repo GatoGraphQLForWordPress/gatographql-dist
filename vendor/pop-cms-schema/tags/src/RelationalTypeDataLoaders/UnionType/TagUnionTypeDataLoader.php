@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\RelationalTypeDataLoaders\UnionType;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver;
+/** @internal */
 class TagUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
     /**

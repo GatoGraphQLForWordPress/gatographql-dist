@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ReverseContainer;
 /**
  * Conveys a cached value that needs to be computed.
+ * @internal
  */
 final class EarlyExpirationMessage
 {

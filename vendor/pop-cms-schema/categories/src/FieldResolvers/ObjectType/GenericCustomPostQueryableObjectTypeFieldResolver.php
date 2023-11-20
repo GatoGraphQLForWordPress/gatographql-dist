@@ -12,6 +12,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeRe
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class GenericCustomPostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableObjectTypeFieldResolver
 {
     /**

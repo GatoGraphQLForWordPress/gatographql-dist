@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler;
 /**
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {

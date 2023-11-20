@@ -8,6 +8,7 @@ use ReflectionClass;
 use ReflectionProperty;
 /**
  * Indicate how the Application has been coded/compiled.
+ * @internal
  */
 class AppArchitecture implements \PoP\Root\AppArchitectureInterface
 {

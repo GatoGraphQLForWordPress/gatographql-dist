@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoPCMSSchema\Comments\Module;
 use PoPCMSSchema\Comments\ModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\PaginationInputObjectTypeResolver;
+/** @internal */
 class CommentResponsePaginationInputObjectTypeResolver extends PaginationInputObjectTypeResolver
 {
     public function getTypeName() : string

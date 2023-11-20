@@ -5,6 +5,7 @@ namespace PoPAPI\API\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
+/** @internal */
 class FeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const E1 = '1';

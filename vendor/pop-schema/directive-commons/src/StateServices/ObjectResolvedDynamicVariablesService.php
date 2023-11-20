@@ -21,6 +21,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
 use SplObjectStorage;
+/** @internal */
 class ObjectResolvedDynamicVariablesService implements \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface
 {
     use BasicServiceTrait;

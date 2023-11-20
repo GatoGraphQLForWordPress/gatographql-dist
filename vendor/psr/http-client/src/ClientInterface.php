@@ -4,6 +4,7 @@ namespace PrefixedByPoP\Psr\Http\Client;
 
 use PrefixedByPoP\Psr\Http\Message\RequestInterface;
 use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+/** @internal */
 interface ClientInterface
 {
     /**

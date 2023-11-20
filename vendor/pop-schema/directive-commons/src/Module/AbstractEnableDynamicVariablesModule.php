@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\Module;
 
 use PoP\Root\Module\AbstractModule;
+/** @internal */
 abstract class AbstractEnableDynamicVariablesModule extends AbstractModule
 {
     /**

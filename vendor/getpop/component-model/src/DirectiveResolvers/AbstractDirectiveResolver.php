@@ -25,6 +25,7 @@ use PoP\Root\Services\BasicServiceTrait;
  * Operation Directives is also supported.
  *
  * @see AbstractFieldDirectiveResolver
+ * @internal
  */
 abstract class AbstractDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface
 {

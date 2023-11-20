@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Adapter\ArrayAdapter;
  * Allows to compile and evaluate expressions written in your own DSL.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ExpressionLanguage
 {

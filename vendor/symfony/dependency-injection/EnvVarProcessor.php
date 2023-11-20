@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterCircu
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class EnvVarProcessor implements EnvVarProcessorInterface
 {

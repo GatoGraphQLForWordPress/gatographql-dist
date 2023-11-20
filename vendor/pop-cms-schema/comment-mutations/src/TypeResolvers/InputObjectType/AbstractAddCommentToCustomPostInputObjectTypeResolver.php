@@ -14,6 +14,7 @@ use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
+/** @internal */
 abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
     /**

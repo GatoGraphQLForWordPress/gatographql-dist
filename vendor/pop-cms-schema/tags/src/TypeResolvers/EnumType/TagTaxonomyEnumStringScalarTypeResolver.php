@@ -7,6 +7,7 @@ use PoPCMSSchema\Tags\Module;
 use PoPCMSSchema\Tags\ModuleConfiguration;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\AbstractEnumStringScalarTypeResolver;
 use PoP\ComponentModel\App;
+/** @internal */
 class TagTaxonomyEnumStringScalarTypeResolver extends AbstractEnumStringScalarTypeResolver
 {
     public function getTypeName() : string

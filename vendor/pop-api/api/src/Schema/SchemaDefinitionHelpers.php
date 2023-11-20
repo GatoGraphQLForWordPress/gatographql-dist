@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class SchemaDefinitionHelpers
 {
     /**

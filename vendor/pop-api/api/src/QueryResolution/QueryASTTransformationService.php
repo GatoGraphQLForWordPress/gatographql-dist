@@ -20,6 +20,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
 use function max;
+/** @internal */
 class QueryASTTransformationService implements \PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface
 {
     use BasicServiceTrait;

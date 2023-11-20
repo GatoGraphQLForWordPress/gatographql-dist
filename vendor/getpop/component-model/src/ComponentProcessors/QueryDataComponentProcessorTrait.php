@@ -13,6 +13,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableD
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 trait QueryDataComponentProcessorTrait
 {
     use \PoP\ComponentModel\ComponentProcessors\FilterDataComponentProcessorTrait;

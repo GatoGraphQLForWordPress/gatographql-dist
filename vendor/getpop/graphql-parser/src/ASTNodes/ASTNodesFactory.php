@@ -11,6 +11,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
  * as a Singleton model), provide a single instance,
  * so that comparing the object by reference when storing
  * it on SplObjectStorage objects works well
+ * @internal
  */
 class ASTNodesFactory
 {

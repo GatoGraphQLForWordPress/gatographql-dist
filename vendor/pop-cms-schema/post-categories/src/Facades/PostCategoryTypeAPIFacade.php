@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostCategories\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
+/** @internal */
 class PostCategoryTypeAPIFacade
 {
     public static function getInstance() : PostCategoryTypeAPIInterface

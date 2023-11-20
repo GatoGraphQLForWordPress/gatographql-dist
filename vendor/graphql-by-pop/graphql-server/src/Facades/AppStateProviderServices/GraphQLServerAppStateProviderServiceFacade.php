@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Facades\AppStateProviderServices;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface;
+/** @internal */
 class GraphQLServerAppStateProviderServiceFacade
 {
     public static function getInstance() : GraphQLServerAppStateProviderServiceInterface

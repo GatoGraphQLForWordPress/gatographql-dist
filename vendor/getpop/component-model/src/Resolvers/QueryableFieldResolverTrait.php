@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
 use PoP\ComponentModel\ComponentProcessors\FilterInputContainerComponentProcessorInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 trait QueryableFieldResolverTrait
 {
     protected abstract function getComponentProcessorManager() : ComponentProcessorManagerInterface;

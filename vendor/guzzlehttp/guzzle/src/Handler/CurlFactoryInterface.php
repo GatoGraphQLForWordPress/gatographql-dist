@@ -3,6 +3,7 @@
 namespace PrefixedByPoP\GuzzleHttp\Handler;
 
 use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+/** @internal */
 interface CurlFactoryInterface
 {
     /**

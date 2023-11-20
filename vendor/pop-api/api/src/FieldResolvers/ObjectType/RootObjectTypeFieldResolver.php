@@ -16,6 +16,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
+/** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

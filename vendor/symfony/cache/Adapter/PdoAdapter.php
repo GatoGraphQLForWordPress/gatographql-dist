@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
+/** @internal */
 class PdoAdapter extends AbstractAdapter implements PruneableInterface
 {
     protected $maxIdLength = 255;
@@ -61,11 +62,11 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
     /**
      * @var mixed
      */
-    private $username = '';
+    private $username = null;
     /**
      * @var mixed
      */
-    private $password = '';
+    private $password = null;
     /**
      * @var mixed
      */

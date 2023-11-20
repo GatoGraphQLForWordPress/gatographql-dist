@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostTagMutations\FieldResolvers\ObjectType;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\AbstractSetTagsOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+/** @internal */
 interface SetTagsOnCustomPostObjectTypeFieldResolverInterface
 {
     public function getCustomPostObjectTypeResolver() : CustomPostObjectTypeResolverInterface;

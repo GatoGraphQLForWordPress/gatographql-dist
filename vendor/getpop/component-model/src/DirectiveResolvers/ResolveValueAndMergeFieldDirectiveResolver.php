@@ -17,6 +17,7 @@ use PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use SplObjectStorage;
+/** @internal */
 final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     /**

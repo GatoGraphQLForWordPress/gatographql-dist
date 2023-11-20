@@ -19,6 +19,7 @@ namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
  * @see http://en.wikipedia.org/wiki/Operator-precedence_parser
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Parser
 {

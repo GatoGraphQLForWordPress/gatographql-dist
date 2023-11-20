@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Tracing;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface TraceInterface
 {
     /**

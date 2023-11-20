@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Definitions;
 
+/** @internal */
 abstract class AbstractDefinitionPersistence implements \PoP\Definitions\DefinitionPersistenceInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\Root\State;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\Root\Services\ServiceTrait;
+/** @internal */
 abstract class AbstractAppStateProvider implements \PoP\Root\State\AppStateProviderInterface
 {
     use BasicServiceTrait;

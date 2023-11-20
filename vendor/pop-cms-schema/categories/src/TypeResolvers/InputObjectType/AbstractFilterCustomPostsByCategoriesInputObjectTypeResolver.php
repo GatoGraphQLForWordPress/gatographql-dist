@@ -9,6 +9,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use stdClass;
+/** @internal */
 abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver implements \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCategoriesInputObjectTypeResolverInterface
 {
     /**

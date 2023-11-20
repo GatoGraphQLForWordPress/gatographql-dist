@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\Root\Feedback\FeedbackCategories;
+/** @internal */
 class GraphQLUnsupportedFeatureErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const E_1 = '1';

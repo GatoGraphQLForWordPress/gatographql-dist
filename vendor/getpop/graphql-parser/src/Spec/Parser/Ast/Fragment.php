@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
+/** @internal */
 class Fragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
     /**

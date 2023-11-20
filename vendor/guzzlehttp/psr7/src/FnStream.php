@@ -9,6 +9,7 @@ use PrefixedByPoP\Psr\Http\Message\StreamInterface;
  *
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
+ * @internal
  */
 final class FnStream implements StreamInterface
 {

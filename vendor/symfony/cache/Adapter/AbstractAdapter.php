@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Traits\ContractsTrait;
 use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 abstract class AbstractAdapter implements AdapterInterface, CacheInterface, LoggerAwareInterface, ResettableInterface
 {

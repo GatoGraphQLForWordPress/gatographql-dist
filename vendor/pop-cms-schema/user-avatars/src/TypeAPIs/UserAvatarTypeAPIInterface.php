@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserAvatars\TypeAPIs;
 
+/** @internal */
 interface UserAvatarTypeAPIInterface
 {
     /**

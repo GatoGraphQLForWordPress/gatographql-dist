@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
+/** @internal */
 abstract class AbstractUsersFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
     /**

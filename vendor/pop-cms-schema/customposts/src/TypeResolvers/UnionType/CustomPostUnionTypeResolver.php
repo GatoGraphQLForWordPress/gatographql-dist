@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType\CustomPostUnionTypeDataLoader;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver;
+/** @internal */
 class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
 {
     /**

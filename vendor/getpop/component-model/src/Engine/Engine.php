@@ -51,6 +51,7 @@ use PoP\Root\Exception\ImpossibleToHappenException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
+/** @internal */
 class Engine implements \PoP\ComponentModel\Engine\EngineInterface
 {
     use BasicServiceTrait;

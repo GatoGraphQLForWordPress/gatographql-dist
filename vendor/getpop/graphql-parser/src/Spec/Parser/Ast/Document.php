@@ -17,6 +17,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\SubscriptionOperation;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
 use SplObjectStorage;
+/** @internal */
 class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
 {
     /**

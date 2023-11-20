@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers;
 
+/** @internal */
 trait CanonicalTypeNameTypeResolverTrait
 {
     /**

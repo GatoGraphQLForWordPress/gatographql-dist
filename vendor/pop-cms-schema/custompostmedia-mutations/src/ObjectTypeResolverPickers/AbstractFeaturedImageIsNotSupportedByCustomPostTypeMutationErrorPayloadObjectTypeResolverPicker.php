@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPostMediaMutations\ObjectModels\FeaturedImageIsNotSupport
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractFeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
     /**

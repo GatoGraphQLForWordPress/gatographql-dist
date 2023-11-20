@@ -44,6 +44,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class Container implements ContainerInterface, ResetInterface
 {

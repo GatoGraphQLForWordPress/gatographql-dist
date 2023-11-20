@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class FeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers\AbstractFeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker
 {
     /**

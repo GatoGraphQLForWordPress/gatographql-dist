@@ -17,6 +17,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 /**
  * Add connections to the QueryRoot and MutationRoot types,
  * so they can be accessed to generate the schema
+ * @internal
  */
 class RegisterQueryAndMutationRootsRootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {

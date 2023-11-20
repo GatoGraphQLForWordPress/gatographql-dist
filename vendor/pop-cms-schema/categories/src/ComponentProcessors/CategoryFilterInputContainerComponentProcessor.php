@@ -7,6 +7,7 @@ use PoPCMSSchema\Categories\ComponentProcessors\FormInputs\FilterInputComponentP
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\AbstractFilterInputContainerComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputComponentProcessor;
 use PoP\ComponentModel\Component\Component;
+/** @internal */
 class CategoryFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

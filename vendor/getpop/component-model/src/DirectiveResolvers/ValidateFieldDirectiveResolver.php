@@ -18,6 +18,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     /**

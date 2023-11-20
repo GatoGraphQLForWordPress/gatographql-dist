@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the client IP of a Request.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class IpsRequestMatcher implements RequestMatcherInterface
 {

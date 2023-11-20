@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\FieldResolvers;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
+/** @internal */
 interface FieldResolverInterface extends AttachableExtensionInterface
 {
     /**

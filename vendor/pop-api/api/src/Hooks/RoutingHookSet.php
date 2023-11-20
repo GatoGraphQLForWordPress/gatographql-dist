@@ -7,6 +7,7 @@ use PoP\ComponentModel\Engine\EngineHookNames;
 use PoPAPI\API\Response\Schemes as APISchemes;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class RoutingHookSet extends AbstractHookSet
 {
     protected function init() : void

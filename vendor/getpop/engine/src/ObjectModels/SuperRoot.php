@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Engine\ObjectModels;
 
+/** @internal */
 class SuperRoot
 {
     public const ID = 'super-root';

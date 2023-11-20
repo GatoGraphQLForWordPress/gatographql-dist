@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserStateMutations\MutationResolvers;
 
 use PoP\ComponentModel\MutationResolvers\AbstractOneofMutationResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+/** @internal */
 class LoginUserOneofMutationResolver extends AbstractOneofMutationResolver
 {
     /**

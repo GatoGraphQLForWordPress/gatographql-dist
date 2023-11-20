@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\AST;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentReference;
+/** @internal */
 interface ASTNodeDuplicatorServiceInterface
 {
     /**

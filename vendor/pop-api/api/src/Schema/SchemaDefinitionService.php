@@ -32,6 +32,7 @@ use PoPAPI\API\ObjectModels\SchemaDefinition\TypeSchemaDefinitionProviderInterfa
 use PoPAPI\API\ObjectModels\SchemaDefinition\UnionTypeSchemaDefinitionProvider;
 use PoPAPI\API\PersistedQueries\PersistedFragmentManagerInterface;
 use PoPAPI\API\PersistedQueries\PersistedQueryManagerInterface;
+/** @internal */
 class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements \PoPAPI\API\Schema\SchemaDefinitionServiceInterface
 {
     /**

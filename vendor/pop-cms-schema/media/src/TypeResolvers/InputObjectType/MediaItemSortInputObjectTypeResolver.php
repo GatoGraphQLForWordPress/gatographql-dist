@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Media\Constants\MediaItemOrderBy;
 use PoPCMSSchema\Media\TypeResolvers\EnumType\MediaItemOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
+/** @internal */
 class MediaItemSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
     /**

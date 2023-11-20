@@ -12,6 +12,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractValidateFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     use RemoveIDFieldSetFieldDirectiveResolverTrait;

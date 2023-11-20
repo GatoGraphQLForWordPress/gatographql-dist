@@ -19,6 +19,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\Root\App;
+/** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

@@ -41,6 +41,7 @@ use PoP\Root\App;
 use PoP\Root\Exception\AbstractClientException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver implements \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface
 {
     use AttachableExtensionTrait;

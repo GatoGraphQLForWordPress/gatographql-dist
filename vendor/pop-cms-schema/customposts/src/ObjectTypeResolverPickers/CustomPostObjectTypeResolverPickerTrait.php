@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers;
 use PoPCMSSchema\CustomPosts\Module;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration;
 use PoP\ComponentModel\App;
+/** @internal */
 trait CustomPostObjectTypeResolverPickerTrait
 {
     public abstract function getCustomPostType() : string;

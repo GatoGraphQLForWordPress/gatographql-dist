@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function enableMultipleQueryExecution() : bool
@@ -38,6 +39,13 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     public function enableObjectResolvedFieldValueReferences() : bool
     {
         $envVariable = \PoP\GraphQLParser\Environment::ENABLE_RESOLVED_FIELD_VARIABLE_REFERENCES;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+    public function useLastOperationInDocumentForMultipleQueryExecutionWhenOperationNameNotProvided() : bool
+    {
+        $envVariable = \PoP\GraphQLParser\Environment::USE_LAST_OPERATION_IN_DOCUMENT_FOR_MULTIPLE_QUERY_EXECUTION_WHEN_OPERATION_NAME_NOT_PROVIDED;
         $defaultValue = \false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);

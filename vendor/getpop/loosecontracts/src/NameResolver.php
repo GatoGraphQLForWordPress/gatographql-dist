@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\LooseContracts;
 
+/** @internal */
 class NameResolver extends \PoP\LooseContracts\AbstractNameResolver
 {
     /**

@@ -10,6 +10,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 class DirectivePipelineUtils
 {
     /**

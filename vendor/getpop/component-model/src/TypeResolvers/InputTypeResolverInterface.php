@@ -12,6 +12,7 @@ use stdClass;
  * - ScalarType
  * - EnumType
  * - InputObjectType
+ * @internal
  */
 interface InputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {

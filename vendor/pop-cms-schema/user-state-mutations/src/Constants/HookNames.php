@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\Constants;
 
+/** @internal */
 class HookNames
 {
     public const USER_LOGGED_IN = __CLASS__ . ':user:logged-in';

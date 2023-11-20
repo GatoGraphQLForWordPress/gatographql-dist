@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Engine\FormInputs;
 
 use PoP\Engine\Constants\FormInputConstants;
+/** @internal */
 trait BooleanFormInputTrait
 {
     /**

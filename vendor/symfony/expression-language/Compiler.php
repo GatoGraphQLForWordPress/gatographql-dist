@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
  * Compiles a node to PHP code.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Compiler implements ResetInterface
 {

@@ -31,6 +31,7 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SortFilterInput;
 use PoPCMSSchema\SchemaCommons\FormInputs\MultiValueFromStringFormInput;
 use PoPCMSSchema\SchemaCommons\FormInputs\OrderFormInput;
+/** @internal */
 class CommonFilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
     public const COMPONENT_FILTERINPUT_SORT = 'filterinput-sort';

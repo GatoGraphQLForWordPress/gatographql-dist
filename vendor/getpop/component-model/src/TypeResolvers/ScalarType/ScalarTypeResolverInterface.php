@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\LeafOutputTypeResolverInterface;
  * Based on GraphQL custom scalars.
  *
  * @see https://www.graphql.de/blog/scalars-in-depth/
+ * @internal
  */
 interface ScalarTypeResolverInterface extends ConcreteTypeResolverInterface, InputTypeResolverInterface, LeafOutputTypeResolverInterface
 {

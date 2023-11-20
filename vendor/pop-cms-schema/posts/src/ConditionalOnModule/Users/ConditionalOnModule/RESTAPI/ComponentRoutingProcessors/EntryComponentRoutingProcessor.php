@@ -12,6 +12,7 @@ use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\ConditionalOnModule\RESTA
 use PoPCMSSchema\Users\Routing\RequestNature;
 use PoP\ComponentModel\Component\Component;
 use PoP\Root\App;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractCustomPostRESTEntryComponentRoutingProcessor
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\LooseContracts\Facades;
 
 use PoP\Root\App;
 use PoP\LooseContracts\LooseContractManagerInterface;
+/** @internal */
 class LooseContractManagerFacade
 {
     public static function getInstance() : LooseContractManagerInterface

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Tags\LooseContracts;
 
 use PoP\LooseContracts\AbstractLooseContractSet;
+/** @internal */
 class LooseContractSet extends AbstractLooseContractSet
 {
     /**

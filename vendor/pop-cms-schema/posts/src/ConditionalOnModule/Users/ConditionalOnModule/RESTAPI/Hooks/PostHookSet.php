@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Posts\ConditionalOnModule\Users\ConditionalOnModule\RESTA
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPAPI\RESTAPI\Hooks\AbstractRESTHookSet;
 use PoPCMSSchema\Users\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors\EntryComponentRoutingProcessor;
+/** @internal */
 class PostHookSet extends AbstractRESTHookSet
 {
     public final const USER_RESTFIELDS = 'posts { id title date url }';

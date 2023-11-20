@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserState\TypeAPIs;
 
+/** @internal */
 interface UserStateTypeAPIInterface
 {
     public function isUserLoggedIn() : bool;

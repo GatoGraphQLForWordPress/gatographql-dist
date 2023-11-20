@@ -41,6 +41,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Traits\RedisTrait;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  * @author André Rømcke <andre.romcke+symfony@gmail.com>
+ * @internal
  */
 class RedisTagAwareAdapter extends AbstractTagAwareAdapter
 {

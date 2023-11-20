@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\ExtendedSpec\Execution;
 use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\GraphQLParser\Spec\Execution\ExecutableDocumentInterface as UpstreamExecutableDocumentInterface;
+/** @internal */
 interface ExecutableDocumentInterface extends UpstreamExecutableDocumentInterface
 {
     /**

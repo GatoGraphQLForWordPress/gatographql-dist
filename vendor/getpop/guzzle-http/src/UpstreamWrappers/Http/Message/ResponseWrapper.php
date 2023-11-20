@@ -9,6 +9,7 @@ use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * Wrap a Response object, so it can be exposed and consumed.
  * The upstream class from Guzzle cannot, as it will be scoped.
+ * @internal
  */
 final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface
 {

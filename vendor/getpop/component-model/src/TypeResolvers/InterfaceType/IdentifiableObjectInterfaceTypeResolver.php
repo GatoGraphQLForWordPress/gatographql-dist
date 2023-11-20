@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\InterfaceType;
 
+/** @internal */
 class IdentifiableObjectInterfaceTypeResolver extends \PoP\ComponentModel\TypeResolvers\InterfaceType\AbstractInterfaceTypeResolver
 {
     public function getTypeName() : string

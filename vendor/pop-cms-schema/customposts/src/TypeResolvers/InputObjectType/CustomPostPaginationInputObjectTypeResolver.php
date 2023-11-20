@@ -7,6 +7,7 @@ use PoP\Root\App;
 use PoPCMSSchema\CustomPosts\Module;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\PaginationInputObjectTypeResolver;
+/** @internal */
 class CustomPostPaginationInputObjectTypeResolver extends PaginationInputObjectTypeResolver
 {
     public function getTypeName() : string

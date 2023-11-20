@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Process\Process;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @internal
  */
 final class Dotenv
 {

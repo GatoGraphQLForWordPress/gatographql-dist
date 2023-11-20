@@ -5,6 +5,7 @@ namespace PoP\Root\Services;
 
 use PoP\Root\Services\WithInstanceManagerServiceTrait;
 use PoP\Root\Translation\TranslationAPIInterface;
+/** @internal */
 trait BasicServiceTrait
 {
     use WithInstanceManagerServiceTrait;

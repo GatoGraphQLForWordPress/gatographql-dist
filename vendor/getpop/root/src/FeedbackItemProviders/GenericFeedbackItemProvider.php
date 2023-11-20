@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\FeedbackItemProviders;
 
 use PoP\Root\Feedback\FeedbackCategories;
+/** @internal */
 class GenericFeedbackItemProvider extends \PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider
 {
     public const E1 = 'e1';

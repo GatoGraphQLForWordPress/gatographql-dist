@@ -5,6 +5,7 @@ namespace PoP\LooseContracts;
 
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 use PoP\Root\Services\WithInstanceManagerServiceTrait;
+/** @internal */
 abstract class AbstractLooseContractSet extends AbstractAutomaticallyInstantiatedService
 {
     use WithInstanceManagerServiceTrait;

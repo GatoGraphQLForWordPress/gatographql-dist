@@ -7,6 +7,7 @@ use PoPCMSSchema\CustomPosts\Module;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\AbstractEnumStringScalarTypeResolver;
 use PoP\ComponentModel\App;
+/** @internal */
 class CustomPostEnumStringScalarTypeResolver extends AbstractEnumStringScalarTypeResolver
 {
     public function getTypeName() : string

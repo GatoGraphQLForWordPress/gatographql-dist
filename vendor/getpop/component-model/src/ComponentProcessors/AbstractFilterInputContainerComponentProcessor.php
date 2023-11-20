@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
+/** @internal */
 abstract class AbstractFilterInputContainerComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractFilterDataComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FilterInputContainerComponentProcessorInterface
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

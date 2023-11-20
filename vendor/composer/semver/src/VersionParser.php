@@ -18,6 +18,7 @@ use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
  * Version parser.
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ * @internal
  */
 class VersionParser
 {

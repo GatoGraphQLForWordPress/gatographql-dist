@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostTags\ConditionalOnModule\API\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\Tags\ConditionalOnModule\API\ComponentProcessors\AbstractFieldDataloadComponentProcessor;
+/** @internal */
 class PostTagFieldDataloadComponentProcessor extends AbstractFieldDataloadComponentProcessor
 {
     public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface

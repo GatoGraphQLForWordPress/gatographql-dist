@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface;
 use stdClass;
+/** @internal */
 trait WithArgumentsTrait
 {
     /** @var Argument[] */

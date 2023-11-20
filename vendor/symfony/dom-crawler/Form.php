@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DomCrawler\Field\FormField;
  * Form represents an HTML form.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Form extends Link implements \ArrayAccess
 {

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash;
  * AutoExpireFlashBag flash message container.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class AutoExpireFlashBag implements FlashBagInterface
 {

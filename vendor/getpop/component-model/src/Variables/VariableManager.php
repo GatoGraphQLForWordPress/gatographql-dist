@@ -7,6 +7,7 @@ use PoP\ComponentModel\StaticHelpers\MethodHelpers;
 use PoP\Root\App;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
+/** @internal */
 class VariableManager implements \PoP\ComponentModel\Variables\VariableManagerInterface
 {
     /**

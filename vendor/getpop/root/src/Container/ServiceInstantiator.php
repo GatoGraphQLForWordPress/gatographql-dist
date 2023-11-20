@@ -8,6 +8,7 @@ use PoP\Root\Services\AutomaticallyInstantiatedServiceInterface;
  * Collect the services that must be automatically instantiated,
  * i.e. that no piece of code will explicitly reference, but whose
  * services must always be executed. Eg: hooks.
+ * @internal
  */
 class ServiceInstantiator implements \PoP\Root\Container\ServiceInstantiatorInterface
 {

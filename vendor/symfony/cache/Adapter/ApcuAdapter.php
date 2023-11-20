@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ApcuAdapter extends AbstractAdapter
 {

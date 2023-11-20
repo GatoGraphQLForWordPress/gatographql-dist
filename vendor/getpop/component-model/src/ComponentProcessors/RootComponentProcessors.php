@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentProcessors;
 
+/** @internal */
 class RootComponentProcessors extends \PoP\ComponentModel\ComponentProcessors\AbstractComponentProcessor
 {
     public const COMPONENT_EMPTY = 'empty';

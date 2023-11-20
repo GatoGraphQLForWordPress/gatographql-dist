@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
  * An attribute to tell the class should not be registered as service.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class Exclude

@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 /**
  * @author Alexander M. Turek <me@derrabus.de>
+ * @internal
  */
 final class AttributeAutoconfigurationPass extends AbstractRecursivePass
 {

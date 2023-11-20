@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
+/** @internal */
 class InterfaceType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType implements \GraphQLByPoP\GraphQLServer\ObjectModels\HasFieldsTypeInterface, \GraphQLByPoP\GraphQLServer\ObjectModels\HasPossibleTypesTypeInterface, \GraphQLByPoP\GraphQLServer\ObjectModels\HasInterfacesTypeInterface
 {
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasFieldsTypeTrait;

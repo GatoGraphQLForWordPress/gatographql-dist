@@ -20,6 +20,7 @@ use PoP\Root\StateManagers\HookManagerInterface;
  * This interface contains all the methods from the
  * AppThreadInterface (to provide access to them)
  * but as static.
+ * @internal
  */
 interface AppInterface
 {

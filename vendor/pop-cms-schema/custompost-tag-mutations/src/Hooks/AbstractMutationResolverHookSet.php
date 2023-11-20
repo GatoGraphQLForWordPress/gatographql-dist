@@ -18,6 +18,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use stdClass;
+/** @internal */
 abstract class AbstractMutationResolverHookSet extends AbstractHookSet
 {
     use SetTagsOnCustomPostMutationResolverTrait;

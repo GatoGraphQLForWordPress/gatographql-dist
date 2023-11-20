@@ -8,6 +8,7 @@ use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\CustomPosts\Constants\ModelInstanceComponentTypes;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
     protected function init() : void

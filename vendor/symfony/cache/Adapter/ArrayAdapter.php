@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
  * Acts as a least-recently-used (LRU) storage when configured with a maximum number of items.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInterface, ResettableInterface
 {

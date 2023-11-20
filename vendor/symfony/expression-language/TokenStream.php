@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
  * Represents a token stream.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class TokenStream
 {

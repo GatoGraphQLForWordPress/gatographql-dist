@@ -14,6 +14,7 @@ namespace PoP\ComponentModel\TypeResolvers;
  * - EnumType
  * - ObjectType
  * - InterfaceType
+ * @internal
  */
 interface OutputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {

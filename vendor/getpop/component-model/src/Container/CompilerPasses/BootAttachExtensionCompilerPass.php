@@ -9,6 +9,7 @@ use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverIn
 use PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface;
 use PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface;
 use PoP\Root\Module\ApplicationEvents;
+/** @internal */
 class BootAttachExtensionCompilerPass extends \PoP\ComponentModel\Container\CompilerPasses\AbstractAttachExtensionCompilerPass
 {
     protected function getAttachExtensionEvent() : string

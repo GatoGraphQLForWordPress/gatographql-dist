@@ -10,6 +10,7 @@ use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
+/** @internal */
 class CommentObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     /**

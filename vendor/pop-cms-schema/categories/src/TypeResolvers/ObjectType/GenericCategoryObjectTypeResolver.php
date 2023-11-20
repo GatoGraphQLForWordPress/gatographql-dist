@@ -10,6 +10,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /**
  * Class to be used only when a Generic Category Type is good enough.
  * Otherwise, a specific type for the entity should be employed.
+ * @internal
  */
 class GenericCategoryObjectTypeResolver extends \PoPCMSSchema\Categories\TypeResolvers\ObjectType\AbstractCategoryObjectTypeResolver
 {

@@ -10,6 +10,7 @@ use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldR
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 use PoPCMSSchema\Taxonomies\TypeResolvers\ObjectType\AbstractTaxonomyObjectTypeResolver;
 use PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface;
+/** @internal */
 class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     /**

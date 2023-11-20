@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\Filesystem\Exception\RuntimeException;
  * @author Bernhard Schussek <bschussek@gmail.com>
  * @author Thomas Schulz <mail@king2500.net>
  * @author Théo Fidry <theo.fidry@gmail.com>
+ * @internal
  */
 final class Path
 {

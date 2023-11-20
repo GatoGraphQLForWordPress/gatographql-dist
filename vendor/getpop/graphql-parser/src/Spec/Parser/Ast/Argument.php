@@ -10,6 +10,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal;
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReference;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 class Argument extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst
 {
     /**

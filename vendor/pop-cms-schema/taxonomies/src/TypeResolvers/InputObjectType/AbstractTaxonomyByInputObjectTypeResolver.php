@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput;
+/** @internal */
 abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
     /**

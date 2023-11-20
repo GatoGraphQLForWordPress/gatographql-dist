@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Feedback;
 
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
 use PoP\Root\Feedback\FeedbackItemResolution as UpstreamFeedbackItemResolution;
+/** @internal */
 class FeedbackItemResolution extends UpstreamFeedbackItemResolution
 {
     /**

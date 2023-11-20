@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\DirectiveResolvers;
 use PoP\ComponentModel\TypeResolvers\AbstractRelationalTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 trait GlobalFieldDirectiveResolverTrait
 {
     public function isGlobal(RelationalTypeResolverInterface $relationalTypeResolver) : bool

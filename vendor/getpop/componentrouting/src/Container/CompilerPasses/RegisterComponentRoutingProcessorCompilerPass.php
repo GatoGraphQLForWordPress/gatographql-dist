@@ -6,6 +6,7 @@ namespace PoP\ComponentRouting\Container\CompilerPasses;
 use PoP\ComponentRouting\ComponentRoutingProcessorInterface;
 use PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterComponentRoutingProcessorCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

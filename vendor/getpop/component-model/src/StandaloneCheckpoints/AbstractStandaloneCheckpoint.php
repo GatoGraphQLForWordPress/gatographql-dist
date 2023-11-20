@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\StandaloneCheckpoints;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 abstract class AbstractStandaloneCheckpoint implements CheckpointInterface
 {
     use StandaloneServiceTrait;

@@ -18,6 +18,7 @@ use PrefixedByPoP\Relay\Relay;
 use PrefixedByPoP\Symfony\Component\Cache\Adapter\AbstractAdapter;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class SessionHandlerFactory
 {

@@ -30,6 +30,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AutowirePass extends AbstractRecursivePass
 {

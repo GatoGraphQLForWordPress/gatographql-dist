@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeExcepti
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class CheckArgumentsValidityPass extends AbstractRecursivePass
 {

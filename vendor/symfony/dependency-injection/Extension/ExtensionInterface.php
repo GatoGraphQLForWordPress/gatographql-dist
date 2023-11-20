@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
  * ExtensionInterface is the interface implemented by container extension classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface ExtensionInterface
 {

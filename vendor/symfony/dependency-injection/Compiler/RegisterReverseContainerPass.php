@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class RegisterReverseContainerPass implements CompilerPassInterface
 {

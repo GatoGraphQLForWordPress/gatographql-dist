@@ -21,6 +21,7 @@ use PrefixedByPoP\MongoDB\Collection;
  *
  * @see https://packagist.org/packages/mongodb/mongodb
  * @see https://php.net/mongodb
+ * @internal
  */
 class MongoDbSessionHandler extends AbstractSessionHandler
 {

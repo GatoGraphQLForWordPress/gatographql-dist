@@ -15,6 +15,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Root\App;
 use PoPAPI\API\ObjectModels\SchemaDefinition\RootObjectTypeSchemaDefinitionProvider as UpstreamRootObjectTypeSchemaDefinitionProvider;
 use PoPAPI\API\Schema\SchemaDefinitionService;
+/** @internal */
 class GraphQLSchemaDefinitionService extends SchemaDefinitionService implements \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface
 {
     /**

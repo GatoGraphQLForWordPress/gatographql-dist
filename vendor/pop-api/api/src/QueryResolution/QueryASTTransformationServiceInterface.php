@@ -9,6 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use SplObjectStorage;
+/** @internal */
 interface QueryASTTransformationServiceInterface
 {
     /**

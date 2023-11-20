@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Contracts\Cache\ItemInterface;
  * compute items at the same time and only one per cache-key.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class LockRegistry
 {

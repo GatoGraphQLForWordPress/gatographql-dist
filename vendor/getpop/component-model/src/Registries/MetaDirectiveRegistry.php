@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\MetaFieldDirectiveResolverInterface;
+/** @internal */
 class MetaDirectiveRegistry implements \PoP\ComponentModel\Registries\MetaDirectiveRegistryInterface
 {
     /**

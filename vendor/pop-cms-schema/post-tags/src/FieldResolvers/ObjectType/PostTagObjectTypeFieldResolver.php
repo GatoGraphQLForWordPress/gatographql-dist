@@ -9,6 +9,7 @@ use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\Tags\FieldResolvers\ObjectType\AbstractTagObjectTypeFieldResolver;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
+/** @internal */
 class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
     /**

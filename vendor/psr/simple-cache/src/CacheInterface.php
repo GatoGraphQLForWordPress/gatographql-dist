@@ -2,6 +2,7 @@
 
 namespace PrefixedByPoP\Psr\SimpleCache;
 
+/** @internal */
 interface CacheInterface
 {
     /**

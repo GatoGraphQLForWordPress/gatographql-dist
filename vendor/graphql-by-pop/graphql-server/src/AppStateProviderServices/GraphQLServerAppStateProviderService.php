@@ -8,6 +8,7 @@ use PoPAPI\API\Routing\RequestNature;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class GraphQLServerAppStateProviderService implements \GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface
 {
     use StandaloneServiceTrait;

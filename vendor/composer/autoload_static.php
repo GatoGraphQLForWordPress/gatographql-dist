@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3517e83f43a47582323c68d987fb6cd0
+class ComposerStaticInit010ff54bc6be1a2d2e7bb73dd7c2b279
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -848,6 +848,7 @@ class ComposerStaticInit3517e83f43a47582323c68d987fb6cd0
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptionValues' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptionValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptions' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptions.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\Recipes' => __DIR__ . '/../..' . '/src/Constants/Recipes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\RequestParams' => __DIR__ . '/../..' . '/src/Constants/RequestParams.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
@@ -1127,6 +1128,8 @@ class ComposerStaticInit3517e83f43a47582323c68d987fb6cd0
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\GraphQLPersistedQueryEndpointCustomPostType' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/GraphQLPersistedQueryEndpointCustomPostType.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\GraphQLSchemaConfigurationCustomPostType' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/GraphQLSchemaConfigurationCustomPostType.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\WithBlockRegistryCustomPostTypeTrait' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/WithBlockRegistryCustomPostTypeTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\DataComposers\\GraphQLDocumentDataComposer' => __DIR__ . '/../..' . '/src/Services/DataComposers/GraphQLDocumentDataComposer.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\RecipeDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/RecipeDataProvider.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\AbstractEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/AbstractEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointComponentEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointComponentEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointOverviewEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointOverviewEditorScript.php',
@@ -3356,6 +3359,7 @@ class ComposerStaticInit3517e83f43a47582323c68d987fb6cd0
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AbstractScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AbstractScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyBuiltInScalarScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyBuiltInScalarScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyScalarScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyScalarScalarTypeResolver.php',
+        'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\AnyStringScalarScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/AnyStringScalarScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BooleanScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/BooleanScalarTypeResolver.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\BuiltInScalarTypeResolverTrait' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/BuiltInScalarTypeResolverTrait.php',
         'PoP\\ComponentModel\\TypeResolvers\\ScalarType\\DangerouslyNonSpecificScalarTypeScalarTypeResolver' => __DIR__ . '/..' . '/getpop/component-model/src/TypeResolvers/ScalarType/DangerouslyNonSpecificScalarTypeScalarTypeResolver.php',
@@ -4457,9 +4461,9 @@ class ComposerStaticInit3517e83f43a47582323c68d987fb6cd0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3517e83f43a47582323c68d987fb6cd0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3517e83f43a47582323c68d987fb6cd0::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3517e83f43a47582323c68d987fb6cd0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit010ff54bc6be1a2d2e7bb73dd7c2b279::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit010ff54bc6be1a2d2e7bb73dd7c2b279::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit010ff54bc6be1a2d2e7bb73dd7c2b279::$classMap;
 
         }, null, ClassLoader::class);
     }

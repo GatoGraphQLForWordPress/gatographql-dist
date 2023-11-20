@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File;
  * A PHP stream of unknown size.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class Stream extends File
 {

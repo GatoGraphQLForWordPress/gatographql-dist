@@ -5,6 +5,7 @@ namespace PoPAPI\APIClients;
 
 use PoP\ComponentModel\Configuration\RequestHelpers;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 trait ClientTrait
 {
     /**

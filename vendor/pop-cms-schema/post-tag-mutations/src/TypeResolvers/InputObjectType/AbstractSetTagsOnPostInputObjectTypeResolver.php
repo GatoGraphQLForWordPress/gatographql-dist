@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\AbstractSetTagsOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
+/** @internal */
 abstract class AbstractSetTagsOnPostInputObjectTypeResolver extends AbstractSetTagsOnCustomPostInputObjectTypeResolver
 {
     /**

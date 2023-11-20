@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Facades\Query;
 
 use PoP\Root\App;
 use PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface;
+/** @internal */
 class GraphQLQueryStringFormatterFacade
 {
     public static function getInstance() : GraphQLQueryStringFormatterInterface

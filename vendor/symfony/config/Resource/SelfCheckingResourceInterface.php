@@ -15,6 +15,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Resource;
  * without special support from external services.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface SelfCheckingResourceInterface extends ResourceInterface
 {

@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Composer\Semver;
 
 use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
+/** @internal */
 class Comparator
 {
     /**

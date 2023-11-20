@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Exception;
 
 use PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\RuntimeVariableReferenceInterface;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 final class RuntimeVariableReferenceException extends \PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException
 {
     /**

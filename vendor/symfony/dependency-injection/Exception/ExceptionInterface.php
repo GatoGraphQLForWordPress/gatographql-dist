@@ -16,6 +16,7 @@ use PrefixedByPoP\Psr\Container\ContainerExceptionInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bulat Shakirzyanov <bulat@theopenskyproject.com>
+ * @internal
  */
 interface ExceptionInterface extends ContainerExceptionInterface
 {

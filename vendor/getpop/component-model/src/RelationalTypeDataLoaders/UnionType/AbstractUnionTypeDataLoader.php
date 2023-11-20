@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\RelationalTypeDataLoaders\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\AbstractRelationalTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 abstract class AbstractUnionTypeDataLoader extends AbstractRelationalTypeDataLoader
 {
     protected abstract function getUnionTypeResolver() : UnionTypeResolverInterface;

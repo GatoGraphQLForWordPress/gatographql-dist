@@ -8,6 +8,7 @@ use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
 use PoPCMSSchema\TaxonomyMeta\Module;
 use PoPCMSSchema\TaxonomyMeta\ModuleConfiguration;
+/** @internal */
 abstract class AbstractTaxonomyMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface
 {
     /**

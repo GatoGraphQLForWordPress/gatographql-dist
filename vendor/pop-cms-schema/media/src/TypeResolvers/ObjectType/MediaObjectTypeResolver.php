@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType\MediaObjectTypeDataLoader;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
+/** @internal */
 class MediaObjectTypeResolver extends AbstractObjectTypeResolver
 {
     /**

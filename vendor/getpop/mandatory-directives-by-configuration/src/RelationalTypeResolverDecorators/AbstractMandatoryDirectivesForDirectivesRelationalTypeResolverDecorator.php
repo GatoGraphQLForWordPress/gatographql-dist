@@ -6,6 +6,7 @@ namespace PoP\MandatoryDirectivesByConfiguration\RelationalTypeResolverDecorator
 use PoP\ComponentModel\RelationalTypeResolverDecorators\AbstractRelationalTypeResolverDecorator;
 use PoP\ComponentModel\TypeResolvers\AbstractRelationalTypeResolver;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 abstract class AbstractMandatoryDirectivesForDirectivesRelationalTypeResolverDecorator extends AbstractRelationalTypeResolverDecorator
 {
     use \PoP\MandatoryDirectivesByConfiguration\RelationalTypeResolverDecorators\ConfigurableMandatoryDirectivesForDirectivesRelationalTypeResolverDecoratorTrait;

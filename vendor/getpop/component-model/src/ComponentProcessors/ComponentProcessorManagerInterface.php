@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 interface ComponentProcessorManagerInterface
 {
     /**

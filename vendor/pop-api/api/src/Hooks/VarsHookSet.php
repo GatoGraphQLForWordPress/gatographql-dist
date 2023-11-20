@@ -7,6 +7,7 @@ use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPAPI\API\Response\Schemes as APISchemes;
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
     protected function init() : void

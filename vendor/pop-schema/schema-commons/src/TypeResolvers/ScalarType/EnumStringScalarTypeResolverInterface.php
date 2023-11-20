@@ -14,6 +14,7 @@ namespace PoPSchema\SchemaCommons\TypeResolvers\ScalarType;
  *
  * For whenever the option values may not satisfy these constraints,
  * this type can be used instead
+ * @internal
  */
 interface EnumStringScalarTypeResolverInterface
 {

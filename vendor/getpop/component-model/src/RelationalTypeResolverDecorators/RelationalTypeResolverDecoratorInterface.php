@@ -7,6 +7,7 @@ use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
+/** @internal */
 interface RelationalTypeResolverDecoratorInterface extends AttachableExtensionInterface
 {
     /**

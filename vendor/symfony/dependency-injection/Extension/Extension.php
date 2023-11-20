@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException
  * Provides useful features shared by many extensions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 abstract class Extension implements ExtensionInterface, ConfigurationExtensionInterface
 {

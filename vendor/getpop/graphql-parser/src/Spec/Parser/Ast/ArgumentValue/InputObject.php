@@ -9,6 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\ShouldNotHappenException;
 use stdClass;
+/** @internal */
 class InputObject extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface, WithAstValueInterface
 {
     /**

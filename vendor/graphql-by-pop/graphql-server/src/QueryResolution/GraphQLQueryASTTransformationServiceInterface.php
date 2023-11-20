@@ -7,6 +7,7 @@ use PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
+/** @internal */
 interface GraphQLQueryASTTransformationServiceInterface extends QueryASTTransformationServiceInterface
 {
     /**

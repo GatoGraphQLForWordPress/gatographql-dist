@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Checkpoints;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractAggregateCheckpoint extends \PoP\ComponentModel\Checkpoints\AbstractCheckpoint
 {
     public final function validateCheckpoint() : ?FeedbackItemResolution

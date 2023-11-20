@@ -6,6 +6,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 use PoPAPI\API\Schema\TypeKinds;
 use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface;
+/** @internal */
 class EnumTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**

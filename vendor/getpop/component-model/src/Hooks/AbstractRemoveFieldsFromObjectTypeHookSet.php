@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 abstract class AbstractRemoveFieldsFromObjectTypeHookSet extends AbstractHookSet
 {
     protected function init() : void

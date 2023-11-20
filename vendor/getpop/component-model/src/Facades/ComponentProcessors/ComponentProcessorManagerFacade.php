@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ComponentProcessors;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
+/** @internal */
 class ComponentProcessorManagerFacade
 {
     public static function getInstance() : ComponentProcessorManagerInterface

@@ -16,6 +16,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
  * Hence, this adapter receives function calls to resolve the schema
  * containing a TypeResolver, strips this param, and then calls
  * the corresponding InterfaceTypeFieldResolver.
+ * @internal
  */
 class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaDefinitionResolverInterface
 {

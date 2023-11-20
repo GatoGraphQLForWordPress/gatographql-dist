@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\Filesystem\Exception;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
+ * @internal
  */
 class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {

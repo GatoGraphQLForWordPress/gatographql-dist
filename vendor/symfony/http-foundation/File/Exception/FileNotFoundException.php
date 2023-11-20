@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception;
  * Thrown when a file was not found.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
+ * @internal
  */
 class FileNotFoundException extends FileException
 {

@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 /**
  * A fragment bond is either a fragment reference, or an inline fragment
+ * @internal
  */
 interface FragmentBondInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
+/** @internal */
 class CustomPostStatusFilterInput extends AbstractValueToQueryFilterInput
 {
     /**

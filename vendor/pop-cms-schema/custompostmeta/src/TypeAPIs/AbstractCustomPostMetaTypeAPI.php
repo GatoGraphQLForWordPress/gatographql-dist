@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostMeta\Module;
 use PoPCMSSchema\CustomPostMeta\ModuleConfiguration;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
+/** @internal */
 abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface
 {
     /**

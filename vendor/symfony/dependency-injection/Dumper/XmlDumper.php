@@ -27,6 +27,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Martin Hasoň <martin.hason@gmail.com>
+ * @internal
  */
 class XmlDumper extends Dumper
 {

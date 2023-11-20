@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root;
 
+/** @internal */
 class Environment
 {
     public const CACHE_CONTAINER_CONFIGURATION = 'CACHE_CONTAINER_CONFIGURATION';

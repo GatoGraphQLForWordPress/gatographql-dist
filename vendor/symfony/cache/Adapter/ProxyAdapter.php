@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Traits\ProxyTrait;
 use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {

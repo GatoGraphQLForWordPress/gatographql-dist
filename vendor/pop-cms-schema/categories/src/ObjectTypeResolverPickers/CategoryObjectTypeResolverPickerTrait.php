@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Categories\ObjectTypeResolverPickers;
 use PoPCMSSchema\Categories\Module;
 use PoPCMSSchema\Categories\ModuleConfiguration;
 use PoP\ComponentModel\App;
+/** @internal */
 trait CategoryObjectTypeResolverPickerTrait
 {
     public abstract function getCategoryTaxonomy() : string;

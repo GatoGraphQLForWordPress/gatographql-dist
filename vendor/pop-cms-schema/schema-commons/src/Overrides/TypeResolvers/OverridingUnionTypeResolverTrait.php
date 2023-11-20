@@ -5,6 +5,7 @@ namespace PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 trait OverridingUnionTypeResolverTrait
 {
     use \PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers\OverridingTypeResolverTrait;

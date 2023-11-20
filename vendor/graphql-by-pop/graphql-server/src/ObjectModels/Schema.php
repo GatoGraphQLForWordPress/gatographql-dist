@@ -14,6 +14,7 @@ use PoP\ComponentModel\Schema\SchemaDefinitionTokens;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Exception\ImpossibleToHappenException;
+/** @internal */
 class Schema
 {
     /**

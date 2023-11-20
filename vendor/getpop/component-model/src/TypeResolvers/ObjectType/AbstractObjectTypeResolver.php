@@ -46,6 +46,7 @@ use PoP\Root\Exception\AbstractClientException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 abstract class AbstractObjectTypeResolver extends AbstractRelationalTypeResolver implements \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
 {
     use ObjectTypeOrFieldDirectiveResolverTrait;

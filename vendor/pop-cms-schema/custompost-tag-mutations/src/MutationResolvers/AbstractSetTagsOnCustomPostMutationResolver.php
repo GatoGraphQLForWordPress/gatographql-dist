@@ -17,6 +17,7 @@ use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractSetTagsOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;

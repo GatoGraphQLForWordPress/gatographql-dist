@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts;
 
+/** @internal */
 class Environment
 {
     public const CUSTOMPOST_LIST_DEFAULT_LIMIT = 'CUSTOMPOST_LIST_DEFAULT_LIMIT';

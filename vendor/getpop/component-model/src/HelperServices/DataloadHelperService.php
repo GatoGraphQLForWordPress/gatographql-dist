@@ -9,6 +9,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class DataloadHelperService implements \PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface
 {
     use BasicServiceTrait;

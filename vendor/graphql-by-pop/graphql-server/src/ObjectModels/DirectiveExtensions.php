@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
+/** @internal */
 class DirectiveExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
     public function needsDataToExecute() : bool

@@ -12,6 +12,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     /**

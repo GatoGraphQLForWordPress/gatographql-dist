@@ -7,6 +7,7 @@ use PrefixedByPoP\GuzzleHttp\Client;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\ObjectModels\RequestInput;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
+/** @internal */
 interface GuzzleServiceInterface
 {
     public function setClient(Client $client) : void;

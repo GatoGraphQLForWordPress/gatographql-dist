@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\AST;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
+/** @internal */
 interface ASTHelperServiceInterface
 {
     /**

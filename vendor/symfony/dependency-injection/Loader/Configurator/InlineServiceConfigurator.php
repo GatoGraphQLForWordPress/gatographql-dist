@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class InlineServiceConfigurator extends AbstractConfigurator
 {

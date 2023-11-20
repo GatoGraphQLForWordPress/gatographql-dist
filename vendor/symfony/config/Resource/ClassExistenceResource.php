@@ -19,6 +19,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Resource;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @internal
  */
 class ClassExistenceResource implements SelfCheckingResourceInterface
 {

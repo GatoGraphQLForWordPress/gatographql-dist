@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostCategories\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 class CategoryUnionPostCategoryObjectTypeResolverPicker extends \PoPCMSSchema\PostCategories\ObjectTypeResolverPickers\AbstractPostCategoryObjectTypeResolverPicker
 {
     /**

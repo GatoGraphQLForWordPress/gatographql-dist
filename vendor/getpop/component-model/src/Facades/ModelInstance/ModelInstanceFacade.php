@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ModelInstance;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ModelInstance\ModelInstanceInterface;
+/** @internal */
 class ModelInstanceFacade
 {
     public static function getInstance() : ModelInstanceInterface

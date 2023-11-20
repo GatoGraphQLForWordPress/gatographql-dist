@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinitionHelpers;
 use PoPAPI\API\Schema\TypeKinds;
+/** @internal */
 class InterfaceTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**

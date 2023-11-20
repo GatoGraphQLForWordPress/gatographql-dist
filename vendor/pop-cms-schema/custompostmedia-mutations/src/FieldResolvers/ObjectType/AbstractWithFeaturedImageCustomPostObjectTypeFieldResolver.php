@@ -26,6 +26,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoPCMSSchema\CustomPostMedia\FieldResolvers\ObjectType\MaybeWithFeaturedImageCustomPostObjectTypeFieldResolverTrait;
 use PoPCMSSchema\CustomPostMedia\TypeAPIs\CustomPostMediaTypeAPIInterface;
 use stdClass;
+/** @internal */
 abstract class AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     use MaybeWithFeaturedImageCustomPostObjectTypeFieldResolverTrait;

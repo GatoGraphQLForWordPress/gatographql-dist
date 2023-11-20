@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\Hooks;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\CustomPostsWP\TypeAPIs\AbstractCustomPostTypeAPI;
+/** @internal */
 class QueryHookSet extends AbstractHookSet
 {
     protected function init() : void

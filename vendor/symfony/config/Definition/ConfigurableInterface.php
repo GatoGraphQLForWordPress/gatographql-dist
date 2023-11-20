@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Definition;
 use PrefixedByPoP\Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 interface ConfigurableInterface
 {

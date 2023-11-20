@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserAvatars;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function getUserAvatarDefaultSize() : int

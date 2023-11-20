@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\Container\CompilerPasses;
 use PoPCMSSchema\Tags\ObjectTypeResolverPickers\TagObjectTypeResolverPickerInterface;
 use PoPCMSSchema\Tags\Registries\TagObjectTypeResolverPickerRegistryInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterTagObjectTypeResolverPickerCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

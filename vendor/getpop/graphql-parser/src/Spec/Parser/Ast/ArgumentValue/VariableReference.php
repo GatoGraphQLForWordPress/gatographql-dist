@@ -10,6 +10,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Variable;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
+/** @internal */
 class VariableReference extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReferenceInterface
 {
     /**

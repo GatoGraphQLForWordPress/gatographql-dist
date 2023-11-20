@@ -6,6 +6,7 @@ namespace PoP\Root\Module;
 use PoP\Root\App;
 use PoP\Root\Helpers\ClassHelpers;
 use PoP\Root\Module\ModuleInterface;
+/** @internal */
 abstract class AbstractModuleConfiguration implements \PoP\Root\Module\ModuleConfigurationInterface
 {
     /**

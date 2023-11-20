@@ -8,6 +8,7 @@ use PoP\ComponentModel\Response\OutputServiceInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use PoPSchema\ExtendedSchemaCommons\Constants\OperationSymbols;
 use stdClass;
+/** @internal */
 class ArrayOrJSONObjectTraversionHelperService implements \PoPSchema\ExtendedSchemaCommons\HelperServices\ArrayOrJSONObjectTraversionHelperServiceInterface
 {
     use BasicServiceTrait;

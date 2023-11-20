@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoun
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ServicesConfigurator extends AbstractConfigurator
 {

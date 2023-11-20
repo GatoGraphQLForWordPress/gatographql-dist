@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\ConditionalOnModule\Users\Overrides\Fiel
 
 use PoPCMSSchema\CommentMutations\ConditionalOnModule\Users\FieldResolvers\ObjectType\AbstractAddCommentToCustomPostObjectTypeFieldResolver;
 use PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType\GenericCustomPostObjectTypeFieldResolverTrait;
+/** @internal */
 class GenericCustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
     use GenericCustomPostObjectTypeFieldResolverTrait;

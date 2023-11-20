@@ -10,6 +10,7 @@ use PoP\GraphQLParser\ModuleConfiguration;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\App;
 use stdClass;
+/** @internal */
 class DirectiveKindEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\AbstractIntrospectionEnumTypeResolver
 {
     public function getTypeName() : string

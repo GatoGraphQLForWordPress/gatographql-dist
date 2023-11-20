@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Comments\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Comments\Constants\CommentStatus;
+/** @internal */
 class CommentStatusEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

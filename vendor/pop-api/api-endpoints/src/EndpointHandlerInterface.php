@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\APIEndpoints;
 
 use PoP\Root\Services\AutomaticallyInstantiatedServiceInterface;
+/** @internal */
 interface EndpointHandlerInterface extends AutomaticallyInstantiatedServiceInterface
 {
     /**

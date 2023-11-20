@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface;
+/** @internal */
 class FieldDirectiveResolverRegistryFacade
 {
     public static function getInstance() : FieldDirectiveResolverRegistryInterface

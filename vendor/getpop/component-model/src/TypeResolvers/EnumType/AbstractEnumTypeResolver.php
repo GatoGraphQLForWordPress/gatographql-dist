@@ -15,6 +15,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface
 {
     /** @var string[]|null */

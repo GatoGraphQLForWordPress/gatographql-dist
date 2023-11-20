@@ -5,6 +5,7 @@ namespace PoPAPI\API\Facades;
 
 use PoP\Root\App;
 use PoPAPI\API\PersistedQueries\PersistedQueryManagerInterface;
+/** @internal */
 class PersistedQueryManagerFacade
 {
     public static function getInstance() : PersistedQueryManagerInterface

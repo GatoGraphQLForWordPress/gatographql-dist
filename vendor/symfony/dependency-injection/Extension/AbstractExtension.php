@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Cont
  * An Extension that provides configuration hooks.
  *
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 abstract class AbstractExtension extends Extension implements ConfigurableExtensionInterface, PrependExtensionInterface
 {

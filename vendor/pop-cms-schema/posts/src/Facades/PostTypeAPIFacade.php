@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Posts\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
+/** @internal */
 class PostTypeAPIFacade
 {
     public static function getInstance() : PostTypeAPIInterface

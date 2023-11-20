@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Resolvers;
 
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+/** @internal */
 trait FieldOrDirectiveSchemaDefinitionResolverTrait
 {
     use \PoP\ComponentModel\Resolvers\TypeSchemaDefinitionResolverTrait;

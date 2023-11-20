@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
 use PrefixedByPoP\Masterminds\HTML5\Elements;
 /**
  * Generate the output html5 based on element rules.
+ * @internal
  */
 class OutputRules implements RulesInterface
 {

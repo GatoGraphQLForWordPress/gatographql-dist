@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\SchemaHooks\AbstractAddAuthorInputFieldsInputObjectTypeHookSet;
+/** @internal */
 class AddAuthorInputFieldsToCustomPostInputObjectTypeHookSet extends AbstractAddAuthorInputFieldsInputObjectTypeHookSet
 {
     protected function addAuthorInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool

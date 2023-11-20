@@ -17,6 +17,7 @@ use PoP\Root\App;
 use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\UserStateMutations\Constants\HookNames;
+/** @internal */
 class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
 {
     /**

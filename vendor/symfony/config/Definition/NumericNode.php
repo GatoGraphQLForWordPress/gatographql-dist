@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidConfigura
  * This node represents a numeric value in the config tree.
  *
  * @author David Jeanmonod <david.jeanmonod@gmail.com>
+ * @internal
  */
 class NumericNode extends ScalarNode
 {

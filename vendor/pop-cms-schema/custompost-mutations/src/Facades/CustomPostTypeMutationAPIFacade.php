@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface;
+/** @internal */
 class CustomPostTypeMutationAPIFacade
 {
     public static function getInstance() : CustomPostTypeMutationAPIInterface

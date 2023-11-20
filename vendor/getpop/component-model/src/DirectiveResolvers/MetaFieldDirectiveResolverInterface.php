@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
+/** @internal */
 interface MetaFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {
     /**

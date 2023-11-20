@@ -13,6 +13,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
+/** @internal */
 class ObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     /**

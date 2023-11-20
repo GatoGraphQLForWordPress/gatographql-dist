@@ -18,6 +18,7 @@ use PoP\Engine\ModuleConfiguration;
 use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 class AppStateMethodsGlobalObjectTypeFieldResolver extends AbstractGlobalObjectTypeFieldResolver
 {
     /**

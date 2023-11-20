@@ -8,6 +8,7 @@ use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
 use PoPCMSSchema\UserMeta\Module;
 use PoPCMSSchema\UserMeta\ModuleConfiguration;
+/** @internal */
 abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface
 {
     /**

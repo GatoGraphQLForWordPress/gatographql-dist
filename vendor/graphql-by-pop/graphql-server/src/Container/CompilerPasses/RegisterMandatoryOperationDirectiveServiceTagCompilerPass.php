@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\Container\CompilerPasses;
 use GraphQLByPoP\GraphQLServer\Container\ServiceTags\MandatoryOperationDirectiveServiceTagInterface;
 use GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
+/** @internal */
 class RegisterMandatoryOperationDirectiveServiceTagCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

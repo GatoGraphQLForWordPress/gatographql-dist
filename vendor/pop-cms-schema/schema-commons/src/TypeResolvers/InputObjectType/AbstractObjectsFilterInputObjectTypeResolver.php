@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjec
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeIDsFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
+/** @internal */
 abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
     /**

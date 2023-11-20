@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\ObjectModels;
 
 use stdClass;
+/** @internal */
 final class GenericErrorPayload extends \PoPSchema\SchemaCommons\ObjectModels\AbstractErrorPayload implements \PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayloadInterface
 {
     /**

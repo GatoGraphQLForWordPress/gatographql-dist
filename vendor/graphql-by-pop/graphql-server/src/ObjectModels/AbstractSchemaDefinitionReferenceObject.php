@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use GraphQLByPoP\GraphQLServer\Facades\Registries\SchemaDefinitionReferenceRegistryFacade;
+/** @internal */
 abstract class AbstractSchemaDefinitionReferenceObject implements \GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface
 {
     /**

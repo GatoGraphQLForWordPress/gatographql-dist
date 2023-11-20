@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\UserAvatars\ObjectModels\UserAvatar;
 use PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObjectTypeDataLoader;
+/** @internal */
 class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
 {
     /**

@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Michelf;
 
 /**
  * Markdown Extra Parser Class
+ * @internal
  */
 class MarkdownExtra extends \PrefixedByPoP\Michelf\Markdown
 {

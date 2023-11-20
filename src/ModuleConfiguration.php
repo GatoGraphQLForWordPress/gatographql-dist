@@ -141,6 +141,15 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 
+    public function installPluginSetupData(): bool
+    {
+        $envVariable = Environment::INSTALL_PLUGIN_SETUP_DATA;
+        $defaultValue = true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+
     /**
      * These values are pre-defined.
      */

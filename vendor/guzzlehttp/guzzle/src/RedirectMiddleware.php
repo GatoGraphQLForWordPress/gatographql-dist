@@ -15,6 +15,7 @@ use PrefixedByPoP\Psr\Http\Message\UriInterface;
  * {@see \GuzzleHttp\Middleware::redirect()}.
  *
  * @final
+ * @internal
  */
 class RedirectMiddleware
 {

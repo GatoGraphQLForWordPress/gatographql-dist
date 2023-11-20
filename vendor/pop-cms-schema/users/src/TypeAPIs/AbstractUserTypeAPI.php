@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\TypeAPIs;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
+/** @internal */
 abstract class AbstractUserTypeAPI implements \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface
 {
     use BasicServiceTrait;

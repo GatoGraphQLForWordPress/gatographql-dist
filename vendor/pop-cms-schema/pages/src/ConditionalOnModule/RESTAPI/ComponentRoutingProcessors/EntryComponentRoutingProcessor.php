@@ -9,6 +9,7 @@ use PoPAPI\API\Response\Schemes as APISchemes;
 use PoPAPI\RESTAPI\ComponentRoutingProcessors\AbstractRESTEntryComponentRoutingProcessor;
 use PoPCMSSchema\Pages\ComponentProcessors\FieldDataloadComponentProcessor;
 use PoPCMSSchema\Pages\Routing\RequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     protected function doGetGraphQLQueryToResolveRESTEndpoint() : string

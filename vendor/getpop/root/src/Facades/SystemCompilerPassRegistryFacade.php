@@ -5,6 +5,7 @@ namespace PoP\Root\Facades;
 
 use PoP\Root\App;
 use PoP\Root\Registries\CompilerPassRegistryInterface;
+/** @internal */
 class SystemCompilerPassRegistryFacade
 {
     public static function getInstance() : CompilerPassRegistryInterface

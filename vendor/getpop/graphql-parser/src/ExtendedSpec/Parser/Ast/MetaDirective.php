@@ -6,6 +6,7 @@ namespace PoP\GraphQLParser\ExtendedSpec\Parser\Ast;
 use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Location;
+/** @internal */
 class MetaDirective extends Directive
 {
     /**

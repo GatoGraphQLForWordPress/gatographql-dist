@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 interface ConfigurableExtensionInterface extends ConfigurableInterface
 {

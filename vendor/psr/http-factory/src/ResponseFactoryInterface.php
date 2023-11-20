@@ -2,6 +2,7 @@
 
 namespace PrefixedByPoP\Psr\Http\Message;
 
+/** @internal */
 interface ResponseFactoryInterface
 {
     /**

@@ -16,6 +16,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\App;
 use stdClass;
+/** @internal */
 abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends AbstractMutationResolver implements \PoPCMSSchema\CustomPostMutations\MutationResolvers\CustomPostMutationResolverInterface
 {
     use \PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateOrUpdateCustomPostMutationResolverTrait;

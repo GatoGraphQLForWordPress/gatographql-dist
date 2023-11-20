@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Rob Frawley 2nd <rmf@src.run>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class MemcachedAdapter extends AbstractAdapter
 {

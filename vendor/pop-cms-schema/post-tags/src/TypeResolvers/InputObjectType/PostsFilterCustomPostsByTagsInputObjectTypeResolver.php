@@ -5,6 +5,7 @@ namespace PoPCMSSchema\PostTags\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFixedTaxonomyFilterCustomPostsByTagsInputObjectTypeResolver;
+/** @internal */
 class PostsFilterCustomPostsByTagsInputObjectTypeResolver extends AbstractFixedTaxonomyFilterCustomPostsByTagsInputObjectTypeResolver
 {
     /**

@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * Response represents an HTTP response.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Response
 {

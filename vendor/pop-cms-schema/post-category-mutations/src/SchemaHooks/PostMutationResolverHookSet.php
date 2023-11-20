@@ -7,6 +7,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverI
 use PoPCMSSchema\CustomPostCategoryMutations\SchemaHooks\AbstractCustomPostMutationResolverHookSet;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoPCMSSchema\PostMutations\SchemaHooks\PostMutationResolverHookSetTrait;
+/** @internal */
 class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use PostMutationResolverHookSetTrait;

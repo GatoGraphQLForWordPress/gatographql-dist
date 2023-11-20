@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\HelperServices\RequestHelperServiceInterface;
+/** @internal */
 class RequestHelperServiceFacade
 {
     public static function getInstance() : RequestHelperServiceInterface

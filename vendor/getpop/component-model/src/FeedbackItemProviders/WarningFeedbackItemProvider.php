@@ -7,6 +7,7 @@ use PoP\ComponentModel\Constants\Constants;
 use PoP\ComponentModel\Constants\Params;
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
+/** @internal */
 class WarningFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const W1 = 'w1';

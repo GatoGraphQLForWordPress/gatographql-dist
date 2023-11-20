@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Media\ConditionalOnModule\Users\SchemaHooks;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
 use PoPCMSSchema\Media\TypeResolvers\InputObjectType\AbstractMediaItemsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\SchemaHooks\AbstractAddAuthorInputFieldsInputObjectTypeHookSet;
+/** @internal */
 class AddAuthorInputFieldsToCustomPostInputObjectTypeHookSet extends AbstractAddAuthorInputFieldsInputObjectTypeHookSet
 {
     protected function addAuthorInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool

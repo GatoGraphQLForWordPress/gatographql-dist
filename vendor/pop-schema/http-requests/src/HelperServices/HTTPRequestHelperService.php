@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPSchema\HTTPRequests\HelperServices;
 
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class HTTPRequestHelperService implements \PoPSchema\HTTPRequests\HelperServices\HTTPRequestHelperServiceInterface
 {
     use BasicServiceTrait;

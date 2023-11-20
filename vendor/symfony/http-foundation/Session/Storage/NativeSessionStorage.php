@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy\Session
  * This provides a base class for session attribute storage.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 class NativeSessionStorage implements SessionStorageInterface
 {

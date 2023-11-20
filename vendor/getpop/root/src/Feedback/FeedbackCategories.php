@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root\Feedback;
 
+/** @internal */
 class FeedbackCategories
 {
     public const ERROR = 'error';

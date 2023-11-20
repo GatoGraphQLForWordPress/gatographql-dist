@@ -20,6 +20,7 @@ use PoP\Root\StateManagers\ModuleManagerInterface;
  * This interface contains all the methods from the
  * AppThreadInterface (to provide access to them)
  * but as static.
+ * @internal
  */
 class App implements \PoP\Root\AppInterface
 {

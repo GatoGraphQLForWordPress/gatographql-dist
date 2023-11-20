@@ -10,6 +10,7 @@ use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
 use SplObjectStorage;
+/** @internal */
 class ObjectFieldValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
     /**

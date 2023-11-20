@@ -11,6 +11,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class ASTHelperService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterface
 {
     use BasicServiceTrait;

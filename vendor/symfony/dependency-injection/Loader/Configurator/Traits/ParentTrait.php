@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ChildDefinition;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+/** @internal */
 trait ParentTrait
 {
     /**

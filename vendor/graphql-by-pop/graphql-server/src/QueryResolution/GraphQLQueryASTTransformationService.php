@@ -17,6 +17,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\QueryOperation;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Exception\ShouldNotHappenException;
 use SplObjectStorage;
+/** @internal */
 class GraphQLQueryASTTransformationService extends QueryASTTransformationService implements \GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface
 {
     /**

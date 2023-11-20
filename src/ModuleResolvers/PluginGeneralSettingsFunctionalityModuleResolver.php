@@ -23,6 +23,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
     /**
      * Setting options
      */
+    public const OPTION_INSTALL_PLUGIN_SETUP_DATA = 'install-plugin-setup-data';
     public const OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE = 'add-release-notes-admin-notice';
     public const OPTION_PRINT_SETTINGS_WITH_TABS = 'print-settings-with-tabs';
     public const OPTION_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME = 'client-ip-address-server-property-name';
@@ -128,6 +129,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
     {
         $defaultValues = [
             self::GENERAL => [
+                self::OPTION_INSTALL_PLUGIN_SETUP_DATA => true,
                 self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE => true,
                 self::OPTION_PRINT_SETTINGS_WITH_TABS => true,
             ],
@@ -147,6 +149,18 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
     {
         $moduleSettings = parent::getSettings($module);
         if ($module === self::GENERAL) {
+            $option = self::OPTION_INSTALL_PLUGIN_SETUP_DATA;
+            $moduleSettings[] = [
+                Properties::INPUT => $option,
+                Properties::NAME => $this->getSettingOptionName(
+                    $module,
+                    $option
+                ),
+                Properties::TITLE => \__('Plugin setup: Install Persisted Queries for common admin tasks?', 'gatographql'),
+                Properties::DESCRIPTION => \__('When installing or updating the plugin, enable the creation of Persisted Queries that tackle common admin tasks for WordPress?', 'gatographql'),
+                Properties::TYPE => Properties::TYPE_BOOL,
+            ];
+
             $option = self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE;
             $moduleSettings[] = [
                 Properties::INPUT => $option,

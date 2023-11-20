@@ -33,6 +33,7 @@ use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveResolver extends AbstractGlobalMetaFieldDirectiveResolver implements DynamicVariableDefinerFieldDirectiveResolverInterface
 {
     /**

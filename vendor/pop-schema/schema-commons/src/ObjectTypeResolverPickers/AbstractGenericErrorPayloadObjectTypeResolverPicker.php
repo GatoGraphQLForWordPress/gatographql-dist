@@ -6,6 +6,7 @@ namespace PoPSchema\SchemaCommons\ObjectTypeResolverPickers;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\GenericErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
+/** @internal */
 abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker implements \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\GenericErrorPayloadObjectTypeResolverPickerInterface
 {
     /**

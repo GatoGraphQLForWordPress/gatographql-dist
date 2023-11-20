@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\Tags\RelationalTypeDataLoaders\UnionType\TagUnionTypeDataLoader;
 use PoPCMSSchema\Tags\TypeResolvers\InterfaceType\TagInterfaceTypeResolver;
+/** @internal */
 class TagUnionTypeResolver extends AbstractUnionTypeResolver
 {
     /**

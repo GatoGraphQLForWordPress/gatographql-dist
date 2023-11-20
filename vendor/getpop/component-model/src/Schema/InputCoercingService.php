@@ -17,6 +17,7 @@ use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use stdClass;
+/** @internal */
 class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingServiceInterface
 {
     use BasicServiceTrait;

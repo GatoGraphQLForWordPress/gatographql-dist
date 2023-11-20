@@ -14,6 +14,7 @@ use PoP\GraphQLParser\Exception\AbstractQueryException;
 use PoP\GraphQLParser\Exception\Parser\AbstractASTNodeParserException;
 use PoP\GraphQLParser\Exception\Parser\AbstractParserException;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class ApplicationStateFillerService implements \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface
 {
     use BasicServiceTrait;

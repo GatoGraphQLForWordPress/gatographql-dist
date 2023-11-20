@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\Config\Resource\GlobResource;
  * FileLoader is the abstract class used by all built-in loaders that are file based.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 abstract class FileLoader extends Loader
 {

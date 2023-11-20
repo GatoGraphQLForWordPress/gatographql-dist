@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
  * service definitions and a callback that produces the real service instance.
  *
  * @author Marco Pivetta <ocramius@gmail.com>
+ * @internal
  */
 interface InstantiatorInterface
 {

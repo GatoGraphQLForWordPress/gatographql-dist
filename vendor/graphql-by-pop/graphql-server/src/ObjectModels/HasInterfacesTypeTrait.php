@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 use GraphQLByPoP\GraphQLServer\Schema\SchemaDefinitionHelpers;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\TypeKinds;
+/** @internal */
 trait HasInterfacesTypeTrait
 {
     /**

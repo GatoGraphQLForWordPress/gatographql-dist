@@ -6,6 +6,7 @@ namespace PoP\Root\Container\SystemCompilerPasses;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
 use PoP\Root\Registries\CompilerPassRegistryInterface;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+/** @internal */
 class RegisterSystemCompilerPassServiceCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
     protected function getRegistryServiceDefinition() : string

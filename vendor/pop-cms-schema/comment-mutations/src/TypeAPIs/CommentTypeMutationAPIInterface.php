@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CommentMutations\TypeAPIs;
 use PoPCMSSchema\CommentMutations\Exception\CommentCRUDMutationException;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface CommentTypeMutationAPIInterface
 {

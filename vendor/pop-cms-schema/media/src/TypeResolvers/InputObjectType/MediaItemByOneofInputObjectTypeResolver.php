@@ -11,6 +11,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\Media\Constants\InputProperties;
+/** @internal */
 class MediaItemByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
     /**

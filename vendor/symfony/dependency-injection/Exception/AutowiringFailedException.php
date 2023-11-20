@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
 
 /**
  * Thrown when a definition cannot be autowired.
+ * @internal
  */
 class AutowiringFailedException extends RuntimeException
 {

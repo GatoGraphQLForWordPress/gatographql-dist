@@ -5,6 +5,7 @@ namespace PoPAPI\API\Facades;
 
 use PoP\Root\App;
 use PoPAPI\API\PersistedQueries\PersistedFragmentManagerInterface;
+/** @internal */
 class PersistedFragmentManagerFacade
 {
     public static function getInstance() : PersistedFragmentManagerInterface

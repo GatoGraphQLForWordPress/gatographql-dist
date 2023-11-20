@@ -10,6 +10,7 @@ use PoPAPI\API\Module;
 use PoPAPI\API\Environment;
 use PoP\Root\Module\ModuleConfigurationHelpers;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class ModuleConfigurationHookSet extends AbstractHookSet
 {
     protected function init() : void

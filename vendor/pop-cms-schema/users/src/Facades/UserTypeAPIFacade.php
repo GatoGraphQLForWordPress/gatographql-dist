@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
+/** @internal */
 class UserTypeAPIFacade
 {
     public static function getInstance() : UserTypeAPIInterface

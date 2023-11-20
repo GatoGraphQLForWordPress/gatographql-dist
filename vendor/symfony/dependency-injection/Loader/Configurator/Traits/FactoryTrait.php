@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
+/** @internal */
 trait FactoryTrait
 {
     /**

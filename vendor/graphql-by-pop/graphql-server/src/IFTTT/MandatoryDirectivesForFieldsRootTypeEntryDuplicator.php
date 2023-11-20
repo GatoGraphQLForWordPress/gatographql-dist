@@ -12,6 +12,7 @@ use PoP\ComponentModel\Constants\ConfigurationValues;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Root\App;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
 {
     use BasicServiceTrait;

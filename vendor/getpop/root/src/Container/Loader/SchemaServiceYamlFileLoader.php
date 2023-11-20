@@ -11,6 +11,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  *
  * - always inject the "autoconfigure" property
  * - add the required tag "container.ignore_attributes" to avoid PHP 8's attributes
+ * @internal
  */
 class SchemaServiceYamlFileLoader extends YamlFileLoader
 {

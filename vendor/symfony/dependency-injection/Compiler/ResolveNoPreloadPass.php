@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * Propagate the "container.no_preload" tag.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ResolveNoPreloadPass extends AbstractRecursivePass
 {

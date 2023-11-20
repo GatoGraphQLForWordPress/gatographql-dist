@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
+/** @internal */
 class DeprecationFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
     public const D1 = 'd1';

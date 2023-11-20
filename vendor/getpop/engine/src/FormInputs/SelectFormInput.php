@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\Engine\FormInputs;
 
 use PoP\ComponentModel\FormInputs\FormInput;
+/** @internal */
 class SelectFormInput extends FormInput
 {
     /**

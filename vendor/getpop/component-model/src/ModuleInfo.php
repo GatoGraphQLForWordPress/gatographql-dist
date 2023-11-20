@@ -5,6 +5,7 @@ namespace PoP\ComponentModel;
 
 use PoP\ComponentModel\Misc\GeneralUtils;
 use PoP\Root\Module\AbstractModuleInfo;
+/** @internal */
 class ModuleInfo extends AbstractModuleInfo
 {
     protected function initialize() : void

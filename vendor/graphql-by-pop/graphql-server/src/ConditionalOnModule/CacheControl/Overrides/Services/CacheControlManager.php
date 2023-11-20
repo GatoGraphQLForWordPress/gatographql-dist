@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\ConditionalOnModule\CacheControl\Overrides\
 use GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface;
 use PoP\CacheControl\Managers\CacheControlManager as UpstreamCacheControlManager;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 class CacheControlManager extends UpstreamCacheControlManager
 {
     use BasicServiceTrait;

@@ -26,6 +26,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 /**
  * Add the Custom Post fields to the Root
+ * @internal
  */
 class RootCustomPostListObjectTypeFieldResolver extends \PoPCMSSchema\CustomPosts\FieldResolvers\ObjectType\AbstractCustomPostListObjectTypeFieldResolver
 {

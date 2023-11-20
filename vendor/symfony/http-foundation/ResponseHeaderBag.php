@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * ResponseHeaderBag is a container for Response HTTP headers.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ResponseHeaderBag extends HeaderBag
 {

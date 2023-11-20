@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
  * Looks for definitions with autowiring enabled and registers their corresponding "#[Required]" methods as setters.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {

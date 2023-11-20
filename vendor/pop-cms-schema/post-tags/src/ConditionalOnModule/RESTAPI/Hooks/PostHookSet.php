@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostTags\ConditionalOnModule\RESTAPI\Hooks;
 use PoPAPI\RESTAPI\Helpers\HookHelpers;
 use PoPAPI\RESTAPI\Hooks\AbstractRESTHookSet;
 use PoPCMSSchema\Posts\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors\EntryComponentRoutingProcessor;
+/** @internal */
 class PostHookSet extends AbstractRESTHookSet
 {
     const TAG_RESTFIELDS = 'tags { id name url }';

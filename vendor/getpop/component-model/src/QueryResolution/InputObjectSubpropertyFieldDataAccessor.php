@@ -7,6 +7,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Services\StandaloneServiceTrait;
 use stdClass;
+/** @internal */
 class InputObjectSubpropertyFieldDataAccessor extends \PoP\ComponentModel\QueryResolution\FieldDataAccessor implements \PoP\ComponentModel\QueryResolution\InputObjectSubpropertyFieldDataAccessorInterface
 {
     /**

@@ -6,6 +6,7 @@ namespace PoPAPI\API\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoPAPI\API\Constants\Formats;
 use PoP\ComponentModel\ComponentProcessors\AbstractDataloadComponentProcessor;
+/** @internal */
 abstract class AbstractRelationalFieldDataloadComponentProcessor extends AbstractDataloadComponentProcessor
 {
     /**

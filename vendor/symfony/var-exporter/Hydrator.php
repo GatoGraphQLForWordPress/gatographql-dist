@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator as InternalHyd
  * Utility class to hydrate the properties of an object.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class Hydrator
 {

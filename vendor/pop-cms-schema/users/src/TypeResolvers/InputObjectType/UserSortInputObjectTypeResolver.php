@@ -7,6 +7,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Users\Constants\UserOrderBy;
 use PoPCMSSchema\Users\TypeResolvers\EnumType\UserOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
+/** @internal */
 class UserSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
     /**

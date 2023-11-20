@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\InputObjectType;
 
+/** @internal */
 class HookNames
 {
     public const INPUT_FIELD_NAME_TYPE_RESOLVERS = __CLASS__ . ':input-field-name-type-resolvers';

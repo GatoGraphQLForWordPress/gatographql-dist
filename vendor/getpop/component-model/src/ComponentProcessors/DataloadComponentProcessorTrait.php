@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\Constants\HookNames;
 use PoP\Root\App;
+/** @internal */
 trait DataloadComponentProcessorTrait
 {
     use \PoP\ComponentModel\ComponentProcessors\FormattableModuleTrait;

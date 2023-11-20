@@ -8,6 +8,7 @@ use PoPCMSSchema\Comments\ModuleConfiguration;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class CommentableGenericCustomPostObjectTypeFieldResolver extends \PoPCMSSchema\Comments\FieldResolvers\ObjectType\AbstractCommentableCustomPostObjectTypeFieldResolver
 {
     /**

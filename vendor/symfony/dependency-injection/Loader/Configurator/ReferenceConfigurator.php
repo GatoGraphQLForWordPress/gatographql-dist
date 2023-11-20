@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurato
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ReferenceConfigurator extends AbstractConfigurator
 {

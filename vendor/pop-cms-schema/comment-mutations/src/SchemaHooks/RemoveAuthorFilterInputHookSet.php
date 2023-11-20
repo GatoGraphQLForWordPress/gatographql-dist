@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMutations\SchemaHooks;
 
 use PoPCMSSchema\CommentMutations\ComponentProcessors\CommentFilterInputContainerComponentProcessor;
 use PoPCMSSchema\CustomPostMutations\ConditionalOnModule\Users\SchemaHooks\AbstractRemoveAuthorFilterInputHookSet;
+/** @internal */
 class RemoveAuthorFilterInputHookSet extends AbstractRemoveAuthorFilterInputHookSet
 {
     protected function getHookNameToRemoveFilterInput() : string

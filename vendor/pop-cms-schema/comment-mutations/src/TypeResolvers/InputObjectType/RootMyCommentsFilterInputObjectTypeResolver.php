@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\AbstractCommentsFilterInputObjectTypeResolver;
+/** @internal */
 class RootMyCommentsFilterInputObjectTypeResolver extends AbstractCommentsFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

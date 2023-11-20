@@ -7,6 +7,7 @@ use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
 use PoP\GraphQLParser\Exception\Parser\SyntaxErrorParserException;
 use PoP\GraphQLParser\Exception\Parser\UnsupportedSyntaxErrorParserException;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
+/** @internal */
 interface ParserInterface
 {
     /**

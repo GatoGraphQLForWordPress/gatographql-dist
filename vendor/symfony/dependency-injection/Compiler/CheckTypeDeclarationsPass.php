@@ -36,6 +36,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Julien Maulny <jmaulny@darkmira.fr>
+ * @internal
  */
 final class CheckTypeDeclarationsPass extends AbstractRecursivePass
 {

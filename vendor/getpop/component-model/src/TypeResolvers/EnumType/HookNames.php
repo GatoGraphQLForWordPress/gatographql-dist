@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\EnumType;
 
+/** @internal */
 class HookNames
 {
     public const ENUM_VALUES = __CLASS__ . ':enum-values';

@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
  * Represents a collection of values to lazily iterate over.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ * @internal
  */
 class IteratorArgument implements ArgumentInterface
 {

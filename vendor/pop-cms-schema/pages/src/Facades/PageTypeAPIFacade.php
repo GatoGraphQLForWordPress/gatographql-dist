@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Pages\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
+/** @internal */
 class PageTypeAPIFacade
 {
     public static function getInstance() : PageTypeAPIInterface

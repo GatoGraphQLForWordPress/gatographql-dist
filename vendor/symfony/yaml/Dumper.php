@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Tag\TaggedValue;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @internal
  */
 class Dumper
 {

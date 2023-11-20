@@ -15,6 +15,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 trait CreateOrUpdateCustomPostMutationResolverTrait
 {
     use ValidateUserLoggedInMutationResolverTrait;

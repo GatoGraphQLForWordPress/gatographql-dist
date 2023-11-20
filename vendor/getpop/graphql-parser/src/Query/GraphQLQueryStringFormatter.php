@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Query;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
+/** @internal */
 class GraphQLQueryStringFormatter implements \PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface
 {
     /**

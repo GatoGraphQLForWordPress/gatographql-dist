@@ -18,6 +18,7 @@ namespace PrefixedByPoP\Symfony\Component\Config;
  * by means of ResourceChecker instances (that is, service-based).
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class ConfigCacheFactory implements ConfigCacheFactoryInterface
 {

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Info;
 
 use PoP\Root\Environment;
+/** @internal */
 class ApplicationInfo implements \PoP\ComponentModel\Info\ApplicationInfoInterface
 {
     /**

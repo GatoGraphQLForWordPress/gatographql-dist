@@ -15,6 +15,7 @@ use PoPCMSSchema\CustomPosts\FilterInputs\CustomPostStatusFilterInput;
 use PoPCMSSchema\CustomPosts\FilterInputs\UnionCustomPostTypesFilterInput;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
+/** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
     public const COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS = 'filterinput-custompoststatus';

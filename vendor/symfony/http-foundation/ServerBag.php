@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bulat Shakirzyanov <mallluhuct@gmail.com>
  * @author Robert Kiss <kepten@gmail.com>
+ * @internal
  */
 class ServerBag extends ParameterBag
 {

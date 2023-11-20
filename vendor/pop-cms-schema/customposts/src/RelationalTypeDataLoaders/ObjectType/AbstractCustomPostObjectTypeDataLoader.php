@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
+/** @internal */
 abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     /**

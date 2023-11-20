@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CommentMeta;
 
+/** @internal */
 class Environment
 {
     public const COMMENT_META_ENTRIES = 'COMMENT_META_ENTRIES';

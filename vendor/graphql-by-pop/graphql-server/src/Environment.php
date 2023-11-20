@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer;
 
+/** @internal */
 class Environment
 {
     public const SORT_GRAPHQL_SCHEMA_ALPHABETICALLY = 'SORT_GRAPHQL_SCHEMA_ALPHABETICALLY';

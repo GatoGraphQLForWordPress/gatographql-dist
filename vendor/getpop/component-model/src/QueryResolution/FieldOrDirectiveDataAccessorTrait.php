@@ -9,6 +9,7 @@ use PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface;
 use PoP\GraphQLParser\Module;
 use PoP\GraphQLParser\ModuleConfiguration;
 use stdClass;
+/** @internal */
 trait FieldOrDirectiveDataAccessorTrait
 {
     /**

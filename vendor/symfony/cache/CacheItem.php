@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Exception\LogicException;
 use PrefixedByPoP\Symfony\Contracts\Cache\ItemInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 final class CacheItem implements ItemInterface
 {

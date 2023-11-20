@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
  * The HTTP request contains headers with conflicting information.
  *
  * @author Magnus Nordlander <magnus@fervo.se>
+ * @internal
  */
 class ConflictingHeadersException extends \UnexpectedValueException implements RequestExceptionInterface
 {

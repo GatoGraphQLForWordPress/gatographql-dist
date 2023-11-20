@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
  * from the requests.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
+ * @internal
  */
 interface RequestRateLimiterInterface
 {

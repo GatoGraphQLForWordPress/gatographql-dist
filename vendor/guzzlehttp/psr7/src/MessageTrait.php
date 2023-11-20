@@ -7,6 +7,7 @@ use PrefixedByPoP\Psr\Http\Message\MessageInterface;
 use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * Trait implementing functionality common to requests and responses.
+ * @internal
  */
 trait MessageTrait
 {

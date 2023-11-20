@@ -7,6 +7,7 @@ use PoPCMSSchema\Categories\SchemaHooks\AbstractAddCategoryFilterInputObjectType
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCategoriesInputObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType\PostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
 use PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostsFilterInputObjectTypeResolverInterface;
+/** @internal */
 class AddCategoryFilterInputObjectTypeHookSet extends AbstractAddCategoryFilterInputObjectTypeHookSet
 {
     /**

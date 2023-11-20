@@ -14,6 +14,7 @@ use PoPCMSSchema\Users\FilterInputs\EmailOrEmailsFilterInput;
 use PoPCMSSchema\Users\Module;
 use PoPCMSSchema\Users\ModuleConfiguration;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver;
+/** @internal */
 class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
     /**

@@ -11,6 +11,7 @@ use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleInfo;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+/** @internal */
 trait ComponentPathProcessorTrait
 {
     protected abstract function getComponentProcessorManager() : \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;

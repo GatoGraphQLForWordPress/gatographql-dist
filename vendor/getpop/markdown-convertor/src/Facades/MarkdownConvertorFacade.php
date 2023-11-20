@@ -5,6 +5,7 @@ namespace PoP\MarkdownConvertor\Facades;
 
 use PoP\Root\App;
 use PoP\MarkdownConvertor\MarkdownConvertorInterface;
+/** @internal */
 class MarkdownConvertorFacade
 {
     public static function getInstance() : MarkdownConvertorInterface

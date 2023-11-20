@@ -10,6 +10,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
 use PrefixedByPoP\Psr\Http\Message\UriInterface;
 /**
  * HTTP Request exception
+ * @internal
  */
 class RequestException extends TransferException implements RequestExceptionInterface
 {

@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
  * Checks the HTTP scheme of a Request.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class SchemeRequestMatcher implements RequestMatcherInterface
 {

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CommentMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface;
+/** @internal */
 class CommentMetaTypeAPIFacade
 {
     public static function getInstance() : CommentMetaTypeAPIInterface

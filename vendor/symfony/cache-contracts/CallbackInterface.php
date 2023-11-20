@@ -17,6 +17,7 @@ use PrefixedByPoP\Psr\Cache\CacheItemInterface;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @template T
+ * @internal
  */
 interface CallbackInterface
 {

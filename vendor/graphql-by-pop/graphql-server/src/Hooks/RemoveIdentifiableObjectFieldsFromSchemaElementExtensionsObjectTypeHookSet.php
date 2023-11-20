@@ -7,6 +7,7 @@ use GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractSchemaElementExt
 use PoP\ComponentModel\Hooks\AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 class RemoveIdentifiableObjectFieldsFromSchemaElementExtensionsObjectTypeHookSet extends AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet
 {
     /**

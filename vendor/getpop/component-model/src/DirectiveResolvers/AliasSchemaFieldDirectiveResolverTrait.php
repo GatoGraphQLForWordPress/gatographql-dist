@@ -25,6 +25,7 @@ use SplObjectStorage;
  * and `SchemaFieldDirectiveResolverInterface`, whose functions must be aliased.
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 trait AliasSchemaFieldDirectiveResolverTrait
 {

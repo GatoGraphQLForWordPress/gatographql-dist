@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  * RedirectResponse represents an HTTP response doing a redirect.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class RedirectResponse extends Response
 {

@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
  * Represents a node in the AST.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Node
 {

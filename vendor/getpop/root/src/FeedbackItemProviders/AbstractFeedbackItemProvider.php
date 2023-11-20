@@ -6,6 +6,7 @@ namespace PoP\Root\FeedbackItemProviders;
 use PoP\Root\Exception\MisconfiguredServiceException;
 use PoP\Root\Helpers\ClassHelpers;
 use PoP\Root\Services\BasicServiceTrait;
+/** @internal */
 abstract class AbstractFeedbackItemProvider implements \PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface
 {
     use BasicServiceTrait;

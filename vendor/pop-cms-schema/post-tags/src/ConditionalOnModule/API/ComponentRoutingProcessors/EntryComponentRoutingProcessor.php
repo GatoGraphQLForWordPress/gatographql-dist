@@ -16,6 +16,7 @@ use PoPCMSSchema\PostTags\ConditionalOnModule\API\ComponentProcessors\PostTagFie
 use PoPCMSSchema\PostTags\ConditionalOnModule\API\ComponentProcessors\TagPostFieldDataloadComponentProcessor;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\Routing\RequestNature as TagRequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**

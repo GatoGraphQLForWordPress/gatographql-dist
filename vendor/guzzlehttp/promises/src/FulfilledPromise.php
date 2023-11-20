@@ -10,6 +10,7 @@ namespace PrefixedByPoP\GuzzleHttp\Promise;
  * immediately and ignore other callbacks.
  *
  * @final
+ * @internal
  */
 class FulfilledPromise implements PromiseInterface
 {

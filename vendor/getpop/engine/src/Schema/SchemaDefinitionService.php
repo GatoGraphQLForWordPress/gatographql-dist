@@ -8,6 +8,7 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver;
+/** @internal */
 class SchemaDefinitionService implements \PoP\Engine\Schema\SchemaDefinitionServiceInterface
 {
     use BasicServiceTrait;

@@ -6,6 +6,7 @@ namespace PoP\GuzzleHTTP\Services;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPInvalidResponseException;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
 use stdClass;
+/** @internal */
 interface HTTPResponseValidatorInterface
 {
     /**

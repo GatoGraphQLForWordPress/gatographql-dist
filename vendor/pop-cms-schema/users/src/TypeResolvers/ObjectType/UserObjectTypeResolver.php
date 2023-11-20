@@ -7,6 +7,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
+/** @internal */
 class UserObjectTypeResolver extends AbstractObjectTypeResolver
 {
     /**

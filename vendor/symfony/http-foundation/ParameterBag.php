@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @implements \IteratorAggregate<string, mixed>
+ * @internal
  */
 class ParameterBag implements \IteratorAggregate, \Countable
 {

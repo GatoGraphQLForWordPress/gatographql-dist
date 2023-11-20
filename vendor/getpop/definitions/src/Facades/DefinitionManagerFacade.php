@@ -5,6 +5,7 @@ namespace PoP\Definitions\Facades;
 
 use PoP\Root\App;
 use PoP\Definitions\DefinitionManagerInterface;
+/** @internal */
 class DefinitionManagerFacade
 {
     public static function getInstance() : DefinitionManagerInterface

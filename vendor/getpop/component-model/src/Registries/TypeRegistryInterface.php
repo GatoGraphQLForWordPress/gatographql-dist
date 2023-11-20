@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
+/** @internal */
 interface TypeRegistryInterface
 {
     public function addTypeResolver(TypeResolverInterface $typeResolver) : void;

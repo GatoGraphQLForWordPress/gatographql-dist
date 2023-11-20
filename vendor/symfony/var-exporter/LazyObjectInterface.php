@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\VarExporter;
 
+/** @internal */
 interface LazyObjectInterface
 {
     /**

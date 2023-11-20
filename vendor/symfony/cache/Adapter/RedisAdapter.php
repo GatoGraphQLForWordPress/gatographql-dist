@@ -12,6 +12,7 @@ namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 use PrefixedByPoP\Symfony\Component\Cache\Traits\RedisTrait;
+/** @internal */
 class RedisAdapter extends AbstractAdapter
 {
     use RedisTrait;

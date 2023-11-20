@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception;
 
+/** @internal */
 class UnexpectedTypeException extends FileException
 {
     /**

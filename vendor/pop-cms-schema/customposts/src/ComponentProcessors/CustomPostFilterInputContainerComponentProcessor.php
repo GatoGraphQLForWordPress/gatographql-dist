@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPosts\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoPCMSSchema\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponentProcessor;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputComponentProcessor;
+/** @internal */
 class CustomPostFilterInputContainerComponentProcessor extends \PoPCMSSchema\CustomPosts\ComponentProcessors\AbstractCustomPostFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';

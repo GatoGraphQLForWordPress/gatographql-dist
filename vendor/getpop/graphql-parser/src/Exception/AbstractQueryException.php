@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Exception;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 abstract class AbstractQueryException extends \PoP\GraphQLParser\Exception\AbstractLocationableException
 {
     /**

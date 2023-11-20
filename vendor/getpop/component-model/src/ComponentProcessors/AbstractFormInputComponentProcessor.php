@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\FormInputs\FormInput;
 use PoP\ComponentModel\FormInputs\FormMultipleInput;
+/** @internal */
 abstract class AbstractFormInputComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractQueryDataComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FormInputComponentProcessorInterface
 {
     /**

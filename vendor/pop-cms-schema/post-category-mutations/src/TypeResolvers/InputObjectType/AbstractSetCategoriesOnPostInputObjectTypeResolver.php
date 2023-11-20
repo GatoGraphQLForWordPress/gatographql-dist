@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\AbstractSetCategoriesOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
+/** @internal */
 abstract class AbstractSetCategoriesOnPostInputObjectTypeResolver extends AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
 {
     /**

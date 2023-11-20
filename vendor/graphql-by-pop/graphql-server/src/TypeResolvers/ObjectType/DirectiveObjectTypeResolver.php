@@ -6,6 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 use GraphQLByPoP\GraphQLServer\ObjectModels\Directive;
 use GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class DirectiveObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
     /**

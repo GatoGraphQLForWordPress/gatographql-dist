@@ -17,6 +17,7 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Exception;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParseException extends \Exception implements ExceptionInterface
 {

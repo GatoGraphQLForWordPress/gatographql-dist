@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserRoles\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
+/** @internal */
 class UserRoleTypeAPIFacade
 {
     public static function getInstance() : UserRoleTypeAPIInterface

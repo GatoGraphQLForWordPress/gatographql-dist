@@ -5,6 +5,7 @@ namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
+/** @internal */
 interface SchemaDefinitionProviderInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 trait GlobalObjectTypeFieldResolverTrait
 {
     /**

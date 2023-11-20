@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Feedback;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
+/** @internal */
 interface SchemaFeedbackInterface extends \PoP\ComponentModel\Feedback\QueryFeedbackInterface
 {
     public function getRelationalTypeResolver() : RelationalTypeResolverInterface;

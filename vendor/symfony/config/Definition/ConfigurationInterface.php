@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\TreeBuilder;
  * Configuration interface.
  *
  * @author Victor Berchet <victor@suumit.com>
+ * @internal
  */
 interface ConfigurationInterface
 {

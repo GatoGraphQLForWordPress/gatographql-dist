@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
+/** @internal */
 class CustomPostStatusEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

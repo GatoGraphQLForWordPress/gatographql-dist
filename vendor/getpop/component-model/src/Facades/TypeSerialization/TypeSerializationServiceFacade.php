@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\TypeSerialization;
 
 use PoP\Root\App;
 use PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface;
+/** @internal */
 class TypeSerializationServiceFacade
 {
     public static function getInstance() : TypeSerializationServiceInterface

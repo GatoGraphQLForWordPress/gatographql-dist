@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
  * - attempt to read a session outside a request context (ie. cli script).
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class SessionNotFoundException extends \LogicException implements RequestExceptionInterface
 {

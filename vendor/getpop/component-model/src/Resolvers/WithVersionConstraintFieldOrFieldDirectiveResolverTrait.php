@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Resolvers;
 
 use PoP\Root\Translation\TranslationAPIInterface;
+/** @internal */
 trait WithVersionConstraintFieldOrFieldDirectiveResolverTrait
 {
     protected abstract function getTranslationAPI() : TranslationAPIInterface;

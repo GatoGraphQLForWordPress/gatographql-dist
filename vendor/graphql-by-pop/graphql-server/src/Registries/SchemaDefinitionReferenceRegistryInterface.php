@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Registries;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface;
+/** @internal */
 interface SchemaDefinitionReferenceRegistryInterface
 {
     /**

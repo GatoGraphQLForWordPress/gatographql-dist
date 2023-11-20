@@ -21,6 +21,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface
 {
     use TypeSchemaDefinitionResolverTrait;

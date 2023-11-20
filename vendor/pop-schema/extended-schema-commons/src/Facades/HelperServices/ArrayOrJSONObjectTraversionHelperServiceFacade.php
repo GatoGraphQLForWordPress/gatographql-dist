@@ -5,6 +5,7 @@ namespace PoPSchema\ExtendedSchemaCommons\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoPSchema\ExtendedSchemaCommons\HelperServices\ArrayOrJSONObjectTraversionHelperServiceInterface;
+/** @internal */
 class ArrayOrJSONObjectTraversionHelperServiceFacade
 {
     public static function getInstance() : ArrayOrJSONObjectTraversionHelperServiceInterface

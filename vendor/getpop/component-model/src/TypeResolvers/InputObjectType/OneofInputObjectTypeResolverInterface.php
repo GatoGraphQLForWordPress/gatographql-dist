@@ -7,6 +7,7 @@ namespace PoP\ComponentModel\TypeResolvers\InputObjectType;
  * Based on GraphQL's oneof InputObject Type
  *
  * @see https://github.com/graphql/graphql-spec/pull/825
+ * @internal
  */
 interface OneofInputObjectTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface
 {

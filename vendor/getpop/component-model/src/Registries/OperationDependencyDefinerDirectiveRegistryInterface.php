@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\OperationDependencyDefinerFieldDirectiveResolverInterface;
+/** @internal */
 interface OperationDependencyDefinerDirectiveRegistryInterface
 {
     public function addOperationDependencyDefinerFieldDirectiveResolver(OperationDependencyDefinerFieldDirectiveResolverInterface $metaFieldDirectiveResolver) : void;

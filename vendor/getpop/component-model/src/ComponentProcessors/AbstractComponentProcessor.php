@@ -34,6 +34,7 @@ use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
+/** @internal */
 abstract class AbstractComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\ComponentProcessorInterface
 {
     use \PoP\ComponentModel\ComponentProcessors\ComponentPathProcessorTrait;

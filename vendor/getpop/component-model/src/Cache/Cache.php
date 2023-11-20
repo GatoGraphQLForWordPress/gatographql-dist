@@ -8,6 +8,7 @@ use PoP\ComponentModel\ModelInstance\ModelInstanceInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use PrefixedByPoP\Psr\Cache\CacheItemInterface;
 use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
+/** @internal */
 class Cache implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\ComponentModel\Cache\TransientCacheInterface
 {
     /**

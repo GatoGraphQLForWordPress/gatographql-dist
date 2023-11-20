@@ -13,6 +13,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\Root\App;
 use PoP\Root\Exception\ShouldNotHappenException;
+/** @internal */
 abstract class AbstractExecutableDocument extends ExecutableDocument implements \PoP\GraphQLParser\ExtendedSpec\Execution\ExecutableDocumentInterface
 {
     /**

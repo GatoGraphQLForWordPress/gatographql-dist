@@ -11,6 +11,7 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTyp
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements \PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerInterface
 {
     /**

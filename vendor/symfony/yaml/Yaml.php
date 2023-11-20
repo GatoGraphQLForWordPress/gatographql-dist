@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Exception\ParseException;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @internal
  */
 class Yaml
 {

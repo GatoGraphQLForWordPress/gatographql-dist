@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeResolvers\InputObjectType;
 
 use stdClass;
+/** @internal */
 abstract class AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver extends \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver
 {
     protected function addCategoryTaxonomyFilterInput() : bool

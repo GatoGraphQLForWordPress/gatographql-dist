@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\Facades\Services;
 
 use PoP\Root\App;
 use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
+/** @internal */
 class AllowOrDenySettingsServiceFacade
 {
     public static function getInstance() : AllowOrDenySettingsServiceInterface

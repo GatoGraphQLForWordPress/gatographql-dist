@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  * Interface for the session.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 interface SessionInterface
 {

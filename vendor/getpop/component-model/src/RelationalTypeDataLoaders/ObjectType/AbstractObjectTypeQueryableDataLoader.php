@@ -9,6 +9,7 @@ use PoP\ComponentModel\ComponentProcessors\DataloadingConstants;
 use PoP\ComponentModel\ComponentProcessors\FilterDataComponentProcessorInterface;
 use PoP\ComponentModel\Constants\PaginationParams;
 use PoP\Root\App;
+/** @internal */
 abstract class AbstractObjectTypeQueryableDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableDataLoaderInterface
 {
     /**

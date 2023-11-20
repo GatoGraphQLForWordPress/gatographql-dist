@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace GatoGraphQL\PluginUtils\Services\Helpers;
 
+/** @internal */
 class StringConversion
 {
     /**

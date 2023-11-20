@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CommentMeta;
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
 use PoPSchema\SchemaCommons\Constants\Behaviors;
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     /**

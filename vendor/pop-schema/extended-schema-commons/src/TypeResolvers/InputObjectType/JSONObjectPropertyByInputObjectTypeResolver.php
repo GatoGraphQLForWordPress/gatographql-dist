@@ -6,6 +6,7 @@ namespace PoPSchema\ExtendedSchemaCommons\TypeResolvers\InputObjectType;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
+/** @internal */
 class JSONObjectPropertyByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
     /**

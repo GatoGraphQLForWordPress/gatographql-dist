@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ReverseContainer;
 use PrefixedByPoP\Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 /**
  * Computes cached values sent to a message bus.
+ * @internal
  */
 class EarlyExpirationHandler implements MessageHandlerInterface
 {

@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType;
 use PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType\AbstractTagObjectTypeDataLoader;
 use PoPCMSSchema\Tags\TypeAPIs\TagListTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface;
+/** @internal */
 class QueryableTagListObjectTypeDataLoader extends AbstractTagObjectTypeDataLoader
 {
     /**

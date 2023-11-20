@@ -30,6 +30,7 @@ use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException
  * this class provides a new state.
  *
  * Needed for PHPUnit.
+ * @internal
  */
 class AppThread implements \PoP\Root\AppThreadInterface
 {

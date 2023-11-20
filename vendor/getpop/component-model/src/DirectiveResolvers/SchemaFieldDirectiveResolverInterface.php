@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 interface SchemaFieldDirectiveResolverInterface
 {
     /**

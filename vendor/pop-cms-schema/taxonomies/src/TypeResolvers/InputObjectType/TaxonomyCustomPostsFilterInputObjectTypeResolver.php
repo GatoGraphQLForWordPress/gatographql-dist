@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInputObjectTypeResolverInterface;
+/** @internal */
 class TaxonomyCustomPostsFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements CustomPostsFilterInputObjectTypeResolverInterface
 {
     public function getTypeName() : string

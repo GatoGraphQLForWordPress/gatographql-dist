@@ -31,6 +31,7 @@ use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 use stdClass;
+/** @internal */
 abstract class AbstractDocument extends UpstreamDocument
 {
     /**

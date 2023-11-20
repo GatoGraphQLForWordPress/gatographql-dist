@@ -14,6 +14,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class DefaultsConfigurator extends AbstractServiceConfigurator
 {

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Cache;
 
 use DateInterval;
+/** @internal */
 interface CacheInterface
 {
     public function hasCache(string $id, string $type) : bool;

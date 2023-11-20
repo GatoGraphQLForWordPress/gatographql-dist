@@ -7,6 +7,7 @@ namespace PoP\ComponentModel\TypeResolvers\ScalarType;
  * GraphQL Built-in Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars
+ * @internal
  */
 class IntScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractIntScalarTypeResolver
 {

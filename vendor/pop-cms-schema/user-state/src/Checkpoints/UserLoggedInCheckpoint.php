@@ -7,6 +7,7 @@ use PoP\ComponentModel\Checkpoints\AbstractCheckpoint;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\App;
 use PoPCMSSchema\UserState\FeedbackItemProviders\CheckpointErrorFeedbackItemProvider;
+/** @internal */
 class UserLoggedInCheckpoint extends AbstractCheckpoint
 {
     public function validateCheckpoint() : ?FeedbackItemResolution

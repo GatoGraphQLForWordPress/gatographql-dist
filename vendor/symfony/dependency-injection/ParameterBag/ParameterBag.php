@@ -17,6 +17,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeExcepti
  * Holds parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParameterBag implements ParameterBagInterface
 {

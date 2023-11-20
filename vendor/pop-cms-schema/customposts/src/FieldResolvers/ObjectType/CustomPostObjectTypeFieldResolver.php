@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPosts\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
+/** @internal */
 class CustomPostObjectTypeFieldResolver extends \PoPCMSSchema\CustomPosts\FieldResolvers\ObjectType\AbstractCustomPostObjectTypeFieldResolver
 {
     /**

@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Engine;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
+/** @internal */
 class EngineState
 {
     /**

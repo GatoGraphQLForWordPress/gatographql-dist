@@ -11,6 +11,7 @@ use PoPCMSSchema\Media\FilterInputs\MimeTypesFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver;
+/** @internal */
 abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
     /**

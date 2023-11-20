@@ -19,6 +19,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * Inline service definitions where this is possible.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class InlineServiceDefinitionsPass extends AbstractRecursivePass
 {

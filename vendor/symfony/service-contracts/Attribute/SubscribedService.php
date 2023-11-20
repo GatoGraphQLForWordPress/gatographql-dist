@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberTrait;
  * as a subscribed service.
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_METHOD)]
 final class SubscribedService

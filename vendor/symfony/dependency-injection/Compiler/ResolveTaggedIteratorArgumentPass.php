@@ -15,6 +15,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorA
  * Resolves all TaggedIteratorArgument arguments.
  *
  * @author Roland Franssen <franssen.roland@gmail.com>
+ * @internal
  */
 class ResolveTaggedIteratorArgumentPass extends AbstractRecursivePass
 {

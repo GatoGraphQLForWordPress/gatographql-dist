@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Component\Yaml\Inline;
  * Dumps a Yaml reference configuration for the given configuration/node instance.
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 class YamlReferenceDumper
 {

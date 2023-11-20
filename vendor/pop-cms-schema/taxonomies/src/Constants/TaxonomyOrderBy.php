@@ -7,6 +7,7 @@ namespace PoPCMSSchema\Taxonomies\Constants;
  * Same list as defined for WordPress
  *
  * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
+ * @internal
  */
 class TaxonomyOrderBy
 {

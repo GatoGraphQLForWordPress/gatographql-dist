@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\DataStructure;
 
 use PoP\ComponentModel\DataStructureFormatters\DataStructureFormatterInterface;
 use PoP\Root\App;
+/** @internal */
 class DataStructureManager implements \PoP\ComponentModel\DataStructure\DataStructureManagerInterface
 {
     /**

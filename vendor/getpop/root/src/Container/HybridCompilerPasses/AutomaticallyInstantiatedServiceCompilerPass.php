@@ -5,6 +5,7 @@ namespace PoP\Root\Container\HybridCompilerPasses;
 
 use PoP\Root\Container\CompilerPasses\AbstractInstantiateServiceCompilerPass;
 use PoP\Root\Services\AutomaticallyInstantiatedServiceInterface;
+/** @internal */
 class AutomaticallyInstantiatedServiceCompilerPass extends AbstractInstantiateServiceCompilerPass
 {
     protected function onlyProcessAutoconfiguredServices() : bool

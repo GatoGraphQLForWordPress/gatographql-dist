@@ -25,6 +25,7 @@ use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
 use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
+/** @internal */
 class DoctrineDbalAdapter extends AbstractAdapter implements PruneableInterface
 {
     protected $maxIdLength = 255;

@@ -38,6 +38,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvParameterEx
  *
  * This class extends PhpDumper to replace the `??=` code,
  * making it compatible with PHP 7.2+ once again.
+ * @internal
  */
 class DowngradingPhpDumper extends PhpDumper
 {

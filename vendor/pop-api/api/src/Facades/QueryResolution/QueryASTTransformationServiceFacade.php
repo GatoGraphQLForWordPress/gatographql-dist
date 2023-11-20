@@ -5,6 +5,7 @@ namespace PoPAPI\API\Facades\QueryResolution;
 
 use PoP\Root\App;
 use PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface;
+/** @internal */
 class QueryASTTransformationServiceFacade
 {
     public static function getInstance() : QueryASTTransformationServiceInterface

@@ -15,6 +15,7 @@ use PoP\Root\App;
 use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+/** @internal */
 abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\MutationResolvers\AbstractMutationResolver
 {
     /** @var array<string,MutationResolverInterface>|null */

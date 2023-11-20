@@ -11,6 +11,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeRe
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
 abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements \PoPCMSSchema\Categories\ObjectTypeResolverPickers\CategoryObjectTypeResolverPickerInterface
 {
     /**

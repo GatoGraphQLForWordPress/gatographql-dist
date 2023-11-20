@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Users\Constants;
 
+/** @internal */
 class UserOrderBy
 {
     public const ID = 'ID';

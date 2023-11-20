@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Tags\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Taxonomies\TypeResolvers\ObjectType\AbstractTaxonomyObjectTypeResolver;
+/** @internal */
 abstract class AbstractTagObjectTypeResolver extends AbstractTaxonomyObjectTypeResolver implements \PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface
 {
     public abstract function getTagTypeAPI() : TagTypeAPIInterface;

@@ -6,6 +6,7 @@ namespace PoPCMSSchema\Menus\TypeAPIs;
 use PoPCMSSchema\Menus\ObjectModels\MenuItem;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface MenuTypeAPIInterface
 {

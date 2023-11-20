@@ -14,6 +14,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
  * An attribute to tell how a base type should be tagged.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class AutoconfigureTag extends Autoconfigure

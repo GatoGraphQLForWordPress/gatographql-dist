@@ -11,6 +11,7 @@ namespace PoP\Root\Container\Loader;
  *   is produced when the plugin is downgraded to PHP 7.*
  *
  * @see https://github.com/symfony/symfony/blob/6fef5b44b0ed982c6c930da2b435179662f8fd25/src/Symfony/Component/DependencyInjection/Compiler/RegisterAutoconfigureAttributesPass.php#L19-L25
+ * @internal
  */
 trait ServiceYamlFileLoaderTrait
 {

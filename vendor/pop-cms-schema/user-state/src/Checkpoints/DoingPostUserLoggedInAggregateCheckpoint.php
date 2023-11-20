@@ -7,6 +7,7 @@ use PoP\ComponentModel\Checkpoints\AbstractAggregateCheckpoint;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
 use PoP\Engine\Checkpoints\DoingPostCheckpoint;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
+/** @internal */
 class DoingPostUserLoggedInAggregateCheckpoint extends AbstractAggregateCheckpoint
 {
     /**

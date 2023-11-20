@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
+/** @internal */
 class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
     /**

@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
+/** @internal */
 abstract class AbstractUseRootAsSourceForSchemaObjectTypeResolver extends AbstractObjectTypeResolver implements \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\UseRootAsSourceForSchemaObjectTypeResolverInterface
 {
     /**

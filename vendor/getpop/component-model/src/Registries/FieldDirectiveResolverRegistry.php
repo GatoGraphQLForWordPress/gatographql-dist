@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
+/** @internal */
 class FieldDirectiveResolverRegistry implements \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface
 {
     /**

@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\TypeResolvers\ObjectType;
 
 use PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\GenericErrorPayloadObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
+/** @internal */
 class GenericErrorPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver
 {
     /**

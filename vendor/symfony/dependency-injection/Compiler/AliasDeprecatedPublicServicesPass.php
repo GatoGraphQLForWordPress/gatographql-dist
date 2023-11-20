@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+/** @internal */
 final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
 {
     /**

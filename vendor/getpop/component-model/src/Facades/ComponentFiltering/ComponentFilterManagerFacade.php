@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Facades\ComponentFiltering;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface;
+/** @internal */
 class ComponentFilterManagerFacade
 {
     public static function getInstance() : ComponentFilterManagerInterface

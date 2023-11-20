@@ -9,6 +9,7 @@ use PoPAPI\API\Routing\RequestNature;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentRouting\AbstractEntryComponentRoutingProcessor;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**

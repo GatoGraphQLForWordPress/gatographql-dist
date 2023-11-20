@@ -5,6 +5,7 @@ namespace PoP\GraphQLParser\Exception;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 final class ObjectFieldValuePromiseException extends \PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException
 {
     /**

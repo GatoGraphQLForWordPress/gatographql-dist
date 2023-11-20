@@ -24,6 +24,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\ScalarNode;
  * Dumps an XML reference configuration for the given configuration/node instance.
  *
  * @author Wouter J <waldio.webdesign@gmail.com>
+ * @internal
  */
 class XmlReferenceDumper
 {

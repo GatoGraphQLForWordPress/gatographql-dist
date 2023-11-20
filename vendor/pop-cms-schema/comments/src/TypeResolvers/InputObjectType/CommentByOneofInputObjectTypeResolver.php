@@ -8,6 +8,7 @@ use PoP\ComponentModel\FilterInputs\FilterInputInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofQueryableInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
+/** @internal */
 class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
     /**

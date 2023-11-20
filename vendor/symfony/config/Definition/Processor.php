@@ -16,6 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Definition;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  *
  * @final
+ * @internal
  */
 class Processor
 {

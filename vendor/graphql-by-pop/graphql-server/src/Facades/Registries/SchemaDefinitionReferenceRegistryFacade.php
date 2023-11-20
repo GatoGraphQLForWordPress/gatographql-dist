@@ -5,6 +5,7 @@ namespace GraphQLByPoP\GraphQLServer\Facades\Registries;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface;
+/** @internal */
 class SchemaDefinitionReferenceRegistryFacade
 {
     public static function getInstance() : SchemaDefinitionReferenceRegistryInterface

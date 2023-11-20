@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+/** @internal */
 class RemoveBuildParametersPass implements CompilerPassInterface
 {
     /**

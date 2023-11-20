@@ -10,6 +10,7 @@ use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
 use PoP\Engine\Cache\CacheUtils;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
+/** @internal */
 class SchemaCacheHookSet extends AbstractHookSet
 {
     protected function init() : void

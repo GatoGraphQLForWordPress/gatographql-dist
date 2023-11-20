@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\Config;
 use PrefixedByPoP\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 interface FileLocatorInterface
 {

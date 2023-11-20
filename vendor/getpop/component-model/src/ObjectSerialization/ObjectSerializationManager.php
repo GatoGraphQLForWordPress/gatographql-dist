@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\ObjectSerialization;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Services\BasicServiceTrait;
 use stdClass;
+/** @internal */
 class ObjectSerializationManager implements \PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface
 {
     use BasicServiceTrait;

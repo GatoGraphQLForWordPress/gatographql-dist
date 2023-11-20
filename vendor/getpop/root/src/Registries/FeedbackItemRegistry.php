@@ -5,6 +5,7 @@ namespace PoP\Root\Registries;
 
 use PoP\Root\Feedback\FeedbackItemEntryKeys;
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
+/** @internal */
 class FeedbackItemRegistry implements \PoP\Root\Registries\FeedbackItemRegistryInterface
 {
     /**

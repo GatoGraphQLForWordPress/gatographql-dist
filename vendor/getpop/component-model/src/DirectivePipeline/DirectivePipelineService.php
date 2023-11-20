@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\DirectivePipeline;
 
 use PrefixedByPoP\League\Pipeline\PipelineBuilder;
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
+/** @internal */
 class DirectivePipelineService implements \PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface
 {
     /**

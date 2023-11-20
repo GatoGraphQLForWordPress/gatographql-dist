@@ -16,6 +16,7 @@ use PoPCMSSchema\PostTags\Module;
 use PoPCMSSchema\PostTags\ModuleConfiguration;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\Routing\RequestNature as TagRequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     private ?PostTagTypeAPIInterface $postTagTypeAPI = null;

@@ -23,6 +23,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class ContainerConfigurator extends AbstractConfigurator
 {
@@ -110,6 +111,7 @@ class ContainerConfigurator extends AbstractConfigurator
 }
 /**
  * Creates a parameter.
+ * @internal
  */
 function param(string $name) : ParamConfigurator
 {
@@ -117,6 +119,7 @@ function param(string $name) : ParamConfigurator
 }
 /**
  * Creates a reference to a service.
+ * @internal
  */
 function service(string $serviceId) : ReferenceConfigurator
 {
@@ -124,6 +127,7 @@ function service(string $serviceId) : ReferenceConfigurator
 }
 /**
  * Creates an inline service.
+ * @internal
  */
 function inline_service(string $class = null) : InlineServiceConfigurator
 {
@@ -133,6 +137,7 @@ function inline_service(string $class = null) : InlineServiceConfigurator
  * Creates a service locator.
  *
  * @param array<ReferenceConfigurator|InlineServiceConfigurator> $values
+ * @internal
  */
 function service_locator(array $values) : ServiceLocatorArgument
 {
@@ -146,6 +151,7 @@ function service_locator(array $values) : ServiceLocatorArgument
  * Creates a lazy iterator.
  *
  * @param ReferenceConfigurator[] $values
+ * @internal
  */
 function iterator(array $values) : IteratorArgument
 {
@@ -154,6 +160,7 @@ function iterator(array $values) : IteratorArgument
 /**
  * Creates a lazy iterator by tag name.
  * @param string|mixed[] $exclude
+ * @internal
  */
 function tagged_iterator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : TaggedIteratorArgument
 {
@@ -162,6 +169,7 @@ function tagged_iterator(string $tag, string $indexAttribute = null, string $def
 /**
  * Creates a service locator by tag name.
  * @param string|mixed[] $exclude
+ * @internal
  */
 function tagged_locator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : ServiceLocatorArgument
 {
@@ -169,6 +177,7 @@ function tagged_locator(string $tag, string $indexAttribute = null, string $defa
 }
 /**
  * Creates an expression.
+ * @internal
  */
 function expr(string $expression) : Expression
 {
@@ -176,6 +185,7 @@ function expr(string $expression) : Expression
 }
 /**
  * Creates an abstract argument.
+ * @internal
  */
 function abstract_arg(string $description) : AbstractArgument
 {
@@ -183,6 +193,7 @@ function abstract_arg(string $description) : AbstractArgument
 }
 /**
  * Creates an environment variable reference.
+ * @internal
  */
 function env(string $name) : EnvConfigurator
 {
@@ -190,6 +201,7 @@ function env(string $name) : EnvConfigurator
 }
 /**
  * Creates a closure service reference.
+ * @internal
  */
 function service_closure(string $serviceId) : ClosureReferenceConfigurator
 {
@@ -198,6 +210,7 @@ function service_closure(string $serviceId) : ClosureReferenceConfigurator
 /**
  * Creates a closure.
  * @param string|mixed[]|\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator|\Symfony\Component\ExpressionLanguage\Expression $callable
+ * @internal
  */
 function closure($callable) : InlineServiceConfigurator
 {

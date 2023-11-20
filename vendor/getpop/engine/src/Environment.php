@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Engine;
 
+/** @internal */
 class Environment
 {
     public const DISABLE_REDUNDANT_ROOT_TYPE_MUTATION_FIELDS = 'DISABLE_REDUNDANT_ROOT_TYPE_MUTATION_FIELDS';

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Menus\RuntimeRegistries;
 
 use PoPCMSSchema\Menus\ObjectModels\MenuItem;
+/** @internal */
 class MenuItemRuntimeRegistry implements \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface
 {
     /** @var array<string|int,MenuItem> */

@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Component\Finder\Glob;
  * @final
  *
  * @implements \IteratorAggregate<string, \SplFileInfo>
+ * @internal
  */
 class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
 {

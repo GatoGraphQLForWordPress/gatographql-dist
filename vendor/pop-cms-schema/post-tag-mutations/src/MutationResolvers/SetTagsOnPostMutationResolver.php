@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInt
 use PoPCMSSchema\PostTagMutations\TypeAPIs\PostTagTypeMutationAPIInterface;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
+/** @internal */
 class SetTagsOnPostMutationResolver extends AbstractSetTagsOnCustomPostMutationResolver
 {
     /**

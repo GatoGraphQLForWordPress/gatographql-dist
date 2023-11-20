@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Users\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Users\Constants\UserOrderBy;
+/** @internal */
 class UserOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

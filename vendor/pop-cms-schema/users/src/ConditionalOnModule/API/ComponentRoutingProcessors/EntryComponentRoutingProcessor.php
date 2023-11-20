@@ -12,6 +12,7 @@ use PoPCMSSchema\Users\Module;
 use PoPCMSSchema\Users\ModuleConfiguration;
 use PoPCMSSchema\Users\ConditionalOnModule\API\ComponentProcessors\FieldDataloadComponentProcessor;
 use PoPCMSSchema\Users\Routing\RequestNature as UserRequestNature;
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**

@@ -16,6 +16,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
  * CompilerPassInterface.
  *
  * @author Wouter J <wouter@wouterj.nl>
+ * @internal
  */
 class ExtensionCompilerPass implements CompilerPassInterface
 {

@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Media\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Media\Constants\MediaItemOrderBy;
+/** @internal */
 class MediaItemOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
     public function getTypeName() : string

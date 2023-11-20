@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\TypeAPIs;
 
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
+ * @internal
  */
 interface CustomPostMediaTypeMutationAPIInterface
 {

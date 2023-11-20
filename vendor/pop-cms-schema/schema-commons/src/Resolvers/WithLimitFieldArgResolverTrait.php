@@ -7,6 +7,7 @@ use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\FilterInput\FilterInputHelper;
 use PoP\Root\Translation\TranslationAPIInterface;
 use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputComponentProcessor;
+/** @internal */
 trait WithLimitFieldArgResolverTrait
 {
     /**

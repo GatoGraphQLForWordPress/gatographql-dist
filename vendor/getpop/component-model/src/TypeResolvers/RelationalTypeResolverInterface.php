@@ -13,6 +13,7 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+/** @internal */
 interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface
 {
     /**

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\API\PersistedQueries;
 
 use PoPAPI\API\Schema\SchemaDefinition;
+/** @internal */
 abstract class AbstractPersistedQueryManager implements \PoPAPI\API\PersistedQueries\PersistedQueryManagerInterface
 {
     /**

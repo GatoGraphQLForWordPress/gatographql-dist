@@ -15,6 +15,7 @@ namespace PoPBackbone\PHPHooks;
  * into any php based system
  *
  * This class is heavily based on the WordPress plugin API and most (if not all) of the code comes from there.
+ * @internal
  */
 class PHPHooks
 {

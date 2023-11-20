@@ -9,6 +9,7 @@ use PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\DocumentDynamicVaria
 use PoP\GraphQLParser\FeedbackItemProviders\GraphQLExtendedSpecErrorFeedbackItemProvider;
 use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
+/** @internal */
 class DocumentDynamicVariableValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
     /**

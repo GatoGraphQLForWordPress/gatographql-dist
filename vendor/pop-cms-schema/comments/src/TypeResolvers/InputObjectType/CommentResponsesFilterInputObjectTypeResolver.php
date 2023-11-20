@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\InputObjectType;
 
+/** @internal */
 class CommentResponsesFilterInputObjectTypeResolver extends \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\AbstractCommentsFilterInputObjectTypeResolver
 {
     public function getTypeName() : string

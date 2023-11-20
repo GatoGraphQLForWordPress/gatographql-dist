@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
+/** @internal */
 interface DirectiveResolverInterface
 {
     public function getDirectiveName() : string;

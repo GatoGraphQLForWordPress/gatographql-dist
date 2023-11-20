@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentRouting\Helpers;
 
 use PoP\Root\Helpers\Methods as RootMethods;
+/** @internal */
 class Methods
 {
     /**

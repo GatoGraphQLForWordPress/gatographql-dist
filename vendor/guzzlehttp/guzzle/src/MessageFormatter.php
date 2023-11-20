@@ -33,6 +33,7 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
  * - {res_body}:       Response body
  *
  * @final
+ * @internal
  */
 class MessageFormatter implements MessageFormatterInterface
 {

@@ -6,6 +6,7 @@ namespace PoP\ComponentModel\Feedback;
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
+/** @internal */
 class ObjectResolutionFeedbackStore
 {
     /** @var ObjectResolutionFeedbackInterface[] */

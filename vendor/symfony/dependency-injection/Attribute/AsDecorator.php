@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+/** @internal */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class AsDecorator
 {

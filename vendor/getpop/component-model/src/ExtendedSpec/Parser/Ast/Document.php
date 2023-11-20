@@ -11,6 +11,7 @@ use PoP\GraphQLParser\ExtendedSpec\Parser\Ast\AbstractDocument;
 use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
+/** @internal */
 class Document extends AbstractDocument
 {
     /**

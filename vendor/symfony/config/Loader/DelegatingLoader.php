@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
  * a chance to load a given resource (handled by the resolver)
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class DelegatingLoader extends Loader
 {

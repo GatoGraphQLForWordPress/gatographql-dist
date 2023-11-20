@@ -20,6 +20,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * Creates the container.env_var_processors_locator service.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class RegisterEnvVarProcessorsPass implements CompilerPassInterface
 {

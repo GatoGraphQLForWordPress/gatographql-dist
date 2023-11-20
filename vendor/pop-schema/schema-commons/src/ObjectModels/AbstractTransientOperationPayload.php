@@ -5,6 +5,7 @@ namespace PoPSchema\SchemaCommons\ObjectModels;
 
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\ObjectModels\AbstractTransientObject;
+/** @internal */
 abstract class AbstractTransientOperationPayload extends AbstractTransientObject
 {
     /**

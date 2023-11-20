@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @deprecated since Symfony 6.1
+ * @internal
  */
 trait ReferenceSetArgumentTrait
 {

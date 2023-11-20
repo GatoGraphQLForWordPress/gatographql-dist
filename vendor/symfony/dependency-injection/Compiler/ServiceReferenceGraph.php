@@ -21,6 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  *
  * @final
+ * @internal
  */
 class ServiceReferenceGraph
 {

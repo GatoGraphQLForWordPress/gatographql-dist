@@ -40,6 +40,7 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
  *             ],
  *         ],
  *     );
+ * @internal
  */
 class StreamedJsonResponse extends StreamedResponse
 {

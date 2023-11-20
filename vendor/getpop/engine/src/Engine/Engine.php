@@ -6,6 +6,7 @@ namespace PoP\Engine\Engine;
 use PoP\ComponentModel\Engine\Engine as UpstreamEngine;
 use PoP\Engine\Exception\ContractNotSatisfiedException;
 use PoP\LooseContracts\LooseContractManagerInterface;
+/** @internal */
 class Engine extends UpstreamEngine
 {
     /**

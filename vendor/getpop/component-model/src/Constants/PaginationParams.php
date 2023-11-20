@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class PaginationParams
 {
     // Paged param: It is 'pagenum' and not 'paged', because if so WP does a redirect to re-adjust the URL

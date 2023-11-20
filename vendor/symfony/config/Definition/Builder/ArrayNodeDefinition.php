@@ -18,6 +18,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\PrototypedArrayNode;
  * This class provides a fluent interface for defining an array node.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinitionInterface
 {

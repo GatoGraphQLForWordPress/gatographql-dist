@@ -15,6 +15,7 @@ use PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\PostSetCategorie
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
+/** @internal */
 class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResolver
 {
     /**

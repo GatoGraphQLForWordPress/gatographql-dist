@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser;
 
+/** @internal */
 class Token
 {
     /**

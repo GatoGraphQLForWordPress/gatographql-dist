@@ -5,6 +5,7 @@ namespace PoP\ComponentModel\Configuration;
 
 use PoP\ComponentModel\Constants\Params;
 use PoP\Root\App;
+/** @internal */
 class Request
 {
     /**
