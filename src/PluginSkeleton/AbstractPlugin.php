@@ -25,6 +25,8 @@ abstract class AbstractPlugin implements PluginInterface
      * @var string|null
      */
     protected $commitHash;
+    public const PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER = '#';
+
     /**
      * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInfoInterface|null
      */
@@ -121,7 +123,7 @@ abstract class AbstractPlugin implements PluginInterface
      */
     public function getPluginVersionWithCommitHash(): string
     {
-        return $this->pluginVersion . ($this->commitHash ? '#' . $this->commitHash : $this->commitHash);
+        return $this->pluginVersion . (!empty($this->commitHash) ? self::PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER . $this->commitHash : '');
     }
 
     /**

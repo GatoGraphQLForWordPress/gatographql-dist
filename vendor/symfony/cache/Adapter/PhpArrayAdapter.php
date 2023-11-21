@@ -289,7 +289,7 @@ EOF;
                 $value = \str_replace("\n", "\n    ", $value);
                 $value = "static function () {\n    return {$value};\n}";
             }
-            $hash = \hash('xxh128', $value);
+            $hash = \hash('md5', $value);
             if (null === ($id = $dumpedMap[$hash] ?? null)) {
                 $id = $dumpedMap[$hash] = \count($dumpedMap);
                 $dumpedValues .= "{$id} => {$value},\n";

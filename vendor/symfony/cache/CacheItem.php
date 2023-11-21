@@ -200,8 +200,23 @@ final class CacheItem implements ItemInterface
             $this->metadata = $v->metadata;
             return \true;
         }
+        if (!\is_array($v)) {
+            return \false;
+        }
+        if (1 !== \count($v)) {
+            return \false;
+        }
         \reset($v);
-        if (!\is_array($v) || 1 !== \count($v) || 10 !== \strlen($k = (string) \key($v)) || "\x9d" !== $k[0] || "\x00" !== $k[5] || "_" !== $k[9]) {
+        if (10 !== \strlen($k = (string) \key($v))) {
+            return \false;
+        }
+        if ("\x9d" !== $k[0]) {
+            return \false;
+        }
+        if ("\x00" !== $k[5]) {
+            return \false;
+        }
+        if ("_" !== $k[9]) {
             return \false;
         }
         // BC with pools populated before v6.1

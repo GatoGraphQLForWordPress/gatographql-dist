@@ -979,7 +979,7 @@ class Crawler implements \Countable, \IteratorAggregate
             try {
                 $htmlContent = \iconv($charset, 'UTF-8', $htmlContent);
                 $htmlContent = \mb_encode_numericentity($htmlContent, [0x80, 0x10ffff, 0, 0x1fffff], 'UTF-8');
-            } catch (\Exception|\ValueError $exception) {
+            } catch (\Exception|\ValueError $exception2) {
             }
             return $htmlContent;
         } finally {

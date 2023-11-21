@@ -113,7 +113,7 @@ trait FilesystemCommonTrait
     private function getFile(string $id, bool $mkdir = \false, string $directory = null) : string
     {
         // Use xxh128 to favor speed over security, which is not an issue here
-        $hash = \str_replace('/', '-', \base64_encode(\hash('xxh128', static::class . $id, \true)));
+        $hash = \str_replace('/', '-', \base64_encode(\hash('md5', static::class . $id, \true)));
         $dir = ($directory ?? $this->directory) . \strtoupper($hash[0] . \DIRECTORY_SEPARATOR . $hash[1] . \DIRECTORY_SEPARATOR);
         if ($mkdir && !\is_dir($dir)) {
             @\mkdir($dir, 0777, \true);

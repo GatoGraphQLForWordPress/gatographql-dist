@@ -521,6 +521,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         \add_action(
             'init',
             function () use ($previousVersion): void {
+                // The version could contain the hash commit. Remove it!
+                $commitHashPos = strpos($previousVersion, self::PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER);
+                if ($commitHashPos !== false) {
+                    $previousVersion = substr($previousVersion, 0, $commitHashPos);
+                }
                 $this->maybeInstallPluginSetupData($previousVersion);
             },
             PHP_INT_MAX
@@ -1341,6 +1346,19 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-site', Recipes::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE),
+                    ],
+                ]], $schemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            [
+                'post_title' => \__('Export post to WordPress site', 'gatographql'),
+                // 'post_excerpt' => \__('', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/export-post-to-wp-site', Recipes::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES),
                     ],
                 ]], $schemaConfigurationPersistedQueryBlocks))),
             ]
