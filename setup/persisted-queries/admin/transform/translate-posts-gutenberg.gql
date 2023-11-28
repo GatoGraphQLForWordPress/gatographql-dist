@@ -1,12 +1,13 @@
 ########################################################################
 #
-# This Persisted GraphQL query translates translates multiple posts at
-# once (in bulk), while executing a single call to the Google Translate
+# This Persisted GraphQL query translates multiple posts at once
+# (in bulk), while executing a single call to the Google Translate
 # API containing all text to translate from all the posts.
 #
 # The translation for each post will be saved under the same post.
 #
-# See Persisted Query "Translate post" for additional documentation.
+# See Persisted Query "Translate post (Gutenberg)" for additional
+# documentation.
 #
 # *********************************************************************
 # 
@@ -278,6 +279,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.content" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreHeadingContentItems"
@@ -291,6 +293,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.content" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreParagraphContentItems"
@@ -331,6 +334,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.text" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreButtonTextItems"
@@ -379,6 +383,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.content" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreListItemContentItems"
@@ -392,6 +397,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.alt" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreCoverAltItems"
@@ -405,6 +411,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.mediaAlt" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreMediaTextAltItems"
@@ -418,6 +425,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.content" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreVerseContentItems"
@@ -431,6 +439,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.citation" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreQuoteCitationItems"
@@ -471,6 +480,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.caption" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreAudioCaptionItems"
@@ -484,6 +494,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.caption" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreVideoCaptionItems"
@@ -497,6 +508,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.content" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "corePreformattedContentItems"
@@ -510,6 +522,7 @@ query FetchData($postIds: [ID!]!)
       @underEachArrayItem
         @underJSONObjectProperty(
           by: { path: "attributes.caption" }
+          failIfNonExistingKeyOrPath: false
         )
           @export(
             as: "coreEmbedCaptionItems"

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc
+class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -851,6 +851,7 @@ class ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc
         'GatoGraphQL\\GatoGraphQL\\Constants\\Recipes' => __DIR__ . '/../..' . '/src/Constants/Recipes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\RequestParams' => __DIR__ . '/../..' . '/src/Constants/RequestParams.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\VirtualRecipes' => __DIR__ . '/../..' . '/src/Constants/VirtualRecipes.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEditorBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEditorBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEndpointAnnotatorCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEndpointAnnotatorCompilerPass.php',
@@ -1130,6 +1131,7 @@ class ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\WithBlockRegistryCustomPostTypeTrait' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/WithBlockRegistryCustomPostTypeTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\DataComposers\\GraphQLDocumentDataComposer' => __DIR__ . '/../..' . '/src/Services/DataComposers/GraphQLDocumentDataComposer.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\RecipeDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/RecipeDataProvider.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\VirtualRecipeDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/VirtualRecipeDataProvider.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\AbstractEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/AbstractEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointComponentEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointComponentEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointOverviewEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointOverviewEditorScript.php',
@@ -2824,6 +2826,7 @@ class ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc
         'PoPSchema\\SchemaCommons\\TypeResolvers\\ScalarType\\NumericScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/ScalarType/NumericScalarTypeResolver.php',
         'PoPSchema\\SchemaCommons\\TypeResolvers\\ScalarType\\URLAbsolutePathScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/ScalarType/URLAbsolutePathScalarTypeResolver.php',
         'PoPSchema\\SchemaCommons\\TypeResolvers\\ScalarType\\URLScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/ScalarType/URLScalarTypeResolver.php',
+        'PoPSchema\\SchemaCommons\\TypeResolvers\\ScalarType\\XMLScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/ScalarType/XMLScalarTypeResolver.php',
         'PoPSchema\\SchemaCommons\\TypeResolvers\\UnionType\\AbstractErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/UnionType/AbstractErrorPayloadUnionTypeResolver.php',
         'PoPWPSchema\\BlockContentParser\\BlockContentParser' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/BlockContentParser.php',
         'PoPWPSchema\\BlockContentParser\\BlockContentParserInterface' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/BlockContentParserInterface.php',
@@ -4461,9 +4464,9 @@ class ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit36c73d1280d5d88a9c888b528bc3c8cc::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$classMap;
 
         }, null, ClassLoader::class);
     }

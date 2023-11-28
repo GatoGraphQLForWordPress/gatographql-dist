@@ -46,7 +46,7 @@ humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
 humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
 humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit36c73d1280d5d88a9c888b528bc3c8cc', 'PrefixedByPoP\ComposerAutoloaderInit36c73d1280d5d88a9c888b528bc3c8cc');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitb0e79d02b86d0595b25d96bc3e39d6ca', 'PrefixedByPoP\ComposerAutoloaderInitb0e79d02b86d0595b25d96bc3e39d6ca');
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
 
 // Function aliases. For more information see:

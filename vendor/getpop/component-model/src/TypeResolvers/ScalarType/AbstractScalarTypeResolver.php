@@ -100,10 +100,11 @@ abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implement
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_3, [$this->getMaybeNamespacedTypeName()]), $astNode));
     }
     /**
+     * @param array<string,mixed> $extensions
      * @param mixed $inputValue
      */
-    protected function addDefaultError($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function addDefaultError($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore, array $extensions = []) : void
     {
-        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_16, [$inputValue, $this->getMaybeNamespacedTypeName()]), $astNode));
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_16, [$inputValue, $this->getMaybeNamespacedTypeName()]), $astNode, $extensions));
     }
 }

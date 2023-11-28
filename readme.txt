@@ -1,9 +1,9 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
-Tags: graphql, automation, content sync, headless, site migrations, rest api, endpoint, wp-cli, notifications, cloud, translation, gutenberg
+Tags: graphql, automation, content sync, import, export, headless, migration, rest api, endpoint, wp-cli, wget, translation
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,7 +43,7 @@ Gato GraphQL can be augmented via extensions, including:
 - [Access Control](https://gatographql.com/extensions/access-control/): Grant access to your endpoints (by user being logged-in or not, having some role or capability, and others), field by field
 - [Cache Control](https://gatographql.com/extensions/cache-control/): Use HTTP caching to make your APIs faster
 - [Multiple Query Execution](https://gatographql.com/extensions/multiple-query-execution/): Combine and execute multiple queries into a single query
-- [HTTP Client](https://gatographql/extensions/http-client/): Interact with external services
+- [HTTP Client](https://gatographql.com/extensions/http-client/): Interact with external services
 - [PHP Functions via Schema](https://gatographql.com/extensions/php-functions-via-schema/): Adapt the data via standard PHP functions, always within the query
 - [Automation](https://gatographql.com/extensions/automation/): Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron
 - Many more
@@ -123,7 +123,7 @@ Check recipe [Interacting with external services via webhooks](https://gatograph
 
 = How do I use Gato GraphQL to interact with external services? =
 
-The [HTTP Client](https://gatographql/extensions/http-client/) extension adds fields to the GraphQL schema to fetch data from any webserver (while providing special support to connect to REST and GraphQL APIs).
+The [HTTP Client](https://gatographql.com/extensions/http-client/) extension adds fields to the GraphQL schema to fetch data from any webserver (while providing special support to connect to REST and GraphQL APIs).
 
 Check recipe [Retrieving data from an external API](https://gatographql.com/recipes/retrieving-data-from-an-external-api/) to learn about all the available "HTTP client" fields, and examples on how to use them.
 
@@ -169,6 +169,20 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Recipes section contains example queries ready to copy/paste and use 
 
 == Changelog ==
+
+= 1.2.0 =
+* Added `XML` scalar type
+* Added documentation for new field `_strDecodeXMLAsJSON` from the Helper Function Collection extension
+* Added documentation for new field `_strParseCSV` from the Helper Function Collection extension
+* Added recipe "Translating content from URL"
+* Added predefined Persisted Queries "Translate post (Classic editor)" and "Translate posts (Classic editor)"
+* Added predefined Persisted Query "Translate content from URL"
+* Added predefined Persisted Query "Import post from WordPress RSS feed"
+* Added predefined Persisted Query "Import posts from CSV"
+* Added predefined Persisted Query "Fetch post links"
+* In predefined persisted queries "Translate post" and "Translate posts", added `failIfNonExistingKeyOrPath: false` when selecting a block's `attributes.{something}` property (as it may sometimes not be defined)
+* In predefined persisted query "Import post from WordPress site", added status `any` to select the post
+* Renamed persisted query "Translate post" to "Translate post (Gutenberg)", and "Translate posts" to "Translate posts (Gutenberg)"
 
 = 1.1.1 =
 * Fixed bug on the caching component (a downgraded `reset` method was called on a non array)

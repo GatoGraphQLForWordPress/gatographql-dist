@@ -102,6 +102,146 @@ mutation SendEmail @depends(on: "GetEmailData") {
 }
 ```
 
+### `_strDecodeXMLAsJSON`
+
+Decode an XML string as JSON.
+
+This method can help process an XML string, such as an RSS feed, by converting it into a JSON object which can be manipulated by several fields in Gato GraphQL.
+
+This query:
+
+```graphql
+{
+  _strDecodeXMLAsJSON(xml: """<?xml version="1.0" encoding="UTF-8"?>
+<bookstore>  
+  <book category="COOKING">  
+    <title lang="en">Everyday Italian</title>  
+    <author>Giada De Laurentiis</author>  
+    <year>2005</year>  
+    <price>30.00</price>  
+  </book>  
+  <book category="CHILDREN">  
+    <title lang="en">Harry Potter</title>  
+    <author>J K. Rowling</author>  
+    <year>2005</year>  
+    <price>29.99</price>  
+  </book>  
+  <book category="WEB">  
+    <title lang="en">Learning XML</title>  
+    <author>Erik T. Ray</author>  
+    <year>2003</year>  
+    <price>39.95</price>  
+  </book>  
+</bookstore>
+  """)
+}
+```
+
+...will produce:
+
+```json
+{
+  "data": {
+    "_strDecodeXMLAsJSON": {
+      "bookstore": {
+        "book": [
+          {
+            "@category": "COOKING",
+            "title": {
+              "@lang": "en",
+              "_": "Everyday Italian"
+            },
+            "author": "Giada De Laurentiis",
+            "year": "2005",
+            "price": "30.00"
+          },
+          {
+            "@category": "CHILDREN",
+            "title": {
+              "@lang": "en",
+              "_": "Harry Potter"
+            },
+            "author": "J K. Rowling",
+            "year": "2005",
+            "price": "29.99"
+          },
+          {
+            "@category": "WEB",
+            "title": {
+              "@lang": "en",
+              "_": "Learning XML"
+            },
+            "author": "Erik T. Ray",
+            "year": "2003",
+            "price": "39.95"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+### `_strParseCSV`
+
+Parse a CSV string into a list of JSON objects.
+
+This field will take a CSV as input, and convert it into a format that can be extracted, iterated and manipulated using other function fields.
+
+For instance, this query:
+
+```graphql
+{
+  _strParseCSV(
+    string: """Year,Make,Model,Description,Price
+1997,Ford,E350,"ac, abs, moon",3000.00
+1999,Chevy,"Venture ""Extended Edition"" (2008)","",4900.00
+1999,Chevy,"Venture ""Extended Edition, Very Large"" (2008)","",5000.00
+1996,Jeep,Grand Cherokee,"MUST SELL!
+air, moon roof, loaded",4799.00"""
+  )
+}
+```
+
+...will produce:
+
+```json
+{
+  "data": {
+    "_strParseCSV": [
+      {
+        "Year": "1997",
+        "Make": "Ford",
+        "Model": "E350",
+        "Description": "ac, abs, moon",
+        "Price": "3000.00"
+      },
+      {
+        "Year": "1999",
+        "Make": "Chevy",
+        "Model": "Venture \"Extended Edition\" (2008)",
+        "Description": "",
+        "Price": "4900.00"
+      },
+      {
+        "Year": "1999",
+        "Make": "Chevy",
+        "Model": "Venture \"Extended Edition, Very Large\" (2008)",
+        "Description": "",
+        "Price": "5000.00"
+      },
+      {
+        "Year": "1996",
+        "Make": "Jeep",
+        "Model": "Grand Cherokee",
+        "Description": "MUST SELL!\nair, moon roof, loaded",
+        "Price": "4799.00"
+      }
+    ]
+  }
+}
+```
+
 ### `_urlAddParams`
 
 Adds params to a URL.

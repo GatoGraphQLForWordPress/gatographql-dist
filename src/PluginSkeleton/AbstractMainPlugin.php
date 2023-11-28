@@ -13,6 +13,7 @@ use GatoGraphQL\GatoGraphQL\AppThread;
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeNames;
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeValues;
 use GatoGraphQL\GatoGraphQL\Constants\Recipes;
+use GatoGraphQL\GatoGraphQL\Constants\VirtualRecipes;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerSystemContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
@@ -575,6 +576,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     {
         $versionCallbacks = [
             '1.1' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot1']),
+            '1.2' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot2']),
         ];
         foreach ($versionCallbacks as $version => $callback) {
             if ($previousVersion !== null && SemverWrapper::satisfies($previousVersion, '>= ' . $version)) {
@@ -587,581 +589,61 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     protected function installPluginSetupDataForVersion1Dot1(): void
     {
         $instanceManager = InstanceManagerFacade::getInstance();
-        /** @var GraphQLSchemaConfigurationCustomPostType */
-        $graphQLSchemaConfigurationCustomPostType = $instanceManager->getInstance(GraphQLSchemaConfigurationCustomPostType::class);
-        /** @var SchemaConfigMutationSchemeBlock */
-        $schemaConfigMutationSchemeBlock = $instanceManager->getInstance(SchemaConfigMutationSchemeBlock::class);
-        /** @var SchemaConfigPayloadTypesForMutationsBlock */
-        $schemaConfigPayloadTypesForMutationsBlock = $instanceManager->getInstance(SchemaConfigPayloadTypesForMutationsBlock::class);
-
-        /**
-         * Create the Schema Configurations
-         */
-        $nestedMutationsBlockDataItem = [
-            'blockName' => $schemaConfigMutationSchemeBlock->getBlockFullName(),
-            'attrs' => [
-                SchemaConfigMutationSchemeBlock::ATTRIBUTE_NAME_MUTATION_SCHEME => MutationSchemes::NESTED_WITH_REDUNDANT_ROOT_FIELDS,
-            ]
-        ];
-        // @todo Remove commented code
-        // $adminSchemaConfigurationCustomPostID = \wp_insert_post([
-        //  'post_status' => 'publish',
-        //  'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
-        //  'post_title' => \__('Admin', 'gatographql'),
-        //  'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([])),
-        // ]);
-        // $webhookSchemaConfigurationCustomPostID = \wp_insert_post([
-        //  'post_status' => 'publish',
-        //  'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
-        //  'post_title' => \__('Webhook', 'gatographql'),
-        //  'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([])),
-        // ]);
-        $nestedMutationsSchemaConfigurationCustomPostID = \wp_insert_post([
-            'post_status' => 'publish',
-            // 'post_name' => 'nested-mutations', // Predefined slug to search/delete when installing .xml data in server
-            'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
-            'post_title' => \__('Nested mutations', 'gatographql'),
-            'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-                $nestedMutationsBlockDataItem,
-            ])),
-        ]);
-        if ($nestedMutationsSchemaConfigurationCustomPostID === 0) {
-            $nestedMutationsSchemaConfigurationCustomPostID = null;
-        }
-        $entityAsPayloadTypeBlockDataItem = [
-            'blockName' => $schemaConfigPayloadTypesForMutationsBlock->getBlockFullName(),
-            'attrs' => [
-                BlockAttributeNames::ENABLED_CONST => BlockAttributeValues::DISABLED,
-            ]
-        ];
-        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID = \wp_insert_post([
-            'post_status' => 'publish',
-            // 'post_name' => 'nested-mutations-entity-as-mutation-payload-type', // Predefined slug to search/delete when installing .xml data in server
-            'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
-            'post_title' => \__('Nested mutations + Entity as mutation payload type', 'gatographql'),
-            'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-                $nestedMutationsBlockDataItem,
-                $entityAsPayloadTypeBlockDataItem,
-            ])),
-        ]);
-        if ($nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID === 0) {
-            $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID = null;
-        }
-
-
-        /**
-         * Create Endpoint Categories
-         */
-        /** @var GraphQLEndpointCategoryTaxonomy */
-        $graphQLEndpointCategoryTaxonomy = $instanceManager->getInstance(GraphQLEndpointCategoryTaxonomy::class);
-
-        $endpointCategoryTaxonomy = $graphQLEndpointCategoryTaxonomy->getTaxonomy();
-
-        $adminEndpointTaxInputData = [
-            $endpointCategoryTaxonomy => [],
-        ];
-        $adminEndpointCategoryID = $this->getAdminEndpointCategoryID();
-        if ($adminEndpointCategoryID !== null) {
-            $adminEndpointTaxInputData[$endpointCategoryTaxonomy][] = $adminEndpointCategoryID;
-        }
-
-        $webhookEndpointTaxInputData = [
-            $endpointCategoryTaxonomy => [],
-        ];
-        $webhookEndpointCategoryID = $this->getWebhookEndpointCategoryID();
-        if ($webhookEndpointCategoryID !== null) {
-            $webhookEndpointTaxInputData[$endpointCategoryTaxonomy][] = $webhookEndpointCategoryID;
-        }
 
         /**
          * Create custom endpoint
          */
-        /** @var GraphQLCustomEndpointCustomPostType */
-        $graphQLCustomEndpointCustomPostType = $instanceManager->getInstance(GraphQLCustomEndpointCustomPostType::class);
         /** @var EndpointSchemaConfigurationBlock */
         $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
-        /** @var CustomEndpointOptionsBlock */
-        $customEndpointOptionsBlock = $instanceManager->getInstance(CustomEndpointOptionsBlock::class);
-        /** @var EndpointGraphiQLBlock */
-        $endpointGraphiQLBlock = $instanceManager->getInstance(EndpointGraphiQLBlock::class);
-        /** @var EndpointVoyagerBlock */
-        $endpointVoyagerBlock = $instanceManager->getInstance(EndpointVoyagerBlock::class);
 
-        $adminCustomEndpointOptions = [
-            'post_status' => 'private',
-            'post_type' => $graphQLCustomEndpointCustomPostType->getCustomPostType(),
-            'tax_input' => $adminEndpointTaxInputData,
-        ];
-        // $adminAncestorCustomEndpointCustomPostID = \wp_insert_post(array_merge(
-        //     $adminCustomEndpointOptions,
-        //     [
-        //         'post_title' => \__('Admin', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Execute admin tasks', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-        //             [
-        //                 'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-        //                 'attrs' => [
-        //                     EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $adminSchemaConfigurationCustomPostID,
-        //                 ],
-        //             ],
-        //             [
-        //                 'blockName' => $customEndpointOptionsBlock->getBlockFullName(),
-        //                 'attrs' => [
-        //                     BlockAttributeNames::IS_ENABLED => false,
-        //                 ],
-        //             ],
-        //             [
-        //                 'blockName' => $endpointGraphiQLBlock->getBlockFullName(),
-        //             ],
-        //             [
-        //                 'blockName' => $endpointVoyagerBlock->getBlockFullName(),
-        //             ],
-        //         ])),
-        //     ]
-        // ));
-        // $adminAncestorCustomEndpointOptions = array_merge(
-        //     $adminCustomEndpointOptions,
-        //     [
-        //         // 'post_parent' => $adminAncestorCustomEndpointCustomPostID,
-        //     ]
-        // );
+        $nestedMutationsSchemaConfigurationCustomPostID = $this->getNestedMutationsSchemaConfigurationCustomPostID();
+        $defaultCustomEndpointBlocks = $this->getDefaultCustomEndpointBlocks();
+        $adminCustomEndpointOptions = $this->getAdminCustomEndpointOptions();
         \wp_insert_post(array_merge(
-            $adminCustomEndpointOptions, //$adminAncestorCustomEndpointOptions,
+            $adminCustomEndpointOptions,
             [
                 'post_title' => \__('Nested mutations', 'gatographql'),
                 'post_excerpt' => \__('Private client to execute queries that need nested mutations', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-                    [
-                        'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-                        'attrs' => [
-                            EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
-                        ],
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                    'attrs' => [
+                        EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
                     ],
-                    [
-                        'blockName' => $customEndpointOptionsBlock->getBlockFullName(),
-                    ],
-                    [
-                        'blockName' => $endpointGraphiQLBlock->getBlockFullName(),
-                    ],
-                    [
-                        'blockName' => $endpointVoyagerBlock->getBlockFullName(),
-                    ]
-                ])),
+                ]], $defaultCustomEndpointBlocks))),
             ]
         ));
-
-        // @todo Remove commented code
-        // $adminReportPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $reportEndpointCategory = \wp_insert_term(
-        //     \__('Report', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Visualize data', 'gatographql'),
-        //     ]
-        // );
-        // if (!($reportEndpointCategory instanceof WP_Error)) {
-        //     $reportEndpointCategoryID = $reportEndpointCategory['term_id'];
-        //     $adminReportPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $reportEndpointCategoryID;
-        // }
-
-        // $adminTransformPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $transformEndpointCategory = \wp_insert_term(
-        //     \__('Transform', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Transform data', 'gatographql'),
-        //     ]
-        // );
-        // if (!($transformEndpointCategory instanceof WP_Error)) {
-        //     $transformEndpointCategoryID = $transformEndpointCategory['term_id'];
-        //     $adminTransformPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $transformEndpointCategoryID;
-        // }
-
-        // $adminImportPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $importEndpointCategory = \wp_insert_term(
-        //     \__('Import', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Import data', 'gatographql'),
-        //     ]
-        // );
-        // if (!($importEndpointCategory instanceof WP_Error)) {
-        //     $importEndpointCategoryID = $importEndpointCategory['term_id'];
-        //     $adminImportPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $importEndpointCategoryID;
-        // }
-
-        // $adminNotifyPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $notifyEndpointCategory = \wp_insert_term(
-        //     \__('Notify', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Send notifications', 'gatographql'),
-        //     ]
-        // );
-        // if (!($notifyEndpointCategory instanceof WP_Error)) {
-        //     $notifyEndpointCategoryID = $notifyEndpointCategory['term_id'];
-        //     $adminNotifyPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $notifyEndpointCategoryID;
-        // }
-
-        // $adminAutomatePersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $automateEndpointCategory = \wp_insert_term(
-        //     \__('Automate', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Automations', 'gatographql'),
-        //     ]
-        // );
-        // if (!($automateEndpointCategory instanceof WP_Error)) {
-        //     $automateEndpointCategoryID = $automateEndpointCategory['term_id'];
-        //     $adminAutomatePersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $automateEndpointCategoryID;
-        // }
-
-        // $adminDispatchPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $dispatchEndpointCategory = \wp_insert_term(
-        //     \__('Dispatch', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Send data to services', 'gatographql'),
-        //     ]
-        // );
-        // if (!($dispatchEndpointCategory instanceof WP_Error)) {
-        //     $dispatchEndpointCategoryID = $dispatchEndpointCategory['term_id'];
-        //     $adminDispatchPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $dispatchEndpointCategoryID;
-        // }
-
-        // $adminFetchPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $fetchEndpointCategory = \wp_insert_term(
-        //     \__('Fetch', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Fetch data from services', 'gatographql'),
-        //     ]
-        // );
-        // if (!($fetchEndpointCategory instanceof WP_Error)) {
-        //     $fetchEndpointCategoryID = $fetchEndpointCategory['term_id'];
-        //     $adminFetchPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $fetchEndpointCategoryID;
-        // }
-
-        // $adminGatewayPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $gatewayEndpointCategory = \wp_insert_term(
-        //     \__('Gateway', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('API Gateway', 'gatographql'),
-        //     ]
-        // );
-        // if (!($gatewayEndpointCategory instanceof WP_Error)) {
-        //     $gatewayEndpointCategoryID = $gatewayEndpointCategory['term_id'];
-        //     $adminGatewayPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $gatewayEndpointCategoryID;
-        // }
-
-        // $adminSyncPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $syncEndpointCategory = \wp_insert_term(
-        //     \__('Sync', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Synchronize data across sites', 'gatographql'),
-        //     ]
-        // );
-        // if (!($syncEndpointCategory instanceof WP_Error)) {
-        //     $syncEndpointCategoryID = $syncEndpointCategory['term_id'];
-        //     $adminSyncPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $syncEndpointCategoryID;
-        // }
-
-        // $adminWebhookPersistedQueryTaxInputData = $adminEndpointTaxInputData;
-        // $webhookEndpointCategory = \wp_insert_term(
-        //     \__('Webhook', 'gatographql'),
-        //     $endpointCategoryTaxonomy,
-        //     [
-        //         'description' => \__('Process incoming data via Webhooks', 'gatographql'),
-        //     ]
-        // );
-        // if (!($webhookEndpointCategory instanceof WP_Error)) {
-        //     $webhookEndpointCategoryID = $webhookEndpointCategory['term_id'];
-        //     $adminWebhookPersistedQueryTaxInputData[$endpointCategoryTaxonomy][] = $webhookEndpointCategoryID;
-        // }
 
 
         /**
          * Create the ancestor Persisted Queries for organization
          */
-        /** @var GraphQLPersistedQueryEndpointCustomPostType */
-        $graphQLPersistedQueryEndpointCustomPostType = $instanceManager->getInstance(GraphQLPersistedQueryEndpointCustomPostType::class);
         /** @var PersistedQueryEndpointGraphiQLBlock */
         $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
-        /** @var PersistedQueryEndpointOptionsBlock */
-        $persistedQueryEndpointOptionsBlock = $instanceManager->getInstance(PersistedQueryEndpointOptionsBlock::class);
-        /** @var PersistedQueryEndpointAPIHierarchyBlock */
-        $persistedQueryEndpointAPIHierarchyBlock = $instanceManager->getInstance(PersistedQueryEndpointAPIHierarchyBlock::class);
 
-        $adminPersistedQueryOptions = [
-            'post_status' => 'private',
-            'post_type' => $graphQLPersistedQueryEndpointCustomPostType->getCustomPostType(),
-            'tax_input' => $adminEndpointTaxInputData,
-        ];
-        // $adminAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Admin', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Execute admin tasks', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-        //             [
-        //                 'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-        //             ],
-        //             [
-        //                 'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-        //                 // 'attrs' => [
-        //                 //     EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $adminSchemaConfigurationCustomPostID,
-        //                 // ],
-        //             ],
-        //             [
-        //                 'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-        //                 'attrs' => [
-        //                     BlockAttributeNames::IS_ENABLED => false,
-        //                 ],
-        //             ],
-        //             [
-        //                 'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-        //             ],
-        //         ])),
-        //     ]
-        // ));
-
-        // $adminAncestorPersistedQueryOptions = array_merge(
-        //     $adminPersistedQueryOptions,
-        //     [
-        //         // 'post_parent' => $adminAncestorPersistedQueryCustomPostID,
-        //     ]
-        // );
-        // $sublevelAncestorPersistedQueryBlockDataItems = [
-        //     [
-        //         'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-        //     ],
-        //     [
-        //         'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-        //         // 'attrs' => [
-        //         //     EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_INHERIT,
-        //         // ],
-        //     ],
-        //     [
-        //         'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-        //         'attrs' => [
-        //             BlockAttributeNames::IS_ENABLED => false,
-        //         ]
-        //     ],
-        //     [
-        //         'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-        //     ],
-        // ];
-
-        // $adminReportAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Report', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to visualize data', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminReportPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminTransformAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Transform', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to transform data', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminTransformPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminImportAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Import', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to import data', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminImportPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminNotifyAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Notify', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to send notifications', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminNotifyPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminAutomateAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Automate', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries executed via automation', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminAutomatePersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminAutomateAncestorPersistedQueryOptions = array_merge(
-        //     $adminPersistedQueryOptions,
-        //     [
-        //         // 'post_parent' => $adminAutomateAncestorPersistedQueryCustomPostID,
-        //     ]
-        // );
-        // $adminAutomateNotifyAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAutomateAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Notify', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to send notifications via automation', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData,
-        //         // 'tax_input' => [
-        //         //     $endpointCategoryTaxonomy => array_values(array_unique([
-        //         //         ...$adminAutomatePersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //         ...$adminNotifyPersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //     ]))
-        //         // ],
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminAutomateTransformAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAutomateAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Transform', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to transform data via automation', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData,
-        //         // 'tax_input' => [
-        //         //     $endpointCategoryTaxonomy => array_values(array_unique([
-        //         //         ...$adminAutomatePersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //         ...$adminTransformPersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //     ]))
-        //         // ],
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminAutomateDispatchAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAutomateAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Dispatch', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to send data to services via automation', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData,
-        //         // 'tax_input' => [
-        //         //     $endpointCategoryTaxonomy => array_values(array_unique([
-        //         //         ...$adminAutomatePersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //         ...$adminDispatchPersistedQueryTaxInputData[$endpointCategoryTaxonomy],
-        //         //     ]))
-        //         // ],
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminFetchAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Fetch', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to fetch data from an external service', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminFetchPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminGatewayAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Gateway', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to process and adapt API data', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminGatewayPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-        // $adminSyncAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $adminAncestorPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Sync', 'gatographql'),
-        //         'post_excerpt' => \__('[Collection] Queries to synchronize data across sites', 'gatographql'),
-        //         'tax_input' => $adminEndpointTaxInputData, //$adminSyncPersistedQueryTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($sublevelAncestorPersistedQueryBlockDataItems)),
-        //     ]
-        // ));
-
-        // $useAncestorSchemaConfigurationPersistedQueryBlocks = [
-        //     [
-        //         'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-        //         // 'attrs' => [
-        //         //     EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_INHERIT,
-        //         // ],
-        //     ],
-        //     [
-        //         'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-        //     ],
-        //     [
-        //         'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-        //     ]
-        // ];
-        $schemaConfigurationPersistedQueryBlocks = [
-            [
-                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-            ],
-            [
-                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-            ],
-            [
-                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-            ]
-        ];
-        $nestedMutationsSchemaConfigurationPersistedQueryBlocks = [
-            [
-                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-                'attrs' => [
-                    EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
-                ],
-            ],
-            [
-                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-            ],
-            [
-                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-            ]
-        ];
-        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks = [
-            [
-                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-                'attrs' => [
-                    EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
-                ],
-            ],
-            [
-                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-            ],
-            [
-                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-            ]
-        ];
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
+        $nestedMutationsSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsSchemaConfigurationPersistedQueryBlocks();
+        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks();
 
         /**
          * Create the Persisted Queries
          */
-
-        // $adminTransformAncestorPersistedQueryOptions = array_merge(
-        //     $adminPersistedQueryOptions,
-        //     [
-        //         // 'post_parent' => $adminTransformAncestorPersistedQueryCustomPostID,
-        //     ]
-        // );
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Duplicate post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-post', Recipes::DUPLICATING_A_BLOG_POST),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Duplicate posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1172,24 +654,22 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace strings in post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/replace-strings-in-post'),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace strings in posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1200,24 +680,22 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Regex replace strings in post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/regex-replace-strings-in-post'),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Regex replace strings in posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1228,36 +706,33 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Add missing links in post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/add-missing-links-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace "http" with "https" in image sources in post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-http-with-https-in-image-sources-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace domain in posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1267,10 +742,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace post slug in posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1286,10 +760,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Insert block in posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1299,10 +772,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Remove block from posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
@@ -1312,157 +784,105 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
-                'post_title' => \__('Translate post', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
+                'post_title' => \__('Translate post (Gutenberg)', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post', Recipes::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-gutenberg', Recipes::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
-                'post_title' => \__('Translate posts', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
+                'post_title' => \__('Translate posts (Gutenberg)', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts', Recipes::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-gutenberg', Recipes::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Import post from WordPress site', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-site', Recipes::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Export post to WordPress site', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/export-post-to-wp-site', Recipes::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch posts by thumbnail', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/posts-by-thumbnail', Recipes::SEARCHING_WORDPRESS_DATA),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch users by locale', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/users-by-locale', Recipes::SEARCHING_WORDPRESS_DATA),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch comments by period', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/comments-by-period', Recipes::QUERYING_DYNAMIC_DATA),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
         \wp_insert_post(array_merge(
-            $adminPersistedQueryOptions, //$adminTransformAncestorPersistedQueryOptions,
+            $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch image URLs in blocks', 'gatographql'),
-                // 'post_excerpt' => \__('', 'gatographql'),
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/images-in-blocks', Recipes::RETRIEVING_STRUCTURED_DATA_FROM_BLOCKS),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
 
-
-        // $webhookPersistedQueryOptions = [
-        //  'post_status' => 'publish',
-        //  'post_type' => $graphQLPersistedQueryEndpointCustomPostType->getCustomPostType(),
-        // ];
-        // $webhookAncestorPersistedQueryCustomPostID = \wp_insert_post(array_merge(
-        //     $webhookPersistedQueryOptions,
-        //     [
-        //         'post_title' => \__('Webhook', 'gatographql'),
-        //         'post_excerpt' => \__('Queries acting as webhooks, to process incoming data from an external service', 'gatographql'),
-        //         'tax_input' => $webhookEndpointTaxInputData,
-        //         'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
-        //             [
-        //                 'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-        //             ],
-        //             [
-        //                 'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-        //                 // 'attrs' => [
-        //                 //     EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $webhookSchemaConfigurationCustomPostID,
-        //                 // ],
-        //             ],
-        //             [
-        //                 'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
-        //                 'attrs' => [
-        //                     BlockAttributeNames::IS_ENABLED => false,
-        //                 ],
-        //             ],
-        //             [
-        //                 'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
-        //             ],
-        //         ])),
-        //     ]
-        // ));
-        // $webhookAncestorPersistedQueryOptions = array_merge(
-        //     $webhookPersistedQueryOptions,
-        //     [
-        //         'post_status' => 'draft', // They are public => don't publish them!
-        //         // 'post_parent' => $webhookAncestorPersistedQueryCustomPostID,
-        //     ]
-        // );
-        $webhookPersistedQueryOptions = [
-            'post_status' => 'draft', // They are public => don't publish them!
-            'post_type' => $graphQLPersistedQueryEndpointCustomPostType->getCustomPostType(),
-            'tax_input' => $webhookEndpointTaxInputData,
-        ];
+        $webhookPersistedQueryOptions = $this->getWebhookPersistedQueryOptions();
         \wp_insert_post(array_merge(
-            $webhookPersistedQueryOptions, //$webhookAncestorPersistedQueryOptions,
+            $webhookPersistedQueryOptions,
             [
                 'post_title' => \__('Register a newsletter subscriber from InstaWP to Mailchimp', 'gatographql'),
                 'post_excerpt' => \__('Setup this persisted query\'s URL as webhook in an InstaWP template, to automatically capture the email from the visitors who ticked the "Subscribe to mailing list" checkbox (when creating a sandbox site), and send it straight to a Mailchimp list. More info: gatographql.com/blog/instawp-gatographql', 'gatographql'),
@@ -1471,9 +891,432 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('webhook/register-a-newsletter-subscriber-from-instawp-to-mailchimp', Recipes::AUTOMATICALLY_SENDING_NEWSLETTER_SUBSCRIBERS_FROM_INSTAWP_TO_MAILCHIMP),
                     ],
-                ]], $schemaConfigurationPersistedQueryBlocks))),
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getAdminEndpointTaxInputData(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var GraphQLEndpointCategoryTaxonomy */
+        $graphQLEndpointCategoryTaxonomy = $instanceManager->getInstance(GraphQLEndpointCategoryTaxonomy::class);
+
+        $endpointCategoryTaxonomy = $graphQLEndpointCategoryTaxonomy->getTaxonomy();
+
+        $adminEndpointTaxInputData = [
+            $endpointCategoryTaxonomy => [],
+        ];
+        $adminEndpointCategoryID = $this->getAdminEndpointCategoryID();
+        if ($adminEndpointCategoryID !== null) {
+            $adminEndpointTaxInputData[$endpointCategoryTaxonomy][] = $adminEndpointCategoryID;
+        }
+
+        return $adminEndpointTaxInputData;
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getWebhookEndpointTaxInputData(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var GraphQLEndpointCategoryTaxonomy */
+        $graphQLEndpointCategoryTaxonomy = $instanceManager->getInstance(GraphQLEndpointCategoryTaxonomy::class);
+
+        $endpointCategoryTaxonomy = $graphQLEndpointCategoryTaxonomy->getTaxonomy();
+
+        $webhookEndpointTaxInputData = [
+            $endpointCategoryTaxonomy => [],
+        ];
+        $webhookEndpointCategoryID = $this->getWebhookEndpointCategoryID();
+        if ($webhookEndpointCategoryID !== null) {
+            $webhookEndpointTaxInputData[$endpointCategoryTaxonomy][] = $webhookEndpointCategoryID;
+        }
+
+        return $webhookEndpointTaxInputData;
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getAdminPersistedQueryOptions(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        $adminEndpointTaxInputData = $this->getAdminEndpointTaxInputData();
+
+        /** @var GraphQLPersistedQueryEndpointCustomPostType */
+        $graphQLPersistedQueryEndpointCustomPostType = $instanceManager->getInstance(GraphQLPersistedQueryEndpointCustomPostType::class);
+        return [
+            'post_status' => 'private',
+            'post_type' => $graphQLPersistedQueryEndpointCustomPostType->getCustomPostType(),
+            'tax_input' => $adminEndpointTaxInputData,
+        ];
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getWebhookPersistedQueryOptions(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        $webhookEndpointTaxInputData = $this->getWebhookEndpointTaxInputData();
+
+        /** @var GraphQLPersistedQueryEndpointCustomPostType */
+        $graphQLPersistedQueryEndpointCustomPostType = $instanceManager->getInstance(GraphQLPersistedQueryEndpointCustomPostType::class);
+        return [
+            'post_status' => 'draft', // They are public => don't publish them!
+            'post_type' => $graphQLPersistedQueryEndpointCustomPostType->getCustomPostType(),
+            'tax_input' => $webhookEndpointTaxInputData,
+        ];
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getAdminCustomEndpointOptions(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        $adminEndpointTaxInputData = $this->getAdminEndpointTaxInputData();
+
+        /** @var GraphQLCustomEndpointCustomPostType */
+        $graphQLCustomEndpointCustomPostType = $instanceManager->getInstance(GraphQLCustomEndpointCustomPostType::class);
+        return [
+            'post_status' => 'private',
+            'post_type' => $graphQLCustomEndpointCustomPostType->getCustomPostType(),
+            'tax_input' => $adminEndpointTaxInputData,
+        ];
+    }
+
+    /**
+     * @return array<array<string,mixed>>
+     */
+    protected function getDefaultCustomEndpointBlocks(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var CustomEndpointOptionsBlock */
+        $customEndpointOptionsBlock = $instanceManager->getInstance(CustomEndpointOptionsBlock::class);
+        /** @var EndpointGraphiQLBlock */
+        $endpointGraphiQLBlock = $instanceManager->getInstance(EndpointGraphiQLBlock::class);
+        /** @var EndpointVoyagerBlock */
+        $endpointVoyagerBlock = $instanceManager->getInstance(EndpointVoyagerBlock::class);
+
+        return [
+            [
+                'blockName' => $customEndpointOptionsBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $endpointGraphiQLBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $endpointVoyagerBlock->getBlockFullName(),
+            ]
+        ];
+    }
+
+    /**
+     * @return array<array<string,mixed>>
+     */
+    protected function getDefaultSchemaConfigurationPersistedQueryBlocks(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var EndpointSchemaConfigurationBlock */
+        $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
+
+        /** @var PersistedQueryEndpointOptionsBlock */
+        $persistedQueryEndpointOptionsBlock = $instanceManager->getInstance(PersistedQueryEndpointOptionsBlock::class);
+        /** @var PersistedQueryEndpointAPIHierarchyBlock */
+        $persistedQueryEndpointAPIHierarchyBlock = $instanceManager->getInstance(PersistedQueryEndpointAPIHierarchyBlock::class);
+
+        return [
+            [
+                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
+            ]
+        ];
+    }
+
+    /**
+     * @return array<array<string,mixed>>
+     */
+    protected function getNestedMutationsSchemaConfigurationPersistedQueryBlocks(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var EndpointSchemaConfigurationBlock */
+        $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
+        /** @var PersistedQueryEndpointOptionsBlock */
+        $persistedQueryEndpointOptionsBlock = $instanceManager->getInstance(PersistedQueryEndpointOptionsBlock::class);
+        /** @var PersistedQueryEndpointAPIHierarchyBlock */
+        $persistedQueryEndpointAPIHierarchyBlock = $instanceManager->getInstance(PersistedQueryEndpointAPIHierarchyBlock::class);
+
+        $nestedMutationsSchemaConfigurationCustomPostID = $this->getNestedMutationsSchemaConfigurationCustomPostID();
+        return [
+            [
+                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                'attrs' => [
+                    EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                ],
+            ],
+            [
+                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
+            ]
+        ];
+    }
+
+    /**
+     * @return array<array<string,mixed>>
+     */
+    protected function getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var EndpointSchemaConfigurationBlock */
+        $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
+        /** @var PersistedQueryEndpointOptionsBlock */
+        $persistedQueryEndpointOptionsBlock = $instanceManager->getInstance(PersistedQueryEndpointOptionsBlock::class);
+        /** @var PersistedQueryEndpointAPIHierarchyBlock */
+        $persistedQueryEndpointAPIHierarchyBlock = $instanceManager->getInstance(PersistedQueryEndpointAPIHierarchyBlock::class);
+
+        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID = $this->getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID();
+
+        return [
+            [
+                'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                'attrs' => [
+                    EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                ],
+            ],
+            [
+                'blockName' => $persistedQueryEndpointOptionsBlock->getBlockFullName(),
+            ],
+            [
+                'blockName' => $persistedQueryEndpointAPIHierarchyBlock->getBlockFullName(),
+            ]
+        ];
+    }
+
+    protected function installPluginSetupDataForVersion1Dot2(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var PersistedQueryEndpointGraphiQLBlock */
+        $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
+
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Translate content from URL', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-content-from-url', Recipes::TRANSLATING_CONTENT_FROM_URL),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/translate-content-from-url'),
+                    ],
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Import post from WordPress RSS feed', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed', VirtualRecipes::IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed'),
+                    ],
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks();
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Import posts from CSV', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-posts-from-csv', VirtualRecipes::IMPORTING_POSTS_FROM_A_CSV),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-posts-from-csv'),
+                    ],
+                ]], $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Fetch post links', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/post-links', VirtualRecipes::FETCH_POST_LINKS),
+                    ],
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Translate post (Classic editor)', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-classic-editor', VirtualRecipes::TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE),
+                    ],
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+        $nestedMutationsSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsSchemaConfigurationPersistedQueryBlocks();
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Translate posts (Classic editor)', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-classic-editor', VirtualRecipes::BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                    ],
+                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+    }
+
+    protected function getNestedMutationsSchemaConfigurationCustomPostID(): ?int
+    {
+        // @gatographql-note: Do not rename this slug, as it's referenced when installing the testing webservers
+        $slug = 'nested-mutations';
+        $schemaConfigurationID = $this->getSchemaConfigurationID($slug);
+        if ($schemaConfigurationID !== null) {
+            return $schemaConfigurationID;
+        }
+
+        $nestedMutationsBlockDataItem = $this->getNestedMutationsBlockDataItem();
+        return $this->createSchemaConfigurationID(
+            $slug,
+            \__('Nested mutations', 'gatographql'),
+            [
+                $nestedMutationsBlockDataItem,
+            ]
+        );
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getNestedMutationsBlockDataItem(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+        /** @var SchemaConfigMutationSchemeBlock */
+        $schemaConfigMutationSchemeBlock = $instanceManager->getInstance(SchemaConfigMutationSchemeBlock::class);
+
+        return [
+            'blockName' => $schemaConfigMutationSchemeBlock->getBlockFullName(),
+            'attrs' => [
+                SchemaConfigMutationSchemeBlock::ATTRIBUTE_NAME_MUTATION_SCHEME => MutationSchemes::NESTED_WITH_REDUNDANT_ROOT_FIELDS,
+            ]
+        ];
+    }
+
+    protected function getSchemaConfigurationID(string $slug): ?int
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+        /** @var GraphQLSchemaConfigurationCustomPostType */
+        $graphQLSchemaConfigurationCustomPostType = $instanceManager->getInstance(GraphQLSchemaConfigurationCustomPostType::class);
+
+        /** @var array<string|int> */
+        $schemaConfigurations = \get_posts([
+            'name' => $slug,
+            'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
+            'post_status' => 'publish',
+            'numberposts' => 1,
+            'fields' => 'ids',
+        ]);
+        if (isset($schemaConfigurations[0])) {
+            return (int) $schemaConfigurations[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array<array<string,mixed>> $blockDataItems
+     */
+    protected function createSchemaConfigurationID(string $slug, string $title, array $blockDataItems): ?int
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+        /** @var GraphQLSchemaConfigurationCustomPostType */
+        $graphQLSchemaConfigurationCustomPostType = $instanceManager->getInstance(GraphQLSchemaConfigurationCustomPostType::class);
+
+        $schemaConfigurationCustomPostID = \wp_insert_post([
+            'post_status' => 'publish',
+            'post_name' => $slug,
+            'post_type' => $graphQLSchemaConfigurationCustomPostType->getCustomPostType(),
+            'post_title' => $title,
+            'post_content' => serialize_blocks($this->addInnerContentToBlockAtts($blockDataItems))
+        ]);
+        if ($schemaConfigurationCustomPostID === 0) {
+            return null;
+        }
+        return $schemaConfigurationCustomPostID;
+    }
+
+    protected function getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID(): ?int
+    {
+        // @gatographql-note: Do not rename this slug, as it's referenced when installing the testing webservers
+        $slug = 'nested-mutations-entity-as-mutation-payload-type';
+        $schemaConfigurationID = $this->getSchemaConfigurationID($slug);
+        if ($schemaConfigurationID !== null) {
+            return $schemaConfigurationID;
+        }
+
+        $nestedMutationsBlockDataItem = $this->getNestedMutationsBlockDataItem();
+        $entityAsPayloadTypeBlockDataItem = $this->getEntityAsPayloadTypeBlockDataItem();
+        return $this->createSchemaConfigurationID(
+            $slug,
+            \__('Nested mutations + Entity as mutation payload type', 'gatographql'),
+            [
+                $nestedMutationsBlockDataItem,
+                $entityAsPayloadTypeBlockDataItem,
+            ]
+        );
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    protected function getEntityAsPayloadTypeBlockDataItem(): array
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+        /** @var SchemaConfigPayloadTypesForMutationsBlock */
+        $schemaConfigPayloadTypesForMutationsBlock = $instanceManager->getInstance(SchemaConfigPayloadTypesForMutationsBlock::class);
+
+        return [
+            'blockName' => $schemaConfigPayloadTypesForMutationsBlock->getBlockFullName(),
+            'attrs' => [
+                BlockAttributeNames::ENABLED_CONST => BlockAttributeValues::DISABLED,
+            ]
+        ];
     }
 
     protected function getAdminEndpointCategoryID(): ?int
@@ -1580,7 +1423,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
 
     protected function readSetupGraphQLVariablesJSON(string $relativeFilePath): string
     {
-        $persistedQueryFile = $this->getSetupGraphQLPersistedQueryFilePath($relativeFilePath, 'json');
+        $persistedQueryFile = $this->getSetupGraphQLPersistedQueryFilePath($relativeFilePath, 'var.json');
         return $this->readFile($persistedQueryFile);
     }
 
