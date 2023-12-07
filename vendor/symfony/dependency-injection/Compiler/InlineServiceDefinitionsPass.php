@@ -24,6 +24,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 class InlineServiceDefinitionsPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var \Symfony\Component\DependencyInjection\Compiler\AnalyzeServiceReferencesPass|null
      */
     private $analyzingPass;

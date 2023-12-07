@@ -19,6 +19,9 @@ use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
  */
 class NullAdapter implements AdapterInterface, CacheInterface
 {
+    /**
+     * @var \Closure
+     */
     private static $createCacheItem;
     public function __construct()
     {

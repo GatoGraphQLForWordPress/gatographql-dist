@@ -27,6 +27,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircula
 class ResolveChildDefinitionsPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var mixed[]
      */
     private $currentPath;

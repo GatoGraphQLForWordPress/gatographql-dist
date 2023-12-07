@@ -21,6 +21,10 @@ class ResolveTaggedIteratorArgumentPass extends AbstractRecursivePass
 {
     use PriorityTaggedServiceTrait;
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @param mixed $value
      * @return mixed
      */

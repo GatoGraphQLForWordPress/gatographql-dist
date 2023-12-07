@@ -21,6 +21,9 @@ use PrefixedByPoP\Symfony\Component\Filesystem\Exception\IOException;
  */
 class Filesystem
 {
+    /**
+     * @var string|null
+     */
     private static $lastError;
     /**
      * Copies a file.
@@ -651,7 +654,7 @@ class Filesystem
     {
         self::assertFunctionExists($func);
         self::$lastError = null;
-        \set_error_handler(__CLASS__ . '::handleError');
+        \set_error_handler(\Closure::fromCallable([self::class, 'handleError']));
         try {
             return $func(...$args);
         } finally {

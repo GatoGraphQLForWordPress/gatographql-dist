@@ -410,7 +410,7 @@ public function NAME($value): static
             $code = '$this->PROPERTY';
             if (null !== $p->getType()) {
                 if ($p->isArray()) {
-                    $code = $p->areScalarsAllowed() ? 'array_map(function ($v) { return $v instanceof CLASS ? $v->toArray() : $v; }, $this->PROPERTY)' : 'array_map(function ($v) { return $v->toArray(); }, $this->PROPERTY)';
+                    $code = $p->areScalarsAllowed() ? 'array_map(fn ($v) => $v instanceof CLASS ? $v->toArray() : $v, $this->PROPERTY)' : 'array_map(fn ($v) => $v->toArray(), $this->PROPERTY)';
                 } else {
                     $code = $p->areScalarsAllowed() ? '$this->PROPERTY instanceof CLASS ? $this->PROPERTY->toArray() : $this->PROPERTY' : '$this->PROPERTY->toArray()';
                 }
@@ -436,7 +436,7 @@ public function NAME(): array
             $code = '$value[\'ORG_NAME\']';
             if (null !== $p->getType()) {
                 if ($p->isArray()) {
-                    $code = $p->areScalarsAllowed() ? 'array_map(function ($v) { return \\is_array($v) ? new ' . $p->getType() . '($v) : $v; }, $value[\'ORG_NAME\'])' : 'array_map(function ($v) { return new ' . $p->getType() . '($v); }, $value[\'ORG_NAME\'])';
+                    $code = $p->areScalarsAllowed() ? 'array_map(fn ($v) => \\is_array($v) ? new ' . $p->getType() . '($v) : $v, $value[\'ORG_NAME\'])' : 'array_map(fn ($v) => new ' . $p->getType() . '($v), $value[\'ORG_NAME\'])';
                 } else {
                     $code = $p->areScalarsAllowed() ? '\\is_array($value[\'ORG_NAME\']) ? new ' . $p->getType() . '($value[\'ORG_NAME\']) : $value[\'ORG_NAME\']' : 'new ' . $p->getType() . '($value[\'ORG_NAME\'])';
                 }
@@ -497,7 +497,6 @@ public function NAME(string $key, mixed $value): static
         } catch (\ReflectionException $exception) {
             return \false;
         }
-        $r->setAccessible(\true);
         return [] !== $r->getValue($node);
     }
     private function getType(string $classType, bool $hasNormalizationClosures) : string

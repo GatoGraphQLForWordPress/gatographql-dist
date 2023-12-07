@@ -218,6 +218,8 @@ class Definition
     }
     /**
      * Gets the service class.
+     *
+     * @return class-string|null
      */
     public function getClass() : ?string
     {
@@ -731,7 +733,7 @@ class Definition
      * Add an error that occurred when building this Definition.
      *
      * @return $this
-     * @param string|\Closure|\Symfony\Component\DependencyInjection\Definition $error
+     * @param string|\Closure|$this $error
      */
     public function addError($error)
     {

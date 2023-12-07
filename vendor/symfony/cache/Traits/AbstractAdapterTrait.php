@@ -64,8 +64,6 @@ trait AbstractAdapterTrait
      * Fetches several cache items.
      *
      * @param array $ids The cache identifiers to fetch
-     *
-     * @return array|\Traversable
      */
     protected abstract function doFetch(array $ids) : iterable;
     /**
@@ -267,6 +265,9 @@ trait AbstractAdapterTrait
     {
         throw new \BadMethodCallException('Cannot serialize ' . __CLASS__);
     }
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize ' . __CLASS__);

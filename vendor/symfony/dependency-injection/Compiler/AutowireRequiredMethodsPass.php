@@ -21,6 +21,10 @@ use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @param mixed $value
      * @return mixed
      */

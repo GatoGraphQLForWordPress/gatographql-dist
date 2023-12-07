@@ -16,6 +16,6 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
  * @author Magnus Nordlander <magnus@fervo.se>
  * @internal
  */
-class ConflictingHeadersException extends \UnexpectedValueException implements RequestExceptionInterface
+class ConflictingHeadersException extends UnexpectedValueException implements RequestExceptionInterface
 {
 }

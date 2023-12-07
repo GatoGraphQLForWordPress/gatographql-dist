@@ -22,6 +22,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var mixed[]
      */
     private $connectedIds = [];

@@ -25,6 +25,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 class CheckReferenceValidityPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @param mixed $value
      * @return mixed
      */

@@ -18,8 +18,17 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Exception\ClassNotFoundException
  */
 class Hydrator
 {
+    /**
+     * @var mixed[]
+     */
     public static $hydrators = [];
+    /**
+     * @var mixed[]
+     */
     public static $simpleHydrators = [];
+    /**
+     * @var mixed[]
+     */
     public static $propertyScopes = [];
     public $registry;
     public $values;
@@ -236,10 +245,10 @@ class Hydrator
             }
             $name = $property->name;
             if (\ReflectionProperty::IS_PRIVATE & $flags) {
-                $propertyScopes["\x00{$class}\x00{$name}"] = $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $class : null];
+                $propertyScopes["\x00{$class}\x00{$name}"] = $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $class : null, $property];
                 continue;
             }
-            $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $property->class : null];
+            $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $property->class : null, $property];
             if (\ReflectionProperty::IS_PROTECTED & $flags) {
                 $propertyScopes["\x00*\x00{$name}"] = $propertyScopes[$name];
             }
@@ -250,8 +259,8 @@ class Hydrator
                 if (!$property->isStatic()) {
                     $name = $property->name;
                     $readonlyScope = $property->isReadOnly() ? $class : null;
-                    $propertyScopes["\x00{$class}\x00{$name}"] = [$class, $name, $readonlyScope];
-                    $propertyScopes[$name] = $propertyScopes[$name] ?? [$class, $name, $readonlyScope];
+                    $propertyScopes["\x00{$class}\x00{$name}"] = [$class, $name, $readonlyScope, $property];
+                    $propertyScopes[$name] = $propertyScopes[$name] ?? [$class, $name, $readonlyScope, $property];
                 }
             }
         }

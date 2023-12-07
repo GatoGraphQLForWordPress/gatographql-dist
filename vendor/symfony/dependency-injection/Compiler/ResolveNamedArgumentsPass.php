@@ -24,6 +24,10 @@ use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
 class ResolveNamedArgumentsPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @param mixed $value
      * @return mixed
      */

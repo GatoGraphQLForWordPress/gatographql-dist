@@ -10,10 +10,9 @@
  */
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 /** @internal */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
-class TaggedIterator extends Autowire
+class TaggedIterator extends AutowireIterator
 {
     /**
      * @var string
@@ -50,6 +49,6 @@ class TaggedIterator extends Autowire
         $this->defaultPriorityMethod = $defaultPriorityMethod;
         $this->exclude = $exclude;
         $this->excludeSelf = $excludeSelf;
-        parent::__construct(new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, \false, $defaultPriorityMethod, (array) $exclude, $excludeSelf));
+        parent::__construct($tag, $indexAttribute, $defaultIndexMethod, $defaultPriorityMethod, $exclude, $excludeSelf);
     }
 }

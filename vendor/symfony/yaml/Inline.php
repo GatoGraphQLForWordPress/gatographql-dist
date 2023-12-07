@@ -67,11 +67,8 @@ class Inline
      * @throws ParseException
      * @return mixed
      */
-    public static function parse(string $value = null, int $flags = 0, array &$references = [])
+    public static function parse(string $value, int $flags = 0, array &$references = [])
     {
-        if (null === $value) {
-            return '';
-        }
         self::initialize($flags);
         $value = \trim($value);
         if ('' === $value) {
@@ -163,7 +160,7 @@ class Inline
                     } elseif (\floor($value) == $value && $repr == $value) {
                         // Preserve float data type since storing a whole number will result in integer value.
                         if (\strpos($repr, 'E') === \false) {
-                            $repr = $repr . '.0';
+                            $repr .= '.0';
                         }
                     }
                 } else {

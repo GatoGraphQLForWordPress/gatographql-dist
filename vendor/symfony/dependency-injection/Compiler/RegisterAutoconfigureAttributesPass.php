@@ -23,6 +23,9 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
 {
+    /**
+     * @var \Closure
+     */
     private static $registerForAutoconfiguration;
     public function process(ContainerBuilder $container) : void
     {
@@ -44,7 +47,7 @@ final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
     }
     private static function registerForAutoconfiguration(ContainerBuilder $container, \ReflectionClass $class, \ReflectionAttribute $attribute) : void
     {
-        if (self::$registerForAutoconfiguration) {
+        if (isset(self::$registerForAutoconfiguration)) {
             (self::$registerForAutoconfiguration)($container, $class, $attribute);
             return;
         }

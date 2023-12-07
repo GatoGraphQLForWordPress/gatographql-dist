@@ -33,6 +33,10 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
     /**
      * @var bool
      */
+    protected $skipScalars = \false;
+    /**
+     * @var bool
+     */
     private $processExpressions = \false;
     /**
      * @var \Symfony\Component\DependencyInjection\ExpressionLanguage
@@ -79,6 +83,9 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {
+                if ((!$v || \is_scalar($v)) && $this->skipScalars) {
+                    continue;
+                }
                 if ($isRoot) {
                     if ($v->hasTag('container.excluded')) {
                         continue;

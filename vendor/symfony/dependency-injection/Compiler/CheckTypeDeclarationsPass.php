@@ -40,6 +40,10 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
  */
 final class CheckTypeDeclarationsPass extends AbstractRecursivePass
 {
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
     private const SCALAR_TYPES = ['int' => \true, 'float' => \true, 'bool' => \true, 'string' => \true];
     private const BUILTIN_TYPES = ['array' => \true, 'bool' => \true, 'callable' => \true, 'float' => \true, 'int' => \true, 'iterable' => \true, 'object' => \true, 'string' => \true];
     /**

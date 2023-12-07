@@ -23,6 +23,10 @@ use PrefixedByPoP\Symfony\Contracts\Service\ServiceProviderInterface;
 class ResolveServiceSubscribersPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var string|null
      */
     private $serviceLocator;

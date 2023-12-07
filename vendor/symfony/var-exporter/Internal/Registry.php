@@ -19,10 +19,25 @@ use PrefixedByPoP\Symfony\Component\VarExporter\Exception\NotInstantiableTypeExc
  */
 class Registry
 {
+    /**
+     * @var mixed[]
+     */
     public static $reflectors = [];
+    /**
+     * @var mixed[]
+     */
     public static $prototypes = [];
+    /**
+     * @var mixed[]
+     */
     public static $factories = [];
+    /**
+     * @var mixed[]
+     */
     public static $cloneable = [];
+    /**
+     * @var mixed[]
+     */
     public static $instantiableWithoutConstructor = [];
     public $classes = [];
     public function __construct(array $classes)

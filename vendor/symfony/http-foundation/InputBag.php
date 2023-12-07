@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
 
 use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 /**
  * InputBag is a container for user input values such as $_GET, $_POST, $_REQUEST, and $_COOKIE.
  *
@@ -79,7 +80,7 @@ final class InputBag extends ParameterBag
     {
         try {
             return parent::getEnum($key, $class, $default);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             throw new BadRequestException($e->getMessage(), $e->getCode(), $e);
         }
     }

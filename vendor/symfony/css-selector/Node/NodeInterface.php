@@ -20,9 +20,8 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
  *
  * @internal
  */
-interface NodeInterface
+interface NodeInterface extends \Stringable
 {
     public function getNodeName() : string;
     public function getSpecificity() : Specificity;
-    public function __toString() : string;
 }

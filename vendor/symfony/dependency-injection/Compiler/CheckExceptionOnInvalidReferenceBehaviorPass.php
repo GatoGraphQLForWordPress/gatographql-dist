@@ -23,6 +23,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var mixed[]
      */
     private $serviceLocatorContextIds = [];

@@ -74,4 +74,30 @@ abstract class AbstractBundleExtensionModuleResolver extends AbstractExtensionMo
             $this->getBundledBundleExtensionSlugs($module)
         );
     }
+
+    /**
+     * @return string[]
+     */
+    final public function getBundledExtensionSlugs(string $module): array
+    {
+        return array_map(
+            function (string $extensionModule) {
+                return $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule);
+            },
+            $this->getBundledExtensionModules($module)
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    final public function getBundledBundleExtensionSlugs(string $module): array
+    {
+        return array_map(
+            function (string $extensionModule) {
+                return $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule);
+            },
+            $this->getBundledBundleExtensionModules($module)
+        );
+    }
 }

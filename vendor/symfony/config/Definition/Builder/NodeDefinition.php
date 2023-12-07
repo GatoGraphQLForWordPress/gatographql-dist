@@ -83,7 +83,7 @@ abstract class NodeDefinition implements NodeParentInterface
     }
     /**
      * Returns the parent node.
-     * @return \Symfony\Component\Config\Definition\Builder\NodeParentInterface|\Symfony\Component\Config\Definition\Builder\NodeBuilder|\Symfony\Component\Config\Definition\Builder\NodeDefinition|\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\VariableNodeDefinition|null
+     * @return \Symfony\Component\Config\Definition\Builder\NodeParentInterface|\Symfony\Component\Config\Definition\Builder\NodeBuilder|$this|\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\VariableNodeDefinition|null
      */
     public function end()
     {
@@ -97,7 +97,7 @@ abstract class NodeDefinition implements NodeParentInterface
         if ($forceRootNode) {
             $this->parent = null;
         }
-        if (null !== $this->normalization) {
+        if (isset($this->normalization)) {
             $allowedTypes = [];
             foreach ($this->normalization->before as $expr) {
                 $allowedTypes[] = $expr->allowedTypes;
@@ -106,7 +106,7 @@ abstract class NodeDefinition implements NodeParentInterface
             $this->normalization->before = ExprBuilder::buildExpressions($this->normalization->before);
             $this->normalization->declaredTypes = $allowedTypes;
         }
-        if (null !== $this->validation) {
+        if (isset($this->validation)) {
             $this->validation->rules = ExprBuilder::buildExpressions($this->validation->rules);
         }
         $node = $this->createNode();

@@ -18,6 +18,9 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
  */
 class ArrayNode extends Node
 {
+    /**
+     * @var int
+     */
     protected $index;
     public function __construct()
     {

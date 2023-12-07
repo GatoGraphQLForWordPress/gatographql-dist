@@ -10,10 +10,13 @@
  */
 namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
+trigger_deprecation('symfony/dependency-injection', '6.4', '"%s" is deprecated, use dependency injection instead.', ContainerAwareTrait::class);
 /**
  * ContainerAware trait.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since Symfony 6.4, use dependency injection instead
  * @internal
  */
 trait ContainerAwareTrait

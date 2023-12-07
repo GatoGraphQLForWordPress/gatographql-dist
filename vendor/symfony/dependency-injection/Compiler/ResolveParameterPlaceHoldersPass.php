@@ -31,6 +31,10 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
      */
     private $throwOnResolveException = \true;
     /**
+     * @var bool
+     */
+    protected $skipScalars = \false;
+    /**
      * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
      */
     private $bag;

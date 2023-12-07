@@ -18,6 +18,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 class ResolveEnvPlaceholdersPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \false;
+    /**
      * @param mixed $value
      * @return mixed
      */

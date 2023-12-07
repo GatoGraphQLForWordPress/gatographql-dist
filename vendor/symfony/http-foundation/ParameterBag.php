@@ -11,6 +11,7 @@
 namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
 
 use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 /**
  * ParameterBag is a container for key/value pairs.
  *
@@ -129,7 +130,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     {
         $value = $this->get($key, $default);
         if (!\is_scalar($value) && !$value instanceof \Stringable) {
-            throw new \UnexpectedValueException(\sprintf('Parameter value "%s" cannot be converted to "string".', $key));
+            throw new UnexpectedValueException(\sprintf('Parameter value "%s" cannot be converted to "string".', $key));
         }
         return (string) $value;
     }
@@ -167,7 +168,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
         try {
             return $class::from($value);
         } catch (\ValueError|\TypeError $e) {
-            throw new \UnexpectedValueException(\sprintf('Parameter "%s" cannot be converted to enum: %s.', $key, $e->getMessage()), $e->getCode(), $e);
+            throw new UnexpectedValueException(\sprintf('Parameter "%s" cannot be converted to enum: %s.', $key, $e->getMessage()), $e->getCode(), $e);
         }
     }
     /**
@@ -192,7 +193,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
             $options['flags'] = \FILTER_REQUIRE_ARRAY;
         }
         if (\is_object($value) && !$value instanceof \Stringable) {
-            throw new \UnexpectedValueException(\sprintf('Parameter value "%s" cannot be filtered.', $key));
+            throw new UnexpectedValueException(\sprintf('Parameter value "%s" cannot be filtered.', $key));
         }
         if (\FILTER_CALLBACK & $filter && !($options['options'] ?? null) instanceof \Closure) {
             throw new \InvalidArgumentException(\sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, \get_debug_type($options['options'] ?? null)));
@@ -207,7 +208,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
         $method = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
         $method = ($method['object'] ?? null) === $this ? $method['function'] : 'filter';
         $hint = 'filter' === $method ? 'pass' : 'use method "filter()" with';
-        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; ' . $hint . ' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', \get_class($this), $method, $key, \UnexpectedValueException::class);
+        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; ' . $hint . ' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', \get_class($this), $method, $key, UnexpectedValueException::class);
         return \false;
     }
     /**

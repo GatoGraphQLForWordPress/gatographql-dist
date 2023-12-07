@@ -109,8 +109,23 @@ abstract class FileLoader extends BaseFileLoader
         $autoconfigureAttributes = new RegisterAutoconfigureAttributesPass();
         $autoconfigureAttributes = $autoconfigureAttributes->accept($prototype) ? $autoconfigureAttributes : null;
         $classes = $this->findClasses($namespace, $resource, (array) $exclude, $autoconfigureAttributes, $source);
-        // prepare for deep cloning
-        $serializedPrototype = \serialize($prototype);
+        $getPrototype = static function () use($prototype) {
+            return clone $prototype;
+        };
+        $serialized = \serialize($prototype);
+        // avoid deep cloning if no definitions are nested
+        if (\strpos($serialized, 'O:48:"Symfony\\Component\\DependencyInjection\\Definition"', 55) || \strpos($serialized, 'O:53:"Symfony\\Component\\DependencyInjection\\ChildDefinition"', 55)) {
+            // prepare for deep cloning
+            foreach (['Arguments', 'Properties', 'MethodCalls', 'Configurator', 'Factory', 'Bindings'] as $key) {
+                $serialized = \serialize($prototype->{'get' . $key}());
+                if (\strpos($serialized, 'O:48:"Symfony\\Component\\DependencyInjection\\Definition"') || \strpos($serialized, 'O:53:"Symfony\\Component\\DependencyInjection\\ChildDefinition"')) {
+                    $getPrototype = static function () use($getPrototype, $key, $serialized) {
+                        return $getPrototype()->{'set' . $key}(\unserialize($serialized));
+                    };
+                }
+            }
+        }
+        unset($serialized);
         foreach ($classes as $class => $errorMessage) {
             if (null === $errorMessage && $autoconfigureAttributes) {
                 $r = $this->container->getReflectionClass($class);
@@ -135,7 +150,7 @@ abstract class FileLoader extends BaseFileLoader
             if (\interface_exists($class, \false)) {
                 $this->interfaces[] = $class;
             } else {
-                $this->setDefinition($class, $definition = \unserialize($serializedPrototype));
+                $this->setDefinition($class, $definition = $getPrototype());
                 if (null !== $errorMessage) {
                     $definition->addError($errorMessage);
                     continue;

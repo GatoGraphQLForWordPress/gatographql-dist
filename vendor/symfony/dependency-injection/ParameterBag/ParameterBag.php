@@ -159,11 +159,12 @@ class ParameterBag implements ParameterBagInterface
      * @param mixed $value
      * @param array  $resolving An array of keys that are being resolved (used internally to detect circular references)
      *
-     * @return (TValue is (bool | float | int | string) ? (array | bool | float | int | string) : array<(array | bool | float | int | string)>)
+     * @psalm-return (TValue is scalar ? array|scalar : array<array|scalar>)
      *
      * @throws ParameterNotFoundException          if a placeholder references a parameter that does not exist
      * @throws ParameterCircularReferenceException if a circular reference if detected
      * @throws RuntimeException                    when a given parameter has a type problem
+     * @return mixed
      */
     public function resolveValue($value, array $resolving = [])
     {
@@ -178,7 +179,7 @@ class ParameterBag implements ParameterBagInterface
             }
             return $args;
         }
-        if (!\is_string($value) || 2 > \strlen($value)) {
+        if (!\is_string($value) || '' === $value || \strpos($value, '%') === \false) {
             return $value;
         }
         return $this->resolveString($value, $resolving);

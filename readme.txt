@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, content sync, import, export, headless, migration, rest api, endpoint, wp-cli, wget, translation
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -169,6 +169,11 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Recipes section contains example queries ready to copy/paste and use 
 
 == Changelog ==
+
+= 1.3.0 =
+* Read `GET` variables when executing Persisted Queries via `POST`
+* Pass data via URL params in persisted query "Register a newsletter subscriber from InstaWP to Mailchimp"
+* Fixed component docs displayed in the editor were not included in the plugin
 
 = 1.2.0 =
 * Added `XML` scalar type

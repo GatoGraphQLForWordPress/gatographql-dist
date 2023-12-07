@@ -65,6 +65,5 @@ class CacheCollectorPass implements CompilerPassInterface
         $container->setDefinition($id, $recorder);
         // Tell the collector to add the new instance
         $collectorDefinition->addMethodCall('addInstance', [$name, new Reference($id)]);
-        $collectorDefinition->setPublic(\false);
     }
 }

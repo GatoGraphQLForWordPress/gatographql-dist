@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
+class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1065,6 +1065,8 @@ class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AbstractUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AbstractUserAuthorizationScheme.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AdmininstratorRoleUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AdmininstratorRoleUserAuthorizationScheme.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\UserAuthorizationSchemeInterface' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/UserAuthorizationSchemeInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\Aggregators\\BundleExtensionAggregator' => __DIR__ . '/../..' . '/src/Services/Aggregators/BundleExtensionAggregator.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\Aggregators\\ModuleAggregator' => __DIR__ . '/../..' . '/src/Services/Aggregators/ModuleAggregator.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\BlockAccessors\\PersistedQueryEndpointAPIHierarchyBlockAccessor' => __DIR__ . '/../..' . '/src/Services/BlockAccessors/PersistedQueryEndpointAPIHierarchyBlockAccessor.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\BlockAccessors\\PersistedQueryEndpointGraphiQLBlockAccessor' => __DIR__ . '/../..' . '/src/Services/BlockAccessors/PersistedQueryEndpointGraphiQLBlockAccessor.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\BlockCategories\\AbstractBlockCategory' => __DIR__ . '/../..' . '/src/Services/BlockCategories/AbstractBlockCategory.php',
@@ -4094,6 +4096,8 @@ class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\Autowire' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/Autowire.php',
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\AutowireCallable' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/AutowireCallable.php',
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\AutowireDecorated' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/AutowireDecorated.php',
+        'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\AutowireIterator' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/AutowireIterator.php',
+        'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\AutowireLocator' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/AutowireLocator.php',
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\AutowireServiceClosure' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/AutowireServiceClosure.php',
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\Exclude' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/Exclude.php',
         'PrefixedByPoP\\Symfony\\Component\\DependencyInjection\\Attribute\\MapDecorated' => __DIR__ . '/..' . '/symfony/dependency-injection/Attribute/MapDecorated.php',
@@ -4321,6 +4325,7 @@ class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\Exception\\RequestExceptionInterface' => __DIR__ . '/..' . '/symfony/http-foundation/Exception/RequestExceptionInterface.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\Exception\\SessionNotFoundException' => __DIR__ . '/..' . '/symfony/http-foundation/Exception/SessionNotFoundException.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\Exception\\SuspiciousOperationException' => __DIR__ . '/..' . '/symfony/http-foundation/Exception/SuspiciousOperationException.php',
+        'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\Exception\\UnexpectedValueException' => __DIR__ . '/..' . '/symfony/http-foundation/Exception/UnexpectedValueException.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\ExpressionRequestMatcher' => __DIR__ . '/..' . '/symfony/http-foundation/ExpressionRequestMatcher.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\FileBag' => __DIR__ . '/..' . '/symfony/http-foundation/FileBag.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\File\\Exception\\AccessDeniedException' => __DIR__ . '/..' . '/symfony/http-foundation/File/Exception/AccessDeniedException.php',
@@ -4403,6 +4408,7 @@ class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\Session\\Storage\\SessionStorageInterface' => __DIR__ . '/..' . '/symfony/http-foundation/Session/Storage/SessionStorageInterface.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\StreamedJsonResponse' => __DIR__ . '/..' . '/symfony/http-foundation/StreamedJsonResponse.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\StreamedResponse' => __DIR__ . '/..' . '/symfony/http-foundation/StreamedResponse.php',
+        'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UriSigner' => __DIR__ . '/..' . '/symfony/http-foundation/UriSigner.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UrlHelper' => __DIR__ . '/..' . '/symfony/http-foundation/UrlHelper.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ClassNotFoundException' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ClassNotFoundException.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ExceptionInterface.php',
@@ -4464,9 +4470,9 @@ class ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb0e79d02b86d0595b25d96bc3e39d6ca::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$classMap;
 
         }, null, ClassLoader::class);
     }

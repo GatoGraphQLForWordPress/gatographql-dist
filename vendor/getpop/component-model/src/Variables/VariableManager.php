@@ -37,15 +37,9 @@ class VariableManager implements \PoP\ComponentModel\Variables\VariableManagerIn
             return [];
         }
         /**
-         * Obtain variables from $_POST and $_GET and, also,
-         * from the special "variables" entry.
-         *
-         * Watch out! GraphiQL also uses the "variables" URL param,
-         * but as a string. Hence, check if this param is an array,
-         * and only then process it.
+         * Obtain variables from $_POST and $_GET.
          */
-        $variables = \array_merge(App::getRequest()->query->all(), App::getRequest()->request->all(), App::getRequest()->query->has('variables') && \is_array(App::getRequest()->query->all()['variables']) ? App::getRequest()->query->all()['variables'] : [], App::getRequest()->request->has('variables') && \is_array(App::getRequest()->request->all()['variables']) ? App::getRequest()->request->all()['variables'] : []);
-        unset($variables['variables']);
+        $variables = \array_merge(App::getRequest()->query->all(), App::getRequest()->request->all());
         /**
          * Convert associative arrays (and their elements) to stdClass,
          * which is the data structure used for inputs in GraphQL.

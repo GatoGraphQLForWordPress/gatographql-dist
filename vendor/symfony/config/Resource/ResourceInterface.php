@@ -16,7 +16,7 @@ namespace PrefixedByPoP\Symfony\Component\Config\Resource;
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal
  */
-interface ResourceInterface
+interface ResourceInterface extends \Stringable
 {
     /**
      * Returns a string representation of the Resource.

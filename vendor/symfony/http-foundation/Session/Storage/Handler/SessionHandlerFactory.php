@@ -70,6 +70,7 @@ class SessionHandlerFactory
                     $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
                 }
                 $connection = DriverManager::getConnection($params, $config);
+                // The condition should be removed once support for DBAL <3.3 is dropped
                 $connection = \method_exists($connection, 'getNativeConnection') ? $connection->getNativeConnection() : $connection->getWrappedConnection();
             // no break;
             case \strncmp($connection, 'mssql://', \strlen('mssql://')) === 0:

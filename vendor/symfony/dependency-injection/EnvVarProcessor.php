@@ -39,7 +39,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     }
     public static function getProvidedTypes() : array
     {
-        return ['base64' => 'string', 'bool' => 'bool', 'not' => 'bool', 'const' => 'bool|int|float|string|array', 'csv' => 'array', 'file' => 'string', 'float' => 'float', 'int' => 'int', 'json' => 'array', 'key' => 'bool|int|float|string|array', 'url' => 'array', 'query_string' => 'array', 'resolve' => 'string', 'default' => 'bool|int|float|string|array', 'string' => 'string', 'trim' => 'string', 'require' => 'bool|int|float|string|array', 'enum' => \BackedEnum::class, 'shuffle' => 'array'];
+        return ['base64' => 'string', 'bool' => 'bool', 'not' => 'bool', 'const' => 'bool|int|float|string|array', 'csv' => 'array', 'file' => 'string', 'float' => 'float', 'int' => 'int', 'json' => 'array', 'key' => 'bool|int|float|string|array', 'url' => 'array', 'query_string' => 'array', 'resolve' => 'string', 'default' => 'bool|int|float|string|array', 'string' => 'string', 'trim' => 'string', 'require' => 'bool|int|float|string|array', 'enum' => \BackedEnum::class, 'shuffle' => 'array', 'defined' => 'bool'];
     }
     /**
      * @return mixed
@@ -80,6 +80,13 @@ class EnvVarProcessor implements EnvVarProcessorInterface
             }
             return $backedEnumClassName::tryFrom($backedEnumValue);
         }
+        if ('defined' === $prefix) {
+            try {
+                return '' !== ($getEnv($name) ?? '');
+            } catch (EnvNotFoundException $exception) {
+                return \false;
+            }
+        }
         if ('default' === $prefix) {
             if (\false === $i) {
                 throw new RuntimeException(\sprintf('Invalid env "default:%s": a fallback parameter should be provided.', $name));
@@ -114,6 +121,9 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         }
         $returnNull = \false;
         if ('' === $prefix) {
+            if ('' === $name) {
+                return null;
+            }
             $returnNull = \true;
             $prefix = 'string';
         }

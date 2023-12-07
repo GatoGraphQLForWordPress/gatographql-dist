@@ -32,6 +32,10 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
 class AnalyzeServiceReferencesPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph
      */
     private $graph;

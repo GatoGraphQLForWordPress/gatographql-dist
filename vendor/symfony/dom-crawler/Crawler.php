@@ -472,15 +472,21 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns the attribute value of the first node of the list.
      *
+     * @param string|null $default When not null: the value to return when the node or attribute is empty
+     *
      * @throws \InvalidArgumentException When current node is empty
      */
     public function attr(string $attribute) : ?string
     {
+        $default = \func_num_args() > 1 ? \func_get_arg(1) : null;
         if (!$this->nodes) {
+            if (null !== $default) {
+                return $default;
+            }
             throw new \InvalidArgumentException('The current node list is empty.');
         }
         $node = $this->getNode(0);
-        return $node->hasAttribute($attribute) ? $node->getAttribute($attribute) : null;
+        return $node->hasAttribute($attribute) ? $node->getAttribute($attribute) : $default;
     }
     /**
      * Returns the node name of the first node of the list.
@@ -582,7 +588,7 @@ class Crawler implements \Countable, \IteratorAggregate
      *
      * Since an XPath expression might evaluate to either a simple type or a \DOMNodeList,
      * this method will return either an array of simple types or a new Crawler instance.
-     * @return mixed[]|\Symfony\Component\DomCrawler\Crawler
+     * @return mixed[]|$this
      */
     public function evaluate(string $xpath)
     {
@@ -970,7 +976,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     private function convertToHtmlEntities(string $htmlContent, string $charset = 'UTF-8') : string
     {
-        \set_error_handler(function () {
+        \set_error_handler(static function () {
             throw new \Exception();
         });
         try {

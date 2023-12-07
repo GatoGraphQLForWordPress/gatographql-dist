@@ -25,12 +25,15 @@ abstract class AbstractConfigurator
 {
     public const FACTORY = 'unknown';
     /**
-     * @var callable(mixed, bool)|null
+     * @var \Closure(mixed, bool):mixed|null
      */
     public static $valuePreProcessor;
     /** @internal
      * @var \Symfony\Component\DependencyInjection\Definition|\Symfony\Component\DependencyInjection\Alias|null */
     protected $definition = null;
+    /**
+     * @return mixed
+     */
     public function __call(string $method, array $args)
     {
         if (\method_exists($this, 'set' . $method)) {
@@ -42,6 +45,9 @@ abstract class AbstractConfigurator
     {
         throw new \BadMethodCallException('Cannot serialize ' . __CLASS__);
     }
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize ' . __CLASS__);

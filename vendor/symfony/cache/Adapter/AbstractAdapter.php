@@ -30,8 +30,10 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
      * @internal
      */
     protected const NS_SEPARATOR = ':';
+    /**
+     * @var bool
+     */
     private static $apcuSupported;
-    private static $phpFilesSupported;
     protected function __construct(string $namespace = '', int $defaultLifetime = 0)
     {
         $this->namespace = '' === $namespace ? '' : CacheItem::validateKey($namespace) . static::NS_SEPARATOR;
@@ -80,7 +82,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         if (!(self::$apcuSupported = self::$apcuSupported ?? ApcuAdapter::isSupported())) {
             return $opcache;
         }
-        if (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], \true) && !\filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOL)) {
+        if ('cli' === \PHP_SAPI && !\filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOL)) {
             return $opcache;
         }
         $apcu = new ApcuAdapter($namespace, \intdiv($defaultLifetime, 5), $version);

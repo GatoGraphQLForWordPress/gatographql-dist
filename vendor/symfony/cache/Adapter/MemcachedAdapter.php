@@ -28,7 +28,7 @@ class MemcachedAdapter extends AbstractAdapter
      */
     private const RESERVED_MEMCACHED = " \n\r\t\v\f\x00";
     private const RESERVED_PSR6 = '@()\\{}/';
-    protected $maxIdLength = 250;
+    private const MAX_KEY_LENGTH = 250;
     /**
      * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
      */
@@ -56,6 +56,7 @@ class MemcachedAdapter extends AbstractAdapter
         if (!static::isSupported()) {
             throw new CacheException('Memcached > 3.1.5 is required.');
         }
+        $this->maxIdLength = self::MAX_KEY_LENGTH;
         if ('Memcached' === \get_class($client)) {
             $opt = $client->getOption(\Memcached::OPT_SERIALIZER);
             if (\Memcached::SERIALIZER_PHP !== $opt && \Memcached::SERIALIZER_IGBINARY !== $opt) {
@@ -98,7 +99,7 @@ class MemcachedAdapter extends AbstractAdapter
         if (!static::isSupported()) {
             throw new CacheException('Memcached > 3.1.5 is required.');
         }
-        \set_error_handler(function ($type, $msg, $file, $line) {
+        \set_error_handler(static function ($type, $msg, $file, $line) {
             throw new \ErrorException($msg, 0, $type, $file, $line);
         });
         try {

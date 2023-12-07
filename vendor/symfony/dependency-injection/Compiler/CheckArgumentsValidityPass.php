@@ -24,6 +24,10 @@ class CheckArgumentsValidityPass extends AbstractRecursivePass
     /**
      * @var bool
      */
+    protected $skipScalars = \true;
+    /**
+     * @var bool
+     */
     private $throwExceptions;
     public function __construct(bool $throwExceptions = \true)
     {

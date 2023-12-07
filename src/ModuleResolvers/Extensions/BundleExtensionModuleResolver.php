@@ -78,84 +78,84 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     /**
      * @return string[]
      */
-    public function getBundledExtensionSlugs(string $module): array
+    public function getBundledExtensionModules(string $module): array
     {
         switch ($module) {
             case self::ALL_EXTENSIONS:
                 return [
-                    'access-control',
-                    'access-control-visitor-ip',
-                    'automation',
-                    'cache-control',
-                    'conditional-field-manipulation',
-                    'deprecation-notifier',
-                    'email-sender',
-                    'events-manager',
-                    'field-default-value',
-                    'field-deprecation',
-                    'field-on-field',
-                    'field-resolution-caching',
-                    'field-response-removal',
-                    'field-to-input',
-                    'field-value-iteration-and-manipulation',
-                    'google-translate',
-                    'helper-function-collection',
-                    'http-client',
-                    'http-request-via-schema',
-                    'internal-graphql-server',
-                    'low-level-persisted-query-editing',
-                    'multiple-query-execution',
-                    'php-constants-and-environment-variables-via-schema',
-                    'php-functions-via-schema',
-                    'response-error-trigger',
-                    'schema-editing-access',
+                    ExtensionModuleResolver::ACCESS_CONTROL,
+                    ExtensionModuleResolver::ACCESS_CONTROL_VISITOR_IP,
+                    ExtensionModuleResolver::AUTOMATION,
+                    ExtensionModuleResolver::CACHE_CONTROL,
+                    ExtensionModuleResolver::CONDITIONAL_FIELD_MANIPULATION,
+                    ExtensionModuleResolver::DEPRECATION_NOTIFIER,
+                    ExtensionModuleResolver::EMAIL_SENDER,
+                    ExtensionModuleResolver::EVENTS_MANAGER,
+                    ExtensionModuleResolver::FIELD_DEFAULT_VALUE,
+                    ExtensionModuleResolver::FIELD_DEPRECATION,
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESOLUTION_CACHING,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HELPER_FUNCTION_COLLECTION,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::HTTP_REQUEST_VIA_SCHEMA,
+                    ExtensionModuleResolver::INTERNAL_GRAPHQL_SERVER,
+                    ExtensionModuleResolver::LOW_LEVEL_PERSISTED_QUERY_EDITING,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                    ExtensionModuleResolver::RESPONSE_ERROR_TRIGGER,
+                    ExtensionModuleResolver::SCHEMA_EDITING_ACCESS,
                 ];
             case self::APPLICATION_GLUE_AND_AUTOMATOR:
                 return [
-                    'automation',
-                    'conditional-field-manipulation',
-                    'email-sender',
-                    'field-default-value',
-                    'field-on-field',
-                    'field-resolution-caching',
-                    'field-response-removal',
-                    'field-to-input',
-                    'field-value-iteration-and-manipulation',
-                    'helper-function-collection',
-                    'http-client',
-                    'http-request-via-schema',
-                    'internal-graphql-server',
-                    'multiple-query-execution',
-                    'php-constants-and-environment-variables-via-schema',
-                    'php-functions-via-schema',
-                    'response-error-trigger',
+                    ExtensionModuleResolver::AUTOMATION,
+                    ExtensionModuleResolver::CONDITIONAL_FIELD_MANIPULATION,
+                    ExtensionModuleResolver::EMAIL_SENDER,
+                    ExtensionModuleResolver::FIELD_DEFAULT_VALUE,
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESOLUTION_CACHING,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::HELPER_FUNCTION_COLLECTION,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::HTTP_REQUEST_VIA_SCHEMA,
+                    ExtensionModuleResolver::INTERNAL_GRAPHQL_SERVER,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                    ExtensionModuleResolver::RESPONSE_ERROR_TRIGGER,
                 ];
             case self::CONTENT_TRANSLATION:
                 return [
-                    'conditional-field-manipulation',
-                    'field-on-field',
-                    'field-response-removal',
-                    'field-to-input',
-                    'field-value-iteration-and-manipulation',
-                    'google-translate',
-                    'multiple-query-execution',
-                    'php-functions-via-schema',
+                    ExtensionModuleResolver::CONDITIONAL_FIELD_MANIPULATION,
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
                 ];
             case self::PUBLIC_API:
                 return [
-                    'access-control',
-                    'access-control-visitor-ip',
-                    'cache-control',
-                    'conditional-field-manipulation',
-                    'deprecation-notifier',
-                    'field-default-value',
-                    'field-deprecation',
-                    'field-to-input',
-                    'field-value-iteration-and-manipulation',
-                    'low-level-persisted-query-editing',
-                    'multiple-query-execution',
-                    'response-error-trigger',
-                    'schema-editing-access',
+                    ExtensionModuleResolver::ACCESS_CONTROL,
+                    ExtensionModuleResolver::ACCESS_CONTROL_VISITOR_IP,
+                    ExtensionModuleResolver::CACHE_CONTROL,
+                    ExtensionModuleResolver::CONDITIONAL_FIELD_MANIPULATION,
+                    ExtensionModuleResolver::DEPRECATION_NOTIFIER,
+                    ExtensionModuleResolver::FIELD_DEFAULT_VALUE,
+                    ExtensionModuleResolver::FIELD_DEPRECATION,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::LOW_LEVEL_PERSISTED_QUERY_EDITING,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::RESPONSE_ERROR_TRIGGER,
+                    ExtensionModuleResolver::SCHEMA_EDITING_ACCESS,
                 ];
             default:
                 return [];
@@ -165,16 +165,13 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     /**
      * @return string[]
      */
-    public function getBundledBundleExtensionSlugs(string $module): array
+    public function getBundledBundleExtensionModules(string $module): array
     {
         switch ($module) {
             case self::ALL_EXTENSIONS:
-                return array_map(
-                    \Closure::fromCallable([$this, 'getSlug']),
-                    array_diff(
-                        $this->getModulesToResolve(),
-                        [$module]
-                    )
+                return array_diff(
+                    $this->getModulesToResolve(),
+                    [$module]
                 );
             default:
                 return [];

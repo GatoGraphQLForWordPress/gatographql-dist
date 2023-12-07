@@ -10,7 +10,6 @@
  */
 namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
 
-use PrefixedByPoP\Relay\Relay;
 use PrefixedByPoP\Symfony\Component\VarExporter\LazyObjectInterface;
 use PrefixedByPoP\Symfony\Component\VarExporter\LazyProxyTrait;
 use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
@@ -21,7 +20,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
 /**
  * @internal
  */
-class RelayProxy extends Relay implements ResetInterface, LazyObjectInterface
+class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, LazyObjectInterface
 {
     use LazyProxyTrait {
         resetLazyObject as reset;

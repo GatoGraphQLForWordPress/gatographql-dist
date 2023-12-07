@@ -350,7 +350,7 @@ class Response
     /**
      * Sends HTTP headers.
      *
-     * @param null|positive-int $statusCode The status code to use, override the statusCode property if set and not null
+     * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
      *
      * @return $this
      */
@@ -417,17 +417,23 @@ class Response
     /**
      * Sends HTTP headers and content.
      *
+     * @param bool $flush Whether output buffers should be flushed
+     *
      * @return $this
      */
     public function send()
     {
         $this->sendHeaders();
         $this->sendContent();
+        $flush = 1 <= \func_num_args() ? \func_get_arg(0) : \true;
+        if (!$flush) {
+            return $this;
+        }
         if (\function_exists('fastcgi_finish_request')) {
             \fastcgi_finish_request();
         } elseif (\function_exists('PrefixedByPoP\\litespeed_finish_request')) {
             litespeed_finish_request();
-        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], \true)) {
+        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], \true)) {
             static::closeOutputBuffers(0, \true);
             \flush();
         }
@@ -492,10 +498,6 @@ class Response
         }
         if (null === $text) {
             $this->statusText = self::$statusTexts[$code] ?? 'unknown status';
-            return $this;
-        }
-        if (\false === $text) {
-            $this->statusText = '';
             return $this;
         }
         $this->statusText = $text;
@@ -657,7 +659,7 @@ class Response
      *
      * @final
      */
-    public function getDate() : ?\DateTimeInterface
+    public function getDate() : ?\DateTimeImmutable
     {
         return $this->headers->getDate('Date');
     }
@@ -670,9 +672,7 @@ class Response
      */
     public function setDate(\DateTimeInterface $date)
     {
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Date', $date->format('D, d M Y H:i:s') . ' GMT');
         return $this;
@@ -707,13 +707,13 @@ class Response
      *
      * @final
      */
-    public function getExpires() : ?\DateTimeInterface
+    public function getExpires() : ?\DateTimeImmutable
     {
         try {
             return $this->headers->getDate('Expires');
         } catch (\RuntimeException $exception) {
             // according to RFC 2616 invalid date formats (e.g. "0" and "-1") must be treated as in the past
-            return \DateTime::createFromFormat('U', \time() - 172800);
+            return \DateTimeImmutable::createFromFormat('U', \time() - 172800);
         }
     }
     /**
@@ -734,9 +734,7 @@ class Response
             $this->headers->remove('Expires');
             return $this;
         }
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Expires', $date->format('D, d M Y H:i:s') . ' GMT');
         return $this;
@@ -871,7 +869,7 @@ class Response
      *
      * @final
      */
-    public function getLastModified() : ?\DateTimeInterface
+    public function getLastModified() : ?\DateTimeImmutable
     {
         return $this->headers->getDate('Last-Modified');
     }
@@ -893,9 +891,7 @@ class Response
             $this->headers->remove('Last-Modified');
             return $this;
         }
-        if ($date instanceof \DateTime) {
-            $date = \DateTimeImmutable::createFromMutable($date);
-        }
+        $date = \DateTimeImmutable::createFromInterface($date);
         $date = $date->setTimezone(new \DateTimeZone('UTC'));
         $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s') . ' GMT');
         return $this;

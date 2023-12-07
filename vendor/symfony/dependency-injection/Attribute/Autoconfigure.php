@@ -58,7 +58,7 @@ class Autoconfigure
     /**
      * @var string|null
      */
-    public $constructor = null;
+    public $constructor;
     /**
      * @param bool|string|null $lazy
      * @param mixed[]|string|null $configurator

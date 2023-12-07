@@ -15,6 +15,6 @@ namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
  * suspicious from a security perspective.
  * @internal
  */
-class SuspiciousOperationException extends \UnexpectedValueException implements RequestExceptionInterface
+class SuspiciousOperationException extends UnexpectedValueException implements RequestExceptionInterface
 {
 }

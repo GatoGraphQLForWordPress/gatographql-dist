@@ -24,6 +24,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
 {
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var mixed[]
      */
     private $replacements;

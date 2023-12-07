@@ -58,7 +58,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
         if (!static::isSupported()) {
             throw new CacheException('Couchbase >= 3.0.0 < 4.0.0 is required.');
         }
-        \set_error_handler(function ($type, $msg, $file, $line) : bool {
+        \set_error_handler(static function ($type, $msg, $file, $line) {
             throw new \ErrorException($msg, 0, $type, $file, $line);
         });
         $dsnPattern = '/^(?<protocol>couchbase(?:s)?)\\:\\/\\/(?:(?<username>[^\\:]+)\\:(?<password>[^\\@]{6,})@)?' . '(?<host>[^\\:]+(?:\\:\\d+)?)(?:\\/(?<bucketName>[^\\/\\?]+))(?:(?:\\/(?<scopeName>[^\\/]+))' . '(?:\\/(?<collectionName>[^\\/\\?]+)))?(?:\\/)?(?:\\?(?<options>.*))?$/i';

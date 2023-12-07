@@ -23,6 +23,10 @@ class ResolveNoPreloadPass extends AbstractRecursivePass
 {
     private const DO_PRELOAD_TAG = '.container.do_preload';
     /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
      * @var mixed[]
      */
     private $resolvedIds = [];
