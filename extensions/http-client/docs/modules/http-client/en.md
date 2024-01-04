@@ -567,20 +567,25 @@ In this query, we generate the API endpoint using the **Field to Input** feature
 
 ## Bundles including extension
 
-- [“All Extensions” Bundle](../../../../../bundle-extensions/all-extensions/docs/modules/all-extensions/en.md)
-- [“Application Glue & Automator” Bundle](../../../../../bundle-extensions/application-glue-and-automator/docs/modules/application-glue-and-automator/en.md)
+- [“All in One Toolbox for WordPress” Bundle](../../../../../bundle-extensions/all-in-one-toolbox-for-wordpress/docs/modules/all-in-one-toolbox-for-wordpress/en.md)
+- [“Automated Content Translation & Sync for WordPress Multisite” Bundle](../../../../../bundle-extensions/automated-content-translation-and-sync-for-wordpress-multisite/docs/modules/automated-content-translation-and-sync-for-wordpress-multisite/en.md)
+- [“Better WordPress Webhooks” Bundle](../../../../../bundle-extensions/better-wordpress-webhooks/docs/modules/better-wordpress-webhooks/en.md)
+- [“Private GraphQL Server for WordPress” Bundle](../../../../../bundle-extensions/private-graphql-server-for-wordpress/docs/modules/private-graphql-server-for-wordpress/en.md)
+- [“Selective Content Import, Export & Sync for WordPress” Bundle](../../../../../bundle-extensions/selective-content-import-export-and-sync-for-wordpress/docs/modules/selective-content-import-export-and-sync-for-wordpress/en.md)
+- [“Tailored WordPress Automator” Bundle](../../../../../bundle-extensions/tailored-wordpress-automator/docs/modules/tailored-wordpress-automator/en.md)
+- [“Versatile WordPress Request API” Bundle](../../../../../bundle-extensions/versatile-wordpress-request-api/docs/modules/versatile-wordpress-request-api/en.md)
 
-## Recipes using extension
+<!-- ## Tutorial lessons referencing extension
 
-- [Retrieving data from an external API](../../../../../docs/recipes/retrieving-data-from-an-external-api/en.md)
-- [Not leaking credentials when connecting to services](../../../../../docs/recipes/not-leaking-credentials-when-connecting-to-services/en.md)
-- [Handling errors when connecting to services](../../../../../docs/recipes/handling-errors-when-connecting-to-services/en.md)
-- [Creating an API gateway](../../../../../docs/recipes/creating-an-api-gateway/en.md)
-- [Translating content from URL](../../../../../docs/recipes/translating-content-from-url/en.md)
-- [Transforming data from an external API](../../../../../docs/recipes/transforming-data-from-an-external-api/en.md)
-- [Filtering data from an external API](../../../../../docs/recipes/filtering-data-from-an-external-api/en.md)
-- [Pinging external services](../../../../../docs/recipes/pinging-external-services/en.md)
-- [Updating large sets of data](../../../../../docs/recipes/updating-large-sets-of-data/en.md)
-- [Importing a post from another WordPress site](../../../../../docs/recipes/importing-a-post-from-another-wordpress-site/en.md)
-- [Distributing content from an upstream to multiple downstream sites](../../../../../docs/recipes/distributing-content-from-an-upstream-to-multiple-downstream-sites/en.md)
-- [Automatically sending newsletter subscribers from InstaWP to Mailchimp](../../../../../docs/recipes/automatically-sending-newsletter-subscribers-from-instawp-to-mailchimp/en.md)
+- [Retrieving data from an external API](../../../../../docs/tutorial/retrieving-data-from-an-external-api/en.md)
+- [Not leaking credentials when connecting to services](../../../../../docs/tutorial/not-leaking-credentials-when-connecting-to-services/en.md)
+- [Handling errors when connecting to services](../../../../../docs/tutorial/handling-errors-when-connecting-to-services/en.md)
+- [Creating an API gateway](../../../../../docs/tutorial/creating-an-api-gateway/en.md)
+- [Translating content from URL](../../../../../docs/tutorial/translating-content-from-url/en.md)
+- [Transforming data from an external API](../../../../../docs/tutorial/transforming-data-from-an-external-api/en.md)
+- [Filtering data from an external API](../../../../../docs/tutorial/filtering-data-from-an-external-api/en.md)
+- [Pinging external services](../../../../../docs/tutorial/pinging-external-services/en.md)
+- [Updating large sets of data](../../../../../docs/tutorial/updating-large-sets-of-data/en.md)
+- [Importing a post from another WordPress site](../../../../../docs/tutorial/importing-a-post-from-another-wordpress-site/en.md)
+- [Distributing content from an upstream to multiple downstream sites](../../../../../docs/tutorial/distributing-content-from-an-upstream-to-multiple-downstream-sites/en.md)
+- [Automatically sending newsletter subscribers from InstaWP to Mailchimp](../../../../../docs/tutorial/automatically-sending-newsletter-subscribers-from-instawp-to-mailchimp/en.md) -->

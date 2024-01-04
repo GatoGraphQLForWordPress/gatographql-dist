@@ -11,14 +11,14 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - postIds: List of IDs of the posts to translate
 #   - toLang: The language code to translate to, from Google Translate (https://cloud.google.com/translate/docs/languages)
 #
 # *********************************************************************
 # 
 # More info:
-#   - https://gatographql.com/recipes/bulk-translating-block-content-in-multiple-posts-to-a-different-language/
+#   - https://gatographql.com/tutorial/bulk-translating-block-content-in-multiple-posts-to-a-different-language/
 #
 ########################################################################
 

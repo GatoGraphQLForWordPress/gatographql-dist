@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Services\MenuPageAttachers;
 
+use GatoGraphQL\GatoGraphQL\Module;
+use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper;
@@ -15,9 +17,9 @@ use GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionsMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\MenuPageInterface;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\ModuleDocumentationMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage;
-use GatoGraphQL\GatoGraphQL\Services\MenuPages\RecipesMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\ReleaseNotesAboutMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\SettingsMenuPage;
+use GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\Taxonomies\GraphQLEndpointCategoryTaxonomy;
 use PoP\Root\App;
 
@@ -68,9 +70,9 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
      */
     private $extensionDocsMenuPage;
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\RecipesMenuPage|null
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage|null
      */
-    private $recipesMenuPage;
+    private $tutorialMenuPage;
     /**
      * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\AboutMenuPage|null
      */
@@ -223,18 +225,18 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->extensionDocsMenuPage;
     }
-    final public function setRecipesMenuPage(RecipesMenuPage $recipesMenuPage): void
+    final public function setTutorialMenuPage(TutorialMenuPage $tutorialMenuPage): void
     {
-        $this->recipesMenuPage = $recipesMenuPage;
+        $this->tutorialMenuPage = $tutorialMenuPage;
     }
-    final protected function getRecipesMenuPage(): RecipesMenuPage
+    final protected function getTutorialMenuPage(): TutorialMenuPage
     {
-        if ($this->recipesMenuPage === null) {
-            /** @var RecipesMenuPage */
-            $recipesMenuPage = $this->instanceManager->getInstance(RecipesMenuPage::class);
-            $this->recipesMenuPage = $recipesMenuPage;
+        if ($this->tutorialMenuPage === null) {
+            /** @var TutorialMenuPage */
+            $tutorialMenuPage = $this->instanceManager->getInstance(TutorialMenuPage::class);
+            $this->tutorialMenuPage = $tutorialMenuPage;
         }
-        return $this->recipesMenuPage;
+        return $this->tutorialMenuPage;
     }
     final public function setAboutMenuPage(AboutMenuPage $aboutMenuPage): void
     {
@@ -409,22 +411,26 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->getSettingsMenuPage()->setHookName($hookName);
         }
 
-        $recipesMenuPage = $this->getRecipesMenuPage();
-        /**
-         * @var callable
-         */
-        $callable = [$recipesMenuPage, 'print'];
-        if (
-            $hookName = \add_submenu_page(
-                $menuName,
-                __('Recipes', 'gatographql'),
-                __('Recipes', 'gatographql'),
-                $schemaEditorAccessCapability,
-                $recipesMenuPage->getScreenID(),
-                $callable
-            )
-        ) {
-            $recipesMenuPage->setHookName($hookName);
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        if (!$moduleConfiguration->hideTutorialPage()) {
+            $tutorialMenuPage = $this->getTutorialMenuPage();
+            /**
+             * @var callable
+             */
+            $callable = [$tutorialMenuPage, 'print'];
+            if (
+                $hookName = \add_submenu_page(
+                    $menuName,
+                    __('Tutorial', 'gatographql'),
+                    __('Tutorial', 'gatographql'),
+                    $schemaEditorAccessCapability,
+                    $tutorialMenuPage->getScreenID(),
+                    $callable
+                )
+            ) {
+                $tutorialMenuPage->setHookName($hookName);
+            }
         }
 
         /**

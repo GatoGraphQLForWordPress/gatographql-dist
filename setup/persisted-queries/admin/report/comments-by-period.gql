@@ -1,6 +1,6 @@
 ########################################################################
 #
-# This Persisted GraphQL query retrieves retrieves the number of comments
+# This Persisted GraphQL query retrieves the number of comments
 # added to the site in several periods of time:
 #
 #   - in the last 24 hs
@@ -12,7 +12,7 @@
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/querying-dynamic-data/
+#   - https://gatographql.com/tutorial/querying-dynamic-data/
 #
 ########################################################################
 

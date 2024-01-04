@@ -5,14 +5,14 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - oldPostSlug: The old post or page slug
 #   - newPostSlug: The new post or page slug
 #
 # *********************************************************************
 # 
 # More info:
-#   - https://gatographql.com/recipes/site-migrations/#heading-adapting-content-to-a-new-post-or-page-url
+#   - https://gatographql.com/tutorial/site-migrations/#heading-adapting-content-to-a-new-post-or-page-url
 #
 ########################################################################
 

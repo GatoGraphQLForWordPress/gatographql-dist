@@ -7,8 +7,8 @@ namespace GatoGraphQL\GatoGraphQL\Services\DataComposers;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\Extensions\ExtensionModuleResolverInterface;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\Aggregators\BundleExtensionAggregator;
-use GatoGraphQL\GatoGraphQL\Services\DataProviders\RecipeDataProvider;
-use GatoGraphQL\GatoGraphQL\Services\DataProviders\VirtualRecipeDataProvider;
+use GatoGraphQL\GatoGraphQL\Services\DataProviders\TutorialLessonDataProvider;
+use GatoGraphQL\GatoGraphQL\Services\DataProviders\VirtualTutorialLessonDataProvider;
 use PoP\Root\Services\BasicServiceTrait;
 use RuntimeException;
 
@@ -24,13 +24,13 @@ class GraphQLDocumentDataComposer
      */
     private $moduleRegistry;
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\RecipeDataProvider|null
+     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\TutorialLessonDataProvider|null
      */
-    private $recipeDataProvider;
+    private $tutorialLessonDataProvider;
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\VirtualRecipeDataProvider|null
+     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\VirtualTutorialLessonDataProvider|null
      */
-    private $virtualRecipeDataProvider;
+    private $virtualTutorialLessonDataProvider;
     /**
      * @var \GatoGraphQL\GatoGraphQL\Services\Aggregators\BundleExtensionAggregator|null
      */
@@ -49,31 +49,31 @@ class GraphQLDocumentDataComposer
         }
         return $this->moduleRegistry;
     }
-    final public function setRecipeDataProvider(RecipeDataProvider $recipeDataProvider): void
+    final public function setTutorialLessonDataProvider(TutorialLessonDataProvider $tutorialLessonDataProvider): void
     {
-        $this->recipeDataProvider = $recipeDataProvider;
+        $this->tutorialLessonDataProvider = $tutorialLessonDataProvider;
     }
-    final protected function getRecipeDataProvider(): RecipeDataProvider
+    final protected function getTutorialLessonDataProvider(): TutorialLessonDataProvider
     {
-        if ($this->recipeDataProvider === null) {
-            /** @var RecipeDataProvider */
-            $recipeDataProvider = $this->instanceManager->getInstance(RecipeDataProvider::class);
-            $this->recipeDataProvider = $recipeDataProvider;
+        if ($this->tutorialLessonDataProvider === null) {
+            /** @var TutorialLessonDataProvider */
+            $tutorialLessonDataProvider = $this->instanceManager->getInstance(TutorialLessonDataProvider::class);
+            $this->tutorialLessonDataProvider = $tutorialLessonDataProvider;
         }
-        return $this->recipeDataProvider;
+        return $this->tutorialLessonDataProvider;
     }
-    final public function setVirtualRecipeDataProvider(VirtualRecipeDataProvider $virtualRecipeDataProvider): void
+    final public function setVirtualTutorialLessonDataProvider(VirtualTutorialLessonDataProvider $virtualTutorialLessonDataProvider): void
     {
-        $this->virtualRecipeDataProvider = $virtualRecipeDataProvider;
+        $this->virtualTutorialLessonDataProvider = $virtualTutorialLessonDataProvider;
     }
-    final protected function getVirtualRecipeDataProvider(): VirtualRecipeDataProvider
+    final protected function getVirtualTutorialLessonDataProvider(): VirtualTutorialLessonDataProvider
     {
-        if ($this->virtualRecipeDataProvider === null) {
-            /** @var VirtualRecipeDataProvider */
-            $virtualRecipeDataProvider = $this->instanceManager->getInstance(VirtualRecipeDataProvider::class);
-            $this->virtualRecipeDataProvider = $virtualRecipeDataProvider;
+        if ($this->virtualTutorialLessonDataProvider === null) {
+            /** @var VirtualTutorialLessonDataProvider */
+            $virtualTutorialLessonDataProvider = $this->instanceManager->getInstance(VirtualTutorialLessonDataProvider::class);
+            $this->virtualTutorialLessonDataProvider = $virtualTutorialLessonDataProvider;
         }
-        return $this->virtualRecipeDataProvider;
+        return $this->virtualTutorialLessonDataProvider;
     }
     final public function setBundleExtensionAggregator(BundleExtensionAggregator $bundleExtensionAggregator): void
     {
@@ -93,27 +93,27 @@ class GraphQLDocumentDataComposer
      * Append the required extensions and bundles to the header
      * in the persisted query.
      *
-     * @param string[]|null $skipExtensionModules Extensions that must not be added to the Persisted Query (which are associated to the recipe)
+     * @param string[]|null $skipExtensionModules Extensions that must not be added to the Persisted Query (which are associated to the tutorial lesson)
      */
     public function addRequiredBundlesAndExtensionsToGraphQLDocumentHeader(
         string $graphQLDocument,
-        string $recipeSlug,
+        string $tutorialLessonSlug,
         ?array $skipExtensionModules = null
     ): string {
         /**
-         * Check if there are required extensions for the recipe
+         * Check if there are required extensions for the tutorial lesson
          */
-        $recipeSlugDataItems = array_merge($this->getRecipeDataProvider()->getRecipeSlugDataItems(), $this->getVirtualRecipeDataProvider()->getRecipeSlugDataItems());
-        $recipeDataItem = $recipeSlugDataItems[$recipeSlug] ?? null;
-        if ($recipeDataItem === null) {
+        $tutorialLessonSlugDataItems = array_merge($this->getTutorialLessonDataProvider()->getTutorialLessonSlugDataItems(), $this->getVirtualTutorialLessonDataProvider()->getTutorialLessonSlugDataItems());
+        $tutorialLessonDataItem = $tutorialLessonSlugDataItems[$tutorialLessonSlug] ?? null;
+        if ($tutorialLessonDataItem === null) {
             throw new RuntimeException(
                 sprintf(
-                    \__('There is no recipe with slug "%s"', 'gatographql'),
-                    $recipeSlug
+                    \__('There is no tutorial lesson with slug "%s"', 'gatographql'),
+                    $tutorialLessonSlug
                 )
             );
         }
-        $requiredExtensionModules = $recipeDataItem[1] ?? [];
+        $requiredExtensionModules = $tutorialLessonDataItem[1] ?? [];
         if ($requiredExtensionModules === []) {
             return $graphQLDocument;
         }
@@ -137,8 +137,8 @@ class GraphQLDocumentDataComposer
             // There is no header => throw error!
             throw new RuntimeException(
                 sprintf(
-                    \__('There is no header in GraphQL document for recipe "%s": %s%s'),
-                    $recipeSlug,
+                    \__('There is no header in GraphQL document for tutorial lesson "%s": %s%s'),
+                    $tutorialLessonSlug,
                     PHP_EOL,
                     $graphQLDocument
                 )

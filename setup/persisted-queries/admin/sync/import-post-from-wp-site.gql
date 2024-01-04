@@ -22,14 +22,14 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - upstreamServerGraphQLEndpointURL: The GraphQL endpoint on the upstream WordPress site
 #   - postSlug: The slug of the post to import
 # 
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/importing-a-post-from-another-wordpress-site/
+#   - https://gatographql.com/tutorial/importing-a-post-from-another-wordpress-site/
 #
 ########################################################################
 

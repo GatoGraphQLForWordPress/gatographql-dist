@@ -9,13 +9,15 @@ use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptionValues;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptions;
 use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface;
+use GatoGraphQL\GatoGraphQL\Module;
+use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\ModuleSettings\Properties;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphQLVoyagerMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphiQLMenuPage;
-use GatoGraphQL\GatoGraphQL\Services\MenuPages\RecipesMenuPage;
+use GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage;
 use GatoGraphQL\GatoGraphQL\SettingsCategoryResolvers\SettingsCategoryResolver;
 use GraphQLByPoP\GraphQLEndpointForWP\Module as GraphQLEndpointForWPModule;
 use GraphQLByPoP\GraphQLEndpointForWP\ModuleConfiguration as GraphQLEndpointForWPModuleConfiguration;
@@ -57,9 +59,9 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
      */
     private $graphQLVoyagerMenuPage;
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\RecipesMenuPage|null
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage|null
      */
-    private $recipesMenuPage;
+    private $tutorialMenuPage;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -126,18 +128,18 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
         }
         return $this->graphQLVoyagerMenuPage;
     }
-    final public function setRecipesMenuPage(RecipesMenuPage $recipesMenuPage): void
+    final public function setTutorialMenuPage(TutorialMenuPage $tutorialMenuPage): void
     {
-        $this->recipesMenuPage = $recipesMenuPage;
+        $this->tutorialMenuPage = $tutorialMenuPage;
     }
-    final protected function getRecipesMenuPage(): RecipesMenuPage
+    final protected function getTutorialMenuPage(): TutorialMenuPage
     {
-        if ($this->recipesMenuPage === null) {
-            /** @var RecipesMenuPage */
-            $recipesMenuPage = $this->instanceManager->getInstance(RecipesMenuPage::class);
-            $this->recipesMenuPage = $recipesMenuPage;
+        if ($this->tutorialMenuPage === null) {
+            /** @var TutorialMenuPage */
+            $tutorialMenuPage = $this->instanceManager->getInstance(TutorialMenuPage::class);
+            $this->tutorialMenuPage = $tutorialMenuPage;
         }
-        return $this->recipesMenuPage;
+        return $this->tutorialMenuPage;
     }
 
     /**
@@ -325,6 +327,18 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
                 self::PERSISTED_QUERIES,
             ]) && $this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)
         ) {
+            /** @var ModuleConfiguration */
+            $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+            if ($moduleConfiguration->hideTutorialPage()) {
+                $feedDataToBlocksInTheEditorURL = 'https://gatographql.com/tutorial/feeding-data-to-blocks-in-the-editor/';
+            } else {
+                $feedDataToBlocksInTheEditorURL = \admin_url(sprintf(
+                    'admin.php?page=%s&%s=%s',
+                    $this->getTutorialMenuPage()->getScreenID(),
+                    RequestParams::TAB,
+                    'feeding-data-to-blocks-in-the-editor'
+                ));
+            }
             $defaultDescriptionPlaceholder = \__('Schema Configuration to use in %s which have option <code>"Default"</code> selected', 'gatographql');
             switch ($module) {
                 case self::PRIVATE_ENDPOINT:
@@ -337,12 +351,7 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
                     )), \admin_url(sprintf(
                         'admin.php?page=%s',
                         $this->getGraphQLVoyagerMenuPage()->getScreenID()
-                    )), \admin_url(sprintf(
-                        'admin.php?page=%s&%s=%s',
-                        $this->getRecipesMenuPage()->getScreenID(),
-                        RequestParams::TAB,
-                        'feeding-data-to-blocks-in-the-editor'
-                    )), HTMLCodes::OPEN_IN_NEW_WINDOW);
+                    )), $feedDataToBlocksInTheEditorURL, HTMLCodes::OPEN_IN_NEW_WINDOW);
                     break;
                 case self::SINGLE_ENDPOINT:
                     $description = \__('Schema Configuration to use in the Single Endpoint', 'gatographql');

@@ -5,13 +5,13 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - postId: ID of the post to modify
 # 
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/search-replace-and-store-again/#heading-replacing-http-with-https
+#   - https://gatographql.com/tutorial/search-replace-and-store-again/#heading-replacing-http-with-https
 #
 ########################################################################
 

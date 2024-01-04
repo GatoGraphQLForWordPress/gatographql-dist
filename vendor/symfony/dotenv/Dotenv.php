@@ -24,7 +24,7 @@ use PrefixedByPoP\Symfony\Component\Process\Process;
  */
 final class Dotenv
 {
-    public const VARNAME_REGEX = '(?i:[A-Z][A-Z0-9_]*+)';
+    public const VARNAME_REGEX = '(?i:_?[A-Z][A-Z0-9_]*+)';
     public const STATE_VARNAME = 0;
     public const STATE_VALUE = 1;
     /**
@@ -320,8 +320,8 @@ final class Dotenv
                 ++$this->cursor;
                 $value = \str_replace(['\\"', '\\r', '\\n'], ['"', "\r", "\n"], $value);
                 $resolvedValue = $value;
-                $resolvedValue = $this->resolveVariables($resolvedValue, $loadedVars);
                 $resolvedValue = $this->resolveCommands($resolvedValue, $loadedVars);
+                $resolvedValue = $this->resolveVariables($resolvedValue, $loadedVars);
                 $resolvedValue = \str_replace('\\\\', '\\', $resolvedValue);
                 $v .= $resolvedValue;
             } else {
@@ -340,8 +340,8 @@ final class Dotenv
                 }
                 $value = \rtrim($value);
                 $resolvedValue = $value;
-                $resolvedValue = $this->resolveVariables($resolvedValue, $loadedVars);
                 $resolvedValue = $this->resolveCommands($resolvedValue, $loadedVars);
+                $resolvedValue = $this->resolveVariables($resolvedValue, $loadedVars);
                 $resolvedValue = \str_replace('\\\\', '\\', $resolvedValue);
                 if ($resolvedValue === $value && \preg_match('/\\s+/', $value)) {
                     throw $this->createFormatException('A value containing spaces must be surrounded by quotes');

@@ -141,10 +141,28 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 
+    public function hideTutorialPage(): bool
+    {
+        $envVariable = Environment::HIDE_TUTORIAL_PAGE;
+        $defaultValue = false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+
     public function installPluginSetupData(): bool
     {
         $envVariable = Environment::INSTALL_PLUGIN_SETUP_DATA;
         $defaultValue = true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+
+    public function showBundlesContainingReferencedExtensionsOnTutorial(): bool
+    {
+        $envVariable = Environment::SHOW_BUNDLES_CONTAINING_REFERENCED_EXTENSIONS_ON_TUTORIAL;
+        $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);

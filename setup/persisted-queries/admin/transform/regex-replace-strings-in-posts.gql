@@ -6,7 +6,7 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - limit: Number of posts to update
 #   - offset: Position of the first post to update
 #   - searchRegex: The list of regex to search
@@ -15,7 +15,7 @@
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/adapting-content-in-bulk/
+#   - https://gatographql.com/tutorial/adapting-content-in-bulk/
 #
 ########################################################################
 

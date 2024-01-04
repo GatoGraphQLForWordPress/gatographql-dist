@@ -12,8 +12,8 @@ use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\AppThread;
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeNames;
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeValues;
-use GatoGraphQL\GatoGraphQL\Constants\Recipes;
-use GatoGraphQL\GatoGraphQL\Constants\VirtualRecipes;
+use GatoGraphQL\GatoGraphQL\Constants\TutorialLessons;
+use GatoGraphQL\GatoGraphQL\Constants\VirtualTutorialLessons;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerSystemContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
@@ -577,6 +577,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         $versionCallbacks = [
             '1.1' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot1']),
             '1.2' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot2']),
+            '1.4' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot4']),
         ];
         foreach ($versionCallbacks as $version => $callback) {
             if ($previousVersion !== null && SemverWrapper::satisfies($previousVersion, '>= ' . $version)) {
@@ -635,7 +636,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-post', Recipes::DUPLICATING_A_BLOG_POST),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-post', TutorialLessons::DUPLICATING_A_BLOG_POST),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -647,7 +648,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-posts', Recipes::DUPLICATING_MULTIPLE_BLOG_POSTS_AT_ONCE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-posts', TutorialLessons::DUPLICATING_MULTIPLE_BLOG_POSTS_AT_ONCE),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/duplicate-posts'),
                     ],
                 ]], $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks))),
@@ -660,7 +661,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/replace-strings-in-post'),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
@@ -673,7 +674,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-posts', Recipes::ADAPTING_CONTENT_IN_BULK),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-posts', TutorialLessons::ADAPTING_CONTENT_IN_BULK),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/replace-strings-in-posts'),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
@@ -686,7 +687,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/regex-replace-strings-in-post'),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
@@ -699,7 +700,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-posts', Recipes::ADAPTING_CONTENT_IN_BULK),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-posts', TutorialLessons::ADAPTING_CONTENT_IN_BULK),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/regex-replace-strings-in-posts'),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
@@ -712,7 +713,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/add-missing-links-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/add-missing-links-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -724,7 +725,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-http-with-https-in-image-sources-in-post', Recipes::SEARCH_REPLACE_AND_STORE_AGAIN),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-http-with-https-in-image-sources-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -736,7 +737,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-domain-in-posts', Recipes::SITE_MIGRATIONS),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-domain-in-posts', TutorialLessons::SITE_MIGRATIONS),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -750,7 +751,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                     'attrs' => [
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
                             'admin/transform/replace-post-slug-in-posts',
-                            Recipes::SITE_MIGRATIONS,
+                            TutorialLessons::SITE_MIGRATIONS,
                             [
                                 ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
                             ]
@@ -766,7 +767,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/insert-block-in-posts', Recipes::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/insert-block-in-posts', TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -778,7 +779,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/remove-block-from-posts', Recipes::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/remove-block-from-posts', TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -790,7 +791,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-gutenberg', Recipes::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-gutenberg', TutorialLessons::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -802,7 +803,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-gutenberg', Recipes::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-gutenberg', TutorialLessons::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -814,7 +815,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-site', Recipes::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-site', TutorialLessons::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -826,7 +827,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/export-post-to-wp-site', Recipes::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/export-post-to-wp-site', TutorialLessons::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -838,7 +839,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/posts-by-thumbnail', Recipes::SEARCHING_WORDPRESS_DATA),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/posts-by-thumbnail', TutorialLessons::SEARCHING_WORDPRESS_DATA),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -850,7 +851,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/users-by-locale', Recipes::SEARCHING_WORDPRESS_DATA),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/users-by-locale', TutorialLessons::SEARCHING_WORDPRESS_DATA),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -862,7 +863,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/comments-by-period', Recipes::QUERYING_DYNAMIC_DATA),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/comments-by-period', TutorialLessons::QUERYING_DYNAMIC_DATA),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -874,7 +875,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/images-in-blocks', Recipes::RETRIEVING_STRUCTURED_DATA_FROM_BLOCKS),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/images-in-blocks', TutorialLessons::RETRIEVING_STRUCTURED_DATA_FROM_BLOCKS),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -889,7 +890,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('webhook/register-a-newsletter-subscriber-from-instawp-to-mailchimp', Recipes::AUTOMATICALLY_SENDING_NEWSLETTER_SUBSCRIBERS_FROM_INSTAWP_TO_MAILCHIMP),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('webhook/register-a-newsletter-subscriber-from-instawp-to-mailchimp', TutorialLessons::AUTOMATICALLY_SENDING_NEWSLETTER_SUBSCRIBERS_FROM_INSTAWP_TO_MAILCHIMP),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -1130,7 +1131,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-content-from-url', Recipes::TRANSLATING_CONTENT_FROM_URL),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-content-from-url', TutorialLessons::TRANSLATING_CONTENT_FROM_URL),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/translate-content-from-url'),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
@@ -1143,7 +1144,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed', VirtualRecipes::IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed', VirtualTutorialLessons::IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed'),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
@@ -1157,7 +1158,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-posts-from-csv', VirtualRecipes::IMPORTING_POSTS_FROM_A_CSV),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-posts-from-csv', VirtualTutorialLessons::IMPORTING_POSTS_FROM_A_CSV),
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-posts-from-csv'),
                     ],
                 ]], $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks))),
@@ -1170,7 +1171,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/post-links', VirtualRecipes::FETCH_POST_LINKS),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/post-links', VirtualTutorialLessons::FETCH_POST_LINKS),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -1182,7 +1183,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-classic-editor', VirtualRecipes::TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-classic-editor', VirtualTutorialLessons::TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE),
                     ],
                 ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -1195,7 +1196,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
                     'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                     'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-classic-editor', VirtualRecipes::BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-classic-editor', VirtualTutorialLessons::BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
             ]
@@ -1377,12 +1378,12 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     }
 
     /**
-     * @param string|null $recipeSlug The slug of the recipe's .md file, same as in RecipeDataProvider
-     * @param string[]|null $skipExtensionModules Extensions that must not be added to the Persisted Query (which are associated to the recipe)
+     * @param string|null $tutorialLessonSlug The slug of the tutorial lesson's .md file, same as in TutorialLessonDataProvider
+     * @param string[]|null $skipExtensionModules Extensions that must not be added to the Persisted Query (which are associated to the tutorial lesson)
      */
     protected function readSetupGraphQLPersistedQueryAndEncodeForOutput(
         string $relativeFilePath,
-        ?string $recipeSlug = null,
+        ?string $tutorialLessonSlug = null,
         ?array $skipExtensionModules = null
     ): string {
         $instanceManager = InstanceManagerFacade::getInstance();
@@ -1390,8 +1391,8 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         $graphQLDocumentDataComposer = $instanceManager->getInstance(GraphQLDocumentDataComposer::class);
 
         $graphQLPersistedQuery = $this->readSetupGraphQLPersistedQuery($relativeFilePath);
-        if ($recipeSlug !== null) {
-            $graphQLPersistedQuery = $graphQLDocumentDataComposer->addRequiredBundlesAndExtensionsToGraphQLDocumentHeader($graphQLPersistedQuery, $recipeSlug, $skipExtensionModules);
+        if ($tutorialLessonSlug !== null) {
+            $graphQLPersistedQuery = $graphQLDocumentDataComposer->addRequiredBundlesAndExtensionsToGraphQLDocumentHeader($graphQLPersistedQuery, $tutorialLessonSlug, $skipExtensionModules);
         }
         $graphQLPersistedQuery = $graphQLDocumentDataComposer->encodeGraphQLDocumentForOutput($graphQLPersistedQuery);
         return $graphQLPersistedQuery;
@@ -1798,5 +1799,33 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 return $classes;
             }
         );
+    }
+
+    protected function installPluginSetupDataForVersion1Dot4(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /**
+         * Create custom endpoint
+         */
+        /** @var EndpointSchemaConfigurationBlock */
+        $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
+
+        $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID = $this->getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID();
+        $defaultCustomEndpointBlocks = $this->getDefaultCustomEndpointBlocks();
+        $adminCustomEndpointOptions = $this->getAdminCustomEndpointOptions();
+        \wp_insert_post(array_merge(
+            $adminCustomEndpointOptions,
+            [
+                'post_title' => \__('Nested mutations + Entity as mutation payload type', 'gatographql'),
+                'post_excerpt' => \__('Private client to execute queries that create resources in bulk', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                    'attrs' => [
+                        EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                    ],
+                ]], $defaultCustomEndpointBlocks))),
+            ]
+        ));
     }
 }

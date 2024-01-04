@@ -5,14 +5,14 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - limit: Number of posts to duplicate
 #   - offset: Position of the first post to duplicate
 # 
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/duplicating-multiple-blog-posts-at-once/
+#   - https://gatographql.com/tutorial/duplicating-multiple-blog-posts-at-once/
 #
 ########################################################################
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
+class ComposerStaticInitfa242969e142313758fceef95e808e50
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -848,10 +848,10 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptionValues' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptionValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptions' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptions.php',
-        'GatoGraphQL\\GatoGraphQL\\Constants\\Recipes' => __DIR__ . '/../..' . '/src/Constants/Recipes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\RequestParams' => __DIR__ . '/../..' . '/src/Constants/RequestParams.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
-        'GatoGraphQL\\GatoGraphQL\\Constants\\VirtualRecipes' => __DIR__ . '/../..' . '/src/Constants/VirtualRecipes.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\TutorialLessons' => __DIR__ . '/../..' . '/src/Constants/TutorialLessons.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\VirtualTutorialLessons' => __DIR__ . '/../..' . '/src/Constants/VirtualTutorialLessons.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEditorBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEditorBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEndpointAnnotatorCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEndpointAnnotatorCompilerPass.php',
@@ -920,6 +920,8 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
         'GatoGraphQL\\GatoGraphQL\\Facades\\WPDataModel\\WPDataModelProviderFacade' => __DIR__ . '/../..' . '/src/Facades/WPDataModel/WPDataModelProviderFacade.php',
         'GatoGraphQL\\GatoGraphQL\\GatoGraphQL' => __DIR__ . '/../..' . '/src/GatoGraphQL.php',
         'GatoGraphQL\\GatoGraphQL\\Hooks\\AbstractModuleEnabledHookSet' => __DIR__ . '/../..' . '/src/Hooks/AbstractModuleEnabledHookSet.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Logger' => __DIR__ . '/../..' . '/src/Log/Logger.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\LoggerInterface' => __DIR__ . '/../..' . '/src/Log/LoggerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseProperties' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseStatus' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseStatus.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\HTTPRequestNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/HTTPRequestNotSuccessfulException.php',
@@ -1132,8 +1134,8 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\GraphQLSchemaConfigurationCustomPostType' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/GraphQLSchemaConfigurationCustomPostType.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\CustomPostTypes\\WithBlockRegistryCustomPostTypeTrait' => __DIR__ . '/../..' . '/src/Services/CustomPostTypes/WithBlockRegistryCustomPostTypeTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\DataComposers\\GraphQLDocumentDataComposer' => __DIR__ . '/../..' . '/src/Services/DataComposers/GraphQLDocumentDataComposer.php',
-        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\RecipeDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/RecipeDataProvider.php',
-        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\VirtualRecipeDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/VirtualRecipeDataProvider.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\TutorialLessonDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/TutorialLessonDataProvider.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\DataProviders\\VirtualTutorialLessonDataProvider' => __DIR__ . '/../..' . '/src/Services/DataProviders/VirtualTutorialLessonDataProvider.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\AbstractEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/AbstractEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointComponentEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointComponentEditorScript.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\EditorScripts\\CustomEndpointOverviewEditorScript' => __DIR__ . '/../..' . '/src/Services/EditorScripts/CustomEndpointOverviewEditorScript.php',
@@ -1209,10 +1211,10 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\OpenInModalMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/OpenInModalMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\OpenInModalTriggerMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/OpenInModalTriggerMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\PrettyprintCodePageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/PrettyprintCodePageTrait.php',
-        'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\RecipesMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/RecipesMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\ReleaseNotesAboutMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/ReleaseNotesAboutMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\ResponsiveVideoContainerMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/ResponsiveVideoContainerMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\SettingsMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/SettingsMenuPage.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\TutorialMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/TutorialMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\UseCollapsibleContentMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/UseCollapsibleContentMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\UseDocsMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/UseDocsMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\UseTabpanelMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/UseTabpanelMenuPageTrait.php',
@@ -2055,6 +2057,7 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\InputObjectType\\CustomPostSortInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/InputObjectType/CustomPostSortInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\InputObjectType\\CustomPostsFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/InputObjectType/CustomPostsFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\InputObjectType\\RootCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/InputObjectType/RootCustomPostsFilterInputObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPosts\\TypeResolvers\\InputObjectType\\RootPredefinedCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/InputObjectType/RootPredefinedCustomPostsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\InterfaceType\\CustomPostInterfaceTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/InterfaceType/CustomPostInterfaceTypeResolver.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\ObjectType\\AbstractCustomPostObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/ObjectType/AbstractCustomPostObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\ObjectType\\CustomPostObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/ObjectType/CustomPostObjectTypeResolverInterface.php',
@@ -4470,9 +4473,9 @@ class ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3f6c56dcabfbea9b5cd5465405d0bee8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitfa242969e142313758fceef95e808e50::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitfa242969e142313758fceef95e808e50::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitfa242969e142313758fceef95e808e50::$classMap;
 
         }, null, ClassLoader::class);
     }

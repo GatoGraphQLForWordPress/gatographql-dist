@@ -6,13 +6,13 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - postId: ID of the post to fetch the images from
 #
 # *********************************************************************
 #
 # More info:
-#   - https://gatographql.com/recipes/retrieving-structured-data-from-blocks/
+#   - https://gatographql.com/tutorial/retrieving-structured-data-from-blocks/
 #
 ########################################################################
 

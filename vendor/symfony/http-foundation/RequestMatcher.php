@@ -87,7 +87,7 @@ class RequestMatcher implements RequestMatcherInterface
         $this->host = $regexp;
     }
     /**
-     * Adds a check for the the URL port.
+     * Adds a check for the URL port.
      *
      * @param int|null $port The port number to connect to
      *

@@ -5,8 +5,9 @@
 # It creates a new post with the title, excerpt, content and author
 # (provided via username) of each post.
 #
-# The names of the fields are provided via vars, with default values
-# "Title", "Excerpt", "Content" and "Author" respectively.
+# The names of the columns with those fields are provided via vars,
+# with default values "Title", "Excerpt", "Content" and "Author"
+# respectively.
 #
 ########################################################################
 #
@@ -45,7 +46,7 @@
 #
 # *********************************************************************
 # 
-# URL params:
+# Variables:
 #   - url: URL of the CSV
 #   - titleColumn: Column name (on the CSV header) for the post's title. Default: "Title"
 #   - excerptColumn: Column name (on the CSV header) for the post's excerpt. Default: "Excerpt"
