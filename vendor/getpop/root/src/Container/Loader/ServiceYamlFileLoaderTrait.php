@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container\Loader;
 
 /**
@@ -12,6 +11,7 @@ namespace PoP\Root\Container\Loader;
  *   is produced when the plugin is downgraded to PHP 7.*
  *
  * @see https://github.com/symfony/symfony/blob/6fef5b44b0ed982c6c930da2b435179662f8fd25/src/Symfony/Component/DependencyInjection/Compiler/RegisterAutoconfigureAttributesPass.php#L19-L25
+ * @internal
  */
 trait ServiceYamlFileLoaderTrait
 {
@@ -19,10 +19,10 @@ trait ServiceYamlFileLoaderTrait
      * @return mixed[]
      * @param array<string,mixed> $content
      */
-    protected function customizeYamlFileDefinition(array $content): array
+    protected function customizeYamlFileDefinition(array $content) : array
     {
         if ($content['services']['_defaults']['autoconfigure'] ?? null) {
-            $content['services']['_defaults']['tags'] ??= [];
+            $content['services']['_defaults']['tags'] = $content['services']['_defaults']['tags'] ?? [];
             $content['services']['_defaults']['tags'][] = 'container.ignore_attributes';
         }
         return $content;

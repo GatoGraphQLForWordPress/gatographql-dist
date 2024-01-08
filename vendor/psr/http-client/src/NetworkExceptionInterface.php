@@ -1,15 +1,15 @@
 <?php
 
-namespace Psr\Http\Client;
+namespace PrefixedByPoP\Psr\Http\Client;
 
-use Psr\Http\Message\RequestInterface;
-
+use PrefixedByPoP\Psr\Http\Message\RequestInterface;
 /**
  * Thrown when the request cannot be completed because of network issues.
  *
  * There is no response object as this exception is thrown when no response has been received.
  *
  * Example: the target host name can not be resolved or the connection failed.
+ * @internal
  */
 interface NetworkExceptionInterface extends ClientExceptionInterface
 {
@@ -20,5 +20,5 @@ interface NetworkExceptionInterface extends ClientExceptionInterface
      *
      * @return RequestInterface
      */
-    public function getRequest(): RequestInterface;
+    public function getRequest() : RequestInterface;
 }

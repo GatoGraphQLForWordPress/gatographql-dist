@@ -8,31 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\TypedReference;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\TypedReference;
 /**
  * Emulates the invalid behavior if the reference is not found within the
  * container.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ResolveInvalidReferencesPass implements CompilerPassInterface
 {
-    private ContainerBuilder $container;
-    private RuntimeException $signalingException;
-    private string $currentId;
-
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    private $container;
+    /**
+     * @var \Symfony\Component\DependencyInjection\Exception\RuntimeException
+     */
+    private $signalingException;
+    /**
+     * @var string
+     */
+    private $currentId;
     /**
      * Process the ContainerBuilder to resolve invalid references.
      *
@@ -42,7 +49,6 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
     {
         $this->container = $container;
         $this->signalingException = new RuntimeException('Invalid reference.');
-
         try {
             foreach ($container->getDefinitions() as $this->currentId => $definition) {
                 $this->processValue($definition);
@@ -51,13 +57,14 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
             unset($this->container, $this->signalingException);
         }
     }
-
     /**
      * Processes arguments to determine invalid references.
      *
      * @throws RuntimeException When an invalid reference is found
+     * @param mixed $value
+     * @return mixed
      */
-    private function processValue(mixed $value, int $rootLevel = 0, int $level = 0): mixed
+    private function processValue($value, int $rootLevel = 0, int $level = 0)
     {
         if ($value instanceof ServiceClosureArgument) {
             $value->setValues($this->processValue($value->getValues(), 1, 1));
@@ -72,17 +79,16 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
             $value->setMethodCalls($this->processValue($value->getMethodCalls(), 2));
         } elseif (\is_array($value)) {
             $i = 0;
-
             foreach ($value as $k => $v) {
                 try {
-                    if (false !== $i && $k !== $i++) {
-                        $i = false;
+                    if (\false !== $i && $k !== $i++) {
+                        $i = \false;
                     }
-                    if ($v !== $processedValue = $this->processValue($v, $rootLevel, 1 + $level)) {
+                    if ($v !== ($processedValue = $this->processValue($v, $rootLevel, 1 + $level))) {
                         $value[$k] = $processedValue;
                     }
                 } catch (RuntimeException $e) {
-                    if ($rootLevel < $level || ($rootLevel && !$level)) {
+                    if ($rootLevel < $level || $rootLevel && !$level) {
                         unset($value[$k]);
                     } elseif ($rootLevel) {
                         throw $e;
@@ -91,35 +97,26 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
                     }
                 }
             }
-
             // Ensure numerically indexed arguments have sequential numeric keys.
-            if (false !== $i) {
-                $value = array_values($value);
+            if (\false !== $i) {
+                $value = \array_values($value);
             }
         } elseif ($value instanceof Reference) {
             if ($this->container->hasDefinition($id = (string) $value) ? !$this->container->getDefinition($id)->hasTag('container.excluded') : $this->container->hasAlias($id)) {
                 return $value;
             }
-
             $currentDefinition = $this->container->getDefinition($this->currentId);
-
             // resolve decorated service behavior depending on decorator service
             if ($currentDefinition->innerServiceId === $id && ContainerInterface::NULL_ON_INVALID_REFERENCE === $currentDefinition->decorationOnInvalid) {
                 return null;
             }
-
             $invalidBehavior = $value->getInvalidBehavior();
-
             if (ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior && $value instanceof TypedReference && !$this->container->has($id)) {
                 $e = new ServiceNotFoundException($id, $this->currentId);
-
                 // since the error message varies by $id and $this->currentId, so should the id of the dummy errored definition
-                $this->container->register($id = sprintf('.errored.%s.%s', $this->currentId, $id), $value->getType())
-                    ->addError($e->getMessage());
-
+                $this->container->register($id = \sprintf('.errored.%s.%s', $this->currentId, $id), $value->getType())->addError($e->getMessage());
                 return new TypedReference($id, $value->getType(), $value->getInvalidBehavior());
             }
-
             // resolve invalid behavior
             if (ContainerInterface::NULL_ON_INVALID_REFERENCE === $invalidBehavior) {
                 $value = null;
@@ -130,7 +127,6 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
                 $value = null;
             }
         }
-
         return $value;
     }
 }

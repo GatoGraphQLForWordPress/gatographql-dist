@@ -1,27 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\AbstractPostTagsMutationPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractTransientEntityOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 class PostMutationTransientEntityOperationPayloadObjectTypeFieldResolver extends AbstractTransientEntityOperationPayloadObjectTypeFieldResolver
 {
-    protected function getObjectIDFieldName(): string
+    protected function getObjectIDFieldName() : string
     {
         return 'postID';
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            AbstractPostTagsMutationPayloadObjectTypeResolver::class,
-        ];
+        return [AbstractPostTagsMutationPayloadObjectTypeResolver::class];
     }
 }

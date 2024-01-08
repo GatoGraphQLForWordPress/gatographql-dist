@@ -8,10 +8,8 @@ use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
 
 trait WithOpeningModuleDocInModalListTableTrait
 {
-    protected function getOpeningModuleDocInModalLinkURL(
-        string $page,
-        string $module,
-    ): string {
+    protected function getOpeningModuleDocInModalLinkURL(string $page, string $module): string
+    {
         return \admin_url(sprintf(
             'admin.php?page=%s&%s=%s&%s=%s&TB_iframe=true&width=600&height=550',
             $page,

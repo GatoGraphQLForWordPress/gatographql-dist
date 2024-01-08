@@ -1,24 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentPath;
 
 use PoP\ComponentModel\Component\Component;
-
+/** @internal */
 interface ComponentPathHelpersInterface
 {
-    public function getStringifiedModulePropagationCurrentPath(Component $component): string;
+    public function getStringifiedModulePropagationCurrentPath(Component $component) : string;
     /**
      * @param Component[] $componentPath
      */
-    public function stringifyComponentPath(array $componentPath): string;
+    public function stringifyComponentPath(array $componentPath) : string;
     /**
      * @return array<Component|null>
      */
-    public function recastComponentPath(string $componentPath_as_string): array;
+    public function recastComponentPath(string $componentPath_as_string) : array;
     /**
      * @return array<array<Component|null>>
      */
-    public function getComponentPaths(): array;
+    public function getComponentPaths() : array;
 }

@@ -16,8 +16,14 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
     use OpenInModalTriggerMenuPageTrait;
     use NoDocsFolderPluginMarkdownContentRetrieverTrait;
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?ExtensionsMenuPage $extensionsMenuPage = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionsMenuPage|null
+     */
+    private $extensionsMenuPage;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -87,14 +93,10 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
         $extensionsMenuPage = $this->getExtensionsMenuPage();
         return sprintf(
             '<p>%s</p>',
-            sprintf(
-                __('%s <a href="%s" class="button">Switch to the <strong>Extensions</strong> view</a></span>', 'gatographql'),
-                $extensionsMenuPage->getHeaderMessage(),
-                \admin_url(sprintf(
-                    'admin.php?page=%s',
-                    $extensionsMenuPage->getScreenID()
-                )),
-            )
+            sprintf(__('%s <a href="%s" class="button">Switch to the <strong>Extensions</strong> view</a></span>', 'gatographql'), $extensionsMenuPage->getHeaderMessage(), \admin_url(sprintf(
+                'admin.php?page=%s',
+                $extensionsMenuPage->getScreenID()
+            )))
         );
     }
 
@@ -149,10 +151,8 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
      * @param array<array{0:string,1:string,2:string}> $entry
      * @phpstan-ignore-next-line
      */
-    protected function getEntryTitle(
-        string $entryTitle,
-        array $entry,
-    ): string {
+    protected function getEntryTitle(string $entryTitle, array $entry): string
+    {
         /** @var string */
         $entryModule = $entry[2];
         /** @var ExtensionModuleResolverInterface */

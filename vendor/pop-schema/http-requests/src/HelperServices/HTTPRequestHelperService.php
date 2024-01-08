@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\HTTPRequests\HelperServices;
 
 use PoP\Root\Services\BasicServiceTrait;
-
-class HTTPRequestHelperService implements HTTPRequestHelperServiceInterface
+/** @internal */
+class HTTPRequestHelperService implements \PoPSchema\HTTPRequests\HelperServices\HTTPRequestHelperServiceInterface
 {
     use BasicServiceTrait;
-
     /**
      * Both Guzzle and Symfony HTTP Foundation retrieve the
      * header values as `string[]`, but for the HTTP Request,
@@ -22,7 +20,7 @@ class HTTPRequestHelperService implements HTTPRequestHelperServiceInterface
      * @param array<string,string[]> $headers
      * @return array<string,string>
      */
-    public function convertHeaderArrayValuesToSingleValue(array $headers): array
+    public function convertHeaderArrayValuesToSingleValue(array $headers) : array
     {
         $convertedHeaders = [];
         foreach ($headers as $name => $headerValues) {
@@ -30,7 +28,6 @@ class HTTPRequestHelperService implements HTTPRequestHelperServiceInterface
         }
         return $convertedHeaders;
     }
-
     /**
      * Decide how to convert the array of values for the header
      * into a single value.
@@ -54,8 +51,8 @@ class HTTPRequestHelperService implements HTTPRequestHelperServiceInterface
      *
      * @param string[] $headerValues
      */
-    protected function convertHeaderArrayValueToSingleValue(array $headerValues, string $headerName): string
+    protected function convertHeaderArrayValueToSingleValue(array $headerValues, string $headerName) : string
     {
-        return implode(',', $headerValues);
+        return \implode(',', $headerValues);
     }
 }

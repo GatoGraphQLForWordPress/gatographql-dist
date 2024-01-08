@@ -1,7 +1,8 @@
 <?php
 
-namespace Psr\Http\Message;
+namespace PrefixedByPoP\Psr\Http\Message;
 
+/** @internal */
 interface UriFactoryInterface
 {
     /**
@@ -13,5 +14,5 @@ interface UriFactoryInterface
      *
      * @throws \InvalidArgumentException If the given URI cannot be parsed.
      */
-    public function createUri(string $uri = ''): UriInterface;
+    public function createUri(string $uri = '') : UriInterface;
 }

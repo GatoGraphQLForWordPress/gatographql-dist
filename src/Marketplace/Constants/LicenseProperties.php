@@ -7,32 +7,32 @@ namespace GatoGraphQL\GatoGraphQL\Marketplace\Constants;
 class LicenseProperties
 {
     /** The license key used to activate the extension */
-    public final const LICENSE_KEY = 'licenseKey';
+    public const LICENSE_KEY = 'licenseKey';
 
     /** After executing an operation against the Marketplace Provider's API, store the response */
-    public final const API_RESPONSE_PAYLOAD = 'apiResponsePayload';
+    public const API_RESPONSE_PAYLOAD = 'apiResponsePayload';
 
     /** The status of the license */
-    public final const STATUS = 'status';
+    public const STATUS = 'status';
 
     /** After activating a license, what's its ID in the Marketplace Provider system */
-    public final const INSTANCE_ID = 'instanceID';
+    public const INSTANCE_ID = 'instanceID';
 
     /** The instance where the license is activated */
-    public final const INSTANCE_NAME = 'instanceName';
+    public const INSTANCE_NAME = 'instanceName';
 
     /** The number of instances that have been activated with the license key */
-    public final const ACTIVATION_USAGE = 'activationUsage';
+    public const ACTIVATION_USAGE = 'activationUsage';
 
     /** The number of instances that can be activated with the license key */
-    public final const ACTIVATION_LIMIT = 'activationLimit';
+    public const ACTIVATION_LIMIT = 'activationLimit';
 
     /** The name of the product for the license */
-    public final const PRODUCT_NAME = 'productName';
+    public const PRODUCT_NAME = 'productName';
 
     /** The name of the customer who purchased for the license */
-    public final const CUSTOMER_NAME = 'customerName';
+    public const CUSTOMER_NAME = 'customerName';
 
     /** The email of the customer who purchased for the license */
-    public final const CUSTOMER_EMAIL = 'customerEmail';
+    public const CUSTOMER_EMAIL = 'customerEmail';
 }

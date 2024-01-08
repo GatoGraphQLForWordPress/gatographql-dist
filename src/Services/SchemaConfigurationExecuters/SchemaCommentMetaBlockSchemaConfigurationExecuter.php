@@ -13,7 +13,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaCommentMetaBlockSchemaConfigurationExecuter extends AbstractSchemaMetaBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigSchemaCommentMetaBlock $schemaConfigSchemaCommentMetaBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaCommentMetaBlock|null
+     */
+    private $schemaConfigSchemaCommentMetaBlock;
 
     final public function setSchemaConfigSchemaCommentMetaBlock(SchemaConfigSchemaCommentMetaBlock $schemaConfigSchemaCommentMetaBlock): void
     {

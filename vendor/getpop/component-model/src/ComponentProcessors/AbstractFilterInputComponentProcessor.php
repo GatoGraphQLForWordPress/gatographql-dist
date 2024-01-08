@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
-
-abstract class AbstractFilterInputComponentProcessor extends AbstractFormInputComponentProcessor implements FilterInputComponentProcessorInterface
+/** @internal */
+abstract class AbstractFilterInputComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractFormInputComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FilterInputComponentProcessorInterface
 {
-    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
-
-    final public function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService): void
+    /**
+     * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
+     */
+    private $schemaDefinitionService;
+    public final function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService) : void
     {
         $this->schemaDefinitionService = $schemaDefinitionService;
     }
-    final protected function getSchemaDefinitionService(): SchemaDefinitionServiceInterface
+    protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {
             /** @var SchemaDefinitionServiceInterface */
@@ -26,13 +27,11 @@ abstract class AbstractFilterInputComponentProcessor extends AbstractFormInputCo
         }
         return $this->schemaDefinitionService;
     }
-
-    protected function getFilterInputSchemaDefinitionResolver(Component $component): FilterInputComponentProcessorInterface
+    protected function getFilterInputSchemaDefinitionResolver(Component $component) : \PoP\ComponentModel\ComponentProcessors\FilterInputComponentProcessorInterface
     {
         return $this;
     }
-
-    public function getFilterInputTypeResolver(Component $component): InputTypeResolverInterface
+    public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
         $filterSchemaDefinitionResolver = $this->getFilterInputSchemaDefinitionResolver($component);
         if ($filterSchemaDefinitionResolver !== $this) {
@@ -40,13 +39,11 @@ abstract class AbstractFilterInputComponentProcessor extends AbstractFormInputCo
         }
         return $this->getDefaultSchemaFilterInputTypeResolver();
     }
-
-    protected function getDefaultSchemaFilterInputTypeResolver(): InputTypeResolverInterface
+    protected function getDefaultSchemaFilterInputTypeResolver() : InputTypeResolverInterface
     {
         return $this->getSchemaDefinitionService()->getDefaultInputTypeResolver();
     }
-
-    public function getFilterInputDescription(Component $component): ?string
+    public function getFilterInputDescription(Component $component) : ?string
     {
         $filterSchemaDefinitionResolver = $this->getFilterInputSchemaDefinitionResolver($component);
         if ($filterSchemaDefinitionResolver !== $this) {
@@ -54,8 +51,10 @@ abstract class AbstractFilterInputComponentProcessor extends AbstractFormInputCo
         }
         return null;
     }
-
-    public function getFilterInputDefaultValue(Component $component): mixed
+    /**
+     * @return mixed
+     */
+    public function getFilterInputDefaultValue(Component $component)
     {
         $filterSchemaDefinitionResolver = $this->getFilterInputSchemaDefinitionResolver($component);
         if ($filterSchemaDefinitionResolver !== $this) {
@@ -63,8 +62,7 @@ abstract class AbstractFilterInputComponentProcessor extends AbstractFormInputCo
         }
         return null;
     }
-
-    public function getFilterInputTypeModifiers(Component $component): int
+    public function getFilterInputTypeModifiers(Component $component) : int
     {
         $filterSchemaDefinitionResolver = $this->getFilterInputSchemaDefinitionResolver($component);
         if ($filterSchemaDefinitionResolver !== $this) {

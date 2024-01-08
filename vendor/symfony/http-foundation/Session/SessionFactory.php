@@ -8,32 +8,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
 
-namespace Symfony\Component\HttpFoundation\Session;
-
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestStack;
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface;
 // Help opcache.preload discover always-needed symbols
-class_exists(Session::class);
-
+\class_exists(Session::class);
 /**
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class SessionFactory implements SessionFactoryInterface
 {
-    private RequestStack $requestStack;
-    private SessionStorageFactoryInterface $storageFactory;
-    private ?\Closure $usageReporter;
-
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface
+     */
+    private $storageFactory;
+    /**
+     * @var \Closure|null
+     */
+    private $usageReporter;
     public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, callable $usageReporter = null)
     {
         $this->requestStack = $requestStack;
         $this->storageFactory = $storageFactory;
-        $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
+        $this->usageReporter = null === $usageReporter ? null : \Closure::fromCallable($usageReporter);
     }
-
-    public function createSession(): SessionInterface
+    public function createSession() : SessionInterface
     {
         return new Session($this->storageFactory->createStorage($this->requestStack->getMainRequest()), null, null, $this->usageReporter);
     }

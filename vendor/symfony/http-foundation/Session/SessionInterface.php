@@ -8,15 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
 
-namespace Symfony\Component\HttpFoundation\Session;
-
-use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 /**
  * Interface for the session.
  *
  * @author Drak <drak@zikula.org>
+ * @internal
  */
 interface SessionInterface
 {
@@ -25,32 +24,27 @@ interface SessionInterface
      *
      * @throws \RuntimeException if session fails to start
      */
-    public function start(): bool;
-
+    public function start() : bool;
     /**
      * Returns the session ID.
      */
-    public function getId(): string;
-
+    public function getId() : string;
     /**
      * Sets the session ID.
      *
      * @return void
      */
     public function setId(string $id);
-
     /**
      * Returns the session name.
      */
-    public function getName(): string;
-
+    public function getName() : string;
     /**
      * Sets the session name.
      *
      * @return void
      */
     public function setName(string $name);
-
     /**
      * Invalidates the current session.
      *
@@ -62,8 +56,7 @@ interface SessionInterface
      *                           to expire with browser session. Time is in seconds, and is
      *                           not a Unix timestamp.
      */
-    public function invalidate(int $lifetime = null): bool;
-
+    public function invalidate(int $lifetime = null) : bool;
     /**
      * Migrates the current session to a new session id while maintaining all
      * session attributes.
@@ -74,8 +67,7 @@ interface SessionInterface
      *                           to expire with browser session. Time is in seconds, and is
      *                           not a Unix timestamp.
      */
-    public function migrate(bool $destroy = false, int $lifetime = null): bool;
-
+    public function migrate(bool $destroy = \false, int $lifetime = null) : bool;
     /**
      * Force the session to be saved and closed.
      *
@@ -86,69 +78,61 @@ interface SessionInterface
      * @return void
      */
     public function save();
-
     /**
      * Checks if an attribute is defined.
      */
-    public function has(string $name): bool;
-
+    public function has(string $name) : bool;
     /**
      * Returns an attribute.
+     * @param mixed $default
+     * @return mixed
      */
-    public function get(string $name, mixed $default = null): mixed;
-
+    public function get(string $name, $default = null);
     /**
      * Sets an attribute.
      *
      * @return void
+     * @param mixed $value
      */
-    public function set(string $name, mixed $value);
-
+    public function set(string $name, $value);
     /**
      * Returns attributes.
      */
-    public function all(): array;
-
+    public function all() : array;
     /**
      * Sets attributes.
      *
      * @return void
      */
     public function replace(array $attributes);
-
     /**
      * Removes an attribute.
      *
      * @return mixed The removed value or null when it does not exist
      */
-    public function remove(string $name): mixed;
-
+    public function remove(string $name);
     /**
      * Clears all attributes.
      *
      * @return void
      */
     public function clear();
-
     /**
      * Checks if the session was started.
      */
-    public function isStarted(): bool;
-
+    public function isStarted() : bool;
     /**
      * Registers a SessionBagInterface with the session.
      *
      * @return void
      */
     public function registerBag(SessionBagInterface $bag);
-
     /**
      * Gets a bag instance by name.
      */
-    public function getBag(string $name): SessionBagInterface;
-
+    public function getBag(string $name) : SessionBagInterface;
     /**
      * Gets session meta.
      */
-    public function getMetadataBag(): MetadataBag;
+    public function getMetadataBag() : MetadataBag;
 }

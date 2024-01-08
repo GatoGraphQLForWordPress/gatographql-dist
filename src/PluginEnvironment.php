@@ -8,9 +8,9 @@ use GatoGraphQL\GatoGraphQL\StaticHelpers\PluginEnvironmentHelpers;
 
 class PluginEnvironment
 {
-    public final const DISABLE_CONTAINER_CACHING = 'DISABLE_CONTAINER_CACHING';
-    public final const CACHE_DIR = 'CACHE_DIR';
-    public final const SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR = 'SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR';
+    public const DISABLE_CONTAINER_CACHING = 'DISABLE_CONTAINER_CACHING';
+    public const CACHE_DIR = 'CACHE_DIR';
+    public const SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR = 'SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR';
 
     /**
      * If the information is provided by either environment variable

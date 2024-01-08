@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container;
 
+/** @internal */
 class ContainerBuilderFactory
 {
-    use ContainerBuilderFactoryTrait;
-
-    public function getContainerClassName(): string
+    use \PoP\Root\Container\ContainerBuilderFactoryTrait;
+    public function getContainerClassName() : string
     {
         return 'ApplicationServiceContainer';
     }

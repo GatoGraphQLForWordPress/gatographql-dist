@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -19,22 +18,42 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTy
 use PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver;
-
+/** @internal */
 abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    private ?DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver = null;
-    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
-    private ?CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?CustomPostStatusFilterInput $customPostStatusFilterInput = null;
-    private ?UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput = null;
-    private ?SearchFilterInput $seachFilterInput = null;
-
-    final public function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver|null
+     */
+    private $dateQueryInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
+     */
+    private $filterCustomPostStatusEnumTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
+     */
+    private $customPostEnumStringScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\FilterInputs\CustomPostStatusFilterInput|null
+     */
+    private $customPostStatusFilterInput;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\FilterInputs\UnionCustomPostTypesFilterInput|null
+     */
+    private $unionCustomPostTypesFilterInput;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
+     */
+    private $seachFilterInput;
+    public final function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver) : void
     {
         $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
     }
-    final protected function getDateQueryInputObjectTypeResolver(): DateQueryInputObjectTypeResolver
+    protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
             /** @var DateQueryInputObjectTypeResolver */
@@ -43,11 +62,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->dateQueryInputObjectTypeResolver;
     }
-    final public function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver): void
+    public final function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver) : void
     {
         $this->filterCustomPostStatusEnumTypeResolver = $filterCustomPostStatusEnumTypeResolver;
     }
-    final protected function getFilterCustomPostStatusEnumTypeResolver(): FilterCustomPostStatusEnumTypeResolver
+    protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
     {
         if ($this->filterCustomPostStatusEnumTypeResolver === null) {
             /** @var FilterCustomPostStatusEnumTypeResolver */
@@ -56,11 +75,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->filterCustomPostStatusEnumTypeResolver;
     }
-    final public function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver): void
+    public final function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver) : void
     {
         $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
     }
-    final protected function getCustomPostEnumStringScalarTypeResolver(): CustomPostEnumStringScalarTypeResolver
+    protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {
             /** @var CustomPostEnumStringScalarTypeResolver */
@@ -69,11 +88,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->customPostEnumStringScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -82,11 +101,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setCustomPostStatusFilterInput(CustomPostStatusFilterInput $customPostStatusFilterInput): void
+    public final function setCustomPostStatusFilterInput(CustomPostStatusFilterInput $customPostStatusFilterInput) : void
     {
         $this->customPostStatusFilterInput = $customPostStatusFilterInput;
     }
-    final protected function getCustomPostStatusFilterInput(): CustomPostStatusFilterInput
+    protected final function getCustomPostStatusFilterInput() : CustomPostStatusFilterInput
     {
         if ($this->customPostStatusFilterInput === null) {
             /** @var CustomPostStatusFilterInput */
@@ -95,11 +114,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->customPostStatusFilterInput;
     }
-    final public function setUnionCustomPostTypesFilterInput(UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput): void
+    public final function setUnionCustomPostTypesFilterInput(UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput) : void
     {
         $this->unionCustomPostTypesFilterInput = $unionCustomPostTypesFilterInput;
     }
-    final protected function getUnionCustomPostTypesFilterInput(): UnionCustomPostTypesFilterInput
+    protected final function getUnionCustomPostTypesFilterInput() : UnionCustomPostTypesFilterInput
     {
         if ($this->unionCustomPostTypesFilterInput === null) {
             /** @var UnionCustomPostTypesFilterInput */
@@ -108,11 +127,11 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->unionCustomPostTypesFilterInput;
     }
-    final public function setSearchFilterInput(SearchFilterInput $seachFilterInput): void
+    public final function setSearchFilterInput(SearchFilterInput $seachFilterInput) : void
     {
         $this->seachFilterInput = $seachFilterInput;
     }
-    final protected function getSearchFilterInput(): SearchFilterInput
+    protected final function getSearchFilterInput() : SearchFilterInput
     {
         if ($this->seachFilterInput === null) {
             /** @var SearchFilterInput */
@@ -121,11 +140,10 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->seachFilterInput;
     }
-
     /**
      * @return string[]
      */
-    public function getSensitiveInputFieldNames(): array
+    public function getSensitiveInputFieldNames() : array
     {
         $sensitiveInputFieldNames = parent::getSensitiveInputFieldNames();
         if ($this->treatCustomPostStatusAsSensitiveData()) {
@@ -133,77 +151,73 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $sensitiveInputFieldNames;
     }
-
-    protected function treatCustomPostStatusAsSensitiveData(): bool
+    protected function treatCustomPostStatusAsSensitiveData() : bool
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->treatCustomPostStatusAsSensitiveData();
     }
-
-    protected function addCustomPostInputFields(): bool
+    protected function addCustomPostInputFields() : bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'status' => $this->getFilterCustomPostStatusEnumTypeResolver(),
-                'search' => $this->getStringScalarTypeResolver(),
-                'dateQuery' => $this->getDateQueryInputObjectTypeResolver(),
-            ],
-            $this->addCustomPostInputFields() ? [
-                'customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver(),
-            ] : []
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['status' => $this->getFilterCustomPostStatusEnumTypeResolver(), 'search' => $this->getStringScalarTypeResolver(), 'dateQuery' => $this->getDateQueryInputObjectTypeResolver()], $this->addCustomPostInputFields() ? ['customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()] : []);
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'status' => $this->__('Custom post status', 'customposts'),
-            'search' => $this->__('Search for custom posts containing the given string', 'customposts'),
-            'dateQuery' => $this->__('Filter custom posts based on date', 'customposts'),
-            'customPostTypes' => $this->__('Filter custom posts of given types', 'customposts'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'status':
+                return $this->__('Custom post status', 'customposts');
+            case 'search':
+                return $this->__('Search for custom posts containing the given string', 'customposts');
+            case 'dateQuery':
+                return $this->__('Filter custom posts based on date', 'customposts');
+            case 'customPostTypes':
+                return $this->__('Filter custom posts of given types', 'customposts');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'status' => [
-                CustomPostStatus::PUBLISH,
-            ],
-            'customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues(),
-            default => parent::getInputFieldDefaultValue($inputFieldName)
-        };
+        switch ($inputFieldName) {
+            case 'status':
+                return [CustomPostStatus::PUBLISH];
+            case 'customPostTypes':
+                return $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues();
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
-
-    public function getInputFieldTypeModifiers(string $inputFieldName): int
+    public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        return match ($inputFieldName) {
-            'status',
-            'customPostTypes'
-                => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default
-                => parent::getInputFieldTypeModifiers($inputFieldName)
-        };
+        switch ($inputFieldName) {
+            case 'status':
+            case 'customPostTypes':
+                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return parent::getInputFieldTypeModifiers($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            'status' => $this->getCustomPostStatusFilterInput(),
-            'search' => $this->getSearchFilterInput(),
-            'customPostTypes' => $this->getUnionCustomPostTypesFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'status':
+                return $this->getCustomPostStatusFilterInput();
+            case 'search':
+                return $this->getSearchFilterInput();
+            case 'customPostTypes':
+                return $this->getUnionCustomPostTypesFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

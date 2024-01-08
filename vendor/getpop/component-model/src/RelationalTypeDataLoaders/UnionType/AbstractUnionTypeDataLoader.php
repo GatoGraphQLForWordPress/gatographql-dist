@@ -1,23 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\RelationalTypeDataLoaders\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\AbstractRelationalTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 abstract class AbstractUnionTypeDataLoader extends AbstractRelationalTypeDataLoader
 {
-    abstract protected function getUnionTypeResolver(): UnionTypeResolverInterface;
-
+    protected abstract function getUnionTypeResolver() : UnionTypeResolverInterface;
     /**
      * Iterate through all unionTypes and delegate to each resolving the IDs each of them can resolve
      *
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
         $unionTypeResolver = $this->getUnionTypeResolver();
         $objectIDTargetTypeResolvers = $unionTypeResolver->getObjectIDTargetTypeResolvers($ids);
@@ -29,10 +27,7 @@ abstract class AbstractUnionTypeDataLoader extends AbstractRelationalTypeDataLoa
                 continue;
             }
             $targetObjectTypeName = $targetObjectTypeResolver->getNamespacedTypeName();
-            $objectTypeResolverNameDataItems[$targetObjectTypeName] ??= [
-                'targetObjectTypeResolver' => $targetObjectTypeResolver,
-                'objectIDs' => [],
-            ];
+            $objectTypeResolverNameDataItems[$targetObjectTypeName] = $objectTypeResolverNameDataItems[$targetObjectTypeName] ?? ['targetObjectTypeResolver' => $targetObjectTypeResolver, 'objectIDs' => []];
             $objectTypeResolverNameDataItems[$targetObjectTypeName]['objectIDs'][] = $objectID;
         }
         // Load all objects by each corresponding typeResolver
@@ -41,10 +36,7 @@ abstract class AbstractUnionTypeDataLoader extends AbstractRelationalTypeDataLoa
             $targetObjectTypeResolver = $objectTypeResolverDataItems['targetObjectTypeResolver'];
             $objectIDs = $objectTypeResolverDataItems['objectIDs'];
             $targetTypeDataLoader = $targetObjectTypeResolver->getRelationalTypeDataLoader();
-            $objects = array_merge(
-                $objects,
-                $targetTypeDataLoader->getObjects($objectIDs)
-            );
+            $objects = \array_merge($objects, $targetTypeDataLoader->getObjects($objectIDs));
         }
         return $objects;
     }

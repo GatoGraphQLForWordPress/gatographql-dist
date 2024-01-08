@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Config\Loader;
 
-namespace Symfony\Component\Config\Loader;
-
-use Symfony\Component\Config\Exception\LoaderLoadException;
-
+use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
 /**
  * DelegatingLoader delegates loading to other loaders using a loader resolver.
  *
@@ -20,6 +18,7 @@ use Symfony\Component\Config\Exception\LoaderLoadException;
  * a chance to load a given resource (handled by the resolver)
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class DelegatingLoader extends Loader
 {
@@ -27,18 +26,22 @@ class DelegatingLoader extends Loader
     {
         $this->resolver = $resolver;
     }
-
-    public function load(mixed $resource, string $type = null): mixed
+    /**
+     * @param mixed $resource
+     * @return mixed
+     */
+    public function load($resource, string $type = null)
     {
-        if (false === $loader = $this->resolver->resolve($resource, $type)) {
+        if (\false === ($loader = $this->resolver->resolve($resource, $type))) {
             throw new LoaderLoadException($resource, null, 0, null, $type);
         }
-
         return $loader->load($resource, $type);
     }
-
-    public function supports(mixed $resource, string $type = null): bool
+    /**
+     * @param mixed $resource
+     */
+    public function supports($resource, string $type = null) : bool
     {
-        return false !== $this->resolver->resolve($resource, $type);
+        return \false !== $this->resolver->resolve($resource, $type);
     }
 }

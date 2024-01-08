@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
+/** @internal */
 class PasswordIsIncorrectErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    private ?PasswordIsIncorrectErrorPayloadObjectTypeDataLoader $passwordIsIncorrectErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setPasswordIsIncorrectErrorPayloadObjectTypeDataLoader(PasswordIsIncorrectErrorPayloadObjectTypeDataLoader $passwordIsIncorrectErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeDataLoader|null
+     */
+    private $passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
+    public final function setPasswordIsIncorrectErrorPayloadObjectTypeDataLoader(PasswordIsIncorrectErrorPayloadObjectTypeDataLoader $passwordIsIncorrectErrorPayloadObjectTypeDataLoader) : void
     {
         $this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader = $passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getPasswordIsIncorrectErrorPayloadObjectTypeDataLoader(): PasswordIsIncorrectErrorPayloadObjectTypeDataLoader
+    protected final function getPasswordIsIncorrectErrorPayloadObjectTypeDataLoader() : PasswordIsIncorrectErrorPayloadObjectTypeDataLoader
     {
         if ($this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader === null) {
             /** @var PasswordIsIncorrectErrorPayloadObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class PasswordIsIncorrectErrorPayloadObjectTypeResolver extends AbstractErrorPay
         }
         return $this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'PasswordIsIncorrectErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Error payload for: "The password is incorrect"', 'user-state-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getPasswordIsIncorrectErrorPayloadObjectTypeDataLoader();
     }

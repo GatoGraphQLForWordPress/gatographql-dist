@@ -12,7 +12,10 @@ use GatoGraphQL\GatoGraphQL\PluginManagement\PluginOptionsFormHandler;
 
 class BehaviorHelpers
 {
-    private static ?bool $areRestrictiveDefaultsEnabled = null;
+    /**
+     * @var bool|null
+     */
+    private static $areRestrictiveDefaultsEnabled;
 
     public static function areRestrictiveDefaultsEnabled(): bool
     {

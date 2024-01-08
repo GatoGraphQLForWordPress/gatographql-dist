@@ -11,8 +11,14 @@ use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SchemaConfiguratorInter
 
 class CustomEndpointSchemaConfiguratorExecuter extends AbstractLoadingCPTSchemaConfiguratorExecuter
 {
-    private ?CustomEndpointSchemaConfigurator $customEndpointSchemaConfigurator = null;
-    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\CustomEndpointSchemaConfigurator|null
+     */
+    private $customEndpointSchemaConfigurator;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
+     */
+    private $graphQLCustomEndpointCustomPostType;
 
     final public function setCustomEndpointSchemaConfigurator(CustomEndpointSchemaConfigurator $customEndpointSchemaConfigurator): void
     {

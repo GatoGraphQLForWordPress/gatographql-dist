@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Module;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Initialize module
+ * @internal
  */
 interface ModuleInterface
 {
@@ -18,132 +17,106 @@ interface ModuleInterface
      * @param boolean $skipSchema Indicate if to skip initializing the schema
      * @param array<class-string<\PoP\Root\Module\ModuleInterface>> $skipSchemaModuleClasses
      */
-    public function initialize(
-        array $configuration,
-        bool $skipSchema,
-        array $skipSchemaModuleClasses,
-    ): void;
-
+    public function initialize(array $configuration, bool $skipSchema, array $skipSchemaModuleClasses) : void;
     /**
      * Calculate if the module must be enabled or not.
      *
      * @param boolean $ignoreDependencyOnSatisfiedModules Indicate if to check if the satisfied module is resolved or not. Needed to avoid circular references to enable both satisfying and satisfied modules.
      */
-    public function calculateIsEnabled(bool $ignoreDependencyOnSatisfiedModules): bool;
-
+    public function calculateIsEnabled(bool $ignoreDependencyOnSatisfiedModules) : bool;
     /**
      * Indicate what other module satisfies the contracts by this module.
      */
-    public function setSatisfyingModule(ModuleInterface $module): void;
-
+    public function setSatisfyingModule(\PoP\Root\Module\ModuleInterface $module) : void;
     /**
      * @return string[]
      * @phpstan-return array<class-string<ModuleInterface>>
      */
-    public function getSatisfiedModuleClasses(): array;
-
+    public function getSatisfiedModuleClasses() : array;
     /**
      * All module classes that this module depends upon, to initialize them
      *
      * @return string[]
      * @phpstan-return array<class-string<ModuleInterface>>
      */
-    public function getDependedModuleClasses(): array;
-
+    public function getDependedModuleClasses() : array;
     /**
      * All DEV module classes that this module depends upon, to initialize them
      *
      * @return string[]
      * @phpstan-return array<class-string<ModuleInterface>>
      */
-    public function getDevDependedModuleClasses(): array;
-
+    public function getDevDependedModuleClasses() : array;
     /**
      * All DEV PHPUnit module classes that this module depends upon, to initialize them
      *
      * @return string[]
      * @phpstan-return array<class-string<ModuleInterface>>
      */
-    public function getDevPHPUnitDependedModuleClasses(): array;
-
+    public function getDevPHPUnitDependedModuleClasses() : array;
     /**
      * All conditional module classes that this module depends upon, to initialize them
      *
      * @return string[]
      * @phpstan-return array<class-string<ModuleInterface>>
      */
-    public function getDependedConditionalModuleClasses(): array;
-
+    public function getDependedConditionalModuleClasses() : array;
     /**
      * Function called by the Bootloader before booting the system
      */
-    public function configure(): void;
-
+    public function configure() : void;
     /**
      * Function called by the Bootloader when booting the system
      */
-    public function bootSystem(): void;
-
+    public function bootSystem() : void;
     /**
      * Function called by the Bootloader after all modules have been loaded
      */
-    public function moduleLoaded(): void;
-
+    public function moduleLoaded() : void;
     /**
      * Function called by the Bootloader when booting the system
      */
-    public function preBoot(): void;
-
+    public function preBoot() : void;
     /**
      * Function called by the Bootloader when booting the system
      */
-    public function boot(): void;
-
+    public function boot() : void;
     /**
      * Function called by the Bootloader when booting the system
      */
-    public function afterBoot(): void;
-
+    public function afterBoot() : void;
     /**
      * Initialize services for the system container
      */
-    public function initializeSystem(): void;
-
+    public function initializeSystem() : void;
     /**
      * Compiler Passes for the System Container
      *
      * @return array<class-string<CompilerPassInterface>>
      */
-    public function getSystemContainerCompilerPassClasses(): array;
-
-     /**
+    public function getSystemContainerCompilerPassClasses() : array;
+    /**
      * Enable each module to set default configuration for
      * itself and its depended modules
      *
      * @param array<string,mixed> $moduleClassConfiguration
      * @phpstan-param array<class-string<ModuleInterface>,mixed> $moduleClassConfiguration
      */
-    public function customizeModuleClassConfiguration(
-        array &$moduleClassConfiguration
-    ): void;
-
+    public function customizeModuleClassConfiguration(array &$moduleClassConfiguration) : void;
     /**
      * Indicates if the Module is enabled
      */
-    public function isEnabled(): bool;
-
+    public function isEnabled() : bool;
     /**
      * Indicates if the Module must skipSchema
      */
-    public function skipSchema(): bool;
-
+    public function skipSchema() : bool;
     /**
      * ModuleConfiguration for the Module
      */
-    public function getConfiguration(): ?ModuleConfigurationInterface;
-
+    public function getConfiguration() : ?\PoP\Root\Module\ModuleConfigurationInterface;
     /**
      * ModuleInfo for the Module
      */
-    public function getInfo(): ?ModuleInfoInterface;
+    public function getInfo() : ?\PoP\Root\Module\ModuleInfoInterface;
 }

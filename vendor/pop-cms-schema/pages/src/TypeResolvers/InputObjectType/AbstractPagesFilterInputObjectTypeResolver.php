@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Pages\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -11,18 +10,26 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFi
 use PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDsFilterInput;
-
-abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements PagesFilterInputObjectTypeResolverInterface
+/** @internal */
+abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements \PoPCMSSchema\Pages\TypeResolvers\InputObjectType\PagesFilterInputObjectTypeResolverInterface
 {
-    private ?ParentIDFilterInput $parentIDFilterInput = null;
-    private ?ParentIDsFilterInput $parentIDsFilterInput = null;
-    private ?ExcludeParentIDsFilterInput $excludeParentIDsFilterInput = null;
-
-    final public function setParentIDFilterInput(ParentIDFilterInput $parentIDFilterInput): void
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput|null
+     */
+    private $parentIDFilterInput;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDsFilterInput|null
+     */
+    private $parentIDsFilterInput;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput|null
+     */
+    private $excludeParentIDsFilterInput;
+    public final function setParentIDFilterInput(ParentIDFilterInput $parentIDFilterInput) : void
     {
         $this->parentIDFilterInput = $parentIDFilterInput;
     }
-    final protected function getParentIDFilterInput(): ParentIDFilterInput
+    protected final function getParentIDFilterInput() : ParentIDFilterInput
     {
         if ($this->parentIDFilterInput === null) {
             /** @var ParentIDFilterInput */
@@ -31,11 +38,11 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
         }
         return $this->parentIDFilterInput;
     }
-    final public function setParentIDsFilterInput(ParentIDsFilterInput $parentIDsFilterInput): void
+    public final function setParentIDsFilterInput(ParentIDsFilterInput $parentIDsFilterInput) : void
     {
         $this->parentIDsFilterInput = $parentIDsFilterInput;
     }
-    final protected function getParentIDsFilterInput(): ParentIDsFilterInput
+    protected final function getParentIDsFilterInput() : ParentIDsFilterInput
     {
         if ($this->parentIDsFilterInput === null) {
             /** @var ParentIDsFilterInput */
@@ -44,11 +51,11 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
         }
         return $this->parentIDsFilterInput;
     }
-    final public function setExcludeParentIDsFilterInput(ExcludeParentIDsFilterInput $excludeParentIDsFilterInput): void
+    public final function setExcludeParentIDsFilterInput(ExcludeParentIDsFilterInput $excludeParentIDsFilterInput) : void
     {
         $this->excludeParentIDsFilterInput = $excludeParentIDsFilterInput;
     }
-    final protected function getExcludeParentIDsFilterInput(): ExcludeParentIDsFilterInput
+    protected final function getExcludeParentIDsFilterInput() : ExcludeParentIDsFilterInput
     {
         if ($this->excludeParentIDsFilterInput === null) {
             /** @var ExcludeParentIDsFilterInput */
@@ -57,52 +64,48 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
         }
         return $this->excludeParentIDsFilterInput;
     }
-
-    abstract protected function addParentInputFields(): bool;
-
+    protected abstract function addParentInputFields() : bool;
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            $this->addParentInputFields() ? [
-                'parentID' => $this->getIDScalarTypeResolver(),
-                'parentIDs' => $this->getIDScalarTypeResolver(),
-                'excludeParentIDs' => $this->getIDScalarTypeResolver(),
-            ] : [],
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), $this->addParentInputFields() ? ['parentID' => $this->getIDScalarTypeResolver(), 'parentIDs' => $this->getIDScalarTypeResolver(), 'excludeParentIDs' => $this->getIDScalarTypeResolver()] : []);
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'parentID' => $this->__('Filter pages with the given parent IDs. \'0\' means \'no parent\'', 'pages'),
-            'parentIDs' => $this->__('Filter pages with the given parent ID. \'0\' means \'no parent\'', 'pages'),
-            'excludeParentIDs' => $this->__('Exclude pages with the given parent IDs', 'pages'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'parentID':
+                return $this->__('Filter pages with the given parent IDs. \'0\' means \'no parent\'', 'pages');
+            case 'parentIDs':
+                return $this->__('Filter pages with the given parent ID. \'0\' means \'no parent\'', 'pages');
+            case 'excludeParentIDs':
+                return $this->__('Exclude pages with the given parent IDs', 'pages');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldTypeModifiers(string $inputFieldName): int
+    public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        return match ($inputFieldName) {
-            'parentIDs',
-            'excludeParentIDs'
-                => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default
-                => parent::getInputFieldTypeModifiers($inputFieldName)
-        };
+        switch ($inputFieldName) {
+            case 'parentIDs':
+            case 'excludeParentIDs':
+                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return parent::getInputFieldTypeModifiers($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            'parentID' => $this->getParentIDFilterInput(),
-            'parentIDs' => $this->getParentIDsFilterInput(),
-            'excludeParentIDs' => $this->getExcludeParentIDsFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'parentID':
+                return $this->getParentIDFilterInput();
+            case 'parentIDs':
+                return $this->getParentIDsFilterInput();
+            case 'excludeParentIDs':
+                return $this->getExcludeParentIDsFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

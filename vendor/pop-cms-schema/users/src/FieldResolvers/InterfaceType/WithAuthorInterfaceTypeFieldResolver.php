@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
@@ -10,16 +9,18 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoPCMSSchema\Users\TypeResolvers\InterfaceType\WithAuthorInterfaceTypeResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
-
+/** @internal */
 class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
-
-    final public function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
+     */
+    private $userObjectTypeResolver;
+    public final function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver) : void
     {
         $this->userObjectTypeResolver = $userObjectTypeResolver;
     }
-    final protected function getUserObjectTypeResolver(): UserObjectTypeResolver
+    protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
             /** @var UserObjectTypeResolver */
@@ -28,28 +29,21 @@ class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldRes
         }
         return $this->userObjectTypeResolver;
     }
-
     /**
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo(): array
+    public function getInterfaceTypeResolverClassesToAttachTo() : array
     {
-        return [
-            WithAuthorInterfaceTypeResolver::class,
-        ];
+        return [WithAuthorInterfaceTypeResolver::class];
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement(): array
+    public function getFieldNamesToImplement() : array
     {
-        return [
-            'author',
-        ];
+        return ['author'];
     }
-
-    public function getFieldTypeModifiers(string $fieldName): int
+    public function getFieldTypeModifiers(string $fieldName) : int
     {
         switch ($fieldName) {
             case 'author':
@@ -57,22 +51,21 @@ class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldRes
         }
         return parent::getFieldTypeModifiers($fieldName);
     }
-
-    public function getFieldDescription(string $fieldName): ?string
+    public function getFieldDescription(string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'author' => $this->__('The entity\'s author', 'queriedobject'),
-            default => parent::getFieldDescription($fieldName),
-        };
+        switch ($fieldName) {
+            case 'author':
+                return $this->__('The entity\'s author', 'queriedobject');
+            default:
+                return parent::getFieldDescription($fieldName);
+        }
     }
-
-    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
         switch ($fieldName) {
             case 'author':
                 return $this->getUserObjectTypeResolver();
         }
-
         return parent::getFieldTypeResolver($fieldName);
     }
 }

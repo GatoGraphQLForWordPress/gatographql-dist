@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\TypeResolvers\ObjectType;
 
 use PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\GenericErrorPayloadObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
-class GenericErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
+/** @internal */
+class GenericErrorPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver
 {
-    private ?GenericErrorPayloadObjectTypeDataLoader $genericErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setGenericErrorPayloadObjectTypeDataLoader(GenericErrorPayloadObjectTypeDataLoader $genericErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\GenericErrorPayloadObjectTypeDataLoader|null
+     */
+    private $genericErrorPayloadObjectTypeDataLoader;
+    public final function setGenericErrorPayloadObjectTypeDataLoader(GenericErrorPayloadObjectTypeDataLoader $genericErrorPayloadObjectTypeDataLoader) : void
     {
         $this->genericErrorPayloadObjectTypeDataLoader = $genericErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getGenericErrorPayloadObjectTypeDataLoader(): GenericErrorPayloadObjectTypeDataLoader
+    protected final function getGenericErrorPayloadObjectTypeDataLoader() : GenericErrorPayloadObjectTypeDataLoader
     {
         if ($this->genericErrorPayloadObjectTypeDataLoader === null) {
             /** @var GenericErrorPayloadObjectTypeDataLoader */
@@ -24,18 +25,15 @@ class GenericErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTy
         }
         return $this->genericErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'GenericErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Generic error payload', 'schema-commons');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getGenericErrorPayloadObjectTypeDataLoader();
     }

@@ -1,38 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Media\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Media\Constants\MediaItemOrderBy;
-
+/** @internal */
 class MediaItemOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'MediaItemOrderByEnum';
     }
-
     /**
      * @return string[]
      */
-    public function getEnumValues(): array
+    public function getEnumValues() : array
     {
-        return [
-            MediaItemOrderBy::ID,
-            MediaItemOrderBy::TITLE,
-            MediaItemOrderBy::DATE,
-        ];
+        return [MediaItemOrderBy::ID, MediaItemOrderBy::TITLE, MediaItemOrderBy::DATE];
     }
-
-    public function getEnumValueDescription(string $enumValue): ?string
+    public function getEnumValueDescription(string $enumValue) : ?string
     {
-        return match ($enumValue) {
-            MediaItemOrderBy::ID => $this->__('Order by ID', 'media'),
-            MediaItemOrderBy::TITLE => $this->__('Order by title', 'media'),
-            MediaItemOrderBy::DATE => $this->__('Order by date', 'media'),
-            default => parent::getEnumValueDescription($enumValue),
-        };
+        switch ($enumValue) {
+            case MediaItemOrderBy::ID:
+                return $this->__('Order by ID', 'media');
+            case MediaItemOrderBy::TITLE:
+                return $this->__('Order by title', 'media');
+            case MediaItemOrderBy::DATE:
+                return $this->__('Order by date', 'media');
+            default:
+                return parent::getEnumValueDescription($enumValue);
+        }
     }
 }

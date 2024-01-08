@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Config;
 
-namespace Symfony\Component\Config;
-
-use Symfony\Component\Config\Resource\ResourceInterface;
-
+use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
 /**
  * Interface for ResourceCheckers.
  *
@@ -23,6 +21,7 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  *
  * @author Matthias Pigulla <mp@webfactory.de>
  * @author Benjamin Klotz <bk@webfactory.de>
+ * @internal
  */
 interface ResourceCheckerInterface
 {
@@ -33,7 +32,6 @@ interface ResourceCheckerInterface
      * @return bool
      */
     public function supports(ResourceInterface $metadata);
-
     /**
      * Validates the resource.
      *

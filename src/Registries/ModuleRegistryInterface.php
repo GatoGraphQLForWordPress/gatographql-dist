@@ -13,13 +13,7 @@ interface ModuleRegistryInterface
     /**
      * @return string[]
      */
-    public function getAllModules(
-        bool $onlyEnabled = false,
-        bool $onlyHasSettings = false,
-        bool $onlyVisible = false,
-        bool $onlyWithVisibleSettings = false,
-        ?string $settingsCategory = null,
-    ): array;
+    public function getAllModules(bool $onlyEnabled = false, bool $onlyHasSettings = false, bool $onlyVisible = false, bool $onlyWithVisibleSettings = false, ?string $settingsCategory = null): array;
     /**
      * @throws ModuleNotExistsException If module does not exist
      */

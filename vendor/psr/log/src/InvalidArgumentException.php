@@ -1,7 +1,8 @@
 <?php
 
-namespace Psr\Log;
+namespace PrefixedByPoP\Psr\Log;
 
+/** @internal */
 class InvalidArgumentException extends \InvalidArgumentException
 {
 }

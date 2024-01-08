@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Engine\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoP\Engine\ObjectModels\Root;
-
+/** @internal */
 class RootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    private ?Root $root = null;
-
-    final public function setRoot(Root $root): void
+    /**
+     * @var \PoP\Engine\ObjectModels\Root|null
+     */
+    private $root;
+    public final function setRoot(Root $root) : void
     {
         $this->root = $root;
     }
-    final protected function getRoot(): Root
+    protected final function getRoot() : Root
     {
         if ($this->root === null) {
             /** @var Root */
@@ -24,15 +25,12 @@ class RootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->root;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
-        return [
-            $this->getRoot(),
-        ];
+        return [$this->getRoot()];
     }
 }

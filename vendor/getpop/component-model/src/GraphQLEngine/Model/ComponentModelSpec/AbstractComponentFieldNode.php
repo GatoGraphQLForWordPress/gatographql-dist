@@ -1,36 +1,36 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
-abstract class AbstractComponentFieldNode implements ComponentFieldNodeInterface
+/** @internal */
+abstract class AbstractComponentFieldNode implements \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\ComponentFieldNodeInterface
 {
-    public function __construct(
-        protected FieldInterface $field,
-    ) {
+    /**
+     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
+     */
+    protected $field;
+    public function __construct(FieldInterface $field)
+    {
+        $this->field = $field;
     }
-
     /**
      * Allow doing `array_unique` based on the underlying Field
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->field->getUniqueID();
     }
-
-    public function getField(): FieldInterface
+    public function getField() : FieldInterface
     {
         return $this->field;
     }
-
     /**
      * A Field that appears earlier in the GraphQL query
      * must be resolved first.
      */
-    public function sortAgainst(ComponentFieldNodeInterface $againstComponentFieldNode): int
+    public function sortAgainst(\PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\ComponentFieldNodeInterface $againstComponentFieldNode) : int
     {
         $location = $this->getField()->getLocation();
         $againstLocation = $againstComponentFieldNode->getField()->getLocation();

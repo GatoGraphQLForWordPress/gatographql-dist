@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\TypeResolvers\ScalarType;
 
 use DateTime;
@@ -13,35 +12,30 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPSchema\SchemaCommons\FeedbackItemProviders\InputValueCoercionErrorFeedbackItemProvider;
 use stdClass;
-
 /**
  * GraphQL Custom Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Custom-Scalars
+ * @internal
  */
 abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeResolver
 {
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
-        return sprintf(
-            $this->__('%s scalar. It follows the ISO 8601 specification, with format "%s")', 'schema-commons'),
-            $this->getTypeName(),
-            $this->getDateTimeFormat()
-        );
+        return \sprintf($this->__('%s scalar. It follows the ISO 8601 specification, with format "%s")', 'schema-commons'), $this->getTypeName(), $this->getDateTimeFormat());
     }
-
-    public function coerceValue(
-        string|int|float|bool|stdClass $inputValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): string|int|float|bool|object|null {
+    /**
+     * @param string|int|float|bool|\stdClass $inputValue
+     * @return string|int|float|bool|object|null
+     */
+    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         /** @var string $inputValue */
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return null;
         }
-
         /**
          * Validate the input has any of the supported formats
          *
@@ -49,34 +43,19 @@ abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeReso
          */
         foreach ($this->getDateTimeInputFormats() as $format) {
             $dt = DateTime::createFromFormat($format, $inputValue);
-            if ($dt === false) {
+            if ($dt === \false) {
                 continue;
             }
             $lastErrors = $dt::getLastErrors();
-            if ($lastErrors !== false && array_sum($lastErrors)) {
+            if ($lastErrors !== \false && \array_sum($lastErrors)) {
                 continue;
             }
             return $dt;
         }
-
-        $objectTypeFieldResolutionFeedbackStore->addError(
-            new ObjectTypeFieldResolutionFeedback(
-                new FeedbackItemResolution(
-                    InputValueCoercionErrorFeedbackItemProvider::class,
-                    InputValueCoercionErrorFeedbackItemProvider::E1,
-                    [
-                        $this->getMaybeNamespacedTypeName(),
-                        $this->getDateTimeFormat(),
-                    ]
-                ),
-                $astNode,
-            ),
-        );
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionErrorFeedbackItemProvider::class, InputValueCoercionErrorFeedbackItemProvider::E1, [$this->getMaybeNamespacedTypeName(), $this->getDateTimeFormat()]), $astNode));
         return null;
     }
-
-    abstract protected function getDateTimeFormat(): string;
-
+    protected abstract function getDateTimeFormat() : string;
     /**
      * Allow to define more than one input format, so that
      * Date can be represented as either:
@@ -90,20 +69,18 @@ abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeReso
      *
      * @return string[]
      */
-    protected function getDateTimeInputFormats(): array
+    protected function getDateTimeInputFormats() : array
     {
-        return [
-            $this->getDateTimeFormat(),
-        ];
+        return [$this->getDateTimeFormat()];
     }
-
     /**
      * Because DateTimeObjectSerializer also uses the same format 'Y-m-d\TH:i:sP',
      * override this function to provide the specific format for each case
      *
      * @return string|int|float|bool|mixed[]|stdClass
+     * @param string|int|float|bool|object $scalarValue
      */
-    public function serialize(string|int|float|bool|object $scalarValue): string|int|float|bool|array|stdClass
+    public function serialize($scalarValue)
     {
         /** @var DateTimeInterface $scalarValue */
         return $scalarValue->format($this->getDateTimeFormat());

@@ -10,7 +10,10 @@ use function mysql2date;
 
 class DateFormatter implements DateFormatterInterface
 {
-    public function format(string $format, string $date): string|int|false
+    /**
+     * @return string|int|false
+     */
+    public function format(string $format, string $date)
     {
         return mysql2date($format, $date);
     }

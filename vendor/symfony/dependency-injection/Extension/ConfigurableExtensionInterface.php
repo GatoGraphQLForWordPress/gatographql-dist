@@ -8,25 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Extension;
 
-namespace Symfony\Component\DependencyInjection\Extension;
-
-use Symfony\Component\Config\Definition\ConfigurableInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
+use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurableInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * @internal
  */
 interface ConfigurableExtensionInterface extends ConfigurableInterface
 {
     /**
      * Allows an extension to prepend the extension configurations.
      */
-    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void;
-
+    public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder) : void;
     /**
      * Loads a specific configuration.
      */
-    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void;
+    public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder) : void;
 }

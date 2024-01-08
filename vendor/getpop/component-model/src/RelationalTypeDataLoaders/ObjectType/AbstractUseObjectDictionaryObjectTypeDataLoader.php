@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    private ?ObjectDictionaryInterface $objectDictionary = null;
-
-    final public function setObjectDictionary(ObjectDictionaryInterface $objectDictionary): void
+    /**
+     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
+     */
+    private $objectDictionary;
+    public final function setObjectDictionary(ObjectDictionaryInterface $objectDictionary) : void
     {
         $this->objectDictionary = $objectDictionary;
     }
-    final protected function getObjectDictionary(): ObjectDictionaryInterface
+    protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
             /** @var ObjectDictionaryInterface */
@@ -25,15 +26,14 @@ abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractO
         }
         return $this->objectDictionary;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
         $objectDictionary = $this->getObjectDictionary();
-        $objectTypeResolverClass = get_class($this->getObjectTypeResolver());
+        $objectTypeResolverClass = \get_class($this->getObjectTypeResolver());
         $objects = [];
         foreach ($ids as $id) {
             if (!$objectDictionary->has($objectTypeResolverClass, $id)) {
@@ -43,7 +43,10 @@ abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractO
         }
         return $objects;
     }
-
-    abstract protected function getObjectTypeResolver(): ObjectTypeResolverInterface;
-    abstract protected function getObjectTypeNewInstance(int|string $id): mixed;
+    protected abstract function getObjectTypeResolver() : ObjectTypeResolverInterface;
+    /**
+     * @param int|string $id
+     * @return mixed
+     */
+    protected abstract function getObjectTypeNewInstance($id);
 }

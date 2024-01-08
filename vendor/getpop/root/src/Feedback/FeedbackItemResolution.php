@@ -1,69 +1,72 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Feedback;
 
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
 use PoP\Root\Services\StandaloneServiceTrait;
-
+/** @internal */
 class FeedbackItemResolution
 {
+    /**
+     * @var string
+     */
+    protected $feedbackProviderServiceClass;
+    /**
+     * @var string
+     */
+    protected $code;
+    /**
+     * @var array<(string | int | float | bool)>
+     */
+    protected $messageParams = [];
     use StandaloneServiceTrait;
-
     /**
      * @phpstan-param class-string<FeedbackItemProviderInterface> $feedbackProviderServiceClass
      * @param array<string|int|float|bool> $messageParams
      */
-    public function __construct(
-        protected string $feedbackProviderServiceClass,
-        protected string $code,
+    public function __construct(string $feedbackProviderServiceClass, string $code, array $messageParams = [])
+    {
+        $this->feedbackProviderServiceClass = $feedbackProviderServiceClass;
+        $this->code = $code;
         /** @var array<string|int|float|bool> */
-        protected array $messageParams = [],
-    ) {
+        $this->messageParams = $messageParams;
     }
-
     /**
      * @return class-string<FeedbackItemProviderInterface>
      */
-    public function getFeedbackProviderServiceClass(): string
+    public function getFeedbackProviderServiceClass() : string
     {
         return $this->feedbackProviderServiceClass;
     }
-
-    public function getCode(): string
+    public function getCode() : string
     {
         return $this->code;
     }
-
     /**
      * @return array<string|int|float|bool>
      */
-    public function getMessageParams(): array
+    public function getMessageParams() : array
     {
         return $this->messageParams;
     }
-
-    final public function getFeedbackItemProvider(): FeedbackItemProviderInterface
+    public final function getFeedbackItemProvider() : FeedbackItemProviderInterface
     {
         /** @var FeedbackItemProviderInterface */
         return InstanceManagerFacade::getInstance()->getInstance($this->feedbackProviderServiceClass);
     }
-
-    final public function getMessage(): string
+    public final function getMessage() : string
     {
         $feedbackItemProvider = $this->getFeedbackItemProvider();
         return $feedbackItemProvider->getMessage($this->code, ...$this->messageParams);
     }
-
-    final public function getNamespacedCode(): string
+    public final function getNamespacedCode() : string
     {
         $feedbackItemProvider = $this->getFeedbackItemProvider();
         return $feedbackItemProvider->getNamespacedCode($this->code);
     }
-
-    final public function getSpecifiedByURL(): ?string
+    public final function getSpecifiedByURL() : ?string
     {
         $feedbackItemProvider = $this->getFeedbackItemProvider();
         return $feedbackItemProvider->getSpecifiedByURL($this->code);

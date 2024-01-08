@@ -9,6 +9,6 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
  */
 class DocumentationConstants
 {
-    public final const LOCALE_LANG = 'localeLang';
-    public final const DEFAULT_LANG = 'defaultLang';
+    public const LOCALE_LANG = 'localeLang';
+    public const DEFAULT_LANG = 'defaultLang';
 }

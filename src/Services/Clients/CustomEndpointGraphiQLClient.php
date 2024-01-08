@@ -12,8 +12,14 @@ class CustomEndpointGraphiQLClient extends GraphiQLClient
 {
     use CustomEndpointClientTrait;
 
-    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
-    private ?RequestHelperServiceInterface $requestHelperService = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
+     */
+    private $graphQLCustomEndpointCustomPostType;
+    /**
+     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
+     */
+    private $requestHelperService;
 
     final public function setGraphQLCustomEndpointCustomPostType(GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType): void
     {

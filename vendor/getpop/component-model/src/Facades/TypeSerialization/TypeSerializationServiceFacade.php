@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\TypeSerialization;
 
 use PoP\Root\App;
 use PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface;
-
+/** @internal */
 class TypeSerializationServiceFacade
 {
-    public static function getInstance(): TypeSerializationServiceInterface
+    public static function getInstance() : TypeSerializationServiceInterface
     {
         /**
          * @var TypeSerializationServiceInterface

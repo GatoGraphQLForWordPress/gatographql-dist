@@ -13,7 +13,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaCustomPostMetaBlockSchemaConfigurationExecuter extends AbstractSchemaMetaBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigSchemaCustomPostMetaBlock $schemaConfigCustomPostMetaBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaCustomPostMetaBlock|null
+     */
+    private $schemaConfigCustomPostMetaBlock;
 
     final public function setSchemaConfigSchemaCustomPostMetaBlock(SchemaConfigSchemaCustomPostMetaBlock $schemaConfigCustomPostMetaBlock): void
     {

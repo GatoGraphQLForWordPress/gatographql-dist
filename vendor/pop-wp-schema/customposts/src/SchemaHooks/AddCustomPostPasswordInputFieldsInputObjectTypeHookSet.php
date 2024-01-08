@@ -9,9 +9,8 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInpu
 
 class AddCustomPostPasswordInputFieldsInputObjectTypeHookSet extends AbstractAddCustomPostPasswordInputFieldsInputObjectTypeHookSet
 {
-    protected function isInputObjectTypeResolver(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool {
+    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool
+    {
         return $inputObjectTypeResolver instanceof CustomPostsFilterInputObjectTypeResolverInterface;
     }
 }

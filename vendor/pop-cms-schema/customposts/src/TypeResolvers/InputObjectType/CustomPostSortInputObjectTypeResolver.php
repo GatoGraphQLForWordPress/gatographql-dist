@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\CustomPosts\Constants\CustomPostOrderBy;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-
+/** @internal */
 class CustomPostSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    private ?CustomPostOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
-
-    final public function setCustomPostOrderByEnumTypeResolver(CustomPostOrderByEnumTypeResolver $customPostSortByEnumTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver|null
+     */
+    private $customPostSortByEnumTypeResolver;
+    public final function setCustomPostOrderByEnumTypeResolver(CustomPostOrderByEnumTypeResolver $customPostSortByEnumTypeResolver) : void
     {
         $this->customPostSortByEnumTypeResolver = $customPostSortByEnumTypeResolver;
     }
-    final protected function getCustomPostOrderByEnumTypeResolver(): CustomPostOrderByEnumTypeResolver
+    protected final function getCustomPostOrderByEnumTypeResolver() : CustomPostOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
             /** @var CustomPostOrderByEnumTypeResolver */
@@ -26,30 +27,27 @@ class CustomPostSortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->customPostSortByEnumTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CustomPostSortInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'by' => $this->getCustomPostOrderByEnumTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getCustomPostOrderByEnumTypeResolver()]);
     }
-
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'by' => CustomPostOrderBy::DATE,
-            default => parent::getInputFieldDefaultValue($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'by':
+                return CustomPostOrderBy::DATE;
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
 }

@@ -8,21 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Yaml\Exception;
+namespace PrefixedByPoP\Symfony\Component\Yaml\Exception;
 
 /**
  * Exception class thrown when an error occurs during parsing.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class ParseException extends RuntimeException
 {
-    private ?string $parsedFile;
-    private int $parsedLine;
-    private ?string $snippet;
-    private string $rawMessage;
-
+    /**
+     * @var string|null
+     */
+    private $parsedFile;
+    /**
+     * @var int
+     */
+    private $parsedLine;
+    /**
+     * @var string|null
+     */
+    private $snippet;
+    /**
+     * @var string
+     */
+    private $rawMessage;
     /**
      * @param string      $message    The error message
      * @param int         $parsedLine The line where the error occurred
@@ -35,20 +46,16 @@ class ParseException extends RuntimeException
         $this->parsedLine = $parsedLine;
         $this->snippet = $snippet;
         $this->rawMessage = $message;
-
         $this->updateRepr();
-
         parent::__construct($this->message, 0, $previous);
     }
-
     /**
      * Gets the snippet of code near the error.
      */
-    public function getSnippet(): string
+    public function getSnippet() : string
     {
         return $this->snippet;
     }
-
     /**
      * Sets the snippet of code near the error.
      *
@@ -57,20 +64,17 @@ class ParseException extends RuntimeException
     public function setSnippet(string $snippet)
     {
         $this->snippet = $snippet;
-
         $this->updateRepr();
     }
-
     /**
      * Gets the filename where the error occurred.
      *
      * This method returns null if a string is parsed.
      */
-    public function getParsedFile(): string
+    public function getParsedFile() : string
     {
         return $this->parsedFile;
     }
-
     /**
      * Sets the filename where the error occurred.
      *
@@ -79,18 +83,15 @@ class ParseException extends RuntimeException
     public function setParsedFile(string $parsedFile)
     {
         $this->parsedFile = $parsedFile;
-
         $this->updateRepr();
     }
-
     /**
      * Gets the line where the error occurred.
      */
-    public function getParsedLine(): int
+    public function getParsedLine() : int
     {
         return $this->parsedLine;
     }
-
     /**
      * Sets the line where the error occurred.
      *
@@ -99,32 +100,25 @@ class ParseException extends RuntimeException
     public function setParsedLine(int $parsedLine)
     {
         $this->parsedLine = $parsedLine;
-
         $this->updateRepr();
     }
-
-    private function updateRepr(): void
+    private function updateRepr() : void
     {
         $this->message = $this->rawMessage;
-
-        $dot = false;
-        if (str_ends_with($this->message, '.')) {
-            $this->message = substr($this->message, 0, -1);
-            $dot = true;
+        $dot = \false;
+        if (\substr_compare($this->message, '.', -\strlen('.')) === 0) {
+            $this->message = \substr($this->message, 0, -1);
+            $dot = \true;
         }
-
         if (null !== $this->parsedFile) {
-            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
+            $this->message .= \sprintf(' in %s', \json_encode($this->parsedFile, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
         }
-
         if ($this->parsedLine >= 0) {
-            $this->message .= sprintf(' at line %d', $this->parsedLine);
+            $this->message .= \sprintf(' at line %d', $this->parsedLine);
         }
-
         if ($this->snippet) {
-            $this->message .= sprintf(' (near "%s")', $this->snippet);
+            $this->message .= \sprintf(' (near "%s")', $this->snippet);
         }
-
         if ($dot) {
             $this->message .= '.';
         }

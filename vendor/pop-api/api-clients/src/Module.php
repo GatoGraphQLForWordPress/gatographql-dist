@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\APIClients;
 
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Module\AbstractModule;
-
+/** @internal */
 class Module extends AbstractModule
 {
     /**
      * @return array<class-string<ModuleInterface>>
      */
-    public function getDependedModuleClasses(): array
+    public function getDependedModuleClasses() : array
     {
-        return [
-            \PoPAPI\APIEndpoints\Module::class,
-        ];
+        return [\PoPAPI\APIEndpoints\Module::class];
     }
 }

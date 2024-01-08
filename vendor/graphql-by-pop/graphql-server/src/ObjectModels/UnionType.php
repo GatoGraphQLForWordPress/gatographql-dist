@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-class UnionType extends AbstractNamedType implements HasPossibleTypesTypeInterface
+/** @internal */
+class UnionType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType implements \GraphQLByPoP\GraphQLServer\ObjectModels\HasPossibleTypesTypeInterface
 {
-    use HasPossibleTypesTypeTrait;
-
-    public function getKind(): string
+    use \GraphQLByPoP\GraphQLServer\ObjectModels\HasPossibleTypesTypeTrait;
+    public function getKind() : string
     {
-        return TypeKinds::UNION;
+        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::UNION;
     }
 }

@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node;
 
-namespace Symfony\Component\ExpressionLanguage\Node;
-
-use Symfony\Component\ExpressionLanguage\Compiler;
-
+use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -24,40 +22,30 @@ class NullCoalesceNode extends Node
     {
         parent::__construct(['expr1' => $expr1, 'expr2' => $expr2]);
     }
-
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler) : void
     {
-        $compiler
-            ->raw('((')
-            ->compile($this->nodes['expr1'])
-            ->raw(') ?? (')
-            ->compile($this->nodes['expr2'])
-            ->raw('))')
-        ;
+        $compiler->raw('((')->compile($this->nodes['expr1'])->raw(') ?? (')->compile($this->nodes['expr2'])->raw('))');
     }
-
-    public function evaluate(array $functions, array $values): mixed
+    /**
+     * @return mixed
+     */
+    public function evaluate(array $functions, array $values)
     {
         if ($this->nodes['expr1'] instanceof GetAttrNode) {
             $this->addNullCoalesceAttributeToGetAttrNodes($this->nodes['expr1']);
         }
-
         return $this->nodes['expr1']->evaluate($functions, $values) ?? $this->nodes['expr2']->evaluate($functions, $values);
     }
-
-    public function toArray(): array
+    public function toArray() : array
     {
         return ['(', $this->nodes['expr1'], ') ?? (', $this->nodes['expr2'], ')'];
     }
-
-    private function addNullCoalesceAttributeToGetAttrNodes(Node $node): void
+    private function addNullCoalesceAttributeToGetAttrNodes(Node $node) : void
     {
         if (!$node instanceof GetAttrNode) {
             return;
         }
-
-        $node->attributes['is_null_coalesce'] = true;
-
+        $node->attributes['is_null_coalesce'] = \true;
         foreach ($node->nodes as $node) {
             $this->addNullCoalesceAttributeToGetAttrNodes($node);
         }

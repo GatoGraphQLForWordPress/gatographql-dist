@@ -8,30 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag;
 
-namespace Symfony\Component\DependencyInjection\ParameterBag;
-
-use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-
+use PrefixedByPoP\Psr\Container\ContainerInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 /**
  * ContainerBagInterface is the interface implemented by objects that manage service container parameters.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface ContainerBagInterface extends ContainerInterface
 {
     /**
      * Gets the service container parameters.
      */
-    public function all(): array;
-
+    public function all() : array;
     /**
      * Replaces parameter placeholders (%name%) by their values.
      *
      * @template TValue of array<array|scalar>|scalar
      *
-     * @param TValue $value
+     * @param mixed $value
      *
      * @return mixed
      *
@@ -39,15 +37,17 @@ interface ContainerBagInterface extends ContainerInterface
      *
      * @throws ParameterNotFoundException if a placeholder references a parameter that does not exist
      */
-    public function resolveValue(mixed $value);
-
+    public function resolveValue($value);
     /**
      * Escape parameter placeholders %.
+     * @param mixed $value
+     * @return mixed
      */
-    public function escapeValue(mixed $value): mixed;
-
+    public function escapeValue($value);
     /**
      * Unescape parameter placeholders %.
+     * @param mixed $value
+     * @return mixed
      */
-    public function unescapeValue(mixed $value): mixed;
+    public function unescapeValue($value);
 }

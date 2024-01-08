@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\MutationResolvers;
 
 use PoPCMSSchema\UserStateMutations\Constants\MutationInputProperties;
@@ -18,17 +17,22 @@ use PoP\Root\App;
 use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\UserStateMutations\Constants\HookNames;
-
+/** @internal */
 class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
 {
-    private ?UserTypeAPIInterface $userTypeAPI = null;
-    private ?UserStateTypeMutationAPIInterface $userStateTypeMutationAPI = null;
-
-    final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
+     */
+    private $userTypeAPI;
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface|null
+     */
+    private $userStateTypeMutationAPI;
+    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
     {
         $this->userTypeAPI = $userTypeAPI;
     }
-    final protected function getUserTypeAPI(): UserTypeAPIInterface
+    protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
             /** @var UserTypeAPIInterface */
@@ -37,11 +41,11 @@ class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
         }
         return $this->userTypeAPI;
     }
-    final public function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI): void
+    public final function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI) : void
     {
         $this->userStateTypeMutationAPI = $userStateTypeMutationAPI;
     }
-    final protected function getUserStateTypeMutationAPI(): UserStateTypeMutationAPIInterface
+    protected final function getUserStateTypeMutationAPI() : UserStateTypeMutationAPIInterface
     {
         if ($this->userStateTypeMutationAPI === null) {
             /** @var UserStateTypeMutationAPIInterface */
@@ -50,159 +54,82 @@ class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
         }
         return $this->userStateTypeMutationAPI;
     }
-
-    public function validate(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         $usernameOrEmail = $fieldDataAccessor->getValue(MutationInputProperties::USERNAME_OR_EMAIL);
         $pwd = $fieldDataAccessor->getValue(MutationInputProperties::PASSWORD);
-
         if (!$usernameOrEmail) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E2,
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2), $fieldDataAccessor->getField()));
         }
         if (!$pwd) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E3,
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3), $fieldDataAccessor->getField()));
         }
-
         if (App::getState('is-user-logged-in')) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    $this->getUserAlreadyLoggedInError(App::getState('current-user-id')),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getUserAlreadyLoggedInError(App::getState('current-user-id')), $fieldDataAccessor->getField()));
         }
     }
-
-    protected function getUserAlreadyLoggedInError(string|int $user_id): FeedbackItemResolution
+    /**
+     * @param string|int $user_id
+     */
+    protected function getUserAlreadyLoggedInError($user_id) : FeedbackItemResolution
     {
-        return new FeedbackItemResolution(
-            MutationErrorFeedbackItemProvider::class,
-            MutationErrorFeedbackItemProvider::E4,
-        );
+        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4);
     }
-
     /**
      * @throws AbstractException In case of error
+     * @return mixed
      */
-    public function executeMutation(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         // If the user is already logged in, then return the error
         $usernameOrEmail = $fieldDataAccessor->getValue(MutationInputProperties::USERNAME_OR_EMAIL);
         $pwd = $fieldDataAccessor->getValue(MutationInputProperties::PASSWORD);
-
         // Find out if it was a username or an email that was provided
-        $isEmail = str_contains($usernameOrEmail, '@');
+        $isEmail = \strpos($usernameOrEmail, '@') !== \false;
         if ($isEmail) {
             $email = $usernameOrEmail;
             $user = $this->getUserTypeAPI()->getUserByEmail($email);
             if ($user === null) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            MutationErrorFeedbackItemProvider::class,
-                            MutationErrorFeedbackItemProvider::E6,
-                            [
-                                $email,
-                            ]
-                        ),
-                        $fieldDataAccessor->getField(),
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$email]), $fieldDataAccessor->getField()));
                 return null;
             }
             $username = $this->getUserTypeAPI()->getUserLogin($user);
         } else {
             $username = $usernameOrEmail;
         }
-
-        $credentials = array(
-            'login' => $username,
-            'password' => $pwd,
-            'remember' => true,
-        );
+        $credentials = array('login' => $username, 'password' => $pwd, 'remember' => \true);
         try {
             $user = $this->getUserStateTypeMutationAPI()->login($credentials);
-
             // Modify the routing-state with the newly logged in user info
             AppStateHelpers::resetCurrentUserInAppState();
-
             $userID = $this->getUserTypeAPI()->getUserID($user);
             App::doAction(HookNames::USER_LOGGED_IN, $userID);
             return $userID;
         } catch (UserStateMutationException $userStateMutationException) {
-            $this->transferErrorFromUserStateMutationExceptionToFieldResolutionFeedbackStore(
-                $userStateMutationException,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
+            $this->transferErrorFromUserStateMutationExceptionToFieldResolutionFeedbackStore($userStateMutationException, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             return null;
         }
     }
-
-    protected function transferErrorFromUserStateMutationExceptionToFieldResolutionFeedbackStore(
-        UserStateMutationException $userStateMutationException,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    protected function transferErrorFromUserStateMutationExceptionToFieldResolutionFeedbackStore(UserStateMutationException $userStateMutationException, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         $userLogin = '';
         if ($errorData = $userStateMutationException->getData()) {
             $userLogin = $errorData->userLogin ?? '';
         }
-        $errorFieldResolutionFeedback = match ($userStateMutationException->getErrorCode()) {
-            'invalid_username' => new FeedbackItemResolution(
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E5,
-                [
-                    $userLogin,
-                ]
-            ),
-            'invalid_email' => new FeedbackItemResolution(
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E6,
-                [
-                    $userLogin,
-                ]
-            ),
-            'incorrect_password' => new FeedbackItemResolution(
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E7,
-            ),
-            default => null,
-        };
-        $objectTypeFieldResolutionFeedbackStore->addError(
-            new ObjectTypeFieldResolutionFeedback(
-                $errorFieldResolutionFeedback !== null
-                    ? $errorFieldResolutionFeedback
-                    : new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E8,
-                        [
-                            $userStateMutationException->getErrorCode() ?? 'undefined error code',
-                            $userStateMutationException->getMessage(),
-                        ]
-                    ),
-                $fieldDataAccessor->getField(),
-            )
-        );
+        switch ($userStateMutationException->getErrorCode()) {
+            case 'invalid_username':
+                $errorFieldResolutionFeedback = new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$userLogin]);
+                break;
+            case 'invalid_email':
+                $errorFieldResolutionFeedback = new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$userLogin]);
+                break;
+            case 'incorrect_password':
+                $errorFieldResolutionFeedback = new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7);
+                break;
+            default:
+                $errorFieldResolutionFeedback = null;
+                break;
+        }
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFieldResolutionFeedback !== null ? $errorFieldResolutionFeedback : new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8, [$userStateMutationException->getErrorCode() ?? 'undefined error code', $userStateMutationException->getMessage()]), $fieldDataAccessor->getField()));
     }
 }

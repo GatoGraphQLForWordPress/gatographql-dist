@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Engine\DirectiveResolvers;
 
 use PoP\ComponentModel\DirectiveResolvers\AbstractFieldDirectiveResolver as UpstreamAbstractFieldDirectiveResolver;
@@ -9,13 +8,13 @@ use PoP\ComponentModel\Directives\DirectiveKinds;
 use PoP\ComponentModel\Directives\FieldDirectiveBehaviors;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver;
-
 /**
  * The GraphQL server resolves only FieldDirectiveResolvers
  * via the directive pipeline.
  *
  * FieldDirectiveResolvers can also handle Operation Directives,
  * by having these be duplicated into the SuperRoot type fields.
+ * @internal
  */
 abstract class AbstractFieldDirectiveResolver extends UpstreamAbstractFieldDirectiveResolver
 {
@@ -26,18 +25,14 @@ abstract class AbstractFieldDirectiveResolver extends UpstreamAbstractFieldDirec
      *
      * @return array<class-string<ConcreteTypeResolverInterface>>|null
      */
-    protected function getSupportedFieldTypeResolverClasses(): ?array
+    protected function getSupportedFieldTypeResolverClasses() : ?array
     {
         $fieldDirectiveBehavior = $this->getFieldDirectiveBehavior();
         if ($fieldDirectiveBehavior === FieldDirectiveBehaviors::OPERATION) {
-            return [
-                SuperRootObjectTypeResolver::class,
-            ];
+            return [SuperRootObjectTypeResolver::class];
         }
-
         return parent::getSupportedFieldTypeResolverClasses();
     }
-
     /**
      * The SuperRoot is reserved for the Operation Directives,
      * so can remove it.
@@ -45,19 +40,11 @@ abstract class AbstractFieldDirectiveResolver extends UpstreamAbstractFieldDirec
      * @param string[] $supportedFieldTypeResolverContainerServiceIDs
      * @return ConcreteTypeResolverInterface[]|null
      */
-    protected function getSupportedConcreteTypeResolvers(array $supportedFieldTypeResolverContainerServiceIDs): ?array
+    protected function getSupportedConcreteTypeResolvers(array $supportedFieldTypeResolverContainerServiceIDs) : ?array
     {
         /** @var ConcreteTypeResolverInterface[] */
-        return parent::getSupportedConcreteTypeResolvers(
-            array_diff(
-                $supportedFieldTypeResolverContainerServiceIDs,
-                [
-                    SuperRootObjectTypeResolver::class,
-                ]
-            )
-        );
+        return parent::getSupportedConcreteTypeResolvers(\array_diff($supportedFieldTypeResolverContainerServiceIDs, [SuperRootObjectTypeResolver::class]));
     }
-
     /**
      * For a FieldDirectiveResolver to not also behave as a
      * OperationDirectiveResolver, it must be excluded from
@@ -69,21 +56,12 @@ abstract class AbstractFieldDirectiveResolver extends UpstreamAbstractFieldDirec
      *
      * @return array<class-string<ConcreteTypeResolverInterface>>|null
      */
-    protected function getExcludedFieldTypeResolverClasses(): ?array
+    protected function getExcludedFieldTypeResolverClasses() : ?array
     {
         $fieldDirectiveBehavior = $this->getFieldDirectiveBehavior();
-        if (
-            $fieldDirectiveBehavior === FieldDirectiveBehaviors::FIELD
-            && (
-                $this->isQueryTypeDirective()
-                || $this->getDirectiveKind() === DirectiveKinds::SCHEMA
-            )
-        ) {
-            return [
-                SuperRootObjectTypeResolver::class,
-            ];
+        if ($fieldDirectiveBehavior === FieldDirectiveBehaviors::FIELD && ($this->isQueryTypeDirective() || $this->getDirectiveKind() === DirectiveKinds::SCHEMA)) {
+            return [SuperRootObjectTypeResolver::class];
         }
-
         return parent::getExcludedFieldTypeResolverClasses();
     }
 }

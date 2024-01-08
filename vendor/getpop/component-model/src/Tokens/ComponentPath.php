@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Tokens;
 
+/** @internal */
 class ComponentPath
 {
-    public final const COMPONENT_SEPARATOR = '.';
+    public const COMPONENT_SEPARATOR = '.';
 }

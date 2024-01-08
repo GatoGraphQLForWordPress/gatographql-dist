@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\Schema;
@@ -10,17 +9,22 @@ use GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaObjectTypeResolver
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractUseObjectDictionaryObjectTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Root\Exception\ShouldNotHappenException;
-
+/** @internal */
 class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDataLoader
 {
-    private ?SchemaObjectTypeResolver $schemaObjectTypeResolver = null;
-    private ?SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry = null;
-
-    final public function setSchemaObjectTypeResolver(SchemaObjectTypeResolver $schemaObjectTypeResolver): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaObjectTypeResolver|null
+     */
+    private $schemaObjectTypeResolver;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
+     */
+    private $schemaDefinitionReferenceRegistry;
+    public final function setSchemaObjectTypeResolver(SchemaObjectTypeResolver $schemaObjectTypeResolver) : void
     {
         $this->schemaObjectTypeResolver = $schemaObjectTypeResolver;
     }
-    final protected function getSchemaObjectTypeResolver(): SchemaObjectTypeResolver
+    protected final function getSchemaObjectTypeResolver() : SchemaObjectTypeResolver
     {
         if ($this->schemaObjectTypeResolver === null) {
             /** @var SchemaObjectTypeResolver */
@@ -29,11 +33,11 @@ class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDa
         }
         return $this->schemaObjectTypeResolver;
     }
-    final public function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry): void
+    public final function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry) : void
     {
         $this->schemaDefinitionReferenceRegistry = $schemaDefinitionReferenceRegistry;
     }
-    final protected function getSchemaDefinitionReferenceRegistry(): SchemaDefinitionReferenceRegistryInterface
+    protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {
             /** @var SchemaDefinitionReferenceRegistryInterface */
@@ -42,25 +46,20 @@ class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDa
         }
         return $this->schemaDefinitionReferenceRegistry;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getSchemaObjectTypeResolver();
     }
-
-    protected function getObjectTypeNewInstance(int|string $id): mixed
+    /**
+     * @param int|string $id
+     * @return mixed
+     */
+    protected function getObjectTypeNewInstance($id)
     {
         if ($id !== Schema::ID) {
-            throw new ShouldNotHappenException(sprintf(
-                $this->__('The Schema object data must be unique, so must not create object with ID "%s"', 'gatographql'),
-                $id
-            ));
+            throw new ShouldNotHappenException(\sprintf($this->__('The Schema object data must be unique, so must not create object with ID "%s"', 'gatographql'), $id));
         }
-
         $fullSchemaDefinition = $this->getSchemaDefinitionReferenceRegistry()->getFullSchemaDefinitionForGraphQL();
-        return new Schema(
-            $fullSchemaDefinition,
-            (string) $id
-        );
+        return new Schema($fullSchemaDefinition, (string) $id);
     }
 }

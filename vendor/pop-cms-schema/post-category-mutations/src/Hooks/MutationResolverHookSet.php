@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\Hooks;
 
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
@@ -10,18 +9,26 @@ use PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMuta
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
-
+/** @internal */
 class MutationResolverHookSet extends AbstractMutationResolverHookSet
 {
-    private ?PostTypeAPIInterface $postTypeAPI = null;
-    private ?PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface = null;
-    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
-
-    final public function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
+     */
+    private $postTypeAPI;
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface|null
+     */
+    private $postCategoryTypeMutationAPIInterface;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
+     */
+    private $postCategoryTypeAPI;
+    public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
     {
         $this->postTypeAPI = $postTypeAPI;
     }
-    final protected function getPostTypeAPI(): PostTypeAPIInterface
+    protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
             /** @var PostTypeAPIInterface */
@@ -30,11 +37,11 @@ class MutationResolverHookSet extends AbstractMutationResolverHookSet
         }
         return $this->postTypeAPI;
     }
-    final public function setPostCategoryTypeMutationAPI(PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface): void
+    public final function setPostCategoryTypeMutationAPI(PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface) : void
     {
         $this->postCategoryTypeMutationAPIInterface = $postCategoryTypeMutationAPIInterface;
     }
-    final protected function getPostCategoryTypeMutationAPI(): PostCategoryTypeMutationAPIInterface
+    protected final function getPostCategoryTypeMutationAPI() : PostCategoryTypeMutationAPIInterface
     {
         if ($this->postCategoryTypeMutationAPIInterface === null) {
             /** @var PostCategoryTypeMutationAPIInterface */
@@ -43,11 +50,11 @@ class MutationResolverHookSet extends AbstractMutationResolverHookSet
         }
         return $this->postCategoryTypeMutationAPIInterface;
     }
-    final public function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI): void
+    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
     }
-    final protected function getPostCategoryTypeAPI(): PostCategoryTypeAPIInterface
+    protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
             /** @var PostCategoryTypeAPIInterface */
@@ -56,18 +63,15 @@ class MutationResolverHookSet extends AbstractMutationResolverHookSet
         }
         return $this->postCategoryTypeAPI;
     }
-
-    protected function getCustomPostType(): string
+    protected function getCustomPostType() : string
     {
         return $this->getPostTypeAPI()->getPostCustomPostType();
     }
-
-    protected function getCustomPostCategoryTypeMutationAPI(): CustomPostCategoryTypeMutationAPIInterface
+    protected function getCustomPostCategoryTypeMutationAPI() : CustomPostCategoryTypeMutationAPIInterface
     {
         return $this->getPostCategoryTypeMutationAPI();
     }
-
-    protected function getCategoryTypeAPI(): CategoryTypeAPIInterface
+    protected function getCategoryTypeAPI() : CategoryTypeAPIInterface
     {
         return $this->getPostCategoryTypeAPI();
     }

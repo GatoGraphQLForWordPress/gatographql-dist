@@ -28,8 +28,14 @@ use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
  */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
+     */
+    private $graphQLDataStructureFormatter;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

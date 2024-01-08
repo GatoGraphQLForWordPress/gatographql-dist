@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayload;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 abstract class AbstractLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    private ?LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver = null;
-
-    final public function setLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver|null
+     */
+    private $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
+    public final function setLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver) : void
     {
         $this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
     }
-    final protected function getLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver(): LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver
+    protected final function getLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver === null) {
             /** @var LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver */
@@ -26,13 +27,11 @@ abstract class AbstractLoggedInUserHasNoPublishingCustomPostCapabilityErrorPaylo
         }
         return $this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver();
     }
-
-    protected function getTargetObjectClass(): string
+    protected function getTargetObjectClass() : string
     {
         return LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayload::class;
     }

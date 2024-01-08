@@ -1,105 +1,64 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
-
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    public function getCustomPostListDefaultLimit(): ?int
+    public function getCustomPostListDefaultLimit() : ?int
     {
-        $envVariable = Environment::CUSTOMPOST_LIST_DEFAULT_LIMIT;
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::CUSTOMPOST_LIST_DEFAULT_LIMIT;
         $defaultValue = 10;
-        $callback = EnvironmentValueHelpers::toInt(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function getCustomPostListMaxLimit(): ?int
+    public function getCustomPostListMaxLimit() : ?int
     {
-        $envVariable = Environment::CUSTOMPOST_LIST_MAX_LIMIT;
-        $defaultValue = -1; // Unlimited
-        $callback = EnvironmentValueHelpers::toInt(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::CUSTOMPOST_LIST_MAX_LIMIT;
+        $defaultValue = -1;
+        // Unlimited
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function useSingleTypeInsteadOfCustomPostUnionType(): bool
+    public function useSingleTypeInsteadOfCustomPostUnionType() : bool
     {
-        $envVariable = Environment::USE_SINGLE_TYPE_INSTEAD_OF_CUSTOMPOST_UNION_TYPE;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::USE_SINGLE_TYPE_INSTEAD_OF_CUSTOMPOST_UNION_TYPE;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function treatCustomPostStatusAsSensitiveData(): bool
+    public function treatCustomPostStatusAsSensitiveData() : bool
     {
-        $envVariable = Environment::TREAT_CUSTOMPOST_STATUS_AS_SENSITIVE_DATA;
-        $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::TREAT_CUSTOMPOST_STATUS_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function treatCustomPostRawContentFieldsAsSensitiveData(): bool
+    public function treatCustomPostRawContentFieldsAsSensitiveData() : bool
     {
-        $envVariable = Environment::TREAT_CUSTOMPOST_RAW_CONTENT_FIELDS_AS_SENSITIVE_DATA;
-        $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::TREAT_CUSTOMPOST_RAW_CONTENT_FIELDS_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
     /**
      * @return string[]
      */
-    public function getQueryableCustomPostTypes(): array
+    public function getQueryableCustomPostTypes() : array
     {
-        $envVariable = Environment::QUERYABLE_CUSTOMPOST_TYPES;
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::QUERYABLE_CUSTOMPOST_TYPES;
         $defaultValue = [];
-        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function disablePackagesAddingDefaultQueryableCustomTypes(): bool
+    public function disablePackagesAddingDefaultQueryableCustomTypes() : bool
     {
-        $envVariable = Environment::DISABLE_PACKAGES_ADDING_DEFAULT_QUERYABLE_CUSTOMPOST_TYPES;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::DISABLE_PACKAGES_ADDING_DEFAULT_QUERYABLE_CUSTOMPOST_TYPES;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

@@ -1,23 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeAPIs;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
-
-abstract class AbstractUserTypeAPI implements UserTypeAPIInterface
+/** @internal */
+abstract class AbstractUserTypeAPI implements \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface
 {
     use BasicServiceTrait;
-
-    private ?CMSHelperServiceInterface $cmsHelperService = null;
-
-    final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
+     */
+    private $cmsHelperService;
+    public final function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService) : void
     {
         $this->cmsHelperService = $cmsHelperService;
     }
-    final protected function getCMSHelperService(): CMSHelperServiceInterface
+    protected final function getCMSHelperService() : CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {
             /** @var CMSHelperServiceInterface */
@@ -26,8 +26,10 @@ abstract class AbstractUserTypeAPI implements UserTypeAPIInterface
         }
         return $this->cmsHelperService;
     }
-
-    public function getUserURLPath(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserURLPath($userObjectOrID) : ?string
     {
         $userURL = $this->getUserURL($userObjectOrID);
         if ($userURL === null) {

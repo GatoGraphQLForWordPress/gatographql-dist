@@ -12,9 +12,18 @@ use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SchemaConfiguratorInter
 
 class PrivateEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    private ?PrivateEndpointSchemaConfigurator $privateEndpointSchemaConfigurator = null;
-    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
-    private ?EndpointHelpers $endpointHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\PrivateEndpointSchemaConfigurator|null
+     */
+    private $privateEndpointSchemaConfigurator;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
+     */
+    private $endpointBlockHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
+     */
+    private $endpointHelpers;
 
     final public function setPrivateEndpointSchemaConfigurator(PrivateEndpointSchemaConfigurator $privateEndpointSchemaConfigurator): void
     {

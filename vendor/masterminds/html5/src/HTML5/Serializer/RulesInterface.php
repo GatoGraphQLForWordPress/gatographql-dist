@@ -1,16 +1,17 @@
 <?php
+
 /**
  * @file
  * The interface definition for Rules to generate output.
  */
-
-namespace Masterminds\HTML5\Serializer;
+namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
 
 /**
  * To create a new rule set for writing output the RulesInterface needs to be implemented.
  * The resulting class can be specified in the options with the key of rules.
  *
  * For an example implementation see Serializer\OutputRules.
+ * @internal
  */
 interface RulesInterface
 {
@@ -23,7 +24,6 @@ interface RulesInterface
      * @param array $options An array of options.
      */
     public function __construct($output, $options = array());
-
     /**
      * Register the traverser used in but the rules.
      *
@@ -34,7 +34,6 @@ interface RulesInterface
      * @return RulesInterface $this for the current object.
      */
     public function setTraverser(Traverser $traverser);
-
     /**
      * Write a document element (\DOMDocument).
      *
@@ -44,7 +43,6 @@ interface RulesInterface
      * @param \DOMDocument $dom
      */
     public function document($dom);
-
     /**
      * Write an element.
      *
@@ -54,7 +52,6 @@ interface RulesInterface
      * @param mixed $ele
      */
     public function element($ele);
-
     /**
      * Write a text node.
      *
@@ -64,7 +61,6 @@ interface RulesInterface
      * @param mixed $ele
      */
     public function text($ele);
-
     /**
      * Write a CDATA node.
      *
@@ -74,7 +70,6 @@ interface RulesInterface
      * @param mixed $ele
      */
     public function cdata($ele);
-
     /**
      * Write a comment node.
      *
@@ -84,7 +79,6 @@ interface RulesInterface
      * @param mixed $ele
      */
     public function comment($ele);
-
     /**
      * Write a processor instruction.
      *

@@ -14,7 +14,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaCustomPostsBlockSchemaConfigurationExecuter extends AbstractCustomizableConfigurationBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigSchemaCustomPostsBlock $schemaConfigSchemaCustomPostsBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaCustomPostsBlock|null
+     */
+    private $schemaConfigSchemaCustomPostsBlock;
 
     final public function setSchemaConfigSchemaCustomPostsBlock(SchemaConfigSchemaCustomPostsBlock $schemaConfigSchemaCustomPostsBlock): void
     {
@@ -51,7 +54,9 @@ class SchemaCustomPostsBlockSchemaConfigurationExecuter extends AbstractCustomiz
         );
         App::addFilter(
             $hookName,
-            fn () => $includedCustomPostTypes,
+            function () use ($includedCustomPostTypes) {
+                return $includedCustomPostTypes;
+            },
             PHP_INT_MAX
         );
     }

@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\Enums;
 
+/** @internal */
 class OperationStatusEnum
 {
-    public final const SUCCESS = 'SUCCESS';
-    public final const FAILURE = 'FAILURE';
+    public const SUCCESS = 'SUCCESS';
+    public const FAILURE = 'FAILURE';
 }

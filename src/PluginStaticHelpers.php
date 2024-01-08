@@ -14,11 +14,11 @@ class PluginStaticHelpers
     /**
      * @var string[]|null
      */
-    private static ?array $activeWordPressPluginFiles = null;
+    private static $activeWordPressPluginFiles;
     /**
      * @var string[]|null
      */
-    private static ?array $activeWordPressPluginSlugs = null;
+    private static $activeWordPressPluginSlugs;
 
     private static function getGitHubRepoDocsRootURL(): string
     {
@@ -48,7 +48,7 @@ class PluginStaticHelpers
      */
     public static function isWordPressPluginActive(string $pluginFileOrSlug): bool
     {
-        if (str_ends_with($pluginFileOrSlug, '.php')) {
+        if (substr_compare($pluginFileOrSlug, '.php', -strlen('.php')) === 0) {
             $pluginFile = $pluginFileOrSlug;
             return in_array($pluginFile, static::getActiveWordPressPluginFiles());
         }

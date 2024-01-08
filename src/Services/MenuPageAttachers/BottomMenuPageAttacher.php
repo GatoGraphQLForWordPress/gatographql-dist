@@ -25,20 +25,62 @@ use PoP\Root\App;
 
 class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
 {
-    private ?MenuPageHelper $menuPageHelper = null;
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?UserAuthorizationInterface $userAuthorization = null;
-    private ?SettingsMenuPage $settingsMenuPage = null;
-    private ?ModuleDocumentationMenuPage $moduleDocumentationMenuPage = null;
-    private ?ModulesMenuPage $modulesMenuPage = null;
-    private ?ExtensionModuleDocumentationMenuPage $extensionModuleDocumentationMenuPage = null;
-    private ?ExtensionDocModuleDocumentationMenuPage $extensionDocModuleDocumentationMenuPage = null;
-    private ?ExtensionsMenuPage $extensionsMenuPage = null;
-    private ?ReleaseNotesAboutMenuPage $releaseNotesAboutMenuPage = null;
-    private ?ExtensionDocsMenuPage $extensionDocsMenuPage = null;
-    private ?TutorialMenuPage $tutorialMenuPage = null;
-    private ?AboutMenuPage $aboutMenuPage = null;
-    private ?GraphQLEndpointCategoryTaxonomy $graphQLEndpointCategoryTaxonomy = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
+     */
+    private $menuPageHelper;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
+     */
+    private $userAuthorization;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\SettingsMenuPage|null
+     */
+    private $settingsMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ModuleDocumentationMenuPage|null
+     */
+    private $moduleDocumentationMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage|null
+     */
+    private $modulesMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionModuleDocumentationMenuPage|null
+     */
+    private $extensionModuleDocumentationMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionDocModuleDocumentationMenuPage|null
+     */
+    private $extensionDocModuleDocumentationMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionsMenuPage|null
+     */
+    private $extensionsMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ReleaseNotesAboutMenuPage|null
+     */
+    private $releaseNotesAboutMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionDocsMenuPage|null
+     */
+    private $extensionDocsMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage|null
+     */
+    private $tutorialMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\AboutMenuPage|null
+     */
+    private $aboutMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Taxonomies\GraphQLEndpointCategoryTaxonomy|null
+     */
+    private $graphQLEndpointCategoryTaxonomy;
 
     final public function setMenuPageHelper(MenuPageHelper $menuPageHelper): void
     {
@@ -293,13 +335,7 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         /**
          * Finally add the "Endpoint Categories" link to the menu.
          */
-        \add_submenu_page(
-            $menuName,
-            $graphQLEndpointCategoriesLabel,
-            $graphQLEndpointCategoriesLabel,
-            $schemaEditorAccessCapability,
-            $graphQLEndpointCategoriesRelativePath,
-        );
+        \add_submenu_page($menuName, $graphQLEndpointCategoriesLabel, $graphQLEndpointCategoriesLabel, $schemaEditorAccessCapability, $graphQLEndpointCategoriesRelativePath);
 
         $modulesMenuPage = $this->getModuleMenuPage();
         /**

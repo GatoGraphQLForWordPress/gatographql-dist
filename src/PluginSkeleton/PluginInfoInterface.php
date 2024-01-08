@@ -6,5 +6,8 @@ namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
 
 interface PluginInfoInterface
 {
-    public function get(string $key): mixed;
+    /**
+     * @return mixed
+     */
+    public function get(string $key);
 }

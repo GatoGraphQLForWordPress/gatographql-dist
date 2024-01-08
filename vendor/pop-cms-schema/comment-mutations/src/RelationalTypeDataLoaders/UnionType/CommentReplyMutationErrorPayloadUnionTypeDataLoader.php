@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType;
 
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CommentReplyMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 class CommentReplyMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?CommentReplyMutationErrorPayloadUnionTypeResolver $commentReplyMutationErrorPayloadUnionTypeResolver = null;
-
-    final public function setCommentReplyMutationErrorPayloadUnionTypeResolver(CommentReplyMutationErrorPayloadUnionTypeResolver $commentReplyMutationErrorPayloadUnionTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CommentReplyMutationErrorPayloadUnionTypeResolver|null
+     */
+    private $commentReplyMutationErrorPayloadUnionTypeResolver;
+    public final function setCommentReplyMutationErrorPayloadUnionTypeResolver(CommentReplyMutationErrorPayloadUnionTypeResolver $commentReplyMutationErrorPayloadUnionTypeResolver) : void
     {
         $this->commentReplyMutationErrorPayloadUnionTypeResolver = $commentReplyMutationErrorPayloadUnionTypeResolver;
     }
-    final protected function getCommentReplyMutationErrorPayloadUnionTypeResolver(): CommentReplyMutationErrorPayloadUnionTypeResolver
+    protected final function getCommentReplyMutationErrorPayloadUnionTypeResolver() : CommentReplyMutationErrorPayloadUnionTypeResolver
     {
         if ($this->commentReplyMutationErrorPayloadUnionTypeResolver === null) {
             /** @var CommentReplyMutationErrorPayloadUnionTypeResolver */
@@ -25,8 +26,7 @@ class CommentReplyMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionT
         }
         return $this->commentReplyMutationErrorPayloadUnionTypeResolver;
     }
-
-    protected function getUnionTypeResolver(): UnionTypeResolverInterface
+    protected function getUnionTypeResolver() : UnionTypeResolverInterface
     {
         return $this->getCommentReplyMutationErrorPayloadUnionTypeResolver();
     }

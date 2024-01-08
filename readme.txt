@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, notifications, import, export, headless, webhook, rest api, search replace, wp-cli, wget, translation
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -162,6 +162,10 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 1.5.0 =
+* Added video to documentation for bundle
+* Added new predefined persisted queries: "Send email to admin about post" and "Add comments block to post"
 
 = 1.4.0 =
 * Added predefined custom endpoint "Nested mutations + Entity as mutation payload type"

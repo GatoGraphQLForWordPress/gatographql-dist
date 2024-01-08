@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\RelationalTypeDataLoaders\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver;
-
+/** @internal */
 class TagUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?TagUnionTypeResolver $tagUnionTypeResolver = null;
-
-    final public function setTagUnionTypeResolver(TagUnionTypeResolver $tagUnionTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver|null
+     */
+    private $tagUnionTypeResolver;
+    public final function setTagUnionTypeResolver(TagUnionTypeResolver $tagUnionTypeResolver) : void
     {
         $this->tagUnionTypeResolver = $tagUnionTypeResolver;
     }
-    final protected function getTagUnionTypeResolver(): TagUnionTypeResolver
+    protected final function getTagUnionTypeResolver() : TagUnionTypeResolver
     {
         if ($this->tagUnionTypeResolver === null) {
             /** @var TagUnionTypeResolver */
@@ -25,8 +26,7 @@ class TagUnionTypeDataLoader extends AbstractUnionTypeDataLoader
         }
         return $this->tagUnionTypeResolver;
     }
-
-    protected function getUnionTypeResolver(): UnionTypeResolverInterface
+    protected function getUnionTypeResolver() : UnionTypeResolverInterface
     {
         return $this->getTagUnionTypeResolver();
     }

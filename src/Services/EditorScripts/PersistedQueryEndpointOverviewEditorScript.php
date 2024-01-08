@@ -12,7 +12,10 @@ class PersistedQueryEndpointOverviewEditorScript extends AbstractEditorScript
 {
     use MainPluginScriptTrait;
 
-    private ?GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpointCustomPostType|null
+     */
+    private $graphQLPersistedQueryEndpointCustomPostType;
 
     final public function setGraphQLPersistedQueryEndpointCustomPostType(GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType): void
     {

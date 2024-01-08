@@ -13,12 +13,8 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::USE_SINGLE_TYPE_INSTEAD_OF_BLOCK_UNION_TYPE;
         $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

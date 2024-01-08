@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers;
 
 use stdClass;
-
 /**
  * This definition of "LeafOutput" type is different than the "Output"
  * type defined in the GraphQL spec:
@@ -20,8 +18,9 @@ use stdClass;
  * - EnumType
  *
  * Only these types need be called ->serialize() on them
+ * @internal
  */
-interface LeafOutputTypeResolverInterface extends OutputTypeResolverInterface
+interface LeafOutputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\OutputTypeResolverInterface
 {
     /**
      * Result coercion. Called by the (GraphQL) engine when printing the response.
@@ -32,6 +31,7 @@ interface LeafOutputTypeResolverInterface extends OutputTypeResolverInterface
      * `array` is supported as an output type, as to support `JSONObject`.
      *
      * @return string|int|float|bool|mixed[]|stdClass formatted representation of the custom scalar
+     * @param string|int|float|bool|object $scalarValue
      */
-    public function serialize(string|int|float|bool|object $scalarValue): string|int|float|bool|array|stdClass;
+    public function serialize($scalarValue);
 }

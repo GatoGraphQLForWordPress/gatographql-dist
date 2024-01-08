@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\SchemaHooks;
 
 use PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver;
@@ -10,18 +9,19 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-
+/** @internal */
 abstract class AbstractRemoveAuthorInputFieldsInputObjectTypeHookSet extends AbstractHookSet
 {
-    use AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait;
-
-    private ?FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver = null;
-
-    final public function setFilterByAuthorInputObjectTypeResolver(FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver): void
+    use \PoPCMSSchema\Users\SchemaHooks\AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait;
+    /**
+     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver|null
+     */
+    private $filterByAuthorInputObjectTypeResolver;
+    public final function setFilterByAuthorInputObjectTypeResolver(FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver) : void
     {
         $this->filterByAuthorInputObjectTypeResolver = $filterByAuthorInputObjectTypeResolver;
     }
-    final protected function getFilterByAuthorInputObjectTypeResolver(): FilterByAuthorInputObjectTypeResolver
+    protected final function getFilterByAuthorInputObjectTypeResolver() : FilterByAuthorInputObjectTypeResolver
     {
         if ($this->filterByAuthorInputObjectTypeResolver === null) {
             /** @var FilterByAuthorInputObjectTypeResolver */
@@ -30,38 +30,26 @@ abstract class AbstractRemoveAuthorInputFieldsInputObjectTypeHookSet extends Abs
         }
         return $this->filterByAuthorInputObjectTypeResolver;
     }
-
-    protected function init(): void
+    protected function init() : void
     {
-        App::addFilter(
-            HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            $this->getInputFieldNameTypeResolvers(...),
-            100,
-            2
-        );
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 100, 2);
     }
-
     /**
      * Indicate if to remove the fields added by the SchemaHookSet
      */
-    abstract protected function removeAuthorInputFields(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool;
-
+    protected abstract function removeAuthorInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool;
     /**
      * Remove the fields added by the SchemaHookSet
      *
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(
-        array $inputFieldNameTypeResolvers,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): array {
+    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver) : array
+    {
         if (!$this->removeAuthorInputFields($inputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }
-        $authorInputFieldNames = array_keys($this->getAuthorInputFieldNameTypeResolvers());
+        $authorInputFieldNames = \array_keys($this->getAuthorInputFieldNameTypeResolvers());
         foreach ($authorInputFieldNames as $authorInputFieldName) {
             unset($inputFieldNameTypeResolvers[$authorInputFieldName]);
         }

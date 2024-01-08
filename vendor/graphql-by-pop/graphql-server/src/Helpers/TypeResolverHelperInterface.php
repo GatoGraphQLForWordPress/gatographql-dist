@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Helpers;
 
+/** @internal */
 interface TypeResolverHelperInterface
 {
     /**
@@ -11,5 +11,5 @@ interface TypeResolverHelperInterface
      *
      * @return string[]
      */
-    public function getObjectTypeResolverMandatoryFields(): array;
+    public function getObjectTypeResolverMandatoryFields() : array;
 }

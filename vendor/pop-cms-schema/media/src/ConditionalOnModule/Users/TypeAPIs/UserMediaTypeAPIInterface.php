@@ -1,10 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Media\ConditionalOnModule\Users\TypeAPIs;
 
+/** @internal */
 interface UserMediaTypeAPIInterface
 {
-    public function getMediaAuthorID(string|int|object $mediaObjectOrID): string|int|null;
+    /**
+     * @param string|int|object $mediaObjectOrID
+     * @return string|int|null
+     */
+    public function getMediaAuthorID($mediaObjectOrID);
 }

@@ -1,243 +1,168 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
-
+/** @internal */
 class ObjectResolutionFeedbackStore
 {
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $errors = [];
+    private $errors = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $warnings = [];
+    private $warnings = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $deprecations = [];
+    private $deprecations = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $notices = [];
+    private $notices = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $suggestions = [];
+    private $suggestions = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private array $logs = [];
-
-    public function incorporate(
-        ObjectResolutionFeedbackStore $objectResolutionFeedbackStore,
-    ): void {
-        $this->errors = array_merge(
-            $this->errors,
-            $objectResolutionFeedbackStore->getErrors()
-        );
-        $this->warnings = array_merge(
-            $this->warnings,
-            $objectResolutionFeedbackStore->getWarnings()
-        );
-        $this->deprecations = array_merge(
-            $this->deprecations,
-            $objectResolutionFeedbackStore->getDeprecations()
-        );
-        $this->notices = array_merge(
-            $this->notices,
-            $objectResolutionFeedbackStore->getNotices()
-        );
-        $this->suggestions = array_merge(
-            $this->suggestions,
-            $objectResolutionFeedbackStore->getSuggestions()
-        );
-        $this->logs = array_merge(
-            $this->logs,
-            $objectResolutionFeedbackStore->getLogs()
-        );
+    private $logs = [];
+    public function incorporate(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore) : void
+    {
+        $this->errors = \array_merge($this->errors, $objectResolutionFeedbackStore->getErrors());
+        $this->warnings = \array_merge($this->warnings, $objectResolutionFeedbackStore->getWarnings());
+        $this->deprecations = \array_merge($this->deprecations, $objectResolutionFeedbackStore->getDeprecations());
+        $this->notices = \array_merge($this->notices, $objectResolutionFeedbackStore->getNotices());
+        $this->suggestions = \array_merge($this->suggestions, $objectResolutionFeedbackStore->getSuggestions());
+        $this->logs = \array_merge($this->logs, $objectResolutionFeedbackStore->getLogs());
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      */
-    public function incorporateFromObjectTypeFieldResolutionFeedbackStore(
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        Directive $directive,
-        array $idFieldSet,
-    ): void {
+    public function incorporateFromObjectTypeFieldResolutionFeedbackStore(\PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore, RelationalTypeResolverInterface $relationalTypeResolver, Directive $directive, array $idFieldSet) : void
+    {
         foreach ($objectTypeFieldResolutionFeedbackStore->getErrors() as $objectTypeFieldResolutionFeedbackError) {
-            $this->errors[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackError,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->errors[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackError, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getWarnings() as $objectTypeFieldResolutionFeedbackWarning) {
-            $this->warnings[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackWarning,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->warnings[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackWarning, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getDeprecations() as $objectTypeFieldResolutionFeedbackDeprecation) {
-            $this->deprecations[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackDeprecation,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->deprecations[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackDeprecation, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getNotices() as $objectTypeFieldResolutionFeedbackNotice) {
-            $this->notices[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackNotice,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->notices[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackNotice, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getSuggestions() as $objectTypeFieldResolutionFeedbackSuggestion) {
-            $this->suggestions[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackSuggestion,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->suggestions[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackSuggestion, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getLogs() as $objectTypeFieldResolutionFeedbackLog) {
-            $this->logs[] = ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedbackLog,
-                $relationalTypeResolver,
-                $directive,
-                $idFieldSet,
-            );
+            $this->logs[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackLog, $relationalTypeResolver, $directive, $idFieldSet);
         }
     }
-
-    public function getErrorCount(): int
+    public function getErrorCount() : int
     {
-        return count($this->getErrors());
+        return \count($this->getErrors());
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getErrors(): array
+    public function getErrors() : array
     {
         return $this->errors;
     }
-
-    public function addError(ObjectResolutionFeedbackInterface $error): void
+    public function addError(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $error) : void
     {
         $this->errors[] = $error;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $errors
      */
-    public function setErrors(array $errors): void
+    public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getWarnings(): array
+    public function getWarnings() : array
     {
         return $this->warnings;
     }
-
-    public function addWarning(ObjectResolutionFeedbackInterface $warning): void
+    public function addWarning(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $warning) : void
     {
         $this->warnings[] = $warning;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $warnings
      */
-    public function setWarnings(array $warnings): void
+    public function setWarnings(array $warnings) : void
     {
         $this->warnings = $warnings;
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getDeprecations(): array
+    public function getDeprecations() : array
     {
         return $this->deprecations;
     }
-
-    public function addDeprecation(ObjectResolutionFeedbackInterface $deprecation): void
+    public function addDeprecation(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $deprecation) : void
     {
         $this->deprecations[] = $deprecation;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $deprecations
      */
-    public function setDeprecations(array $deprecations): void
+    public function setDeprecations(array $deprecations) : void
     {
         $this->deprecations = $deprecations;
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getNotices(): array
+    public function getNotices() : array
     {
         return $this->notices;
     }
-
-    public function addNotice(ObjectResolutionFeedbackInterface $notice): void
+    public function addNotice(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $notice) : void
     {
         $this->notices[] = $notice;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $notices
      */
-    public function setNotices(array $notices): void
+    public function setNotices(array $notices) : void
     {
         $this->notices = $notices;
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getSuggestions(): array
+    public function getSuggestions() : array
     {
         return $this->suggestions;
     }
-
-    public function addSuggestion(ObjectResolutionFeedbackInterface $suggestion): void
+    public function addSuggestion(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $suggestion) : void
     {
         $this->suggestions[] = $suggestion;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $suggestions
      */
-    public function setSuggestions(array $suggestions): void
+    public function setSuggestions(array $suggestions) : void
     {
         $this->suggestions = $suggestions;
     }
-
     /**
      * @return ObjectResolutionFeedbackInterface[]
      */
-    public function getLogs(): array
+    public function getLogs() : array
     {
         return $this->logs;
     }
-
-    public function addLog(ObjectResolutionFeedbackInterface $log): void
+    public function addLog(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $log) : void
     {
         $this->logs[] = $log;
     }
-
     /**
      * @param ObjectResolutionFeedbackInterface[] $logs
      */
-    public function setLogs(array $logs): void
+    public function setLogs(array $logs) : void
     {
         $this->logs = $logs;
     }

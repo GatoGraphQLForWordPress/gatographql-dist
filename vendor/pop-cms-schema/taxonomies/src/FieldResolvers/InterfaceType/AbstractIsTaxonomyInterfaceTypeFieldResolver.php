@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractQueryableSchemaInterfaceTypeFieldResolver;
@@ -9,17 +8,22 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
-
+/** @internal */
 abstract class AbstractIsTaxonomyInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterfaceTypeFieldResolver
 {
-    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-
-    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
+     */
+    private $intScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
+    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -28,11 +32,11 @@ abstract class AbstractIsTaxonomyInterfaceTypeFieldResolver extends AbstractQuer
         }
         return $this->intScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -41,47 +45,47 @@ abstract class AbstractIsTaxonomyInterfaceTypeFieldResolver extends AbstractQuer
         }
         return $this->stringScalarTypeResolver;
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement(): array
+    public function getFieldNamesToImplement() : array
     {
-        return [
-            'name',
-            'count',
-            'description',
-        ];
+        return ['name', 'count', 'description'];
     }
-
-    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'name' => $this->getStringScalarTypeResolver(),
-            'description' => $this->getStringScalarTypeResolver(),
-            'count' => $this->getIntScalarTypeResolver(),
-            default => parent::getFieldTypeResolver($fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->getStringScalarTypeResolver();
+            case 'description':
+                return $this->getStringScalarTypeResolver();
+            case 'count':
+                return $this->getIntScalarTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(string $fieldName): int
+    public function getFieldTypeModifiers(string $fieldName) : int
     {
-        return match ($fieldName) {
-            'name',
-            'count'
-                => SchemaTypeModifiers::NON_NULLABLE,
-            default
-                => parent::getFieldTypeModifiers($fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+            case 'count':
+                return SchemaTypeModifiers::NON_NULLABLE;
+            default:
+                return parent::getFieldTypeModifiers($fieldName);
+        }
     }
-
-    public function getFieldDescription(string $fieldName): ?string
+    public function getFieldDescription(string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'name' => $this->__('Taxonomy', 'taxonomies'),
-            'description' => $this->__('Taxonomy description', 'taxonomies'),
-            'count' => $this->__('Number of custom posts containing this taxonomy', 'taxonomies'),
-            default => parent::getFieldDescription($fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->__('Taxonomy', 'taxonomies');
+            case 'description':
+                return $this->__('Taxonomy description', 'taxonomies');
+            case 'count':
+                return $this->__('Number of custom posts containing this taxonomy', 'taxonomies');
+            default:
+                return parent::getFieldDescription($fieldName);
+        }
     }
 }

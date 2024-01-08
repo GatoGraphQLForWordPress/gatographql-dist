@@ -18,19 +18,19 @@ abstract class AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet extends Abs
     {
         App::addFilter(
             HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            $this->getInputFieldNameTypeResolvers(...),
+            \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']),
             10,
             2
         );
         App::addFilter(
             HookNames::INPUT_FIELD_DESCRIPTION,
-            $this->getInputFieldDescription(...),
+            \Closure::fromCallable([$this, 'getInputFieldDescription']),
             10,
             3
         );
         App::addFilter(
             HookNames::INPUT_FIELD_TYPE_MODIFIERS,
-            $this->getInputFieldTypeModifiers(...),
+            \Closure::fromCallable([$this, 'getInputFieldTypeModifiers']),
             10,
             3
         );
@@ -40,10 +40,8 @@ abstract class AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet extends Abs
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(
-        array $inputFieldNameTypeResolvers,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): array {
+    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver): array
+    {
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }
@@ -55,9 +53,7 @@ abstract class AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet extends Abs
         );
     }
 
-    abstract protected function isInputObjectTypeResolver(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool;
+    abstract protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool;
 
     abstract protected function getMetaQueryInputObjectTypeResolver(): AbstractMetaQueryInputObjectTypeResolver;
 
@@ -69,10 +65,12 @@ abstract class AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet extends Abs
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        return match ($inputFieldName) {
-            'metaQuery' => $this->__('Filter elements by meta key and value', 'meta'),
-            default => $inputFieldDescription,
-        };
+        switch ($inputFieldName) {
+            case 'metaQuery':
+                return $this->__('Filter elements by meta key and value', 'meta');
+            default:
+                return $inputFieldDescription;
+        }
     }
 
     public function getInputFieldTypeModifiers(
@@ -83,9 +81,11 @@ abstract class AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet extends Abs
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldTypeModifiers;
         }
-        return match ($inputFieldName) {
-            'metaQuery' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default => $inputFieldTypeModifiers,
-        };
+        switch ($inputFieldName) {
+            case 'metaQuery':
+                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return $inputFieldTypeModifiers;
+        }
     }
 }

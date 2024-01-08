@@ -13,8 +13,14 @@ use GraphQLByPoP\GraphQLClientsForWP\Clients\AbstractClient;
 
 class VoyagerClientEndpointExecuter extends AbstractClientEndpointExecuter implements EndpointExecuterServiceTagInterface
 {
-    private ?CustomEndpointVoyagerClient $customEndpointVoyagerClient = null;
-    private ?VoyagerClientEndpointAnnotator $voyagerClientEndpointAnnotator = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Clients\CustomEndpointVoyagerClient|null
+     */
+    private $customEndpointVoyagerClient;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\EndpointAnnotators\VoyagerClientEndpointAnnotator|null
+     */
+    private $voyagerClientEndpointAnnotator;
 
     final public function setCustomEndpointVoyagerClient(CustomEndpointVoyagerClient $customEndpointVoyagerClient): void
     {

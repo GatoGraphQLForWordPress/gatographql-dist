@@ -11,7 +11,10 @@ use GatoGraphQL\GatoGraphQL\Admin\Tables\TableInterface;
  */
 abstract class AbstractTableMenuPage extends AbstractPluginMenuPage
 {
-    protected ?TableInterface $tableObject;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Admin\Tables\TableInterface|null
+     */
+    protected $tableObject;
 
     abstract protected function getHeader(): string;
 
@@ -125,7 +128,9 @@ abstract class AbstractTableMenuPage extends AbstractPluginMenuPage
              */
             \add_filter(
                 'set-screen-option',
-                fn ($status, $option, $value) => $value,
+                function ($status, $option, $value) {
+                    return $value;
+                },
                 10,
                 3
             );
@@ -147,7 +152,7 @@ abstract class AbstractTableMenuPage extends AbstractPluginMenuPage
                  */
                 \add_action(
                     'load-' . $this->getHookName(),
-                    $this->initializeTable(...)
+                    \Closure::fromCallable([$this, 'initializeTable'])
                 );
             },
             PHP_INT_MAX

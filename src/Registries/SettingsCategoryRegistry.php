@@ -12,11 +12,11 @@ class SettingsCategoryRegistry implements SettingsCategoryRegistryInterface
     /**
      * @var SettingsCategoryResolverInterface[]
      */
-    protected array $settingsCategoryResolvers = [];
+    protected $settingsCategoryResolvers = [];
     /**
      * @var array<string,SettingsCategoryResolverInterface>
      */
-    protected array $settingsCategorySettingsCategoryResolvers = [];
+    protected $settingsCategorySettingsCategoryResolvers = [];
 
     public function addSettingsCategoryResolver(SettingsCategoryResolverInterface $settingsCategoryResolver): void
     {

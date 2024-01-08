@@ -15,7 +15,10 @@ use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
  */
 class UserSettingsManagerFacade
 {
-    private static ?UserSettingsManagerInterface $instance = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
+     */
+    private static $instance;
 
     public static function getInstance(): UserSettingsManagerInterface
     {

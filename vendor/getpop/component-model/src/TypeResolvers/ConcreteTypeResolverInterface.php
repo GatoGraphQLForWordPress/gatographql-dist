@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers;
 
 /**
@@ -22,7 +21,8 @@ namespace PoP\ComponentModel\TypeResolvers;
  *
  * Currently there is no OutputTypeResolver because
  * there is no need for it.
+ * @internal
  */
-interface ConcreteTypeResolverInterface extends TypeResolverInterface
+interface ConcreteTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {
 }

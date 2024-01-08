@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config\Resource;
+namespace PrefixedByPoP\Symfony\Component\Config\Resource;
 
 /**
  * FileResource represents a resource stored on the filesystem.
@@ -19,11 +18,14 @@ namespace Symfony\Component\Config\Resource;
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
+ * @internal
  */
 class FileResource implements SelfCheckingResourceInterface
 {
-    private string $resource;
-
+    /**
+     * @var string
+     */
+    private $resource;
     /**
      * @param string $resource The file path to the resource
      *
@@ -31,30 +33,25 @@ class FileResource implements SelfCheckingResourceInterface
      */
     public function __construct(string $resource)
     {
-        $resolvedResource = realpath($resource) ?: (file_exists($resource) ? $resource : false);
-
-        if (false === $resolvedResource) {
-            throw new \InvalidArgumentException(sprintf('The file "%s" does not exist.', $resource));
+        $resolvedResource = \realpath($resource) ?: (\file_exists($resource) ? $resource : \false);
+        if (\false === $resolvedResource) {
+            throw new \InvalidArgumentException(\sprintf('The file "%s" does not exist.', $resource));
         }
-
         $this->resource = $resolvedResource;
     }
-
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->resource;
     }
-
     /**
      * Returns the canonicalized, absolute path to the resource.
      */
-    public function getResource(): string
+    public function getResource() : string
     {
         return $this->resource;
     }
-
-    public function isFresh(int $timestamp): bool
+    public function isFresh(int $timestamp) : bool
     {
-        return false !== ($filemtime = @filemtime($this->resource)) && $filemtime <= $timestamp;
+        return \false !== ($filemtime = @\filemtime($this->resource)) && $filemtime <= $timestamp;
     }
 }

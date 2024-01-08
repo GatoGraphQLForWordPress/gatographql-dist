@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Facades\Registries;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface;
-
+/** @internal */
 class MandatoryOperationDirectiveResolverRegistryFacade
 {
-    public static function getInstance(): MandatoryOperationDirectiveResolverRegistryInterface
+    public static function getInstance() : MandatoryOperationDirectiveResolverRegistryInterface
     {
         /**
          * @var MandatoryOperationDirectiveResolverRegistryInterface

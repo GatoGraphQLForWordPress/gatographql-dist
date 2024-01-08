@@ -6,6 +6,6 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class ResetSettingsOptions
 {
-    public final const RESTRICTIVE = 'restrictive';
-    public final const NON_RESTRICTIVE = 'nonRestrictive';
+    public const RESTRICTIVE = 'restrictive';
+    public const NON_RESTRICTIVE = 'nonRestrictive';
 }

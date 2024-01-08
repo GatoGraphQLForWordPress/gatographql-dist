@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\TaxonomyMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-
+/** @internal */
 interface TaxonomyMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**
@@ -17,6 +16,8 @@ interface TaxonomyMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
+     * @param string|int|object $termObjectOrID
+     * @return mixed
      */
-    public function getTaxonomyTermMeta(string|int|object $termObjectOrID, string $key, bool $single = false, array $options = []): mixed;
+    public function getTaxonomyTermMeta($termObjectOrID, string $key, bool $single = \false, array $options = []);
 }

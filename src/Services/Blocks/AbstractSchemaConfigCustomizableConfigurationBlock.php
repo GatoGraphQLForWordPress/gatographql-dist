@@ -6,7 +6,7 @@ namespace GatoGraphQL\GatoGraphQL\Services\Blocks;
 
 abstract class AbstractSchemaConfigCustomizableConfigurationBlock extends AbstractSchemaConfigBlock
 {
-    public final const ATTRIBUTE_NAME_CUSTOMIZE_CONFIGURATION = 'customizeConfiguration';
+    public const ATTRIBUTE_NAME_CUSTOMIZE_CONFIGURATION = 'customizeConfiguration';
 
     /**
      * @param array<string,mixed> $attributes

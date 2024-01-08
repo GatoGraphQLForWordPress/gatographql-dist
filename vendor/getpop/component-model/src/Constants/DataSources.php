@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class DataSources
 {
-    public final const IMMUTABLE = 'immutable';
-    public final const MUTABLEONMODEL = 'mutableonmodel';
-    public final const MUTABLEONREQUEST = 'mutableonrequest';
+    public const IMMUTABLE = 'immutable';
+    public const MUTABLEONMODEL = 'mutableonmodel';
+    public const MUTABLEONREQUEST = 'mutableonrequest';
 }

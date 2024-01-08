@@ -1,15 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Info;
 
 use PoP\Root\Environment;
-
-class ApplicationInfo implements ApplicationInfoInterface
+/** @internal */
+class ApplicationInfo implements \PoP\ComponentModel\Info\ApplicationInfoInterface
 {
-    private readonly string $version;
-
+    /**
+     * @readonly
+     * @var string
+     */
+    private $version;
     /**
      * Inject the version from the environment
      */
@@ -17,8 +19,7 @@ class ApplicationInfo implements ApplicationInfoInterface
     {
         $this->version = Environment::getApplicationVersion() ?? '';
     }
-
-    public function getVersion(): string
+    public function getVersion() : string
     {
         return $this->version;
     }

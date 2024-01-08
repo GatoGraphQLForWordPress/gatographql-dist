@@ -1,24 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GuzzleHTTP\UpstreamWrappers\Http\Message;
 
-use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
-use Psr\Http\Message\StreamInterface;
-
+use PrefixedByPoP\Psr\Http\Message\MessageInterface;
+use PrefixedByPoP\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
+use PrefixedByPoP\Psr\Http\Message\StreamInterface;
 /**
  * Wrap a Response object, so it can be exposed and consumed.
  * The upstream class from Guzzle cannot, as it will be scoped.
+ * @internal
  */
-final class ResponseWrapper implements ResponseInterface
+final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface
 {
-    public function __construct(
-        private UpstreamResponseInterface $response,
-    ) {
+    /**
+     * @var UpstreamResponseInterface
+     */
+    private $response;
+    public function __construct(UpstreamResponseInterface $response)
+    {
+        $this->response = $response;
     }
-
     /**
      * Retrieves the HTTP protocol version as a string.
      *
@@ -26,11 +28,10 @@ final class ResponseWrapper implements ResponseInterface
      *
      * @return string HTTP protocol version.
      */
-    public function getProtocolVersion(): string
+    public function getProtocolVersion() : string
     {
         return $this->response->getProtocolVersion();
     }
-
     /**
      * Return an instance with the specified HTTP protocol version.
      *
@@ -44,14 +45,13 @@ final class ResponseWrapper implements ResponseInterface
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion($version): MessageInterface
+    public function withProtocolVersion($version) : MessageInterface
     {
         if ($this->getProtocolVersion() === $version) {
             return $this;
         }
         return new static($this->response->withProtocolVersion($version));
     }
-
     /**
      * Retrieves all message header values.
      *
@@ -77,11 +77,10 @@ final class ResponseWrapper implements ResponseInterface
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
-    public function getHeaders(): array
+    public function getHeaders() : array
     {
         return $this->response->getHeaders();
     }
-
     /**
      * Checks if a header exists by the given case-insensitive name.
      *
@@ -90,11 +89,10 @@ final class ResponseWrapper implements ResponseInterface
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    public function hasHeader($name): bool
+    public function hasHeader($name) : bool
     {
         return $this->response->hasHeader($name);
     }
-
     /**
      * Retrieves a message header value by the given case-insensitive name.
      *
@@ -109,11 +107,10 @@ final class ResponseWrapper implements ResponseInterface
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    public function getHeader($name): array
+    public function getHeader($name) : array
     {
         return $this->response->getHeader($name);
     }
-
     /**
      * Retrieves a comma-separated string of the values for a single header.
      *
@@ -133,11 +130,10 @@ final class ResponseWrapper implements ResponseInterface
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    public function getHeaderLine($name): string
+    public function getHeaderLine($name) : string
     {
         return $this->response->getHeaderLine($name);
     }
-
     /**
      * Return an instance with the provided value replacing the specified header.
      *
@@ -153,11 +149,10 @@ final class ResponseWrapper implements ResponseInterface
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader($name, $value): MessageInterface
+    public function withHeader($name, $value) : MessageInterface
     {
         return new static($this->response->withHeader($name, $value));
     }
-
     /**
      * Return an instance with the specified header appended with the given value.
      *
@@ -174,11 +169,10 @@ final class ResponseWrapper implements ResponseInterface
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withAddedHeader($name, $value): MessageInterface
+    public function withAddedHeader($name, $value) : MessageInterface
     {
         return new static($this->response->withAddedHeader($name, $value));
     }
-
     /**
      * Return an instance without the specified header.
      *
@@ -191,21 +185,19 @@ final class ResponseWrapper implements ResponseInterface
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader($name): MessageInterface
+    public function withoutHeader($name) : MessageInterface
     {
         return new static($this->response->withoutHeader($name));
     }
-
     /**
      * Gets the body of the message.
      *
      * @return StreamInterface Returns the body as a stream.
      */
-    public function getBody(): StreamInterface
+    public function getBody() : StreamInterface
     {
         return $this->response->getBody();
     }
-
     /**
      * Return an instance with the specified message body.
      *
@@ -219,14 +211,13 @@ final class ResponseWrapper implements ResponseInterface
      * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
-    public function withBody(StreamInterface $body): MessageInterface
+    public function withBody(StreamInterface $body) : MessageInterface
     {
         if ($this->getBody() === $body) {
             return $this;
         }
         return new static($this->response->withBody($body));
     }
-
     /**
      * Gets the response status code.
      *
@@ -235,11 +226,10 @@ final class ResponseWrapper implements ResponseInterface
      *
      * @return int Status code.
      */
-    public function getStatusCode(): int
+    public function getStatusCode() : int
     {
         return $this->response->getStatusCode();
     }
-
     /**
      * Return an instance with the specified status code and, optionally, reason phrase.
      *
@@ -260,11 +250,10 @@ final class ResponseWrapper implements ResponseInterface
      * @return static
      * @throws \InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus($code, $reasonPhrase = ''): ResponseInterface
+    public function withStatus($code, $reasonPhrase = '') : \PrefixedByPoP\Psr\Http\Message\ResponseInterface
     {
         return new static($this->response->withStatus($code, $reasonPhrase));
     }
-
     /**
      * Gets the response reason phrase associated with the status code.
      *
@@ -278,7 +267,7 @@ final class ResponseWrapper implements ResponseInterface
      * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
      * @return string Reason phrase; must return an empty string if none present.
      */
-    public function getReasonPhrase(): string
+    public function getReasonPhrase() : string
     {
         return $this->response->getReasonPhrase();
     }

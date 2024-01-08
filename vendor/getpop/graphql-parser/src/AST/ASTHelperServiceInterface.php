@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\AST;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
-
+/** @internal */
 interface ASTHelperServiceInterface
 {
     /**
@@ -15,17 +14,9 @@ interface ASTHelperServiceInterface
      * @param Fragment[] $fragments
      * @return FieldInterface[]
      */
-    public function getAllFieldsFromFieldsOrFragmentBonds(
-        array $fieldsOrFragmentBonds,
-        array $fragments,
-    ): array;
-
+    public function getAllFieldsFromFieldsOrFragmentBonds(array $fieldsOrFragmentBonds, array $fragments) : array;
     /**
      * @param Fragment[] $fragments
      */
-    public function isFieldEquivalentToField(
-        FieldInterface $thisField,
-        FieldInterface $oppositeField,
-        array $fragments
-    ): bool;
+    public function isFieldEquivalentToField(FieldInterface $thisField, FieldInterface $oppositeField, array $fragments) : bool;
 }

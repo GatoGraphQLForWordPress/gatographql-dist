@@ -17,7 +17,10 @@ use WP_Post;
 
 class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
+     */
+    private $intScalarTypeResolver;
 
     final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
@@ -55,41 +58,45 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        return match ($fieldName) {
-            'menuOrder' => $this->__('Menu order', 'pages'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'menuOrder':
+                return $this->__('Menu order', 'pages');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'menuOrder' => $this->getIntScalarTypeResolver(),
-            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'menuOrder':
+                return $this->getIntScalarTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+        }
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        return match ($fieldName) {
-            'menuOrder' => SchemaTypeModifiers::NON_NULLABLE,
-            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'menuOrder':
+                return SchemaTypeModifiers::NON_NULLABLE;
+            default:
+                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+        }
     }
 
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         /** @var WP_Post */
         $page = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'menuOrder':
                 return $page->menu_order;
         }
-
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -97,10 +104,8 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-    ): bool {
+    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
+    {
         return false;
     }
 }

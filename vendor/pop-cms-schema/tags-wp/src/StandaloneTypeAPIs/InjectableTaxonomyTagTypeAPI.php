@@ -8,11 +8,14 @@ use PoPCMSSchema\TagsWP\TypeAPIs\AbstractTagTypeAPI;
 
 final class InjectableTaxonomyTagTypeAPI extends AbstractTagTypeAPI
 {
-    public function __construct(
-        protected string $tagTaxonomy,
-    ) {
+    /**
+     * @var string
+     */
+    protected $tagTaxonomy;
+    public function __construct(string $tagTaxonomy)
+    {
+        $this->tagTaxonomy = $tagTaxonomy;
     }
-
     protected function getTagTaxonomyName(): string
     {
         return $this->tagTaxonomy;

@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-
+/** @internal */
 interface CustomPostMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**
@@ -17,6 +16,8 @@ interface CustomPostMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
+     * @param string|int|object $customPostObjectOrID
+     * @return mixed
      */
-    public function getCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = false, array $options = []): mixed;
+    public function getCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false, array $options = []);
 }

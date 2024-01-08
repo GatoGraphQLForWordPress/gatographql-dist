@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\ComponentModel\App;
@@ -24,18 +23,19 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
-
-class FeedbackEntryManager implements FeedbackEntryManagerInterface
+/** @internal */
+class FeedbackEntryManager implements \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface
 {
     use BasicServiceTrait;
-
-    private ?DatabaseEntryManagerInterface $databaseEntryManager = null;
-
-    final public function setDatabaseEntryManager(DatabaseEntryManagerInterface $databaseEntryManager): void
+    /**
+     * @var \PoP\ComponentModel\Response\DatabaseEntryManagerInterface|null
+     */
+    private $databaseEntryManager;
+    public final function setDatabaseEntryManager(DatabaseEntryManagerInterface $databaseEntryManager) : void
     {
         $this->databaseEntryManager = $databaseEntryManager;
     }
-    final protected function getDatabaseEntryManager(): DatabaseEntryManagerInterface
+    protected final function getDatabaseEntryManager() : DatabaseEntryManagerInterface
     {
         if ($this->databaseEntryManager === null) {
             /** @var DatabaseEntryManagerInterface */
@@ -44,7 +44,6 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
         }
         return $this->databaseEntryManager;
     }
-
     /**
      * Add the feedback (errors, warnings, deprecations, notices, etc)
      * into the output.
@@ -54,122 +53,106 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $objectFeedbackEntries
      * @return array<string,mixed>
      */
-    public function combineAndAddFeedbackEntries(
-        array $data,
-        array $schemaFeedbackEntries,
-        array $objectFeedbackEntries,
-    ): array {
+    public function combineAndAddFeedbackEntries(array $data, array $schemaFeedbackEntries, array $objectFeedbackEntries) : array
+    {
         $data[Response::GENERAL_FEEDBACK] = [];
         $data[Response::DOCUMENT_FEEDBACK] = [];
         $data[Response::SCHEMA_FEEDBACK] = [];
         $data[Response::OBJECT_FEEDBACK] = [];
-
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $enabledFeedbackCategoryExtensions = $moduleConfiguration->getEnabledFeedbackCategoryExtensions();
-        $sendFeedbackWarnings = in_array(FeedbackCategories::WARNING, $enabledFeedbackCategoryExtensions);
-        $sendFeedbackDeprecations = in_array(FeedbackCategories::DEPRECATION, $enabledFeedbackCategoryExtensions);
-        $sendFeedbackNotices = in_array(FeedbackCategories::NOTICE, $enabledFeedbackCategoryExtensions);
-        $sendFeedbackSuggestions = in_array(FeedbackCategories::SUGGESTION, $enabledFeedbackCategoryExtensions);
-        $sendFeedbackLogs = in_array(FeedbackCategories::LOG, $enabledFeedbackCategoryExtensions);
-
+        $sendFeedbackWarnings = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING, $enabledFeedbackCategoryExtensions);
+        $sendFeedbackDeprecations = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION, $enabledFeedbackCategoryExtensions);
+        $sendFeedbackNotices = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE, $enabledFeedbackCategoryExtensions);
+        $sendFeedbackSuggestions = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION, $enabledFeedbackCategoryExtensions);
+        $sendFeedbackLogs = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::LOG, $enabledFeedbackCategoryExtensions);
         // Errors
         $generalFeedbackStore = App::getFeedbackStore()->generalFeedbackStore;
         if ($generalErrors = $generalFeedbackStore->getErrors()) {
-            $data[Response::GENERAL_FEEDBACK][FeedbackCategories::ERROR] = $this->getGeneralFeedbackEntriesForOutput($generalErrors);
+            $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getGeneralFeedbackEntriesForOutput($generalErrors);
         }
         $documentFeedbackStore = App::getFeedbackStore()->documentFeedbackStore;
         if ($documentErrors = $documentFeedbackStore->getErrors()) {
-            $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::ERROR] = $this->getDocumentFeedbackEntriesForOutput($documentErrors);
+            $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getDocumentFeedbackEntriesForOutput($documentErrors);
         }
-
-        $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::ERROR, $schemaFeedbackEntries[FeedbackCategories::ERROR]);
-        $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::ERROR, $objectFeedbackEntries[FeedbackCategories::ERROR]);
-
+        $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::ERROR, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
+        $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::ERROR, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
         // Warnings
         if ($sendFeedbackWarnings) {
             if ($generalWarnings = $generalFeedbackStore->getWarnings()) {
-                $data[Response::GENERAL_FEEDBACK][FeedbackCategories::WARNING] = $this->getGeneralFeedbackEntriesForOutput($generalWarnings);
+                $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING] = $this->getGeneralFeedbackEntriesForOutput($generalWarnings);
             }
             if ($documentWarnings = $documentFeedbackStore->getWarnings()) {
-                $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::WARNING] = $this->getDocumentFeedbackEntriesForOutput($documentWarnings);
+                $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING] = $this->getDocumentFeedbackEntriesForOutput($documentWarnings);
             }
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::WARNING, $schemaFeedbackEntries[FeedbackCategories::WARNING]);
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::WARNING, $objectFeedbackEntries[FeedbackCategories::WARNING]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::WARNING, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::WARNING, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING]);
         }
-
         // Deprecations
         if ($sendFeedbackDeprecations) {
             if ($generalDeprecations = $generalFeedbackStore->getDeprecations()) {
-                $data[Response::GENERAL_FEEDBACK][FeedbackCategories::DEPRECATION] = $this->getGeneralFeedbackEntriesForOutput($generalDeprecations);
+                $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION] = $this->getGeneralFeedbackEntriesForOutput($generalDeprecations);
             }
             if ($documentDeprecations = $documentFeedbackStore->getDeprecations()) {
-                $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::DEPRECATION] = $this->getDocumentFeedbackEntriesForOutput($documentDeprecations);
+                $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION] = $this->getDocumentFeedbackEntriesForOutput($documentDeprecations);
             }
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::DEPRECATION, $schemaFeedbackEntries[FeedbackCategories::DEPRECATION]);
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::DEPRECATION, $objectFeedbackEntries[FeedbackCategories::DEPRECATION]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION]);
         }
-
         // Notices
         if ($sendFeedbackNotices) {
             if ($generalNotices = $generalFeedbackStore->getNotices()) {
-                $data[Response::GENERAL_FEEDBACK][FeedbackCategories::NOTICE] = $this->getGeneralFeedbackEntriesForOutput($generalNotices);
+                $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE] = $this->getGeneralFeedbackEntriesForOutput($generalNotices);
             }
             if ($documentNotices = $documentFeedbackStore->getNotices()) {
-                $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::NOTICE] = $this->getDocumentFeedbackEntriesForOutput($documentNotices);
+                $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE] = $this->getDocumentFeedbackEntriesForOutput($documentNotices);
             }
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::NOTICE, $schemaFeedbackEntries[FeedbackCategories::NOTICE]);
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::NOTICE, $objectFeedbackEntries[FeedbackCategories::NOTICE]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE]);
         }
-
         // Suggestions
         if ($sendFeedbackSuggestions) {
             if ($generalSuggestions = $generalFeedbackStore->getSuggestions()) {
-                $data[Response::GENERAL_FEEDBACK][FeedbackCategories::SUGGESTION] = $this->getGeneralFeedbackEntriesForOutput($generalSuggestions);
+                $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION] = $this->getGeneralFeedbackEntriesForOutput($generalSuggestions);
             }
             if ($documentSuggestions = $documentFeedbackStore->getSuggestions()) {
-                $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::SUGGESTION] = $this->getDocumentFeedbackEntriesForOutput($documentSuggestions);
+                $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION] = $this->getDocumentFeedbackEntriesForOutput($documentSuggestions);
             }
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::SUGGESTION, $schemaFeedbackEntries[FeedbackCategories::SUGGESTION]);
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::SUGGESTION, $objectFeedbackEntries[FeedbackCategories::SUGGESTION]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION]);
         }
-
         // Logs
         if ($sendFeedbackLogs) {
             if ($generalLogs = $generalFeedbackStore->getLogs()) {
-                $data[Response::GENERAL_FEEDBACK][FeedbackCategories::LOG] = $this->getGeneralFeedbackEntriesForOutput($generalLogs);
+                $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::LOG] = $this->getGeneralFeedbackEntriesForOutput($generalLogs);
             }
             if ($documentLogs = $documentFeedbackStore->getLogs()) {
-                $data[Response::DOCUMENT_FEEDBACK][FeedbackCategories::LOG] = $this->getDocumentFeedbackEntriesForOutput($documentLogs);
+                $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::LOG] = $this->getDocumentFeedbackEntriesForOutput($documentLogs);
             }
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], FeedbackCategories::LOG, $schemaFeedbackEntries[FeedbackCategories::LOG]);
-            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], FeedbackCategories::LOG, $objectFeedbackEntries[FeedbackCategories::LOG]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::LOG, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::LOG]);
+            $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::OBJECT_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::LOG, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::LOG]);
         }
-
         return $data;
     }
-
     /**
      * @param array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>> $entries
      * @param array<string,mixed> $ret
      */
-    protected function maybeCombineAndAddObjectOrSchemaEntries(array &$ret, string $name, array $entries): void
+    protected function maybeCombineAndAddObjectOrSchemaEntries(array &$ret, string $name, array $entries) : void
     {
         if ($entries === []) {
             return;
         }
-
         $dboutputmode = App::getState('dboutputmode');
-
         // Combine all the databases or send them separate
         if ($dboutputmode === DatabasesOutputModes::SPLITBYDATABASES) {
             $ret[$name] = $entries;
             return;
         }
-
         if ($dboutputmode === DatabasesOutputModes::COMBINED) {
             // Filter to make sure there are entries
-            if ($entries = array_filter($entries)) {
+            if ($entries = \array_filter($entries)) {
                 /** @var array<string,SplObjectStorage<FieldInterface,array<string,mixed>>> */
                 $combined_databases = [];
                 foreach ($entries as $database_name => $database) {
@@ -182,10 +165,7 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
                             $combinedDatabasesTypeField = $combinedDatabasesType[$field] ?? [];
                             /** @var array<string,mixed> */
                             $entries = $fieldEntries[$field];
-                            $combinedDatabasesTypeField = array_merge(
-                                $combinedDatabasesTypeField,
-                                $entries
-                            );
+                            $combinedDatabasesTypeField = \array_merge($combinedDatabasesTypeField, $entries);
                             $combinedDatabasesType[$field] = $combinedDatabasesTypeField;
                         }
                         $combined_databases[$typeOutputKey] = $combinedDatabasesType;
@@ -195,15 +175,12 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
             }
         }
     }
-
     /**
      * @param SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> $iterationEntries
      * @param array<string,array<string,SplObjectStorage<FieldInterface,mixed>>> $destination
      */
-    protected function addFeedbackEntries(
-        SplObjectStorage $iterationEntries,
-        array &$destination,
-    ): void {
+    protected function addFeedbackEntries(SplObjectStorage $iterationEntries, array &$destination) : void
+    {
         if ($iterationEntries->count() === 0) {
             return;
         }
@@ -221,107 +198,58 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
             }
         }
     }
-
     /**
      * @param array<string|int,object> $idObjects
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $objectFeedbackEntries
      */
-    public function transferObjectFeedback(
-        array $idObjects,
-        ObjectResolutionFeedbackStore $objectResolutionFeedbackStore,
-        array &$objectFeedbackEntries,
-    ): void {
+    public function transferObjectFeedback(array $idObjects, \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore, array &$objectFeedbackEntries) : void
+    {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectErrors = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getErrors() as $objectFeedbackError) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackError,
-                $iterationObjectErrors,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackError, $iterationObjectErrors);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectErrors,
-            $objectFeedbackEntries[FeedbackCategories::ERROR]
-        );
-
+        $this->addFeedbackEntries($iterationObjectErrors, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectWarnings = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getWarnings() as $objectFeedbackWarning) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackWarning,
-                $iterationObjectWarnings,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackWarning, $iterationObjectWarnings);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectWarnings,
-            $objectFeedbackEntries[FeedbackCategories::WARNING]
-        );
-
+        $this->addFeedbackEntries($iterationObjectWarnings, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectDeprecations = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getDeprecations() as $objectFeedbackDeprecation) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackDeprecation,
-                $iterationObjectDeprecations,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackDeprecation, $iterationObjectDeprecations);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectDeprecations,
-            $objectFeedbackEntries[FeedbackCategories::DEPRECATION]
-        );
-
+        $this->addFeedbackEntries($iterationObjectDeprecations, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectNotices = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getNotices() as $objectFeedbackNotice) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackNotice,
-                $iterationObjectNotices,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackNotice, $iterationObjectNotices);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectNotices,
-            $objectFeedbackEntries[FeedbackCategories::NOTICE]
-        );
-
+        $this->addFeedbackEntries($iterationObjectNotices, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectSuggestions = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getSuggestions() as $objectFeedbackSuggestion) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackSuggestion,
-                $iterationObjectSuggestions,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackSuggestion, $iterationObjectSuggestions);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectSuggestions,
-            $objectFeedbackEntries[FeedbackCategories::SUGGESTION]
-        );
-
+        $this->addFeedbackEntries($iterationObjectSuggestions, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectLogs = new SplObjectStorage();
         foreach ($objectResolutionFeedbackStore->getLogs() as $objectFeedbackLog) {
-            $this->transferObjectFeedbackEntries(
-                $objectFeedbackLog,
-                $iterationObjectLogs,
-            );
+            $this->transferObjectFeedbackEntries($objectFeedbackLog, $iterationObjectLogs);
         }
-        $this->addFeedbackEntries(
-            $iterationObjectLogs,
-            $objectFeedbackEntries[FeedbackCategories::LOG]
-        );
+        $this->addFeedbackEntries($iterationObjectLogs, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::LOG]);
     }
-
     /**
      * @param SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> $iterationObjectFeedbackEntries
      */
-    private function transferObjectFeedbackEntries(
-        ObjectResolutionFeedbackInterface $objectFeedback,
-        SplObjectStorage $iterationObjectFeedbackEntries
-    ): void {
+    private function transferObjectFeedbackEntries(ObjectResolutionFeedbackInterface $objectFeedback, SplObjectStorage $iterationObjectFeedbackEntries) : void
+    {
         $relationalTypeResolver = $objectFeedback->getRelationalTypeResolver();
         if ($relationalTypeResolver instanceof UnionTypeResolverInterface) {
             /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
             $targetIterationObjectFeedbackEntries = new SplObjectStorage();
-
             /** @var UnionTypeResolverInterface */
             $unionTypeResolver = $relationalTypeResolver;
             $targetTypeOutputKeyObjectTypeResolvers = $unionTypeResolver->getTargetTypeOutputKeyObjectTypeResolvers();
@@ -335,23 +263,15 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
                  *
                  * @var string $id
                  */
-                list(
-                    $objectTypeOutputKey,
-                    $id
-                ) = UnionTypeHelpers::extractObjectTypeAndID($id);
+                list($objectTypeOutputKey, $id) = UnionTypeHelpers::extractObjectTypeAndID($id);
                 $idTargetObjectTypeResolver = $targetTypeOutputKeyObjectTypeResolvers[$objectTypeOutputKey] ?? $relationalTypeResolver;
-
                 $idTargetObjectTypeResolverIDFieldSet = $targetObjectTypeResolverIDFieldSet[$idTargetObjectTypeResolver] ?? [];
                 $idTargetObjectTypeResolverIDFieldSet[$id] = $fieldSet;
                 $targetObjectTypeResolverIDFieldSet[$idTargetObjectTypeResolver] = $idTargetObjectTypeResolverIDFieldSet;
-
                 /** @var SplObjectStorage<FieldInterface,mixed> */
                 $idTargetObjectFeedbackEntries = $targetIterationObjectFeedbackEntries[$idTargetObjectTypeResolver] ?? new SplObjectStorage();
                 foreach ($fieldSet->fields as $field) {
-                    if (
-                        !$iterationObjectFeedbackEntries->contains($relationalTypeResolver)
-                        || !$iterationObjectFeedbackEntries[$relationalTypeResolver]->contains($field)
-                    ) {
+                    if (!$iterationObjectFeedbackEntries->contains($relationalTypeResolver) || !$iterationObjectFeedbackEntries[$relationalTypeResolver]->contains($field)) {
                         continue;
                     }
                     $idTargetObjectFeedbackEntries[$field] = $iterationObjectFeedbackEntries[$relationalTypeResolver][$field];
@@ -360,203 +280,116 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
             }
             /** @var RelationalTypeResolverInterface $targetObjectTypeResolver */
             foreach ($targetIterationObjectFeedbackEntries as $targetObjectTypeResolver) {
-                $this->doTransferObjectFeedbackEntries(
-                    $objectFeedback,
-                    $iterationObjectFeedbackEntries,
-                    $targetObjectTypeResolver,
-                    $targetObjectTypeResolverIDFieldSet[$targetObjectTypeResolver]
-                );
+                $this->doTransferObjectFeedbackEntries($objectFeedback, $iterationObjectFeedbackEntries, $targetObjectTypeResolver, $targetObjectTypeResolverIDFieldSet[$targetObjectTypeResolver]);
             }
             return;
         }
-
-        $this->doTransferObjectFeedbackEntries(
-            $objectFeedback,
-            $iterationObjectFeedbackEntries,
-            $objectFeedback->getRelationalTypeResolver(),
-            $objectFeedback->getIDFieldSet(),
-        );
+        $this->doTransferObjectFeedbackEntries($objectFeedback, $iterationObjectFeedbackEntries, $objectFeedback->getRelationalTypeResolver(), $objectFeedback->getIDFieldSet());
     }
-
     /**
      * @param SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> $iterationObjectFeedbackEntries
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      */
-    private function doTransferObjectFeedbackEntries(
-        ObjectResolutionFeedbackInterface $objectFeedback,
-        SplObjectStorage $iterationObjectFeedbackEntries,
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-    ): void {
+    private function doTransferObjectFeedbackEntries(ObjectResolutionFeedbackInterface $objectFeedback, SplObjectStorage $iterationObjectFeedbackEntries, RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet) : void
+    {
         $entry = $this->getObjectOrSchemaFeedbackCommonEntry($objectFeedback);
         $fieldIDs = MethodHelpers::orderIDsByDirectFields($idFieldSet);
         /** @var SplObjectStorage<FieldInterface,mixed> */
         $objectFeedbackEntries = $iterationObjectFeedbackEntries[$relationalTypeResolver] ?? new SplObjectStorage();
         /** @var FieldInterface $field */
         foreach ($fieldIDs as $field) {
-            $fieldEntry = $this->addFieldToObjectOrSchemaFeedbackEntry(
-                $entry,
-                $field,
-            );
+            $fieldEntry = $this->addFieldToObjectOrSchemaFeedbackEntry($entry, $field);
             /** @var array<string|int> */
             $ids = $fieldIDs[$field];
-            $fieldEntry[Tokens::IDS] = $ids;
+            $fieldEntry[\PoP\ComponentModel\Feedback\Tokens::IDS] = $ids;
             $fieldObjectFeedbackEntries = $objectFeedbackEntries[$field] ?? [];
             $fieldObjectFeedbackEntries[] = $fieldEntry;
             $objectFeedbackEntries[$field] = $fieldObjectFeedbackEntries;
         }
         $iterationObjectFeedbackEntries[$relationalTypeResolver] = $objectFeedbackEntries;
     }
-
     /**
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $schemaFeedbackEntries
      */
-    public function transferSchemaFeedback(
-        SchemaFeedbackStore $schemaFeedbackStore,
-        array &$schemaFeedbackEntries,
-    ): void {
+    public function transferSchemaFeedback(\PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaFeedbackStore, array &$schemaFeedbackEntries) : void
+    {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaErrors = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getErrors() as $schemaFeedbackError) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackError,
-                $iterationSchemaErrors,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackError, $iterationSchemaErrors);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaErrors,
-            $schemaFeedbackEntries[FeedbackCategories::ERROR],
-        );
-
+        $this->addFeedbackEntries($iterationSchemaErrors, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaWarnings = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getWarnings() as $schemaFeedbackWarning) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackWarning,
-                $iterationSchemaWarnings,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackWarning, $iterationSchemaWarnings);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaWarnings,
-            $schemaFeedbackEntries[FeedbackCategories::WARNING],
-        );
-
+        $this->addFeedbackEntries($iterationSchemaWarnings, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::WARNING]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaDeprecations = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getDeprecations() as $schemaFeedbackDeprecation) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackDeprecation,
-                $iterationSchemaDeprecations,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackDeprecation, $iterationSchemaDeprecations);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaDeprecations,
-            $schemaFeedbackEntries[FeedbackCategories::DEPRECATION],
-        );
-
+        $this->addFeedbackEntries($iterationSchemaDeprecations, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::DEPRECATION]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaNotices = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getNotices() as $schemaFeedbackNotice) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackNotice,
-                $iterationSchemaNotices,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackNotice, $iterationSchemaNotices);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaNotices,
-            $schemaFeedbackEntries[FeedbackCategories::NOTICE],
-        );
-
+        $this->addFeedbackEntries($iterationSchemaNotices, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::NOTICE]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaSuggestions = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getSuggestions() as $schemaFeedbackSuggestion) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackSuggestion,
-                $iterationSchemaSuggestions,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackSuggestion, $iterationSchemaSuggestions);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaSuggestions,
-            $schemaFeedbackEntries[FeedbackCategories::SUGGESTION],
-        );
-
+        $this->addFeedbackEntries($iterationSchemaSuggestions, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::SUGGESTION]);
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaLogs = new SplObjectStorage();
         foreach ($schemaFeedbackStore->getLogs() as $schemaFeedbackLog) {
-            $this->transferSchemaFeedbackEntries(
-                $schemaFeedbackLog,
-                $iterationSchemaLogs,
-            );
+            $this->transferSchemaFeedbackEntries($schemaFeedbackLog, $iterationSchemaLogs);
         }
-        $this->addFeedbackEntries(
-            $iterationSchemaLogs,
-            $schemaFeedbackEntries[FeedbackCategories::LOG],
-        );
+        $this->addFeedbackEntries($iterationSchemaLogs, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::LOG]);
     }
-
     /**
      * @param SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> $iterationSchemaFeedbackEntries
      */
-    private function transferSchemaFeedbackEntries(
-        SchemaFeedbackInterface $schemaFeedback,
-        SplObjectStorage $iterationSchemaFeedbackEntries
-    ): void {
+    private function transferSchemaFeedbackEntries(\PoP\ComponentModel\Feedback\SchemaFeedbackInterface $schemaFeedback, SplObjectStorage $iterationSchemaFeedbackEntries) : void
+    {
         $entry = $this->getObjectOrSchemaFeedbackCommonEntry($schemaFeedback);
         /** @var SplObjectStorage<FieldInterface,mixed> */
         $schemaFeedbackEntries = $iterationSchemaFeedbackEntries[$schemaFeedback->getRelationalTypeResolver()] ?? new SplObjectStorage();
         foreach ($schemaFeedback->getFields() as $field) {
             $fieldSchemaFeedbackEntries = $schemaFeedbackEntries[$field] ?? [];
-            $fieldEntry = $this->addFieldToObjectOrSchemaFeedbackEntry(
-                $entry,
-                $field,
-            );
+            $fieldEntry = $this->addFieldToObjectOrSchemaFeedbackEntry($entry, $field);
             $fieldSchemaFeedbackEntries[] = $fieldEntry;
             $schemaFeedbackEntries[$field] = $fieldSchemaFeedbackEntries;
         }
         $iterationSchemaFeedbackEntries[$schemaFeedback->getRelationalTypeResolver()] = $schemaFeedbackEntries;
     }
-
     /**
      * @return array<string,mixed>
+     * @param \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface|\PoP\ComponentModel\Feedback\SchemaFeedbackInterface $objectOrSchemaFeedback
      */
-    private function getObjectOrSchemaFeedbackCommonEntry(
-        ObjectResolutionFeedbackInterface | SchemaFeedbackInterface $objectOrSchemaFeedback,
-    ): array {
-        return $this->formatObjectOrSchemaFeedbackCommonEntry(
-            $objectOrSchemaFeedback->getAstNode(),
-            $objectOrSchemaFeedback->getLocation(),
-            $objectOrSchemaFeedback->getExtensions(),
-            $objectOrSchemaFeedback->getFeedbackItemResolution(),
-            []
-        );
+    private function getObjectOrSchemaFeedbackCommonEntry($objectOrSchemaFeedback) : array
+    {
+        return $this->formatObjectOrSchemaFeedbackCommonEntry($objectOrSchemaFeedback->getAstNode(), $objectOrSchemaFeedback->getLocation(), $objectOrSchemaFeedback->getExtensions(), $objectOrSchemaFeedback->getFeedbackItemResolution(), []);
     }
-
     /**
      * @param Location|null $location If `null` use the Location from the astNode
      * @param array<string,mixed> $extensions
      * @param array<string|int> $ids
      * @return array<string,mixed>
      */
-    public function formatObjectOrSchemaFeedbackCommonEntry(
-        AstInterface $astNode,
-        ?Location $location,
-        array $extensions,
-        FeedbackItemResolution $feedbackItemResolution,
-        array $ids,
-    ): array {
-        $entry = [
-            Tokens::MESSAGE => $feedbackItemResolution->getMessage(),
-            Tokens::PATH => $this->getASTNodePath($astNode),
-        ];
-
+    public function formatObjectOrSchemaFeedbackCommonEntry(AstInterface $astNode, ?Location $location, array $extensions, FeedbackItemResolution $feedbackItemResolution, array $ids) : array
+    {
+        $entry = [\PoP\ComponentModel\Feedback\Tokens::MESSAGE => $feedbackItemResolution->getMessage(), \PoP\ComponentModel\Feedback\Tokens::PATH => $this->getASTNodePath($astNode)];
         /**
          * The $ids could be empty if the error happened on a
          * nested directive. In that case, do not output it
          */
         if ($ids !== []) {
-            $entry[Tokens::IDS] = $ids;
+            $entry[\PoP\ComponentModel\Feedback\Tokens::IDS] = $ids;
         }
-
         /**
          * If `null` use the Location from the astNode
          */
@@ -569,74 +402,52 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
          */
         if ($location instanceof RuntimeLocation) {
             /** @var RuntimeLocation $location */
-            $location = $location->getStaticASTNode()?->getLocation();
+            $location = ($nullsafeVariable1 = $location->getStaticASTNode()) ? $nullsafeVariable1->getLocation() : null;
             /** @var Location|null $location */
         }
         $locations = [];
-        if ($location !== null && !($location instanceof RuntimeLocation)) {
+        if ($location !== null && !$location instanceof RuntimeLocation) {
             $locations[] = $location->toArray();
         }
-        $entry[Tokens::LOCATIONS] = $locations;
-
-        $extensions = $this->addFeedbackEntryExtensions(
-            $extensions,
-            $feedbackItemResolution
-        );
-        $entry[Tokens::EXTENSIONS] = $extensions;
-
+        $entry[\PoP\ComponentModel\Feedback\Tokens::LOCATIONS] = $locations;
+        $extensions = $this->addFeedbackEntryExtensions($extensions, $feedbackItemResolution);
+        $entry[\PoP\ComponentModel\Feedback\Tokens::EXTENSIONS] = $extensions;
         /**
          * Add the causes of the error, if any.
          *
          * @see https://github.com/graphql/graphql-spec/issues/893
          */
-        $this->addObjectOrSchemaFeedbackCausesToCommonEntry(
-            $entry,
-            $feedbackItemResolution,
-        );
+        $this->addObjectOrSchemaFeedbackCausesToCommonEntry($entry, $feedbackItemResolution);
         return $entry;
     }
-
     /**
      * @param array<string,mixed> $entry
      *
      * @see https://github.com/graphql/graphql-spec/issues/893
      */
-    private function addObjectOrSchemaFeedbackCausesToCommonEntry(
-        array &$entry,
-        FeedbackItemResolution $feedbackItemResolution,
-    ): void {
+    private function addObjectOrSchemaFeedbackCausesToCommonEntry(array &$entry, FeedbackItemResolution $feedbackItemResolution) : void
+    {
         if ($feedbackItemResolution->getCauses() === []) {
             return;
         }
-        $entry[Tokens::CAUSES] = [];
+        $entry[\PoP\ComponentModel\Feedback\Tokens::CAUSES] = [];
         foreach ($feedbackItemResolution->getCauses() as $cause) {
-            if (
-                $cause instanceof ObjectResolutionFeedbackInterface
-                || $cause instanceof SchemaFeedbackInterface
-            ) {
+            if ($cause instanceof ObjectResolutionFeedbackInterface || $cause instanceof \PoP\ComponentModel\Feedback\SchemaFeedbackInterface) {
                 /** @var ObjectResolutionFeedbackInterface|SchemaFeedbackInterface */
                 $causeObjectOrSchemaFeedback = $cause;
-                $entry[Tokens::CAUSES][] = $this->getObjectOrSchemaFeedbackCommonEntry($causeObjectOrSchemaFeedback);
+                $entry[\PoP\ComponentModel\Feedback\Tokens::CAUSES][] = $this->getObjectOrSchemaFeedbackCommonEntry($causeObjectOrSchemaFeedback);
                 continue;
             }
-
             /** @var FeedbackItemResolution */
             $causeFeedbackItemResolution = $cause;
-            $causeSubentry = [
-                Tokens::MESSAGE => $causeFeedbackItemResolution->getMessage(),
-            ];
-
+            $causeSubentry = [\PoP\ComponentModel\Feedback\Tokens::MESSAGE => $causeFeedbackItemResolution->getMessage()];
             /**
              * The cause may itself have its own underlying causes
              */
-            $this->addObjectOrSchemaFeedbackCausesToCommonEntry(
-                $causeSubentry,
-                $causeFeedbackItemResolution,
-            );
-            $entry[Tokens::CAUSES][] = $causeSubentry;
+            $this->addObjectOrSchemaFeedbackCausesToCommonEntry($causeSubentry, $causeFeedbackItemResolution);
+            $entry[\PoP\ComponentModel\Feedback\Tokens::CAUSES][] = $causeSubentry;
         }
     }
-
     /**
      * Re-create the path to the AST node.
      *
@@ -645,7 +456,7 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
      *
      * @return string[]
      */
-    private function getASTNodePath(AstInterface $astNode): array
+    private function getASTNodePath(AstInterface $astNode) : array
     {
         $location = $astNode->getLocation();
         if ($location instanceof RuntimeLocation) {
@@ -659,7 +470,7 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
             $astNodePath[] = $astNode->asASTNodeString();
             // Move to the ancestor AST node
             $astNode = $documentASTNodeAncestors[$astNode] ?? null;
-            $location = $astNode?->getLocation();
+            $location = ($nullsafeVariable2 = $astNode) ? $nullsafeVariable2->getLocation() : null;
             if ($location instanceof RuntimeLocation) {
                 /** @var RuntimeLocation $location */
                 $astNode = $location->getStaticASTNode();
@@ -667,27 +478,19 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
         }
         return $astNodePath;
     }
-
     /**
      * @return array<string,mixed>
      */
-    private function getFeedbackEntryExtensions(
-        FeedbackInterface $feedback,
-    ): array {
-        return $this->addFeedbackEntryExtensions(
-            $feedback->getExtensions(),
-            $feedback->getFeedbackItemResolution()
-        );
+    private function getFeedbackEntryExtensions(\PoP\ComponentModel\Feedback\FeedbackInterface $feedback) : array
+    {
+        return $this->addFeedbackEntryExtensions($feedback->getExtensions(), $feedback->getFeedbackItemResolution());
     }
-
     /**
      * @param array<string,mixed> $extensions
      * @return array<string,mixed>
      */
-    private function addFeedbackEntryExtensions(
-        array $extensions,
-        FeedbackItemResolution $feedbackItemResolution
-    ): array {
+    private function addFeedbackEntryExtensions(array $extensions, FeedbackItemResolution $feedbackItemResolution) : array
+    {
         $extensions['code'] = $feedbackItemResolution->getNamespacedCode();
         $specifiedByURL = $feedbackItemResolution->getSpecifiedByURL();
         if ($specifiedByURL !== null) {
@@ -695,7 +498,6 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
         }
         return $extensions;
     }
-
     /**
      * Place the Field under a different key if the AST
      * node was created on runtime.
@@ -703,68 +505,41 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
      * @param array<string,mixed> $entry
      * @return array<string,mixed>
      */
-    private function addFieldToObjectOrSchemaFeedbackEntry(
-        array $entry,
-        FieldInterface $field,
-    ): array {
-        $key = Tokens::FIELD;
+    private function addFieldToObjectOrSchemaFeedbackEntry(array $entry, FieldInterface $field) : array
+    {
+        $key = \PoP\ComponentModel\Feedback\Tokens::FIELD;
         $location = $field->getLocation();
-        if (
-            $location instanceof RuntimeLocation
-            /**
-             * If the AST node is a surrogate for another node,
-             * then print it as "field", not "dynamicField"
-             */
-            && $location->getStaticASTNode() === null
-        ) {
-            $key = Tokens::DYNAMIC_FIELD;
+        if ($location instanceof RuntimeLocation && $location->getStaticASTNode() === null) {
+            $key = \PoP\ComponentModel\Feedback\Tokens::DYNAMIC_FIELD;
         }
-        return array_merge(
-            $entry,
-            [
-                $key => $field->asASTNodeString(),
-            ]
-        );
+        return \array_merge($entry, [$key => $field->asASTNodeString()]);
     }
-
     /**
      * @param GeneralFeedbackInterface[] $generalFeedbackEntries
      * @return array<array<string,mixed>>
      */
-    protected function getGeneralFeedbackEntriesForOutput(array $generalFeedbackEntries): array
+    protected function getGeneralFeedbackEntriesForOutput(array $generalFeedbackEntries) : array
     {
         $output = [];
         foreach ($generalFeedbackEntries as $generalFeedbackEntry) {
-            $output[] = [
-                Tokens::MESSAGE => $generalFeedbackEntry->getFeedbackItemResolution()->getMessage(),
-                Tokens::EXTENSIONS => $this->getFeedbackEntryExtensions(
-                    $generalFeedbackEntry,
-                ),
-            ];
+            $output[] = [\PoP\ComponentModel\Feedback\Tokens::MESSAGE => $generalFeedbackEntry->getFeedbackItemResolution()->getMessage(), \PoP\ComponentModel\Feedback\Tokens::EXTENSIONS => $this->getFeedbackEntryExtensions($generalFeedbackEntry)];
         }
         return $output;
     }
-
     /**
      * @param DocumentFeedbackInterface[] $documentFeedbackEntries
      * @return array<array<string,mixed>>
      */
-    protected function getDocumentFeedbackEntriesForOutput(array $documentFeedbackEntries): array
+    protected function getDocumentFeedbackEntriesForOutput(array $documentFeedbackEntries) : array
     {
         $output = [];
         foreach ($documentFeedbackEntries as $documentFeedbackEntry) {
             $locations = [];
             $location = $documentFeedbackEntry->getLocation();
-            if (!($location instanceof RuntimeLocation)) {
+            if (!$location instanceof RuntimeLocation) {
                 $locations[] = $location->toArray();
             }
-            $entry = [
-                Tokens::MESSAGE => $documentFeedbackEntry->getFeedbackItemResolution()->getMessage(),
-                Tokens::LOCATIONS => $locations,
-                Tokens::EXTENSIONS => $this->getFeedbackEntryExtensions(
-                    $documentFeedbackEntry,
-                ),
-            ];
+            $entry = [\PoP\ComponentModel\Feedback\Tokens::MESSAGE => $documentFeedbackEntry->getFeedbackItemResolution()->getMessage(), \PoP\ComponentModel\Feedback\Tokens::LOCATIONS => $locations, \PoP\ComponentModel\Feedback\Tokens::EXTENSIONS => $this->getFeedbackEntryExtensions($documentFeedbackEntry)];
             /**
              * If also passing the AST node to the DocumentFeedback,
              * then print the path
@@ -772,7 +547,7 @@ class FeedbackEntryManager implements FeedbackEntryManagerInterface
             if ($documentFeedbackEntry instanceof QueryFeedbackInterface) {
                 /** @var QueryFeedbackInterface */
                 $queryFeedbackEntry = $documentFeedbackEntry;
-                $entry[Tokens::PATH] = $this->getASTNodePath($queryFeedbackEntry->getAstNode());
+                $entry[\PoP\ComponentModel\Feedback\Tokens::PATH] = $this->getASTNodePath($queryFeedbackEntry->getAstNode());
             }
             $output[] = $entry;
         }

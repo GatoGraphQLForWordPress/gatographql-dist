@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Cache\TransientCacheInterface;
-
+/** @internal */
 class TransientCacheManagerFacade
 {
-    public static function getInstance(): TransientCacheInterface
+    public static function getInstance() : TransientCacheInterface
     {
         /**
          * @var TransientCacheInterface

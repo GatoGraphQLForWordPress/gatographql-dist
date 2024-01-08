@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostTagMutations\MutationResolvers\AbstractSetTagsOnCustomPostMutationResolver;
@@ -9,17 +8,22 @@ use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInt
 use PoPCMSSchema\PostTagMutations\TypeAPIs\PostTagTypeMutationAPIInterface;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
-
+/** @internal */
 class SetTagsOnPostMutationResolver extends AbstractSetTagsOnCustomPostMutationResolver
 {
-    private ?PostTagTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface = null;
-    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
-
-    final public function setPostTagTypeMutationAPI(PostTagTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface): void
+    /**
+     * @var \PoPCMSSchema\PostTagMutations\TypeAPIs\PostTagTypeMutationAPIInterface|null
+     */
+    private $postCategoryTypeMutationAPIInterface;
+    /**
+     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
+     */
+    private $postTagTypeAPI;
+    public final function setPostTagTypeMutationAPI(PostTagTypeMutationAPIInterface $postCategoryTypeMutationAPIInterface) : void
     {
         $this->postCategoryTypeMutationAPIInterface = $postCategoryTypeMutationAPIInterface;
     }
-    final protected function getPostTagTypeMutationAPI(): PostTagTypeMutationAPIInterface
+    protected final function getPostTagTypeMutationAPI() : PostTagTypeMutationAPIInterface
     {
         if ($this->postCategoryTypeMutationAPIInterface === null) {
             /** @var PostTagTypeMutationAPIInterface */
@@ -28,11 +32,11 @@ class SetTagsOnPostMutationResolver extends AbstractSetTagsOnCustomPostMutationR
         }
         return $this->postCategoryTypeMutationAPIInterface;
     }
-    final public function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI): void
+    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
     {
         $this->postTagTypeAPI = $postTagTypeAPI;
     }
-    final protected function getPostTagTypeAPI(): PostTagTypeAPIInterface
+    protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
             /** @var PostTagTypeAPIInterface */
@@ -41,18 +45,15 @@ class SetTagsOnPostMutationResolver extends AbstractSetTagsOnCustomPostMutationR
         }
         return $this->postTagTypeAPI;
     }
-
-    protected function getCustomPostTagTypeMutationAPI(): CustomPostTagTypeMutationAPIInterface
+    protected function getCustomPostTagTypeMutationAPI() : CustomPostTagTypeMutationAPIInterface
     {
         return $this->getPostTagTypeMutationAPI();
     }
-
-    protected function getTagTypeAPI(): TagTypeAPIInterface
+    protected function getTagTypeAPI() : TagTypeAPIInterface
     {
         return $this->getPostTagTypeAPI();
     }
-
-    protected function getEntityName(): string
+    protected function getEntityName() : string
     {
         return $this->__('post', 'post-tag-mutations');
     }

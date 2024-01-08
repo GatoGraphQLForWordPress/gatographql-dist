@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API\Schema;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface;
@@ -10,34 +9,32 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 class SchemaDefinitionHelpers
 {
     /**
      * Replace the typeResolver with the typeName (maybe namespaced) and kind
      * @param array<string,mixed> $schemaDefinition
      */
-    public static function replaceTypeResolverWithTypeProperties(array &$schemaDefinition): void
+    public static function replaceTypeResolverWithTypeProperties(array &$schemaDefinition) : void
     {
-        $typeResolver = $schemaDefinition[SchemaDefinition::TYPE_RESOLVER];
-        $schemaDefinition[SchemaDefinition::TYPE_NAME] = $typeResolver->getMaybeNamespacedTypeName();
-
+        $typeResolver = $schemaDefinition[\PoPAPI\API\Schema\SchemaDefinition::TYPE_RESOLVER];
+        $schemaDefinition[\PoPAPI\API\Schema\SchemaDefinition::TYPE_NAME] = $typeResolver->getMaybeNamespacedTypeName();
         $typeKind = null;
         if ($typeResolver instanceof ObjectTypeResolverInterface) {
-            $typeKind = TypeKinds::OBJECT;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::OBJECT;
         } elseif ($typeResolver instanceof InterfaceTypeResolverInterface) {
-            $typeKind = TypeKinds::INTERFACE;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::INTERFACE;
         } elseif ($typeResolver instanceof UnionTypeResolverInterface) {
-            $typeKind = TypeKinds::UNION;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::UNION;
         } elseif ($typeResolver instanceof ScalarTypeResolverInterface) {
-            $typeKind = TypeKinds::SCALAR;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::SCALAR;
         } elseif ($typeResolver instanceof EnumTypeResolverInterface) {
-            $typeKind = TypeKinds::ENUM;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::ENUM;
         } elseif ($typeResolver instanceof InputObjectTypeResolverInterface) {
-            $typeKind = TypeKinds::INPUT_OBJECT;
+            $typeKind = \PoPAPI\API\Schema\TypeKinds::INPUT_OBJECT;
         }
-        $schemaDefinition[SchemaDefinition::TYPE_KIND] = $typeKind;
-
-        unset($schemaDefinition[SchemaDefinition::TYPE_RESOLVER]);
+        $schemaDefinition[\PoPAPI\API\Schema\SchemaDefinition::TYPE_KIND] = $typeKind;
+        unset($schemaDefinition[\PoPAPI\API\Schema\SchemaDefinition::TYPE_RESOLVER]);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Menus\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Menus\ObjectModels\MenuItem;
@@ -19,20 +18,34 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
+/** @internal */
 class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    private ?MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry = null;
-    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
-    private ?MenuItemObjectTypeResolver $menuItemObjectTypeResolver = null;
-    private ?MenuTypeAPIInterface $menuTypeAPI = null;
-    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
-
-    final public function setMenuItemRuntimeRegistry(MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry): void
+    /**
+     * @var \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface|null
+     */
+    private $menuItemRuntimeRegistry;
+    /**
+     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
+     */
+    private $jsonObjectScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuItemObjectTypeResolver|null
+     */
+    private $menuItemObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
+     */
+    private $menuTypeAPI;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
+     */
+    private $booleanScalarTypeResolver;
+    public final function setMenuItemRuntimeRegistry(MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry) : void
     {
         $this->menuItemRuntimeRegistry = $menuItemRuntimeRegistry;
     }
-    final protected function getMenuItemRuntimeRegistry(): MenuItemRuntimeRegistryInterface
+    protected final function getMenuItemRuntimeRegistry() : MenuItemRuntimeRegistryInterface
     {
         if ($this->menuItemRuntimeRegistry === null) {
             /** @var MenuItemRuntimeRegistryInterface */
@@ -41,11 +54,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->menuItemRuntimeRegistry;
     }
-    final public function setJSONObjectScalarTypeResolver(JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver): void
+    public final function setJSONObjectScalarTypeResolver(JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver) : void
     {
         $this->jsonObjectScalarTypeResolver = $jsonObjectScalarTypeResolver;
     }
-    final protected function getJSONObjectScalarTypeResolver(): JSONObjectScalarTypeResolver
+    protected final function getJSONObjectScalarTypeResolver() : JSONObjectScalarTypeResolver
     {
         if ($this->jsonObjectScalarTypeResolver === null) {
             /** @var JSONObjectScalarTypeResolver */
@@ -54,11 +67,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->jsonObjectScalarTypeResolver;
     }
-    final public function setMenuItemObjectTypeResolver(MenuItemObjectTypeResolver $menuItemObjectTypeResolver): void
+    public final function setMenuItemObjectTypeResolver(MenuItemObjectTypeResolver $menuItemObjectTypeResolver) : void
     {
         $this->menuItemObjectTypeResolver = $menuItemObjectTypeResolver;
     }
-    final protected function getMenuItemObjectTypeResolver(): MenuItemObjectTypeResolver
+    protected final function getMenuItemObjectTypeResolver() : MenuItemObjectTypeResolver
     {
         if ($this->menuItemObjectTypeResolver === null) {
             /** @var MenuItemObjectTypeResolver */
@@ -67,11 +80,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->menuItemObjectTypeResolver;
     }
-    final public function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI): void
+    public final function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI) : void
     {
         $this->menuTypeAPI = $menuTypeAPI;
     }
-    final protected function getMenuTypeAPI(): MenuTypeAPIInterface
+    protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {
         if ($this->menuTypeAPI === null) {
             /** @var MenuTypeAPIInterface */
@@ -80,11 +93,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->menuTypeAPI;
     }
-    final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
+    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
-    final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
             /** @var BooleanScalarTypeResolver */
@@ -93,99 +106,99 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->booleanScalarTypeResolver;
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            MenuObjectTypeResolver::class,
-        ];
+        return [MenuObjectTypeResolver::class];
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve(): array
+    public function getFieldNamesToResolve() : array
     {
-        return [
-            'items',
-            'itemDataEntries',
-        ];
+        return ['items', 'itemDataEntries'];
     }
-
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'items' => $this->getMenuItemObjectTypeResolver(),
-            'itemDataEntries' => $this->getJSONObjectScalarTypeResolver(),
-            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'items':
+                return $this->getMenuItemObjectTypeResolver();
+            case 'itemDataEntries':
+                return $this->getJSONObjectScalarTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        return match ($fieldName) {
-            'items',
-            'itemDataEntries'
-                => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'items':
+            case 'itemDataEntries':
+                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+        }
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        return match ($fieldName) {
-            'itemDataEntries' => [
-                'flat' => $this->getBooleanScalarTypeResolver(),
-            ],
-            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'itemDataEntries':
+                return ['flat' => $this->getBooleanScalarTypeResolver()];
+            default:
+                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): ?string
+    public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['itemDataEntries' => 'flat'] => $this->__('Flatten the items', 'menus'),
-            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['itemDataEntries' => 'flat']:
+                return $this->__('Flatten the items', 'menus');
+            default:
+                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'items' => $this->__('The menu items', 'menus'),
-            'itemDataEntries' => $this->__('The data for the menu items', 'menus'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'items':
+                return $this->__('The menu items', 'menus');
+            case 'itemDataEntries':
+                return $this->__('The data for the menu items', 'menus');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['itemDataEntries' => 'flat'] => SchemaTypeModifiers::NON_NULLABLE,
-            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['itemDataEntries' => 'flat']:
+                return SchemaTypeModifiers::NON_NULLABLE;
+            default:
+                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): mixed
+    /**
+     * @return mixed
+     */
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['itemDataEntries' => 'flat'] => false,
-            default => parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['itemDataEntries' => 'flat']:
+                return \false;
+            default:
+                return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
+        }
     }
-
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $menu = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'itemDataEntries':
@@ -196,7 +209,7 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     foreach ($menuItems as $menuItem) {
                         // Convert object to array
                         // @see https://stackoverflow.com/a/18576902
-                        $item_value = json_decode((string)json_encode($menuItem), true);
+                        $item_value = \json_decode((string) \json_encode($menuItem), \true);
                         // Prepare array where to append the children items
                         if (!$isFlat) {
                             $item_value['children'] = [];
@@ -205,9 +218,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     }
                 }
                 if ($isFlat) {
-                    return array_map(
+                    return \array_map(
                         /** @param mixed[] $entry */
-                        fn (array $entry) => (object) $entry,
+                        function (array $entry) {
+                            return (object) $entry;
+                        },
                         $entries
                     );
                 }
@@ -216,7 +231,7 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                  */
                 $arrangedEntries = [];
                 foreach ($entries as $menuItemData) {
-                    $arrangedEntriesPointer = &$arrangedEntries;
+                    $arrangedEntriesPointer =& $arrangedEntries;
                     // Reproduce the list of parents
                     if ($menuItemParentID = $menuItemData['parentID']) {
                         $menuItemAncestorIDs = [];
@@ -226,58 +241,51 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                             $menuItemParentID = $entries[$menuItemParentPos]['parentID'];
                         }
                         // Navigate to that position, and attach the menuItem
-                        foreach (array_reverse($menuItemAncestorIDs) as $menuItemAncestorID) {
+                        foreach (\array_reverse($menuItemAncestorIDs) as $menuItemAncestorID) {
                             $menuItemAncestorPos = $this->findEntryPosition($menuItemAncestorID, $arrangedEntriesPointer);
-                            $arrangedEntriesPointer = &$arrangedEntriesPointer[$menuItemAncestorPos]['children'];
+                            $arrangedEntriesPointer =& $arrangedEntriesPointer[$menuItemAncestorPos]['children'];
                         }
                     }
                     $arrangedEntriesPointer[] = $menuItemData;
                 }
-                return array_map(
+                return \array_map(
                     /** @param mixed[] $entry */
-                    fn (array $entry) => (object) $entry,
+                    function (array $entry) {
+                        return (object) $entry;
+                    },
                     $arrangedEntries
                 );
             case 'items':
                 $menuItems = $this->getMenuTypeAPI()->getMenuItems($menu);
-
                 $menuItemRuntimeRegistry = $this->getMenuItemRuntimeRegistry();
-
                 // Save the MenuItems on the dynamic registry
                 foreach ($menuItems as $menuItem) {
                     $menuItemRuntimeRegistry->storeMenuItem($menuItem);
                 }
-
                 // Return the IDs for the top-level items (those with no parent)
-                return array_map(
-                    fn (MenuItem $menuItem) => $menuItem->id,
-                    array_filter(
-                        $menuItems,
-                        fn (MenuItem $menuItem) => $menuItem->parentID === null
-                    )
-                );
+                return \array_map(function (MenuItem $menuItem) {
+                    return $menuItem->id;
+                }, \array_filter($menuItems, function (MenuItem $menuItem) {
+                    return $menuItem->parentID === null;
+                }));
         }
-
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-    ): bool {
-        return false;
+    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
+    {
+        return \false;
     }
-
     /**
      * @param array<int,array<string,mixed>> $entries
+     * @param string|int $menuItemID
      */
-    protected function findEntryPosition(string|int $menuItemID, array $entries): int
+    protected function findEntryPosition($menuItemID, array $entries) : int
     {
-        $entriesCount = count($entries);
+        $entriesCount = \count($entries);
         for ($pos = 0; $pos < $entriesCount; $pos++) {
             /**
              * Watch out! Can't use `===` because (for some reason) the same value

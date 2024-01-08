@@ -1,24 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentFilters;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
 use PoP\Root\Services\BasicServiceTrait;
-
-abstract class AbstractComponentFilter implements ComponentFilterInterface
+/** @internal */
+abstract class AbstractComponentFilter implements \PoP\ComponentModel\ComponentFilters\ComponentFilterInterface
 {
     use BasicServiceTrait;
-
-    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
-
-    final public function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager): void
+    /**
+     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
+     */
+    private $componentProcessorManager;
+    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
     {
         $this->componentProcessorManager = $componentProcessorManager;
     }
-    final protected function getComponentProcessorManager(): ComponentProcessorManagerInterface
+    protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
             /** @var ComponentProcessorManagerInterface */
@@ -27,35 +27,31 @@ abstract class AbstractComponentFilter implements ComponentFilterInterface
         }
         return $this->componentProcessorManager;
     }
-
     /**
      * @param array<string,mixed> $props
      */
-    public function excludeSubcomponent(Component $component, array &$props): bool
+    public function excludeSubcomponent(Component $component, array &$props) : bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @param Component[] $subcomponents
      * @return Component[]
      */
-    public function removeExcludedSubcomponents(Component $component, array $subcomponents): array
+    public function removeExcludedSubcomponents(Component $component, array $subcomponents) : array
     {
         return $subcomponents;
     }
-
     /**
      * @param array<string,mixed> $props
      */
-    public function prepareForPropagation(Component $component, array &$props): void
+    public function prepareForPropagation(Component $component, array &$props) : void
     {
     }
-
     /**
      * @param array<string,mixed> $props
      */
-    public function restoreFromPropagation(Component $component, array &$props): void
+    public function restoreFromPropagation(Component $component, array &$props) : void
     {
     }
 }

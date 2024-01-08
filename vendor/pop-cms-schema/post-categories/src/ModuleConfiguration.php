@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
-
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
     // public function getPostCategoryListDefaultLimit(): ?int
@@ -14,7 +13,6 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     //     $envVariable = Environment::POSTCATEGORY_LIST_DEFAULT_LIMIT;
     //     $defaultValue = 10;
     //     $callback = EnvironmentValueHelpers::toInt(...);
-
     //     // Initialize property from the environment/hook
     //     $this->retrieveConfigurationValueOrUseDefault(
     //         $envVariable,
@@ -23,14 +21,12 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     //     );
     //     return $this->configuration[$envVariable];
     // }
-
     // public function getPostCategoryListMaxLimit(): ?int
     // {
     //     // Define properties
     //     $envVariable = Environment::POSTCATEGORY_LIST_MAX_LIMIT;
     //     $defaultValue = -1; // Unlimited
     //     $callback = EnvironmentValueHelpers::toInt(...);
-
     //     // Initialize property from the environment/hook
     //     $this->retrieveConfigurationValueOrUseDefault(
     //         $envVariable,
@@ -39,15 +35,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     //     );
     //     return $this->configuration[$envVariable];
     // }
-
-    public function getPostCategoriesRoute(): string
+    public function getPostCategoriesRoute() : string
     {
-        $envVariable = Environment::POSTCATEGORIES_ROUTE;
+        $envVariable = \PoPCMSSchema\PostCategories\Environment::POSTCATEGORIES_ROUTE;
         $defaultValue = 'categories';
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-        );
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
 }

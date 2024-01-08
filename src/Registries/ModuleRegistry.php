@@ -12,7 +12,10 @@ use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
 
 class ModuleRegistry implements ModuleRegistryInterface
 {
-    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
+     */
+    private $userSettingsManager;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -20,23 +23,23 @@ class ModuleRegistry implements ModuleRegistryInterface
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
     }
 
     /**
      * @var ModuleResolverInterface[]
      */
-    protected array $moduleResolvers = [];
+    protected $moduleResolvers = [];
 
     /**
      * @var array<string,ModuleResolverInterface>
      */
-    protected array $modulesResolversByModuleAndPriority = [];
+    protected $modulesResolversByModuleAndPriority = [];
 
     /**
      * @var array<string,ModuleResolverInterface>
      */
-    protected array $moduleResolversByModule = [];
+    protected $moduleResolversByModule = [];
 
     public function addModuleResolver(ModuleResolverInterface $moduleResolver): void
     {
@@ -68,13 +71,8 @@ class ModuleRegistry implements ModuleRegistryInterface
     /**
      * @return string[]
      */
-    public function getAllModules(
-        bool $onlyEnabled = false,
-        bool $onlyHasSettings = false,
-        bool $onlyVisible = false,
-        bool $onlyWithVisibleSettings = false,
-        ?string $settingsCategory = null,
-    ): array {
+    public function getAllModules(bool $onlyEnabled = false, bool $onlyHasSettings = false, bool $onlyVisible = false, bool $onlyWithVisibleSettings = false, ?string $settingsCategory = null): array
+    {
         $modules = array_keys($this->getModuleResolversByModuleAndPriority());
         /**
          * Important: first filter by $settingsCategory, and only
@@ -100,31 +98,41 @@ class ModuleRegistry implements ModuleRegistryInterface
         if ($settingsCategory !== null) {
             $modules = array_filter(
                 $modules,
-                fn (string $module) => $this->getModuleResolver($module)->getSettingsCategory($module) === $settingsCategory
+                function (string $module) use ($settingsCategory) {
+                    return $this->getModuleResolver($module)->getSettingsCategory($module) === $settingsCategory;
+                }
             );
         }
         if ($onlyEnabled) {
             $modules = array_filter(
                 $modules,
-                fn (string $module) => $this->isModuleEnabled($module)
+                function (string $module) {
+                    return $this->isModuleEnabled($module);
+                }
             );
         }
         if ($onlyHasSettings) {
             $modules = array_filter(
                 $modules,
-                fn (string $module) => $this->getModuleResolver($module)->hasSettings($module)
+                function (string $module) {
+                    return $this->getModuleResolver($module)->hasSettings($module);
+                }
             );
         }
         if ($onlyVisible) {
             $modules = array_filter(
                 $modules,
-                fn (string $module) => !$this->getModuleResolver($module)->isHidden($module)
+                function (string $module) {
+                    return !$this->getModuleResolver($module)->isHidden($module);
+                }
             );
         }
         if ($onlyWithVisibleSettings) {
             $modules = array_filter(
                 $modules,
-                fn (string $module) => !$this->getModuleResolver($module)->areSettingsHidden($module)
+                function (string $module) {
+                    return !$this->getModuleResolver($module)->areSettingsHidden($module);
+                }
             );
         }
         return array_values($modules);

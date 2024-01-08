@@ -36,7 +36,10 @@ class CMSRoutingStateService implements CMSRoutingStateServiceInterface
         return null;
     }
 
-    public function getQueriedObjectID(): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getQueriedObjectID()
     {
         $this->init();
 

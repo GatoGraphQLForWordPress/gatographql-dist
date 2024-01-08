@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjectTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver;
 use stdClass;
-
+/** @internal */
 class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    private ?DateScalarTypeResolver $dateScalarTypeResolver = null;
-
-    final public function setDateScalarTypeResolver(DateScalarTypeResolver $dateScalarTypeResolver): void
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver|null
+     */
+    private $dateScalarTypeResolver;
+    public final function setDateScalarTypeResolver(DateScalarTypeResolver $dateScalarTypeResolver) : void
     {
         $this->dateScalarTypeResolver = $dateScalarTypeResolver;
     }
-    final protected function getDateScalarTypeResolver(): DateScalarTypeResolver
+    protected final function getDateScalarTypeResolver() : DateScalarTypeResolver
     {
         if ($this->dateScalarTypeResolver === null) {
             /** @var DateScalarTypeResolver */
@@ -26,32 +27,28 @@ class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeR
         }
         return $this->dateScalarTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'DateQueryInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            'after' => $this->getDateScalarTypeResolver(),
-            'before' => $this->getDateScalarTypeResolver(),
-        ];
+        return ['after' => $this->getDateScalarTypeResolver(), 'before' => $this->getDateScalarTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'after' => $this->__('Retrieve entities from after this date', 'schema-commons'),
-            'before' => $this->__('Retrieve entities from before this date', 'schema-commons'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'after':
+                return $this->__('Retrieve entities from after this date', 'schema-commons');
+            case 'before':
+                return $this->__('Retrieve entities from before this date', 'schema-commons');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
     /**
      * Integrate parameters into the "date_query" WP_Query arg
      *
@@ -60,13 +57,12 @@ class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeR
      * @param array<string,mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue): void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
     {
-        if (is_array($inputValue)) {
+        if (\is_array($inputValue)) {
             parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
             return;
         }
-
         if (isset($inputValue->before)) {
             $query['date-to'] = $this->getDateScalarTypeResolver()->serialize($inputValue->before);
         }

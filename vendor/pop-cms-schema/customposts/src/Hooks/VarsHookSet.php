@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\Hooks;
 
 use PoP\Root\App;
@@ -9,25 +8,20 @@ use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\CustomPosts\Constants\ModelInstanceComponentTypes;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
-
+/** @internal */
 class VarsHookSet extends AbstractHookSet
 {
-    protected function init(): void
+    protected function init() : void
     {
-        App::addFilter(
-            ModelInstance::HOOK_ELEMENTS_RESULT,
-            $this->getModelInstanceElementsFromAppState(...)
-        );
+        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
     }
-
     /**
      * @return string[]
      * @param string[] $elements
      */
-    public function getModelInstanceElementsFromAppState(array $elements): array
+    public function getModelInstanceElementsFromAppState(array $elements) : array
     {
         $nature = App::getState('nature');
-
         // Properties specific to each nature
         switch ($nature) {
             case RequestNature::CUSTOMPOST:
@@ -42,10 +36,8 @@ class VarsHookSet extends AbstractHookSet
                 //         ModelInstanceComponentTypes::SINGLE_CUSTOMPOST,
                 //     )
                 // );
-                $component_types = array(
-                    ModelInstanceComponentTypes::SINGLE_CUSTOMPOST,
-                );
-                if (in_array(ModelInstanceComponentTypes::SINGLE_CUSTOMPOST, $component_types)) {
+                $component_types = array(ModelInstanceComponentTypes::SINGLE_CUSTOMPOST);
+                if (\in_array(ModelInstanceComponentTypes::SINGLE_CUSTOMPOST, $component_types)) {
                     $customPostType = App::getState(['routing', 'queried-object-post-type']);
                     $elements[] = $this->__('post type:', 'pop-engine') . $customPostType;
                 }

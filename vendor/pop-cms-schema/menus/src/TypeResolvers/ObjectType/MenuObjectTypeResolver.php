@@ -1,24 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Menus\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuObjectTypeDataLoader;
 use PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface;
-
+/** @internal */
 class MenuObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    private ?MenuObjectTypeDataLoader $menuObjectTypeDataLoader = null;
-    private ?MenuTypeAPIInterface $menuTypeAPI = null;
-
-    final public function setMenuObjectTypeDataLoader(MenuObjectTypeDataLoader $menuObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuObjectTypeDataLoader|null
+     */
+    private $menuObjectTypeDataLoader;
+    /**
+     * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
+     */
+    private $menuTypeAPI;
+    public final function setMenuObjectTypeDataLoader(MenuObjectTypeDataLoader $menuObjectTypeDataLoader) : void
     {
         $this->menuObjectTypeDataLoader = $menuObjectTypeDataLoader;
     }
-    final protected function getMenuObjectTypeDataLoader(): MenuObjectTypeDataLoader
+    protected final function getMenuObjectTypeDataLoader() : MenuObjectTypeDataLoader
     {
         if ($this->menuObjectTypeDataLoader === null) {
             /** @var MenuObjectTypeDataLoader */
@@ -27,11 +31,11 @@ class MenuObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->menuObjectTypeDataLoader;
     }
-    final public function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI): void
+    public final function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI) : void
     {
         $this->menuTypeAPI = $menuTypeAPI;
     }
-    final protected function getMenuTypeAPI(): MenuTypeAPIInterface
+    protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {
         if ($this->menuTypeAPI === null) {
             /** @var MenuTypeAPIInterface */
@@ -40,24 +44,23 @@ class MenuObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->menuTypeAPI;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'Menu';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Representation of a navigation menu', 'menus');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         $menu = $object;
         return $this->getMenuTypeAPI()->getMenuID($menu);
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getMenuObjectTypeDataLoader();
     }

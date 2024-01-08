@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DomCrawler\Field;
+namespace PrefixedByPoP\Symfony\Component\DomCrawler\Field;
 
 /**
  * InputFormField represents an input form field (an HTML input tag).
@@ -18,6 +17,7 @@ namespace Symfony\Component\DomCrawler\Field;
  * specialized classes (cf. FileFormField and ChoiceFormField).
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class InputFormField extends FormField
 {
@@ -31,18 +31,15 @@ class InputFormField extends FormField
     protected function initialize()
     {
         if ('input' !== $this->node->nodeName && 'button' !== $this->node->nodeName) {
-            throw new \LogicException(sprintf('An InputFormField can only be created from an input or button tag (%s given).', $this->node->nodeName));
+            throw new \LogicException(\sprintf('An InputFormField can only be created from an input or button tag (%s given).', $this->node->nodeName));
         }
-
-        $type = strtolower($this->node->getAttribute('type'));
+        $type = \strtolower($this->node->getAttribute('type'));
         if ('checkbox' === $type) {
             throw new \LogicException('Checkboxes should be instances of ChoiceFormField.');
         }
-
         if ('file' === $type) {
             throw new \LogicException('File inputs should be instances of FileFormField.');
         }
-
         $this->value = $this->node->getAttribute('value');
     }
 }

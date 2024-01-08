@@ -1,20 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Query;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
-
-class GraphQLQueryStringFormatter implements GraphQLQueryStringFormatterInterface
+/** @internal */
+class GraphQLQueryStringFormatter implements \PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface
 {
     /**
      * @param null|integer|float|boolean|string|mixed[]|stdClass $elem
      */
-    public function getElementAsQueryString(null|int|float|bool|string|array|stdClass $elem): string
+    public function getElementAsQueryString($elem) : string
     {
-        if (is_array($elem)) {
+        if (\is_array($elem)) {
             return $this->getListAsQueryString($elem);
         }
         if ($elem instanceof stdClass) {
@@ -22,55 +21,41 @@ class GraphQLQueryStringFormatter implements GraphQLQueryStringFormatterInterfac
         }
         return $this->getLiteralAsQueryString($elem);
     }
-
     /**
      * @param mixed[] $list
      */
-    public function getListAsQueryString(array $list): string
+    public function getListAsQueryString(array $list) : string
     {
         $listStrElems = [];
         foreach ($list as $elem) {
-            $listStrElems[] = $elem instanceof AstInterface
-                ? $elem->asQueryString()
-                : $this->getElementAsQueryString($elem);
+            $listStrElems[] = $elem instanceof AstInterface ? $elem->asQueryString() : $this->getElementAsQueryString($elem);
         }
-        return sprintf(
-            '[%s]',
-            implode(', ', $listStrElems)
-        );
+        return \sprintf('[%s]', \implode(', ', $listStrElems));
     }
-
-    public function getObjectAsQueryString(stdClass $object): string
+    public function getObjectAsQueryString(stdClass $object) : string
     {
         $objectStrElems = [];
         foreach ((array) $object as $key => $value) {
-            $objectStrElems[] = sprintf(
-                '%s: %s',
-                $key,
-                $value instanceof AstInterface
-                    ? $value->asQueryString()
-                    : $this->getElementAsQueryString($value)
-            );
+            $objectStrElems[] = \sprintf('%s: %s', $key, $value instanceof AstInterface ? $value->asQueryString() : $this->getElementAsQueryString($value));
         }
-        return sprintf(
-            '{%s}',
-            implode(', ', $objectStrElems)
-        );
+        return \sprintf('{%s}', \implode(', ', $objectStrElems));
     }
-
-    public function getLiteralAsQueryString(null|int|float|bool|string $literal): string
+    /**
+     * @param null|int|float|bool|string $literal
+     */
+    public function getLiteralAsQueryString($literal) : string
     {
         if ($literal === null) {
             return 'null';
         }
-        if (is_bool($literal)) {
+        if (\is_bool($literal)) {
             return $literal ? 'true' : 'false';
         }
-        if (is_string($literal)) {
+        if (\is_string($literal)) {
             // String, wrap between quotes
-            return sprintf('"%s"', $literal);
+            return \sprintf('"%s"', $literal);
         }
         // Numeric: int or float
-        return (string)$literal;
+        return (string) $literal;
     }
 }

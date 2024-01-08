@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
-class RootLogoutUserMutationPayloadObjectTypeResolver extends AbstractUserStateMutationPayloadObjectTypeResolver
+/** @internal */
+class RootLogoutUserMutationPayloadObjectTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\AbstractUserStateMutationPayloadObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootLogoutUserMutationPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Payload of logging the user out', 'user-state-mutations');
     }

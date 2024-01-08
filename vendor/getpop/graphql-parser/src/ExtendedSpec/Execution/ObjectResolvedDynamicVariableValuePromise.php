@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\ExtendedSpec\Execution;
 
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
@@ -13,20 +12,24 @@ use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
 use SplObjectStorage;
-
-class ObjectResolvedDynamicVariableValuePromise implements ValueResolutionPromiseInterface
+/** @internal */
+class ObjectResolvedDynamicVariableValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
+    /**
+     * @readonly
+     * @var \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\ObjectResolvedDynamicVariableReference
+     */
+    public $objectResolvedDynamicVariableReference;
     use StandaloneServiceTrait;
-
-    public function __construct(
-        public readonly ObjectResolvedDynamicVariableReference $objectResolvedDynamicVariableReference,
-    ) {
+    public function __construct(ObjectResolvedDynamicVariableReference $objectResolvedDynamicVariableReference)
+    {
+        $this->objectResolvedDynamicVariableReference = $objectResolvedDynamicVariableReference;
     }
-
     /**
      * @throws RuntimeVariableReferenceException When accessing non-declared Dynamic Variables
+     * @return mixed
      */
-    public function resolveValue(): mixed
+    public function resolveValue()
     {
         /**
          * Retrieve which is the current object ID and Field
@@ -61,71 +64,38 @@ class ObjectResolvedDynamicVariableValuePromise implements ValueResolutionPromis
              * }
              * ```
              */
-            throw new RuntimeVariableReferenceException(
-                new FeedbackItemResolution(
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::E16,
-                    [
-                        $this->objectResolvedDynamicVariableReference->getName(),
-                    ]
-                ),
-                $this->objectResolvedDynamicVariableReference
-            );
+            throw new RuntimeVariableReferenceException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E16, [$this->objectResolvedDynamicVariableReference->getName()]), $this->objectResolvedDynamicVariableReference);
         }
-
         /** @var SplObjectStorage<FieldInterface,array<string|int,array<string,mixed>>> SplObjectStorage<Field, [objectID => [dynamicVariableName => value]]> */
         $objectResolvedDynamicVariables = App::getState('object-resolved-dynamic-variables');
         $dynamicVariableName = $this->objectResolvedDynamicVariableReference->getName();
-
         /**
          * First check if the value has been set for the specific field.
          * (This allows @underEachArrayItem to export the iterated upon values.)
          */
         $currentField = App::getState('object-resolved-dynamic-variables-current-field');
-        if (
-            $currentField !== null
-            && $objectResolvedDynamicVariables->contains($currentField)
-            && isset($objectResolvedDynamicVariables[$currentField][$currentObjectID])
-            && array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$currentField][$currentObjectID])
-        ) {
+        if ($currentField !== null && $objectResolvedDynamicVariables->contains($currentField) && isset($objectResolvedDynamicVariables[$currentField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$currentField][$currentObjectID])) {
             return $objectResolvedDynamicVariables[$currentField][$currentObjectID][$dynamicVariableName];
         }
-
         /**
          * If the value was not set for the combination of objectID + Field,
          * only then check for the objectID alone. To simplify the structure,
          * this is stored under the "wildcard field"
          */
         $wildcardField = ASTNodesFactory::getWildcardField();
-        if (
-            $objectResolvedDynamicVariables->contains($wildcardField)
-            && isset($objectResolvedDynamicVariables[$wildcardField][$currentObjectID])
-            && array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$wildcardField][$currentObjectID])
-        ) {
+        if ($objectResolvedDynamicVariables->contains($wildcardField) && isset($objectResolvedDynamicVariables[$wildcardField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$wildcardField][$currentObjectID])) {
             return $objectResolvedDynamicVariables[$wildcardField][$currentObjectID][$dynamicVariableName];
         }
-
         // Variable is nowhere defined => Error
-        throw new RuntimeVariableReferenceException(
-            new FeedbackItemResolution(
-                GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                GraphQLExtendedSpecErrorFeedbackItemProvider::E10,
-                [
-                    $this->objectResolvedDynamicVariableReference->getName(),
-                    $currentObjectID,
-                ]
-            ),
-            $this->objectResolvedDynamicVariableReference
-        );
+        throw new RuntimeVariableReferenceException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E10, [$this->objectResolvedDynamicVariableReference->getName(), $currentObjectID]), $this->objectResolvedDynamicVariableReference);
     }
-
     /**
      * The field/directiveArgs containing the promise must be resolved:
      *
      * Object by object
      */
-    public function mustResolveOnObject(): bool
+    public function mustResolveOnObject() : bool
     {
-        return true;
+        return \true;
     }
 }

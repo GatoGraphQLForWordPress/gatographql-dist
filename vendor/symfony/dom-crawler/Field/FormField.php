@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DomCrawler\Field;
+namespace PrefixedByPoP\Symfony\Component\DomCrawler\Field;
 
 /**
  * FormField is the abstract class for all form fields.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 abstract class FormField
 {
@@ -42,7 +42,6 @@ abstract class FormField
      * @var bool
      */
     protected $disabled;
-
     /**
      * @param \DOMElement $node The node associated with this field
      */
@@ -51,45 +50,38 @@ abstract class FormField
         $this->node = $node;
         $this->name = $node->getAttribute('name');
         $this->xpath = new \DOMXPath($node->ownerDocument);
-
         $this->initialize();
     }
-
     /**
      * Returns the label tag associated to the field or null if none.
      */
-    public function getLabel(): ?\DOMElement
+    public function getLabel() : ?\DOMElement
     {
         $xpath = new \DOMXPath($this->node->ownerDocument);
-
         if ($this->node->hasAttribute('id')) {
-            $labels = $xpath->query(sprintf('descendant::label[@for="%s"]', $this->node->getAttribute('id')));
+            $labels = $xpath->query(\sprintf('descendant::label[@for="%s"]', $this->node->getAttribute('id')));
             if ($labels->length > 0) {
                 return $labels->item(0);
             }
         }
-
         $labels = $xpath->query('ancestor::label[1]', $this->node);
-
         return $labels->length > 0 ? $labels->item(0) : null;
     }
-
     /**
      * Returns the name of the field.
      */
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
-
     /**
      * Gets the value of the field.
+     * @return string|mixed[]|null
      */
-    public function getValue(): string|array|null
+    public function getValue()
     {
         return $this->value;
     }
-
     /**
      * Sets the value of the field.
      *
@@ -99,27 +91,24 @@ abstract class FormField
     {
         $this->value = $value ?? '';
     }
-
     /**
      * Returns true if the field should be included in the submitted values.
      */
-    public function hasValue(): bool
+    public function hasValue() : bool
     {
-        return true;
+        return \true;
     }
-
     /**
      * Check if the current field is disabled.
      */
-    public function isDisabled(): bool
+    public function isDisabled() : bool
     {
         return $this->node->hasAttribute('disabled');
     }
-
     /**
      * Initializes the form field.
      *
      * @return void
      */
-    abstract protected function initialize();
+    protected abstract function initialize();
 }

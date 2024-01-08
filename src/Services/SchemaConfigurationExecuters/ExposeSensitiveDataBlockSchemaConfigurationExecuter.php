@@ -12,7 +12,10 @@ use PoP\ComponentModel\Environment as ComponentModelEnvironment;
 
 class ExposeSensitiveDataBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigExposeSensitiveDataBlock $schemaConfigExposeSensitiveDataBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigExposeSensitiveDataBlock|null
+     */
+    private $schemaConfigExposeSensitiveDataBlock;
 
     final public function setSchemaConfigExposeSensitiveDataBlock(SchemaConfigExposeSensitiveDataBlock $schemaConfigExposeSensitiveDataBlock): void
     {

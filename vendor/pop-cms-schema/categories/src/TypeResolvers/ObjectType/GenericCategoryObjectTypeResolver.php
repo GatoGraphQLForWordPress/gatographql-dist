@@ -1,28 +1,32 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\QueryableCategoryListObjectTypeDataLoader;
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
 /**
  * Class to be used only when a Generic Category Type is good enough.
  * Otherwise, a specific type for the entity should be employed.
+ * @internal
  */
-class GenericCategoryObjectTypeResolver extends AbstractCategoryObjectTypeResolver
+class GenericCategoryObjectTypeResolver extends \PoPCMSSchema\Categories\TypeResolvers\ObjectType\AbstractCategoryObjectTypeResolver
 {
-    private ?QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader = null;
-    private ?QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI = null;
-
-    final public function setQueryableCategoryListObjectTypeDataLoader(QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\QueryableCategoryListObjectTypeDataLoader|null
+     */
+    private $queryableCategoryListObjectTypeDataLoader;
+    /**
+     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
+     */
+    private $queryableCategoryListTypeAPI;
+    public final function setQueryableCategoryListObjectTypeDataLoader(QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader) : void
     {
         $this->queryableCategoryListObjectTypeDataLoader = $queryableCategoryListObjectTypeDataLoader;
     }
-    final protected function getQueryableCategoryListObjectTypeDataLoader(): QueryableCategoryListObjectTypeDataLoader
+    protected final function getQueryableCategoryListObjectTypeDataLoader() : QueryableCategoryListObjectTypeDataLoader
     {
         if ($this->queryableCategoryListObjectTypeDataLoader === null) {
             /** @var QueryableCategoryListObjectTypeDataLoader */
@@ -31,11 +35,11 @@ class GenericCategoryObjectTypeResolver extends AbstractCategoryObjectTypeResolv
         }
         return $this->queryableCategoryListObjectTypeDataLoader;
     }
-    final public function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI): void
+    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI) : void
     {
         $this->queryableCategoryListTypeAPI = $queryableCategoryListTypeAPI;
     }
-    final protected function getQueryableCategoryTypeAPI(): QueryableCategoryTypeAPIInterface
+    protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryListTypeAPI === null) {
             /** @var QueryableCategoryTypeAPIInterface */
@@ -44,23 +48,19 @@ class GenericCategoryObjectTypeResolver extends AbstractCategoryObjectTypeResolv
         }
         return $this->queryableCategoryListTypeAPI;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'GenericCategory';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('A category that does not have its own type in the schema', 'customposts');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getQueryableCategoryListObjectTypeDataLoader();
     }
-
-    public function getCategoryTypeAPI(): CategoryTypeAPIInterface
+    public function getCategoryTypeAPI() : CategoryTypeAPIInterface
     {
         return $this->getQueryableCategoryTypeAPI();
     }

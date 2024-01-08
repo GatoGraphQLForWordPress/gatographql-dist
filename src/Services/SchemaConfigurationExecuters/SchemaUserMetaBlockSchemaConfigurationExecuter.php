@@ -13,7 +13,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaUserMetaBlockSchemaConfigurationExecuter extends AbstractSchemaMetaBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigSchemaUserMetaBlock $schemaConfigSchemaUserMetaBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaUserMetaBlock|null
+     */
+    private $schemaConfigSchemaUserMetaBlock;
 
     final public function setSchemaConfigSchemaUserMetaBlock(SchemaConfigSchemaUserMetaBlock $schemaConfigSchemaUserMetaBlock): void
     {

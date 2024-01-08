@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\TaxonomyMeta\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -11,16 +10,18 @@ use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldR
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 use PoPCMSSchema\Taxonomies\TypeResolvers\ObjectType\AbstractTaxonomyObjectTypeResolver;
 use PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface;
-
+/** @internal */
 class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
-    private ?TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI = null;
-
-    final public function setTaxonomyMetaTypeAPI(TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface|null
+     */
+    private $taxonomyMetaTypeAPI;
+    public final function setTaxonomyMetaTypeAPI(TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI) : void
     {
         $this->taxonomyMetaTypeAPI = $taxonomyMetaTypeAPI;
     }
-    final protected function getTaxonomyMetaTypeAPI(): TaxonomyMetaTypeAPIInterface
+    protected final function getTaxonomyMetaTypeAPI() : TaxonomyMetaTypeAPIInterface
     {
         if ($this->taxonomyMetaTypeAPI === null) {
             /** @var TaxonomyMetaTypeAPIInterface */
@@ -29,39 +30,28 @@ class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldRes
         }
         return $this->taxonomyMetaTypeAPI;
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            AbstractTaxonomyObjectTypeResolver::class,
-        ];
+        return [AbstractTaxonomyObjectTypeResolver::class];
     }
-
-    protected function getMetaTypeAPI(): MetaTypeAPIInterface
+    protected function getMetaTypeAPI() : MetaTypeAPIInterface
     {
         return $this->getTaxonomyMetaTypeAPI();
     }
-
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $taxonomy = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
-                return $this->getTaxonomyMetaTypeAPI()->getTaxonomyTermMeta(
-                    $taxonomy,
-                    $fieldDataAccessor->getValue('key'),
-                    $fieldDataAccessor->getFieldName() === 'metaValue'
-                );
+                return $this->getTaxonomyMetaTypeAPI()->getTaxonomyTermMeta($taxonomy, $fieldDataAccessor->getValue('key'), $fieldDataAccessor->getFieldName() === 'metaValue');
         }
-
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

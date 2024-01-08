@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\CssSelector\Exception;
+namespace PrefixedByPoP\Symfony\Component\CssSelector\Exception;
 
 /**
  * Interface for exceptions.
@@ -18,6 +17,7 @@ namespace Symfony\Component\CssSelector\Exception;
  * which is copyright Ian Bicking, @see https://github.com/SimonSapin/cssselect.
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ * @internal
  */
 interface ExceptionInterface extends \Throwable
 {

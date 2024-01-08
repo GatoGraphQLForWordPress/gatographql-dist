@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container\Dumper;
 
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
-use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvParameterException;
 /**
  * Starting from Symfony Dependency Injection v2.6,
  * PhpDumper generates code that contains `??=`,
@@ -40,6 +38,7 @@ use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
  *
  * This class extends PhpDumper to replace the `??=` code,
  * making it compatible with PHP 7.2+ once again.
+ * @internal
  */
 class DowngradingPhpDumper extends PhpDumper
 {
@@ -58,10 +57,9 @@ class DowngradingPhpDumper extends PhpDumper
      *
      * @throws EnvParameterException When an env var exists but has not been dumped
      */
-    public function dump(array $options = []): string|array
+    public function dump(array $options = [])
     {
         $dump = parent::dump($options);
-
         /**
          * Regex: match anything except whitespaces => it'll capture the service name or class.
          *
@@ -73,10 +71,6 @@ class DowngradingPhpDumper extends PhpDumper
          *
          * @var string|string[]
          */
-        return preg_replace(
-            '/\$([a-zA-Z0-9_]+)->services\[\'([^\s]*)\'\] \?\?= new ([^\s]*)\(\)/',
-            '\$$1->services[\'$2\'] ?? (\$$1->services[\'$2\'] = new $3())',
-            $dump
-        );
+        return \preg_replace('/\\$([a-zA-Z0-9_]+)->services\\[\'([^\\s]*)\'\\] \\?\\?= new ([^\\s]*)\\(\\)/', '\\$$1->services[\'$2\'] ?? (\\$$1->services[\'$2\'] = new $3())', $dump);
     }
 }

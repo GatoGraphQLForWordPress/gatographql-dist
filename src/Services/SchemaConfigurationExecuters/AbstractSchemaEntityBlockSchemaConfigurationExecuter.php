@@ -10,7 +10,10 @@ use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SchemaEntityConfigurato
 
 abstract class AbstractSchemaEntityBlockSchemaConfigurationExecuter extends AbstractCustomizableConfigurationBlockSchemaConfigurationExecuter
 {
-    private ?UserSettingsHelpers $userSettingsHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\UserSettingsHelpers|null
+     */
+    private $userSettingsHelpers;
 
     final public function setUserSettingsHelpers(UserSettingsHelpers $userSettingsHelpers): void
     {
@@ -42,7 +45,9 @@ abstract class AbstractSchemaEntityBlockSchemaConfigurationExecuter extends Abst
          * Cast to int[]
          */
         $customPostIDs = array_map(
-            fn (int|string $item) => (int) $item,
+            function ($item) {
+                return (int) $item;
+            },
             $customPostIDs
         );
 
@@ -72,9 +77,7 @@ abstract class AbstractSchemaEntityBlockSchemaConfigurationExecuter extends Abst
     {
         /** @var string */
         $enablingModule = $this->getEnablingModule();
-        $customPostIDs = $this->getUserSettingsHelpers()->getUserDefaultSettingCustomPostValueIDs(
-            $enablingModule,
-        );
+        $customPostIDs = $this->getUserSettingsHelpers()->getUserDefaultSettingCustomPostValueIDs($enablingModule);
         $this->executeCustomPostListsBlockSchemaConfiguration($customPostIDs);
     }
 }

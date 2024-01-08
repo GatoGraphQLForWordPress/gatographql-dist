@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
@@ -11,12 +10,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Translation\TranslationAPIInterface;
 use stdClass;
-
+/** @internal */
 trait OneofInputObjectTypeResolverTrait
 {
-    abstract protected function getTranslationAPI(): TranslationAPIInterface;
-    abstract public function getMaybeNamespacedTypeName(): string;
-
+    protected abstract function getTranslationAPI() : TranslationAPIInterface;
+    public abstract function getMaybeNamespacedTypeName() : string;
     /**
      * The oneof input can be used for different uses, such as:
      *
@@ -29,94 +27,45 @@ trait OneofInputObjectTypeResolverTrait
      * Because InputObjects with no value in the query are initialized as {} (via `new stdClass`),
      * then we must explicitly check if the oneof input requires the one value or not.
      */
-    protected function isOneInputValueMandatory(): bool
+    protected function isOneInputValueMandatory() : bool
     {
-        return true;
+        return \true;
     }
-
     /**
      * Validate that there is exactly one input set
      */
-    protected function validateOneofInputObjectValue(
-        stdClass $inputValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
-        $inputValueAsArray = (array)$inputValue;
-        $inputValueSize = count($inputValueAsArray);
+    protected function validateOneofInputObjectValue(stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        $inputValueAsArray = (array) $inputValue;
+        $inputValueSize = \count($inputValueAsArray);
         if ($inputValueSize > 1) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
-                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_6,
-                        [
-                            $this->getMaybeNamespacedTypeName(),
-                            $inputValueSize,
-                            implode(
-                                $this->getTranslationAPI()->__('\', \'', 'component-model'),
-                                array_keys($inputValueAsArray)
-                            ),
-                        ]
-                    ),
-                    $astNode,
-                ),
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_6, [$this->getMaybeNamespacedTypeName(), $inputValueSize, \implode($this->getTranslationAPI()->__('\', \'', 'component-model'), \array_keys($inputValueAsArray))]), $astNode));
             return;
         }
         if ($inputValueSize === 0) {
             if ($this->isOneInputValueMandatory()) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
-                            InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_7,
-                            [
-                                $this->getMaybeNamespacedTypeName(),
-                            ]
-                        ),
-                        $astNode,
-                    ),
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_7, [$this->getMaybeNamespacedTypeName()]), $astNode));
             }
             return;
         }
         /** @var string */
-        $selectedInputPropertyName = array_keys($inputValueAsArray)[0];
+        $selectedInputPropertyName = \array_keys($inputValueAsArray)[0];
         /** @var mixed */
-        $selectedInputPropertyValue = $inputValue->$selectedInputPropertyName;
-        if (
-            $selectedInputPropertyValue === null
-            && !$this->isOneOfInputPropertyNullable($selectedInputPropertyName)
-        ) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
-                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_19,
-                        [
-                            $selectedInputPropertyName,
-                            $this->getMaybeNamespacedTypeName(),
-                        ]
-                    ),
-                    $astNode,
-                ),
-            );
+        $selectedInputPropertyValue = $inputValue->{$selectedInputPropertyName};
+        if ($selectedInputPropertyValue === null && !$this->isOneOfInputPropertyNullable($selectedInputPropertyName)) {
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_19, [$selectedInputPropertyName, $this->getMaybeNamespacedTypeName()]), $astNode));
         }
     }
-
-    protected function isOneOfInputPropertyNullable(
-        string $propertyName
-    ): bool {
-        return false;
+    protected function isOneOfInputPropertyNullable(string $propertyName) : bool
+    {
+        return \false;
     }
-
     /**
      * Do not initialize the OneofInputObject, since we do not know
      * which one option to initialize
      */
-    protected function initializeInputFieldInputObjectValue(): bool
+    protected function initializeInputFieldInputObjectValue() : bool
     {
-        return false;
+        return \false;
     }
 }

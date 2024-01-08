@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\TypeResolvers\ScalarType;
 
 /**
@@ -15,19 +14,19 @@ namespace PoPSchema\SchemaCommons\TypeResolvers\ScalarType;
  *
  * For whenever the option values may not satisfy these constraints,
  * this type can be used instead
+ * @internal
  */
 interface EnumStringScalarTypeResolverInterface
 {
     /**
      * @return string[]
      */
-    public function getPossibleValues(): array;
-
+    public function getPossibleValues() : array;
     /**
      * Consolidation of the possible values. Call this function to read the data
      * instead of the individual functions, since it applies hooks to override/extend.
      *
      * @return string[]
      */
-    public function getConsolidatedPossibleValues(): array;
+    public function getConsolidatedPossibleValues() : array;
 }

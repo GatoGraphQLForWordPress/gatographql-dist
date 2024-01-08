@@ -96,13 +96,15 @@ interface ModuleResolverInterface
 
     /**
      * Indicate if the given value is valid for that option
+     * @param mixed $value
      */
-    public function isValidValue(string $module, string $option, mixed $value): bool;
+    public function isValidValue(string $module, string $option, $value): bool;
 
     /**
      * Default value for an option set by the module
+     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option): mixed;
+    public function getSettingsDefaultValue(string $module, string $option);
     public function isEnabledByDefault(string $module): bool;
     // public function getURL(string $module): ?string;
     public function getSlug(string $module): string;

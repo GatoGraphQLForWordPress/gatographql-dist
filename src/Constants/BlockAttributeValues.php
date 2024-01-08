@@ -6,6 +6,6 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class BlockAttributeValues
 {
-    public final const ENABLED = 'enabled';
-    public final const DISABLED = 'disabled';
+    public const ENABLED = 'enabled';
+    public const DISABLED = 'disabled';
 }

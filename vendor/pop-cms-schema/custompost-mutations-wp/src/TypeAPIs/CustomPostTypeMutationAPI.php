@@ -69,7 +69,7 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
      * @return string|int the ID of the created custom post
      * @throws CustomPostCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    public function createCustomPost(array $data): string|int
+    public function createCustomPost(array $data)
     {
         // Convert the parameters
         $data = $this->convertCustomPostsMutationQuery($data);
@@ -86,11 +86,7 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
 
     protected function createCustomPostCRUDMutationException(WP_Error $wpError): CustomPostCRUDMutationException
     {
-        return new CustomPostCRUDMutationException(
-            $wpError->get_error_message(),
-            $wpError->get_error_code() ? $wpError->get_error_code() : null,
-            $this->getWPErrorData($wpError),
-        );
+        return new CustomPostCRUDMutationException($wpError->get_error_message(), $wpError->get_error_code() ? $wpError->get_error_code() : null, $this->getWPErrorData($wpError));
     }
 
     /**
@@ -98,7 +94,7 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
      * @return string|int the ID of the updated custom post
      * @throws CustomPostCRUDMutationException If there was an error (eg: Custom Post does not exist)
      */
-    public function updateCustomPost(array $data): string|int
+    public function updateCustomPost(array $data)
     {
         // Convert the parameters
         $data = $this->convertCustomPostsMutationQuery($data);
@@ -113,7 +109,11 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
         return $postID;
     }
 
-    public function canUserEditCustomPost(string|int $userID, string|int $customPostID): bool
+    /**
+     * @param string|int $userID
+     * @param string|int $customPostID
+     */
+    public function canUserEditCustomPost($userID, $customPostID): bool
     {
         return user_can((int)$userID, 'edit_post', $customPostID);
     }

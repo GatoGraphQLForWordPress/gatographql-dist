@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\DataStructure;
 
 use PoP\Root\App;
 use PoP\ComponentModel\DataStructure\DataStructureManagerInterface;
-
+/** @internal */
 class DataStructureManagerFacade
 {
-    public static function getInstance(): DataStructureManagerInterface
+    public static function getInstance() : DataStructureManagerInterface
     {
         /**
          * @var DataStructureManagerInterface

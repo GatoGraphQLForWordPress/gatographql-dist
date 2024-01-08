@@ -1,37 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
-
-class FragmentReference extends AbstractAst implements FragmentBondInterface
+/** @internal */
+class FragmentReference extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface
 {
-    public function __construct(
-        protected readonly string $name,
-        Location $location,
-    ) {
+    /**
+     * @readonly
+     * @var string
+     */
+    protected $name;
+    public function __construct(string $name, Location $location)
+    {
+        $this->name = $name;
         parent::__construct($location);
     }
-
-    protected function doAsQueryString(): string
+    protected function doAsQueryString() : string
     {
-        return sprintf(
-            '...%s',
-            $this->name
-        );
+        return \sprintf('...%s', $this->name);
     }
-
-    protected function doAsASTNodeString(): string
+    protected function doAsASTNodeString() : string
     {
-        return sprintf(
-            '...%s',
-            $this->name
-        );
+        return \sprintf('...%s', $this->name);
     }
-
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }

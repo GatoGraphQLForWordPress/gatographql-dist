@@ -17,7 +17,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class MutationSchemeBlockSchemaConfigurationExecuter extends AbstractBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigMutationSchemeBlock $schemaConfigMutationSchemeBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigMutationSchemeBlock|null
+     */
+    private $schemaConfigMutationSchemeBlock;
 
     final public function setSchemaConfigMutationSchemeBlock(SchemaConfigMutationSchemeBlock $schemaConfigMutationSchemeBlock): void
     {
@@ -71,7 +74,9 @@ class MutationSchemeBlockSchemaConfigurationExecuter extends AbstractBlockSchema
         );
         App::addFilter(
             $hookName,
-            fn () => $mutationScheme !== MutationSchemes::STANDARD,
+            function () use ($mutationScheme) {
+                return $mutationScheme !== MutationSchemes::STANDARD;
+            },
             PHP_INT_MAX
         );
         $hookName = ModuleConfigurationHelpers::getHookName(
@@ -80,7 +85,9 @@ class MutationSchemeBlockSchemaConfigurationExecuter extends AbstractBlockSchema
         );
         App::addFilter(
             $hookName,
-            fn () => $mutationScheme === MutationSchemes::NESTED_WITHOUT_REDUNDANT_ROOT_FIELDS,
+            function () use ($mutationScheme) {
+                return $mutationScheme === MutationSchemes::NESTED_WITHOUT_REDUNDANT_ROOT_FIELDS;
+            },
             PHP_INT_MAX
         );
     }

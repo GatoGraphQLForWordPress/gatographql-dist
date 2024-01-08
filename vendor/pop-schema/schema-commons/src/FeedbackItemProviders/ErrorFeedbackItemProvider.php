@@ -1,35 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\FeedbackItemProviders;
 
 use PoP\Root\FeedbackItemProviders\AbstractFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\FeedbackCategories;
-
+/** @internal */
 class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public final const E1 = 'e1';
-
+    public const E1 = 'e1';
     /**
      * @return string[]
      */
-    public function getCodes(): array
+    public function getCodes() : array
     {
-        return [
-            self::E1,
-        ];
+        return [self::E1];
     }
-
-    public function getMessagePlaceholder(string $code): string
+    public function getMessagePlaceholder(string $code) : string
     {
-        return match ($code) {
-            self::E1 => $this->__('The execution of the regex replace produced error: \'%s\'', 'function-directives'),
-            default => parent::getMessagePlaceholder($code),
-        };
+        switch ($code) {
+            case self::E1:
+                return $this->__('The execution of the regex replace produced error: \'%s\'', 'function-directives');
+            default:
+                return parent::getMessagePlaceholder($code);
+        }
     }
-
-    public function getCategory(string $code): string
+    public function getCategory(string $code) : string
     {
         return FeedbackCategories::ERROR;
     }

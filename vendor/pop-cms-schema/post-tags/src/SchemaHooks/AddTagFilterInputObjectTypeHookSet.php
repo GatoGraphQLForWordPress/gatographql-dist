@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTags\SchemaHooks;
 
 use PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\PostsFilterCustomPostsByTagsInputObjectTypeResolver;
 use PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostsFilterInputObjectTypeResolverInterface;
 use PoPCMSSchema\Tags\SchemaHooks\AbstractAddTagFilterInputObjectTypeHookSet;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\FilterCustomPostsByTagsInputObjectTypeResolverInterface;
-
+/** @internal */
 class AddTagFilterInputObjectTypeHookSet extends AbstractAddTagFilterInputObjectTypeHookSet
 {
-    private ?PostsFilterCustomPostsByTagsInputObjectTypeResolver $postsFilterCustomPostsByTagsInputObjectTypeResolver = null;
-
-    final public function setPostsFilterCustomPostsByTagsInputObjectTypeResolver(PostsFilterCustomPostsByTagsInputObjectTypeResolver $postsFilterCustomPostsByTagsInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\PostsFilterCustomPostsByTagsInputObjectTypeResolver|null
+     */
+    private $postsFilterCustomPostsByTagsInputObjectTypeResolver;
+    public final function setPostsFilterCustomPostsByTagsInputObjectTypeResolver(PostsFilterCustomPostsByTagsInputObjectTypeResolver $postsFilterCustomPostsByTagsInputObjectTypeResolver) : void
     {
         $this->postsFilterCustomPostsByTagsInputObjectTypeResolver = $postsFilterCustomPostsByTagsInputObjectTypeResolver;
     }
-    final protected function getPostsFilterCustomPostsByTagsInputObjectTypeResolver(): PostsFilterCustomPostsByTagsInputObjectTypeResolver
+    protected final function getPostsFilterCustomPostsByTagsInputObjectTypeResolver() : PostsFilterCustomPostsByTagsInputObjectTypeResolver
     {
         if ($this->postsFilterCustomPostsByTagsInputObjectTypeResolver === null) {
             /** @var PostsFilterCustomPostsByTagsInputObjectTypeResolver */
@@ -26,13 +27,11 @@ class AddTagFilterInputObjectTypeHookSet extends AbstractAddTagFilterInputObject
         }
         return $this->postsFilterCustomPostsByTagsInputObjectTypeResolver;
     }
-
-    protected function getInputObjectTypeResolverClass(): string
+    protected function getInputObjectTypeResolverClass() : string
     {
         return PostsFilterInputObjectTypeResolverInterface::class;
     }
-
-    protected function getFilterCustomPostsByTagsInputObjectTypeResolver(): FilterCustomPostsByTagsInputObjectTypeResolverInterface
+    protected function getFilterCustomPostsByTagsInputObjectTypeResolver() : FilterCustomPostsByTagsInputObjectTypeResolverInterface
     {
         return $this->getPostsFilterCustomPostsByTagsInputObjectTypeResolver();
     }

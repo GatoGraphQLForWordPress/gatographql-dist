@@ -16,7 +16,7 @@ class RoutingStateHookSet extends AbstractHookSet
     {
         App::addFilter(
             HookNames::NATURE,
-            $this->getNature(...),
+            \Closure::fromCallable([$this, 'getNature']),
             10,
             2
         );

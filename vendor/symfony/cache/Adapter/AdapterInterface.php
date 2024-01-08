@@ -8,28 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 
-namespace Symfony\Component\Cache\Adapter;
-
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Cache\CacheItem;
-
+use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
+use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
 // Help opcache.preload discover always-needed symbols
-class_exists(CacheItem::class);
-
+\class_exists(CacheItem::class);
 /**
  * Interface for adapters managing instances of Symfony's CacheItem.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @internal
  */
 interface AdapterInterface extends CacheItemPoolInterface
 {
-    public function getItem(mixed $key): CacheItem;
-
+    /**
+     * @param mixed $key
+     */
+    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface;
     /**
      * @return iterable<string, CacheItem>
      */
-    public function getItems(array $keys = []): iterable;
-
-    public function clear(string $prefix = ''): bool;
+    public function getItems(array $keys = []) : iterable;
+    public function clear(string $prefix = '') : bool;
 }

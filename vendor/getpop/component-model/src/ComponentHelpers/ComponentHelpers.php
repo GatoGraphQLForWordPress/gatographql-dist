@@ -1,26 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentHelpers;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\Definitions\DefinitionManagerInterface;
 use PoP\Root\Services\BasicServiceTrait;
-
-class ComponentHelpers implements ComponentHelpersInterface
+/** @internal */
+class ComponentHelpers implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
 {
     use BasicServiceTrait;
-
-    public final const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
-
-    private ?DefinitionManagerInterface $definitionManager = null;
-
-    final public function setDefinitionManager(DefinitionManagerInterface $definitionManager): void
+    public const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
+    /**
+     * @var \PoP\Definitions\DefinitionManagerInterface|null
+     */
+    private $definitionManager;
+    public final function setDefinitionManager(DefinitionManagerInterface $definitionManager) : void
     {
         $this->definitionManager = $definitionManager;
     }
-    final protected function getDefinitionManager(): DefinitionManagerInterface
+    protected final function getDefinitionManager() : DefinitionManagerInterface
     {
         if ($this->definitionManager === null) {
             /** @var DefinitionManagerInterface */
@@ -29,57 +28,39 @@ class ComponentHelpers implements ComponentHelpersInterface
         }
         return $this->definitionManager;
     }
-
-    public function getComponentFullName(Component $component): string
+    public function getComponentFullName(Component $component) : string
     {
         $componentFullName = $component->processorClass . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . $component->name;
         if ($component->atts !== []) {
-            $componentFullName .= self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . serialize($component->atts);
+            $componentFullName .= self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . \serialize($component->atts);
         }
-
         return $componentFullName;
     }
-
-    public function getComponentFromFullName(string $componentFullName): ?Component
+    public function getComponentFromFullName(string $componentFullName) : ?Component
     {
-        $parts = explode(self::SEPARATOR_PROCESSORCOMPONENTFULLNAME, $componentFullName);
-
+        $parts = \explode(self::SEPARATOR_PROCESSORCOMPONENTFULLNAME, $componentFullName);
         // There must be at least 2 parts: class and name
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
-
-        $processorClass = (string)$parts[0];
-        $name = (string)$parts[1];
+        $processorClass = (string) $parts[0];
+        $name = (string) $parts[1];
         $atts = [];
-
         // Does it have componentAtts? If so, unserialize them.
         if (isset($parts[2])) {
-            $atts = (array)unserialize(
+            $atts = (array) \unserialize(
                 // Just in case componentAtts contains the same SEPARATOR_PROCESSORCOMPONENTFULLNAME string inside of it, simply recalculate the whole componentAtts from the $componentFullName string
-                substr(
-                    $componentFullName,
-                    strlen(
-                        $processorClass . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . $name . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME
-                    )
-                )
+                \substr($componentFullName, \strlen($processorClass . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . $name . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME))
             );
         }
-
-        return new Component(
-            $processorClass,
-            $name,
-            $atts
-        );
+        return new Component($processorClass, $name, $atts);
     }
-
-    public function getComponentOutputName(Component $component): string
+    public function getComponentOutputName(Component $component) : string
     {
-        return $this->getDefinitionManager()->getDefinition($this->getComponentFullName($component), DefinitionGroups::COMPONENTS);
+        return $this->getDefinitionManager()->getDefinition($this->getComponentFullName($component), \PoP\ComponentModel\ComponentHelpers\DefinitionGroups::COMPONENTS);
     }
-
-    public function getComponentFromOutputName(string $componentOutputName): ?Component
+    public function getComponentFromOutputName(string $componentOutputName) : ?Component
     {
-        return $this->getComponentFromFullName($this->getDefinitionManager()->getOriginalName($componentOutputName, DefinitionGroups::COMPONENTS));
+        return $this->getComponentFromFullName($this->getDefinitionManager()->getOriginalName($componentOutputName, \PoP\ComponentModel\ComponentHelpers\DefinitionGroups::COMPONENTS));
     }
 }

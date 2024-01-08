@@ -1,24 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType\CommentObjectTypeDataLoader;
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
-
+/** @internal */
 class CommentObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    private ?CommentTypeAPIInterface $commentTypeAPI = null;
-    private ?CommentObjectTypeDataLoader $commentObjectTypeDataLoader = null;
-
-    final public function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
+     */
+    private $commentTypeAPI;
+    /**
+     * @var \PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType\CommentObjectTypeDataLoader|null
+     */
+    private $commentObjectTypeDataLoader;
+    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
     {
         $this->commentTypeAPI = $commentTypeAPI;
     }
-    final protected function getCommentTypeAPI(): CommentTypeAPIInterface
+    protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
             /** @var CommentTypeAPIInterface */
@@ -27,11 +31,11 @@ class CommentObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->commentTypeAPI;
     }
-    final public function setCommentObjectTypeDataLoader(CommentObjectTypeDataLoader $commentObjectTypeDataLoader): void
+    public final function setCommentObjectTypeDataLoader(CommentObjectTypeDataLoader $commentObjectTypeDataLoader) : void
     {
         $this->commentObjectTypeDataLoader = $commentObjectTypeDataLoader;
     }
-    final protected function getCommentObjectTypeDataLoader(): CommentObjectTypeDataLoader
+    protected final function getCommentObjectTypeDataLoader() : CommentObjectTypeDataLoader
     {
         if ($this->commentObjectTypeDataLoader === null) {
             /** @var CommentObjectTypeDataLoader */
@@ -40,24 +44,23 @@ class CommentObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->commentObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'Comment';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Comments added to custom posts', 'comments');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         $comment = $object;
         return $this->getCommentTypeAPI()->getCommentID($comment);
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getCommentObjectTypeDataLoader();
     }

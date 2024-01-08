@@ -8,25 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
-namespace Symfony\Component\DependencyInjection\Attribute;
-
-use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\ExpressionLanguage\Expression;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
 /**
  * Attribute to tell a parameter how to be autowired.
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class Autowire
 {
-    public readonly string|array|Expression|Reference|ArgumentInterface|null $value;
-    public readonly bool|array $lazy;
-
+    /**
+     * @readonly
+     * @var string|mixed[]|\Symfony\Component\ExpressionLanguage\Expression|\Symfony\Component\DependencyInjection\Reference|\Symfony\Component\DependencyInjection\Argument\ArgumentInterface|null
+     */
+    public $value;
+    /**
+     * @readonly
+     * @var bool|mixed[]
+     */
+    public $lazy;
     /**
      * Use only ONE of the following.
      *
@@ -37,14 +43,8 @@ class Autowire
      * @param string|null                         $param      Parameter name (ie 'some.parameter.name')
      * @param bool|class-string|class-string[]    $lazy       Whether to use lazy-loading for this argument
      */
-    public function __construct(
-        string|array|ArgumentInterface $value = null,
-        string $service = null,
-        string $expression = null,
-        string $env = null,
-        string $param = null,
-        bool|string|array $lazy = false,
-    ) {
+    public function __construct($value = null, string $service = null, string $expression = null, string $env = null, string $param = null, $lazy = \false)
+    {
         if ($this->lazy = \is_string($lazy) ? [$lazy] : $lazy) {
             if (null !== ($expression ?? $env ?? $param)) {
                 throw new LogicException('#[Autowire] attribute cannot be $lazy and use $expression, $env, or $param.');
@@ -55,21 +55,38 @@ class Autowire
         } elseif (!(null !== $value xor null !== $service xor null !== $expression xor null !== $env xor null !== $param)) {
             throw new LogicException('#[Autowire] attribute must declare exactly one of $service, $expression, $env, $param or $value.');
         }
-
-        if (\is_string($value) && str_starts_with($value, '@')) {
-            match (true) {
-                str_starts_with($value, '@@') => $value = substr($value, 1),
-                str_starts_with($value, '@=') => $expression = substr($value, 2),
-                default => $service = substr($value, 1),
-            };
+        if (\is_string($value) && \strncmp($value, '@', \strlen('@')) === 0) {
+            switch (\true) {
+                case \strncmp($value, '@@', \strlen('@@')) === 0:
+                    $value = \substr($value, 1);
+                    break;
+                case \strncmp($value, '@=', \strlen('@=')) === 0:
+                    $expression = \substr($value, 2);
+                    break;
+                default:
+                    $service = \substr($value, 1);
+                    break;
+            }
         }
-
-        $this->value = match (true) {
-            null !== $service => new Reference($service),
-            null !== $expression => class_exists(Expression::class) ? new Expression($expression) : throw new LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".'),
-            null !== $env => "%env($env)%",
-            null !== $param => "%$param%",
-            default => $value,
-        };
+        switch (\true) {
+            case null !== $service:
+                $this->value = new Reference($service);
+                break;
+            case null !== $expression:
+                if (!\class_exists(Expression::class)) {
+                    throw new LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".');
+                }
+                $this->value = new Expression($expression);
+                break;
+            case null !== $env:
+                $this->value = "%env({$env})%";
+                break;
+            case null !== $param:
+                $this->value = "%{$param}%";
+                break;
+            default:
+                $this->value = $value;
+                break;
+        }
     }
 }

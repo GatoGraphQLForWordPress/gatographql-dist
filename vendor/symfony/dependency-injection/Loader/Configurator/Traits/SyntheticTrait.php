@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
-
+/** @internal */
 trait SyntheticTrait
 {
     /**
@@ -19,10 +19,9 @@ trait SyntheticTrait
      *
      * @return $this
      */
-    final public function synthetic(bool $synthetic = true): static
+    public final function synthetic(bool $synthetic = \true)
     {
         $this->definition->setSynthetic($synthetic);
-
         return $this;
     }
 }

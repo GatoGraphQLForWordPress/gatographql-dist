@@ -1,33 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
-class CommentReplyInputObjectTypeResolver extends AbstractAddCommentToCustomPostInputObjectTypeResolver
+/** @internal */
+class CommentReplyInputObjectTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\AbstractAddCommentToCustomPostInputObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentReplyInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Input to reply to a comment', 'comment-mutations');
     }
-
-    protected function addCustomPostInputField(): bool
+    protected function addCustomPostInputField() : bool
     {
-        return false;
+        return \false;
     }
-
-    protected function addParentCommentInputField(): bool
+    protected function addParentCommentInputField() : bool
     {
-        return false;
+        return \false;
     }
-
-    protected function isParentCommentInputFieldMandatory(): bool
+    protected function isParentCommentInputFieldMandatory() : bool
     {
-        return false;
+        return \false;
     }
 }

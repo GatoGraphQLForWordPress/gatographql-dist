@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\FormInputs;
 
-class FormMultipleInput extends FormInput
+/** @internal */
+class FormMultipleInput extends \PoP\ComponentModel\FormInputs\FormInput
 {
-    public function isMultiple(): bool
+    public function isMultiple() : bool
     {
-        return true;
+        return \true;
     }
 }

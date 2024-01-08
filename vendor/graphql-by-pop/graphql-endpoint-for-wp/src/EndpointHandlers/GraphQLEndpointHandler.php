@@ -16,7 +16,10 @@ class GraphQLEndpointHandler extends AbstractEndpointHandler
 {
     use BasicServiceTrait;
 
-    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
+    /**
+     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
+     */
+    private $graphQLDataStructureFormatter;
 
     final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
     {

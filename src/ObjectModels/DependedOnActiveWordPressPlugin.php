@@ -6,16 +6,14 @@ namespace GatoGraphQL\GatoGraphQL\ObjectModels;
 
 final class DependedOnActiveWordPressPlugin extends AbstractDependedOnWordPressPlugin
 {
-    public function __construct(
-        string $name,
-        string $file,
-        public readonly ?string $versionConstraint = null,
-        ?string $url = null,
-    ) {
-        parent::__construct(
-            $name,
-            $file,
-            $url,
-        );
+    /**
+     * @readonly
+     * @var string|null
+     */
+    public $versionConstraint;
+    public function __construct(string $name, string $file, ?string $versionConstraint = null, ?string $url = null)
+    {
+        $this->versionConstraint = $versionConstraint;
+        parent::__construct($name, $file, $url);
     }
 }

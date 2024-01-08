@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface;
-
+/** @internal */
 class CommentMetaTypeAPIFacade
 {
-    public static function getInstance(): CommentMetaTypeAPIInterface
+    public static function getInstance() : CommentMetaTypeAPIInterface
     {
         /**
          * @var CommentMetaTypeAPIInterface

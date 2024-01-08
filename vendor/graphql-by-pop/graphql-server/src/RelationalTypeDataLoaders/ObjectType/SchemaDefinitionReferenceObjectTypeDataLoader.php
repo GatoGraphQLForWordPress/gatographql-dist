@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
-
+/** @internal */
 class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    private ?SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry = null;
-
-    final public function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
+     */
+    private $schemaDefinitionReferenceRegistry;
+    public final function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry) : void
     {
         $this->schemaDefinitionReferenceRegistry = $schemaDefinitionReferenceRegistry;
     }
-    final protected function getSchemaDefinitionReferenceRegistry(): SchemaDefinitionReferenceRegistryInterface
+    protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {
             /** @var SchemaDefinitionReferenceRegistryInterface */
@@ -24,17 +25,13 @@ class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDa
         }
         return $this->schemaDefinitionReferenceRegistry;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
         /** @var string[] $ids */
-        return array_map(
-            $this->getSchemaDefinitionReferenceRegistry()->getSchemaDefinitionReferenceObject(...),
-            $ids
-        );
+        return \array_map(\Closure::fromCallable([$this->getSchemaDefinitionReferenceRegistry(), 'getSchemaDefinitionReferenceObject']), $ids);
     }
 }

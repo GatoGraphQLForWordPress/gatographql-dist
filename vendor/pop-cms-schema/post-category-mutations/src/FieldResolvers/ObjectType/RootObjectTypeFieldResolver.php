@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
@@ -16,21 +15,38 @@ use PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\RootSetCategorie
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
-
+/** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
-    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
-    private ?SetCategoriesOnPostMutationResolver $setCategoriesOnPostMutationResolver = null;
-    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
-    private ?RootSetCategoriesOnCustomPostInputObjectTypeResolver $rootSetCategoriesOnCustomPostInputObjectTypeResolver = null;
-    private ?PayloadableSetCategoriesOnPostMutationResolver $payloadableSetCategoriesOnPostMutationResolver = null;
-    private ?RootSetCategoriesOnPostMutationPayloadObjectTypeResolver $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver = null;
-
-    final public function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
+     */
+    private $postObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostMutationResolver|null
+     */
+    private $setCategoriesOnPostMutationResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
+     */
+    private $postCategoryObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\RootSetCategoriesOnCustomPostInputObjectTypeResolver|null
+     */
+    private $rootSetCategoriesOnCustomPostInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostMutationResolver|null
+     */
+    private $payloadableSetCategoriesOnPostMutationResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\RootSetCategoriesOnPostMutationPayloadObjectTypeResolver|null
+     */
+    private $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver;
+    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
     {
         $this->postObjectTypeResolver = $postObjectTypeResolver;
     }
-    final protected function getPostObjectTypeResolver(): PostObjectTypeResolver
+    protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
             /** @var PostObjectTypeResolver */
@@ -39,11 +55,11 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->postObjectTypeResolver;
     }
-    final public function setSetCategoriesOnPostMutationResolver(SetCategoriesOnPostMutationResolver $setCategoriesOnPostMutationResolver): void
+    public final function setSetCategoriesOnPostMutationResolver(SetCategoriesOnPostMutationResolver $setCategoriesOnPostMutationResolver) : void
     {
         $this->setCategoriesOnPostMutationResolver = $setCategoriesOnPostMutationResolver;
     }
-    final protected function getSetCategoriesOnPostMutationResolver(): SetCategoriesOnPostMutationResolver
+    protected final function getSetCategoriesOnPostMutationResolver() : SetCategoriesOnPostMutationResolver
     {
         if ($this->setCategoriesOnPostMutationResolver === null) {
             /** @var SetCategoriesOnPostMutationResolver */
@@ -52,11 +68,11 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->setCategoriesOnPostMutationResolver;
     }
-    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
+    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
     {
         $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
-    final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
+    protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
             /** @var PostCategoryObjectTypeResolver */
@@ -65,11 +81,11 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->postCategoryObjectTypeResolver;
     }
-    final public function setRootSetCategoriesOnCustomPostInputObjectTypeResolver(RootSetCategoriesOnCustomPostInputObjectTypeResolver $rootSetCategoriesOnCustomPostInputObjectTypeResolver): void
+    public final function setRootSetCategoriesOnCustomPostInputObjectTypeResolver(RootSetCategoriesOnCustomPostInputObjectTypeResolver $rootSetCategoriesOnCustomPostInputObjectTypeResolver) : void
     {
         $this->rootSetCategoriesOnCustomPostInputObjectTypeResolver = $rootSetCategoriesOnCustomPostInputObjectTypeResolver;
     }
-    final protected function getRootSetCategoriesOnCustomPostInputObjectTypeResolver(): AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
+    protected final function getRootSetCategoriesOnCustomPostInputObjectTypeResolver() : AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
     {
         if ($this->rootSetCategoriesOnCustomPostInputObjectTypeResolver === null) {
             /** @var RootSetCategoriesOnCustomPostInputObjectTypeResolver */
@@ -78,11 +94,11 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->rootSetCategoriesOnCustomPostInputObjectTypeResolver;
     }
-    final public function setPayloadableSetCategoriesOnPostMutationResolver(PayloadableSetCategoriesOnPostMutationResolver $payloadableSetCategoriesOnPostMutationResolver): void
+    public final function setPayloadableSetCategoriesOnPostMutationResolver(PayloadableSetCategoriesOnPostMutationResolver $payloadableSetCategoriesOnPostMutationResolver) : void
     {
         $this->payloadableSetCategoriesOnPostMutationResolver = $payloadableSetCategoriesOnPostMutationResolver;
     }
-    final protected function getPayloadableSetCategoriesOnPostMutationResolver(): PayloadableSetCategoriesOnPostMutationResolver
+    protected final function getPayloadableSetCategoriesOnPostMutationResolver() : PayloadableSetCategoriesOnPostMutationResolver
     {
         if ($this->payloadableSetCategoriesOnPostMutationResolver === null) {
             /** @var PayloadableSetCategoriesOnPostMutationResolver */
@@ -91,11 +107,11 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->payloadableSetCategoriesOnPostMutationResolver;
     }
-    final public function setRootSetCategoriesOnPostMutationPayloadObjectTypeResolver(RootSetCategoriesOnPostMutationPayloadObjectTypeResolver $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver): void
+    public final function setRootSetCategoriesOnPostMutationPayloadObjectTypeResolver(RootSetCategoriesOnPostMutationPayloadObjectTypeResolver $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver) : void
     {
         $this->rootSetCategoriesOnPostMutationPayloadObjectTypeResolver = $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver;
     }
-    final protected function getRootSetCategoriesOnPostMutationPayloadObjectTypeResolver(): RootSetCategoriesOnPostMutationPayloadObjectTypeResolver
+    protected final function getRootSetCategoriesOnPostMutationPayloadObjectTypeResolver() : RootSetCategoriesOnPostMutationPayloadObjectTypeResolver
     {
         if ($this->rootSetCategoriesOnPostMutationPayloadObjectTypeResolver === null) {
             /** @var RootSetCategoriesOnPostMutationPayloadObjectTypeResolver */
@@ -104,43 +120,35 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->rootSetCategoriesOnPostMutationPayloadObjectTypeResolver;
     }
-
-    public function getCustomPostObjectTypeResolver(): CustomPostObjectTypeResolverInterface
+    public function getCustomPostObjectTypeResolver() : CustomPostObjectTypeResolverInterface
     {
         return $this->getPostObjectTypeResolver();
     }
-
-    public function getSetCategoriesMutationResolver(): MutationResolverInterface
+    public function getSetCategoriesMutationResolver() : MutationResolverInterface
     {
         return $this->getSetCategoriesOnPostMutationResolver();
     }
-
-    public function getCategoryTypeResolver(): CategoryObjectTypeResolverInterface
+    public function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface
     {
         return $this->getPostCategoryObjectTypeResolver();
     }
-
-    public function getCustomPostSetCategoriesInputObjectTypeResolver(): AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
+    public function getCustomPostSetCategoriesInputObjectTypeResolver() : AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
     {
         return $this->getRootSetCategoriesOnCustomPostInputObjectTypeResolver();
     }
-
-    public function getPayloadableSetCategoriesMutationResolver(): MutationResolverInterface
+    public function getPayloadableSetCategoriesMutationResolver() : MutationResolverInterface
     {
         return $this->getPayloadableSetCategoriesOnPostMutationResolver();
     }
-
-    protected function getRootSetCategoriesMutationPayloadObjectTypeResolver(): ConcreteTypeResolverInterface
+    protected function getRootSetCategoriesMutationPayloadObjectTypeResolver() : ConcreteTypeResolverInterface
     {
         return $this->getRootSetCategoriesOnPostMutationPayloadObjectTypeResolver();
     }
-
-    protected function getEntityName(): string
+    protected function getEntityName() : string
     {
         return $this->__('post', 'post-category-mutations');
     }
-
-    protected function getSetCategoriesFieldName(): string
+    protected function getSetCategoriesFieldName() : string
     {
         return 'setCategoriesOnPost';
     }

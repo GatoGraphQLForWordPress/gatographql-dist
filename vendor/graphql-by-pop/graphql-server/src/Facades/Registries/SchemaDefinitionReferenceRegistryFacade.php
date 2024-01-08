@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Facades\Registries;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface;
-
+/** @internal */
 class SchemaDefinitionReferenceRegistryFacade
 {
-    public static function getInstance(): SchemaDefinitionReferenceRegistryInterface
+    public static function getInstance() : SchemaDefinitionReferenceRegistryInterface
     {
         /**
          * @var SchemaDefinitionReferenceRegistryInterface

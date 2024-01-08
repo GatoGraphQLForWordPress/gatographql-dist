@@ -14,7 +14,10 @@ abstract class AbstractModuleResolver implements ModuleResolverInterface
 {
     use BasicServiceTrait;
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -154,16 +157,18 @@ abstract class AbstractModuleResolver implements ModuleResolverInterface
 
     /**
      * Indicate if the given value is valid for that option
+     * @param mixed $value
      */
-    public function isValidValue(string $module, string $option, mixed $value): bool
+    public function isValidValue(string $module, string $option, $value): bool
     {
         return true;
     }
 
     /**
      * Default value for an option set by the module
+     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option): mixed
+    public function getSettingsDefaultValue(string $module, string $option)
     {
         return null;
     }

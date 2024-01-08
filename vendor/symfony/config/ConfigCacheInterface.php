@@ -8,30 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Config;
 
-namespace Symfony\Component\Config;
-
-use Symfony\Component\Config\Resource\ResourceInterface;
-
+use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
 /**
  * Interface for ConfigCache.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface ConfigCacheInterface
 {
     /**
      * Gets the cache file path.
      */
-    public function getPath(): string;
-
+    public function getPath() : string;
     /**
      * Checks if the cache is still fresh.
      *
      * This check should take the metadata passed to the write() method into consideration.
      */
-    public function isFresh(): bool;
-
+    public function isFresh() : bool;
     /**
      * Writes the given content into the cache file. Metadata will be stored
      * independently and can be used to check cache freshness at a later time.

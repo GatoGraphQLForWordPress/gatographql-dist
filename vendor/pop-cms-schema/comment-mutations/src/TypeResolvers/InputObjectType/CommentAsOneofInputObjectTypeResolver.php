@@ -1,26 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
-
 /**
  * @todo In addition to "html", support additional oneof properties for the mutation (eg: provide "blocks" for Gutenberg)
+ * @internal
  */
 class CommentAsOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
-
-    final public function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver): void
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
+     */
+    private $htmlScalarTypeResolver;
+    public final function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver) : void
     {
         $this->htmlScalarTypeResolver = $htmlScalarTypeResolver;
     }
-    final protected function getHTMLScalarTypeResolver(): HTMLScalarTypeResolver
+    protected final function getHTMLScalarTypeResolver() : HTMLScalarTypeResolver
     {
         if ($this->htmlScalarTypeResolver === null) {
             /** @var HTMLScalarTypeResolver */
@@ -29,27 +30,24 @@ class CommentAsOneofInputObjectTypeResolver extends AbstractOneofInputObjectType
         }
         return $this->htmlScalarTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentContentInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            MutationInputProperties::HTML => $this->getHTMLScalarTypeResolver(),
-        ];
+        return [MutationInputProperties::HTML => $this->getHTMLScalarTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            MutationInputProperties::HTML => $this->__('Use HTML as content for the comment', 'comment-mutations'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case MutationInputProperties::HTML:
+                return $this->__('Use HTML as content for the comment', 'comment-mutations');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
 }

@@ -20,7 +20,10 @@ abstract class AbstractExtensionModuleResolver extends AbstractModuleResolver im
 {
     use ExtensionModuleResolverTrait;
 
-    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
+     */
+    private $markdownContentParser;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -92,9 +95,8 @@ abstract class AbstractExtensionModuleResolver extends AbstractModuleResolver im
         return $pluginURL . 'assets/img/logos/GatoGraphQL-logo-paws.png';
     }
 
-    protected function getDocumentationMarkdownContentRelativePathDir(
-        string $module,
-    ): string {
+    protected function getDocumentationMarkdownContentRelativePathDir(string $module): string
+    {
         return $this->getSlug($module) . '/docs/modules';
     }
 }

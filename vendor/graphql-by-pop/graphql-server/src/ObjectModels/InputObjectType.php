@@ -1,18 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-
-class InputObjectType extends AbstractNamedType
+/** @internal */
+class InputObjectType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType
 {
     /**
      * @var InputValue[]
      */
-    protected array $inputValues;
-
+    protected $inputValues;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
@@ -20,56 +18,42 @@ class InputObjectType extends AbstractNamedType
     public function __construct(array &$fullSchemaDefinition, array $schemaDefinitionPath)
     {
         parent::__construct($fullSchemaDefinition, $schemaDefinitionPath);
-
         $this->initInputValues($fullSchemaDefinition, $schemaDefinitionPath);
     }
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
      */
-    protected function initInputValues(array &$fullSchemaDefinition, array $schemaDefinitionPath): void
+    protected function initInputValues(array &$fullSchemaDefinition, array $schemaDefinitionPath) : void
     {
         $this->inputValues = [];
         if ($inputValues = $this->schemaDefinition[SchemaDefinition::INPUT_FIELDS] ?? null) {
             /** @var string $inputValueName */
-            foreach (array_keys($inputValues) as $inputValueName) {
+            foreach (\array_keys($inputValues) as $inputValueName) {
                 /** @var string[] */
-                $inputValueSchemaDefinitionPath = array_merge(
-                    $schemaDefinitionPath,
-                    [
-                        SchemaDefinition::INPUT_FIELDS,
-                        $inputValueName,
-                    ]
-                );
-                $this->inputValues[] = new InputValue(
-                    $fullSchemaDefinition,
-                    $inputValueSchemaDefinitionPath
-                );
+                $inputValueSchemaDefinitionPath = \array_merge($schemaDefinitionPath, [SchemaDefinition::INPUT_FIELDS, $inputValueName]);
+                $this->inputValues[] = new \GraphQLByPoP\GraphQLServer\ObjectModels\InputValue($fullSchemaDefinition, $inputValueSchemaDefinitionPath);
             }
         }
     }
-
-    public function getKind(): string
+    public function getKind() : string
     {
-        return TypeKinds::INPUT_OBJECT;
+        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::INPUT_OBJECT;
     }
     /**
      * @return InputValue[]
      */
-    public function getInputFields(): array
+    public function getInputFields() : array
     {
         return $this->inputValues;
     }
     /**
      * @return string[]
      */
-    public function getInputFieldIDs(): array
+    public function getInputFieldIDs() : array
     {
-        return array_map(
-            function (InputValue $inputValue): string {
-                return $inputValue->getID();
-            },
-            $this->getInputFields()
-        );
+        return \array_map(function (\GraphQLByPoP\GraphQLServer\ObjectModels\InputValue $inputValue) : string {
+            return $inputValue->getID();
+        }, $this->getInputFields());
     }
 }

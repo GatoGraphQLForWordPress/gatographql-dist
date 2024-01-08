@@ -16,7 +16,7 @@ class RoutingHookSet extends AbstractHookSet
     {
         App::addAction(
             HookNames::ROUTES,
-            $this->registerRoutes(...)
+            \Closure::fromCallable([$this, 'registerRoutes'])
         );
     }
 
@@ -28,9 +28,6 @@ class RoutingHookSet extends AbstractHookSet
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return [
-            ...$routes,
-            $moduleConfiguration->getUsersRoute(),
-        ];
+        return array_merge($routes, [$moduleConfiguration->getUsersRoute()]);
     }
 }

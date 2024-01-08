@@ -6,6 +6,6 @@ namespace PoP\RootWP\Routing;
 
 class HookNames
 {
-    public final const ROUTES = __CLASS__ . ':routes';
-    public final const NATURE = __CLASS__ . ':nature';
+    public const ROUTES = __CLASS__ . ':routes';
+    public const NATURE = __CLASS__ . ':nature';
 }

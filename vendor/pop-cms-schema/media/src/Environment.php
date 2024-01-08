@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Media;
 
+/** @internal */
 class Environment
 {
-    public final const MEDIA_LIST_DEFAULT_LIMIT = 'MEDIA_LIST_DEFAULT_LIMIT';
-    public final const MEDIA_LIST_MAX_LIMIT = 'MEDIA_LIST_MAX_LIMIT';
+    public const MEDIA_LIST_DEFAULT_LIMIT = 'MEDIA_LIST_DEFAULT_LIMIT';
+    public const MEDIA_LIST_MAX_LIMIT = 'MEDIA_LIST_MAX_LIMIT';
 }

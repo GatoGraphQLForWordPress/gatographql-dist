@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Psr\Container;
+declare (strict_types=1);
+namespace PrefixedByPoP\Psr\Container;
 
 /**
  * Describes the interface of a container that exposes methods to read its entries.
+ * @internal
  */
 interface ContainerInterface
 {
@@ -20,7 +20,6 @@ interface ContainerInterface
      * @return mixed Entry.
      */
     public function get(string $id);
-
     /**
      * Returns true if the container can return an entry for the given identifier.
      * Returns false otherwise.
@@ -32,5 +31,5 @@ interface ContainerInterface
      *
      * @return bool
      */
-    public function has(string $id): bool;
+    public function has(string $id) : bool;
 }

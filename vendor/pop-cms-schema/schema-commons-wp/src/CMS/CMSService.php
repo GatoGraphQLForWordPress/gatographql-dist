@@ -12,7 +12,11 @@ use function home_url;
 
 class CMSService implements CMSServiceInterface
 {
-    public function getOption(string $option, mixed $default = false): mixed
+    /**
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getOption(string $option, $default = false)
     {
         return get_option($option, $default);
     }

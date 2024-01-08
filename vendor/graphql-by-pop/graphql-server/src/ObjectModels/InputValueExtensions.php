@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-
-class InputValueExtensions extends AbstractSchemaDefinitionReferenceObject
+/** @internal */
+class InputValueExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
-    public function isSensitiveDataElement(): bool
+    public function isSensitiveDataElement() : bool
     {
         return $this->schemaDefinition[SchemaDefinition::IS_SENSITIVE_DATA_ELEMENT];
     }

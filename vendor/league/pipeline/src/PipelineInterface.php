@@ -1,8 +1,9 @@
 <?php
-declare(strict_types=1);
 
-namespace League\Pipeline;
+declare (strict_types=1);
+namespace PrefixedByPoP\League\Pipeline;
 
+/** @internal */
 interface PipelineInterface extends StageInterface
 {
     /**
@@ -10,5 +11,5 @@ interface PipelineInterface extends StageInterface
      *
      * @return static
      */
-    public function pipe(callable $operation): PipelineInterface;
+    public function pipe(callable $operation) : PipelineInterface;
 }

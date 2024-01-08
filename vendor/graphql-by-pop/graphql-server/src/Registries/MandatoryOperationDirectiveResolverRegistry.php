@@ -1,26 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
-
-class MandatoryOperationDirectiveResolverRegistry implements MandatoryOperationDirectiveResolverRegistryInterface
+/** @internal */
+class MandatoryOperationDirectiveResolverRegistry implements \GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface
 {
     /**
      * @var FieldDirectiveResolverInterface[]
      */
-    protected array $mandatoryOperationDirectiveResolvers = [];
-
-    public function addMandatoryOperationDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver): void
+    protected $mandatoryOperationDirectiveResolvers = [];
+    public function addMandatoryOperationDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver) : void
     {
         $this->mandatoryOperationDirectiveResolvers[] = $directiveResolver;
     }
     /**
      * @return FieldDirectiveResolverInterface[]
      */
-    public function getMandatoryOperationDirectiveResolvers(): array
+    public function getMandatoryOperationDirectiveResolvers() : array
     {
         return $this->mandatoryOperationDirectiveResolvers;
     }

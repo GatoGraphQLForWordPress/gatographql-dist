@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container\HybridCompilerPasses;
 
 use PoP\Root\Container\CompilerPasses\AbstractInstantiateServiceCompilerPass;
 use PoP\Root\Services\AutomaticallyInstantiatedServiceInterface;
-
+/** @internal */
 class AutomaticallyInstantiatedServiceCompilerPass extends AbstractInstantiateServiceCompilerPass
 {
-    protected function onlyProcessAutoconfiguredServices(): bool
+    protected function onlyProcessAutoconfiguredServices() : bool
     {
-        return true;
+        return \true;
     }
-
-    protected function getServiceClass(): string
+    protected function getServiceClass() : string
     {
         return AutomaticallyInstantiatedServiceInterface::class;
     }

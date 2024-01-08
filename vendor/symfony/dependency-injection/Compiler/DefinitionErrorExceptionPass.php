@@ -8,28 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use Symfony\Component\DependencyInjection\Reference;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * Throws an exception for any Definitions that have errors and still exist.
  *
  * @author Ryan Weaver <ryan@knpuniversity.com>
+ * @internal
  */
 class DefinitionErrorExceptionPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    private array $erroredDefinitions = [];
-    private array $sourceReferences = [];
-
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
+     * @var mixed[]
+     */
+    private $erroredDefinitions = [];
+    /**
+     * @var mixed[]
+     */
+    private $sourceReferences = [];
     /**
      * @return void
      */
@@ -37,74 +43,61 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
     {
         try {
             parent::process($container);
-
             $visitedIds = [];
-
             foreach ($this->erroredDefinitions as $id => $definition) {
                 if ($this->isErrorForRuntime($id, $visitedIds)) {
                     continue;
                 }
-
                 // only show the first error so the user can focus on it
                 $errors = $definition->getErrors();
-
-                throw new RuntimeException(reset($errors));
+                throw new RuntimeException(\reset($errors));
             }
         } finally {
             $this->erroredDefinitions = [];
             $this->sourceReferences = [];
         }
     }
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function processValue($value, bool $isRoot = \false)
     {
         if ($value instanceof ArgumentInterface) {
             parent::processValue($value->getValues());
-
             return $value;
         }
-
-        if ($value instanceof Reference && $this->currentId !== $targetId = (string) $value) {
+        if ($value instanceof Reference && $this->currentId !== ($targetId = (string) $value)) {
             if (ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE === $value->getInvalidBehavior()) {
-                $this->sourceReferences[$targetId][$this->currentId] ??= true;
+                $this->sourceReferences[$targetId][$this->currentId] = $this->sourceReferences[$targetId][$this->currentId] ?? \true;
             } else {
-                $this->sourceReferences[$targetId][$this->currentId] = false;
+                $this->sourceReferences[$targetId][$this->currentId] = \false;
             }
-
             return $value;
         }
-
         if (!$value instanceof Definition || !$value->hasErrors() || $value->hasTag('container.error')) {
             return parent::processValue($value, $isRoot);
         }
-
         $this->erroredDefinitions[$this->currentId] = $value;
-
         return parent::processValue($value);
     }
-
-    private function isErrorForRuntime(string $id, array &$visitedIds): bool
+    private function isErrorForRuntime(string $id, array &$visitedIds) : bool
     {
         if (!isset($this->sourceReferences[$id])) {
-            return false;
+            return \false;
         }
-
         if (isset($visitedIds[$id])) {
             return $visitedIds[$id];
         }
-
-        $visitedIds[$id] = true;
-
+        $visitedIds[$id] = \true;
         foreach ($this->sourceReferences[$id] as $sourceId => $isRuntime) {
-            if ($visitedIds[$sourceId] ?? $visitedIds[$sourceId] = $this->isErrorForRuntime($sourceId, $visitedIds)) {
+            if ($visitedIds[$sourceId] ?? ($visitedIds[$sourceId] = $this->isErrorForRuntime($sourceId, $visitedIds))) {
                 continue;
             }
-
             if (!$isRuntime) {
-                return false;
+                return \false;
             }
         }
-
-        return true;
+        return \true;
     }
 }

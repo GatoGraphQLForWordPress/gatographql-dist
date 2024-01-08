@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\QueryResolution;
 
 use PoP\ComponentModel\App;
@@ -10,7 +9,7 @@ use PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface;
 use PoP\GraphQLParser\Module;
 use PoP\GraphQLParser\ModuleConfiguration;
 use stdClass;
-
+/** @internal */
 trait FieldOrDirectiveDataAccessorTrait
 {
     /**
@@ -20,35 +19,31 @@ trait FieldOrDirectiveDataAccessorTrait
      *
      * @var array<string,mixed>|null
      */
-    protected ?array $resolvedFieldOrDirectiveArgs = null;
-
+    protected $resolvedFieldOrDirectiveArgs;
     /**
      * When the Args contain a "Resolved on Object" Promise,
      * then caching the results will not work across objects,
      * and the cache must then be explicitly cleared.
      */
-    protected function resetResolvedFieldOrDirectiveArgs(): void
+    protected function resetResolvedFieldOrDirectiveArgs() : void
     {
         $this->resolvedFieldOrDirectiveArgs = null;
     }
-
     /**
      * @return array<string,mixed>
      * @throws AbstractValueResolutionPromiseException
      */
-    protected function getResolvedFieldOrDirectiveArgs(): array
+    protected function getResolvedFieldOrDirectiveArgs() : array
     {
         if ($this->resolvedFieldOrDirectiveArgs === null) {
             $this->resolvedFieldOrDirectiveArgs = $this->doGetResolvedFieldOrDirectiveArgs($this->getUnresolvedFieldOrDirectiveArgs());
         }
         return $this->resolvedFieldOrDirectiveArgs;
     }
-
     /**
      * @return array<string,mixed>
      */
-    abstract protected function getUnresolvedFieldOrDirectiveArgs(): array;
-
+    protected abstract function getUnresolvedFieldOrDirectiveArgs() : array;
     /**
      * Resolve all the ValueResolutionPromiseInterface to their resolved values.
      *
@@ -56,18 +51,13 @@ trait FieldOrDirectiveDataAccessorTrait
      * @throws AbstractValueResolutionPromiseException
      * @param array<string,mixed> $fieldOrDirectiveArgs
      */
-    private function doGetResolvedFieldOrDirectiveArgs(array $fieldOrDirectiveArgs): array
+    private function doGetResolvedFieldOrDirectiveArgs(array $fieldOrDirectiveArgs) : array
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        if (
-            !($moduleConfiguration->enableDynamicVariables()
-            || $moduleConfiguration->enableObjectResolvedFieldValueReferences()
-            )
-        ) {
+        if (!($moduleConfiguration->enableDynamicVariables() || $moduleConfiguration->enableObjectResolvedFieldValueReferences())) {
             return $fieldOrDirectiveArgs;
         }
-
         $resolvedFieldOrDirectiveArgs = [];
         foreach ($fieldOrDirectiveArgs as $key => $value) {
             if ($value instanceof ValueResolutionPromiseInterface) {
@@ -76,7 +66,6 @@ trait FieldOrDirectiveDataAccessorTrait
                 $resolvedFieldOrDirectiveArgs[$key] = $valueResolutionPromise->resolveValue();
                 continue;
             }
-
             /**
              * An ObjectResolvedFieldValueReference could be provided in a List input:
              *
@@ -87,11 +76,10 @@ trait FieldOrDirectiveDataAccessorTrait
              *   }
              *   ```
              */
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $resolvedFieldOrDirectiveArgs[$key] = $this->doGetResolvedFieldOrDirectiveArgs($value);
                 continue;
             }
-
             /**
              * An ObjectResolvedFieldValueReference could be provided in an InputObject:
              *
@@ -106,12 +94,10 @@ trait FieldOrDirectiveDataAccessorTrait
                 $resolvedFieldOrDirectiveArgs[$key] = (object) $this->doGetResolvedFieldOrDirectiveArgs((array) $value);
                 continue;
             }
-
             $resolvedFieldOrDirectiveArgs[$key] = $value;
         }
         return $resolvedFieldOrDirectiveArgs;
     }
-
     /**
      * This method can be called even before resolving the value,
      * as to find out if it was set (even if the value will,
@@ -120,11 +106,10 @@ trait FieldOrDirectiveDataAccessorTrait
      * @see method `getValue` in this same interface
      * @return string[]
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
-        return array_keys($this->getUnresolvedFieldOrDirectiveArgs());
+        return \array_keys($this->getUnresolvedFieldOrDirectiveArgs());
     }
-
     /**
      * This method can be called even before resolving the value,
      * as to find out if it was set (even if the value will,
@@ -132,15 +117,15 @@ trait FieldOrDirectiveDataAccessorTrait
      *
      * @see method `getValue` in this same interface
      */
-    public function hasValue(string $propertyName): bool
+    public function hasValue(string $propertyName) : bool
     {
-        return array_key_exists($propertyName, $this->getUnresolvedFieldOrDirectiveArgs());
+        return \array_key_exists($propertyName, $this->getUnresolvedFieldOrDirectiveArgs());
     }
-
     /**
      * @throws AbstractValueResolutionPromiseException
+     * @return mixed
      */
-    public function getValue(string $propertyName): mixed
+    public function getValue(string $propertyName)
     {
         return $this->getResolvedFieldOrDirectiveArgs()[$propertyName] ?? null;
     }

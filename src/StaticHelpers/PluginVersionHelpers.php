@@ -20,6 +20,6 @@ class PluginVersionHelpers
      */
     public static function isDevelopmentVersion(string $pluginVersion): bool
     {
-        return str_ends_with($pluginVersion, '-dev');
+        return substr_compare($pluginVersion, '-dev', -strlen('-dev')) === 0;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\State;
 
 use GraphQLByPoP\GraphQLServer\Module;
@@ -9,16 +8,18 @@ use GraphQLByPoP\GraphQLServer\ModuleConfiguration;
 use PoP\Root\App;
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
-
+/** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
-
-    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
+    /**
+     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
+     */
+    private $graphQLDataStructureFormatter;
+    public final function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter) : void
     {
         $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
     }
-    final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
+    protected final function getGraphQLDataStructureFormatter() : GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {
             /** @var GraphQLDataStructureFormatter */
@@ -27,11 +28,10 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->graphQLDataStructureFormatter;
     }
-
     /**
      * @param array<string,mixed> $state
      */
-    public function execute(array &$state): void
+    public function execute(array &$state) : void
     {
         /**
          * Call ModuleConfiguration only after hooks from
@@ -41,6 +41,6 @@ class AppStateProvider extends AbstractAppStateProvider
          * @var ModuleConfiguration
          */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        $state['graphql-introspection-enabled'] = $moduleConfiguration->enableGraphQLIntrospection() ?? true;
+        $state['graphql-introspection-enabled'] = $moduleConfiguration->enableGraphQLIntrospection() ?? \true;
     }
 }

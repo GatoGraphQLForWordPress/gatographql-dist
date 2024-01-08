@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 /**
@@ -13,8 +12,9 @@ namespace PoP\ComponentModel\DirectiveResolvers;
  * but the GraphQL spec does not define it. Then, through this
  * interface, we can provide different variations, or even
  * different directives, to provide this functionality.
+ * @internal
  */
-interface OperationDependencyDefinerFieldDirectiveResolverInterface extends FieldDirectiveResolverInterface
+interface OperationDependencyDefinerFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {
     /**
      * Name of the Directive Argument that provides
@@ -23,5 +23,5 @@ interface OperationDependencyDefinerFieldDirectiveResolverInterface extends Fiel
      *
      * Eg: "operatins" for `@depends(on: ["GetPosts", "ProcessPostData"])`
      */
-    public function getProvideDependedUponOperationNamesArgumentName(): string;
+    public function getProvideDependedUponOperationNamesArgumentName() : string;
 }

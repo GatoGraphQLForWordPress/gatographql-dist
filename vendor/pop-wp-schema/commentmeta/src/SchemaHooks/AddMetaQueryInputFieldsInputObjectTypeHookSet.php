@@ -12,7 +12,10 @@ use PoPWPSchema\Meta\TypeResolvers\InputObjectType\AbstractMetaQueryInputObjectT
 
 class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet
 {
-    private ?CommentMetaQueryInputObjectTypeResolver $commentMetaQueryInputObjectTypeResolver = null;
+    /**
+     * @var \PoPWPSchema\CommentMeta\TypeResolvers\InputObjectType\CommentMetaQueryInputObjectTypeResolver|null
+     */
+    private $commentMetaQueryInputObjectTypeResolver;
 
     final public function setCommentMetaQueryInputObjectTypeResolver(CommentMetaQueryInputObjectTypeResolver $commentMetaQueryInputObjectTypeResolver): void
     {
@@ -33,9 +36,8 @@ class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQuery
         return $this->getCommentMetaQueryInputObjectTypeResolver();
     }
 
-    protected function isInputObjectTypeResolver(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool {
+    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool
+    {
         return $inputObjectTypeResolver instanceof AbstractCommentsFilterInputObjectTypeResolver;
     }
 }

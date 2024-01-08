@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
@@ -12,7 +11,6 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-
 /**
  * Create an alias of a directive, to use when:
  *
@@ -27,213 +25,164 @@ use SplObjectStorage;
  * and `SchemaFieldDirectiveResolverInterface`, whose functions must be aliased.
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 trait AliasSchemaFieldDirectiveResolverTrait
 {
     /**
      * The specific `DirectiveResolver` class that is being aliased
      */
-    abstract protected function getAliasedFieldDirectiveResolver(): AbstractFieldDirectiveResolver;
-
+    protected abstract function getAliasedFieldDirectiveResolver() : \PoP\ComponentModel\DirectiveResolvers\AbstractFieldDirectiveResolver;
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver): ?string
+    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveDescription(
-            $relationalTypeResolver
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveDescription($relationalTypeResolver);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      *
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver): array
+    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveArgNameTypeResolvers(
-            $relationalTypeResolver
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveArgNameTypeResolvers($relationalTypeResolver);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): ?string
+    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveArgDescription(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
     }
-
+    /**
+     * Proxy pattern: execute same function on the aliased DirectiveResolver
+     * @return mixed
+     */
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    {
+        $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
+        return $aliasedFieldDirectiveResolver->getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
+    }
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): mixed
+    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveArgDefaultValue(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
     }
-
-    /**
-     * Proxy pattern: execute same function on the aliased DirectiveResolver
-     */
-    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): int
-    {
-        $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveArgTypeModifiers(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
-    }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      * @return mixed[]
      */
-    public function getConsolidatedDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver): array
+    public function getConsolidatedDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgNameTypeResolvers(
-            $relationalTypeResolver
-        );
+        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgNameTypeResolvers($relationalTypeResolver);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getConsolidatedDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): ?string
+    public function getConsolidatedDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgDescription(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
+        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
     }
-
+    /**
+     * Proxy pattern: execute same function on the aliased DirectiveResolver
+     * @return mixed
+     */
+    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    {
+        $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
+        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
+    }
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): mixed
+    public function getConsolidatedDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgDefaultValue(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
+        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getConsolidatedDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): int
+    public function getDirectiveDeprecationMessage(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgTypeModifiers(
-            $relationalTypeResolver,
-            $directiveArgName
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveDeprecationMessage($relationalTypeResolver);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveDeprecationMessage(RelationalTypeResolverInterface $relationalTypeResolver): ?string
+    public function isGlobal(RelationalTypeResolverInterface $relationalTypeResolver) : bool
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveDeprecationMessage(
-            $relationalTypeResolver
-        );
+        return $aliasedFieldDirectiveResolver->isGlobal($relationalTypeResolver);
     }
-
-    /**
-     * Proxy pattern: execute same function on the aliased DirectiveResolver
-     */
-    public function isGlobal(RelationalTypeResolverInterface $relationalTypeResolver): bool
-    {
-        $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->isGlobal(
-            $relationalTypeResolver
-        );
-    }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      * @return mixed[]
      */
-    public function getFieldNamesToApplyTo(): array
+    public function getFieldNamesToApplyTo() : array
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->getFieldNamesToApplyTo();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveKind(): string
+    public function getDirectiveKind() : string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->getDirectiveKind();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getPipelinePosition(): string
+    public function getPipelinePosition() : string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->getPipelinePosition();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function isDirectiveEnabled(): bool
+    public function isDirectiveEnabled() : bool
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->isDirectiveEnabled();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function resolveCanProcessDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        Directive $directive,
-    ): bool {
+    public function resolveCanProcessDirective(RelationalTypeResolverInterface $relationalTypeResolver, Directive $directive) : bool
+    {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->resolveCanProcessDirective(
-            $relationalTypeResolver,
-            $directive,
-        );
+        return $aliasedFieldDirectiveResolver->resolveCanProcessDirective($relationalTypeResolver, $directive);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function isRepeatable(): bool
+    public function isRepeatable() : bool
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->isRepeatable();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function needsSomeIDFieldToExecute(): bool
+    public function needsSomeIDFieldToExecute() : bool
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->needsSomeIDFieldToExecute();
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      *
@@ -247,54 +196,25 @@ trait AliasSchemaFieldDirectiveResolverTrait
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array $succeedingPipelineFieldDirectiveResolvers,
-        array $idObjects,
-        array $unionTypeOutputKeyIDs,
-        array $previouslyResolvedIDFieldValues,
-        array &$succeedingPipelineIDFieldSet,
-        array &$succeedingPipelineFieldDataAccessProviders,
-        array &$resolvedIDFieldValues,
-        array &$messages,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
+    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        $aliasedFieldDirectiveResolver->resolveDirective(
-            $relationalTypeResolver,
-            $idFieldSet,
-            $fieldDataAccessProvider,
-            $succeedingPipelineFieldDirectiveResolvers,
-            $idObjects,
-            $unionTypeOutputKeyIDs,
-            $previouslyResolvedIDFieldValues,
-            $succeedingPipelineIDFieldSet,
-            $succeedingPipelineFieldDataAccessProviders,
-            $resolvedIDFieldValues,
-            $messages,
-            $engineIterationFeedbackStore,
-        );
+        $aliasedFieldDirectiveResolver->resolveDirective($relationalTypeResolver, $idFieldSet, $fieldDataAccessProvider, $succeedingPipelineFieldDirectiveResolvers, $idObjects, $unionTypeOutputKeyIDs, $previouslyResolvedIDFieldValues, $succeedingPipelineIDFieldSet, $succeedingPipelineFieldDataAccessProviders, $resolvedIDFieldValues, $messages, $engineIterationFeedbackStore);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function skipExposingDirectiveInSchema(RelationalTypeResolverInterface $relationalTypeResolver): bool
+    public function skipExposingDirectiveInSchema(RelationalTypeResolverInterface $relationalTypeResolver) : bool
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->skipExposingDirectiveInSchema($relationalTypeResolver);
     }
-
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
      */
-    public function getDirectiveVersion(RelationalTypeResolverInterface $relationalTypeResolver): ?string
+    public function getDirectiveVersion(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
-        return $aliasedFieldDirectiveResolver->getDirectiveVersion(
-            $relationalTypeResolver
-        );
+        return $aliasedFieldDirectiveResolver->getDirectiveVersion($relationalTypeResolver);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Cache;
 
-interface TransientCacheInterface extends CacheInterface
+/** @internal */
+interface TransientCacheInterface extends \PoP\ComponentModel\Cache\CacheInterface
 {
 }

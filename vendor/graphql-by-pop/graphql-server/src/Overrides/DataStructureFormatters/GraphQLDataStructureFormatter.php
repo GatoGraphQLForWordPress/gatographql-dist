@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Overrides\DataStructureFormatters;
 
 use GraphQLByPoP\GraphQLServer\Module;
@@ -12,7 +11,6 @@ use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\Root\App;
-
 /**
  * Change the properties printed for the standard GraphQL response:
  *
@@ -22,16 +20,19 @@ use PoP\Root\App;
  * - move "location" up from under "extensions"
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 class GraphQLDataStructureFormatter extends UpstreamGraphQLDataStructureFormatter
 {
-    private ?GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService = null;
-
-    final public function setGraphQLQueryASTTransformationService(GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface|null
+     */
+    private $graphQLQueryASTTransformationService;
+    public final function setGraphQLQueryASTTransformationService(GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService) : void
     {
         $this->graphQLQueryASTTransformationService = $graphQLQueryASTTransformationService;
     }
-    final protected function getGraphQLQueryASTTransformationService(): GraphQLQueryASTTransformationServiceInterface
+    protected final function getGraphQLQueryASTTransformationService() : GraphQLQueryASTTransformationServiceInterface
     {
         if ($this->graphQLQueryASTTransformationService === null) {
             /** @var GraphQLQueryASTTransformationServiceInterface */
@@ -40,17 +41,15 @@ class GraphQLDataStructureFormatter extends UpstreamGraphQLDataStructureFormatte
         }
         return $this->graphQLQueryASTTransformationService;
     }
-
     /**
      * Indicate if to add entry "extensions" as a top-level entry
      */
-    protected function addTopLevelExtensionsEntryToResponse(): bool
+    protected function addTopLevelExtensionsEntryToResponse() : bool
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->enableProactiveFeedback();
     }
-
     /**
      * Watch out! For GraphQL, the query (or mutation) fields in the AST
      * were wrapped with a RelationalField('queryRoot'),
@@ -61,19 +60,15 @@ class GraphQLDataStructureFormatter extends UpstreamGraphQLDataStructureFormatte
      *
      * @return FieldInterface[]
      */
-    protected function getFieldsFromExecutableDocument(
-        ExecutableDocument $executableDocument,
-    ): array {
+    protected function getFieldsFromExecutableDocument(ExecutableDocument $executableDocument) : array
+    {
         $graphQLQueryASTTransformationService = $this->getGraphQLQueryASTTransformationService();
         $superRootOperationFields = [];
         $document = $executableDocument->getDocument();
         /** @var OperationInterface[] */
         $operations = $executableDocument->getMultipleOperationsToExecute();
         foreach ($operations as $operation) {
-            $superRootOperationFields[] = $graphQLQueryASTTransformationService->getGraphQLSuperRootOperationField(
-                $document,
-                $operation
-            );
+            $superRootOperationFields[] = $graphQLQueryASTTransformationService->getGraphQLSuperRootOperationField($document, $operation);
         }
         return $superRootOperationFields;
     }

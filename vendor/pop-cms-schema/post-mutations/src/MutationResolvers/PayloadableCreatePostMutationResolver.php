@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCreateCustomPostMutationResolverTrait;
-
-class PayloadableCreatePostMutationResolver extends AbstractCreateUpdatePostMutationResolver
+/** @internal */
+class PayloadableCreatePostMutationResolver extends \PoPCMSSchema\PostMutations\MutationResolvers\AbstractCreateUpdatePostMutationResolver
 {
     use PayloadableCreateCustomPostMutationResolverTrait;
 }

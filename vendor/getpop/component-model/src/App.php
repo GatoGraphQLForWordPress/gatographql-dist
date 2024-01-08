@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel;
 
 use PoP\ComponentModel\Engine\EngineState;
@@ -9,7 +8,6 @@ use PoP\ComponentModel\Feedback\FeedbackStore;
 use PoP\ComponentModel\Stores\MutationResolutionStoreInterface;
 use PoP\ComponentModel\Tracing\TracingStore;
 use PoP\Root\App\AbstractRootAppProxy;
-
 /**
  * Facade to the current AppThread object that hosts
  * all the top-level instances to run the application.
@@ -17,92 +15,93 @@ use PoP\Root\App\AbstractRootAppProxy;
  * This interface contains all the methods from the
  * AppThreadInterface (to provide access to them)
  * but as static.
+ * @internal
  */
-class App extends AbstractRootAppProxy implements AppInterface
+class App extends AbstractRootAppProxy implements \PoP\ComponentModel\AppInterface
 {
-    protected static FeedbackStore $feedbackStore;
-    protected static TracingStore $tracingStore;
-    protected static EngineState $engineState;
-    protected static MutationResolutionStoreInterface $mutationResolutionStore;
-
-    public static function getFeedbackStore(): FeedbackStore
+    /**
+     * @var \PoP\ComponentModel\Feedback\FeedbackStore
+     */
+    protected static $feedbackStore;
+    /**
+     * @var \PoP\ComponentModel\Tracing\TracingStore
+     */
+    protected static $tracingStore;
+    /**
+     * @var \PoP\ComponentModel\Engine\EngineState
+     */
+    protected static $engineState;
+    /**
+     * @var \PoP\ComponentModel\Stores\MutationResolutionStoreInterface
+     */
+    protected static $mutationResolutionStore;
+    public static function getFeedbackStore() : FeedbackStore
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         return $appThread->getFeedbackStore();
     }
-
-    public static function getTracingStore(): TracingStore
+    public static function getTracingStore() : TracingStore
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         return $appThread->getTracingStore();
     }
-
-    public static function getEngineState(): EngineState
+    public static function getEngineState() : EngineState
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         return $appThread->getEngineState();
     }
-
-    public static function getMutationResolutionStore(): MutationResolutionStoreInterface
+    public static function getMutationResolutionStore() : MutationResolutionStoreInterface
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         return $appThread->getMutationResolutionStore();
     }
-
-    public static function generateAndStackFeedbackStore(): void
+    public static function generateAndStackFeedbackStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->generateAndStackFeedbackStore();
     }
-
-    public static function generateAndStackTracingStore(): void
+    public static function generateAndStackTracingStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->generateAndStackTracingStore();
     }
-
-    public static function generateAndStackEngineState(): void
+    public static function generateAndStackEngineState() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->generateAndStackEngineState();
     }
-
-    public static function generateAndStackMutationResolutionStore(): void
+    public static function generateAndStackMutationResolutionStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->generateAndStackMutationResolutionStore();
     }
-
-    public static function popFeedbackStore(): void
+    public static function popFeedbackStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->popFeedbackStore();
     }
-
-    public static function popTracingStore(): void
+    public static function popTracingStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->popTracingStore();
     }
-
-    public static function popEngineState(): void
+    public static function popEngineState() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();
         $appThread->popEngineState();
     }
-
-    public static function popMutationResolutionStore(): void
+    public static function popMutationResolutionStore() : void
     {
         /** @var AppThreadInterface */
         $appThread = static::getAppThread();

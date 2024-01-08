@@ -11,8 +11,14 @@ use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 
 class GraphQLEndpointHandlerAppStateProvider extends AbstractAPIEndpointHandlerAppStateProvider
 {
-    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
-    private ?GraphQLEndpointHandler $graphQLEndpointHandler = null;
+    /**
+     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
+     */
+    private $graphQLDataStructureFormatter;
+    /**
+     * @var \GraphQLByPoP\GraphQLEndpointForWP\EndpointHandlers\GraphQLEndpointHandler|null
+     */
+    private $graphQLEndpointHandler;
 
     final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
     {

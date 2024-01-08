@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API\QueryResolution;
 
 use PoP\ComponentModel\App;
@@ -20,13 +19,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
-
 use function max;
-
-class QueryASTTransformationService implements QueryASTTransformationServiceInterface
+/** @internal */
+class QueryASTTransformationService implements \PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface
 {
     use BasicServiceTrait;
-
     /**
      * Because fields are stored in SplObjectStorage,
      * the same instance must be retrieved in every case.
@@ -34,15 +31,16 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
      *
      * @var SplObjectStorage<Document,array<string,RelationalField>>
      */
-    private SplObjectStorage $fieldInstanceContainer;
-
-    private ?ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
-
-    final public function setASTNodeDuplicatorService(ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService): void
+    private $fieldInstanceContainer;
+    /**
+     * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
+     */
+    private $astNodeDuplicatorService;
+    public final function setASTNodeDuplicatorService(ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService) : void
     {
         $this->astNodeDuplicatorService = $astNodeDuplicatorService;
     }
-    final protected function getASTNodeDuplicatorService(): ASTNodeDuplicatorServiceInterface
+    protected final function getASTNodeDuplicatorService() : ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {
             /** @var ASTNodeDuplicatorServiceInterface */
@@ -51,7 +49,6 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         }
         return $this->astNodeDuplicatorService;
     }
-
     public function __construct()
     {
         /**
@@ -60,38 +57,25 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         $fieldInstanceContainer = new SplObjectStorage();
         $this->fieldInstanceContainer = $fieldInstanceContainer;
     }
-
     /**
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      * @return SplObjectStorage<OperationInterface,array<FieldInterface|FragmentBondInterface>>
      */
-    public function prepareOperationFieldAndFragmentBondsForExecution(
-        Document $document,
-        array $operations,
-        array $fragments,
-    ): SplObjectStorage {
-        return $this->prepareOperationFieldAndFragmentBondsForMultipleQueryExecution(
-            $document,
-            $operations,
-            $fragments,
-        );
+    public function prepareOperationFieldAndFragmentBondsForExecution(Document $document, array $operations, array $fragments) : SplObjectStorage
+    {
+        return $this->prepareOperationFieldAndFragmentBondsForMultipleQueryExecution($document, $operations, $fragments);
     }
-
     /**
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      * @return SplObjectStorage<OperationInterface,array<FieldInterface|FragmentBondInterface>>
      */
-    public function prepareOperationFieldAndFragmentBondsForMultipleQueryExecution(
-        Document $document,
-        array $operations,
-        array $fragments,
-    ): SplObjectStorage {
+    public function prepareOperationFieldAndFragmentBondsForMultipleQueryExecution(Document $document, array $operations, array $fragments) : SplObjectStorage
+    {
         /** @var SplObjectStorage<OperationInterface,array<FieldInterface|FragmentBondInterface>> */
         $operationFieldOrFragmentBonds = new SplObjectStorage();
-        $operationsCount = count($operations);
-
+        $operationsCount = \count($operations);
         /**
          * If there's only 1 operation, then return its contents directly
          * (no need to calculate anything!).
@@ -117,9 +101,7 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
             }
             return $operationFieldOrFragmentBonds;
         }
-
         $nonSpecificLocation = ASTNodesFactory::getNonSpecificLocation();
-
         /**
          * The cache must be stored per Document, or otherwise
          * executing multiple PHPUnit tests may access the
@@ -128,7 +110,6 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
          * @var array<string,RelationalField>
          */
         $documentFieldInstanceContainer = $this->fieldInstanceContainer[$document] ?? [];
-
         /**
          * Wrap subsequent queries "field and fragment bonds" under
          * the required multiple levels of `self`.
@@ -150,7 +131,6 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
              * to inject the SuperRoot field for GraphQL
              */
             $fieldOrFragmentBonds = $this->getOperationFieldsOrFragmentBonds($document, $operation);
-
             /**
              * Each level needs to add as many "self" as the sum of the
              * maximum field depth in all previous queries, so that
@@ -230,28 +210,13 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
                  * Use an alias to both help visualize which is the field (optional),
                  * and get its cached instance (mandatory!)
                  */
-                $alias = sprintf(
-                    '_%s_op%s_level%s_',
-                    'dynamicSelf',
-                    $operationOrder,
-                    $level
-                );
+                $alias = \sprintf('_%s_op%s_level%s_', 'dynamicSelf', $operationOrder, $level);
                 if (!isset($documentFieldInstanceContainer[$alias])) {
-                    $documentFieldInstanceContainer[$alias] = new RelationalField(
-                        'self',
-                        $alias,
-                        [],
-                        $fieldOrFragmentBonds,
-                        [],
-                        $nonSpecificLocation
-                    );
+                    $documentFieldInstanceContainer[$alias] = new RelationalField('self', $alias, [], $fieldOrFragmentBonds, [], $nonSpecificLocation);
                 }
-                $fieldOrFragmentBonds = [
-                    $documentFieldInstanceContainer[$alias],
-                ];
+                $fieldOrFragmentBonds = [$documentFieldInstanceContainer[$alias]];
             }
             $operationFieldOrFragmentBonds[$operation] = $fieldOrFragmentBonds;
-
             /**
              * Add the maximum depth of this operation to the counter
              */
@@ -260,24 +225,20 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         $this->fieldInstanceContainer[$document] = $documentFieldInstanceContainer;
         return $operationFieldOrFragmentBonds;
     }
-
     /**
      * Allow to override the original fields from the operation,
      * to inject the SuperRoot field for GraphQL
      *
      * @return array<FieldInterface|FragmentBondInterface>
      */
-    protected function getOperationFieldsOrFragmentBonds(
-        Document $document,
-        OperationInterface $operation,
-    ): array {
+    protected function getOperationFieldsOrFragmentBonds(Document $document, OperationInterface $operation) : array
+    {
         return $operation->getFieldsOrFragmentBonds();
     }
-
     /**
      * @param Fragment[] $fragments
      */
-    public function getOperationMaximumFieldDepth(OperationInterface $operation, array $fragments): int
+    public function getOperationMaximumFieldDepth(OperationInterface $operation, array $fragments) : int
     {
         /**
          * Also handle the boundaries: an empty operation
@@ -286,32 +247,24 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         if ($fieldsOrFragmentBonds === []) {
             return 0;
         }
-
-        $depths = array_map(
-            fn (FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(
-                1,
-                $fieldOrFragmentBond,
-                $fragments
-            ),
-            $fieldsOrFragmentBonds
-        );
+        $depths = \array_map(function ($fieldOrFragmentBond) use($fragments) {
+            return $this->getFieldOrFragmentBondDepth(1, $fieldOrFragmentBond, $fragments);
+        }, $fieldsOrFragmentBonds);
         return max($depths);
     }
-
     /**
      * @param Fragment[] $fragments
+     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface $fieldOrFragmentBond
      */
-    protected function getFieldOrFragmentBondDepth(int $accumulator, FieldInterface|FragmentBondInterface $fieldOrFragmentBond, array $fragments): int
+    protected function getFieldOrFragmentBondDepth(int $accumulator, $fieldOrFragmentBond, array $fragments) : int
     {
         if ($fieldOrFragmentBond instanceof LeafField) {
             // Reached last level
             return $accumulator;
         }
-
         if ($fieldOrFragmentBond instanceof RelationalField) {
             /** @var RelationalField */
             $relationalField = $fieldOrFragmentBond;
-
             /**
              * Also handle the boundaries: an empty relational field
              */
@@ -319,14 +272,11 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
             if ($fieldsOrFragmentBonds === []) {
                 return $accumulator;
             }
-
-            $depths = array_map(
-                fn (FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments),
-                $fieldsOrFragmentBonds
-            );
+            $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
+                return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
+            }, $fieldsOrFragmentBonds);
             return max($depths);
         }
-
         /**
          * Both Fragment References and Inline Fragments also do +1
          * because the engine will add an extra conditional module
@@ -337,7 +287,6 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         if ($fieldOrFragmentBond instanceof InlineFragment) {
             /** @var InlineFragment */
             $inlineFragment = $fieldOrFragmentBond;
-
             /**
              * Also handle the boundaries: an empty inline fragment
              */
@@ -345,21 +294,17 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
             if ($fieldsOrFragmentBonds === []) {
                 return $accumulator;
             }
-
-            $depths = array_map(
-                fn (FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments),
-                $fieldsOrFragmentBonds
-            );
+            $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
+                return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
+            }, $fieldsOrFragmentBonds);
             return max($depths);
         }
-
         /** @var FragmentReference */
         $fragmentReference = $fieldOrFragmentBond;
         $fragment = $this->getASTNodeDuplicatorService()->getExclusiveFragment($fragmentReference, $fragments);
         if ($fragment === null) {
             return $accumulator;
         }
-
         /**
          * Also handle the boundaries: an empty fragment
          */
@@ -367,14 +312,11 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
         if ($fieldsOrFragmentBonds === []) {
             return $accumulator;
         }
-
-        $depths = array_map(
-            fn (FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments),
-            $fieldsOrFragmentBonds
-        );
+        $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
+            return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
+        }, $fieldsOrFragmentBonds);
         return max($depths);
     }
-
     /**
      * The initial "cushion" of extra "self" fields to add
      * at the beginning of an operation.
@@ -383,7 +325,7 @@ class QueryASTTransformationService implements QueryASTTransformationServiceInte
      * and have these still be executed after all previous fields
      * from the previous operation.
      */
-    protected function getOperationInitialDepth(): int
+    protected function getOperationInitialDepth() : int
     {
         return 0;
     }

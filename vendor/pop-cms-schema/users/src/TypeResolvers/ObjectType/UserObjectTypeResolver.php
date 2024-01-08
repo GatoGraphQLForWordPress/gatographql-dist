@@ -1,24 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
-
+/** @internal */
 class UserObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    private ?UserTypeAPIInterface $userTypeAPI = null;
-    private ?UserObjectTypeDataLoader $userObjectTypeDataLoader = null;
-
-    final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
+     */
+    private $userTypeAPI;
+    /**
+     * @var \PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader|null
+     */
+    private $userObjectTypeDataLoader;
+    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
     {
         $this->userTypeAPI = $userTypeAPI;
     }
-    final protected function getUserTypeAPI(): UserTypeAPIInterface
+    protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
             /** @var UserTypeAPIInterface */
@@ -27,11 +31,11 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->userTypeAPI;
     }
-    final public function setUserObjectTypeDataLoader(UserObjectTypeDataLoader $userObjectTypeDataLoader): void
+    public final function setUserObjectTypeDataLoader(UserObjectTypeDataLoader $userObjectTypeDataLoader) : void
     {
         $this->userObjectTypeDataLoader = $userObjectTypeDataLoader;
     }
-    final protected function getUserObjectTypeDataLoader(): UserObjectTypeDataLoader
+    protected final function getUserObjectTypeDataLoader() : UserObjectTypeDataLoader
     {
         if ($this->userObjectTypeDataLoader === null) {
             /** @var UserObjectTypeDataLoader */
@@ -40,24 +44,23 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->userObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'User';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Representation of a user', 'users');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         $user = $object;
         return $this->getUserTypeAPI()->getUserID($user);
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getUserObjectTypeDataLoader();
     }

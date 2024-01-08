@@ -8,20 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcher;
 
-namespace Symfony\Component\HttpFoundation\RequestMatcher;
-
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestMatcherInterface;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
+use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
 /**
  * Checks the Request content is valid JSON.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class IsJsonRequestMatcher implements RequestMatcherInterface
 {
-    public function matches(Request $request): bool
+    public function matches(Request $request) : bool
     {
         return json_validate($request->getContent());
     }

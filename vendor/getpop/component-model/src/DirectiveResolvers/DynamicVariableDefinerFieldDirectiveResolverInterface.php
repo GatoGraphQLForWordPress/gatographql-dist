@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 /**
@@ -14,8 +13,9 @@ namespace PoP\ComponentModel\DirectiveResolvers;
  * different directives, to provide this functionality.
  *
  * @see https://github.com/graphql/graphql-spec/issues/583
+ * @internal
  */
-interface DynamicVariableDefinerFieldDirectiveResolverInterface extends FieldDirectiveResolverInterface
+interface DynamicVariableDefinerFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
 {
     /**
      * Name for the directive arg(s) to indicate the name of the
@@ -28,8 +28,7 @@ interface DynamicVariableDefinerFieldDirectiveResolverInterface extends FieldDir
      *
      * @return string[]
      */
-    public function getExportUnderVariableNameArgumentNames(): array;
-
+    public function getExportUnderVariableNameArgumentNames() : array;
     /**
      * If `true`, the dynamic variable's scope is the object
      * being currently resolved.
@@ -37,5 +36,5 @@ interface DynamicVariableDefinerFieldDirectiveResolverInterface extends FieldDir
      * If `false`, the exported value is available for all
      * subsequent AST elements in the document.
      */
-    public function mustResolveDynamicVariableOnObject(): bool;
+    public function mustResolveDynamicVariableOnObject() : bool;
 }

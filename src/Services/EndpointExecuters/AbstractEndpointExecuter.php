@@ -12,7 +12,10 @@ abstract class AbstractEndpointExecuter implements EndpointExecuterInterface
 {
     use BasicServiceTrait;
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

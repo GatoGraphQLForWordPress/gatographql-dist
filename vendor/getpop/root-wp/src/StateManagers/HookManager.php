@@ -19,7 +19,12 @@ class HookManager implements HookManagerInterface
     {
         return \remove_filter($tag, $function_to_remove, $priority);
     }
-    public function applyFilters(string $tag, mixed $value, mixed ...$args): mixed
+    /**
+     * @param mixed $value
+     * @param mixed ...$args
+     * @return mixed
+     */
+    public function applyFilters(string $tag, $value, ...$args)
     {
         return \apply_filters($tag, $value, ...$args);
     }
@@ -31,7 +36,10 @@ class HookManager implements HookManagerInterface
     {
         return \remove_action($tag, $function_to_remove, $priority);
     }
-    public function doAction(string $tag, mixed ...$args): void
+    /**
+     * @param mixed ...$args
+     */
+    public function doAction(string $tag, ...$args): void
     {
         \do_action($tag, ...$args);
     }

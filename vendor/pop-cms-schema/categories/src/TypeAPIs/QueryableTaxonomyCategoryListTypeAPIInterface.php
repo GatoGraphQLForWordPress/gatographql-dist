@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeAPIs;
 
-interface QueryableTaxonomyCategoryListTypeAPIInterface extends TaxonomyCategoryListTypeAPIInterface
+/** @internal */
+interface QueryableTaxonomyCategoryListTypeAPIInterface extends \PoPCMSSchema\Categories\TypeAPIs\TaxonomyCategoryListTypeAPIInterface
 {
 }

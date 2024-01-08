@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
-
-abstract class AbstractDictionaryObjectTypeDataLoader extends AbstractObjectTypeDataLoader
+/** @internal */
+abstract class AbstractDictionaryObjectTypeDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader
 {
-    private ?ObjectDictionaryInterface $objectDictionary = null;
-
-    final public function setObjectDictionary(ObjectDictionaryInterface $objectDictionary): void
+    /**
+     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
+     */
+    private $objectDictionary;
+    public final function setObjectDictionary(ObjectDictionaryInterface $objectDictionary) : void
     {
         $this->objectDictionary = $objectDictionary;
     }
-    final protected function getObjectDictionary(): ObjectDictionaryInterface
+    protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
             /** @var ObjectDictionaryInterface */
@@ -23,20 +24,17 @@ abstract class AbstractDictionaryObjectTypeDataLoader extends AbstractObjectType
         }
         return $this->objectDictionary;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
         $objectClass = $this->getObjectClass();
         $objectDictionary = $this->getObjectDictionary();
-        return array_map(
-            fn (string|int $id) => $objectDictionary->get($objectClass, $id),
-            $ids
-        );
+        return \array_map(function ($id) use($objectDictionary, $objectClass) {
+            return $objectDictionary->get($objectClass, $id);
+        }, $ids);
     }
-
-    abstract protected function getObjectClass(): string;
+    protected abstract function getObjectClass() : string;
 }

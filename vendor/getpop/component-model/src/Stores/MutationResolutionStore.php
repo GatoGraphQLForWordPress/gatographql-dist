@@ -1,23 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Stores;
 
-class MutationResolutionStore implements MutationResolutionStoreInterface
+/** @internal */
+class MutationResolutionStore implements \PoP\ComponentModel\Stores\MutationResolutionStoreInterface
 {
     /**
      * @var array<string,mixed>
      */
-    private array $results = [];
-
-    public function setResult(object $object, mixed $result): void
+    private $results = [];
+    /**
+     * @param mixed $result
+     */
+    public function setResult(object $object, $result) : void
     {
-        $this->results[get_class($object)] = $result;
+        $this->results[\get_class($object)] = $result;
     }
-
-    public function getResult(object $object): mixed
+    /**
+     * @return mixed
+     */
+    public function getResult(object $object)
     {
-        return $this->results[get_class($object)];
+        return $this->results[\get_class($object)];
     }
 }

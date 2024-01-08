@@ -16,14 +16,14 @@ class CustomPostQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             AbstractCustomPostTypeAPI::HOOK_QUERY,
-            $this->convertCustomPostsQuery(...),
+            \Closure::fromCallable([$this, 'convertCustomPostsQuery']),
             10,
             2
         );
 
         App::addFilter(
             CustomPostTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            $this->getOrderByQueryArgValue(...)
+            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
         );
     }
 
@@ -51,9 +51,11 @@ class CustomPostQueryHookSet extends AbstractHookSet
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        return match ($orderBy) {
-            CustomPostOrderBy::AUTHOR => 'author',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case CustomPostOrderBy::AUTHOR:
+                return 'author';
+            default:
+                return $orderBy;
+        }
     }
 }

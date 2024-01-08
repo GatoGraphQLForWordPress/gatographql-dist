@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\ObjectModels;
 
 use PoPSchema\SchemaCommons\ObjectModels\AbstractErrorPayload;
-
+/** @internal */
 final class CommentAuthorNameIsMissingErrorPayload extends AbstractErrorPayload
 {
 }

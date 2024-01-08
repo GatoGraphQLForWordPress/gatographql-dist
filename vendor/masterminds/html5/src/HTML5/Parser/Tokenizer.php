@@ -1,9 +1,8 @@
 <?php
 
-namespace Masterminds\HTML5\Parser;
+namespace PrefixedByPoP\Masterminds\HTML5\Parser;
 
-use Masterminds\HTML5\Elements;
-
+use PrefixedByPoP\Masterminds\HTML5\Elements;
 /**
  * The HTML5 tokenizer.
  *
@@ -23,30 +22,25 @@ use Masterminds\HTML5\Elements;
  * This refers to section 8.2.4.1 of the HTML5 CR specification.
  *
  * @see http://www.w3.org/TR/2012/CR-html5-20121217/
+ * @internal
  */
 class Tokenizer
 {
     protected $scanner;
-
     protected $events;
-
     protected $tok;
-
     /**
      * Buffer for text.
      */
     protected $text = '';
-
     // When this goes to false, the parser stops.
-    protected $carryOn = true;
-
-    protected $textMode = 0; // TEXTMODE_NORMAL;
+    protected $carryOn = \true;
+    protected $textMode = 0;
+    // TEXTMODE_NORMAL;
     protected $untilTag = null;
-
     const CONFORMANT_XML = 'xml';
     const CONFORMANT_HTML = 'html';
     protected $mode = self::CONFORMANT_HTML;
-
     /**
      * Create a new tokenizer.
      *
@@ -64,7 +58,6 @@ class Tokenizer
         $this->events = $eventHandler;
         $this->mode = $mode;
     }
-
     /**
      * Begin parsing.
      *
@@ -83,7 +76,6 @@ class Tokenizer
             // FIXME: Add infinite loop protection.
         } while ($this->carryOn);
     }
-
     /**
      * Set the text mode for the character data reader.
      *
@@ -107,7 +99,6 @@ class Tokenizer
         $this->textMode = $textmode & (Elements::TEXT_RAW | Elements::TEXT_RCDATA);
         $this->untilTag = $untilTag;
     }
-
     /**
      * Consume a character and make a move.
      * HTML5 8.2.4.1.
@@ -115,23 +106,18 @@ class Tokenizer
     protected function consumeData()
     {
         $tok = $this->scanner->current();
-
         if ('&' === $tok) {
             // Character reference
             $ref = $this->decodeCharacterReference();
             $this->buffer($ref);
-
             $tok = $this->scanner->current();
         }
-
         // Parse tag
         if ('<' === $tok) {
             // Any buffered text data can go out now.
             $this->flushBuffer();
-
             $tok = $this->scanner->next();
-
-            if (false === $tok) {
+            if (\false === $tok) {
                 // end of string
                 $this->parseError('Illegal tag opening');
             } elseif ('!' === $tok) {
@@ -147,11 +133,9 @@ class Tokenizer
                 // TODO is this necessary ?
                 $this->characterData();
             }
-
             $tok = $this->scanner->current();
         }
-
-        if (false === $tok) {
+        if (\false === $tok) {
             // Handle end of document
             $this->eof();
         } else {
@@ -160,33 +144,25 @@ class Tokenizer
                 case Elements::TEXT_RAW:
                     $this->rawText($tok);
                     break;
-
                 case Elements::TEXT_RCDATA:
                     $this->rcdata($tok);
                     break;
-
                 default:
                     if ('<' === $tok || '&' === $tok) {
                         break;
                     }
-
                     // NULL character
-                    if ("\00" === $tok) {
+                    if ("\x00" === $tok) {
                         $this->parseError('Received null character.');
-
                         $this->text .= $tok;
                         $this->scanner->consume();
-
                         break;
                     }
-
-                    $this->text .= $this->scanner->charsUntil("<&\0");
+                    $this->text .= $this->scanner->charsUntil("<&\x00");
             }
         }
-
         return $this->carryOn;
     }
-
     /**
      * Parse anything that looks like character data.
      *
@@ -197,8 +173,8 @@ class Tokenizer
     protected function characterData()
     {
         $tok = $this->scanner->current();
-        if (false === $tok) {
-            return false;
+        if (\false === $tok) {
+            return \false;
         }
         switch ($this->textMode) {
             case Elements::TEXT_RAW:
@@ -207,13 +183,11 @@ class Tokenizer
                 return $this->rcdata($tok);
             default:
                 if ('<' === $tok || '&' === $tok) {
-                    return false;
+                    return \false;
                 }
-
                 return $this->text($tok);
         }
     }
-
     /**
      * This buffers the current token as character data.
      *
@@ -224,21 +198,17 @@ class Tokenizer
     protected function text($tok)
     {
         // This should never happen...
-        if (false === $tok) {
-            return false;
+        if (\false === $tok) {
+            return \false;
         }
-
         // NULL character
-        if ("\00" === $tok) {
+        if ("\x00" === $tok) {
             $this->parseError('Received null character.');
         }
-
         $this->buffer($tok);
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Read text in RAW mode.
      *
@@ -248,18 +218,15 @@ class Tokenizer
      */
     protected function rawText($tok)
     {
-        if (is_null($this->untilTag)) {
+        if (\is_null($this->untilTag)) {
             return $this->text($tok);
         }
-
         $sequence = '</' . $this->untilTag . '>';
         $txt = $this->readUntilSequence($sequence);
         $this->events->text($txt);
         $this->setTextMode(0);
-
         return $this->endTag();
     }
-
     /**
      * Read text in RCDATA mode.
      *
@@ -269,15 +236,13 @@ class Tokenizer
      */
     protected function rcdata($tok)
     {
-        if (is_null($this->untilTag)) {
+        if (\is_null($this->untilTag)) {
             return $this->text($tok);
         }
-
         $sequence = '</' . $this->untilTag;
         $txt = '';
-
         $caseSensitive = !Elements::isHtml5Element($this->untilTag);
-        while (false !== $tok && !('<' == $tok && ($this->scanner->sequenceMatches($sequence, $caseSensitive)))) {
+        while (\false !== $tok && !('<' == $tok && $this->scanner->sequenceMatches($sequence, $caseSensitive))) {
             if ('&' == $tok) {
                 $txt .= $this->decodeCharacterReference();
                 $tok = $this->scanner->current();
@@ -286,20 +251,17 @@ class Tokenizer
                 $tok = $this->scanner->next();
             }
         }
-        $len = strlen($sequence);
+        $len = \strlen($sequence);
         $this->scanner->consume($len);
         $len += $this->scanner->whitespace();
         if ('>' !== $this->scanner->current()) {
             $this->parseError('Unclosed RCDATA end tag');
         }
-
         $this->scanner->unconsume($len);
         $this->events->text($txt);
         $this->setTextMode(0);
-
         return $this->endTag();
     }
-
     /**
      * If the document is read, emit an EOF event.
      */
@@ -308,75 +270,64 @@ class Tokenizer
         // fprintf(STDOUT, "EOF");
         $this->flushBuffer();
         $this->events->eof();
-        $this->carryOn = false;
+        $this->carryOn = \false;
     }
-
     /**
      * Look for markup.
      */
     protected function markupDeclaration()
     {
         $tok = $this->scanner->next();
-
         // Comment:
         if ('-' == $tok && '-' == $this->scanner->peek()) {
             $this->scanner->consume(2);
-
             return $this->comment();
-        } elseif ('D' == $tok || 'd' == $tok) { // Doctype
+        } elseif ('D' == $tok || 'd' == $tok) {
+            // Doctype
             return $this->doctype();
-        } elseif ('[' == $tok) { // CDATA section
+        } elseif ('[' == $tok) {
+            // CDATA section
             return $this->cdataSection();
         }
-
         // FINISH
         $this->parseError('Expected <!--, <![CDATA[, or <!DOCTYPE. Got <!%s', $tok);
         $this->bogusComment('<!');
-
-        return true;
+        return \true;
     }
-
     /**
      * Consume an end tag. See section 8.2.4.9.
      */
     protected function endTag()
     {
         if ('/' != $this->scanner->current()) {
-            return false;
+            return \false;
         }
         $tok = $this->scanner->next();
-
         // a-zA-Z -> tagname
         // > -> parse error
         // EOF -> parse error
         // -> parse error
         if (!$this->is_alpha($tok)) {
             $this->parseError("Expected tag name, got '%s'", $tok);
-            if ("\0" == $tok || false === $tok) {
-                return false;
+            if ("\x00" == $tok || \false === $tok) {
+                return \false;
             }
-
             return $this->bogusComment('</');
         }
-
         $name = $this->scanner->charsUntil("\n\f \t>");
-        $name = self::CONFORMANT_XML === $this->mode ? $name : strtolower($name);
+        $name = self::CONFORMANT_XML === $this->mode ? $name : \strtolower($name);
         // Trash whitespace.
         $this->scanner->whitespace();
-
         $tok = $this->scanner->current();
         if ('>' != $tok) {
             $this->parseError("Expected >, got '%s'", $tok);
             // We just trash stuff until we get to the next tag close.
             $this->scanner->charsUntil('>');
         }
-
         $this->events->endTag($name);
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Consume a tag name and body. See section 8.2.4.10.
      */
@@ -384,10 +335,9 @@ class Tokenizer
     {
         // We know this is at least one char.
         $name = $this->scanner->charsWhile(':_-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
-        $name = self::CONFORMANT_XML === $this->mode ? $name : strtolower($name);
+        $name = self::CONFORMANT_XML === $this->mode ? $name : \strtolower($name);
         $attributes = array();
-        $selfClose = false;
-
+        $selfClose = \false;
         // Handle attribute parse exceptions here so that we can
         // react by trying to build a sensible parse tree.
         try {
@@ -396,20 +346,15 @@ class Tokenizer
                 $this->attribute($attributes);
             } while (!$this->isTagEnd($selfClose));
         } catch (ParseError $e) {
-            $selfClose = false;
+            $selfClose = \false;
         }
-
         $mode = $this->events->startTag($name, $attributes, $selfClose);
-
-        if (is_int($mode)) {
+        if (\is_int($mode)) {
             $this->setTextMode($mode, $name);
         }
-
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Check if the scanner has reached the end of a tag.
      */
@@ -420,36 +365,28 @@ class Tokenizer
             $this->scanner->consume();
             $this->scanner->whitespace();
             $tok = $this->scanner->current();
-
             if ('>' == $tok) {
-                $selfClose = true;
-
-                return true;
+                $selfClose = \true;
+                return \true;
             }
-            if (false === $tok) {
+            if (\false === $tok) {
                 $this->parseError('Unexpected EOF inside of tag.');
-
-                return true;
+                return \true;
             }
             // Basically, we skip the / token and go on.
             // See 8.2.4.43.
             $this->parseError("Unexpected '%s' inside of a tag.", $tok);
-
-            return false;
+            return \false;
         }
-
         if ('>' == $tok) {
-            return true;
+            return \true;
         }
-        if (false === $tok) {
+        if (\false === $tok) {
             $this->parseError('Unexpected EOF inside of tag.');
-
-            return true;
+            return \true;
         }
-
-        return false;
+        return \false;
     }
-
     /**
      * Parse attributes from inside of a tag.
      *
@@ -462,10 +399,9 @@ class Tokenizer
     protected function attribute(&$attributes)
     {
         $tok = $this->scanner->current();
-        if ('/' == $tok || '>' == $tok || false === $tok) {
-            return false;
+        if ('/' == $tok || '>' == $tok || \false === $tok) {
+            return \false;
         }
-
         if ('<' == $tok) {
             $this->parseError("Unexpected '<' inside of attributes list.");
             // Push the < back onto the stack.
@@ -473,10 +409,8 @@ class Tokenizer
             // Let the caller figure out how to handle this.
             throw new ParseError('Start tag inside of attribute.');
         }
-
-        $name = strtolower($this->scanner->charsUntil("/>=\n\f\t "));
-
-        if (0 == strlen($name)) {
+        $name = \strtolower($this->scanner->charsUntil("/>=\n\f\t "));
+        if (0 == \strlen($name)) {
             $tok = $this->scanner->current();
             $this->parseError('Expected an attribute name, got %s.', $tok);
             // Really, only '=' can be the char here. Everything else gets absorbed
@@ -484,36 +418,27 @@ class Tokenizer
             $name = $tok;
             $this->scanner->consume();
         }
-
-        $isValidAttribute = true;
+        $isValidAttribute = \true;
         // Attribute names can contain most Unicode characters for HTML5.
         // But method "DOMElement::setAttribute" is throwing exception
         // because of it's own internal restriction so these have to be filtered.
         // see issue #23: https://github.com/Masterminds/html5-php/issues/23
         // and http://www.w3.org/TR/2011/WD-html5-20110525/syntax.html#syntax-attribute-name
-        if (preg_match("/[\x1-\x2C\\/\x3B-\x40\x5B-\x5E\x60\x7B-\x7F]/u", $name)) {
+        if (\preg_match("/[\x01-,\\/;-@[-^`{-]/u", $name)) {
             $this->parseError('Unexpected characters in attribute name: %s', $name);
-            $isValidAttribute = false;
-        }         // There is no limitation for 1st character in HTML5.
-        // But method "DOMElement::setAttribute" is throwing exception for the
-        // characters below so they have to be filtered.
-        // see issue #23: https://github.com/Masterminds/html5-php/issues/23
-        // and http://www.w3.org/TR/2011/WD-html5-20110525/syntax.html#syntax-attribute-name
-        elseif (preg_match('/^[0-9.-]/u', $name)) {
+            $isValidAttribute = \false;
+        } elseif (\preg_match('/^[0-9.-]/u', $name)) {
             $this->parseError('Unexpected character at the begining of attribute name: %s', $name);
-            $isValidAttribute = false;
+            $isValidAttribute = \false;
         }
         // 8.1.2.3
         $this->scanner->whitespace();
-
         $val = $this->attributeValue();
         if ($isValidAttribute) {
             $attributes[$name] = $val;
         }
-
-        return true;
+        return \true;
     }
-
     /**
      * Consume an attribute value. See section 8.2.4.37 and after.
      *
@@ -527,7 +452,6 @@ class Tokenizer
         $this->scanner->consume();
         // 8.1.2.3
         $this->scanner->whitespace();
-
         $tok = $this->scanner->current();
         switch ($tok) {
             case "\n":
@@ -539,23 +463,19 @@ class Tokenizer
             case '"':
             case "'":
                 $this->scanner->consume();
-
                 return $this->quotedAttributeValue($tok);
             case '>':
                 // case '/': // 8.2.4.37 seems to allow foo=/ as a valid attr.
                 $this->parseError('Expected attribute value, got tag end.');
-
                 return null;
             case '=':
             case '`':
                 $this->parseError('Expecting quotes, got %s.', $tok);
-
                 return $this->unquotedAttributeValue();
             default:
                 return $this->unquotedAttributeValue();
         }
     }
-
     /**
      * Get an attribute value string.
      *
@@ -569,32 +489,28 @@ class Tokenizer
     {
         $stoplist = "\f" . $quote;
         $val = '';
-
-        while (true) {
+        while (\true) {
             $tokens = $this->scanner->charsUntil($stoplist . '&');
-            if (false !== $tokens) {
+            if (\false !== $tokens) {
                 $val .= $tokens;
             } else {
                 break;
             }
-
             $tok = $this->scanner->current();
             if ('&' == $tok) {
-                $val .= $this->decodeCharacterReference(true);
+                $val .= $this->decodeCharacterReference(\true);
                 continue;
             }
             break;
         }
         $this->scanner->consume();
-
         return $val;
     }
-
     protected function unquotedAttributeValue()
     {
         $val = '';
         $tok = $this->scanner->current();
-        while (false !== $tok) {
+        while (\false !== $tok) {
             switch ($tok) {
                 case "\n":
                 case "\f":
@@ -602,13 +518,10 @@ class Tokenizer
                 case "\t":
                 case '>':
                     break 2;
-
                 case '&':
-                    $val .= $this->decodeCharacterReference(true);
+                    $val .= $this->decodeCharacterReference(\true);
                     $tok = $this->scanner->current();
-
                     break;
-
                 case "'":
                 case '"':
                 case '<':
@@ -618,17 +531,13 @@ class Tokenizer
                     $val .= $tok;
                     $tok = $this->scanner->next();
                     break;
-
                 default:
                     $val .= $this->scanner->charsUntil("\t\n\f >&\"'<=`");
-
                     $tok = $this->scanner->current();
             }
         }
-
         return $val;
     }
-
     /**
      * Consume malformed markup as if it were a comment.
      * 8.2.4.44.
@@ -647,21 +556,18 @@ class Tokenizer
     {
         $comment = $leading;
         $tokens = $this->scanner->charsUntil('>');
-        if (false !== $tokens) {
+        if (\false !== $tokens) {
             $comment .= $tokens;
         }
         $tok = $this->scanner->current();
-        if (false !== $tok) {
+        if (\false !== $tok) {
             $comment .= $tok;
         }
-
         $this->flushBuffer();
         $this->events->comment($comment);
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Read a comment.
      * Expects the first tok to be inside of the comment.
@@ -672,32 +578,26 @@ class Tokenizer
     {
         $tok = $this->scanner->current();
         $comment = '';
-
         // <!-->. Emit an empty comment because 8.2.4.46 says to.
         if ('>' == $tok) {
             // Parse error. Emit the comment token.
             $this->parseError("Expected comment data, got '>'");
             $this->events->comment('');
             $this->scanner->consume();
-
-            return true;
+            return \true;
         }
-
         // Replace NULL with the replacement char.
-        if ("\0" == $tok) {
+        if ("\x00" == $tok) {
             $tok = UTF8Utils::FFFD;
         }
         while (!$this->isCommentEnd()) {
             $comment .= $tok;
             $tok = $this->scanner->next();
         }
-
         $this->events->comment($comment);
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Check if the scanner has reached the end of a comment.
      *
@@ -706,37 +606,32 @@ class Tokenizer
     protected function isCommentEnd()
     {
         $tok = $this->scanner->current();
-
         // EOF
-        if (false === $tok) {
+        if (\false === $tok) {
             // Hit the end.
             $this->parseError('Unexpected EOF in a comment.');
-
-            return true;
+            return \true;
         }
-
         // If next two tokens are not '--', not the end.
         if ('-' != $tok || '-' != $this->scanner->peek()) {
-            return false;
+            return \false;
         }
-
-        $this->scanner->consume(2); // Consume '-' and one of '!' or '>'
-
+        $this->scanner->consume(2);
+        // Consume '-' and one of '!' or '>'
         // Test for '>'
         if ('>' == $this->scanner->current()) {
-            return true;
+            return \true;
         }
         // Test for '!>'
         if ('!' == $this->scanner->current() && '>' == $this->scanner->peek()) {
-            $this->scanner->consume(); // Consume the last '>'
-            return true;
+            $this->scanner->consume();
+            // Consume the last '>'
+            return \true;
         }
         // Unread '-' and one of '!' or '>';
         $this->scanner->unconsume(2);
-
-        return false;
+        return \false;
     }
-
     /**
      * Parse a DOCTYPE.
      *
@@ -750,115 +645,90 @@ class Tokenizer
     protected function doctype()
     {
         // Check that string is DOCTYPE.
-        if ($this->scanner->sequenceMatches('DOCTYPE', false)) {
+        if ($this->scanner->sequenceMatches('DOCTYPE', \false)) {
             $this->scanner->consume(7);
         } else {
             $chars = $this->scanner->charsWhile('DOCTYPEdoctype');
             $this->parseError('Expected DOCTYPE, got %s', $chars);
-
             return $this->bogusComment('<!' . $chars);
         }
-
         $this->scanner->whitespace();
         $tok = $this->scanner->current();
-
         // EOF: die.
-        if (false === $tok) {
-            $this->events->doctype('html5', EventHandler::DOCTYPE_NONE, '', true);
+        if (\false === $tok) {
+            $this->events->doctype('html5', EventHandler::DOCTYPE_NONE, '', \true);
             $this->eof();
-
-            return true;
+            return \true;
         }
-
         // NULL char: convert.
-        if ("\0" === $tok) {
+        if ("\x00" === $tok) {
             $this->parseError('Unexpected null character in DOCTYPE.');
         }
-
         $stop = " \n\f>";
         $doctypeName = $this->scanner->charsUntil($stop);
         // Lowercase ASCII, replace \0 with FFFD
-        $doctypeName = strtolower(strtr($doctypeName, "\0", UTF8Utils::FFFD));
-
+        $doctypeName = \strtolower(\strtr($doctypeName, "\x00", UTF8Utils::FFFD));
         $tok = $this->scanner->current();
-
         // If false, emit a parse error, DOCTYPE, and return.
-        if (false === $tok) {
+        if (\false === $tok) {
             $this->parseError('Unexpected EOF in DOCTYPE declaration.');
-            $this->events->doctype($doctypeName, EventHandler::DOCTYPE_NONE, null, true);
-
-            return true;
+            $this->events->doctype($doctypeName, EventHandler::DOCTYPE_NONE, null, \true);
+            return \true;
         }
-
         // Short DOCTYPE, like <!DOCTYPE html>
         if ('>' == $tok) {
             // DOCTYPE without a name.
-            if (0 == strlen($doctypeName)) {
+            if (0 == \strlen($doctypeName)) {
                 $this->parseError('Expected a DOCTYPE name. Got nothing.');
-                $this->events->doctype($doctypeName, 0, null, true);
+                $this->events->doctype($doctypeName, 0, null, \true);
                 $this->scanner->consume();
-
-                return true;
+                return \true;
             }
             $this->events->doctype($doctypeName);
             $this->scanner->consume();
-
-            return true;
+            return \true;
         }
         $this->scanner->whitespace();
-
-        $pub = strtoupper($this->scanner->getAsciiAlpha());
+        $pub = \strtoupper($this->scanner->getAsciiAlpha());
         $white = $this->scanner->whitespace();
-
         // Get ID, and flag it as pub or system.
         if (('PUBLIC' == $pub || 'SYSTEM' == $pub) && $white > 0) {
             // Get the sys ID.
             $type = 'PUBLIC' == $pub ? EventHandler::DOCTYPE_PUBLIC : EventHandler::DOCTYPE_SYSTEM;
-            $id = $this->quotedString("\0>");
-            if (false === $id) {
-                $this->events->doctype($doctypeName, $type, $pub, false);
-
-                return true;
+            $id = $this->quotedString("\x00>");
+            if (\false === $id) {
+                $this->events->doctype($doctypeName, $type, $pub, \false);
+                return \true;
             }
-
             // Premature EOF.
-            if (false === $this->scanner->current()) {
+            if (\false === $this->scanner->current()) {
                 $this->parseError('Unexpected EOF in DOCTYPE');
-                $this->events->doctype($doctypeName, $type, $id, true);
-
-                return true;
+                $this->events->doctype($doctypeName, $type, $id, \true);
+                return \true;
             }
-
             // Well-formed complete DOCTYPE.
             $this->scanner->whitespace();
             if ('>' == $this->scanner->current()) {
-                $this->events->doctype($doctypeName, $type, $id, false);
+                $this->events->doctype($doctypeName, $type, $id, \false);
                 $this->scanner->consume();
-
-                return true;
+                return \true;
             }
-
             // If we get here, we have <!DOCTYPE foo PUBLIC "bar" SOME_JUNK
             // Throw away the junk, parse error, quirks mode, return true.
             $this->scanner->charsUntil('>');
             $this->parseError('Malformed DOCTYPE.');
-            $this->events->doctype($doctypeName, $type, $id, true);
+            $this->events->doctype($doctypeName, $type, $id, \true);
             $this->scanner->consume();
-
-            return true;
+            return \true;
         }
-
         // Else it's a bogus DOCTYPE.
         // Consume to > and trash.
         $this->scanner->charsUntil('>');
-
         $this->parseError('Expected PUBLIC or SYSTEM. Got %s.', $pub);
-        $this->events->doctype($doctypeName, 0, null, true);
+        $this->events->doctype($doctypeName, 0, null, \true);
         $this->scanner->consume();
-
-        return true;
+        return \true;
     }
-
     /**
      * Utility for reading a quoted string.
      *
@@ -879,13 +749,10 @@ class Tokenizer
                 // Parse error because no close quote.
                 $this->parseError('Expected %s, got %s', $tok, $this->scanner->current());
             }
-
             return $ret;
         }
-
-        return false;
+        return \false;
     }
-
     /**
      * Handle a CDATA section.
      *
@@ -895,38 +762,29 @@ class Tokenizer
     {
         $cdata = '';
         $this->scanner->consume();
-
         $chars = $this->scanner->charsWhile('CDAT');
         if ('CDATA' != $chars || '[' != $this->scanner->current()) {
             $this->parseError('Expected [CDATA[, got %s', $chars);
-
             return $this->bogusComment('<![' . $chars);
         }
-
         $tok = $this->scanner->next();
         do {
-            if (false === $tok) {
+            if (\false === $tok) {
                 $this->parseError('Unexpected EOF inside CDATA.');
                 $this->bogusComment('<![CDATA[' . $cdata);
-
-                return true;
+                return \true;
             }
             $cdata .= $tok;
             $tok = $this->scanner->next();
         } while (!$this->scanner->sequenceMatches(']]>'));
-
         // Consume ]]>
         $this->scanner->consume(3);
-
         $this->events->cdata($cdata);
-
-        return true;
+        return \true;
     }
-
     // ================================================================
     // Non-HTML5
     // ================================================================
-
     /**
      * Handle a processing instruction.
      *
@@ -940,45 +798,36 @@ class Tokenizer
     protected function processingInstruction()
     {
         if ('?' != $this->scanner->current()) {
-            return false;
+            return \false;
         }
-
         $tok = $this->scanner->next();
         $procName = $this->scanner->getAsciiAlpha();
         $white = $this->scanner->whitespace();
-
         // If not a PI, send to bogusComment.
-        if (0 == strlen($procName) || 0 == $white || false == $this->scanner->current()) {
-            $this->parseError("Expected processing instruction name, got $tok");
+        if (0 == \strlen($procName) || 0 == $white || \false == $this->scanner->current()) {
+            $this->parseError("Expected processing instruction name, got {$tok}");
             $this->bogusComment('<?' . $tok . $procName);
-
-            return true;
+            return \true;
         }
-
         $data = '';
         // As long as it's not the case that the next two chars are ? and >.
         while (!('?' == $this->scanner->current() && '>' == $this->scanner->peek())) {
             $data .= $this->scanner->current();
-
             $tok = $this->scanner->next();
-            if (false === $tok) {
+            if (\false === $tok) {
                 $this->parseError('Unexpected EOF in processing instruction.');
                 $this->events->processingInstruction($procName, $data);
-
-                return true;
+                return \true;
             }
         }
-
-        $this->scanner->consume(2); // Consume the closing tag
+        $this->scanner->consume(2);
+        // Consume the closing tag
         $this->events->processingInstruction($procName, $data);
-
-        return true;
+        return \true;
     }
-
     // ================================================================
     // UTILITY FUNCTIONS
     // ================================================================
-
     /**
      * Read from the input stream until we get to the desired sequene
      * or hit the end of the input stream.
@@ -990,26 +839,21 @@ class Tokenizer
     protected function readUntilSequence($sequence)
     {
         $buffer = '';
-
         // Optimization for reading larger blocks faster.
-        $first = substr($sequence, 0, 1);
-        while (false !== $this->scanner->current()) {
+        $first = \substr($sequence, 0, 1);
+        while (\false !== $this->scanner->current()) {
             $buffer .= $this->scanner->charsUntil($first);
-
             // Stop as soon as we hit the stopping condition.
-            if ($this->scanner->sequenceMatches($sequence, false)) {
+            if ($this->scanner->sequenceMatches($sequence, \false)) {
                 return $buffer;
             }
             $buffer .= $this->scanner->current();
             $this->scanner->consume();
         }
-
         // If we get here, we hit the EOF.
         $this->parseError('Unexpected EOF during text read.');
-
         return $buffer;
     }
-
     /**
      * Check if upcomming chars match the given sequence.
      *
@@ -1028,13 +872,11 @@ class Tokenizer
      *
      * @return bool
      */
-    protected function sequenceMatches($sequence, $caseSensitive = true)
+    protected function sequenceMatches($sequence, $caseSensitive = \true)
     {
-        @trigger_error(__METHOD__ . ' method is deprecated since version 2.4 and will be removed in 3.0. Use Scanner::sequenceMatches() instead.', E_USER_DEPRECATED);
-
+        @\trigger_error(__METHOD__ . ' method is deprecated since version 2.4 and will be removed in 3.0. Use Scanner::sequenceMatches() instead.', \E_USER_DEPRECATED);
         return $this->scanner->sequenceMatches($sequence, $caseSensitive);
     }
-
     /**
      * Send a TEXT event with the contents of the text buffer.
      *
@@ -1050,7 +892,6 @@ class Tokenizer
         $this->events->text($this->text);
         $this->text = '';
     }
-
     /**
      * Add text to the temporary buffer.
      *
@@ -1062,7 +903,6 @@ class Tokenizer
     {
         $this->text .= $str;
     }
-
     /**
      * Emit a parse error.
      *
@@ -1075,20 +915,16 @@ class Tokenizer
      */
     protected function parseError($msg)
     {
-        $args = func_get_args();
-
-        if (count($args) > 1) {
-            array_shift($args);
-            $msg = vsprintf($msg, $args);
+        $args = \func_get_args();
+        if (\count($args) > 1) {
+            \array_shift($args);
+            $msg = \vsprintf($msg, $args);
         }
-
         $line = $this->scanner->currentLine();
         $col = $this->scanner->columnOffset();
         $this->events->parseError($msg, $line, $col);
-
-        return false;
+        return \false;
     }
-
     /**
      * Decode a character reference and return the string.
      *
@@ -1099,40 +935,34 @@ class Tokenizer
      *
      * @return string
      */
-    protected function decodeCharacterReference($inAttribute = false)
+    protected function decodeCharacterReference($inAttribute = \false)
     {
         // Next char after &.
         $tok = $this->scanner->next();
         $start = $this->scanner->position();
-
-        if (false === $tok) {
+        if (\false === $tok) {
             return '&';
         }
-
         // These indicate not an entity. We return just
         // the &.
         if ("\t" === $tok || "\n" === $tok || "\f" === $tok || ' ' === $tok || '&' === $tok || '<' === $tok) {
             // $this->scanner->next();
             return '&';
         }
-
         // Numeric entity
         if ('#' === $tok) {
             $tok = $this->scanner->next();
-
-            if (false === $tok) {
+            if (\false === $tok) {
                 $this->parseError('Expected &#DEC; &#HEX;, got EOF');
                 $this->scanner->unconsume(1);
-
                 return '&';
             }
-
             // Hexidecimal encoding.
             // X[0-9a-fA-F]+;
             // x[0-9a-fA-F]+;
             if ('x' === $tok || 'X' === $tok) {
-                $tok = $this->scanner->next(); // Consume x
-
+                $tok = $this->scanner->next();
+                // Consume x
                 // Convert from hex code to char.
                 $hex = $this->scanner->getHex();
                 if (empty($hex)) {
@@ -1142,31 +972,27 @@ class Tokenizer
                     // might result in a specific parsing rule inside of tag
                     // contexts, while not inside of pcdata context.
                     $this->scanner->unconsume(2);
-
                     return '&';
                 }
                 $entity = CharacterReference::lookupHex($hex);
-            }             // Decimal encoding.
-            // [0-9]+;
-            else {
+            } else {
                 // Convert from decimal to char.
                 $numeric = $this->scanner->getNumeric();
-                if (false === $numeric) {
+                if (\false === $numeric) {
                     $this->parseError('Expected &#DIGITS;, got &#%s', $tok);
                     $this->scanner->unconsume(2);
-
                     return '&';
                 }
                 $entity = CharacterReference::lookupDecimal($numeric);
             }
         } elseif ('=' === $tok && $inAttribute) {
             return '&';
-        } else { // String entity.
+        } else {
+            // String entity.
             // Attempt to consume a string up to a ';'.
             // [a-zA-Z0-9]+;
             $cname = $this->scanner->getAsciiAlphaNum();
             $entity = CharacterReference::lookupName($cname);
-
             // When no entity is found provide the name of the unmatched string
             // and continue on as the & is not part of an entity. The & will
             // be converted to &amp; elsewhere.
@@ -1175,29 +1001,21 @@ class Tokenizer
                     $this->parseError("No match in entity table for '%s'", $cname);
                 }
                 $this->scanner->unconsume($this->scanner->position() - $start);
-
                 return '&';
             }
         }
-
         // The scanner has advanced the cursor for us.
         $tok = $this->scanner->current();
-
         // We have an entity. We're done here.
         if (';' === $tok) {
             $this->scanner->consume();
-
             return $entity;
         }
-
         // Failing to match ; means unconsume the entire string.
         $this->scanner->unconsume($this->scanner->position() - $start);
-
         $this->parseError('Expected &ENTITY;, got &ENTITY%s (no trailing ;) ', $tok);
-
         return '&';
     }
-
     /**
      * Checks whether a (single-byte) character is an ASCII letter or not.
      *
@@ -1207,8 +1025,7 @@ class Tokenizer
      */
     protected function is_alpha($input)
     {
-        $code = ord($input);
-
-        return ($code >= 97 && $code <= 122) || ($code >= 65 && $code <= 90);
+        $code = \ord($input);
+        return $code >= 97 && $code <= 122 || $code >= 65 && $code <= 90;
     }
 }

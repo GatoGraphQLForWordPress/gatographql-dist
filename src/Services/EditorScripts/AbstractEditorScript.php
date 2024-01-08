@@ -19,8 +19,14 @@ abstract class AbstractEditorScript extends AbstractScript
 {
     use HasDocumentationScriptTrait;
 
-    private ?EditorHelpers $editorHelpers = null;
-    private ?LocaleHelper $localeHelper = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EditorHelpers|null
+     */
+    private $editorHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\LocaleHelper|null
+     */
+    private $localeHelper;
 
     final public function setEditorHelpers(EditorHelpers $editorHelpers): void
     {

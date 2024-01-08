@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType;
 
-class CustomPostRemoveFeaturedImageMutationPayloadObjectTypeResolver extends AbstractCustomPostMediaMutationPayloadObjectTypeResolver
+/** @internal */
+class CustomPostRemoveFeaturedImageMutationPayloadObjectTypeResolver extends \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\AbstractCustomPostMediaMutationPayloadObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CustomPostRemoveFeaturedImageMutationPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Payload of removing the featured image from a custom post (using nested mutations)', 'custompostmedia-mutations');
     }

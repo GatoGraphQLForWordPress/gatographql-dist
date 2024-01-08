@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Container\CompilerPasses;
 
 use PoP\ComponentModel\AttachableExtensions\AttachExtensionServiceInterface;
 use PoP\Root\Container\CompilerPasses\AbstractCompilerPass;
 use PoP\Root\Container\ContainerBuilderWrapperInterface;
-
+/** @internal */
 abstract class AbstractAttachExtensionCompilerPass extends AbstractCompilerPass
 {
-    protected function doProcess(ContainerBuilderWrapperInterface $containerBuilderWrapper): void
+    protected function doProcess(ContainerBuilderWrapperInterface $containerBuilderWrapper) : void
     {
         $event = $this->getAttachExtensionEvent();
         $attachableClassGroups = $this->getAttachableClassGroups();
@@ -23,10 +22,9 @@ abstract class AbstractAttachExtensionCompilerPass extends AbstractCompilerPass
             }
             // Check if the service is of any attachable type
             foreach ($attachableClassGroups as $attachableClass => $attachableGroup) {
-                if (!is_a($definitionClass, $attachableClass, true)) {
+                if (!\is_a($definitionClass, $attachableClass, \true)) {
                     continue;
                 }
-
                 /**
                  * Only attach the extension when autoconfigure => true
                  * Then, if autoconfigure => false, the service is registered in the container,
@@ -35,21 +33,16 @@ abstract class AbstractAttachExtensionCompilerPass extends AbstractCompilerPass
                  * together with SchemaServiceYamlFileLoader
                  */
                 if ($definition->isAutoconfigured()) {
-                    $attachExtensionServiceDefinition->addMethodCall(
-                        'enqueueExtension',
-                        [$event, $attachableGroup, $this->createReference($definitionID)]
-                    );
+                    $attachExtensionServiceDefinition->addMethodCall('enqueueExtension', [$event, $attachableGroup, $this->createReference($definitionID)]);
                 }
                 // A service won't be of 2 attachable classes, so can skip checking
-                continue(2);
+                continue 2;
             }
         }
     }
-
-    abstract protected function getAttachExtensionEvent(): string;
-
+    protected abstract function getAttachExtensionEvent() : string;
     /**
      * @return array<string,string>
      */
-    abstract protected function getAttachableClassGroups(): array;
+    protected abstract function getAttachableClassGroups() : array;
 }

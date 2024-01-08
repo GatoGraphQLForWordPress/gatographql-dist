@@ -8,13 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Symfony\Component\DependencyInjection\Definition;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class InlineServiceConfigurator extends AbstractConfigurator
 {
@@ -30,13 +29,19 @@ class InlineServiceConfigurator extends AbstractConfigurator
     use Traits\ParentTrait;
     use Traits\PropertyTrait;
     use Traits\TagTrait;
-
     public const FACTORY = 'service';
-
-    private string $id = '[inline]';
-    private bool $allowParent = true;
-    private ?string $path = null;
-
+    /**
+     * @var string
+     */
+    private $id = '[inline]';
+    /**
+     * @var bool
+     */
+    private $allowParent = \true;
+    /**
+     * @var string|null
+     */
+    private $path;
     public function __construct(Definition $definition)
     {
         $this->definition = $definition;

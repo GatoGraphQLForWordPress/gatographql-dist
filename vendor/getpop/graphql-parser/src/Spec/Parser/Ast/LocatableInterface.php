@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
-
+/** @internal */
 interface LocatableInterface
 {
-    public function getLocation(): Location;
+    public function getLocation() : Location;
 }

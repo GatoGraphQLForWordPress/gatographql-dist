@@ -15,15 +15,17 @@ class UserQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             UserTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            $this->getOrderByQueryArgValue(...)
+            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
         );
     }
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        return match ($orderBy) {
-            UserOrderBy::CUSTOMPOST_COUNT => 'post_count',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case UserOrderBy::CUSTOMPOST_COUNT:
+                return 'post_count';
+            default:
+                return $orderBy;
+        }
     }
 }

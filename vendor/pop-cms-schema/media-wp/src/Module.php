@@ -48,12 +48,9 @@ class Module extends AbstractModule
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(
-        bool $skipSchema,
-        array $skipSchemaModuleClasses,
-    ): void {
+    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
+    {
         $this->initServices(dirname(__DIR__));
-
         try {
             if (class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
                 $this->initSchemaServices(
@@ -62,7 +59,7 @@ class Module extends AbstractModule
                     '/ConditionalOnModule/Users'
                 );
             }
-        } catch (ComponentNotExistsException) {
+        } catch (ComponentNotExistsException $exception) {
         }
     }
 }

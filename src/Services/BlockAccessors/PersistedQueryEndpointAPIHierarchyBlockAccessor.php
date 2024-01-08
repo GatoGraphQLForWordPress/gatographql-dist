@@ -14,8 +14,14 @@ class PersistedQueryEndpointAPIHierarchyBlockAccessor
 {
     use BasicServiceTrait;
 
-    private ?BlockHelpers $blockHelpers = null;
-    private ?PersistedQueryEndpointAPIHierarchyBlock $persistedQueryEndpointAPIHierarchyBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
+     */
+    private $blockHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\PersistedQueryEndpointAPIHierarchyBlock|null
+     */
+    private $persistedQueryEndpointAPIHierarchyBlock;
 
     final public function setBlockHelpers(BlockHelpers $blockHelpers): void
     {
@@ -57,8 +63,6 @@ class PersistedQueryEndpointAPIHierarchyBlockAccessor
         if ($apiHierarchyBlock === null) {
             return null;
         }
-        return new PersistedQueryEndpointAPIHierarchyBlockAttributes(
-            $apiHierarchyBlock['attrs'][PersistedQueryEndpointAPIHierarchyBlock::ATTRIBUTE_NAME_INHERIT_QUERY] ?? false,
-        );
+        return new PersistedQueryEndpointAPIHierarchyBlockAttributes($apiHierarchyBlock['attrs'][PersistedQueryEndpointAPIHierarchyBlock::ATTRIBUTE_NAME_INHERIT_QUERY] ?? false);
     }
 }

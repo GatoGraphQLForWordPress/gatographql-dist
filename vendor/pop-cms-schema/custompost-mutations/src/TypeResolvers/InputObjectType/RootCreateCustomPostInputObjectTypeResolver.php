@@ -1,18 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType;
 
-class RootCreateCustomPostInputObjectTypeResolver extends AbstractCreateOrUpdateCustomPostInputObjectTypeResolver implements CreateCustomPostInputObjectTypeResolverInterface
+/** @internal */
+class RootCreateCustomPostInputObjectTypeResolver extends \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCreateOrUpdateCustomPostInputObjectTypeResolver implements \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CreateCustomPostInputObjectTypeResolverInterface
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootCreateCustomPostInput';
     }
-
-    protected function addCustomPostInputField(): bool
+    protected function addCustomPostInputField() : bool
     {
-        return false;
+        return \false;
     }
 }

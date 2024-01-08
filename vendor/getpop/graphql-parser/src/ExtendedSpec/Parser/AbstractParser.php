@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\ExtendedSpec\Parser;
 
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
@@ -34,8 +33,8 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\GraphQLParser\Spec\Parser\Parser as UpstreamParser;
 use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
-
-abstract class AbstractParser extends UpstreamParser implements ParserInterface
+/** @internal */
+abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLParser\ExtendedSpec\Parser\ParserInterface
 {
     /**
      * Use this variable to keep track of which are the
@@ -56,14 +55,13 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      *
      * @var array<FieldInterface[]>
      */
-    protected array $parsedFieldBlockStack;
-
+    protected $parsedFieldBlockStack;
     /**
      * ObjectResolvedFieldValueReferences are not supported
      * within Directive Arguments.
+     * @var bool
      */
-    protected bool $parsingDirectiveArgumentList;
-
+    protected $parsingDirectiveArgumentList;
     /**
      * Use this variable to keep track of which
      * DynamicVariableDefinerDirectives (such as `@export`)
@@ -72,8 +70,7 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      *
      * @var string[]
      */
-    protected array $parsedDefinedDocumentDynamicVariableNames;
-
+    protected $parsedDefinedDocumentDynamicVariableNames;
     /**
      * Use this variable to keep track of which
      * DynamicVariableDefinerDirectives (such as `@passOnwards`)
@@ -82,27 +79,23 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      *
      * @var array<string[]>
      */
-    protected array $parsedFieldDefinedObjectResolvedDynamicVariableNames;
-
+    protected $parsedFieldDefinedObjectResolvedDynamicVariableNames;
     /**
      * List of all the Fields in the query which are
      * referenced via an ObjectResolvedFieldValueReference.
      *
      * @var FieldInterface[]
      */
-    protected array $objectResolvedFieldValueReferencedFields;
-
-    protected function resetState(): void
+    protected $objectResolvedFieldValueReferencedFields;
+    protected function resetState() : void
     {
         parent::resetState();
-
         $this->parsedFieldBlockStack = [];
-        $this->parsingDirectiveArgumentList = false;
+        $this->parsingDirectiveArgumentList = \false;
         $this->parsedDefinedDocumentDynamicVariableNames = [];
         $this->parsedFieldDefinedObjectResolvedDynamicVariableNames = [];
         $this->objectResolvedFieldValueReferencedFields = [];
     }
-
     /**
      * Override to express the additional type of Exception
      * that can be thrown.
@@ -112,53 +105,45 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      * @throws FeatureNotSupportedException
      * @throws UnsupportedSyntaxErrorParserException
      */
-    public function parse(string $source): Document
+    public function parse(string $source) : Document
     {
         return parent::parse($source);
     }
-
     /**
      * @throws UnsupportedSyntaxErrorParserException
      */
-    protected function parseOperation(string $type): OperationInterface
+    protected function parseOperation(string $type) : OperationInterface
     {
         $this->parsedFieldBlockStack = [];
         $this->parsedFieldDefinedObjectResolvedDynamicVariableNames = [];
-
         return parent::parseOperation($type);
     }
-
     /**
      * Dynamic Variable References can also be added
      * in Operation Directives
      */
-    protected function beforeParsingOperation(): void
+    protected function beforeParsingOperation() : void
     {
-        array_unshift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames, []);
+        \array_unshift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames, []);
     }
-
-    protected function afterParsingOperation(): void
+    protected function afterParsingOperation() : void
     {
-        array_shift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames);
+        \array_shift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames);
     }
-
     /**
      * Append a new, empty block of [Field]
      */
-    protected function beforeParsingFieldsOrFragmentBonds(): void
+    protected function beforeParsingFieldsOrFragmentBonds() : void
     {
-        array_unshift($this->parsedFieldBlockStack, []);
-
-        array_unshift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames, []);
+        \array_unshift($this->parsedFieldBlockStack, []);
+        \array_unshift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames, []);
     }
-
     /**
      * Remove the (now previous) block of [Field]
      */
-    protected function afterParsingFieldsOrFragmentBonds(): void
+    protected function afterParsingFieldsOrFragmentBonds() : void
     {
-        array_shift($this->parsedFieldBlockStack);
-
+        \array_shift($this->parsedFieldBlockStack);
         /**
          * Once the Field has been parsed, also reset
          * the exportedVariableNames for "ObjectResolved"
@@ -166,141 +151,92 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
          * which make sense within those Directives
          * applied to that Field only
          */
-        array_shift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames);
+        \array_shift($this->parsedFieldDefinedObjectResolvedDynamicVariableNames);
     }
-
     /**
      * ObjectResolvedFieldValueReferences are not supported
      * within Directive Arguments
      */
-    protected function beforeParsingDirectiveArgumentList(): void
+    protected function beforeParsingDirectiveArgumentList() : void
     {
-        $this->parsingDirectiveArgumentList = true;
+        $this->parsingDirectiveArgumentList = \true;
     }
-
     /**
      * ObjectResolvedFieldValueReferences are not supported
      * within Directive Arguments
      */
-    protected function afterParsingDirectiveArgumentList(): void
+    protected function afterParsingDirectiveArgumentList() : void
     {
-        $this->parsingDirectiveArgumentList = false;
+        $this->parsingDirectiveArgumentList = \false;
     }
-
     /**
      * @param Argument[] $arguments
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Directive[] $directives
      */
-    protected function createRelationalField(
-        string $name,
-        ?string $alias,
-        array $arguments,
-        array $fieldsOrFragmentBonds,
-        array $directives,
-        Location $location
-    ): RelationalField {
-        $relationalField = parent::createRelationalField(
-            $name,
-            $alias,
-            $arguments,
-            $fieldsOrFragmentBonds,
-            $directives,
-            $location
-        );
+    protected function createRelationalField(string $name, ?string $alias, array $arguments, array $fieldsOrFragmentBonds, array $directives, Location $location) : RelationalField
+    {
+        $relationalField = parent::createRelationalField($name, $alias, $arguments, $fieldsOrFragmentBonds, $directives, $location);
         $this->createdField($relationalField);
         return $relationalField;
     }
-
-    protected function createdField(
-        FieldInterface $field,
-    ): void {
+    protected function createdField(FieldInterface $field) : void
+    {
         /**
          * Add the Field to the currently-parsed block of Fields
          */
         $this->parsedFieldBlockStack[0][] = $field;
     }
-
     /**
      * @param Argument[] $arguments
      * @param Directive[] $directives
      */
-    protected function createLeafField(
-        string $name,
-        ?string $alias,
-        array $arguments,
-        array $directives,
-        Location $location,
-    ): LeafField {
-        $leafField = parent::createLeafField(
-            $name,
-            $alias,
-            $arguments,
-            $directives,
-            $location,
-        );
+    protected function createLeafField(string $name, ?string $alias, array $arguments, array $directives, Location $location) : LeafField
+    {
+        $leafField = parent::createLeafField($name, $alias, $arguments, $directives, $location);
         $this->createdField($leafField);
         return $leafField;
     }
-
     /**
      * @return Directive[]
      */
-    protected function parseDirectiveList(): array
+    protected function parseDirectiveList() : array
     {
         $directives = parent::parseDirectiveList();
-
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if ($moduleConfiguration->enableComposableDirectives()) {
             $directives = $this->addMetaDirectiveList($directives);
         }
-
         return $directives;
     }
-
-
-
     /**
      * Store the "DynamicVariableDefiner" Directives
      *
      * @param Argument[] $arguments
      */
-    protected function createDirective(
-        string $name,
-        array $arguments,
-        Location $location,
-    ): Directive {
-        $directive = parent::createDirective(
-            $name,
-            $arguments,
-            $location,
-        );
-
+    protected function createDirective(string $name, array $arguments, Location $location) : Directive
+    {
+        $directive = parent::createDirective($name, $arguments, $location);
         $this->maybeStoreParsedDefinedDynamicVariableName($directive);
-
         return $directive;
     }
-
     /**
      * Store the "DynamicVariableDefiner" Directives
      */
-    protected function maybeStoreParsedDefinedDynamicVariableName(
-        Directive $directive
-    ): void {
+    protected function maybeStoreParsedDefinedDynamicVariableName(Directive $directive) : void
+    {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->enableDynamicVariables()) {
             return;
         }
-
         /**
          * Check if this Directive is a "DynamicVariableDefiner"
          */
         if (!$this->isDynamicVariableDefinerDirective($directive)) {
             return;
         }
-
         /**
          * The DirectiveResolver will indicate if the dynamic variable's scope
          * is the "document" or "resolved in the object"
@@ -327,8 +263,8 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
          * @see layers/Engine/packages/graphql-parser/src/ExtendedSpec/Parser/Ast/Document.php
          */
         $exportUnderVariableNameArguments = $this->getExportUnderVariableNameArguments($directive);
-        foreach (($exportUnderVariableNameArguments ?? []) as $exportUnderVariableNameArgument) {
-            $exportUnderVariableName = (string)$exportUnderVariableNameArgument->getValue();
+        foreach ($exportUnderVariableNameArguments ?? [] as $exportUnderVariableNameArgument) {
+            $exportUnderVariableName = (string) $exportUnderVariableNameArgument->getValue();
             if ($mustResolveDynamicVariableOnObject) {
                 $this->parsedFieldDefinedObjectResolvedDynamicVariableNames[0][] = $exportUnderVariableName;
             } else {
@@ -336,7 +272,6 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
             }
         }
     }
-
     /**
      * Replace `Directive` with `MetaDirective`, and nest the affected
      * directives inside.
@@ -344,7 +279,7 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      * @param Directive[] $directives
      * @return Directive[]
      */
-    protected function addMetaDirectiveList(array $directives): array
+    protected function addMetaDirectiveList(array $directives) : array
     {
         /**
          * For each directive, indicate which meta-directive is composing it
@@ -352,7 +287,7 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
          * @var array<int,int>
          */
         $composingMetaDirectiveRelativePosition = [];
-        $directiveCount = count($directives);
+        $directiveCount = \count($directives);
         $directivePos = 0;
         while ($directivePos < $directiveCount) {
             $directive = $directives[$directivePos];
@@ -365,15 +300,7 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
              * If not set, use the default value
              */
             $affectDirectivesUnderPosArgument = $this->getAffectDirectivesUnderPosArgument($directive);
-            $affectDirectivesUnderPositions = $affectDirectivesUnderPosArgument !== null ?
-                $this->getAffectDirectivesUnderPosArgumentValue(
-                    $directive,
-                    $affectDirectivesUnderPosArgument,
-                    $directivePos,
-                    $directiveCount,
-                )
-                : $this->getAffectDirectivesUnderPosArgumentDefaultValue($directive);
-
+            $affectDirectivesUnderPositions = $affectDirectivesUnderPosArgument !== null ? $this->getAffectDirectivesUnderPosArgumentValue($directive, $affectDirectivesUnderPosArgument, $directivePos, $directiveCount) : $this->getAffectDirectivesUnderPosArgumentDefaultValue($directive);
             foreach ($affectDirectivesUnderPositions as $affectDirectiveUnderPosition) {
                 /**
                  * Every directive can be referenced only once.
@@ -383,22 +310,12 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
                  *   { groupCapabilities @underEachArrayItem(affectDirectivesUnderPos: [1,2]) @underJSONObjectProperty(key: "someKey") @strUpperCase }
                  */
                 if (isset($composingMetaDirectiveRelativePosition[$directivePos + $affectDirectiveUnderPosition])) {
-                    throw new LogicErrorParserException(
-                        new FeedbackItemResolution(
-                            GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                            GraphQLExtendedSpecErrorFeedbackItemProvider::E1,
-                            [
-                                $directive->getName(),
-                            ]
-                        ),
-                        $directive
-                    );
+                    throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E1, [$directive->getName()]), $directive);
                 }
                 $composingMetaDirectiveRelativePosition[$directivePos + $affectDirectiveUnderPosition] = $affectDirectiveUnderPosition;
             }
             $directivePos++;
         }
-
         /**
          * Iterate from right to left, as to enable composable directives.
          *
@@ -419,188 +336,102 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
             $directive = $metaDirectives[$directivePos] ?? $directives[$directivePos];
             $nestedUnderMetaDirectiveInRelativePosition = $composingMetaDirectiveRelativePosition[$directivePos] ?? null;
             if ($nestedUnderMetaDirectiveInRelativePosition === null) {
-                array_unshift($rootDirectivePositions, $directivePos);
+                \array_unshift($rootDirectivePositions, $directivePos);
                 $directivePos--;
                 continue;
             }
-
             $metaDirectivePos = $directivePos - $nestedUnderMetaDirectiveInRelativePosition;
             if (!isset($metaDirectives[$metaDirectivePos])) {
                 $sourceDirective = $directives[$metaDirectivePos];
-                $metaDirectives[$metaDirectivePos] = $this->createMetaDirective(
-                    $sourceDirective->getName(),
-                    $sourceDirective->getArguments(),
-                    [],
-                    $sourceDirective->getLocation()
-                );
+                $metaDirectives[$metaDirectivePos] = $this->createMetaDirective($sourceDirective->getName(), $sourceDirective->getArguments(), [], $sourceDirective->getLocation());
             }
             /** @var MetaDirective */
             $metaDirective = $metaDirectives[$metaDirectivePos];
             $metaDirective->prependNestedDirective($directive);
             $directivePos--;
         }
-
         $rootDirectives = [];
         foreach ($rootDirectivePositions as $rootDirectivePosition) {
             $rootDirectives[] = $metaDirectives[$rootDirectivePosition] ?? $directives[$rootDirectivePosition];
         }
         return $rootDirectives;
     }
-
-    abstract protected function isMetaDirective(string $directiveName): bool;
-
-    abstract protected function getAffectDirectivesUnderPosArgument(
-        Directive $directive,
-    ): ?Argument;
-
+    protected abstract function isMetaDirective(string $directiveName) : bool;
+    protected abstract function getAffectDirectivesUnderPosArgument(Directive $directive) : ?Argument;
     /**
      * @return int[]
      */
-    abstract protected function getAffectDirectivesUnderPosArgumentDefaultValue(
-        Directive $directive,
-    ): array;
-
+    protected abstract function getAffectDirectivesUnderPosArgumentDefaultValue(Directive $directive) : array;
     /**
      * @return int[]
      * @throws LogicErrorParserException
      */
-    protected function getAffectDirectivesUnderPosArgumentValue(
-        Directive $directive,
-        Argument $argument,
-        int $directivePos,
-        int $directiveCount,
-    ): array {
+    protected function getAffectDirectivesUnderPosArgumentValue(Directive $directive, Argument $argument, int $directivePos, int $directiveCount) : array
+    {
         $argumentValue = $argument->getValue();
         if ($argumentValue === null) {
-            throw new LogicErrorParserException(
-                new FeedbackItemResolution(
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::E2,
-                    [
-                        $argument->getName(),
-                        $directive->getName(),
-                    ]
-                ),
-                $argument
-            );
+            throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E2, [$argument->getName(), $directive->getName()]), $argument);
         }
-
         // Enable single value to array coercing
-        if (!is_array($argumentValue)) {
+        if (!\is_array($argumentValue)) {
             $argumentValue = [$argumentValue];
         }
-
         if ($argumentValue === []) {
-            throw new LogicErrorParserException(
-                new FeedbackItemResolution(
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                    GraphQLExtendedSpecErrorFeedbackItemProvider::E2,
-                    [
-                        $argument->getName(),
-                        $directive->getName(),
-                    ]
-                ),
-                $argument
-            );
+            throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E2, [$argument->getName(), $directive->getName()]), $argument);
         }
-
         foreach ($argumentValue as $argumentValueItem) {
-            if (!is_int($argumentValueItem) || ((int)$argumentValueItem <= 0)) {
-                throw new LogicErrorParserException(
-                    new FeedbackItemResolution(
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::E3,
-                        [
-                            $argument->getName(),
-                            $directive->getName(),
-                            $argumentValueItem === null ? 'null' : $argumentValueItem,
-                        ]
-                    ),
-                    $argument
-                );
+            if (!\is_int($argumentValueItem) || (int) $argumentValueItem <= 0) {
+                throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E3, [$argument->getName(), $directive->getName(), $argumentValueItem === null ? 'null' : $argumentValueItem]), $argument);
             }
-            $nestedDirectivePos = $directivePos + (int)$argumentValueItem;
+            $nestedDirectivePos = $directivePos + (int) $argumentValueItem;
             if ($nestedDirectivePos >= $directiveCount) {
-                throw new LogicErrorParserException(
-                    new FeedbackItemResolution(
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::E4,
-                        [
-                            $argumentValueItem,
-                            $directive->getName(),
-                            $argument->getName(),
-                        ]
-                    ),
-                    $argument
-                );
+                throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E4, [$argumentValueItem, $directive->getName(), $argument->getName()]), $argument);
             }
         }
-
         return $argumentValue;
     }
-
     /**
      * @param Argument[] $arguments
      * @param Directive[] $nestedDirectives
      */
-    protected function createMetaDirective(
-        string $name,
-        array $arguments,
-        array $nestedDirectives,
-        Location $location,
-    ): MetaDirective {
+    protected function createMetaDirective(string $name, array $arguments, array $nestedDirectives, Location $location) : MetaDirective
+    {
         return new MetaDirective($name, $arguments, $nestedDirectives, $location);
     }
-
-    protected function createVariableReference(
-        string $name,
-        ?Variable $variable,
-        Location $location,
-    ): VariableReference {
+    protected function createVariableReference(string $name, ?Variable $variable, Location $location) : VariableReference
+    {
         $resolvedFieldValueReferenceField = $this->findObjectResolvedFieldValueReferenceField($name);
         if ($resolvedFieldValueReferenceField !== null) {
             $this->objectResolvedFieldValueReferencedFields[] = $resolvedFieldValueReferenceField;
             return $this->createObjectResolvedFieldValueReference($name, $resolvedFieldValueReferenceField, $location);
         }
-
         if ($this->isObjectResolvedDynamicVariableReference($name, $variable)) {
             return $this->createObjectResolvedDynamicVariableReference($name, $location);
         }
-
         if ($this->isDocumentDynamicVariableReference($name, $variable)) {
             return $this->createDocumentDynamicVariableReference($name, $location);
         }
-
-        return parent::createVariableReference(
-            $name,
-            $variable,
-            $location,
-        );
+        return parent::createVariableReference($name, $variable, $location);
     }
-
     /**
      * If referencing a variable that starts with "__", the variable
      * has not been defined in the operation, and there's a field
      * in the same query block, then it's a reference to the value
      * of the resolved field on the same object
      */
-    protected function findObjectResolvedFieldValueReferenceField(
-        string $name,
-    ): ?FieldInterface {
+    protected function findObjectResolvedFieldValueReferenceField(string $name) : ?FieldInterface
+    {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->enableObjectResolvedFieldValueReferences()) {
             return null;
         }
-
         if ($this->parsingDirectiveArgumentList) {
             return null;
         }
-
         if (!$this->isObjectResolvedFieldValueReferenceName($name)) {
             return null;
         }
-
         /**
          * Make sure the field appears _before_ the reference,
          * to avoid circular references.
@@ -608,100 +439,72 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
         $fieldNameOrAlias = $this->extractObjectResolvedFieldName($name);
         return $this->findFieldWithNameWithinCurrentSiblingFields($fieldNameOrAlias);
     }
-
     /**
      * Actual name of the field (without the leading "__")
      */
-    protected function isObjectResolvedFieldValueReferenceName(string $name): bool
+    protected function isObjectResolvedFieldValueReferenceName(string $name) : bool
     {
-        return \str_starts_with(
-            $name,
-            QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX
-        );
+        return \strncmp($name, QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX, \strlen(QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX)) === 0;
     }
-
     /**
      * Actual name of the field (without the leading "__")
      */
-    protected function extractObjectResolvedFieldName(string $name): string
+    protected function extractObjectResolvedFieldName(string $name) : string
     {
-        return substr(
-            $name,
-            strlen(QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX)
-        );
+        return \substr($name, \strlen(QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX));
     }
-
-    protected function findFieldWithNameWithinCurrentSiblingFields(string $referencedFieldNameOrAlias): ?FieldInterface
+    protected function findFieldWithNameWithinCurrentSiblingFields(string $referencedFieldNameOrAlias) : ?FieldInterface
     {
         if ($this->parsedFieldBlockStack === []) {
             return null;
         }
-
         $currentlyParsedBlockFields = $this->parsedFieldBlockStack[0];
         foreach ($currentlyParsedBlockFields as $field) {
-            if (
-                ($field->getAlias() !== null && $field->getAlias() === $referencedFieldNameOrAlias)
-                || ($field->getAlias() === null && $field->getName() === $referencedFieldNameOrAlias)
-            ) {
+            if ($field->getAlias() !== null && $field->getAlias() === $referencedFieldNameOrAlias || $field->getAlias() === null && $field->getName() === $referencedFieldNameOrAlias) {
                 return $field;
             }
         }
         return null;
     }
-
-    protected function isDocumentDynamicVariableReference(
-        string $variableName,
-        ?Variable $variable,
-    ): bool {
+    protected function isDocumentDynamicVariableReference(string $variableName, ?Variable $variable) : bool
+    {
         /**
          * If there's a variable with that name, then it has priority
          */
         if ($variable !== null) {
-            return false;
+            return \false;
         }
-
         /**
          * Check that any previous "DynamicVariableDefiner" Directive
          * has defined the same dynamic variable name.
          * Eg: `@export(as: "someVariableName")`
          */
-        return in_array($variableName, $this->parsedDefinedDocumentDynamicVariableNames);
+        return \in_array($variableName, $this->parsedDefinedDocumentDynamicVariableNames);
     }
-
-    protected function createDocumentDynamicVariableReference(
-        string $name,
-        Location $location,
-    ): DocumentDynamicVariableReference {
+    protected function createDocumentDynamicVariableReference(string $name, Location $location) : DocumentDynamicVariableReference
+    {
         return new DocumentDynamicVariableReference($name, $location);
     }
-
-    protected function isObjectResolvedDynamicVariableReference(
-        string $variableName,
-        ?Variable $variable,
-    ): bool {
+    protected function isObjectResolvedDynamicVariableReference(string $variableName, ?Variable $variable) : bool
+    {
         /**
          * If there's a variable with that name, then it has priority
          */
         if ($variable !== null) {
-            return false;
+            return \false;
         }
-
         /**
          * Check that any previous "DynamicVariableDefiner" Directive
          * has defined the same dynamic variable name.
          * Eg: `@export(as: "someVariableName")`
          */
         $currentlyParsedFieldDefinedObjectResolvedDynamicVariableNames = $this->parsedFieldDefinedObjectResolvedDynamicVariableNames[0];
-        return in_array($variableName, $currentlyParsedFieldDefinedObjectResolvedDynamicVariableNames);
+        return \in_array($variableName, $currentlyParsedFieldDefinedObjectResolvedDynamicVariableNames);
     }
-
-    protected function createObjectResolvedDynamicVariableReference(
-        string $name,
-        Location $location,
-    ): ObjectResolvedDynamicVariableReference {
+    protected function createObjectResolvedDynamicVariableReference(string $name, Location $location) : ObjectResolvedDynamicVariableReference
+    {
         return new ObjectResolvedDynamicVariableReference($name, $location);
     }
-
     /**
      * If a Dynamic Variable Reference has the same name as a
      * field resolved in the same query block, then replace it
@@ -726,18 +529,10 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      * }
      * ```
      */
-    protected function createObjectResolvedFieldValueReference(
-        string $name,
-        FieldInterface $field,
-        Location $location,
-    ): ObjectResolvedFieldValueReference {
-        return new ObjectResolvedFieldValueReference(
-            $name,
-            $field,
-            $location,
-        );
+    protected function createObjectResolvedFieldValueReference(string $name, FieldInterface $field, Location $location) : ObjectResolvedFieldValueReference
+    {
+        return new ObjectResolvedFieldValueReference($name, $field, $location);
     }
-
     /**
      * This function must be invoked after running `->parse()`.
      *
@@ -755,33 +550,24 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      *
      * @return FieldInterface[]
      */
-    public function getObjectResolvedFieldValueReferencedFields(): array
+    public function getObjectResolvedFieldValueReferencedFields() : array
     {
-        return array_values(array_unique($this->objectResolvedFieldValueReferencedFields));
+        return \array_values(\array_unique($this->objectResolvedFieldValueReferencedFields));
     }
-
     /**
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      */
-    protected function createDocument(
-        array $operations,
-        array $fragments,
-    ): Document {
-        $document = $this->createDocumentInstance(
-            $operations,
-            $fragments,
-        );
-
+    protected function createDocument(array $operations, array $fragments) : Document
+    {
+        $document = $this->createDocumentInstance($operations, $fragments);
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if ($moduleConfiguration->enableMultiFieldDirectives()) {
             $this->spreadMultiFieldDirectives($document);
         }
-
         return $document;
     }
-
     /**
      * Set the instance with the implementation
      * from ComponentModel
@@ -789,41 +575,27 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      */
-    abstract protected function createDocumentInstance(
-        array $operations,
-        array $fragments,
-    ): AbstractDocument;
-
+    protected abstract function createDocumentInstance(array $operations, array $fragments) : AbstractDocument;
     /**
      * Iterate the elements in the Document AST, and whenever a Directive
      * is to be applied to multiple fields, add it under the corresponding Fields
      */
-    protected function spreadMultiFieldDirectives(
-        Document $document,
-    ): void {
+    protected function spreadMultiFieldDirectives(Document $document) : void
+    {
         foreach ($document->getOperations() as $operation) {
-            $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments(
-                $operation->getFieldsOrFragmentBonds(),
-                $document->getFragments(),
-            );
+            $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments($operation->getFieldsOrFragmentBonds(), $document->getFragments());
         }
         foreach ($document->getFragments() as $fragment) {
-            $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments(
-                $fragment->getFieldsOrFragmentBonds(),
-                $document->getFragments(),
-            );
+            $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments($fragment->getFieldsOrFragmentBonds(), $document->getFragments());
         }
     }
-
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Fragment[] $fragments
      */
-    protected function spreadMultiFieldDirectivesInFieldsOrInlineFragments(
-        array $fieldsOrFragmentBonds,
-        array $fragments,
-    ): void {
-        $fieldsOrFragmentBondsCount = count($fieldsOrFragmentBonds);
+    protected function spreadMultiFieldDirectivesInFieldsOrInlineFragments(array $fieldsOrFragmentBonds, array $fragments) : void
+    {
+        $fieldsOrFragmentBondsCount = \count($fieldsOrFragmentBonds);
         for ($i = 0; $i < $fieldsOrFragmentBondsCount; $i++) {
             $fieldOrFragmentBond = $fieldsOrFragmentBonds[$i];
             if ($fieldOrFragmentBond instanceof FragmentReference) {
@@ -832,62 +604,39 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments(
-                    $inlineFragment->getFieldsOrFragmentBonds(),
-                    $fragments,
-                );
+                $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds(), $fragments);
                 continue;
             }
             /** @var FieldInterface */
             $field = $fieldOrFragmentBond;
             foreach ($field->getDirectives() as $directive) {
-                $this->maybeSpreadDirectiveToFields(
-                    $directive,
-                    $i,
-                    $fieldsOrFragmentBonds,
-                );
+                $this->maybeSpreadDirectiveToFields($directive, $i, $fieldsOrFragmentBonds);
                 continue;
             }
             if ($field instanceof RelationalField) {
                 /** @var RelationalField */
                 $relationalField = $field;
-                $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments(
-                    $relationalField->getFieldsOrFragmentBonds(),
-                    $fragments,
-                );
+                $this->spreadMultiFieldDirectivesInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds(), $fragments);
             }
         }
     }
-
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      */
-    protected function maybeSpreadDirectiveToFields(
-        Directive $directive,
-        int $originFieldPosition,
-        array $fieldsOrFragmentBonds,
-    ): void {
+    protected function maybeSpreadDirectiveToFields(Directive $directive, int $originFieldPosition, array $fieldsOrFragmentBonds) : void
+    {
         // Check if it is a MultiField Directive
         $argument = $this->getAffectAdditionalFieldsUnderPosArgument($directive);
         if ($argument === null) {
             return;
         }
-
         if (empty($argument->getValue())) {
             return;
         }
-
-        $this->spreadDirectiveToFields(
-            $directive,
-            $argument,
-            $originFieldPosition,
-            $fieldsOrFragmentBonds,
-        );
+        $this->spreadDirectiveToFields($directive, $argument, $originFieldPosition, $fieldsOrFragmentBonds);
     }
-
-    protected function getAffectAdditionalFieldsUnderPosArgument(
-        Directive $directive,
-    ): ?Argument {
+    protected function getAffectAdditionalFieldsUnderPosArgument(Directive $directive) : ?Argument
+    {
         $affectAdditionalFieldsUnderPosArgName = $this->getAffectAdditionalFieldsUnderPosArgumentName($directive);
         if ($affectAdditionalFieldsUnderPosArgName === null) {
             // Disabled for the directive
@@ -901,92 +650,50 @@ abstract class AbstractParser extends UpstreamParser implements ParserInterface
         }
         return null;
     }
-
     /**
      * Append the directive to the fields on the defined
      * relative positions to its left.
      *
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      */
-    protected function spreadDirectiveToFields(
-        Directive $directive,
-        Argument $argument,
-        int $originFieldPosition,
-        array $fieldsOrFragmentBonds,
-    ): void {
+    protected function spreadDirectiveToFields(Directive $directive, Argument $argument, int $originFieldPosition, array $fieldsOrFragmentBonds) : void
+    {
         /**
          * List of integers, as relative positions to the affected fields
          * (to the left of the directive)
          */
         $affectedFieldPositions = $argument->getValue();
-        if (!is_array($affectedFieldPositions)) {
+        if (!\is_array($affectedFieldPositions)) {
             $affectedFieldPositions = [$affectedFieldPositions];
         }
         foreach ($affectedFieldPositions as $affectedFieldPosition) {
-            if (!is_int($affectedFieldPosition) || ((int)$affectedFieldPosition <= 0)) {
-                throw new LogicErrorParserException(
-                    new FeedbackItemResolution(
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::E3,
-                        [
-                            $argument->getName(),
-                            $directive->getName(),
-                            $affectedFieldPosition === null ? 'null' : $affectedFieldPosition,
-                        ]
-                    ),
-                    $argument
-                );
+            if (!\is_int($affectedFieldPosition) || (int) $affectedFieldPosition <= 0) {
+                throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E3, [$argument->getName(), $directive->getName(), $affectedFieldPosition === null ? 'null' : $affectedFieldPosition]), $argument);
             }
-
             $fieldPosition = $originFieldPosition - $affectedFieldPosition;
             if ($fieldPosition < 0) {
-                throw new LogicErrorParserException(
-                    new FeedbackItemResolution(
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::E5,
-                        [
-                            $affectedFieldPosition,
-                            $directive->getName(),
-                            $argument->getName(),
-                        ]
-                    ),
-                    $argument
-                );
+                throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E5, [$affectedFieldPosition, $directive->getName(), $argument->getName()]), $argument);
             }
-
             /**
              * Get the element at that position, and validate
              * it is indeed a Field (eg: not a FragmentReference)
              */
             $field = $fieldsOrFragmentBonds[$fieldPosition];
-            if (!($field instanceof FieldInterface)) {
-                throw new LogicErrorParserException(
-                    new FeedbackItemResolution(
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
-                        GraphQLExtendedSpecErrorFeedbackItemProvider::E6,
-                        [
-                            $affectedFieldPosition,
-                            $directive->getName(),
-                            $argument->getName(),
-                        ]
-                    ),
-                    $argument
-                );
+            if (!$field instanceof FieldInterface) {
+                throw new LogicErrorParserException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E6, [$affectedFieldPosition, $directive->getName(), $argument->getName()]), $argument);
             }
             /** @var FieldInterface $field */
-
             /**
              * Everything is valid, append the Directive to the field
              */
             $field->addDirective($directive);
         }
     }
-
-    abstract protected function isDynamicVariableDefinerDirective(Directive $directive): bool;
+    protected abstract function isDynamicVariableDefinerDirective(Directive $directive) : bool;
     /**
      * @return Argument[]|null
      */
-    abstract protected function getExportUnderVariableNameArguments(Directive $directive): ?array;
-    abstract protected function getAffectAdditionalFieldsUnderPosArgumentName(Directive $directive): ?string;
-    abstract protected function mustResolveDynamicVariableOnObject(Directive $directive): ?bool;
+    protected abstract function getExportUnderVariableNameArguments(Directive $directive) : ?array;
+    protected abstract function getAffectAdditionalFieldsUnderPosArgumentName(Directive $directive) : ?string;
+    protected abstract function mustResolveDynamicVariableOnObject(Directive $directive) : ?bool;
 }

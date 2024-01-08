@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\UserIsLoggedInErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
+/** @internal */
 class UserIsLoggedInErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    private ?UserIsLoggedInErrorPayloadObjectTypeDataLoader $userIsLoggedInErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setUserIsLoggedInErrorPayloadObjectTypeDataLoader(UserIsLoggedInErrorPayloadObjectTypeDataLoader $userIsLoggedInErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\UserIsLoggedInErrorPayloadObjectTypeDataLoader|null
+     */
+    private $userIsLoggedInErrorPayloadObjectTypeDataLoader;
+    public final function setUserIsLoggedInErrorPayloadObjectTypeDataLoader(UserIsLoggedInErrorPayloadObjectTypeDataLoader $userIsLoggedInErrorPayloadObjectTypeDataLoader) : void
     {
         $this->userIsLoggedInErrorPayloadObjectTypeDataLoader = $userIsLoggedInErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getUserIsLoggedInErrorPayloadObjectTypeDataLoader(): UserIsLoggedInErrorPayloadObjectTypeDataLoader
+    protected final function getUserIsLoggedInErrorPayloadObjectTypeDataLoader() : UserIsLoggedInErrorPayloadObjectTypeDataLoader
     {
         if ($this->userIsLoggedInErrorPayloadObjectTypeDataLoader === null) {
             /** @var UserIsLoggedInErrorPayloadObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class UserIsLoggedInErrorPayloadObjectTypeResolver extends AbstractErrorPayloadO
         }
         return $this->userIsLoggedInErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'UserIsLoggedInErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Error payload for: "The user is already logged-in"', 'user-state-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getUserIsLoggedInErrorPayloadObjectTypeDataLoader();
     }

@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations;
 
+/** @internal */
 class Environment
 {
-    public final const USE_PAYLOADABLE_CUSTOMPOSTTAG_MUTATIONS = 'USE_PAYLOADABLE_CUSTOMPOSTTAG_MUTATIONS';
+    public const USE_PAYLOADABLE_CUSTOMPOSTTAG_MUTATIONS = 'USE_PAYLOADABLE_CUSTOMPOSTTAG_MUTATIONS';
 }

@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
+/** @internal */
 class CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    private ?CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader(CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader|null
+     */
+    private $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
+    public final function setCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader(CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader) : void
     {
         $this->commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader = $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader(): CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader
+    protected final function getCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader() : CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader === null) {
             /** @var CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver extends Abstract
         }
         return $this->commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentAuthorEmailIsMissingErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Error payload for: "The comment\'s author email is missing"', 'comment-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader();
     }

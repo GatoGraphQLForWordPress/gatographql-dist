@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root;
 
+/** @internal */
 interface AppArchitectureInterface
 {
-    public static function isDowngraded(): bool;
+    public static function isDowngraded() : bool;
 }

@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Definitions\Facades;
 
 use PoP\Root\App;
 use PoP\Definitions\DefinitionManagerInterface;
-
+/** @internal */
 class DefinitionManagerFacade
 {
-    public static function getInstance(): DefinitionManagerInterface
+    public static function getInstance() : DefinitionManagerInterface
     {
         /**
          * @var DefinitionManagerInterface

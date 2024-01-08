@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\EntryComponent;
 
 use PoP\ComponentModel\Component\Component;
@@ -9,18 +8,19 @@ use PoP\ComponentModel\EntryComponent\EntryComponentManagerInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\ComponentRouting\ComponentRoutingGroups;
 use PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface;
-
+/** @internal */
 class EntryComponentManager implements EntryComponentManagerInterface
 {
     use BasicServiceTrait;
-
-    private ?ComponentRoutingProcessorManagerInterface $routeComponentProcessorManager = null;
-
-    final public function setComponentRoutingProcessorManager(ComponentRoutingProcessorManagerInterface $routeComponentProcessorManager): void
+    /**
+     * @var \PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface|null
+     */
+    private $routeComponentProcessorManager;
+    public final function setComponentRoutingProcessorManager(ComponentRoutingProcessorManagerInterface $routeComponentProcessorManager) : void
     {
         $this->routeComponentProcessorManager = $routeComponentProcessorManager;
     }
-    final protected function getComponentRoutingProcessorManager(): ComponentRoutingProcessorManagerInterface
+    protected final function getComponentRoutingProcessorManager() : ComponentRoutingProcessorManagerInterface
     {
         if ($this->routeComponentProcessorManager === null) {
             /** @var ComponentRoutingProcessorManagerInterface */
@@ -29,8 +29,7 @@ class EntryComponentManager implements EntryComponentManagerInterface
         }
         return $this->routeComponentProcessorManager;
     }
-
-    public function getEntryComponent(): ?Component
+    public function getEntryComponent() : ?Component
     {
         return $this->getComponentRoutingProcessorManager()->getRoutingComponentByMostAllMatchingStateProperties(ComponentRoutingGroups::ENTRYCOMPONENT);
     }

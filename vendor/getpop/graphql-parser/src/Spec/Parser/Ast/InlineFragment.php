@@ -1,32 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
-
-class InlineFragment extends AbstractAst implements FragmentBondInterface, WithDirectivesInterface, WithFieldsOrFragmentBondsInterface
+/** @internal */
+class InlineFragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
-    use WithDirectivesTrait;
-    use WithFieldsOrFragmentBondsTrait;
-
+    /**
+     * @readonly
+     * @var string
+     */
+    protected $typeName;
+    use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
+    use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Directive[] $directives
      */
-    public function __construct(
-        protected readonly string $typeName,
-        array $fieldsOrFragmentBonds,
-        array $directives,
-        Location $location,
-    ) {
+    public function __construct(string $typeName, array $fieldsOrFragmentBonds, array $directives, Location $location)
+    {
+        $this->typeName = $typeName;
         parent::__construct($location);
         $this->setDirectives($directives);
         $this->setFieldsOrFragmentBonds($fieldsOrFragmentBonds);
     }
-
-    protected function doAsQueryString(): string
+    protected function doAsQueryString() : string
     {
         // Generate the string for directives
         $strInlineFragmentDirectives = '';
@@ -35,12 +34,8 @@ class InlineFragment extends AbstractAst implements FragmentBondInterface, WithD
             foreach ($this->directives as $directive) {
                 $strDirectives[] = $directive->asQueryString();
             }
-            $strInlineFragmentDirectives = sprintf(
-                ' %s',
-                implode(' ', $strDirectives)
-            );
+            $strInlineFragmentDirectives = \sprintf(' %s', \implode(' ', $strDirectives));
         }
-
         // Generate the string for the body of the fragment
         $strInlineFragmentFieldsOrFragmentBonds = '';
         if ($this->fieldsOrFragmentBonds !== []) {
@@ -48,28 +43,15 @@ class InlineFragment extends AbstractAst implements FragmentBondInterface, WithD
             foreach ($this->fieldsOrFragmentBonds as $fieldsOrFragmentBond) {
                 $strFieldsOrFragmentBonds[] = $fieldsOrFragmentBond->asQueryString();
             }
-            $strInlineFragmentFieldsOrFragmentBonds = sprintf(
-                ' %s ',
-                implode(' ', $strFieldsOrFragmentBonds)
-            );
+            $strInlineFragmentFieldsOrFragmentBonds = \sprintf(' %s ', \implode(' ', $strFieldsOrFragmentBonds));
         }
-        return sprintf(
-            '...on %s%s {%s}',
-            $this->typeName,
-            $strInlineFragmentDirectives,
-            $strInlineFragmentFieldsOrFragmentBonds,
-        );
+        return \sprintf('...on %s%s {%s}', $this->typeName, $strInlineFragmentDirectives, $strInlineFragmentFieldsOrFragmentBonds);
     }
-
-    protected function doAsASTNodeString(): string
+    protected function doAsASTNodeString() : string
     {
-        return sprintf(
-            '...on %s { ... }',
-            $this->typeName,
-        );
+        return \sprintf('...on %s { ... }', $this->typeName);
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return $this->typeName;
     }

@@ -15,17 +15,17 @@ abstract class AbstractAddCustomAdminEndpointHook
     {
         add_filter(
             HookNames::SUPPORTED_ADMIN_ENDPOINT_GROUPS,
-            $this->addSupportedEndpointGroup(...)
+            \Closure::fromCallable([$this, 'addSupportedEndpointGroup'])
         );
         add_filter(
             HookNames::ADMIN_ENDPOINT_GROUP_MODULE_CONFIGURATION,
-            $this->getPredefinedAdminEndpointModuleClassConfiguration(...),
+            \Closure::fromCallable([$this, 'getPredefinedAdminEndpointModuleClassConfiguration']),
             10,
             2
         );
         add_filter(
             HookNames::ADMIN_ENDPOINT_GROUP_MODULE_CLASSES_TO_SKIP,
-            $this->getSchemaModuleClassesToSkip(...),
+            \Closure::fromCallable([$this, 'getSchemaModuleClassesToSkip']),
             10,
             2
         );
@@ -48,9 +48,8 @@ abstract class AbstractAddCustomAdminEndpointHook
      * @param array<class-string<ModuleInterface>,array<string,mixed>> $moduleClassConfiguration [key]: Module class, [value]: Configuration
      * @return array<class-string<ModuleInterface>,array<string,mixed>> [key]: Module class, [value]: Configuration
      */
-    protected function doGetPredefinedAdminEndpointModuleClassConfiguration(
-        array $moduleClassConfiguration,
-    ): array {
+    protected function doGetPredefinedAdminEndpointModuleClassConfiguration(array $moduleClassConfiguration): array
+    {
         return $moduleClassConfiguration;
     }
 
@@ -63,9 +62,8 @@ abstract class AbstractAddCustomAdminEndpointHook
      * @param array<class-string<ModuleInterface>> $schemaModuleClassesToSkip List of `Module` class which must not initialize their Schema services
      * @return array<class-string<ModuleInterface>> List of `Module` class which must not initialize their Schema services
      */
-    protected function doGetSchemaModuleClassesToSkip(
-        array $schemaModuleClassesToSkip,
-    ): array {
+    protected function doGetSchemaModuleClassesToSkip(array $schemaModuleClassesToSkip): array
+    {
         return $schemaModuleClassesToSkip;
     }
 
@@ -86,10 +84,8 @@ abstract class AbstractAddCustomAdminEndpointHook
      * @param array<class-string<ModuleInterface>,array<string,mixed>> $moduleClassConfiguration [key]: Module class, [value]: Configuration
      * @return array<class-string<ModuleInterface>,array<string,mixed>> [key]: Module class, [value]: Configuration
      */
-    final public function getPredefinedAdminEndpointModuleClassConfiguration(
-        array $moduleClassConfiguration,
-        string $endpointGroup,
-    ): array {
+    final public function getPredefinedAdminEndpointModuleClassConfiguration(array $moduleClassConfiguration, string $endpointGroup): array
+    {
         if ($endpointGroup !== $this->getAdminEndpointGroup()) {
             return $moduleClassConfiguration;
         }
@@ -102,10 +98,8 @@ abstract class AbstractAddCustomAdminEndpointHook
      * @param array<class-string<ModuleInterface>> $schemaModuleClassesToSkip List of `Module` class which must not initialize their Schema services
      * @return array<class-string<ModuleInterface>> List of `Module` class which must not initialize their Schema services
      */
-    final public function getSchemaModuleClassesToSkip(
-        array $schemaModuleClassesToSkip,
-        string $endpointGroup,
-    ): array {
+    final public function getSchemaModuleClassesToSkip(array $schemaModuleClassesToSkip, string $endpointGroup): array
+    {
         if ($endpointGroup !== $this->getAdminEndpointGroup()) {
             return $schemaModuleClassesToSkip;
         }

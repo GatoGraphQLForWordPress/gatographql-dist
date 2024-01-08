@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
-
+/** @internal */
 class TaxonomyTermTypeAPIFacade
 {
-    public static function getInstance(): TaxonomyTermTypeAPIInterface
+    public static function getInstance() : TaxonomyTermTypeAPIInterface
     {
         /**
          * @var TaxonomyTermTypeAPIInterface

@@ -13,12 +13,8 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::TREAT_CUSTOMPOST_EDIT_URL_AS_SENSITIVE_DATA;
         $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

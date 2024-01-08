@@ -1,15 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\FilterInputs;
 
-abstract class AbstractValueToQueryFilterInput extends AbstractFilterInput
+/** @internal */
+abstract class AbstractValueToQueryFilterInput extends \PoP\ComponentModel\FilterInputs\AbstractFilterInput
 {
     /**
      * @param array<string,mixed> $query
+     * @param mixed $value
      */
-    final public function filterDataloadQueryArgs(array &$query, mixed $value): void
+    public final function filterDataloadQueryArgs(array &$query, $value) : void
     {
         if ($value !== null) {
             $value = $this->getValue($value);
@@ -19,16 +20,17 @@ abstract class AbstractValueToQueryFilterInput extends AbstractFilterInput
         }
         $query[$this->getQueryArgKey()] = $value;
     }
-
-    abstract protected function getQueryArgKey(): string;
-
-    protected function getValue(mixed $value): mixed
+    protected abstract function getQueryArgKey() : string;
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function getValue($value)
     {
         return $value;
     }
-
-    protected function avoidSettingValueIfEmpty(): bool
+    protected function avoidSettingValueIfEmpty() : bool
     {
-        return false;
+        return \false;
     }
 }

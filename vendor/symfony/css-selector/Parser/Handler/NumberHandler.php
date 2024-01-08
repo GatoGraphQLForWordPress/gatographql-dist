@@ -8,14 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Handler;
 
-namespace Symfony\Component\CssSelector\Parser\Handler;
-
-use Symfony\Component\CssSelector\Parser\Reader;
-use Symfony\Component\CssSelector\Parser\Token;
-use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
-use Symfony\Component\CssSelector\Parser\TokenStream;
-
+use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Reader;
+use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Token;
+use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+use PrefixedByPoP\Symfony\Component\CssSelector\Parser\TokenStream;
 /**
  * CSS selector comment handler.
  *
@@ -28,24 +26,22 @@ use Symfony\Component\CssSelector\Parser\TokenStream;
  */
 class NumberHandler implements HandlerInterface
 {
-    private TokenizerPatterns $patterns;
-
+    /**
+     * @var \Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns
+     */
+    private $patterns;
     public function __construct(TokenizerPatterns $patterns)
     {
         $this->patterns = $patterns;
     }
-
-    public function handle(Reader $reader, TokenStream $stream): bool
+    public function handle(Reader $reader, TokenStream $stream) : bool
     {
         $match = $reader->findPattern($this->patterns->getNumberPattern());
-
         if (!$match) {
-            return false;
+            return \false;
         }
-
         $stream->push(new Token(Token::TYPE_NUMBER, $match[0], $reader->getPosition()));
         $reader->moveForward(\strlen($match[0]));
-
-        return true;
+        return \true;
     }
 }

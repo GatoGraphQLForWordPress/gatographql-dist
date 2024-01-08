@@ -1,41 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\ExtendedSchemaCommons\TypeResolvers\ScalarType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\TypeResolvers\ScalarType\AbstractFloatScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
-
 /**
  * GraphQL Built-in Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars
+ * @internal
  */
 class PositiveFloatScalarTypeResolver extends AbstractFloatScalarTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'PositiveFloat';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('A positive float or 0.', 'extended-schema-commons');
     }
-
-    public function coerceValue(
-        string|int|float|bool|stdClass $inputValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): string|int|float|bool|object|null {
-        $castInputValue = parent::coerceValue(
-            $inputValue,
-            $astNode,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
+    /**
+     * @param string|int|float|bool|\stdClass $inputValue
+     * @return string|int|float|bool|object|null
+     */
+    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
+        $castInputValue = parent::coerceValue($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($castInputValue === null) {
             return null;
         }

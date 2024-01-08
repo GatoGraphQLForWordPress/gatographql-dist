@@ -8,19 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config;
+namespace PrefixedByPoP\Symfony\Component\Config;
 
 /**
  * A ConfigCacheFactory implementation that validates the
  * cache with an arbitrary set of ResourceCheckers.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class ResourceCheckerConfigCacheFactory implements ConfigCacheFactoryInterface
 {
-    private iterable $resourceCheckers = [];
-
+    /**
+     * @var iterable
+     */
+    private $resourceCheckers = [];
     /**
      * @param iterable<int, ResourceCheckerInterface> $resourceCheckers
      */
@@ -28,14 +30,12 @@ class ResourceCheckerConfigCacheFactory implements ConfigCacheFactoryInterface
     {
         $this->resourceCheckers = $resourceCheckers;
     }
-
-    public function cache(string $file, callable $callable): ConfigCacheInterface
+    public function cache(string $file, callable $callable) : ConfigCacheInterface
     {
         $cache = new ResourceCheckerConfigCache($file, $this->resourceCheckers);
         if (!$cache->isFresh()) {
             $callable($cache);
         }
-
         return $cache;
     }
 }

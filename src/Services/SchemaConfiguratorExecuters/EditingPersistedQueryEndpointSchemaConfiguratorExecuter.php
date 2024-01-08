@@ -13,9 +13,18 @@ use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SchemaConfiguratorInter
 
 class EditingPersistedQueryEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    private ?EndpointHelpers $endpointHelpers = null;
-    private ?PersistedQueryEndpointSchemaConfigurator $persistedQueryEndpointSchemaConfigurator = null;
-    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
+     */
+    private $endpointHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\PersistedQueryEndpointSchemaConfigurator|null
+     */
+    private $persistedQueryEndpointSchemaConfigurator;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
+     */
+    private $endpointBlockHelpers;
 
     final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
     {
@@ -81,10 +90,7 @@ class EditingPersistedQueryEndpointSchemaConfiguratorExecuter extends AbstractSc
     protected function getSchemaConfigurationID(): ?int
     {
         $customPostID = (int) $this->getEndpointHelpers()->getAdminPersistedQueryCustomPostID();
-        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID(
-            EndpointFunctionalityModuleResolver::PERSISTED_QUERIES,
-            $customPostID,
-        );
+        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID(EndpointFunctionalityModuleResolver::PERSISTED_QUERIES, $customPostID);
     }
 
     protected function getSchemaConfigurator(): SchemaConfiguratorInterface

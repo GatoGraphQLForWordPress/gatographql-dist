@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers;
 
 use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
-
 /**
  * Introspection types need not be namespaced
+ * @internal
  */
 trait IntrospectionTypeResolverTrait
 {
     use CanonicalTypeNameTypeResolverTrait;
-
-    public function isIntrospectionType(): bool
+    public function isIntrospectionType() : bool
     {
-        return true;
+        return \true;
     }
 }

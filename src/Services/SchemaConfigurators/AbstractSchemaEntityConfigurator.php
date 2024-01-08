@@ -22,21 +22,30 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
      * Keep a map of all namespaced type names to their resolver classes
      * @var array<string,string>|null
      */
-    protected ?array $namespacedObjectTypeNameResolverClasses = null;
+    protected $namespacedObjectTypeNameResolverClasses;
     /**
      * Keep a map of all namespaced field interface names to their resolver classes
      * @var array<string,string>|null
      */
-    protected ?array $namespacedInterfaceTypeNameResolverClasses = null;
+    protected $namespacedInterfaceTypeNameResolverClasses;
     /**
      * Keep a map of all directives names to their resolver classes
      * @var array<string,string[]>|null
      */
-    protected ?array $directiveNameClasses = null;
+    protected $directiveNameClasses;
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?TypeRegistryInterface $typeRegistry = null;
-    private ?FieldDirectiveResolverRegistryInterface $fieldDirectiveResolverRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
+     */
+    private $typeRegistry;
+    /**
+     * @var \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface|null
+     */
+    private $fieldDirectiveResolverRegistry;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -114,7 +123,7 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
         $this->namespacedObjectTypeNameResolverClasses = [];
         foreach ($objectTypeResolvers as $objectTypeResolver) {
             $objectTypeResolverNamespacedName = $objectTypeResolver->getNamespacedTypeName();
-            $this->namespacedObjectTypeNameResolverClasses[$objectTypeResolverNamespacedName] = $objectTypeResolver::class;
+            $this->namespacedObjectTypeNameResolverClasses[$objectTypeResolverNamespacedName] = get_class($objectTypeResolver);
         }
     }
 
@@ -128,7 +137,7 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
         $this->namespacedInterfaceTypeNameResolverClasses = [];
         foreach ($interfaceTypeResolvers as $interfaceTypeResolver) {
             $interfaceTypeResolverNamespacedName = $interfaceTypeResolver->getNamespacedTypeName();
-            $this->namespacedInterfaceTypeNameResolverClasses[$interfaceTypeResolverNamespacedName] = $interfaceTypeResolver::class;
+            $this->namespacedInterfaceTypeNameResolverClasses[$interfaceTypeResolverNamespacedName] = get_class($interfaceTypeResolver);
         }
     }
 
@@ -156,7 +165,7 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
         $this->directiveNameClasses = [];
         foreach ($fieldDirectiveResolvers as $fieldDirectiveResolver) {
             $directiveResolverName = $fieldDirectiveResolver->getDirectiveName();
-            $this->directiveNameClasses[$directiveResolverName][] = $fieldDirectiveResolver::class;
+            $this->directiveNameClasses[$directiveResolverName][] = get_class($fieldDirectiveResolver);
         }
     }
 
@@ -170,8 +179,9 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
      * implementing the interface
      *
      * @return array<mixed[]> The list of entries, where an entry is an array [$typeResolverClass, $field, $value]
+     * @param mixed $value
      */
-    protected function getEntriesFromField(string $selectedField, mixed $value): array
+    protected function getEntriesFromField(string $selectedField, $value): array
     {
         $namespacedObjectTypeNameResolverClasses = $this->getNamespacedObjectTypeNameClasses();
         // The field is composed by the type namespaced name, and the field name, separated by "."
@@ -212,8 +222,9 @@ abstract class AbstractSchemaEntityConfigurator implements SchemaEntityConfigura
      * It returns an array of arrays
      *
      * @return array<mixed[]> The list of entries, where an entry is an array [$directiveResolverClass, $value]
+     * @param mixed $value
      */
-    protected function getEntriesFromDirective(string $selectedDirective, mixed $value): ?array
+    protected function getEntriesFromDirective(string $selectedDirective, $value): ?array
     {
         $directiveNameClasses = $this->getDirectiveNameClasses();
         // Obtain the directive resolver class from the directive name.

@@ -8,5 +8,8 @@ use WP_Post;
 
 interface ClientEndpointAnnotatorInterface extends EndpointAnnotatorInterface
 {
-    public function isClientEnabled(WP_Post|int $postOrID): bool;
+    /**
+     * @param \WP_Post|int $postOrID
+     */
+    public function isClientEnabled($postOrID): bool;
 }

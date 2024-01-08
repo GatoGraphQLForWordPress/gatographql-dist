@@ -13,9 +13,12 @@ class SchemaConfigSchemaCustomPostsBlock extends AbstractSchemaConfigCustomizabl
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public final const ATTRIBUTE_NAME_INCLUDED_CUSTOM_POST_TYPES = 'includedCustomPostTypes';
+    public const ATTRIBUTE_NAME_INCLUDED_CUSTOM_POST_TYPES = 'includedCustomPostTypes';
 
-    private ?WPDataModelProviderInterface $wpDataModelProvider = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\WPDataModel\WPDataModelProviderInterface|null
+     */
+    private $wpDataModelProvider;
 
     final public function setWPDataModelProvider(WPDataModelProviderInterface $wpDataModelProvider): void
     {

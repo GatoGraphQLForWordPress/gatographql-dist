@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config\Definition;
+namespace PrefixedByPoP\Symfony\Component\Config\Definition;
 
 /**
  * This class is the entry point for config normalization/merging/finalization.
@@ -17,6 +16,7 @@ namespace Symfony\Component\Config\Definition;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  *
  * @final
+ * @internal
  */
 class Processor
 {
@@ -25,27 +25,24 @@ class Processor
      *
      * @param array $configs An array of configuration items to process
      */
-    public function process(NodeInterface $configTree, array $configs): array
+    public function process(NodeInterface $configTree, array $configs) : array
     {
         $currentConfig = [];
         foreach ($configs as $config) {
             $config = $configTree->normalize($config);
             $currentConfig = $configTree->merge($currentConfig, $config);
         }
-
         return $configTree->finalize($currentConfig);
     }
-
     /**
      * Processes an array of configurations.
      *
      * @param array $configs An array of configuration items to process
      */
-    public function processConfiguration(ConfigurationInterface $configuration, array $configs): array
+    public function processConfiguration(ConfigurationInterface $configuration, array $configs) : array
     {
         return $this->process($configuration->getConfigTreeBuilder()->buildTree(), $configs);
     }
-
     /**
      * Normalizes a configuration entry.
      *
@@ -67,23 +64,19 @@ class Processor
      * @param string      $key    The key to normalize
      * @param string|null $plural The plural form of the key if it is irregular
      */
-    public static function normalizeConfig(array $config, string $key, string $plural = null): array
+    public static function normalizeConfig(array $config, string $key, string $plural = null) : array
     {
-        $plural ??= $key.'s';
-
+        $plural = $plural ?? $key . 's';
         if (isset($config[$plural])) {
             return $config[$plural];
         }
-
         if (isset($config[$key])) {
-            if (\is_string($config[$key]) || !\is_int(key($config[$key]))) {
+            if (\is_string($config[$key]) || !\is_int(\key($config[$key]))) {
                 // only one
                 return [$config[$key]];
             }
-
             return $config[$key];
         }
-
         return [];
     }
 }

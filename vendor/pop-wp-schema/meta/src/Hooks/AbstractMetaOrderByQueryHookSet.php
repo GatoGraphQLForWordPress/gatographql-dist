@@ -14,7 +14,7 @@ abstract class AbstractMetaOrderByQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             $this->getHookName(),
-            $this->getOrderByQueryArgValue(...)
+            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
         );
     }
 
@@ -22,9 +22,11 @@ abstract class AbstractMetaOrderByQueryHookSet extends AbstractHookSet
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        return match ($orderBy) {
-            MetaOrderBy::META_VALUE => 'meta_value',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case MetaOrderBy::META_VALUE:
+                return 'meta_value';
+            default:
+                return $orderBy;
+        }
     }
 }

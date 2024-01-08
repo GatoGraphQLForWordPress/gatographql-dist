@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\ComponentProcessors;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
-
+/** @internal */
 class ComponentProcessorManagerFacade
 {
-    public static function getInstance(): ComponentProcessorManagerInterface
+    public static function getInstance() : ComponentProcessorManagerInterface
     {
         /**
          * @var ComponentProcessorManagerInterface

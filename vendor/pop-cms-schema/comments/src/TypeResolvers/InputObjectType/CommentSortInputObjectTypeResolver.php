@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Comments\Constants\CommentOrderBy;
 use PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-
+/** @internal */
 class CommentSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    private ?CommentOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
-
-    final public function setCommentOrderByEnumTypeResolver(CommentOrderByEnumTypeResolver $customPostSortByEnumTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentOrderByEnumTypeResolver|null
+     */
+    private $customPostSortByEnumTypeResolver;
+    public final function setCommentOrderByEnumTypeResolver(CommentOrderByEnumTypeResolver $customPostSortByEnumTypeResolver) : void
     {
         $this->customPostSortByEnumTypeResolver = $customPostSortByEnumTypeResolver;
     }
-    final protected function getCommentOrderByEnumTypeResolver(): CommentOrderByEnumTypeResolver
+    protected final function getCommentOrderByEnumTypeResolver() : CommentOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
             /** @var CommentOrderByEnumTypeResolver */
@@ -26,30 +27,27 @@ class CommentSortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->customPostSortByEnumTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentSortInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'by' => $this->getCommentOrderByEnumTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getCommentOrderByEnumTypeResolver()]);
     }
-
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'by' => CommentOrderBy::DATE,
-            default => parent::getInputFieldDefaultValue($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'by':
+                return CommentOrderBy::DATE;
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
 }

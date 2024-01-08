@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config\Resource;
+namespace PrefixedByPoP\Symfony\Component\Config\Resource;
 
 /**
  * Interface for Resources that can check for freshness autonomously,
  * without special support from external services.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface SelfCheckingResourceInterface extends ResourceInterface
 {
@@ -24,5 +24,5 @@ interface SelfCheckingResourceInterface extends ResourceInterface
      *
      * @param int $timestamp The last time the resource was loaded
      */
-    public function isFresh(int $timestamp): bool;
+    public function isFresh(int $timestamp) : bool;
 }

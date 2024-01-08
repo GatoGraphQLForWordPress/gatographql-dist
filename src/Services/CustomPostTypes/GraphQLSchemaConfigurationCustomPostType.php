@@ -12,7 +12,10 @@ class GraphQLSchemaConfigurationCustomPostType extends AbstractForPluginOwnUseCu
 {
     use WithBlockRegistryCustomPostTypeTrait;
 
-    private ?SchemaConfigBlockRegistryInterface $schemaConfigBlockRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\SchemaConfigBlockRegistryInterface|null
+     */
+    private $schemaConfigBlockRegistry;
 
     final public function setSchemaConfigBlockRegistry(SchemaConfigBlockRegistryInterface $schemaConfigBlockRegistry): void
     {

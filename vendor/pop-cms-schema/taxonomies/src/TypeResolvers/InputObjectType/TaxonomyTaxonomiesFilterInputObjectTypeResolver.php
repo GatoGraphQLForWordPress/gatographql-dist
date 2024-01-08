@@ -1,23 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType;
 
-class TaxonomyTaxonomiesFilterInputObjectTypeResolver extends AbstractTaxonomiesFilterInputObjectTypeResolver
+/** @internal */
+class TaxonomyTaxonomiesFilterInputObjectTypeResolver extends \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\AbstractTaxonomiesFilterInputObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'TaxonomyTaxonomiesFilterInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Input to filter child taxonomies', 'taxonomies');
     }
-
-    protected function addParentIDInputField(): bool
+    protected function addParentIDInputField() : bool
     {
-        return false;
+        return \false;
     }
 }

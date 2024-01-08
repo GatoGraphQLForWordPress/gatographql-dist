@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeAPIs\CustomPostUserTypeAPIInterface;
-
+/** @internal */
 class CustomPostUserTypeAPIFacade
 {
-    public static function getInstance(): CustomPostUserTypeAPIInterface
+    public static function getInstance() : CustomPostUserTypeAPIInterface
     {
         /**
          * @var CustomPostUserTypeAPIInterface

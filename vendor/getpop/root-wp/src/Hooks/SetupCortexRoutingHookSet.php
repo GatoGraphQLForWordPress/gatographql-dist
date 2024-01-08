@@ -17,7 +17,10 @@ use PoP\Root\Routing\RoutingManagerInterface;
 
 class SetupCortexRoutingHookSet extends AbstractHookSet
 {
-    private ?RoutingManagerInterface $routingManager = null;
+    /**
+     * @var \PoP\Root\Routing\RoutingManagerInterface|null
+     */
+    private $routingManager;
 
     final public function setRoutingManager(RoutingManagerInterface $routingManager): void
     {
@@ -48,7 +51,7 @@ class SetupCortexRoutingHookSet extends AbstractHookSet
          */
         App::addAction(
             'cortex.routes',
-            $this->setupCortex(...),
+            \Closure::fromCallable([$this, 'setupCortex']),
             1
         );
     }
@@ -61,10 +64,9 @@ class SetupCortexRoutingHookSet extends AbstractHookSet
         /** @var WPQueryRoutingManagerInterface */
         $routingManager = $this->getRoutingManager();
         foreach ($routingManager->getRoutes() as $route) {
-            $routes->addRoute(new QueryRoute(
-                $route,
-                fn (array $matches) => WPQueries::GENERIC_NATURE,
-            ));
+            $routes->addRoute(new QueryRoute($route, function (array $matches) {
+                return WPQueries::GENERIC_NATURE;
+            }));
         }
     }
 }

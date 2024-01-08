@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
 
-namespace Symfony\Contracts\Service\Attribute;
-
-use Symfony\Contracts\Service\ServiceSubscriberInterface;
-use Symfony\Contracts\Service\ServiceSubscriberTrait;
-
+use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
+use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberTrait;
 /**
  * For use as the return value for {@see ServiceSubscriberInterface}.
  *
@@ -23,25 +21,36 @@ use Symfony\Contracts\Service\ServiceSubscriberTrait;
  * as a subscribed service.
  *
  * @author Kevin Bond <kevinbond@gmail.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_METHOD)]
 final class SubscribedService
 {
+    /**
+     * @var string|null
+     */
+    public $key;
+    /**
+     * @var class-string|null
+     */
+    public $type;
+    /**
+     * @var bool
+     */
+    public $nullable = \false;
     /** @var object[] */
-    public array $attributes;
-
+    public $attributes;
     /**
      * @param string|null       $key        The key to use for the service
      * @param class-string|null $type       The service class
      * @param bool              $nullable   Whether the service is optional
      * @param object|object[]   $attributes One or more dependency injection attributes to use
      */
-    public function __construct(
-        public ?string $key = null,
-        public ?string $type = null,
-        public bool $nullable = false,
-        array|object $attributes = [],
-    ) {
+    public function __construct(?string $key = null, ?string $type = null, bool $nullable = \false, $attributes = [])
+    {
+        $this->key = $key;
+        $this->type = $type;
+        $this->nullable = $nullable;
         $this->attributes = \is_array($attributes) ? $attributes : [$attributes];
     }
 }

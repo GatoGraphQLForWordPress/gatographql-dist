@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\ObjectTypeResolverPickers;
 
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\GenericErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
-
-abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker implements GenericErrorPayloadObjectTypeResolverPickerInterface
+/** @internal */
+abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker implements \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\GenericErrorPayloadObjectTypeResolverPickerInterface
 {
-    private ?GenericErrorPayloadObjectTypeResolver $genericErrorPayloadObjectTypeResolver = null;
-
-    final public function setGenericErrorPayloadObjectTypeResolver(GenericErrorPayloadObjectTypeResolver $genericErrorPayloadObjectTypeResolver): void
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\GenericErrorPayloadObjectTypeResolver|null
+     */
+    private $genericErrorPayloadObjectTypeResolver;
+    public final function setGenericErrorPayloadObjectTypeResolver(GenericErrorPayloadObjectTypeResolver $genericErrorPayloadObjectTypeResolver) : void
     {
         $this->genericErrorPayloadObjectTypeResolver = $genericErrorPayloadObjectTypeResolver;
     }
-    final protected function getGenericErrorPayloadObjectTypeResolver(): GenericErrorPayloadObjectTypeResolver
+    protected final function getGenericErrorPayloadObjectTypeResolver() : GenericErrorPayloadObjectTypeResolver
     {
         if ($this->genericErrorPayloadObjectTypeResolver === null) {
             /** @var GenericErrorPayloadObjectTypeResolver */
@@ -25,13 +26,11 @@ abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends Abstr
         }
         return $this->genericErrorPayloadObjectTypeResolver;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getGenericErrorPayloadObjectTypeResolver();
     }
-
-    protected function getTargetObjectClass(): string
+    protected function getTargetObjectClass() : string
     {
         return GenericErrorPayload::class;
     }

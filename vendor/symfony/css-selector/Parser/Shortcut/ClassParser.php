@@ -8,14 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut;
 
-namespace Symfony\Component\CssSelector\Parser\Shortcut;
-
-use Symfony\Component\CssSelector\Node\ClassNode;
-use Symfony\Component\CssSelector\Node\ElementNode;
-use Symfony\Component\CssSelector\Node\SelectorNode;
-use Symfony\Component\CssSelector\Parser\ParserInterface;
-
+use PrefixedByPoP\Symfony\Component\CssSelector\Node\ClassNode;
+use PrefixedByPoP\Symfony\Component\CssSelector\Node\ElementNode;
+use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
+use PrefixedByPoP\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * CSS selector class parser shortcut.
  *
@@ -28,7 +26,7 @@ use Symfony\Component\CssSelector\Parser\ParserInterface;
  */
 class ClassParser implements ParserInterface
 {
-    public function parse(string $source): array
+    public function parse(string $source) : array
     {
         // Matches an optional namespace, optional element, and required class
         // $source = 'test|input.ab6bd_field';
@@ -37,12 +35,9 @@ class ClassParser implements ParserInterface
         //     1 => string 'test' (length=4)
         //     2 => string 'input' (length=5)
         //     3 => string 'ab6bd_field' (length=11)
-        if (preg_match('/^(?:([a-z]++)\|)?+([\w-]++|\*)?+\.([\w-]++)$/i', trim($source), $matches)) {
-            return [
-                new SelectorNode(new ClassNode(new ElementNode($matches[1] ?: null, $matches[2] ?: null), $matches[3])),
-            ];
+        if (\preg_match('/^(?:([a-z]++)\\|)?+([\\w-]++|\\*)?+\\.([\\w-]++)$/i', \trim($source), $matches)) {
+            return [new SelectorNode(new ClassNode(new ElementNode($matches[1] ?: null, $matches[2] ?: null), $matches[3]))];
         }
-
         return [];
     }
 }

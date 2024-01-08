@@ -12,13 +12,16 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
     use ModuleResolverTrait;
     use UserInterfaceFunctionalityModuleResolverTrait;
 
-    public final const EXCERPT_AS_DESCRIPTION = Plugin::NAMESPACE . '\excerpt-as-description';
-    public final const WELCOME_GUIDES = Plugin::NAMESPACE . '\welcome-guides';
-    public final const SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION = Plugin::NAMESPACE . '\schema-configuration-additional-documentation';
-    public final const CUSTOM_ENDPOINT_OVERVIEW = Plugin::NAMESPACE . '\custom-endpoint-overview';
-    public final const PERSISTED_QUERY_ENDPOINT_OVERVIEW = Plugin::NAMESPACE . '\persisted-query-endpoint-overview';
+    public const EXCERPT_AS_DESCRIPTION = Plugin::NAMESPACE . '\excerpt-as-description';
+    public const WELCOME_GUIDES = Plugin::NAMESPACE . '\welcome-guides';
+    public const SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION = Plugin::NAMESPACE . '\schema-configuration-additional-documentation';
+    public const CUSTOM_ENDPOINT_OVERVIEW = Plugin::NAMESPACE . '\custom-endpoint-overview';
+    public const PERSISTED_QUERY_ENDPOINT_OVERVIEW = Plugin::NAMESPACE . '\persisted-query-endpoint-overview';
 
-    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
+     */
+    private $markdownContentParser;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -116,43 +119,55 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
 
     public function getName(string $module): string
     {
-        return match ($module) {
-            self::EXCERPT_AS_DESCRIPTION => \__('Excerpt as Description', 'gatographql'),
-            self::WELCOME_GUIDES => \__('Welcome Guides', 'gatographql'),
-            self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION => \__('Additional Gato GraphQL Documentation', 'gatographql'),
-            self::CUSTOM_ENDPOINT_OVERVIEW => \__('Custom Endpoint Overview', 'gatographql'),
-            self::PERSISTED_QUERY_ENDPOINT_OVERVIEW => \__('Persisted Query Endpoint Overview', 'gatographql'),
-            default => $module,
-        };
+        switch ($module) {
+            case self::EXCERPT_AS_DESCRIPTION:
+                return \__('Excerpt as Description', 'gatographql');
+            case self::WELCOME_GUIDES:
+                return \__('Welcome Guides', 'gatographql');
+            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
+                return \__('Additional Gato GraphQL Documentation', 'gatographql');
+            case self::CUSTOM_ENDPOINT_OVERVIEW:
+                return \__('Custom Endpoint Overview', 'gatographql');
+            case self::PERSISTED_QUERY_ENDPOINT_OVERVIEW:
+                return \__('Persisted Query Endpoint Overview', 'gatographql');
+            default:
+                return $module;
+        }
     }
 
     public function getDescription(string $module): string
     {
-        return match ($module) {
-            self::EXCERPT_AS_DESCRIPTION => \__('Provide a description of the different entities (Custom Endpoints, Persisted Queries, and others) through their excerpt', 'gatographql'),
-            self::WELCOME_GUIDES => sprintf(
-                \__('Display welcome guides which demonstrate how to use the plugin\'s different functionalities. <em>It requires WordPress version \'%s\' or above, or Gutenberg version \'%s\' or above</em>', 'gatographql'),
-                '5.5',
-                '8.2'
-            ),
-            self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION => \__('Documentation on using the Gato GraphQL', 'gatographql'),
-            self::CUSTOM_ENDPOINT_OVERVIEW => \__('Sidebar component displaying Properties for a Custom Endpoint', 'gatographql'),
-            self::PERSISTED_QUERY_ENDPOINT_OVERVIEW => \__('Sidebar component displaying Properties for a Persisted Query Endpoint', 'gatographql'),
-            default => parent::getDescription($module),
-        };
+        switch ($module) {
+            case self::EXCERPT_AS_DESCRIPTION:
+                return \__('Provide a description of the different entities (Custom Endpoints, Persisted Queries, and others) through their excerpt', 'gatographql');
+            case self::WELCOME_GUIDES:
+                return sprintf(
+                    \__('Display welcome guides which demonstrate how to use the plugin\'s different functionalities. <em>It requires WordPress version \'%s\' or above, or Gutenberg version \'%s\' or above</em>', 'gatographql'),
+                    '5.5',
+                    '8.2'
+                );
+            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
+                return \__('Documentation on using the Gato GraphQL', 'gatographql');
+            case self::CUSTOM_ENDPOINT_OVERVIEW:
+                return \__('Sidebar component displaying Properties for a Custom Endpoint', 'gatographql');
+            case self::PERSISTED_QUERY_ENDPOINT_OVERVIEW:
+                return \__('Sidebar component displaying Properties for a Persisted Query Endpoint', 'gatographql');
+            default:
+                return parent::getDescription($module);
+        }
     }
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        return match ($module) {
-            self::WELCOME_GUIDES
-                => false,
-            self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION,
-            self::CUSTOM_ENDPOINT_OVERVIEW,
-            self::PERSISTED_QUERY_ENDPOINT_OVERVIEW
-                => true,
-            default
-                => parent::isPredefinedEnabledOrDisabled($module),
-        };
+        switch ($module) {
+            case self::WELCOME_GUIDES:
+                return false;
+            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
+            case self::CUSTOM_ENDPOINT_OVERVIEW:
+            case self::PERSISTED_QUERY_ENDPOINT_OVERVIEW:
+                return true;
+            default:
+                return parent::isPredefinedEnabledOrDisabled($module);
+        }
     }
 }

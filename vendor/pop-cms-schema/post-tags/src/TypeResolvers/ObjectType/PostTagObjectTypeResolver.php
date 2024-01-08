@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTags\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
@@ -9,17 +8,22 @@ use PoPCMSSchema\PostTags\RelationalTypeDataLoaders\ObjectType\PostTagObjectType
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\AbstractTagObjectTypeResolver;
-
+/** @internal */
 class PostTagObjectTypeResolver extends AbstractTagObjectTypeResolver
 {
-    private ?PostTagObjectTypeDataLoader $postTagObjectTypeDataLoader = null;
-    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
-
-    final public function setPostTagObjectTypeDataLoader(PostTagObjectTypeDataLoader $postTagObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\PostTags\RelationalTypeDataLoaders\ObjectType\PostTagObjectTypeDataLoader|null
+     */
+    private $postTagObjectTypeDataLoader;
+    /**
+     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
+     */
+    private $postTagTypeAPI;
+    public final function setPostTagObjectTypeDataLoader(PostTagObjectTypeDataLoader $postTagObjectTypeDataLoader) : void
     {
         $this->postTagObjectTypeDataLoader = $postTagObjectTypeDataLoader;
     }
-    final protected function getPostTagObjectTypeDataLoader(): PostTagObjectTypeDataLoader
+    protected final function getPostTagObjectTypeDataLoader() : PostTagObjectTypeDataLoader
     {
         if ($this->postTagObjectTypeDataLoader === null) {
             /** @var PostTagObjectTypeDataLoader */
@@ -28,11 +32,11 @@ class PostTagObjectTypeResolver extends AbstractTagObjectTypeResolver
         }
         return $this->postTagObjectTypeDataLoader;
     }
-    final public function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI): void
+    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
     {
         $this->postTagTypeAPI = $postTagTypeAPI;
     }
-    final protected function getPostTagTypeAPI(): PostTagTypeAPIInterface
+    protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
             /** @var PostTagTypeAPIInterface */
@@ -41,26 +45,19 @@ class PostTagObjectTypeResolver extends AbstractTagObjectTypeResolver
         }
         return $this->postTagTypeAPI;
     }
-
-    public function getTagTypeAPI(): TagTypeAPIInterface
+    public function getTagTypeAPI() : TagTypeAPIInterface
     {
         return $this->getPostTagTypeAPI();
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'PostTag';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
-        return sprintf(
-            $this->__('Representation of a tag, added to a post (taxonomy: "%s")', 'post-tags'),
-            $this->getPostTagTypeAPI()->getPostTagTaxonomyName()
-        );
+        return \sprintf($this->__('Representation of a tag, added to a post (taxonomy: "%s")', 'post-tags'), $this->getPostTagTypeAPI()->getPostTagTaxonomyName());
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getPostTagObjectTypeDataLoader();
     }

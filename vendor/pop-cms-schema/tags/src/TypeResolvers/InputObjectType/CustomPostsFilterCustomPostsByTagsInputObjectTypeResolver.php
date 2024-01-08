@@ -1,18 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
-class CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver extends AbstractFilterCustomPostsByTagsInputObjectTypeResolver
+/** @internal */
+class CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'FilterCustomPostsByTagsInput';
     }
-
-    protected function addTagTaxonomyFilterInput(): bool
+    protected function addTagTaxonomyFilterInput() : bool
     {
-        return true;
+        return \true;
     }
 }

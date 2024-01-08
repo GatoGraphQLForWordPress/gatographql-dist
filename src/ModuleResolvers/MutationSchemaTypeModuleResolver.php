@@ -17,24 +17,27 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
         getPriority as getUpstreamPriority;
     }
 
-    public final const SCHEMA_USER_STATE_MUTATIONS = Plugin::NAMESPACE . '\schema-user-state-mutations';
-    public final const SCHEMA_CUSTOMPOST_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-mutations';
-    public final const SCHEMA_PAGE_MUTATIONS = Plugin::NAMESPACE . '\schema-page-mutations';
-    public final const SCHEMA_POST_MUTATIONS = Plugin::NAMESPACE . '\schema-post-mutations';
-    public final const SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-custompostmedia-mutations';
-    public final const SCHEMA_PAGEMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-pagemedia-mutations';
-    public final const SCHEMA_POSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-postmedia-mutations';
-    public final const SCHEMA_CUSTOMPOST_USER_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-user-mutations';
-    public final const SCHEMA_POST_TAG_MUTATIONS = Plugin::NAMESPACE . '\schema-post-tag-mutations';
-    public final const SCHEMA_POST_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-post-category-mutations';
-    public final const SCHEMA_COMMENT_MUTATIONS = Plugin::NAMESPACE . '\schema-comment-mutations';
+    public const SCHEMA_USER_STATE_MUTATIONS = Plugin::NAMESPACE . '\schema-user-state-mutations';
+    public const SCHEMA_CUSTOMPOST_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-mutations';
+    public const SCHEMA_PAGE_MUTATIONS = Plugin::NAMESPACE . '\schema-page-mutations';
+    public const SCHEMA_POST_MUTATIONS = Plugin::NAMESPACE . '\schema-post-mutations';
+    public const SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-custompostmedia-mutations';
+    public const SCHEMA_PAGEMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-pagemedia-mutations';
+    public const SCHEMA_POSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-postmedia-mutations';
+    public const SCHEMA_CUSTOMPOST_USER_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-user-mutations';
+    public const SCHEMA_POST_TAG_MUTATIONS = Plugin::NAMESPACE . '\schema-post-tag-mutations';
+    public const SCHEMA_POST_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-post-category-mutations';
+    public const SCHEMA_COMMENT_MUTATIONS = Plugin::NAMESPACE . '\schema-comment-mutations';
 
     /**
      * Setting options
      */
-    public final const OPTION_TREAT_AUTHOR_INPUT_IN_CUSTOMPOST_MUTATION_AS_SENSITIVE_DATA = 'treat-author-input-in-custompost-mutation-as-sensitive-data';
+    public const OPTION_TREAT_AUTHOR_INPUT_IN_CUSTOMPOST_MUTATION_AS_SENSITIVE_DATA = 'treat-author-input-in-custompost-mutation-as-sensitive-data';
 
-    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
+     */
+    private $markdownContentParser;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -180,38 +183,62 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
 
     public function getName(string $module): string
     {
-        return match ($module) {
-            self::SCHEMA_USER_STATE_MUTATIONS => \__('User State Mutations', 'gatographql'),
-            self::SCHEMA_CUSTOMPOST_MUTATIONS => \__('Custom Post Mutations', 'gatographql'),
-            self::SCHEMA_PAGE_MUTATIONS => \__('Page Mutations', 'gatographql'),
-            self::SCHEMA_POST_MUTATIONS => \__('Post Mutations', 'gatographql'),
-            self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS => \__('Custom Post Media Mutations', 'gatographql'),
-            self::SCHEMA_PAGEMEDIA_MUTATIONS => \__('Page Media Mutations', 'gatographql'),
-            self::SCHEMA_POSTMEDIA_MUTATIONS => \__('Post Media Mutations', 'gatographql'),
-            self::SCHEMA_CUSTOMPOST_USER_MUTATIONS => \__('Custom Post User Mutations', 'gatographql'),
-            self::SCHEMA_POST_TAG_MUTATIONS => \__('Post Tag Mutations', 'gatographql'),
-            self::SCHEMA_POST_CATEGORY_MUTATIONS => \__('Post Category Mutations', 'gatographql'),
-            self::SCHEMA_COMMENT_MUTATIONS => \__('Comment Mutations', 'gatographql'),
-            default => $module,
-        };
+        switch ($module) {
+            case self::SCHEMA_USER_STATE_MUTATIONS:
+                return \__('User State Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_MUTATIONS:
+                return \__('Custom Post Mutations', 'gatographql');
+            case self::SCHEMA_PAGE_MUTATIONS:
+                return \__('Page Mutations', 'gatographql');
+            case self::SCHEMA_POST_MUTATIONS:
+                return \__('Post Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS:
+                return \__('Custom Post Media Mutations', 'gatographql');
+            case self::SCHEMA_PAGEMEDIA_MUTATIONS:
+                return \__('Page Media Mutations', 'gatographql');
+            case self::SCHEMA_POSTMEDIA_MUTATIONS:
+                return \__('Post Media Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_USER_MUTATIONS:
+                return \__('Custom Post User Mutations', 'gatographql');
+            case self::SCHEMA_POST_TAG_MUTATIONS:
+                return \__('Post Tag Mutations', 'gatographql');
+            case self::SCHEMA_POST_CATEGORY_MUTATIONS:
+                return \__('Post Category Mutations', 'gatographql');
+            case self::SCHEMA_COMMENT_MUTATIONS:
+                return \__('Comment Mutations', 'gatographql');
+            default:
+                return $module;
+        }
     }
 
     public function getDescription(string $module): string
     {
-        return match ($module) {
-            self::SCHEMA_USER_STATE_MUTATIONS => \__('Have the user log-in, and be able to perform mutations', 'gatographql'),
-            self::SCHEMA_CUSTOMPOST_MUTATIONS => \__('Base functionality to mutate custom posts', 'gatographql'),
-            self::SCHEMA_PAGE_MUTATIONS => \__('Execute mutations on pages', 'gatographql'),
-            self::SCHEMA_POST_MUTATIONS => \__('Execute mutations on posts', 'gatographql'),
-            self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS => \__('Execute mutations concerning media items on custom posts', 'gatographql'),
-            self::SCHEMA_PAGEMEDIA_MUTATIONS => \__('Execute mutations concerning media items on pages', 'gatographql'),
-            self::SCHEMA_POSTMEDIA_MUTATIONS => \__('Execute mutations concerning media items on posts', 'gatographql'),
-            self::SCHEMA_CUSTOMPOST_USER_MUTATIONS => \__('Input user data when creating/updating custom posts', 'gatographql'),
-            self::SCHEMA_POST_TAG_MUTATIONS => \__('Add tags to posts', 'gatographql'),
-            self::SCHEMA_POST_CATEGORY_MUTATIONS => \__('Add categories to posts', 'gatographql'),
-            self::SCHEMA_COMMENT_MUTATIONS => \__('Create comments', 'gatographql'),
-            default => parent::getDescription($module),
-        };
+        switch ($module) {
+            case self::SCHEMA_USER_STATE_MUTATIONS:
+                return \__('Have the user log-in, and be able to perform mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_MUTATIONS:
+                return \__('Base functionality to mutate custom posts', 'gatographql');
+            case self::SCHEMA_PAGE_MUTATIONS:
+                return \__('Execute mutations on pages', 'gatographql');
+            case self::SCHEMA_POST_MUTATIONS:
+                return \__('Execute mutations on posts', 'gatographql');
+            case self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS:
+                return \__('Execute mutations concerning media items on custom posts', 'gatographql');
+            case self::SCHEMA_PAGEMEDIA_MUTATIONS:
+                return \__('Execute mutations concerning media items on pages', 'gatographql');
+            case self::SCHEMA_POSTMEDIA_MUTATIONS:
+                return \__('Execute mutations concerning media items on posts', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_USER_MUTATIONS:
+                return \__('Input user data when creating/updating custom posts', 'gatographql');
+            case self::SCHEMA_POST_TAG_MUTATIONS:
+                return \__('Add tags to posts', 'gatographql');
+            case self::SCHEMA_POST_CATEGORY_MUTATIONS:
+                return \__('Add categories to posts', 'gatographql');
+            case self::SCHEMA_COMMENT_MUTATIONS:
+                return \__('Create comments', 'gatographql');
+            default:
+                return parent::getDescription($module);
+        }
     }
 
     /**
@@ -237,8 +264,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
 
     /**
      * Default value for an option set by the module
+     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option): mixed
+    public function getSettingsDefaultValue(string $module, string $option)
     {
         $defaultValues = [
             self::SCHEMA_CUSTOMPOST_USER_MUTATIONS => [
@@ -266,14 +294,8 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf(
-                    $sensitiveDataTitlePlaceholder,
-                    \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql'),
-                ),
-                Properties::DESCRIPTION => sprintf(
-                    $sensitiveDataDescPlaceholder,
-                    \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql'),
-                ),
+                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql')),
+                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql')),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
         }

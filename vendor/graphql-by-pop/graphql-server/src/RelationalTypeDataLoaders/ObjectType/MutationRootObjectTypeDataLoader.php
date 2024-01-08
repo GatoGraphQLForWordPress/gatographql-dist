@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
-
+/** @internal */
 class MutationRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    private ?MutationRoot $mutationRoot = null;
-
-    final public function setMutationRoot(MutationRoot $mutationRoot): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot|null
+     */
+    private $mutationRoot;
+    public final function setMutationRoot(MutationRoot $mutationRoot) : void
     {
         $this->mutationRoot = $mutationRoot;
     }
-    final protected function getMutationRoot(): MutationRoot
+    protected final function getMutationRoot() : MutationRoot
     {
         if ($this->mutationRoot === null) {
             /** @var MutationRoot */
@@ -24,15 +25,12 @@ class MutationRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->mutationRoot;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
-        return [
-            $this->getMutationRoot(),
-        ];
+        return [$this->getMutationRoot()];
     }
 }

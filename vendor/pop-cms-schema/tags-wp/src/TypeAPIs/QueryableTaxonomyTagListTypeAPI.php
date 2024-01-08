@@ -12,7 +12,7 @@ class QueryableTaxonomyTagListTypeAPI implements QueryableTaxonomyTagListTypeAPI
     /**
      * @var array<string,InjectableTaxonomyTagTypeAPI>
      */
-    private array $injectableTaxonomyTagTypeAPIs = [];
+    private $injectableTaxonomyTagTypeAPIs = [];
 
     protected function getInjectableTaxonomyTagTypeAPI(string $catTaxonomy): InjectableTaxonomyTagTypeAPI
     {
@@ -27,29 +27,17 @@ class QueryableTaxonomyTagListTypeAPI implements QueryableTaxonomyTagListTypeAPI
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyTags(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): array {
-        return $this->getInjectableTaxonomyTagTypeAPI($catTaxonomy)->getTags(
-            $query,
-            $options,
-        );
+    public function getTaxonomyTags(string $catTaxonomy, array $query, array $options = []): array
+    {
+        return $this->getInjectableTaxonomyTagTypeAPI($catTaxonomy)->getTags($query, $options);
     }
 
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyTagCount(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): int {
-        return $this->getInjectableTaxonomyTagTypeAPI($catTaxonomy)->getTagCount(
-            $query,
-            $options,
-        );
+    public function getTaxonomyTagCount(string $catTaxonomy, array $query, array $options = []): int
+    {
+        return $this->getInjectableTaxonomyTagTypeAPI($catTaxonomy)->getTagCount($query, $options);
     }
 }

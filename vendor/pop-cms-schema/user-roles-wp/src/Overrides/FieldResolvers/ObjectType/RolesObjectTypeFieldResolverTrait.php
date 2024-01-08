@@ -14,9 +14,11 @@ trait RolesObjectTypeFieldResolverTrait
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'roles' => $this->getUserRoleObjectTypeResolver(),
-            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'roles':
+                return $this->getUserRoleObjectTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+        }
     }
 }

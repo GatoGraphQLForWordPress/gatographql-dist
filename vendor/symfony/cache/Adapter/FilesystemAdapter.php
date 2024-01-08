@@ -8,18 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 
-namespace Symfony\Component\Cache\Adapter;
-
-use Symfony\Component\Cache\Marshaller\DefaultMarshaller;
-use Symfony\Component\Cache\Marshaller\MarshallerInterface;
-use Symfony\Component\Cache\PruneableInterface;
-use Symfony\Component\Cache\Traits\FilesystemTrait;
-
+use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
+use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
+use PrefixedByPoP\Symfony\Component\Cache\Traits\FilesystemTrait;
+/** @internal */
 class FilesystemAdapter extends AbstractAdapter implements PruneableInterface
 {
     use FilesystemTrait;
-
     public function __construct(string $namespace = '', int $defaultLifetime = 0, string $directory = null, MarshallerInterface $marshaller = null)
     {
         $this->marshaller = $marshaller ?? new DefaultMarshaller();

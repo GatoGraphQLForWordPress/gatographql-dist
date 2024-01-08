@@ -27,7 +27,7 @@ class Plugin extends AbstractMainPlugin
     /**
      * Plugin's namespace
      */
-    public final const NAMESPACE = __NAMESPACE__;
+    public const NAMESPACE = __NAMESPACE__;
 
     /**
      * Show an admin notice with a link to the latest release notes
@@ -215,7 +215,7 @@ class Plugin extends AbstractMainPlugin
          */
         \add_action(
             'enqueue_block_editor_assets',
-            $this->enqueueImageWidthsAssets(...)
+            \Closure::fromCallable([$this, 'enqueueImageWidthsAssets'])
         );
     }
 }

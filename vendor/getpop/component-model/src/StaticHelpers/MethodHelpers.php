@@ -1,21 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\StaticHelpers;
 
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
 use stdClass;
-
+/** @internal */
 class MethodHelpers
 {
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @return SplObjectStorage<FieldInterface,array<string|int>>
      */
-    public static function orderIDsByDirectFields(array $idFieldSet): SplObjectStorage
+    public static function orderIDsByDirectFields(array $idFieldSet) : SplObjectStorage
     {
         /** @var SplObjectStorage<FieldInterface,array<string|int>> */
         $fieldIDs = new SplObjectStorage();
@@ -28,50 +27,36 @@ class MethodHelpers
         }
         return $fieldIDs;
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @return FieldInterface[]
      */
-    public static function getFieldsFromIDFieldSet(array $idFieldSet): array
+    public static function getFieldsFromIDFieldSet(array $idFieldSet) : array
     {
         /** @var FieldInterface[] */
         $fields = [];
         foreach ($idFieldSet as $id => $fieldSet) {
-            $fields = array_merge(
-                $fields,
-                $fieldSet->fields
-            );
+            $fields = \array_merge($fields, $fieldSet->fields);
         }
-        return array_values(array_unique($fields));
+        return \array_values(\array_unique($fields));
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param FieldInterface[] $fields
      * @return array<string|int,EngineIterationFieldSet>
      */
-    public static function filterFieldsInIDFieldSet(
-        array $idFieldSet,
-        array $fields
-    ): array {
+    public static function filterFieldsInIDFieldSet(array $idFieldSet, array $fields) : array
+    {
         $restrictedIDFieldSet = [];
         foreach ($idFieldSet as $id => $fieldSet) {
-            $matchingFields = array_intersect(
-                $fields,
-                $fieldSet->fields
-            );
+            $matchingFields = \array_intersect($fields, $fieldSet->fields);
             if ($matchingFields === []) {
                 continue;
             }
-            $restrictedIDFieldSet[$id] = new EngineIterationFieldSet(
-                $matchingFields,
-                $fieldSet->conditionalFields
-            );
+            $restrictedIDFieldSet[$id] = new EngineIterationFieldSet($matchingFields, $fieldSet->conditionalFields);
         }
         return $restrictedIDFieldSet;
     }
-
     /**
      * Convert associative arrays (and their elements) to stdClass,
      * which is the data structure used for inputs in GraphQL.
@@ -81,16 +66,33 @@ class MethodHelpers
      *
      * @see https://stackoverflow.com/a/4790485
      */
-    public static function recursivelyConvertAssociativeArrayToStdClass(array $array): array|stdClass
+    public static function recursivelyConvertAssociativeArrayToStdClass(array $array)
     {
         foreach ($array as $key => $value) {
-            if (!is_array($value)) {
+            if (!\is_array($value)) {
                 continue;
             }
             $array[$key] = static::recursivelyConvertAssociativeArrayToStdClass($value);
         }
         // If it is an associative array, transform to stdClass
-        if (!array_is_list($array)) {
+        $arrayIsListFunction = function (array $array) : bool {
+            if (\function_exists('array_is_list')) {
+                return \array_is_list($array);
+            }
+            if ($array === []) {
+                return \true;
+            }
+            $current_key = 0;
+            foreach ($array as $key => $noop) {
+                if ($key !== $current_key) {
+                    return \false;
+                }
+                ++$current_key;
+            }
+            return \true;
+        };
+        // If it is an associative array, transform to stdClass
+        if (!$arrayIsListFunction($array)) {
             return (object) $array;
         }
         return $array;

@@ -10,7 +10,10 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 
 class BlockUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?BlockUnionTypeResolver $blockUnionTypeResolver = null;
+    /**
+     * @var \PoPWPSchema\Blocks\TypeResolvers\UnionType\BlockUnionTypeResolver|null
+     */
+    private $blockUnionTypeResolver;
 
     final public function setBlockUnionTypeResolver(BlockUnionTypeResolver $blockUnionTypeResolver): void
     {

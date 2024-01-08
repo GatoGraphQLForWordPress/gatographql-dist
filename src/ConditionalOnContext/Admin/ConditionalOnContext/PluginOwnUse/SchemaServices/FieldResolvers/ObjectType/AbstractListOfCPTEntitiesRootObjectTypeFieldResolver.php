@@ -27,11 +27,26 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
  */
 abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
-    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
-    private ?CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver = null;
-    private ?CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver = null;
-    private ?RootPredefinedCustomPostsFilterInputObjectTypeResolver $rootPredefinedCustomPostsFilterInputObjectTypeResolver = null;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
+     */
+    private $genericCustomPostObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
+     */
+    private $customPostTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostPaginationInputObjectTypeResolver|null
+     */
+    private $customPostPaginationInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver|null
+     */
+    private $customPostSortInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\RootPredefinedCustomPostsFilterInputObjectTypeResolver|null
+     */
+    private $rootPredefinedCustomPostsFilterInputObjectTypeResolver;
 
     final public function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver): void
     {
@@ -141,11 +156,8 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
     /**
      * @return array<string,mixed>
      */
-    protected function getQuery(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-    ): array {
+    protected function getQuery(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor): array
+    {
         return [
             'limit' => -1,
             // Execute for the corresponding field name
@@ -155,16 +167,12 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
         ];
     }
 
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
-        $query = array_merge(
-            $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor),
-            $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor),
-        );
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
+        $query = array_merge($this->getQuery($objectTypeResolver, $object, $fieldDataAccessor), $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor));
         $options = [
             SchemaCommonsQueryOptions::RETURN_TYPE => ReturnTypes::IDS,
             // With this flag, the hook will not remove the private CPTs
@@ -177,10 +185,8 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-    ): bool {
+    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
+    {
         return false;
     }
 

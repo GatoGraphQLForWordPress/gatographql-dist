@@ -19,10 +19,22 @@ class GraphQLDocumentDataComposer
     public const GRAPHQL_DOCUMENT_HEADER_SEPARATOR = '########################################################################';
     public const GRAPHQL_DOCUMENT_INNER_SEPARATOR = '*********************************************************************';
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?TutorialLessonDataProvider $tutorialLessonDataProvider = null;
-    private ?VirtualTutorialLessonDataProvider $virtualTutorialLessonDataProvider = null;
-    private ?BundleExtensionAggregator $bundleExtensionAggregator = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\TutorialLessonDataProvider|null
+     */
+    private $tutorialLessonDataProvider;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\VirtualTutorialLessonDataProvider|null
+     */
+    private $virtualTutorialLessonDataProvider;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Aggregators\BundleExtensionAggregator|null
+     */
+    private $bundleExtensionAggregator;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -91,10 +103,7 @@ class GraphQLDocumentDataComposer
         /**
          * Check if there are required extensions for the tutorial lesson
          */
-        $tutorialLessonSlugDataItems = [
-            ...$this->getTutorialLessonDataProvider()->getTutorialLessonSlugDataItems(),
-            ...$this->getVirtualTutorialLessonDataProvider()->getTutorialLessonSlugDataItems(),
-        ];
+        $tutorialLessonSlugDataItems = array_merge($this->getTutorialLessonDataProvider()->getTutorialLessonSlugDataItems(), $this->getVirtualTutorialLessonDataProvider()->getTutorialLessonSlugDataItems());
         $tutorialLessonDataItem = $tutorialLessonSlugDataItems[$tutorialLessonSlug] ?? null;
         if ($tutorialLessonDataItem === null) {
             throw new RuntimeException(
@@ -173,7 +182,9 @@ class GraphQLDocumentDataComposer
         . implode(
             PHP_EOL,
             array_map(
-                fn (string $item) => '# ' . $item,
+                function (string $item) {
+                    return '# ' . $item;
+                },
                 $headerRequirementsSectionItems
             )
         )

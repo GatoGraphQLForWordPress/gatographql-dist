@@ -37,21 +37,27 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return true;
     }
 
-    public function getCategoryID(object $cat): string|int
+    /**
+     * @return string|int
+     */
+    public function getCategoryID(object $cat)
     {
         /** @var WP_Term $cat */
         return $this->getTaxonomyTermID($cat);
     }
 
-    public function getCategory(string|int $categoryID): ?object
+    /**
+     * @param string|int $categoryID
+     */
+    public function getCategory($categoryID): ?object
     {
-        return $this->getTaxonomyTerm(
-            $categoryID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTerm($categoryID, $this->getCategoryTaxonomyName());
     }
 
-    public function categoryExists(int|string $id): bool
+    /**
+     * @param int|string $id
+     */
+    public function categoryExists($id): bool
     {
         return $this->getCategory($id) !== null;
     }
@@ -64,7 +70,7 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
      */
-    public function getCustomPostCategories(string|int|object $customPostObjectOrID, array $query = [], array $options = []): array
+    public function getCustomPostCategories($customPostObjectOrID, array $query = [], array $options = []): array
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -75,17 +81,14 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var array<string|int>|object[] */
-        return $this->getCustomPostTaxonomyTerms(
-            $customPostObjectOrID,
-            $query,
-            $options,
-        );
+        return $this->getCustomPostTaxonomyTerms($customPostObjectOrID, $query, $options);
     }
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
+     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostCategoryCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []): ?int
+    public function getCustomPostCategoryCount($customPostObjectOrID, array $query = [], array $options = []): ?int
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -96,11 +99,7 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var string|int|WP_Post $customPostObjectOrID */
-        return $this->getCustomPostTaxonomyTermCount(
-            $customPostObjectOrID,
-            $query,
-            $options,
-        );
+        return $this->getCustomPostTaxonomyTermCount($customPostObjectOrID, $query, $options);
     }
     /**
      * @param array<string,mixed> $query
@@ -154,93 +153,95 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return $this->convertTaxonomyTermsQuery($query, $options);
     }
 
-    public function getCategoryURL(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategoryURL($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermURL(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermURL($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategoryURLPath(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategoryURLPath($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermURLPath(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermURLPath($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    protected function getCategoryFromObjectOrID(string|int|object $catObjectOrID): ?WP_Term
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    protected function getCategoryFromObjectOrID($catObjectOrID): ?WP_Term
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermFromObjectOrID(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermFromObjectOrID($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategorySlug(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategorySlug($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermSlug(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermSlug($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategorySlugPath(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategorySlugPath($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermSlugPath(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermSlugPath($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategoryName(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategoryName($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermName(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermName($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategoryParentID(string|int|object $catObjectOrID): string|int|null
+    /**
+     * @param string|int|object $catObjectOrID
+     * @return string|int|null
+     */
+    public function getCategoryParentID($catObjectOrID)
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermParentID(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermParentID($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
     /**
      * @return array<string|int>|null
+     * @param string|int|object $catObjectOrID
      */
-    public function getCategoryChildIDs(string|int|object $catObjectOrID): ?array
+    public function getCategoryChildIDs($catObjectOrID): ?array
     {
         /** @var string|int|WP_Term $catObjectOrID */
         return $this->getTaxonomyTermChildIDs($this->getCategoryTaxonomyName(), $catObjectOrID);
     }
 
-    public function getCategoryDescription(string|int|object $catObjectOrID): ?string
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategoryDescription($catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermDescription(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermDescription($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 
-    public function getCategoryItemCount(string|int|object $catObjectOrID): ?int
+    /**
+     * @param string|int|object $catObjectOrID
+     */
+    public function getCategoryItemCount($catObjectOrID): ?int
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermItemCount(
-            $catObjectOrID,
-            $this->getCategoryTaxonomyName(),
-        );
+        return $this->getTaxonomyTermItemCount($catObjectOrID, $this->getCategoryTaxonomyName());
     }
 }

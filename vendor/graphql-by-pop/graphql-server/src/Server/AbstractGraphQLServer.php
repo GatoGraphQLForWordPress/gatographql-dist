@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Server;
 
 use PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface;
@@ -11,19 +10,23 @@ use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\HttpFoundation\Response;
 use PoP\Root\Services\StandaloneServiceTrait;
-
-abstract class AbstractGraphQLServer implements GraphQLServerInterface
+/** @internal */
+abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Server\GraphQLServerInterface
 {
     use StandaloneServiceTrait;
-
-    private ?ApplicationStateFillerServiceInterface $applicationStateFillerService = null;
-    private ?EngineInterface $engine = null;
-
-    final public function setApplicationStateFillerService(ApplicationStateFillerServiceInterface $applicationStateFillerService): void
+    /**
+     * @var \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface|null
+     */
+    private $applicationStateFillerService;
+    /**
+     * @var \PoP\ComponentModel\Engine\EngineInterface|null
+     */
+    private $engine;
+    public final function setApplicationStateFillerService(ApplicationStateFillerServiceInterface $applicationStateFillerService) : void
     {
         $this->applicationStateFillerService = $applicationStateFillerService;
     }
-    final protected function getApplicationStateFillerService(): ApplicationStateFillerServiceInterface
+    protected final function getApplicationStateFillerService() : ApplicationStateFillerServiceInterface
     {
         if ($this->applicationStateFillerService === null) {
             /** @var ApplicationStateFillerServiceInterface */
@@ -32,11 +35,11 @@ abstract class AbstractGraphQLServer implements GraphQLServerInterface
         }
         return $this->applicationStateFillerService;
     }
-    final public function setEngine(EngineInterface $engine): void
+    public final function setEngine(EngineInterface $engine) : void
     {
         $this->engine = $engine;
     }
-    final protected function getEngine(): EngineInterface
+    protected final function getEngine() : EngineInterface
     {
         if ($this->engine === null) {
             /** @var EngineInterface */
@@ -45,46 +48,30 @@ abstract class AbstractGraphQLServer implements GraphQLServerInterface
         }
         return $this->engine;
     }
-
     /**
      * The basic state for executing GraphQL queries is already set.
      * In addition, inject the actual GraphQL query and variables,
      * build the AST, and generate and print the data.
      *
      * @param array<string,mixed> $variables
+     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function execute(
-        string|ExecutableDocument $queryOrExecutableDocument,
-        array $variables = [],
-        ?string $operationName = null
-    ): Response {
+    public function execute($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
+    {
         // Keep the current response, to be restored later on
         $currentResponse = App::getResponse();
-
         // Set a new Response into the AppState
         App::setResponse(new Response());
-
-        $this->getApplicationStateFillerService()->defineGraphQLQueryVarsInApplicationState(
-            $queryOrExecutableDocument,
-            $variables,
-            $operationName,
-        );
-
+        $this->getApplicationStateFillerService()->defineGraphQLQueryVarsInApplicationState($queryOrExecutableDocument, $variables, $operationName);
         /**
          * Create and stack a new Response object, to be
          * used during this processing
          */
-        $this->getEngine()->generateDataAndPrepareResponse(
-            $this->areFeedbackAndTracingStoresAlreadyCreated()
-        );
-
+        $this->getEngine()->generateDataAndPrepareResponse($this->areFeedbackAndTracingStoresAlreadyCreated());
         $response = App::getResponse();
-
         // Restore the previous Response
         App::setResponse($currentResponse);
-
         return $response;
     }
-
-    abstract protected function areFeedbackAndTracingStoresAlreadyCreated(): bool;
+    protected abstract function areFeedbackAndTracingStoresAlreadyCreated() : bool;
 }

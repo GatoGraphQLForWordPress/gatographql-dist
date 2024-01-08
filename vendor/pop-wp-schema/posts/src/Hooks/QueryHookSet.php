@@ -10,13 +10,13 @@ use PoPCMSSchema\PostsWP\TypeAPIs\PostTypeAPI;
 
 class QueryHookSet extends AbstractHookSet
 {
-    public final const NON_EXISTING_CUSTOM_POST_ID = 'non-existing-id';
+    public const NON_EXISTING_CUSTOM_POST_ID = 'non-existing-id';
 
     protected function init(): void
     {
         App::addFilter(
             PostTypeAPI::HOOK_QUERY,
-            $this->convertCustomPostsQuery(...),
+            \Closure::fromCallable([$this, 'convertCustomPostsQuery']),
             10,
             2
         );

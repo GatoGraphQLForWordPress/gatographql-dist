@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
-abstract class AbstractGlobalFieldDirectiveResolver extends AbstractFieldDirectiveResolver
+/** @internal */
+abstract class AbstractGlobalFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractFieldDirectiveResolver
 {
-    use GlobalFieldDirectiveResolverTrait;
+    use \PoP\ComponentModel\DirectiveResolvers\GlobalFieldDirectiveResolverTrait;
 }

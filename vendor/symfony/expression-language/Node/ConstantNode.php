@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node;
 
-namespace Symfony\Component\ExpressionLanguage\Node;
-
-use Symfony\Component\ExpressionLanguage\Compiler;
-
+use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -20,43 +18,48 @@ use Symfony\Component\ExpressionLanguage\Compiler;
  */
 class ConstantNode extends Node
 {
-    public readonly bool $isNullSafe;
-    private bool $isIdentifier;
-
-    public function __construct(mixed $value, bool $isIdentifier = false, bool $isNullSafe = false)
+    /**
+     * @readonly
+     * @var bool
+     */
+    public $isNullSafe;
+    /**
+     * @var bool
+     */
+    private $isIdentifier;
+    /**
+     * @param mixed $value
+     */
+    public function __construct($value, bool $isIdentifier = \false, bool $isNullSafe = \false)
     {
         $this->isIdentifier = $isIdentifier;
         $this->isNullSafe = $isNullSafe;
-        parent::__construct(
-            [],
-            ['value' => $value]
-        );
+        parent::__construct([], ['value' => $value]);
     }
-
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler) : void
     {
         $compiler->repr($this->attributes['value']);
     }
-
-    public function evaluate(array $functions, array $values): mixed
+    /**
+     * @return mixed
+     */
+    public function evaluate(array $functions, array $values)
     {
         return $this->attributes['value'];
     }
-
-    public function toArray(): array
+    public function toArray() : array
     {
         $array = [];
         $value = $this->attributes['value'];
-
         if ($this->isIdentifier) {
             $array[] = $value;
-        } elseif (true === $value) {
+        } elseif (\true === $value) {
             $array[] = 'true';
-        } elseif (false === $value) {
+        } elseif (\false === $value) {
             $array[] = 'false';
         } elseif (null === $value) {
             $array[] = 'null';
-        } elseif (is_numeric($value)) {
+        } elseif (\is_numeric($value)) {
             $array[] = $value;
         } elseif (!\is_array($value)) {
             $array[] = $this->dumpString($value);
@@ -77,7 +80,6 @@ class ConstantNode extends Node
             $array[0] = '[';
             $array[] = ']';
         }
-
         return $array;
     }
 }

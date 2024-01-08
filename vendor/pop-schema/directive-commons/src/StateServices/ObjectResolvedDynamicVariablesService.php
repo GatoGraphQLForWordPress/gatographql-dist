@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\StateServices;
 
 use PoP\ComponentModel\App;
@@ -22,18 +21,19 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
 use SplObjectStorage;
-
-class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVariablesServiceInterface
+/** @internal */
+class ObjectResolvedDynamicVariablesService implements \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface
 {
     use BasicServiceTrait;
-
-    private ?TypeSerializationServiceInterface $typeSerializationService = null;
-
-    final public function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService): void
+    /**
+     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
+     */
+    private $typeSerializationService;
+    public final function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService) : void
     {
         $this->typeSerializationService = $typeSerializationService;
     }
-    final protected function getTypeSerializationService(): TypeSerializationServiceInterface
+    protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
             /** @var TypeSerializationServiceInterface */
@@ -42,7 +42,6 @@ class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVari
         }
         return $this->typeSerializationService;
     }
-
     /**
      * Export the value of a field, assigning it to a dynamic variable,
      * to make it available to all subsequent directives.
@@ -51,20 +50,11 @@ class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVari
      * of objectID + field.
      *
      * @param null|FieldInterface[] $dynamicVariableTargetFields
+     * @param string|int $id
+     * @param mixed $value
      */
-    public function setObjectResolvedDynamicVariableInAppState(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        FieldInterface $field,
-        object $object,
-        string|int $id,
-        mixed $value,
-        bool $serializeValue,
-        string $dynamicVariableName,
-        ?array $dynamicVariableTargetFields,
-        AstInterface $astNode,
-        Directive $directive,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
+    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, $id, $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
         $targetObjectTypeResolver = null;
         $isUnionTypeResolver = $relationalTypeResolver instanceof UnionTypeResolverInterface;
         if ($isUnionTypeResolver) {
@@ -75,33 +65,22 @@ class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVari
             $targetObjectTypeResolver = $relationalTypeResolver;
         }
         /** @var ObjectTypeResolverInterface $targetObjectTypeResolver */
-
         if ($value !== null && $serializeValue) {
             /** @var ConcreteTypeResolverInterface */
             $fieldTypeResolver = $targetObjectTypeResolver->getFieldTypeResolver($field);
             if ($fieldTypeResolver instanceof LeafOutputTypeResolverInterface) {
-                $value = $this->getTypeSerializationService()->serializeLeafOutputTypeValue(
-                    $value,
-                    $fieldTypeResolver,
-                    $targetObjectTypeResolver,
-                    $field,
-                );
+                $value = $this->getTypeSerializationService()->serializeLeafOutputTypeValue($value, $fieldTypeResolver, $targetObjectTypeResolver, $field);
             }
         }
-
         /** @var SplObjectStorage<FieldInterface,array<string|int,array<string,mixed>>> SplObjectStorage<Field, [objectID => [dynamicVariableName => value]]> */
         $objectResolvedDynamicVariables = App::getState('object-resolved-dynamic-variables');
-
         /** @var bool */
         $showWarningsOnExportingDuplicateDynamicVariableName = App::getState('show-warnings-on-exporting-duplicate-dynamic-variable-name');
-
         /**
          * If passing null, execute on objectID for all fields
          */
         $wildcardField = ASTNodesFactory::getWildcardField();
-        $dynamicVariableTargetFields = $dynamicVariableTargetFields ?? [
-            $wildcardField
-        ];
+        $dynamicVariableTargetFields = $dynamicVariableTargetFields ?? [$wildcardField];
         foreach ($dynamicVariableTargetFields as $targetField) {
             /**
              * If the variable already exists, then show a warning.
@@ -113,84 +92,42 @@ class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVari
              * unwarranted warnings.
              */
             if ($showWarningsOnExportingDuplicateDynamicVariableName) {
-                $addDynamicVariableAlreadySetWarningFeedback = count($dynamicVariableTargetFields) === 1
-                    || $targetField !== $wildcardField;
-                if (
-                    $addDynamicVariableAlreadySetWarningFeedback
-                    && $objectResolvedDynamicVariables->contains($targetField)
-                    && isset($objectResolvedDynamicVariables[$targetField][$id])
-                    && array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$targetField][$id])
-                ) {
-                    $this->addDynamicVariableAlreadySetWarningFeedback(
-                        $targetObjectTypeResolver,
-                        $astNode,
-                        $directive,
-                        $dynamicVariableName,
-                        $id,
-                        $field,
-                        $engineIterationFeedbackStore,
-                    );
+                $addDynamicVariableAlreadySetWarningFeedback = \count($dynamicVariableTargetFields) === 1 || $targetField !== $wildcardField;
+                if ($addDynamicVariableAlreadySetWarningFeedback && $objectResolvedDynamicVariables->contains($targetField) && isset($objectResolvedDynamicVariables[$targetField][$id]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$targetField][$id])) {
+                    $this->addDynamicVariableAlreadySetWarningFeedback($targetObjectTypeResolver, $astNode, $directive, $dynamicVariableName, $id, $field, $engineIterationFeedbackStore);
                 }
             }
-
             /** @var array<string|int,array<string,mixed>> */
             $targetFieldObjectResolvedDynamicVariables = $objectResolvedDynamicVariables[$targetField] ?? [];
             $targetFieldObjectResolvedDynamicVariables[$id][$dynamicVariableName] = $value;
             $objectResolvedDynamicVariables[$targetField] = $targetFieldObjectResolvedDynamicVariables;
         }
-
         // Override the state
         $appStateManager = App::getAppStateManager();
         $appStateManager->override('object-resolved-dynamic-variables', $objectResolvedDynamicVariables);
     }
-
-    protected function addDynamicVariableAlreadySetWarningFeedback(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        AstInterface $astNode,
-        Directive $directive,
-        string $dynamicVariableName,
-        string|int $id,
-        FieldInterface $field,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
-        $engineIterationFeedbackStore->objectResolutionFeedbackStore->addWarning(
-            new ObjectResolutionFeedback(
-                new FeedbackItemResolution(
-                    FeedbackItemProvider::class,
-                    FeedbackItemProvider::W2,
-                    [
-                        $dynamicVariableName,
-                        $id
-                    ]
-                ),
-                $astNode,
-                $objectTypeResolver,
-                $directive,
-                [$id => new EngineIterationFieldSet([$field])],
-            )
-        );
+    /**
+     * @param string|int $id
+     */
+    protected function addDynamicVariableAlreadySetWarningFeedback(ObjectTypeResolverInterface $objectTypeResolver, AstInterface $astNode, Directive $directive, string $dynamicVariableName, $id, FieldInterface $field, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
+        $engineIterationFeedbackStore->objectResolutionFeedbackStore->addWarning(new ObjectResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::W2, [$dynamicVariableName, $id]), $astNode, $objectTypeResolver, $directive, [$id => new EngineIterationFieldSet([$field])]));
     }
-
     /**
      * Duplicate all the dynamic variables for one Field into
      * another Field. It is used by @underJSONObjectProperty
      * to have the "advanced" Field have access to all state
      * set by the underlying Fieldl
      */
-    public function copyObjectResolvedDynamicVariablesFromFieldToFieldInAppState(
-        FieldInterface $fromField,
-        FieldInterface $toField,
-    ): void {
+    public function copyObjectResolvedDynamicVariablesFromFieldToFieldInAppState(FieldInterface $fromField, FieldInterface $toField) : void
+    {
         /** @var SplObjectStorage<FieldInterface,array<string|int,array<string,mixed>>> SplObjectStorage<Field, [objectID => [dynamicVariableName => value]]> */
         $objectResolvedDynamicVariables = App::getState('object-resolved-dynamic-variables');
-
         if (!$objectResolvedDynamicVariables->contains($fromField)) {
             return;
         }
-
         /** @var array<string|int,array<string,mixed>> */
         $fromObjectDynamicVariableNameValues = $objectResolvedDynamicVariables[$fromField];
-
         /**
          * Watch out! Do not override any state set in the toField!
          */
@@ -199,16 +136,12 @@ class ObjectResolvedDynamicVariablesService implements ObjectResolvedDynamicVari
             $toObjectDynamicVariableNameValues = $objectResolvedDynamicVariables[$toField];
             /** @var string|int $objectID */
             foreach ($fromObjectDynamicVariableNameValues as $objectID => $dynamicVariableNameValues) {
-                $toObjectDynamicVariableNameValues[$objectID] = array_merge(
-                    $toObjectDynamicVariableNameValues[$objectID] ?? [],
-                    $dynamicVariableNameValues
-                );
+                $toObjectDynamicVariableNameValues[$objectID] = \array_merge($toObjectDynamicVariableNameValues[$objectID] ?? [], $dynamicVariableNameValues);
             }
             $objectResolvedDynamicVariables[$toField] = $toObjectDynamicVariableNameValues;
         } else {
             $objectResolvedDynamicVariables[$toField] = $objectResolvedDynamicVariables[$fromField];
         }
-
         // Override the state
         $appStateManager = App::getAppStateManager();
         $appStateManager->override('object-resolved-dynamic-variables', $objectResolvedDynamicVariables);

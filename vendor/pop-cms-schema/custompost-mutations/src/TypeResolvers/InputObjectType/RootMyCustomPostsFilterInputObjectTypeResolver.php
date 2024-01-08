@@ -1,23 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType;
 
-class RootMyCustomPostsFilterInputObjectTypeResolver extends AbstractMyCustomPostsFilterInputObjectTypeResolver
+/** @internal */
+class RootMyCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractMyCustomPostsFilterInputObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootMyCustomPostsFilterInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Input to filter the logged-in user\'s custom posts', 'custompost-mutations');
     }
-
-    protected function addCustomPostInputFields(): bool
+    protected function addCustomPostInputFields() : bool
     {
-        return true;
+        return \true;
     }
 }

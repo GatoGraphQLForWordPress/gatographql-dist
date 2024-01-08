@@ -17,7 +17,7 @@ abstract class AbstractExtensionModuleDocumentationMenuPage extends AbstractModu
     {
         if (
             $this->getMenuPageHelper()->isDocumentationScreen()
-            && str_contains(App::query(RequestParams::DOC, ''), '../docs/tutorial/')
+            && strpos(App::query(RequestParams::DOC, ''), '../docs/tutorial/') !== false
         ) {
             return false;
         }
@@ -33,10 +33,8 @@ abstract class AbstractExtensionModuleDocumentationMenuPage extends AbstractModu
         );
     }
 
-    protected function getModuleHasNoDocumentationErrorMessage(
-        string $module,
-        ModuleResolverInterface $moduleResolver,
-    ): string {
+    protected function getModuleHasNoDocumentationErrorMessage(string $module, ModuleResolverInterface $moduleResolver): string
+    {
         return sprintf(
             \__('Oops, extension \'%s\' has no documentation', 'gatographql'),
             $moduleResolver->getName($module)

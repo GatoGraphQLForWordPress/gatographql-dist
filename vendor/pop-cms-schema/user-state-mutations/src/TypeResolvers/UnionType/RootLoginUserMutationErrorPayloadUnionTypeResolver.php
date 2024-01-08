@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\UnionType\RootLoginUserMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
-class RootLoginUserMutationErrorPayloadUnionTypeResolver extends AbstractUserStateMutationErrorPayloadUnionTypeResolver
+/** @internal */
+class RootLoginUserMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\AbstractUserStateMutationErrorPayloadUnionTypeResolver
 {
-    private ?RootLoginUserMutationErrorPayloadUnionTypeDataLoader $rootLoginUserMutationErrorPayloadUnionTypeDataLoader = null;
-
-    final public function setRootLoginUserMutationErrorPayloadUnionTypeDataLoader(RootLoginUserMutationErrorPayloadUnionTypeDataLoader $rootLoginUserMutationErrorPayloadUnionTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\UnionType\RootLoginUserMutationErrorPayloadUnionTypeDataLoader|null
+     */
+    private $rootLoginUserMutationErrorPayloadUnionTypeDataLoader;
+    public final function setRootLoginUserMutationErrorPayloadUnionTypeDataLoader(RootLoginUserMutationErrorPayloadUnionTypeDataLoader $rootLoginUserMutationErrorPayloadUnionTypeDataLoader) : void
     {
         $this->rootLoginUserMutationErrorPayloadUnionTypeDataLoader = $rootLoginUserMutationErrorPayloadUnionTypeDataLoader;
     }
-    final protected function getRootLoginUserMutationErrorPayloadUnionTypeDataLoader(): RootLoginUserMutationErrorPayloadUnionTypeDataLoader
+    protected final function getRootLoginUserMutationErrorPayloadUnionTypeDataLoader() : RootLoginUserMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootLoginUserMutationErrorPayloadUnionTypeDataLoader === null) {
             /** @var RootLoginUserMutationErrorPayloadUnionTypeDataLoader */
@@ -24,18 +25,15 @@ class RootLoginUserMutationErrorPayloadUnionTypeResolver extends AbstractUserSta
         }
         return $this->rootLoginUserMutationErrorPayloadUnionTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootLoginUserMutationErrorPayloadUnion';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Union of \'Error Payload\' types when logging a user in', 'user-state-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getRootLoginUserMutationErrorPayloadUnionTypeDataLoader();
     }

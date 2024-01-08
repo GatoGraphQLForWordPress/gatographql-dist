@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\MutationResolvers;
 
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
@@ -9,17 +8,22 @@ use PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\AbstractSetCatego
 use PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMutationAPIInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
-
+/** @internal */
 class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomPostMutationResolver
 {
-    private ?PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPI = null;
-    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
-
-    final public function setPostCategoryTypeMutationAPI(PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPI): void
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface|null
+     */
+    private $postCategoryTypeMutationAPI;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
+     */
+    private $postCategoryTypeAPI;
+    public final function setPostCategoryTypeMutationAPI(PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPI) : void
     {
         $this->postCategoryTypeMutationAPI = $postCategoryTypeMutationAPI;
     }
-    final protected function getPostCategoryTypeMutationAPI(): PostCategoryTypeMutationAPIInterface
+    protected final function getPostCategoryTypeMutationAPI() : PostCategoryTypeMutationAPIInterface
     {
         if ($this->postCategoryTypeMutationAPI === null) {
             /** @var PostCategoryTypeMutationAPIInterface */
@@ -28,11 +32,11 @@ class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomP
         }
         return $this->postCategoryTypeMutationAPI;
     }
-    final public function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI): void
+    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
     }
-    final protected function getPostCategoryTypeAPI(): PostCategoryTypeAPIInterface
+    protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
             /** @var PostCategoryTypeAPIInterface */
@@ -41,18 +45,15 @@ class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomP
         }
         return $this->postCategoryTypeAPI;
     }
-
-    protected function getCustomPostCategoryTypeMutationAPI(): CustomPostCategoryTypeMutationAPIInterface
+    protected function getCustomPostCategoryTypeMutationAPI() : CustomPostCategoryTypeMutationAPIInterface
     {
         return $this->getPostCategoryTypeMutationAPI();
     }
-
-    protected function getCategoryTypeAPI(): CategoryTypeAPIInterface
+    protected function getCategoryTypeAPI() : CategoryTypeAPIInterface
     {
         return $this->getPostCategoryTypeAPI();
     }
-
-    protected function getEntityName(): string
+    protected function getEntityName() : string
     {
         return $this->__('post', 'post-category-mutations');
     }

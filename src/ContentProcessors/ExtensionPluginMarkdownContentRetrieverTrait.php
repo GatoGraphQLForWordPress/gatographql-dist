@@ -20,10 +20,6 @@ trait ExtensionPluginMarkdownContentRetrieverTrait
 
     protected function getGitHubRepoDocsRootPathURL(): string
     {
-        return str_replace(
-            '/docs/',
-            '/extensions/',
-            PluginStaticHelpers::getGitHubRepoDocsRootPathURL(),
-        );
+        return str_replace('/docs/', '/extensions/', PluginStaticHelpers::getGitHubRepoDocsRootPathURL());
     }
 }

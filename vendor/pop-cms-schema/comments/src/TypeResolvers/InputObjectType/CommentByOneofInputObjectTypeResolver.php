@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -9,17 +8,22 @@ use PoP\ComponentModel\FilterInputs\FilterInputInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofQueryableInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
-
+/** @internal */
 class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
-    private ?IncludeFilterInput $includeFilterInput = null;
-
-    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
+     */
+    private $idScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
+     */
+    private $includeFilterInput;
+    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
+    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -28,11 +32,11 @@ class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputO
         }
         return $this->idScalarTypeResolver;
     }
-    final public function setIncludeFilterInput(IncludeFilterInput $includeFilterInput): void
+    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
     {
         $this->includeFilterInput = $includeFilterInput;
     }
-    final protected function getIncludeFilterInput(): IncludeFilterInput
+    protected final function getIncludeFilterInput() : IncludeFilterInput
     {
         if ($this->includeFilterInput === null) {
             /** @var IncludeFilterInput */
@@ -41,40 +45,37 @@ class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputO
         }
         return $this->includeFilterInput;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentByInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Oneof input to specify the property and data to fetch a comment', 'comments');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            'id' => $this->getIDScalarTypeResolver(),
-        ];
+        return ['id' => $this->getIDScalarTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'id' => $this->__('Query by comment ID', 'comments'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'id':
+                return $this->__('Query by comment ID', 'comments');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            'id' => $this->getIncludeFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'id':
+                return $this->getIncludeFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

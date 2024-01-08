@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostMutations\TypeResolvers\ObjectType;
 
-class RootCreatePostMutationPayloadObjectTypeResolver extends AbstractPostMutationPayloadObjectTypeResolver
+/** @internal */
+class RootCreatePostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\AbstractPostMutationPayloadObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootCreatePostMutationPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Payload of creating a post', 'post-mutations');
     }

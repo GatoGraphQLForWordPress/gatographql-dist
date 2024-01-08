@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Engine\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface;
@@ -16,19 +15,23 @@ use PoP\Engine\RelationalTypeDataLoaders\ObjectType\SuperRootObjectTypeDataLoade
 use PoP\Engine\StaticHelpers\SuperRootHelper;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-
+/** @internal */
 class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;
-
-    private ?SuperRootObjectTypeDataLoader $superRootObjectTypeDataLoader = null;
-    private ?MandatoryOperationDirectiveResolverRegistryInterface $mandatoryOperationDirectiveResolverRegistry = null;
-
-    final public function setSuperRootObjectTypeDataLoader(SuperRootObjectTypeDataLoader $superRootObjectTypeDataLoader): void
+    /**
+     * @var \PoP\Engine\RelationalTypeDataLoaders\ObjectType\SuperRootObjectTypeDataLoader|null
+     */
+    private $superRootObjectTypeDataLoader;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface|null
+     */
+    private $mandatoryOperationDirectiveResolverRegistry;
+    public final function setSuperRootObjectTypeDataLoader(SuperRootObjectTypeDataLoader $superRootObjectTypeDataLoader) : void
     {
         $this->superRootObjectTypeDataLoader = $superRootObjectTypeDataLoader;
     }
-    final protected function getSuperRootObjectTypeDataLoader(): SuperRootObjectTypeDataLoader
+    protected final function getSuperRootObjectTypeDataLoader() : SuperRootObjectTypeDataLoader
     {
         if ($this->superRootObjectTypeDataLoader === null) {
             /** @var SuperRootObjectTypeDataLoader */
@@ -37,11 +40,11 @@ class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->superRootObjectTypeDataLoader;
     }
-    final public function setMandatoryOperationDirectiveResolverRegistry(MandatoryOperationDirectiveResolverRegistryInterface $mandatoryOperationDirectiveResolverRegistry): void
+    public final function setMandatoryOperationDirectiveResolverRegistry(MandatoryOperationDirectiveResolverRegistryInterface $mandatoryOperationDirectiveResolverRegistry) : void
     {
         $this->mandatoryOperationDirectiveResolverRegistry = $mandatoryOperationDirectiveResolverRegistry;
     }
-    final protected function getMandatoryOperationDirectiveResolverRegistry(): MandatoryOperationDirectiveResolverRegistryInterface
+    protected final function getMandatoryOperationDirectiveResolverRegistry() : MandatoryOperationDirectiveResolverRegistryInterface
     {
         if ($this->mandatoryOperationDirectiveResolverRegistry === null) {
             /** @var MandatoryOperationDirectiveResolverRegistryInterface */
@@ -50,71 +53,53 @@ class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->mandatoryOperationDirectiveResolverRegistry;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'SuperRoot';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('(Internal) Super Root type, starting from which the query is executed', 'engine');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         /** @var SuperRoot */
         $superRoot = $object;
         return $superRoot->getID();
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getSuperRootObjectTypeDataLoader();
     }
-
     /**
      * Provide the mandatory directives for Operations.
      *
      * @return FieldDirectiveResolverInterface[]
      */
-    protected function getMandatoryFieldOrOperationDirectiveResolvers(): array
+    protected function getMandatoryFieldOrOperationDirectiveResolvers() : array
     {
         return $this->getMandatoryOperationDirectiveResolverRegistry()->getMandatoryOperationDirectiveResolvers();
     }
-
     /**
      * Satisfy for Operation Directives
      */
-    protected function getSupportedDirectiveLocationsByBehavior(): array
+    protected function getSupportedDirectiveLocationsByBehavior() : array
     {
-        return [
-            FieldDirectiveBehaviors::OPERATION,
-            FieldDirectiveBehaviors::FIELD,
-            FieldDirectiveBehaviors::FIELD_AND_OPERATION,
-        ];
+        return [FieldDirectiveBehaviors::OPERATION, FieldDirectiveBehaviors::FIELD, FieldDirectiveBehaviors::FIELD_AND_OPERATION];
     }
-
     /**
      * Provide a different error message for the SuperRoot field,
      * as it represents an Operation and not a Field
      */
-    public function getFieldNotResolvedByObjectTypeFeedbackItemResolution(
-        FieldInterface $field,
-    ): FeedbackItemResolution {
+    public function getFieldNotResolvedByObjectTypeFeedbackItemResolution(FieldInterface $field) : FeedbackItemResolution
+    {
         $operation = SuperRootHelper::getOperationFromSuperRootFieldName($field->getName());
         if ($operation !== null) {
-            return new FeedbackItemResolution(
-                ErrorFeedbackItemProvider::class,
-                ErrorFeedbackItemProvider::E1,
-                [
-                    $operation,
-                ]
-            );
+            return new FeedbackItemResolution(ErrorFeedbackItemProvider::class, ErrorFeedbackItemProvider::E1, [$operation]);
         }
-        return new FeedbackItemResolution(
-            ErrorFeedbackItemProvider::class,
-            ErrorFeedbackItemProvider::E1A
-        );
+        return new FeedbackItemResolution(ErrorFeedbackItemProvider::class, ErrorFeedbackItemProvider::E1A);
     }
 }

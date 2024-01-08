@@ -23,7 +23,7 @@ abstract class AbstractListTableAction extends AbstractAutomaticallyInstantiated
      * phpcs:disable SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
      * phpcs:disable WordPress.Security.NonceVerification.Recommended
      */
-    public function currentAction(): string|false
+    public function currentAction()
     {
         if (isset($_REQUEST['filter_action']) && ! empty($_REQUEST['filter_action'])) {
             return false;

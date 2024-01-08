@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
 
-namespace Symfony\Component\Cache\Traits;
-
-use Symfony\Component\Cache\Exception\CacheException;
-use Symfony\Component\Cache\Marshaller\MarshallerInterface;
-
+use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
+use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Rob Frawley 2nd <rmf@src.run>
@@ -23,91 +21,81 @@ use Symfony\Component\Cache\Marshaller\MarshallerInterface;
 trait FilesystemTrait
 {
     use FilesystemCommonTrait;
-
-    private MarshallerInterface $marshaller;
-
-    public function prune(): bool
+    /**
+     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
+     */
+    private $marshaller;
+    public function prune() : bool
     {
-        $time = time();
-        $pruned = true;
-
+        $time = \time();
+        $pruned = \true;
         foreach ($this->scanHashDir($this->directory) as $file) {
-            if (!$h = @fopen($file, 'r')) {
+            if (!($h = @\fopen($file, 'r'))) {
                 continue;
             }
-
-            if (($expiresAt = (int) fgets($h)) && $time >= $expiresAt) {
-                fclose($h);
-                $pruned = (@unlink($file) || !file_exists($file)) && $pruned;
+            if (($expiresAt = (int) \fgets($h)) && $time >= $expiresAt) {
+                \fclose($h);
+                $pruned = (@\unlink($file) || !\file_exists($file)) && $pruned;
             } else {
-                fclose($h);
+                \fclose($h);
             }
         }
-
         return $pruned;
     }
-
-    protected function doFetch(array $ids): iterable
+    protected function doFetch(array $ids) : iterable
     {
         $values = [];
-        $now = time();
-
+        $now = \time();
         foreach ($ids as $id) {
             $file = $this->getFile($id);
-            if (!is_file($file) || !$h = @fopen($file, 'r')) {
+            if (!\is_file($file) || !($h = @\fopen($file, 'r'))) {
                 continue;
             }
-            if (($expiresAt = (int) fgets($h)) && $now >= $expiresAt) {
-                fclose($h);
-                @unlink($file);
+            if (($expiresAt = (int) \fgets($h)) && $now >= $expiresAt) {
+                \fclose($h);
+                @\unlink($file);
             } else {
-                $i = rawurldecode(rtrim(fgets($h)));
-                $value = stream_get_contents($h);
-                fclose($h);
+                $i = \rawurldecode(\rtrim(\fgets($h)));
+                $value = \stream_get_contents($h);
+                \fclose($h);
                 if ($i === $id) {
                     $values[$id] = $this->marshaller->unmarshall($value);
                 }
             }
         }
-
         return $values;
     }
-
-    protected function doHave(string $id): bool
+    protected function doHave(string $id) : bool
     {
         $file = $this->getFile($id);
-
-        return is_file($file) && (@filemtime($file) > time() || $this->doFetch([$id]));
+        return \is_file($file) && (@\filemtime($file) > \time() || $this->doFetch([$id]));
     }
-
-    protected function doSave(array $values, int $lifetime): array|bool
+    /**
+     * @return mixed[]|bool
+     */
+    protected function doSave(array $values, int $lifetime)
     {
-        $expiresAt = $lifetime ? (time() + $lifetime) : 0;
+        $expiresAt = $lifetime ? \time() + $lifetime : 0;
         $values = $this->marshaller->marshall($values, $failed);
-
         foreach ($values as $id => $value) {
-            if (!$this->write($this->getFile($id, true), $expiresAt."\n".rawurlencode($id)."\n".$value, $expiresAt)) {
+            if (!$this->write($this->getFile($id, \true), $expiresAt . "\n" . \rawurlencode($id) . "\n" . $value, $expiresAt)) {
                 $failed[] = $id;
             }
         }
-
-        if ($failed && !is_writable($this->directory)) {
-            throw new CacheException(sprintf('Cache directory is not writable (%s).', $this->directory));
+        if ($failed && !\is_writable($this->directory)) {
+            throw new CacheException(\sprintf('Cache directory is not writable (%s).', $this->directory));
         }
-
         return $failed;
     }
-
-    private function getFileKey(string $file): string
+    private function getFileKey(string $file) : string
     {
-        if (!$h = @fopen($file, 'r')) {
+        if (!($h = @\fopen($file, 'r'))) {
             return '';
         }
-
-        fgets($h); // expiry
-        $encodedKey = fgets($h);
-        fclose($h);
-
-        return rawurldecode(rtrim($encodedKey));
+        \fgets($h);
+        // expiry
+        $encodedKey = \fgets($h);
+        \fclose($h);
+        return \rawurldecode(\rtrim($encodedKey));
     }
 }

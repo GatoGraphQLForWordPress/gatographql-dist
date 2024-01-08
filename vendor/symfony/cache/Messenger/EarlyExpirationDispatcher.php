@@ -8,46 +8,49 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Cache\Messenger;
 
-namespace Symfony\Component\Cache\Messenger;
-
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\CacheItem;
-use Symfony\Component\DependencyInjection\ReverseContainer;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
-
+use PrefixedByPoP\Psr\Log\LoggerInterface;
+use PrefixedByPoP\Symfony\Component\Cache\Adapter\AdapterInterface;
+use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ReverseContainer;
+use PrefixedByPoP\Symfony\Component\Messenger\MessageBusInterface;
+use PrefixedByPoP\Symfony\Component\Messenger\Stamp\HandledStamp;
 /**
  * Sends the computation of cached values to a message bus.
+ * @internal
  */
 class EarlyExpirationDispatcher
 {
-    private MessageBusInterface $bus;
-    private ReverseContainer $reverseContainer;
-    private ?\Closure $callbackWrapper;
-
+    /**
+     * @var \Symfony\Component\Messenger\MessageBusInterface
+     */
+    private $bus;
+    /**
+     * @var \Symfony\Component\DependencyInjection\ReverseContainer
+     */
+    private $reverseContainer;
+    /**
+     * @var \Closure|null
+     */
+    private $callbackWrapper;
     public function __construct(MessageBusInterface $bus, ReverseContainer $reverseContainer, callable $callbackWrapper = null)
     {
         $this->bus = $bus;
         $this->reverseContainer = $reverseContainer;
-        $this->callbackWrapper = null === $callbackWrapper ? null : $callbackWrapper(...);
+        $this->callbackWrapper = null === $callbackWrapper ? null : \Closure::fromCallable($callbackWrapper);
     }
-
     /**
      * @return mixed
      */
     public function __invoke(callable $callback, CacheItem $item, bool &$save, AdapterInterface $pool, \Closure $setMetadata, LoggerInterface $logger = null)
     {
-        if (!$item->isHit() || null === $message = EarlyExpirationMessage::create($this->reverseContainer, $callback, $item, $pool)) {
+        if (!$item->isHit() || null === ($message = EarlyExpirationMessage::create($this->reverseContainer, $callback, $item, $pool))) {
             // The item is stale or the callback cannot be reversed: we must compute the value now
-            $logger?->info('Computing item "{key}" online: '.($item->isHit() ? 'callback cannot be reversed' : 'item is stale'), ['key' => $item->getKey()]);
-
+            ($nullsafeVariable1 = $logger) ? $nullsafeVariable1->info('Computing item "{key}" online: ' . ($item->isHit() ? 'callback cannot be reversed' : 'item is stale'), ['key' => $item->getKey()]) : null;
             return null !== $this->callbackWrapper ? ($this->callbackWrapper)($callback, $item, $save, $pool, $setMetadata, $logger) : $callback($item, $save);
         }
-
         $envelope = $this->bus->dispatch($message);
-
         if ($logger) {
             if ($envelope->last(HandledStamp::class)) {
                 $logger->info('Item "{key}" was computed online', ['key' => $item->getKey()]);
@@ -55,10 +58,8 @@ class EarlyExpirationDispatcher
                 $logger->info('Item "{key}" sent for recomputation', ['key' => $item->getKey()]);
             }
         }
-
         // The item's value is not stale, no need to write it to the backend
-        $save = false;
-
+        $save = \false;
         return $message->getItem()->get() ?? $item->get();
     }
 }

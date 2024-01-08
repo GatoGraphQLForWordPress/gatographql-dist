@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\RelationalTypeDataLoaders\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver;
-
+/** @internal */
 class CategoryUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?CategoryUnionTypeResolver $categoryUnionTypeResolver = null;
-
-    final public function setCategoryUnionTypeResolver(CategoryUnionTypeResolver $categoryUnionTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver|null
+     */
+    private $categoryUnionTypeResolver;
+    public final function setCategoryUnionTypeResolver(CategoryUnionTypeResolver $categoryUnionTypeResolver) : void
     {
         $this->categoryUnionTypeResolver = $categoryUnionTypeResolver;
     }
-    final protected function getCategoryUnionTypeResolver(): CategoryUnionTypeResolver
+    protected final function getCategoryUnionTypeResolver() : CategoryUnionTypeResolver
     {
         if ($this->categoryUnionTypeResolver === null) {
             /** @var CategoryUnionTypeResolver */
@@ -25,8 +26,7 @@ class CategoryUnionTypeDataLoader extends AbstractUnionTypeDataLoader
         }
         return $this->categoryUnionTypeResolver;
     }
-
-    protected function getUnionTypeResolver(): UnionTypeResolverInterface
+    protected function getUnionTypeResolver() : UnionTypeResolverInterface
     {
         return $this->getCategoryUnionTypeResolver();
     }

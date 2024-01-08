@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\QueryInputOutputHandlers;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-
-abstract class AbstractQueryInputOutputHandler implements QueryInputOutputHandlerInterface
+/** @internal */
+abstract class AbstractQueryInputOutputHandler implements \PoP\ComponentModel\QueryInputOutputHandlers\QueryInputOutputHandlerInterface
 {
     /**
      * @param array<string,mixed> $query_args
      */
-    public function prepareQueryArgs(array &$query_args): void
+    public function prepareQueryArgs(array &$query_args) : void
     {
     }
     /**
@@ -20,17 +19,7 @@ abstract class AbstractQueryInputOutputHandler implements QueryInputOutputHandle
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryState(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs): array
-    {
-        return array();
-    }
-    /**
-     * @return array<string,mixed>
-     * @param array<string,mixed> $data_properties
-     * @param string|int|array<string|int> $objectIDOrIDs
-     * @param array<string,mixed>|null $executed
-     */
-    public function getQueryParams(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs): array
+    public function getQueryState(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
     {
         return array();
     }
@@ -40,7 +29,17 @@ abstract class AbstractQueryInputOutputHandler implements QueryInputOutputHandle
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs): array
+    public function getQueryParams(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    {
+        return array();
+    }
+    /**
+     * @return array<string,mixed>
+     * @param array<string,mixed> $data_properties
+     * @param string|int|array<string|int> $objectIDOrIDs
+     * @param array<string,mixed>|null $executed
+     */
+    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
     {
         return array();
     }

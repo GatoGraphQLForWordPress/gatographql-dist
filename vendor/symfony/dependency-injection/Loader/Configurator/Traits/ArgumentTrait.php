@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
-
+/** @internal */
 trait ArgumentTrait
 {
     /**
@@ -18,22 +18,21 @@ trait ArgumentTrait
      *
      * @return $this
      */
-    final public function args(array $arguments): static
+    public final function args(array $arguments)
     {
-        $this->definition->setArguments(static::processValue($arguments, true));
-
+        $this->definition->setArguments(static::processValue($arguments, \true));
         return $this;
     }
-
     /**
      * Sets one argument to pass to the service constructor/factory method.
      *
      * @return $this
+     * @param string|int $key
+     * @param mixed $value
      */
-    final public function arg(string|int $key, mixed $value): static
+    public final function arg($key, $value)
     {
-        $this->definition->setArgument($key, static::processValue($value, true));
-
+        $this->definition->setArgument($key, static::processValue($value, \true));
         return $this;
     }
 }

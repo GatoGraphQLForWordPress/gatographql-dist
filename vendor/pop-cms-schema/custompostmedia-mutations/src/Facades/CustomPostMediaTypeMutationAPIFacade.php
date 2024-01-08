@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface;
-
+/** @internal */
 class CustomPostMediaTypeMutationAPIFacade
 {
-    public static function getInstance(): CustomPostMediaTypeMutationAPIInterface
+    public static function getInstance() : CustomPostMediaTypeMutationAPIInterface
     {
         /**
          * @var CustomPostMediaTypeMutationAPIInterface

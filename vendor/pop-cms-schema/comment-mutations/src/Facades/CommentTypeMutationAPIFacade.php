@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\CommentMutations\TypeAPIs\CommentTypeMutationAPIInterface;
-
+/** @internal */
 class CommentTypeMutationAPIFacade
 {
-    public static function getInstance(): CommentTypeMutationAPIInterface
+    public static function getInstance() : CommentTypeMutationAPIInterface
     {
         /**
          * @var CommentTypeMutationAPIInterface

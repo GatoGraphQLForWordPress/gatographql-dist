@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum;
@@ -11,65 +10,60 @@ use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal;
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReference;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\ShouldNotHappenException;
-
-class Argument extends AbstractAst
+/** @internal */
+class Argument extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst
 {
-    public function __construct(
-        protected readonly string $name,
-        protected WithValueInterface $value,
-        Location $location,
-    ) {
+    /**
+     * @readonly
+     * @var string
+     */
+    protected $name;
+    /**
+     * @var \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface
+     */
+    protected $value;
+    public function __construct(string $name, \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface $value, Location $location)
+    {
+        $this->name = $name;
+        $this->value = $value;
         parent::__construct($location);
     }
-
-    protected function doAsQueryString(): string
+    protected function doAsQueryString() : string
     {
-        return sprintf(
-            '%s: %s',
-            $this->name,
-            $this->value->asQueryString()
-        );
+        return \sprintf('%s: %s', $this->name, $this->value->asQueryString());
     }
-
-    protected function doAsASTNodeString(): string
+    protected function doAsASTNodeString() : string
     {
-        return sprintf(
-            '(%s: %s)',
-            $this->name,
-            $this->value->asQueryString()
-        );
+        return \sprintf('(%s: %s)', $this->name, $this->value->asQueryString());
     }
-
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
-
-    public function getValueAST(): WithValueInterface
+    public function getValueAST() : \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface
     {
         return $this->value;
     }
-
-    final public function getValue(): mixed
+    /**
+     * @return mixed
+     */
+    public final function getValue()
     {
         return $this->value->getValue();
     }
-
     /**
      * Indicate if a field equals another one based on its properties,
      * not on its object hash ID.
      */
-    public function isEquivalentTo(Argument $argument): bool
+    public function isEquivalentTo(\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument) : bool
     {
         if ($this->getName() !== $argument->getName()) {
-            return false;
+            return \false;
         }
-
         $thisValueAST = $this->getValueAST();
-        if (get_class($thisValueAST) !== get_class($argument->getValueAST())) {
-            return false;
+        if (\get_class($thisValueAST) !== \get_class($argument->getValueAST())) {
+            return \false;
         }
-
         /**
          * Call ->isEquivalentTo depending on the type of object
          */
@@ -98,12 +92,6 @@ class Argument extends AbstractAst
             $variableReference = $argument->getValueAST();
             return $thisValueAST->isEquivalentTo($variableReference);
         }
-
-        throw new ShouldNotHappenException(
-            sprintf(
-                $this->__('Cannot recognize the type of the object, of class \'%s\'', 'graphql-parser'),
-                get_class($thisValueAST)
-            )
-        );
+        throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize the type of the object, of class \'%s\'', 'graphql-parser'), \get_class($thisValueAST)));
     }
 }

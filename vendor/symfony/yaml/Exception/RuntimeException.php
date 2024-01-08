@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Yaml\Exception;
+namespace PrefixedByPoP\Symfony\Component\Yaml\Exception;
 
 /**
  * Exception class thrown when an error occurs during parsing.
  *
  * @author Romain Neutron <imprec@gmail.com>
+ * @internal
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

@@ -1,24 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Pages\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
-
+/** @internal */
 abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
-    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
-    private ?PageTypeAPIInterface $pageTypeAPI = null;
-
-    final public function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
+     */
+    private $pageObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
+     */
+    private $pageTypeAPI;
+    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
     {
         $this->pageObjectTypeResolver = $pageObjectTypeResolver;
     }
-    final protected function getPageObjectTypeResolver(): PageObjectTypeResolver
+    protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
             /** @var PageObjectTypeResolver */
@@ -27,11 +31,11 @@ abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeRe
         }
         return $this->pageObjectTypeResolver;
     }
-    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
+    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    final protected function getPageTypeAPI(): PageTypeAPIInterface
+    protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -40,18 +44,18 @@ abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeRe
         }
         return $this->pageTypeAPI;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getPageObjectTypeResolver();
     }
-
-    public function isInstanceOfType(object $object): bool
+    public function isInstanceOfType(object $object) : bool
     {
         return $this->getPageTypeAPI()->isInstanceOfPageType($object);
     }
-
-    public function isIDOfType(string|int $objectID): bool
+    /**
+     * @param string|int $objectID
+     */
+    public function isIDOfType($objectID) : bool
     {
         return $this->getPageTypeAPI()->pageExists($objectID);
     }

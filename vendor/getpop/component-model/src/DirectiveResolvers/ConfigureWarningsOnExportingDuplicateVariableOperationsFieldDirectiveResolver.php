@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\App;
@@ -21,7 +20,6 @@ use PoP\GraphQLParser\Module as GraphQLParserModule;
 use PoP\GraphQLParser\ModuleConfiguration as GraphQLParserModuleConfiguration;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-
 /**
  * @configureWarningsOnExportingDuplicateVariable directive,
  * to either enable or disable showing warnings when exporting
@@ -68,16 +66,19 @@ use SplObjectStorage;
  *             # ...
  *   }
  *   ```
+ * @internal
  */
 class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
-    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
-
-    final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
+     */
+    private $booleanScalarTypeResolver;
+    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
-    final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
             /** @var BooleanScalarTypeResolver */
@@ -86,74 +87,68 @@ class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResol
         }
         return $this->booleanScalarTypeResolver;
     }
-    public function getDirectiveName(): string
+    public function getDirectiveName() : string
     {
         return 'configureWarningsOnExportingDuplicateVariable';
     }
-
-    public function getFieldDirectiveBehavior(): string
+    public function getFieldDirectiveBehavior() : string
     {
         return FieldDirectiveBehaviors::OPERATION;
     }
-
-    public function isDirectiveEnabled(): bool
+    public function isDirectiveEnabled() : bool
     {
         /** @var GraphQLParserModuleConfiguration */
         $moduleConfiguration = App::getModule(GraphQLParserModule::class)->getConfiguration();
         if (!$moduleConfiguration->enableDynamicVariables()) {
-            return false;
+            return \false;
         }
-
         return parent::isDirectiveEnabled();
     }
-
-    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver): ?string
+    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
     {
         return $this->__('Enable or disable showing warnings when the same dynamic variable name is defined more than once', 'component-model');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver): array
+    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
-        return array_merge(
-            parent::getDirectiveArgNameTypeResolvers($relationalTypeResolver),
-            [
-                'enabled' => $this->getBooleanScalarTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getDirectiveArgNameTypeResolvers($relationalTypeResolver), ['enabled' => $this->getBooleanScalarTypeResolver()]);
     }
-
-    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): ?string
+    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
-        return match ($directiveArgName) {
-            'enabled' => $this->__('Raise warnings in the response?', 'component-model'),
-            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
-        };
+        switch ($directiveArgName) {
+            case 'enabled':
+                return $this->__('Raise warnings in the response?', 'component-model');
+            default:
+                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
+        }
     }
-
-    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): int
+    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
-        return match ($directiveArgName) {
-            'enabled' => SchemaTypeModifiers::MANDATORY,
-            default => parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName),
-        };
+        switch ($directiveArgName) {
+            case 'enabled':
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
+        }
     }
-
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): mixed
+    /**
+     * @return mixed
+     */
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
     {
-        return match ($directiveArgName) {
-            'enabled' => true,
-            default => parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName),
-        };
+        switch ($directiveArgName) {
+            case 'enabled':
+                return \true;
+            default:
+                return parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
+        }
     }
-
-    public function isRepeatable(): bool
+    public function isRepeatable() : bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
@@ -165,44 +160,21 @@ class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResol
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array $succeedingPipelineFieldDirectiveResolvers,
-        array $idObjects,
-        array $unionTypeOutputKeyIDs,
-        array $previouslyResolvedIDFieldValues,
-        array &$succeedingPipelineIDFieldSet,
-        array &$succeedingPipelineFieldDataAccessProviders,
-        array &$resolvedIDFieldValues,
-        array &$messages,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
-        $directiveArgs = $this->getResolvedDirectiveArgs(
-            $relationalTypeResolver,
-            $idFieldSet,
-            $engineIterationFeedbackStore,
-        );
+    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
+        $directiveArgs = $this->getResolvedDirectiveArgs($relationalTypeResolver, $idFieldSet, $engineIterationFeedbackStore);
         if ($directiveArgs === null) {
             /** @var ModuleConfiguration */
             $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
             $setFieldAsNullIfDirectiveFailed = $moduleConfiguration->setFieldAsNullIfDirectiveFailed();
             if ($setFieldAsNullIfDirectiveFailed) {
-                $this->removeIDFieldSet(
-                    $succeedingPipelineIDFieldSet,
-                    $idFieldSet,
-                );
-                $this->setFieldResponseValueAsNull(
-                    $resolvedIDFieldValues,
-                    $idFieldSet,
-                );
+                $this->removeIDFieldSet($succeedingPipelineIDFieldSet, $idFieldSet);
+                $this->setFieldResponseValueAsNull($resolvedIDFieldValues, $idFieldSet);
             }
             return;
         }
         /** @var bool */
         $enabled = $directiveArgs['enabled'];
-
         $appStateManager = App::getAppStateManager();
         $appStateManager->override('show-warnings-on-exporting-duplicate-dynamic-variable-name', $enabled);
     }

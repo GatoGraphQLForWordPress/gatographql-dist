@@ -44,14 +44,14 @@ abstract class AbstractBlockCategory extends AbstractAutomaticallyInstantiatedSe
         if (\is_wp_version_compatible('5.8')) {
             \add_filter(
                 'block_categories_all',
-                $this->getBlockCategoriesViaBlockEditorContext(...),
+                \Closure::fromCallable([$this, 'getBlockCategoriesViaBlockEditorContext']),
                 10,
                 2
             );
         } else {
             \add_filter(
                 'block_categories',
-                $this->getBlockCategories(...),
+                \Closure::fromCallable([$this, 'getBlockCategories']),
                 10,
                 2
             );
@@ -107,13 +107,10 @@ abstract class AbstractBlockCategory extends AbstractAutomaticallyInstantiatedSe
          * If specified CPTs, register the category only for them
          */
         if (empty($this->getCustomPostTypes()) || in_array($post->post_type, $this->getCustomPostTypes())) {
-            return [
-                ...$categories,
-                [
-                    'slug' => $this->getBlockCategorySlug(),
-                    'title' => $this->getBlockCategoryTitle(),
-                ],
-            ];
+            return array_merge($categories, [[
+                'slug' => $this->getBlockCategorySlug(),
+                'title' => $this->getBlockCategoryTitle(),
+            ]]);
         }
 
         return $categories;

@@ -32,13 +32,34 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
 {
     use BasicServiceTrait;
 
-    private ?UserSettingsManagerInterface $userSettingsManager = null;
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?UserAuthorizationInterface $userAuthorization = null;
-    private ?CPTUtils $cptUtils = null;
-    private ?PluginMenu $pluginMenu = null;
-    private ?EndpointHelpers $endpointHelpers = null;
-    private ?EditorHelpers $editorHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
+     */
+    private $userSettingsManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
+     */
+    private $userAuthorization;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\CPTUtils|null
+     */
+    private $cptUtils;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu|null
+     */
+    private $pluginMenu;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
+     */
+    private $endpointHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EditorHelpers|null
+     */
+    private $editorHelpers;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -46,7 +67,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
     }
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -144,12 +165,12 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         // earlier or later
         \add_action(
             'init',
-            $this->initCustomPostType(...),
+            \Closure::fromCallable([$this, 'initCustomPostType']),
             $this->getMenuPosition()
         );
         \add_action(
             'init',
-            $this->maybeLockGutenbergTemplate(...)
+            \Closure::fromCallable([$this, 'maybeLockGutenbergTemplate'])
         );
         /**
          * Starting from WP 5.8 the hook is a different one
@@ -159,14 +180,14 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         if (\is_wp_version_compatible('5.8')) {
             \add_filter(
                 'allowed_block_types_all',
-                $this->allowGutenbergBlocksForCustomPostTypeViaBlockEditorContext(...),
+                \Closure::fromCallable([$this, 'allowGutenbergBlocksForCustomPostTypeViaBlockEditorContext']),
                 10,
                 2
             );
         } else {
             \add_filter(
                 'allowed_block_types',
-                $this->allowGutenbergBlocksForCustomPostType(...),
+                \Closure::fromCallable([$this, 'allowGutenbergBlocksForCustomPostType']),
                 10,
                 2
             );
@@ -176,7 +197,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
          */
         \add_action(
             'admin_print_scripts',
-            $this->printAdminGraphQLEndpointVariables(...)
+            \Closure::fromCallable([$this, 'printAdminGraphQLEndpointVariables'])
         );
 
         /**
@@ -187,24 +208,24 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
             // Execute last as to always add the description at the top
             \add_filter(
                 'the_content',
-                $this->maybeAddExcerptAsDescription(...),
+                \Closure::fromCallable([$this, 'maybeAddExcerptAsDescription']),
                 PHP_INT_MAX
             );
         }
         // Add the custom columns to the post type
         \add_filter(
             "manage_{$customPostType}_posts_columns",
-            $this->setTableColumns(...)
+            \Closure::fromCallable([$this, 'setTableColumns'])
         );
         \add_action(
             "manage_{$customPostType}_posts_custom_column",
-            $this->resolveCustomColumn(...),
+            \Closure::fromCallable([$this, 'resolveCustomColumn']),
             10,
             2
         );
         \add_action(
             "restrict_manage_posts",
-            $this->restrictManageCustomPosts(...),
+            \Closure::fromCallable([$this, 'restrictManageCustomPosts']),
             10,
             2
         );
@@ -215,13 +236,13 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
          */
         \add_filter(
             'post_row_actions',
-            $this->maybeAddCustomPostTypeTableActions(...),
+            \Closure::fromCallable([$this, 'maybeAddCustomPostTypeTableActions']),
             10,
             2
         );
         \add_filter(
             'page_row_actions',
-            $this->maybeAddCustomPostTypeTableActions(...),
+            \Closure::fromCallable([$this, 'maybeAddCustomPostTypeTableActions']),
             10,
             2
         );
@@ -701,7 +722,9 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         }
         if ($taxonomies = $this->getTaxonomies()) {
             $postTypeArgs['taxonomies'] = array_map(
-                fn (TaxonomyInterface $taxonomy) => $taxonomy->getTaxonomy(),
+                function (TaxonomyInterface $taxonomy) {
+                    return $taxonomy->getTaxonomy();
+                },
                 $taxonomies
             );
         }
@@ -805,7 +828,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      * @param string[]|bool $allowedBlocks The list of blocks, or `true` for all of them
      * @return string[]|bool The list of blocks, or `true` for all of them
      */
-    public function allowGutenbergBlocksForCustomPostTypeViaBlockEditorContext(array|bool $allowedBlocks, WP_Block_Editor_Context $blockEditorContext): array|bool
+    public function allowGutenbergBlocksForCustomPostTypeViaBlockEditorContext($allowedBlocks, WP_Block_Editor_Context $blockEditorContext)
     {
         if ($blockEditorContext->post === null) {
             return $allowedBlocks;
@@ -822,7 +845,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      * @param string[]|bool $allowedBlocks The list of blocks, or `true` for all of them
      * @return string[]|bool The list of blocks, or `true` for all of them
      */
-    public function allowGutenbergBlocksForCustomPostType(array|bool $allowedBlocks, WP_Post $post): array|bool
+    public function allowGutenbergBlocksForCustomPostType($allowedBlocks, WP_Post $post)
     {
         /**
          * Check if it is this CPT
@@ -852,7 +875,9 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         // Get all the blocks involved in the template
         return array_values(array_unique(array_map(
             // The block is the first item from the $blockConfiguration
-            fn (array $blockConfiguration) => $blockConfiguration[0],
+            function (array $blockConfiguration) {
+                return $blockConfiguration[0];
+            },
             $template
         )));
     }

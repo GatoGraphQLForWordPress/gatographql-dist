@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\HttpFoundation;
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
 
 /**
  * StreamedResponse represents a streamed HTTP response.
@@ -23,48 +22,45 @@ namespace Symfony\Component\HttpFoundation;
  * @see flush()
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class StreamedResponse extends Response
 {
     protected $callback;
     protected $streamed;
-    private bool $headersSent;
-
+    /**
+     * @var bool
+     */
+    private $headersSent;
     /**
      * @param int $status The HTTP status code (200 "OK" by default)
      */
     public function __construct(callable $callback = null, int $status = 200, array $headers = [])
     {
         parent::__construct(null, $status, $headers);
-
         if (null !== $callback) {
             $this->setCallback($callback);
         }
-        $this->streamed = false;
-        $this->headersSent = false;
+        $this->streamed = \false;
+        $this->headersSent = \false;
     }
-
     /**
      * Sets the PHP callback associated with this Response.
      *
      * @return $this
      */
-    public function setCallback(callable $callback): static
+    public function setCallback(callable $callback)
     {
-        $this->callback = $callback(...);
-
+        $this->callback = \Closure::fromCallable($callback);
         return $this;
     }
-
-    public function getCallback(): ?\Closure
+    public function getCallback() : ?\Closure
     {
         if (!isset($this->callback)) {
             return null;
         }
-
-        return ($this->callback)(...);
+        return \Closure::fromCallable($this->callback);
     }
-
     /**
      * This method only sends the headers once.
      *
@@ -72,60 +68,52 @@ class StreamedResponse extends Response
      *
      * @return $this
      */
-    public function sendHeaders(/* int $statusCode = null */): static
+    public function sendHeaders()
     {
         if ($this->headersSent) {
             return $this;
         }
-
-        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
+        $statusCode = \func_num_args() > 0 ? \func_get_arg(0) : null;
         if ($statusCode < 100 || $statusCode >= 200) {
-            $this->headersSent = true;
+            $this->headersSent = \true;
         }
-
         return parent::sendHeaders($statusCode);
     }
-
     /**
      * This method only sends the content once.
      *
      * @return $this
      */
-    public function sendContent(): static
+    public function sendContent()
     {
         if ($this->streamed) {
             return $this;
         }
-
-        $this->streamed = true;
-
+        $this->streamed = \true;
         if (!isset($this->callback)) {
             throw new \LogicException('The Response callback must be set.');
         }
-
         ($this->callback)();
-
         return $this;
     }
-
     /**
      * @return $this
      *
      * @throws \LogicException when the content is not null
      */
-    public function setContent(?string $content): static
+    public function setContent(?string $content)
     {
         if (null !== $content) {
             throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
         }
-
-        $this->streamed = true;
-
+        $this->streamed = \true;
         return $this;
     }
-
-    public function getContent(): string|false
+    /**
+     * @return string|false
+     */
+    public function getContent()
     {
-        return false;
+        return \false;
     }
 }

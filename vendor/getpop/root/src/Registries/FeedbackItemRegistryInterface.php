@@ -1,22 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Registries;
 
 use PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface;
-
+/** @internal */
 interface FeedbackItemRegistryInterface
 {
-    public function useFeedbackItemProvider(FeedbackItemProviderInterface $feedbackItemProvider): void;
-
+    public function useFeedbackItemProvider(FeedbackItemProviderInterface $feedbackItemProvider) : void;
     /**
      * @return array<string,array<string,string>> [key] Namespaced code, [value] Array of ['category' => ..., 'messagePlaceholder' => ..., 'specifiedByURL' => ...]
      */
-    public function getFeedbackItemEntries(): array;
-
+    public function getFeedbackItemEntries() : array;
     /**
      * @return mixed[]|null Array of ['category' => ..., 'messagePlaceholder' => ..., 'specifiedByURL' => ...], or null if no entry exists for that code
      */
-    public function getFeedbackItemEntry(string $namespacedCode): ?array;
+    public function getFeedbackItemEntry(string $namespacedCode) : ?array;
 }

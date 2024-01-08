@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container;
 
-use Symfony\Component\DependencyInjection\Container as UpstreamContainer;
-
-class Container extends UpstreamContainer implements ContainerInterface
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Container as UpstreamContainer;
+/** @internal */
+class Container extends UpstreamContainer implements \PoP\Root\Container\ContainerInterface
 {
 }

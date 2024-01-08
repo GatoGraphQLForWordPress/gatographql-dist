@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API\Facades;
 
 use PoP\Root\App;
 use PoPAPI\API\PersistedQueries\PersistedFragmentManagerInterface;
-
+/** @internal */
 class PersistedFragmentManagerFacade
 {
-    public static function getInstance(): PersistedFragmentManagerInterface
+    public static function getInstance() : PersistedFragmentManagerInterface
     {
         /**
          * @var PersistedFragmentManagerInterface

@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Pages\ConditionalOnModule\CustomPostMedia\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMedia\FieldResolvers\ObjectType\AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
-    private ?PageTypeAPIInterface $pageTypeAPI = null;
-
-    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
+     */
+    private $pageTypeAPI;
+    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    final protected function getPageTypeAPI(): PageTypeAPIInterface
+    protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -26,18 +27,14 @@ class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedI
         }
         return $this->pageTypeAPI;
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            PageObjectTypeResolver::class,
-        ];
+        return [PageObjectTypeResolver::class];
     }
-
-    protected function getCustomPostType(): string
+    protected function getCustomPostType() : string
     {
         return $this->getPageTypeAPI()->getPageCustomPostType();
     }

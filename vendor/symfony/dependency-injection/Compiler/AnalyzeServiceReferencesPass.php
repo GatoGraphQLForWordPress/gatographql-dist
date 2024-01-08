@@ -8,18 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\ExpressionLanguage\Expression;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
 /**
  * Run this pass before passes that need to know more about the relation of
  * your services.
@@ -29,31 +27,59 @@ use Symfony\Component\ExpressionLanguage\Expression;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AnalyzeServiceReferencesPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    private ServiceReferenceGraph $graph;
-    private ?Definition $currentDefinition = null;
-    private bool $onlyConstructorArguments;
-    private bool $hasProxyDumper;
-    private bool $lazy;
-    private bool $byConstructor;
-    private bool $byFactory;
-    private array $definitions;
-    private array $aliases;
-
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
+     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph
+     */
+    private $graph;
+    /**
+     * @var \Symfony\Component\DependencyInjection\Definition|null
+     */
+    private $currentDefinition;
+    /**
+     * @var bool
+     */
+    private $onlyConstructorArguments;
+    /**
+     * @var bool
+     */
+    private $hasProxyDumper;
+    /**
+     * @var bool
+     */
+    private $lazy;
+    /**
+     * @var bool
+     */
+    private $byConstructor;
+    /**
+     * @var bool
+     */
+    private $byFactory;
+    /**
+     * @var mixed[]
+     */
+    private $definitions;
+    /**
+     * @var mixed[]
+     */
+    private $aliases;
     /**
      * @param bool $onlyConstructorArguments Sets this Service Reference pass to ignore method calls
      */
-    public function __construct(bool $onlyConstructorArguments = false, bool $hasProxyDumper = true)
+    public function __construct(bool $onlyConstructorArguments = \false, bool $hasProxyDumper = \true)
     {
         $this->onlyConstructorArguments = $onlyConstructorArguments;
         $this->hasProxyDumper = $hasProxyDumper;
         $this->enableExpressionProcessing();
     }
-
     /**
      * Processes a ContainerBuilder object to populate the service reference graph.
      *
@@ -64,63 +90,42 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
         $this->container = $container;
         $this->graph = $container->getCompiler()->getServiceReferenceGraph();
         $this->graph->clear();
-        $this->lazy = false;
-        $this->byConstructor = false;
-        $this->byFactory = false;
+        $this->lazy = \false;
+        $this->byConstructor = \false;
+        $this->byFactory = \false;
         $this->definitions = $container->getDefinitions();
         $this->aliases = $container->getAliases();
-
         foreach ($this->aliases as $id => $alias) {
             $targetId = $this->getDefinitionId((string) $alias);
             $this->graph->connect($id, $alias, $targetId, null !== $targetId ? $this->container->getDefinition($targetId) : null, null);
         }
-
         try {
             parent::process($container);
         } finally {
             $this->aliases = $this->definitions = [];
         }
     }
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function processValue($value, bool $isRoot = \false)
     {
         $lazy = $this->lazy;
         $inExpression = $this->inExpression();
-
         if ($value instanceof ArgumentInterface) {
             $this->lazy = !$this->byFactory || !$value instanceof IteratorArgument;
             parent::processValue($value->getValues());
             $this->lazy = $lazy;
-
             return $value;
         }
         if ($value instanceof Reference) {
             $targetId = $this->getDefinitionId((string) $value);
             $targetDefinition = null !== $targetId ? $this->container->getDefinition($targetId) : null;
-
-            $this->graph->connect(
-                $this->currentId,
-                $this->currentDefinition,
-                $targetId,
-                $targetDefinition,
-                $value,
-                $this->lazy || ($this->hasProxyDumper && $targetDefinition?->isLazy()),
-                ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior(),
-                $this->byConstructor
-            );
-
+            $this->graph->connect($this->currentId, $this->currentDefinition, $targetId, $targetDefinition, $value, $this->lazy || $this->hasProxyDumper && (($nullsafeVariable1 = $targetDefinition) ? $nullsafeVariable1->isLazy() : null), ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior(), $this->byConstructor);
             if ($inExpression) {
-                $this->graph->connect(
-                    '.internal.reference_in_expression',
-                    null,
-                    $targetId,
-                    $targetDefinition,
-                    $value,
-                    $this->lazy || $targetDefinition?->isLazy(),
-                    true
-                );
+                $this->graph->connect('.internal.reference_in_expression', null, $targetId, $targetDefinition, $value, $this->lazy || (($nullsafeVariable2 = $targetDefinition) ? $nullsafeVariable2->isLazy() : null), \true);
             }
-
             return $value;
         }
         if (!$value instanceof Definition) {
@@ -134,72 +139,57 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
         } elseif ($this->currentDefinition === $value) {
             return $value;
         }
-        $this->lazy = false;
-
+        $this->lazy = \false;
         $byConstructor = $this->byConstructor;
         $this->byConstructor = $isRoot || $byConstructor;
-
         $byFactory = $this->byFactory;
-        $this->byFactory = true;
-        if (\is_string($factory = $value->getFactory()) && str_starts_with($factory, '@=')) {
-            if (!class_exists(Expression::class)) {
+        $this->byFactory = \true;
+        if (\is_string($factory = $value->getFactory()) && \strncmp($factory, '@=', \strlen('@=')) === 0) {
+            if (!\class_exists(Expression::class)) {
                 throw new LogicException('Expressions cannot be used in service factories without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
             }
-
-            $factory = new Expression(substr($factory, 2));
+            $factory = new Expression(\substr($factory, 2));
         }
         $this->processValue($factory);
         $this->byFactory = $byFactory;
-
         $this->processValue($value->getArguments());
-
         $properties = $value->getProperties();
         $setters = $value->getMethodCalls();
-
         // Any references before a "wither" are part of the constructor-instantiation graph
         $lastWitherIndex = null;
         foreach ($setters as $k => $call) {
-            if ($call[2] ?? false) {
+            if ($call[2] ?? \false) {
                 $lastWitherIndex = $k;
             }
         }
-
         if (null !== $lastWitherIndex) {
             $this->processValue($properties);
             $setters = $properties = [];
-
             foreach ($value->getMethodCalls() as $k => $call) {
                 if (null === $lastWitherIndex) {
                     $setters[] = $call;
                     continue;
                 }
-
                 if ($lastWitherIndex === $k) {
                     $lastWitherIndex = null;
                 }
-
                 $this->processValue($call);
             }
         }
-
         $this->byConstructor = $byConstructor;
-
         if (!$this->onlyConstructorArguments) {
             $this->processValue($properties);
             $this->processValue($setters);
             $this->processValue($value->getConfigurator());
         }
         $this->lazy = $lazy;
-
         return $value;
     }
-
-    private function getDefinitionId(string $id): ?string
+    private function getDefinitionId(string $id) : ?string
     {
         while (isset($this->aliases[$id])) {
             $id = (string) $this->aliases[$id];
         }
-
         return isset($this->definitions[$id]) ? $id : null;
     }
 }

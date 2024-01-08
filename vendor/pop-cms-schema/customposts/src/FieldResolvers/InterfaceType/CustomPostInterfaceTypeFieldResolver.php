@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\FieldResolvers\InterfaceType;
 
 use PoPCMSSchema\CustomPosts\Module;
@@ -23,22 +22,42 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
-
+/** @internal */
 class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterfaceTypeFieldResolver
 {
-    private ?CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver = null;
-    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
-    private ?DateTimeScalarTypeResolver $dateTimeScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
-    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
-    private ?CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver = null;
-
-    final public function setCustomPostStatusEnumTypeResolver(CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver|null
+     */
+    private $customPostStatusEnumTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
+     */
+    private $booleanScalarTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver|null
+     */
+    private $dateTimeScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
+     */
+    private $htmlScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
+     */
+    private $queryableInterfaceTypeFieldResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
+     */
+    private $customPostEnumStringScalarTypeResolver;
+    public final function setCustomPostStatusEnumTypeResolver(CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver) : void
     {
         $this->customPostStatusEnumTypeResolver = $customPostStatusEnumTypeResolver;
     }
-    final protected function getCustomPostStatusEnumTypeResolver(): CustomPostStatusEnumTypeResolver
+    protected final function getCustomPostStatusEnumTypeResolver() : CustomPostStatusEnumTypeResolver
     {
         if ($this->customPostStatusEnumTypeResolver === null) {
             /** @var CustomPostStatusEnumTypeResolver */
@@ -47,11 +66,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->customPostStatusEnumTypeResolver;
     }
-    final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
+    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
-    final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
             /** @var BooleanScalarTypeResolver */
@@ -60,11 +79,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->booleanScalarTypeResolver;
     }
-    final public function setDateTimeScalarTypeResolver(DateTimeScalarTypeResolver $dateTimeScalarTypeResolver): void
+    public final function setDateTimeScalarTypeResolver(DateTimeScalarTypeResolver $dateTimeScalarTypeResolver) : void
     {
         $this->dateTimeScalarTypeResolver = $dateTimeScalarTypeResolver;
     }
-    final protected function getDateTimeScalarTypeResolver(): DateTimeScalarTypeResolver
+    protected final function getDateTimeScalarTypeResolver() : DateTimeScalarTypeResolver
     {
         if ($this->dateTimeScalarTypeResolver === null) {
             /** @var DateTimeScalarTypeResolver */
@@ -73,11 +92,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->dateTimeScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -86,11 +105,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver): void
+    public final function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver) : void
     {
         $this->htmlScalarTypeResolver = $htmlScalarTypeResolver;
     }
-    final protected function getHTMLScalarTypeResolver(): HTMLScalarTypeResolver
+    protected final function getHTMLScalarTypeResolver() : HTMLScalarTypeResolver
     {
         if ($this->htmlScalarTypeResolver === null) {
             /** @var HTMLScalarTypeResolver */
@@ -99,11 +118,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->htmlScalarTypeResolver;
     }
-    final public function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver): void
+    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
     {
         $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
     }
-    final protected function getQueryableInterfaceTypeFieldResolver(): QueryableInterfaceTypeFieldResolver
+    protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
     {
         if ($this->queryableInterfaceTypeFieldResolver === null) {
             /** @var QueryableInterfaceTypeFieldResolver */
@@ -112,11 +131,11 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->queryableInterfaceTypeFieldResolver;
     }
-    final public function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver): void
+    public final function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver) : void
     {
         $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
     }
-    final protected function getCustomPostEnumStringScalarTypeResolver(): CustomPostEnumStringScalarTypeResolver
+    protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {
             /** @var CustomPostEnumStringScalarTypeResolver */
@@ -125,56 +144,31 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $this->customPostEnumStringScalarTypeResolver;
     }
-
     /**
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo(): array
+    public function getInterfaceTypeResolverClassesToAttachTo() : array
     {
-        return [
-            CustomPostInterfaceTypeResolver::class,
-        ];
+        return [CustomPostInterfaceTypeResolver::class];
     }
-
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers(): array
+    public function getImplementedInterfaceTypeFieldResolvers() : array
     {
-        return [
-            $this->getQueryableInterfaceTypeFieldResolver(),
-        ];
+        return [$this->getQueryableInterfaceTypeFieldResolver()];
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement(): array
+    public function getFieldNamesToImplement() : array
     {
-        return [
-            'url',
-            'urlPath',
-            'slug',
-            'content',
-            'rawContent',
-            'status',
-            'isStatus',
-            'date',
-            'dateStr',
-            'modifiedDate',
-            'modifiedDateStr',
-            'title',
-            'rawTitle',
-            'excerpt',
-            'rawExcerpt',
-            'customPostType',
-        ];
+        return ['url', 'urlPath', 'slug', 'content', 'rawContent', 'status', 'isStatus', 'date', 'dateStr', 'modifiedDate', 'modifiedDateStr', 'title', 'rawTitle', 'excerpt', 'rawExcerpt', 'customPostType'];
     }
-
     /**
      * @return string[]
      */
-    public function getSensitiveFieldNames(): array
+    public function getSensitiveFieldNames() : array
     {
         $sensitiveFieldArgNames = parent::getSensitiveFieldNames();
         /** @var ModuleConfiguration */
@@ -186,35 +180,33 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return $sensitiveFieldArgNames;
     }
-
-    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'isStatus'
-                => $this->getBooleanScalarTypeResolver(),
-            'date',
-            'modifiedDate'
-                => $this->getDateTimeScalarTypeResolver(),
-            'title',
-            'rawTitle',
-            'excerpt',
-            'rawExcerpt',
-            'dateStr',
-            'modifiedDateStr'
-                => $this->getStringScalarTypeResolver(),
-            'content',
-            'rawContent'
-                => $this->getHTMLScalarTypeResolver(),
-            'customPostType'
-                => $this->getCustomPostEnumStringScalarTypeResolver(),
-            'status'
-                => $this->getCustomPostStatusEnumTypeResolver(),
-            default
-                => parent::getFieldTypeResolver($fieldName),
-        };
+        switch ($fieldName) {
+            case 'isStatus':
+                return $this->getBooleanScalarTypeResolver();
+            case 'date':
+            case 'modifiedDate':
+                return $this->getDateTimeScalarTypeResolver();
+            case 'title':
+            case 'rawTitle':
+            case 'excerpt':
+            case 'rawExcerpt':
+            case 'dateStr':
+            case 'modifiedDateStr':
+                return $this->getStringScalarTypeResolver();
+            case 'content':
+            case 'rawContent':
+                return $this->getHTMLScalarTypeResolver();
+            case 'customPostType':
+                return $this->getCustomPostEnumStringScalarTypeResolver();
+            case 'status':
+                return $this->getCustomPostStatusEnumTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(string $fieldName): int
+    public function getFieldTypeModifiers(string $fieldName) : int
     {
         /**
          * Please notice that the URL, slug, title and excerpt are nullable,
@@ -238,67 +230,88 @@ class CustomPostInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterf
         }
         return parent::getFieldTypeModifiers($fieldName);
     }
-
-    public function getFieldDescription(string $fieldName): ?string
+    public function getFieldDescription(string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'url' => $this->__('Custom post URL', 'customposts'),
-            'urlPath' => $this->__('Custom post URL path', 'customposts'),
-            'slug' => $this->__('Custom post slug', 'customposts'),
-            'content' => $this->__('Custom post content', 'customposts'),
-            'rawContent' => $this->__('Custom post content in raw format (as it exists in the database)', 'customposts'),
-            'status' => $this->__('Custom post status', 'customposts'),
-            'isStatus' => $this->__('Is the custom post in the given status?', 'customposts'),
-            'date' => $this->__('Custom post published date', 'customposts'),
-            'dateStr' => $this->__('Custom post published date, in String format', 'customposts'),
-            'modifiedDate' => $this->__('Custom post modified date', 'customposts'),
-            'modifiedDateStr' => $this->__('Custom post modified date, in String format', 'customposts'),
-            'title' => $this->__('Custom post title', 'customposts'),
-            'rawTitle' => $this->__('Custom post title in raw format (as it exists in the database)', 'customposts'),
-            'excerpt' => $this->__('Custom post excerpt', 'customposts'),
-            'rawExcerpt' => $this->__('Custom post excerpt in raw format (as it exists in the database)', 'customposts'),
-            'customPostType' => $this->__('Custom post type', 'customposts'),
-            default => parent::getFieldDescription($fieldName),
-        };
+        switch ($fieldName) {
+            case 'url':
+                return $this->__('Custom post URL', 'customposts');
+            case 'urlPath':
+                return $this->__('Custom post URL path', 'customposts');
+            case 'slug':
+                return $this->__('Custom post slug', 'customposts');
+            case 'content':
+                return $this->__('Custom post content', 'customposts');
+            case 'rawContent':
+                return $this->__('Custom post content in raw format (as it exists in the database)', 'customposts');
+            case 'status':
+                return $this->__('Custom post status', 'customposts');
+            case 'isStatus':
+                return $this->__('Is the custom post in the given status?', 'customposts');
+            case 'date':
+                return $this->__('Custom post published date', 'customposts');
+            case 'dateStr':
+                return $this->__('Custom post published date, in String format', 'customposts');
+            case 'modifiedDate':
+                return $this->__('Custom post modified date', 'customposts');
+            case 'modifiedDateStr':
+                return $this->__('Custom post modified date, in String format', 'customposts');
+            case 'title':
+                return $this->__('Custom post title', 'customposts');
+            case 'rawTitle':
+                return $this->__('Custom post title in raw format (as it exists in the database)', 'customposts');
+            case 'excerpt':
+                return $this->__('Custom post excerpt', 'customposts');
+            case 'rawExcerpt':
+                return $this->__('Custom post excerpt in raw format (as it exists in the database)', 'customposts');
+            case 'customPostType':
+                return $this->__('Custom post type', 'customposts');
+            default:
+                return parent::getFieldDescription($fieldName);
+        }
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(string $fieldName): array
+    public function getFieldArgNameTypeResolvers(string $fieldName) : array
     {
-        return match ($fieldName) {
-            'isStatus' => [
-                'status' => $this->getCustomPostStatusEnumTypeResolver(),
-            ],
-            default => parent::getFieldArgNameTypeResolvers($fieldName),
-        };
+        switch ($fieldName) {
+            case 'isStatus':
+                return ['status' => $this->getCustomPostStatusEnumTypeResolver()];
+            default:
+                return parent::getFieldArgNameTypeResolvers($fieldName);
+        }
     }
-
-    public function getFieldArgDescription(string $fieldName, string $fieldArgName): ?string
+    public function getFieldArgDescription(string $fieldName, string $fieldArgName) : ?string
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['isStatus' => 'status'] => $this->__('The status to check if the post has', 'customposts'),
-            default => parent::getFieldArgDescription($fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['isStatus' => 'status']:
+                return $this->__('The status to check if the post has', 'customposts');
+            default:
+                return parent::getFieldArgDescription($fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName): int
+    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['isStatus' => 'status'] => SchemaTypeModifiers::MANDATORY,
-            default => parent::getFieldArgTypeModifiers($fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['isStatus' => 'status']:
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getFieldArgTypeModifiers($fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldFilterInputContainerComponent(string $fieldName): ?Component
+    public function getFieldFilterInputContainerComponent(string $fieldName) : ?Component
     {
-        return match ($fieldName) {
-            'date' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE),
-            'dateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING),
-            'modifiedDate' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE),
-            'modifiedDateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING),
-            default => parent::getFieldFilterInputContainerComponent($fieldName),
-        };
+        switch ($fieldName) {
+            case 'date':
+                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE);
+            case 'dateStr':
+                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING);
+            case 'modifiedDate':
+                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE);
+            case 'modifiedDateStr':
+                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING);
+            default:
+                return parent::getFieldFilterInputContainerComponent($fieldName);
+        }
     }
 }

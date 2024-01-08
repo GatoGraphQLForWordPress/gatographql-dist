@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
@@ -13,16 +12,18 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-
-final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
+/** @internal */
+final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
-    private ?TypeSerializationServiceInterface $typeSerializationService = null;
-
-    final public function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService): void
+    /**
+     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
+     */
+    private $typeSerializationService;
+    public final function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService) : void
     {
         $this->typeSerializationService = $typeSerializationService;
     }
-    final protected function getTypeSerializationService(): TypeSerializationServiceInterface
+    protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
             /** @var TypeSerializationServiceInterface */
@@ -31,29 +32,25 @@ final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends Abstract
         }
         return $this->typeSerializationService;
     }
-
-    public function getDirectiveName(): string
+    public function getDirectiveName() : string
     {
         return 'serializeLeafOutputTypeValues';
     }
-
     /**
      * This is a system directive
      */
-    public function getDirectiveKind(): string
+    public function getDirectiveKind() : string
     {
         return DirectiveKinds::SYSTEM;
     }
-
     /**
      * Execute it at the very end, after everything else,
      * to allow other directives to deal with the unserialized value
      */
-    public function getPipelinePosition(): string
+    public function getPipelinePosition() : string
     {
         return PipelinePositions::AFTER_SERIALIZE;
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
@@ -65,28 +62,9 @@ final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends Abstract
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array $succeedingPipelineFieldDirectiveResolvers,
-        array $idObjects,
-        array $unionTypeOutputKeyIDs,
-        array $previouslyResolvedIDFieldValues,
-        array &$succeedingPipelineIDFieldSet,
-        array &$succeedingPipelineFieldDataAccessProviders,
-        array &$resolvedIDFieldValues,
-        array &$messages,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
-        $serializedIDFieldValues = $this->getTypeSerializationService()->serializeOutputTypeIDFieldValues(
-            $relationalTypeResolver,
-            $resolvedIDFieldValues,
-            $idFieldSet,
-            $idObjects,
-            $this->directive,
-            $engineIterationFeedbackStore,
-        );
+    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
+        $serializedIDFieldValues = $this->getTypeSerializationService()->serializeOutputTypeIDFieldValues($relationalTypeResolver, $resolvedIDFieldValues, $idFieldSet, $idObjects, $this->directive, $engineIterationFeedbackStore);
         foreach ($serializedIDFieldValues as $id => $serializedFieldValues) {
             /** @var FieldInterface $field */
             foreach ($serializedFieldValues as $field) {
@@ -95,8 +73,7 @@ final class SerializeLeafOutputTypeValuesFieldDirectiveResolver extends Abstract
             }
         }
     }
-
-    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver): ?string
+    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
     {
         return $this->__('Serialize the results for fields of Scalar and Enum Types. This directive is already included by the engine, since its execution is mandatory', 'component-model');
     }

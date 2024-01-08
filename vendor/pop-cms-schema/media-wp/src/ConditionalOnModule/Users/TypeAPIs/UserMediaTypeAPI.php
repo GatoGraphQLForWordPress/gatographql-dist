@@ -14,7 +14,11 @@ use function get_post;
  */
 class UserMediaTypeAPI implements UserMediaTypeAPIInterface
 {
-    public function getMediaAuthorID(string|int|object $mediaObjectOrID): string|int|null
+    /**
+     * @param string|int|object $mediaObjectOrID
+     * @return string|int|null
+     */
+    public function getMediaAuthorID($mediaObjectOrID)
     {
         if (is_object($mediaObjectOrID)) {
             $media = $mediaObjectOrID;

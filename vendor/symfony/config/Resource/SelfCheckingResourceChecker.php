@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Config\Resource;
 
-namespace Symfony\Component\Config\Resource;
-
-use Symfony\Component\Config\ResourceCheckerInterface;
-
+use PrefixedByPoP\Symfony\Component\Config\ResourceCheckerInterface;
 /**
  * Resource checker for instances of SelfCheckingResourceInterface.
  *
@@ -20,6 +18,7 @@ use Symfony\Component\Config\ResourceCheckerInterface;
  * this class as a standard way of validating them.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 class SelfCheckingResourceChecker implements ResourceCheckerInterface
 {
@@ -27,20 +26,20 @@ class SelfCheckingResourceChecker implements ResourceCheckerInterface
     // situations. For example, when using the full stack framework, the router
     // and the container have their own cache. But they may check the very same
     // resources
-    private static array $cache = [];
-
-    public function supports(ResourceInterface $metadata): bool
+    /**
+     * @var mixed[]
+     */
+    private static $cache = [];
+    public function supports(ResourceInterface $metadata) : bool
     {
         return $metadata instanceof SelfCheckingResourceInterface;
     }
-
     /**
      * @param SelfCheckingResourceInterface $resource
      */
-    public function isFresh(ResourceInterface $resource, int $timestamp): bool
+    public function isFresh(ResourceInterface $resource, int $timestamp) : bool
     {
-        $key = "$resource:$timestamp";
-
-        return self::$cache[$key] ??= $resource->isFresh($timestamp);
+        $key = "{$resource}:{$timestamp}";
+        return self::$cache[$key] = self::$cache[$key] ?? $resource->isFresh($timestamp);
     }
 }

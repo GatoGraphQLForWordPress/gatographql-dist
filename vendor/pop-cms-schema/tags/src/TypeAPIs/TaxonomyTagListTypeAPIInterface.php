@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeAPIs;
 
+/** @internal */
 interface TaxonomyTagListTypeAPIInterface
 {
     /**
@@ -11,19 +11,10 @@ interface TaxonomyTagListTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyTags(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): array;
-
+    public function getTaxonomyTags(string $catTaxonomy, array $query, array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyTagCount(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): int;
+    public function getTaxonomyTagCount(string $catTaxonomy, array $query, array $options = []) : int;
 }

@@ -20,13 +20,19 @@ class WPDataModelProvider implements WPDataModelProviderInterface
     use BasicServiceTrait;
 
     /** @var array<string,WP_Taxonomy>|null */
-    protected ?array $hierarchicalQueryableCustomPostsAssociatedTaxonomies = null;
+    protected $hierarchicalQueryableCustomPostsAssociatedTaxonomies;
 
     /** @var array<string,WP_Taxonomy>|null */
-    protected ?array $nonHierarchicalQueryableCustomPostsAssociatedTaxonomies = null;
+    protected $nonHierarchicalQueryableCustomPostsAssociatedTaxonomies;
 
-    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
-    private ?TaxonomyRegistryInterface $taxonomyRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
+     */
+    private $customPostTypeRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\TaxonomyRegistryInterface|null
+     */
+    private $taxonomyRegistry;
 
     final public function setCustomPostTypeRegistry(CustomPostTypeRegistryInterface $customPostTypeRegistry): void
     {
@@ -68,7 +74,9 @@ class WPDataModelProvider implements WPDataModelProviderInterface
          * Remove the ones that do not
          */
         $pluginCustomPostTypes = array_map(
-            fn (CustomPostTypeInterface $customPostType) => $customPostType->getCustomPostType(),
+            function (CustomPostTypeInterface $customPostType) {
+                return $customPostType->getCustomPostType();
+            },
             $this->getCustomPostTypeRegistry()->getCustomPostTypes()
         );
         $rejectedQueryableCustomPostTypes = \apply_filters(
@@ -148,7 +156,9 @@ class WPDataModelProvider implements WPDataModelProviderInterface
          * Remove the ones that do not
          */
         $pluginTagTaxonomies = array_map(
-            fn (TaxonomyInterface $taxonomy) => $taxonomy->getTaxonomy(),
+            function (TaxonomyInterface $taxonomy) {
+                return $taxonomy->getTaxonomy();
+            },
             $this->getTaxonomyRegistry()->getTaxonomies(false)
         );
         $rejectedQueryableTagTaxonomies = \apply_filters(
@@ -182,7 +192,9 @@ class WPDataModelProvider implements WPDataModelProviderInterface
          * Remove the ones that do not
          */
         $pluginCategoryTaxonomies = array_map(
-            fn (TaxonomyInterface $taxonomy) => $taxonomy->getTaxonomy(),
+            function (TaxonomyInterface $taxonomy) {
+                return $taxonomy->getTaxonomy();
+            },
             $this->getTaxonomyRegistry()->getTaxonomies(true)
         );
         $rejectedQueryableCategoryTaxonomies = \apply_filters(
@@ -248,10 +260,12 @@ class WPDataModelProvider implements WPDataModelProviderInterface
 
         $possibleTaxonomyObjects = array_filter(
             $possibleTaxonomyObjects,
-            fn (WP_Taxonomy $taxonomy) => array_diff(
-                $taxonomy->object_type,
-                $queryableCustomPostTypes
-            ) === []
+            function (WP_Taxonomy $taxonomy) use ($queryableCustomPostTypes) {
+                return array_diff(
+                    $taxonomy->object_type,
+                    $queryableCustomPostTypes
+                ) === [];
+            }
         );
 
         $possibleTaxonomyNameObjects = [];

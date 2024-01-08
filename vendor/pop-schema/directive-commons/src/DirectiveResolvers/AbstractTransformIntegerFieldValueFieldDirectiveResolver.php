@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\DirectiveResolvers;
 
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
@@ -13,66 +12,54 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\NumericScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-
-abstract class AbstractTransformIntegerFieldValueFieldDirectiveResolver extends AbstractTransformTypedFieldValueFieldDirectiveResolver
+/** @internal */
+abstract class AbstractTransformIntegerFieldValueFieldDirectiveResolver extends \PoPSchema\DirectiveCommons\DirectiveResolvers\AbstractTransformTypedFieldValueFieldDirectiveResolver
 {
     /**
      * @return array<class-string<ConcreteTypeResolverInterface>>|null
      */
-    protected function getSupportedFieldTypeResolverClasses(): ?array
+    protected function getSupportedFieldTypeResolverClasses() : ?array
     {
-        return [
-            IntScalarTypeResolver::class,
-            NumericScalarTypeResolver::class,
-            AnyBuiltInScalarScalarTypeResolver::class,
-        ];
+        return [IntScalarTypeResolver::class, NumericScalarTypeResolver::class, AnyBuiltInScalarScalarTypeResolver::class];
     }
-
-    protected function isMatchingType(mixed $value): bool
-    {
-        return is_integer($value);
-    }
-
     /**
-     * @param int $value
+     * @param mixed $value
+     */
+    protected function isMatchingType($value) : bool
+    {
+        return \is_integer($value);
+    }
+    /**
+     * @param mixed $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    final protected function transformTypeValue(mixed $value): mixed
+    protected final function transformTypeValue($value)
     {
         return $this->transformIntValue($value);
     }
-
-    abstract protected function transformIntValue(int $value): int|TypedDataValidationPayload;
-
+    /**
+     * @return int|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
+     */
+    protected abstract function transformIntValue(int $value);
     /**
      * Validate the value against the directive args
      *
-     * @param int $value
+     * @param mixed $value
      */
-    final protected function validateTypeData(mixed $value): ?TypedDataValidationPayload
+    protected final function validateTypeData($value) : ?TypedDataValidationPayload
     {
         return $this->validateIntData($value);
     }
-
-    protected function validateIntData(int $value): ?TypedDataValidationPayload
+    protected function validateIntData(int $value) : ?TypedDataValidationPayload
     {
         return null;
     }
-
-    protected function getNonMatchingTypeValueFeedbackItemResolution(
-        mixed $value,
-        string|int $id,
-        FieldInterface $field,
-        RelationalTypeResolverInterface $relationalTypeResolver,
-    ): FeedbackItemResolution {
-        return new FeedbackItemResolution(
-            FeedbackItemProvider::class,
-            FeedbackItemProvider::E4,
-            [
-                $this->getDirectiveName(),
-                $field->getOutputKey(),
-                $id,
-            ]
-        );
+    /**
+     * @param string|int $id
+     * @param mixed $value
+     */
+    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
+    {
+        return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E4, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
     }
 }

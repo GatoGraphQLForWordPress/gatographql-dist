@@ -13,11 +13,26 @@ use GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphiQLMenuPage;
 
 class TopMenuPageAttacher extends AbstractPluginMenuPageAttacher
 {
-    private ?MenuPageHelper $menuPageHelper = null;
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?UserAuthorizationInterface $userAuthorization = null;
-    private ?GraphiQLMenuPage $graphiQLMenuPage = null;
-    private ?GraphQLVoyagerMenuPage $graphQLVoyagerMenuPage = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
+     */
+    private $menuPageHelper;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
+     */
+    private $userAuthorization;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphiQLMenuPage|null
+     */
+    private $graphiQLMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphQLVoyagerMenuPage|null
+     */
+    private $graphQLVoyagerMenuPage;
 
     final public function setMenuPageHelper(MenuPageHelper $menuPageHelper): void
     {

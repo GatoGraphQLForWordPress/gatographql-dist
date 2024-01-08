@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Pages\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\AbstractCustomPostObjectTypeDataLoader;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
-
+/** @internal */
 class PageObjectTypeDataLoader extends AbstractCustomPostObjectTypeDataLoader
 {
-    private ?PageTypeAPIInterface $pageTypeAPI = null;
-
-    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
+     */
+    private $pageTypeAPI;
+    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    final protected function getPageTypeAPI(): PageTypeAPIInterface
+    protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -24,13 +25,12 @@ class PageObjectTypeDataLoader extends AbstractCustomPostObjectTypeDataLoader
         }
         return $this->pageTypeAPI;
     }
-
     /**
      * @return mixed[]
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function executeQuery(array $query, array $options = []): array
+    public function executeQuery(array $query, array $options = []) : array
     {
         return $this->getPageTypeAPI()->getPages($query, $options);
     }

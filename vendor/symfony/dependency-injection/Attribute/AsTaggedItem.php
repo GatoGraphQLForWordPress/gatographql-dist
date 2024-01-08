@@ -8,20 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DependencyInjection\Attribute;
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
 /**
  * An attribute to tell under which index and priority a service class should be found in tagged iterators/locators.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class AsTaggedItem
 {
-    public function __construct(
-        public ?string $index = null,
-        public ?int $priority = null,
-    ) {
+    /**
+     * @var string|null
+     */
+    public $index;
+    /**
+     * @var int|null
+     */
+    public $priority;
+    public function __construct(?string $index = null, ?int $priority = null)
+    {
+        $this->index = $index;
+        $this->priority = $priority;
     }
 }

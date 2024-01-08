@@ -27,7 +27,9 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
         $tab = App::query(RequestParams::TAB);
         if ($tab !== null) {
             $entryNames = array_map(
-                fn (array $entry) => $entry[0],
+                function (array $entry) {
+                    return $entry[0];
+                },
                 $entries
             );
             if (in_array($tab, $entryNames)) {
@@ -135,14 +137,8 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
                     'display: %s;',
                     $entryName === $activeEntryName ? 'block' : 'none'
                 ),
-                $this->getEntryTitle(
-                    $entryTitle,
-                    $entry,
-                ),
-                $this->getEntryContent(
-                    $entryContent,
-                    $entry,
-                )
+                $this->getEntryTitle($entryTitle, $entry),
+                $this->getEntryContent($entryContent, $entry)
             );
         }
 
@@ -184,20 +180,16 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
     /**
      * @param array{0:string,1:string} $entry
      */
-    protected function getEntryTitle(
-        string $entryTitle,
-        array $entry,
-    ): string {
+    protected function getEntryTitle(string $entryTitle, array $entry): string
+    {
         return $entryTitle;
     }
 
     /**
      * @param array{0:string,1:string} $entry
      */
-    protected function getEntryContent(
-        string $entryContent,
-        array $entry,
-    ): string {
+    protected function getEntryContent(string $entryContent, array $entry): string
+    {
         return $entryContent;
     }
 

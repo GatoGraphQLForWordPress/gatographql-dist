@@ -16,7 +16,10 @@ use PoP\ComponentModel\App;
  */
 class TagUnionTypeDataLoader extends UpstreamTagUnionTypeDataLoader
 {
-    private ?QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader = null;
+    /**
+     * @var \PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType\QueryableTagListObjectTypeDataLoader|null
+     */
+    private $queryableTagListObjectTypeDataLoader;
 
     final public function setQueryableTagListObjectTypeDataLoader(QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader): void
     {

@@ -34,18 +34,25 @@ trait CustomPostOrderByEnumTypeResolverTrait
 
     public function getAdditionalCustomPostEnumStringValueDescription(string $enumValue): ?string
     {
-        return match ($enumValue) {
-            CustomPostOrderBy::NONE => $this->getTranslationAPI()->__('Skip ordering', 'customposts'),
-            CustomPostOrderBy::COMMENT_COUNT => $this->getTranslationAPI()->__('Order by number of comments', 'customposts'),
-            CustomPostOrderBy::RANDOM => $this->getTranslationAPI()->__('Order by a random number', 'customposts'),
-            CustomPostOrderBy::MODIFIED_DATE => $this->getTranslationAPI()->__('Order by last modified date', 'customposts'),
-            CustomPostOrderBy::RELEVANCE => $this->getTranslationAPI()->__('Order by relevance', 'customposts'),
-            CustomPostOrderBy::TYPE => $this->getTranslationAPI()->__('Order by type', 'customposts'),
-            CustomPostOrderBy::PARENT => $this->getTranslationAPI()->__('Order by custom post parent id', 'customposts'),
-            CustomPostOrderBy::MENU_ORDER => $this->getTranslationAPI()->__('Order by menu order', 'customposts'),
-            // CustomPostOrderBy::POST__IN => $this->getTranslationAPI()->__('Preserve post ID order given in the post__in array', 'customposts'),
-            // CustomPostOrderBy::POST_PARENT__IN => $this->getTranslationAPI()->__('Preserve post parent order given in the ‘post_parent__in’ array', 'customposts'),
-            default => null,
-        };
+        switch ($enumValue) {
+            case CustomPostOrderBy::NONE:
+                return $this->getTranslationAPI()->__('Skip ordering', 'customposts');
+            case CustomPostOrderBy::COMMENT_COUNT:
+                return $this->getTranslationAPI()->__('Order by number of comments', 'customposts');
+            case CustomPostOrderBy::RANDOM:
+                return $this->getTranslationAPI()->__('Order by a random number', 'customposts');
+            case CustomPostOrderBy::MODIFIED_DATE:
+                return $this->getTranslationAPI()->__('Order by last modified date', 'customposts');
+            case CustomPostOrderBy::RELEVANCE:
+                return $this->getTranslationAPI()->__('Order by relevance', 'customposts');
+            case CustomPostOrderBy::TYPE:
+                return $this->getTranslationAPI()->__('Order by type', 'customposts');
+            case CustomPostOrderBy::PARENT:
+                return $this->getTranslationAPI()->__('Order by custom post parent id', 'customposts');
+            case CustomPostOrderBy::MENU_ORDER:
+                return $this->getTranslationAPI()->__('Order by menu order', 'customposts');
+            default:
+                return null;
+        }
     }
 }

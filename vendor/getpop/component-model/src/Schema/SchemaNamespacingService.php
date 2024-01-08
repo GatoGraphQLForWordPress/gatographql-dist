@@ -1,24 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Schema;
 
 use PoP\Root\Helpers\ClassHelpers;
-
-class SchemaNamespacingService implements SchemaNamespacingServiceInterface
+/** @internal */
+class SchemaNamespacingService implements \PoP\ComponentModel\Schema\SchemaNamespacingServiceInterface
 {
     /**
      * @var array<string,string>
      */
-    protected array $classOwnerAndProjectNamespaceSchemaNamespaces = [];
-
-    public function addSchemaNamespaceForClassOwnerAndProjectNamespace(string $classOwnerAndProjectNamespace, string $schemaNamespace): void
+    protected $classOwnerAndProjectNamespaceSchemaNamespaces = [];
+    public function addSchemaNamespaceForClassOwnerAndProjectNamespace(string $classOwnerAndProjectNamespace, string $schemaNamespace) : void
     {
         $this->classOwnerAndProjectNamespaceSchemaNamespaces[$classOwnerAndProjectNamespace] = $schemaNamespace;
     }
-
-    public function getSchemaNamespace(string $class): string
+    public function getSchemaNamespace(string $class) : string
     {
         $classOwnerAndProjectNamespace = ClassHelpers::getClassPSR4Namespace($class);
         // Check if an entry for this combination of Owner + class has been provided
@@ -27,14 +24,12 @@ class SchemaNamespacingService implements SchemaNamespacingServiceInterface
         }
         return $this->convertClassNamespaceToSchemaNamespace($classOwnerAndProjectNamespace);
     }
-
-    protected function convertClassNamespaceToSchemaNamespace(string $classNamespace): string
+    protected function convertClassNamespaceToSchemaNamespace(string $classNamespace) : string
     {
-        return str_replace('\\', SchemaDefinitionTokens::NAMESPACE_SEPARATOR, $classNamespace);
+        return \str_replace('\\', \PoP\ComponentModel\Schema\SchemaDefinitionTokens::NAMESPACE_SEPARATOR, $classNamespace);
     }
-
-    public function getSchemaNamespacedName(string $schemaNamespace, string $name): string
+    public function getSchemaNamespacedName(string $schemaNamespace, string $name) : string
     {
-        return ($schemaNamespace ? $schemaNamespace . SchemaDefinitionTokens::NAMESPACE_SEPARATOR : '') . $name;
+        return ($schemaNamespace ? $schemaNamespace . \PoP\ComponentModel\Schema\SchemaDefinitionTokens::NAMESPACE_SEPARATOR : '') . $name;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\FieldResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\Field;
@@ -18,20 +17,34 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
+/** @internal */
 class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?FieldExtensionsObjectTypeResolver $fieldExtensionsObjectTypeResolver = null;
-    private ?InputValueObjectTypeResolver $inputValueObjectTypeResolver = null;
-    private ?TypeObjectTypeResolver $typeObjectTypeResolver = null;
-
-    final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
+     */
+    private $booleanScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\FieldExtensionsObjectTypeResolver|null
+     */
+    private $fieldExtensionsObjectTypeResolver;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\InputValueObjectTypeResolver|null
+     */
+    private $inputValueObjectTypeResolver;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
+     */
+    private $typeObjectTypeResolver;
+    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
-    final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
             /** @var BooleanScalarTypeResolver */
@@ -40,11 +53,11 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->booleanScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -53,11 +66,11 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setFieldExtensionsObjectTypeResolver(FieldExtensionsObjectTypeResolver $fieldExtensionsObjectTypeResolver): void
+    public final function setFieldExtensionsObjectTypeResolver(FieldExtensionsObjectTypeResolver $fieldExtensionsObjectTypeResolver) : void
     {
         $this->fieldExtensionsObjectTypeResolver = $fieldExtensionsObjectTypeResolver;
     }
-    final protected function getFieldExtensionsObjectTypeResolver(): FieldExtensionsObjectTypeResolver
+    protected final function getFieldExtensionsObjectTypeResolver() : FieldExtensionsObjectTypeResolver
     {
         if ($this->fieldExtensionsObjectTypeResolver === null) {
             /** @var FieldExtensionsObjectTypeResolver */
@@ -66,11 +79,11 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->fieldExtensionsObjectTypeResolver;
     }
-    final public function setInputValueObjectTypeResolver(InputValueObjectTypeResolver $inputValueObjectTypeResolver): void
+    public final function setInputValueObjectTypeResolver(InputValueObjectTypeResolver $inputValueObjectTypeResolver) : void
     {
         $this->inputValueObjectTypeResolver = $inputValueObjectTypeResolver;
     }
-    final protected function getInputValueObjectTypeResolver(): InputValueObjectTypeResolver
+    protected final function getInputValueObjectTypeResolver() : InputValueObjectTypeResolver
     {
         if ($this->inputValueObjectTypeResolver === null) {
             /** @var InputValueObjectTypeResolver */
@@ -79,11 +92,11 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->inputValueObjectTypeResolver;
     }
-    final public function setTypeObjectTypeResolver(TypeObjectTypeResolver $typeObjectTypeResolver): void
+    public final function setTypeObjectTypeResolver(TypeObjectTypeResolver $typeObjectTypeResolver) : void
     {
         $this->typeObjectTypeResolver = $typeObjectTypeResolver;
     }
-    final protected function getTypeObjectTypeResolver(): TypeObjectTypeResolver
+    protected final function getTypeObjectTypeResolver() : TypeObjectTypeResolver
     {
         if ($this->typeObjectTypeResolver === null) {
             /** @var TypeObjectTypeResolver */
@@ -92,82 +105,81 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->typeObjectTypeResolver;
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            FieldObjectTypeResolver::class,
-        ];
+        return [FieldObjectTypeResolver::class];
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve(): array
+    public function getFieldNamesToResolve() : array
     {
-        return [
-            'name',
-            'description',
-            'args',
-            'type',
-            'isDeprecated',
-            'deprecationReason',
-            'extensions',
-        ];
+        return ['name', 'description', 'args', 'type', 'isDeprecated', 'deprecationReason', 'extensions'];
     }
-
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'name' => $this->getStringScalarTypeResolver(),
-            'description' => $this->getStringScalarTypeResolver(),
-            'isDeprecated' => $this->getBooleanScalarTypeResolver(),
-            'deprecationReason' => $this->getStringScalarTypeResolver(),
-            'extensions' => $this->getFieldExtensionsObjectTypeResolver(),
-            'args' => $this->getInputValueObjectTypeResolver(),
-            'type' => $this->getTypeObjectTypeResolver(),
-            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->getStringScalarTypeResolver();
+            case 'description':
+                return $this->getStringScalarTypeResolver();
+            case 'isDeprecated':
+                return $this->getBooleanScalarTypeResolver();
+            case 'deprecationReason':
+                return $this->getStringScalarTypeResolver();
+            case 'extensions':
+                return $this->getFieldExtensionsObjectTypeResolver();
+            case 'args':
+                return $this->getInputValueObjectTypeResolver();
+            case 'type':
+                return $this->getTypeObjectTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        return match ($fieldName) {
-            'name',
-            'type',
-            'isDeprecated',
-            'extensions'
-                => SchemaTypeModifiers::NON_NULLABLE,
-            'args'
-                => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default
-                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+            case 'type':
+            case 'isDeprecated':
+            case 'extensions':
+                return SchemaTypeModifiers::NON_NULLABLE;
+            case 'args':
+                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'name' => $this->__('Field\'s name', 'graphql-server'),
-            'description' => $this->__('Field\'s description', 'graphql-server'),
-            'args' => $this->__('Field arguments', 'graphql-server'),
-            'type' => $this->__('Type to which the field belongs', 'graphql-server'),
-            'isDeprecated' => $this->__('Is the field deprecated?', 'graphql-server'),
-            'deprecationReason' => $this->__('Why was the field deprecated?', 'graphql-server'),
-            'extensions' => $this->__('Extensions (custom metadata) added to the field (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->__('Field\'s name', 'graphql-server');
+            case 'description':
+                return $this->__('Field\'s description', 'graphql-server');
+            case 'args':
+                return $this->__('Field arguments', 'graphql-server');
+            case 'type':
+                return $this->__('Type to which the field belongs', 'graphql-server');
+            case 'isDeprecated':
+                return $this->__('Is the field deprecated?', 'graphql-server');
+            case 'deprecationReason':
+                return $this->__('Why was the field deprecated?', 'graphql-server');
+            case 'extensions':
+                return $this->__('Extensions (custom metadata) added to the field (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         /** @var Field */
         $fieldObject = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -186,18 +198,14 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             case 'extensions':
                 return $fieldObject->getExtensions()->getID();
         }
-
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-    ): bool {
-        return false;
+    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
+    {
+        return \false;
     }
 }

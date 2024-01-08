@@ -12,7 +12,10 @@ use PoPWPSchema\UserMeta\TypeResolvers\InputObjectType\UserMetaQueryInputObjectT
 
 class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet
 {
-    private ?UserMetaQueryInputObjectTypeResolver $userMetaQueryInputObjectTypeResolver = null;
+    /**
+     * @var \PoPWPSchema\UserMeta\TypeResolvers\InputObjectType\UserMetaQueryInputObjectTypeResolver|null
+     */
+    private $userMetaQueryInputObjectTypeResolver;
 
     final public function setUserMetaQueryInputObjectTypeResolver(UserMetaQueryInputObjectTypeResolver $userMetaQueryInputObjectTypeResolver): void
     {
@@ -33,9 +36,8 @@ class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQuery
         return $this->getUserMetaQueryInputObjectTypeResolver();
     }
 
-    protected function isInputObjectTypeResolver(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool {
+    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool
+    {
         return $inputObjectTypeResolver instanceof AbstractUsersFilterInputObjectTypeResolver;
     }
 }

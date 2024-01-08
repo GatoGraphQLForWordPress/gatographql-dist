@@ -8,13 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Symfony\Component\DependencyInjection\Definition;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class FromCallableConfigurator extends AbstractServiceConfigurator
 {
@@ -28,18 +27,16 @@ class FromCallableConfigurator extends AbstractServiceConfigurator
     use Traits\PublicTrait;
     use Traits\ShareTrait;
     use Traits\TagTrait;
-
     public const FACTORY = 'services';
-
-    private ServiceConfigurator $serviceConfigurator;
-
+    /**
+     * @var \Symfony\Component\DependencyInjection\Loader\Configurator\ServiceConfigurator
+     */
+    private $serviceConfigurator;
     public function __construct(ServiceConfigurator $serviceConfigurator, Definition $definition)
     {
         $this->serviceConfigurator = $serviceConfigurator;
-
         parent::__construct($serviceConfigurator->parent, $definition, $serviceConfigurator->id);
     }
-
     public function __destruct()
     {
         $this->serviceConfigurator->__destruct();

@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-interface HasPossibleTypesTypeInterface extends NamedTypeInterface
+/** @internal */
+interface HasPossibleTypesTypeInterface extends \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
 {
     /**
      * @return string[]
      */
-    public function getPossibleTypeIDs(): array;
+    public function getPossibleTypeIDs() : array;
 }

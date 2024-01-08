@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeAPIs;
 
+/** @internal */
 interface TagListTypeAPIInterface
 {
     /**
@@ -11,10 +11,10 @@ interface TagListTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTags(array $query, array $options = []): array;
+    public function getTags(array $query, array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTagCount(array $query = [], array $options = []): int;
+    public function getTagCount(array $query = [], array $options = []) : int;
 }

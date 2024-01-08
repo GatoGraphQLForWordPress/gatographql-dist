@@ -29,8 +29,8 @@ use function get_the_title;
 abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeAPI
 {
     public const HOOK_QUERY = __CLASS__ . ':query';
-    public final const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
-    public final const HOOK_STATUS_QUERY_ARG_VALUE = __CLASS__ . ':status-query-arg-value';
+    public const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
+    public const HOOK_STATUS_QUERY_ARG_VALUE = __CLASS__ . ':status-query-arg-value';
 
     /**
      * Indicates if the passed object is of type (Generic)CustomPost
@@ -42,22 +42,27 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
 
     /**
      * Indicate if an post with provided ID exists
+     * @param int|string $id
      */
-    public function customPostExists(int|string $id): bool
+    public function customPostExists($id): bool
     {
         return $this->getCustomPost($id) !== null;
     }
 
     /**
      * Return the post's ID
+     * @return string|int
      */
-    public function getID(object $customPost): string|int
+    public function getID(object $customPost)
     {
         /** @var WP_Post $customPost */
         return $customPost->ID;
     }
 
-    public function getStatus(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getStatus($customPostObjectOrID): ?string
     {
         $customPostID = $this->getCustomPostID($customPostObjectOrID);
         $status = get_post_status($customPostID);
@@ -132,11 +137,7 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         }
 
         // The query overrides the defaults, and is overriden by the required args
-        $query = [
-            ...$this->getCustomPostQueryDefaults(),
-            ...$query,
-            ...$this->getCustomPostQueryRequiredArgs(),
-        ];
+        $query = array_merge($this->getCustomPostQueryDefaults(), $query, $this->getCustomPostQueryRequiredArgs());
 
         // Convert the parameters
         if (isset($query['status'])) {
@@ -263,12 +264,20 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
     // }
     protected function getOrderByQueryArgValue(string $orderBy): string
     {
-        $orderBy = match ($orderBy) {
-            CustomPostOrderBy::ID => 'ID',
-            CustomPostOrderBy::TITLE => 'title',
-            CustomPostOrderBy::DATE => 'date',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case CustomPostOrderBy::ID:
+                $orderBy = 'ID';
+                break;
+            case CustomPostOrderBy::TITLE:
+                $orderBy = 'title';
+                break;
+            case CustomPostOrderBy::DATE:
+                $orderBy = 'date';
+                break;
+            default:
+                $orderBy = $orderBy;
+                break;
+        }
         return App::applyFilters(
             self::HOOK_ORDERBY_QUERY_ARG_VALUE,
             $orderBy
@@ -293,7 +302,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return get_post_types($query);
     }
 
-    public function getPermalink(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getPermalink($customPostObjectOrID): ?string
     {
         $customPostID = $this->getCustomPostID($customPostObjectOrID);
         if ($this->getStatus($customPostObjectOrID) === CustomPostStatus::PUBLISH) {
@@ -312,7 +324,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
     }
 
 
-    public function getSlug(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getSlug($customPostObjectOrID): ?string
     {
         list(
             $customPost,
@@ -333,7 +348,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return $post_name;
     }
 
-    public function getExcerpt(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getExcerpt($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -343,7 +361,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return get_the_excerpt($customPost);
     }
 
-    public function getRawExcerpt(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getRawExcerpt($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -355,8 +376,9 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
 
     /**
      * @return array{0:WP_Post|null,1:null|string|int}
+     * @param string|int|object $customPostObjectOrID
      */
-    protected function getCustomPostObjectAndID(string|int|object $customPostObjectOrID): array
+    protected function getCustomPostObjectAndID($customPostObjectOrID): array
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */
@@ -373,7 +395,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         ];
     }
 
-    protected function getCustomPostObject(string|int|object $customPostObjectOrID): ?object
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    protected function getCustomPostObject($customPostObjectOrID): ?object
     {
         if (is_object($customPostObjectOrID)) {
             return $customPostObjectOrID;
@@ -383,7 +408,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return \get_post((int)$customPostID);
     }
 
-    protected function getCustomPostID(string|int|object $customPostObjectOrID): int
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    protected function getCustomPostID($customPostObjectOrID): int
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */
@@ -393,7 +421,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return (int)$customPostObjectOrID;
     }
 
-    public function getTitle(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getTitle($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -404,7 +435,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return get_the_title($customPost);
     }
 
-    public function getRawTitle(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getRawTitle($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -415,7 +449,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return $customPost->post_title;
     }
 
-    public function getContent(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getContent($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -425,7 +462,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return \apply_filters('the_content', $customPost->post_content);
     }
 
-    public function getRawContent(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getRawContent($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -436,7 +476,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return $customPost->post_content;
     }
 
-    public function getPublishedDate(string|int|object $customPostObjectOrID, bool $gmt = false): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getPublishedDate($customPostObjectOrID, bool $gmt = false): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -446,7 +489,10 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         return $gmt ? $customPost->post_date_gmt : $customPost->post_date;
     }
 
-    public function getModifiedDate(string|int|object $customPostObjectOrID, bool $gmt = false): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getModifiedDate($customPostObjectOrID, bool $gmt = false): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
@@ -455,17 +501,21 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         }
         return $gmt ? $customPost->post_modified_gmt : $customPost->post_modified;
     }
-    public function getCustomPostType(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getCustomPostType($customPostObjectOrID): ?string
     {
         /** @var WP_Post|null */
         $customPost = $this->getCustomPostObject($customPostObjectOrID);
-        return $customPost?->post_type;
+        return ($nullsafeVariable1 = $customPost) ? $nullsafeVariable1->post_type : null;
     }
 
     /**
      * Get the post with provided ID or, if it doesn't exist, null
+     * @param int|string $id
      */
-    public function getCustomPost(int|string $id): ?object
+    public function getCustomPost($id): ?object
     {
         /** @var object|null */
         return get_post((int)$id);

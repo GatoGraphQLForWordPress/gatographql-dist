@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RateLimiter;
 
-namespace Symfony\Component\HttpFoundation\RateLimiter;
-
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\RateLimiter\RateLimit;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
+use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
 /**
  * A special type of limiter that deals with requests.
  *
@@ -21,10 +19,10 @@ use Symfony\Component\RateLimiter\RateLimit;
  * from the requests.
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
+ * @internal
  */
 interface RequestRateLimiterInterface
 {
-    public function consume(Request $request): RateLimit;
-
-    public function reset(Request $request): void;
+    public function consume(Request $request) : RateLimit;
+    public function reset(Request $request) : void;
 }

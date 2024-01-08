@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Log;
+namespace PrefixedByPoP\Psr\Log;
 
 /**
  * This is a simple Logger trait that classes unable to extend AbstractLogger
@@ -9,6 +9,7 @@ namespace Psr\Log;
  * It simply delegates all log-level-specific methods to the `log` method to
  * reduce boilerplate code that a simple Logger that does the same thing with
  * messages regardless of the error level has to implement.
+ * @internal
  */
 trait LoggerTrait
 {
@@ -20,11 +21,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function emergency(string|\Stringable $message, array $context = []): void
+    public function emergency($message, array $context = []) : void
     {
         $this->log(LogLevel::EMERGENCY, $message, $context);
     }
-
     /**
      * Action must be taken immediately.
      *
@@ -36,11 +36,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function alert(string|\Stringable $message, array $context = []): void
+    public function alert($message, array $context = []) : void
     {
         $this->log(LogLevel::ALERT, $message, $context);
     }
-
     /**
      * Critical conditions.
      *
@@ -51,11 +50,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function critical(string|\Stringable $message, array $context = []): void
+    public function critical($message, array $context = []) : void
     {
         $this->log(LogLevel::CRITICAL, $message, $context);
     }
-
     /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
@@ -65,11 +63,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function error(string|\Stringable $message, array $context = []): void
+    public function error($message, array $context = []) : void
     {
         $this->log(LogLevel::ERROR, $message, $context);
     }
-
     /**
      * Exceptional occurrences that are not errors.
      *
@@ -81,11 +78,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function warning(string|\Stringable $message, array $context = []): void
+    public function warning($message, array $context = []) : void
     {
         $this->log(LogLevel::WARNING, $message, $context);
     }
-
     /**
      * Normal but significant events.
      *
@@ -94,11 +90,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function notice(string|\Stringable $message, array $context = []): void
+    public function notice($message, array $context = []) : void
     {
         $this->log(LogLevel::NOTICE, $message, $context);
     }
-
     /**
      * Interesting events.
      *
@@ -109,11 +104,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function info(string|\Stringable $message, array $context = []): void
+    public function info($message, array $context = []) : void
     {
         $this->log(LogLevel::INFO, $message, $context);
     }
-
     /**
      * Detailed debug information.
      *
@@ -122,11 +116,10 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function debug(string|\Stringable $message, array $context = []): void
+    public function debug($message, array $context = []) : void
     {
         $this->log(LogLevel::DEBUG, $message, $context);
     }
-
     /**
      * Logs with an arbitrary level.
      *
@@ -138,5 +131,5 @@ trait LoggerTrait
      *
      * @throws \Psr\Log\InvalidArgumentException
      */
-    abstract public function log($level, string|\Stringable $message, array $context = []): void;
+    public abstract function log($level, $message, array $context = []) : void;
 }

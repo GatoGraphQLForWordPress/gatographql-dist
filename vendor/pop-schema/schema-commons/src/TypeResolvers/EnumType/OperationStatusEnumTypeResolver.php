@@ -1,36 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\TypeResolvers\EnumType;
 
 use PoPSchema\SchemaCommons\Enums\OperationStatusEnum;
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
-
+/** @internal */
 class OperationStatusEnumTypeResolver extends AbstractEnumTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'OperationStatusEnum';
     }
-
     /**
      * @return string[]
      */
-    public function getEnumValues(): array
+    public function getEnumValues() : array
     {
-        return [
-            OperationStatusEnum::SUCCESS,
-            OperationStatusEnum::FAILURE,
-        ];
+        return [OperationStatusEnum::SUCCESS, OperationStatusEnum::FAILURE];
     }
-
-    public function getEnumValueDescription(string $enumValue): ?string
+    public function getEnumValueDescription(string $enumValue) : ?string
     {
-        return match ($enumValue) {
-            OperationStatusEnum::SUCCESS => $this->__('Success', 'schema-commons'),
-            OperationStatusEnum::FAILURE => $this->__('Failure', 'schema-commons'),
-            default => parent::getEnumValueDescription($enumValue),
-        };
+        switch ($enumValue) {
+            case OperationStatusEnum::SUCCESS:
+                return $this->__('Success', 'schema-commons');
+            case OperationStatusEnum::FAILURE:
+                return $this->__('Failure', 'schema-commons');
+            default:
+                return parent::getEnumValueDescription($enumValue);
+        }
     }
 }

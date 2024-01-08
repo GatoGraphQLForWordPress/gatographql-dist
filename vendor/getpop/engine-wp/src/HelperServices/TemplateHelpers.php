@@ -38,7 +38,9 @@ class TemplateHelpers implements TemplateHelpersInterface
     {
         \add_filter(
             'template_include',
-            fn (string $template) => $this->getSendResponseTemplateFile(),
+            function (string $template) {
+                return $this->getSendResponseTemplateFile();
+            },
             PHP_INT_MAX // Execute last
         );
     }

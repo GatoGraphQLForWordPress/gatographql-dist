@@ -11,26 +11,31 @@ use GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface;
 
 class PluginApp implements PluginAppInterface
 {
-    protected static MainPluginManager $mainPluginManager;
-    protected static ExtensionManager $extensionManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\PluginManagement\MainPluginManager
+     */
+    protected static $mainPluginManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\PluginManagement\ExtensionManager
+     */
+    protected static $extensionManager;
 
-    public static function initializePlugin(
-        ?MainPluginManager $mainPluginManager = null,
-        ?ExtensionManager $extensionManager = null,
-    ): void {
+    public static function initializePlugin(?MainPluginManager $mainPluginManager = null, ?ExtensionManager $extensionManager = null): void
+    {
         self::$mainPluginManager = $mainPluginManager ?? static::createMainPluginManager();
         self::$extensionManager = $extensionManager ?? static::createExtensionManager();
-
         /**
          * Trigger the plugin's AppInitialization hook
          * on WordPress' "plugins_loaded" hook
          */
         \add_action(
             'plugins_loaded',
-            fn () => do_action(
-                PluginAppHooks::INITIALIZE_APP,
-                PluginAppGraphQLServerNames::EXTERNAL
-            ),
+            function () {
+                return do_action(
+                    PluginAppHooks::INITIALIZE_APP,
+                    PluginAppGraphQLServerNames::EXTERNAL
+                );
+            },
             /**
              * Priority 1000: Give room for the extensions (as well as for
              * other plugins) to be initialized first.

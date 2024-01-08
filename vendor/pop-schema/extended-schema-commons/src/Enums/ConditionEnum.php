@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\ExtendedSchemaCommons\Enums;
 
+/** @internal */
 class ConditionEnum
 {
-    public final const IS_NULL = 'IS_NULL';
-    public final const IS_EMPTY = 'IS_EMPTY';
-    public final const ALWAYS = 'ALWAYS';
+    public const IS_NULL = 'IS_NULL';
+    public const IS_EMPTY = 'IS_EMPTY';
+    public const ALWAYS = 'ALWAYS';
 }

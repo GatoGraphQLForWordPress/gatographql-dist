@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Comments\ConditionalOnModule\Users\SchemaHooks;
 
 use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCommentAuthorInputObjectTypeResolver;
@@ -12,17 +11,22 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-
+/** @internal */
 class InputObjectTypeHookSet extends AbstractHookSet
 {
-    private ?FilterCommentsByCommentAuthorInputObjectTypeResolver $filterCommentsByCommentAuthorInputObjectTypeResolver = null;
-    private ?FilterCommentsByCustomPostAuthorInputObjectTypeResolver $filterCommentsByCustomPostAuthorInputObjectTypeResolver = null;
-
-    final public function setFilterCommentsByCommentAuthorInputObjectTypeResolver(FilterCommentsByCommentAuthorInputObjectTypeResolver $filterCommentsByCommentAuthorInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCommentAuthorInputObjectTypeResolver|null
+     */
+    private $filterCommentsByCommentAuthorInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCustomPostAuthorInputObjectTypeResolver|null
+     */
+    private $filterCommentsByCustomPostAuthorInputObjectTypeResolver;
+    public final function setFilterCommentsByCommentAuthorInputObjectTypeResolver(FilterCommentsByCommentAuthorInputObjectTypeResolver $filterCommentsByCommentAuthorInputObjectTypeResolver) : void
     {
         $this->filterCommentsByCommentAuthorInputObjectTypeResolver = $filterCommentsByCommentAuthorInputObjectTypeResolver;
     }
-    final protected function getFilterCommentsByCommentAuthorInputObjectTypeResolver(): FilterCommentsByCommentAuthorInputObjectTypeResolver
+    protected final function getFilterCommentsByCommentAuthorInputObjectTypeResolver() : FilterCommentsByCommentAuthorInputObjectTypeResolver
     {
         if ($this->filterCommentsByCommentAuthorInputObjectTypeResolver === null) {
             /** @var FilterCommentsByCommentAuthorInputObjectTypeResolver */
@@ -31,11 +35,11 @@ class InputObjectTypeHookSet extends AbstractHookSet
         }
         return $this->filterCommentsByCommentAuthorInputObjectTypeResolver;
     }
-    final public function setFilterCommentsByCustomPostAuthorInputObjectTypeResolver(FilterCommentsByCustomPostAuthorInputObjectTypeResolver $filterCommentsByCustomPostAuthorInputObjectTypeResolver): void
+    public final function setFilterCommentsByCustomPostAuthorInputObjectTypeResolver(FilterCommentsByCustomPostAuthorInputObjectTypeResolver $filterCommentsByCustomPostAuthorInputObjectTypeResolver) : void
     {
         $this->filterCommentsByCustomPostAuthorInputObjectTypeResolver = $filterCommentsByCustomPostAuthorInputObjectTypeResolver;
     }
-    final protected function getFilterCommentsByCustomPostAuthorInputObjectTypeResolver(): FilterCommentsByCustomPostAuthorInputObjectTypeResolver
+    protected final function getFilterCommentsByCustomPostAuthorInputObjectTypeResolver() : FilterCommentsByCustomPostAuthorInputObjectTypeResolver
     {
         if ($this->filterCommentsByCustomPostAuthorInputObjectTypeResolver === null) {
             /** @var FilterCommentsByCustomPostAuthorInputObjectTypeResolver */
@@ -44,55 +48,34 @@ class InputObjectTypeHookSet extends AbstractHookSet
         }
         return $this->filterCommentsByCustomPostAuthorInputObjectTypeResolver;
     }
-
-    protected function init(): void
+    protected function init() : void
     {
-        App::addFilter(
-            HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            $this->getInputFieldNameTypeResolvers(...),
-            10,
-            2
-        );
-        App::addFilter(
-            HookNames::INPUT_FIELD_DESCRIPTION,
-            $this->getInputFieldDescription(...),
-            10,
-            3
-        );
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
     }
-
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(
-        array $inputFieldNameTypeResolvers,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): array {
-        if (!($inputObjectTypeResolver instanceof RootCommentsFilterInputObjectTypeResolver)) {
+    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver) : array
+    {
+        if (!$inputObjectTypeResolver instanceof RootCommentsFilterInputObjectTypeResolver) {
             return $inputFieldNameTypeResolvers;
         }
-        return array_merge(
-            $inputFieldNameTypeResolvers,
-            [
-                'author' => $this->getFilterCommentsByCommentAuthorInputObjectTypeResolver(),
-                'customPostAuthor' => $this->getFilterCommentsByCustomPostAuthorInputObjectTypeResolver(),
-            ]
-        );
+        return \array_merge($inputFieldNameTypeResolvers, ['author' => $this->getFilterCommentsByCommentAuthorInputObjectTypeResolver(), 'customPostAuthor' => $this->getFilterCommentsByCustomPostAuthorInputObjectTypeResolver()]);
     }
-
-    public function getInputFieldDescription(
-        ?string $inputFieldDescription,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-        string $inputFieldName
-    ): ?string {
-        if (!($inputObjectTypeResolver instanceof RootCommentsFilterInputObjectTypeResolver)) {
+    public function getInputFieldDescription(?string $inputFieldDescription, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : ?string
+    {
+        if (!$inputObjectTypeResolver instanceof RootCommentsFilterInputObjectTypeResolver) {
             return $inputFieldDescription;
         }
-        return match ($inputFieldName) {
-            'author' => $this->__('Filter comments by author', 'comments'),
-            'customPostAuthor' => $this->__('Filter comments added to custom posts from the given authors', 'comments'),
-            default => $inputFieldDescription,
-        };
+        switch ($inputFieldName) {
+            case 'author':
+                return $this->__('Filter comments by author', 'comments');
+            case 'customPostAuthor':
+                return $this->__('Filter comments added to custom posts from the given authors', 'comments');
+            default:
+                return $inputFieldDescription;
+        }
     }
 }

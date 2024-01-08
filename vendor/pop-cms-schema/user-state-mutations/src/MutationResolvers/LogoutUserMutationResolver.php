@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\MutationResolvers;
 
 use PoPCMSSchema\UserStateMutations\Constants\HookNames;
@@ -12,18 +11,19 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
-
+/** @internal */
 class LogoutUserMutationResolver extends AbstractMutationResolver
 {
-    use ValidateUserLoggedInMutationResolverTrait;
-
-    private ?UserStateTypeMutationAPIInterface $userStateTypeMutationAPI = null;
-
-    final public function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI): void
+    use \PoPCMSSchema\UserStateMutations\MutationResolvers\ValidateUserLoggedInMutationResolverTrait;
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface|null
+     */
+    private $userStateTypeMutationAPI;
+    public final function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI) : void
     {
         $this->userStateTypeMutationAPI = $userStateTypeMutationAPI;
     }
-    final protected function getUserStateTypeMutationAPI(): UserStateTypeMutationAPIInterface
+    protected final function getUserStateTypeMutationAPI() : UserStateTypeMutationAPIInterface
     {
         if ($this->userStateTypeMutationAPI === null) {
             /** @var UserStateTypeMutationAPIInterface */
@@ -32,33 +32,22 @@ class LogoutUserMutationResolver extends AbstractMutationResolver
         }
         return $this->userStateTypeMutationAPI;
     }
-
-    public function validate(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         $errorFeedbackItemResolution = $this->validateUserIsLoggedIn();
         if ($errorFeedbackItemResolution !== null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    $errorFeedbackItemResolution,
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFeedbackItemResolution, $fieldDataAccessor->getField()));
         }
     }
-
-    public function executeMutation(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $user_id = App::getState('current-user-id');
-
         $this->getUserStateTypeMutationAPI()->logout();
-
         // Modify the routing-state with the newly logged in user info
         AppStateHelpers::resetCurrentUserInAppState();
-
         App::doAction(HookNames::USER_LOGGED_OUT, $user_id);
         return $user_id;
     }

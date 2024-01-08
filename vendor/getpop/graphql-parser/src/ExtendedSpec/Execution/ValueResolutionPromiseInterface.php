@@ -1,18 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\ExtendedSpec\Execution;
 
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
-
+/** @internal */
 interface ValueResolutionPromiseInterface
 {
     /**
      * @throws AbstractValueResolutionPromiseException
+     * @return mixed
      */
-    public function resolveValue(): mixed;
-
+    public function resolveValue();
     /**
      * Indicate if the promise must be resolved on the object
      * being iterated upon during the field resolution or not.
@@ -23,5 +22,5 @@ interface ValueResolutionPromiseInterface
      *   - `false`: only once during the Engine Iteration
      *              for all involved fields/objects
      */
-    public function mustResolveOnObject(): bool;
+    public function mustResolveOnObject() : bool;
 }

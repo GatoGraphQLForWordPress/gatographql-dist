@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\UserStateMutations\ObjectModels\PasswordIsIncorrectErrorPayload;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 abstract class AbstractPasswordIsIncorrectErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    private ?PasswordIsIncorrectErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver = null;
-
-    final public function setPasswordIsIncorrectErrorPayloadObjectTypeResolver(PasswordIsIncorrectErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeResolver|null
+     */
+    private $userIsNotLoggedInErrorPayloadObjectTypeResolver;
+    public final function setPasswordIsIncorrectErrorPayloadObjectTypeResolver(PasswordIsIncorrectErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver) : void
     {
         $this->userIsNotLoggedInErrorPayloadObjectTypeResolver = $userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-    final protected function getPasswordIsIncorrectErrorPayloadObjectTypeResolver(): PasswordIsIncorrectErrorPayloadObjectTypeResolver
+    protected final function getPasswordIsIncorrectErrorPayloadObjectTypeResolver() : PasswordIsIncorrectErrorPayloadObjectTypeResolver
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeResolver === null) {
             /** @var PasswordIsIncorrectErrorPayloadObjectTypeResolver */
@@ -26,13 +27,11 @@ abstract class AbstractPasswordIsIncorrectErrorPayloadObjectTypeResolverPicker e
         }
         return $this->userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getPasswordIsIncorrectErrorPayloadObjectTypeResolver();
     }
-
-    protected function getTargetObjectClass(): string
+    protected function getTargetObjectClass() : string
     {
         return PasswordIsIncorrectErrorPayload::class;
     }

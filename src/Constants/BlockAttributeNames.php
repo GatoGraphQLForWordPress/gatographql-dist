@@ -6,8 +6,8 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class BlockAttributeNames
 {
-    public final const IS_ENABLED = 'isEnabled';
-    public final const ENABLED_CONST = 'enabledConst';
-    public final const ENTRIES = 'entries';
-    public final const BEHAVIOR = 'behavior';
+    public const IS_ENABLED = 'isEnabled';
+    public const ENABLED_CONST = 'enabledConst';
+    public const ENTRIES = 'entries';
+    public const BEHAVIOR = 'behavior';
 }

@@ -12,7 +12,11 @@ class UserAvatarTypeAPI implements UserAvatarTypeAPIInterface
 {
     use BasicServiceTrait;
 
-    protected function getUserID(string|int|object $userObjectOrID): string|int
+    /**
+     * @param string|int|object $userObjectOrID
+     * @return string|int
+     */
+    protected function getUserID($userObjectOrID)
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */
@@ -22,7 +26,10 @@ class UserAvatarTypeAPI implements UserAvatarTypeAPIInterface
         return $userObjectOrID;
     }
 
-    public function getUserAvatarSrc(string|int|object $userObjectOrID, int $size = 150): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserAvatarSrc($userObjectOrID, int $size = 150): ?string
     {
         $avatarHTML = \get_avatar($this->getUserID($userObjectOrID), $size);
         if ($avatarHTML === false) {

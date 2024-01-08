@@ -10,9 +10,8 @@ use PoPWPSchema\CustomPosts\SchemaHooks\AbstractAddCustomPostPasswordInputFields
 
 class AddPostPasswordInputFieldsInputObjectTypeHookSet extends AbstractAddCustomPostPasswordInputFieldsInputObjectTypeHookSet
 {
-    protected function isInputObjectTypeResolver(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool {
+    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool
+    {
         return $inputObjectTypeResolver instanceof PostsFilterInputObjectTypeResolverInterface;
     }
 }

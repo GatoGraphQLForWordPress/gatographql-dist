@@ -14,7 +14,7 @@ class CustomPostMutationTypeAPIQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             CustomPostTypeMutationAPI::HOOK_QUERY,
-            $this->convertCustomPostsMutationQuery(...)
+            \Closure::fromCallable([$this, 'convertCustomPostsMutationQuery'])
         );
     }
 

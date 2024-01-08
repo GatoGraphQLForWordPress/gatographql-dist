@@ -41,17 +41,35 @@ class SettingsMenuPage extends AbstractPluginMenuPage
     use UseDocsMenuPageTrait;
     use UseCollapsibleContentMenuPageTrait;
 
-    public final const FORM_ORIGIN = 'form-origin';
-    public final const FORM_FIELD_LAST_SAVED_TIMESTAMP = 'last_saved_timestamp';
-    public final const RESET_SETTINGS_BUTTON_ID = 'submit-reset-settings';
-    public final const ACTIVATE_EXTENSIONS_BUTTON_ID = 'submit-activate-extensions';
+    public const FORM_ORIGIN = 'form-origin';
+    public const FORM_FIELD_LAST_SAVED_TIMESTAMP = 'last_saved_timestamp';
+    public const RESET_SETTINGS_BUTTON_ID = 'submit-reset-settings';
+    public const ACTIVATE_EXTENSIONS_BUTTON_ID = 'submit-activate-extensions';
 
-    private ?UserSettingsManagerInterface $userSettingsManager = null;
-    private ?SettingsNormalizerInterface $settingsNormalizer = null;
-    private ?PluginGeneralSettingsFunctionalityModuleResolver $PluginGeneralSettingsFunctionalityModuleResolver = null;
-    private ?SettingsCategoryRegistryInterface $settingsCategoryRegistry = null;
-    private ?ModuleRegistryInterface $moduleRegistry = null;
-    private ?MarketplaceProviderCommercialExtensionActivationServiceInterface $marketplaceProviderCommercialExtensionActivationService = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
+     */
+    private $userSettingsManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\SettingsNormalizerInterface|null
+     */
+    private $settingsNormalizer;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginGeneralSettingsFunctionalityModuleResolver|null
+     */
+    private $PluginGeneralSettingsFunctionalityModuleResolver;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\SettingsCategoryRegistryInterface|null
+     */
+    private $settingsCategoryRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Marketplace\MarketplaceProviderCommercialExtensionActivationServiceInterface|null
+     */
+    private $marketplaceProviderCommercialExtensionActivationService;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -59,7 +77,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
     }
     final public function setSettingsNormalizer(SettingsNormalizerInterface $settingsNormalizer): void
     {
@@ -161,7 +179,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
              * @param array<string,mixed> $values
              * @return array<string,mixed>
              */
-            function (mixed $oldValue, array $values) use ($settingsCategory): void {
+            function ($oldValue, array $values) use ($settingsCategory): void {
                 // Make sure the user clicked on the corresponding button
                 if (
                     !isset($values[self::RESET_SETTINGS_BUTTON_ID])
@@ -176,17 +194,12 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 
                 // If pressed on the "Reset Settings" button...
                 if (isset($values[self::RESET_SETTINGS_BUTTON_ID])) {
-                    $this->restoreDBOptionValuesForNonSubmittedFormSections(
-                        $settingsCategory,
+                    $this->restoreDBOptionValuesForNonSubmittedFormSections($settingsCategory, [
                         [
-                            [
-                                PluginManagementFunctionalityModuleResolver::RESET_SETTINGS,
-                                PluginManagementFunctionalityModuleResolver::OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR,
-                            ],
+                            PluginManagementFunctionalityModuleResolver::RESET_SETTINGS,
+                            PluginManagementFunctionalityModuleResolver::OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR,
                         ],
-                        $oldValue,
-                        $values,
-                    );
+                    ], $oldValue, $values);
 
                     $this->resetSettings();
                     return;
@@ -194,17 +207,12 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 
                 // If pressed on the "Activate (Extensions)" button...
                 if (isset($values[self::ACTIVATE_EXTENSIONS_BUTTON_ID])) {
-                    $this->restoreDBOptionValuesForNonSubmittedFormSections(
-                        $settingsCategory,
+                    $this->restoreDBOptionValuesForNonSubmittedFormSections($settingsCategory, [
                         [
-                            [
-                                PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
-                                PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS,
-                            ],
+                            PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
+                            PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS,
                         ],
-                        $oldValue,
-                        $values,
-                    );
+                    ], $oldValue, $values);
 
                     // Retrieve the previously-stored license keys, and the newly-submitted license keys
                     $settingOptionName = $this->getModuleRegistry()->getModuleResolver(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS)->getSettingOptionName(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS, PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS);
@@ -232,7 +240,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             'api-keys' => SettingsCategoryResolver::API_KEYS,
         ];
         $regenerateConfigFormOptions = array_map(
-            fn (string $settingsCategory) => $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory),
+            function (string $settingsCategory) use ($settingsCategoryRegistry) {
+                return $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory);
+            },
             $regenerateConfigSettingsCategories
         );
         foreach ($regenerateConfigFormOptions as $option) {
@@ -257,10 +267,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
              */
             \add_action(
                 "update_option_{$option}",
-                fn () => $this->flushContainer(
-                    $flushRewriteRules,
-                    $regenerateContainer,
-                )
+                function () use ($flushRewriteRules, $regenerateContainer) {
+                    return $this->flushContainer($flushRewriteRules, $regenerateContainer);
+                }
             );
         }
 
@@ -275,7 +284,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                     $categorySettingsItems = array_values(array_filter(
                         $settingsItems,
                         /** @param array<string,mixed> $item */
-                        fn (array $item) => $item['settings-category'] === $settingsCategory
+                        function (array $item) use ($settingsCategory) {
+                            return $item['settings-category'] === $settingsCategory;
+                        }
                     ));
                     $optionsFormName = $settingsCategoryResolver->getOptionsFormName($settingsCategory);
                     foreach ($categorySettingsItems as $item) {
@@ -346,7 +357,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                              * once triggered by `update_option` and once by `add_option`,
                              * (which is called by `update_option`).
                              */
-                            'sanitize_callback' => fn (array $values) => $this->sanitizeCallback($values, $settingsCategory),
+                            'sanitize_callback' => function (array $values) use ($settingsCategory) {
+                                return $this->sanitizeCallback($values, $settingsCategory);
+                            },
                             'show_in_rest' => false,
                         ]
                     );
@@ -370,14 +383,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<string,mixed> $oldValue
      * @param array<string,mixed> $values
      */
-    protected function restoreDBOptionValuesForNonSubmittedFormSections(
-        string $settingsCategory,
-        array $formSubmittedModuleOptionItems,
-        array $oldValue,
-        array $values,
-    ): void {
+    protected function restoreDBOptionValuesForNonSubmittedFormSections(string $settingsCategory, array $formSubmittedModuleOptionItems, array $oldValue, array $values): void
+    {
         $dbOptionName = $this->getSettingsCategoryRegistry()->getSettingsCategoryResolver($settingsCategory)->getDBOptionName($settingsCategory);
-
         // Always transfer the "last_saved_timestamp" field
         $storeSettingOptionNames = [
             self::FORM_FIELD_LAST_SAVED_TIMESTAMP,
@@ -389,12 +397,10 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             $settingOptionName = $moduleResolver->getSettingOptionName($module, $option);
             $storeSettingOptionNames[] = $settingOptionName;
         }
-
         $restoredValues = $oldValue;
         foreach ($storeSettingOptionNames as $transferSettingOptionName) {
             $restoredValues[$transferSettingOptionName] = $values[$transferSettingOptionName];
         }
-
         update_option($dbOptionName, $restoredValues);
     }
 
@@ -433,22 +439,15 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<string,string> $previousLicenseKeys Key: Extension Slug, Value: License Key
      * @param array<string,string> $submittedLicenseKeys Key: Extension Slug, Value: License Key
      */
-    protected function activateDeactivateValidateGatoGraphQLCommercialExtensions(
-        array $previousLicenseKeys,
-        array $submittedLicenseKeys,
-    ): void {
+    protected function activateDeactivateValidateGatoGraphQLCommercialExtensions(array $previousLicenseKeys, array $submittedLicenseKeys): void
+    {
         /** @var array<string,mixed> */
         $commercialExtensionActivatedLicenseEntries = get_option(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES, []);
         [
             $activateLicenseKeys,
             $deactivateLicenseKeys,
             $validateLicenseKeys,
-        ] = $this->calculateLicenseKeysToActivateDeactivateValidate(
-            $commercialExtensionActivatedLicenseEntries,
-            $previousLicenseKeys,
-            $submittedLicenseKeys,
-        );
-
+        ] = $this->calculateLicenseKeysToActivateDeactivateValidate($commercialExtensionActivatedLicenseEntries, $previousLicenseKeys, $submittedLicenseKeys);
         if (
             $activateLicenseKeys === []
             && $deactivateLicenseKeys === []
@@ -456,15 +455,12 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         ) {
             return;
         }
-
         // Keep the original values, to only flush the container if these have changed
         $originalCommercialExtensionActivatedLicenseEntries = $commercialExtensionActivatedLicenseEntries;
-
         $extensionManager = PluginApp::getExtensionManager();
         $commercialExtensionSlugProductNames = $extensionManager->getCommercialExtensionSlugProductNames();
         $marketplaceProviderCommercialExtensionActivationService = $this->getMarketplaceProviderCommercialExtensionActivationService();
         $commercialExtensionActivatedLicenseObjectProperties = null;
-
         foreach ($validateLicenseKeys as $extensionSlug => $licenseKey) {
             /**
              * If the extensionName is empty, that means that a previously-activated
@@ -482,46 +478,22 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             /** @var string */
             $instanceID = $commercialExtensionActivatedLicenseEntry[LicenseProperties::INSTANCE_ID];
             try {
-                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->validateLicense(
-                    $licenseKey,
-                    $instanceID,
-                );
+                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->validateLicense($licenseKey, $instanceID);
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
                     \__('Validating license for "%s" produced error: %s', 'gatographql'),
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
-                    $commercialExtensionActivatedLicenseEntries,
-                    $extensionSlug,
-                    $errorMessage,
-                    $e,
-                );
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $errorMessage, $e);
                 continue;
             }
 
-            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry(
-                $commercialExtensionActivatedLicenseEntries,
-                $extensionSlug,
-                $commercialExtensionActivatedLicenseObjectProperties,
-            );
+            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry($commercialExtensionActivatedLicenseEntries, $extensionSlug, $commercialExtensionActivatedLicenseObjectProperties);
 
-            $successMessage = sprintf(
-                \__('The license for "%s" has status "%s". You have %s/%s instances activated.', 'gatographql'),
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties->status,
-                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
-                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
-            );
-            $this->showAdminMessagesOnLicenseOperationSuccess(
-                $extensionSlug,
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties,
-                $successMessage,
-            );
+            $successMessage = sprintf(\__('The license for "%s" has status "%s". You have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->status, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage);
         }
-
         /**
          * First deactivate and then activate licenses, because an extension
          * might be deactivated + reactivated (with a different license key)
@@ -541,42 +513,23 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             /** @var string */
             $instanceID = $commercialExtensionActivatedLicenseEntry[LicenseProperties::INSTANCE_ID];
             try {
-                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->deactivateLicense(
-                    $licenseKey,
-                    $instanceID,
-                );
+                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->deactivateLicense($licenseKey, $instanceID);
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
                     \__('Deactivating license for "%s" produced error: %s', 'gatographql'),
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
-                    $commercialExtensionActivatedLicenseEntries,
-                    $extensionSlug,
-                    $errorMessage,
-                    $e,
-                );
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $errorMessage, $e);
                 continue;
             }
 
             // Do not store deactivated instances
             unset($commercialExtensionActivatedLicenseEntries[$extensionSlug]);
 
-            $successMessage = sprintf(
-                \__('Deactivating license for "%s" succeeded. You now have %s/%s instances activated.', 'gatographql'),
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
-                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
-            );
-            $this->showAdminMessagesOnLicenseOperationSuccess(
-                $extensionSlug,
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties,
-                $successMessage,
-            );
+            $successMessage = sprintf(\__('Deactivating license for "%s" succeeded. You now have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage);
         }
-
         foreach ($activateLicenseKeys as $extensionSlug => $licenseKey) {
             /**
              * Make sure the bundle is active. If not, do nothing.
@@ -596,46 +549,24 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
-                    $commercialExtensionActivatedLicenseEntries,
-                    $extensionSlug,
-                    $errorMessage,
-                    $e,
-                );
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $errorMessage, $e);
                 continue;
             }
 
-            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry(
-                $commercialExtensionActivatedLicenseEntries,
-                $extensionSlug,
-                $commercialExtensionActivatedLicenseObjectProperties,
-            );
+            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry($commercialExtensionActivatedLicenseEntries, $extensionSlug, $commercialExtensionActivatedLicenseObjectProperties);
 
-            $successMessage = sprintf(
-                \__('Activating license for "%s" succeeded. You have %s/%s instances activated.', 'gatographql'),
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
-                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
-            );
-            $this->showAdminMessagesOnLicenseOperationSuccess(
-                $extensionSlug,
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties,
-                $successMessage,
-            );
+            $successMessage = sprintf(\__('Activating license for "%s" succeeded. You have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage);
         }
-
         // Do not flush container or update DB if there are no changes
         if ($originalCommercialExtensionActivatedLicenseEntries === $commercialExtensionActivatedLicenseEntries) {
             return;
         }
-
         // Store the payloads to the DB
         update_option(
             Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES,
             $commercialExtensionActivatedLicenseEntries
         );
-
         // Because extensions will be activated/deactivated, flush the service container
         $this->flushContainer(true, true);
     }
@@ -652,20 +583,16 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      *
      * @param array<string,mixed> $commercialExtensionActivatedLicenseEntries
      * @return array<string,mixed>
+     * @param \GatoGraphQL\GatoGraphQL\Marketplace\Exception\HTTPRequestNotSuccessfulException|\GatoGraphQL\GatoGraphQL\Marketplace\Exception\LicenseOperationNotSuccessfulException $e
      */
-    protected function handleLicenseOperationError(
-        array $commercialExtensionActivatedLicenseEntries,
-        string $extensionSlug,
-        string $errorMessage,
-        HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e,
-    ): array {
+    protected function handleLicenseOperationError(array $commercialExtensionActivatedLicenseEntries, string $extensionSlug, string $errorMessage, $e): array
+    {
         if ($e instanceof LicenseOperationNotSuccessfulException) {
             unset($commercialExtensionActivatedLicenseEntries[$extensionSlug]);
             $type = 'error';
         } else {
             $type = 'warning';
         }
-
         // Show the error message to the admin
         add_settings_error(
             PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
@@ -673,7 +600,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             $errorMessage,
             $type
         );
-
         return $commercialExtensionActivatedLicenseEntries;
     }
 
@@ -683,11 +609,8 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<string,mixed> $commercialExtensionActivatedLicenseEntries
      * @return array<string,mixed>
      */
-    protected function addCommercialExtensionActivatedLicenseEntry(
-        array $commercialExtensionActivatedLicenseEntries,
-        string $extensionSlug,
-        CommercialExtensionActivatedLicenseObjectProperties $commercialExtensionActivatedLicenseObjectProperties,
-    ): array {
+    protected function addCommercialExtensionActivatedLicenseEntry(array $commercialExtensionActivatedLicenseEntries, string $extensionSlug, CommercialExtensionActivatedLicenseObjectProperties $commercialExtensionActivatedLicenseObjectProperties): array
+    {
         /** @var string */
         $instanceID = $commercialExtensionActivatedLicenseObjectProperties->instanceID;
         /** @var string */
@@ -720,16 +643,11 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             LicenseProperties::CUSTOMER_NAME => $commercialExtensionActivatedLicenseObjectProperties->customerName,
             LicenseProperties::CUSTOMER_EMAIL => $commercialExtensionActivatedLicenseObjectProperties->customerEmail,
         ];
-
         return $commercialExtensionActivatedLicenseEntries;
     }
 
-    protected function showAdminMessagesOnLicenseOperationSuccess(
-        string $extensionSlug,
-        string $extensionName,
-        CommercialExtensionActivatedLicenseObjectProperties $commercialExtensionActivatedLicenseObjectProperties,
-        string $successMessage,
-    ): void {
+    protected function showAdminMessagesOnLicenseOperationSuccess(string $extensionSlug, string $extensionName, CommercialExtensionActivatedLicenseObjectProperties $commercialExtensionActivatedLicenseObjectProperties, string $successMessage): void
+    {
         // Show the success message to the admin
         add_settings_error(
             PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
@@ -737,20 +655,14 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             $successMessage,
             'success'
         );
-
         if ($commercialExtensionActivatedLicenseObjectProperties->productName === $extensionName) {
             return;
         }
-
         // Show the error message to the admin
         add_settings_error(
             PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
             'license_activation_' . $extensionSlug,
-            sprintf(
-                \__('The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'),
-                $extensionName,
-                $commercialExtensionActivatedLicenseObjectProperties->productName,
-            ),
+            sprintf(\__('The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->productName),
             'error'
         );
     }
@@ -774,15 +686,11 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<string,string> $submittedLicenseKeys Key: Extension Slug, Value: License Key
      * @return array{0:array<string,string>,1:array<string,string>,2:array<string,string>} [0]: $activateLicenseKeys, [1]: $deactivateLicenseKeys, [2]: $validateLicenseKeys], with array items as: Key: Extension Slug, Value: License Key
      */
-    protected function calculateLicenseKeysToActivateDeactivateValidate(
-        array $commercialExtensionActivatedLicenseEntries,
-        array $previousLicenseKeys,
-        array $submittedLicenseKeys,
-    ): array {
+    protected function calculateLicenseKeysToActivateDeactivateValidate(array $commercialExtensionActivatedLicenseEntries, array $previousLicenseKeys, array $submittedLicenseKeys): array
+    {
         $deactivateLicenseKeys = [];
         $activateLicenseKeys = [];
         $validateLicenseKeys = [];
-
         // Iterate all submitted entries to activate extensions
         foreach ($submittedLicenseKeys as $extensionSlug => $submittedLicenseKey) {
             $submittedLicenseKey = trim($submittedLicenseKey);
@@ -813,7 +721,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             }
             $activateLicenseKeys[$extensionSlug] = $submittedLicenseKey;
         }
-
         // Iterate all previous entries to deactivate extensions
         foreach ($previousLicenseKeys as $extensionSlug => $previousLicenseKey) {
             $previousLicenseKey = trim($previousLicenseKey);
@@ -836,7 +743,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             }
             // License key updated => Do nothing (Deactivate + Activate: already queued above)
         }
-
         return [
             $activateLicenseKeys,
             $deactivateLicenseKeys,
@@ -863,21 +769,16 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<string,mixed> $values
      * @return array<string,mixed>
      */
-    protected function sanitizeCallback(
-        array $values,
-        string $settingsCategory,
-    ): array {
+    protected function sanitizeCallback(array $values, string $settingsCategory): array
+    {
         return $this->getSettingsNormalizer()->normalizeSettingsByCategory($values, $settingsCategory);
     }
 
-    protected function flushContainer(
-        bool $flushRewriteRules,
-        ?bool $regenerateContainer,
-    ): void {
+    protected function flushContainer(bool $flushRewriteRules, ?bool $regenerateContainer): void
+    {
         if ($flushRewriteRules) {
             \flush_rewrite_rules();
         }
-
         /**
          * Update the timestamp, and maybe regenerate
          * the service container.
@@ -989,10 +890,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                         <?php
                         foreach ($primarySettingsCategorySettingsCategoryResolvers as $settingsCategory => $settingsCategoryResolver) {
                             // Make sure the category has items, otherwise skip
-                            $categorySettingsItems = $this->getCategorySettingsItems(
-                                $settingsCategory,
-                                $settingsItems,
-                            );
+                            $categorySettingsItems = $this->getCategorySettingsItems($settingsCategory, $settingsItems);
                             if ($categorySettingsItems === []) {
                                 continue;
                             }
@@ -1017,10 +915,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                                 'display: %s;',
                                 $settingsCategoryID === $activeCategoryID ? 'block' : 'none'
                             );
-                            $categorySettingsItems = $this->getCategorySettingsItems(
-                                $settingsCategory,
-                                $settingsItems,
-                            );
+                            $categorySettingsItems = $this->getCategorySettingsItems($settingsCategory, $settingsItems);
                             if ($categorySettingsItems === []) {
                                 continue;
                             }
@@ -1032,7 +927,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                                 // If passing a tab, focus on that one, if the module exists
                             if ($activeModule !== null) {
                                 $moduleIDs = array_map(
-                                    fn ($item) => $item['id'],
+                                    function ($item) {
+                                        return $item['id'];
+                                    },
                                     $categorySettingsItems
                                 );
                                 if (in_array($activeModule, $moduleIDs)) {
@@ -1135,7 +1032,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                     </div>
                 </div>
             </div>
-        <?php
+<?php
     }
 
     /**
@@ -1145,14 +1042,14 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @param array<array<string,mixed>> $settingsItems
      * @return array<array<string,mixed>>
      */
-    protected function getCategorySettingsItems(
-        string $settingsCategory,
-        array $settingsItems,
-    ): array {
+    protected function getCategorySettingsItems(string $settingsCategory, array $settingsItems): array
+    {
         return array_values(array_filter(
             $settingsItems,
             /** @param array<string,mixed> $settingsItem */
-            fn (array $settingsItem) => $settingsItem['settings-category'] === $settingsCategory
+            function (array $settingsItem) use ($settingsCategory) {
+                return $settingsItem['settings-category'] === $settingsCategory;
+            }
         ));
     }
 
@@ -1201,8 +1098,9 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 
     /**
      * Get the option value
+     * @return mixed
      */
-    protected function getOptionValue(string $module, string $option): mixed
+    protected function getOptionValue(string $module, string $option)
     {
         return $this->getUserSettingsManager()->getSetting($module, $option);
     }

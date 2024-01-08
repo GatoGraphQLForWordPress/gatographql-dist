@@ -1,26 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
+/** @internal */
 trait WithFieldsOrFragmentBondsTrait
 {
     /** @var array<FieldInterface|FragmentBondInterface> */
-    protected array $fieldsOrFragmentBonds;
-
+    protected $fieldsOrFragmentBonds;
     /**
      * @return array<FieldInterface|FragmentBondInterface>
      */
-    public function getFieldsOrFragmentBonds(): array
+    public function getFieldsOrFragmentBonds() : array
     {
         return $this->fieldsOrFragmentBonds;
     }
-
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      */
-    private function setFieldsOrFragmentBonds(array $fieldsOrFragmentBonds): void
+    private function setFieldsOrFragmentBonds(array $fieldsOrFragmentBonds) : void
     {
         $this->fieldsOrFragmentBonds = $fieldsOrFragmentBonds;
     }

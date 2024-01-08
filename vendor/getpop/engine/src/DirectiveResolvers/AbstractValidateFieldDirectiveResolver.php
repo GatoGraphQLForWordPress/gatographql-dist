@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Engine\DirectiveResolvers;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
@@ -13,27 +12,24 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-
-abstract class AbstractValidateFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
+/** @internal */
+abstract class AbstractValidateFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     use RemoveIDFieldSetFieldDirectiveResolverTrait;
-
     /**
      * Validations are by default a "Schema" type directive
      */
-    public function getDirectiveKind(): string
+    public function getDirectiveKind() : string
     {
         return DirectiveKinds::SCHEMA;
     }
-
     /**
      * Each validate can execute multiple times (eg: several @validateDoesLoggedInUserHaveAnyCapability)
      */
-    public function isRepeatable(): bool
+    public function isRepeatable() : bool
     {
-        return true;
+        return \true;
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
@@ -45,77 +41,29 @@ abstract class AbstractValidateFieldDirectiveResolver extends AbstractGlobalFiel
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array $succeedingPipelineFieldDirectiveResolvers,
-        array $idObjects,
-        array $unionTypeOutputKeyIDs,
-        array $previouslyResolvedIDFieldValues,
-        array &$succeedingPipelineIDFieldSet,
-        array &$succeedingPipelineFieldDataAccessProviders,
-        array &$resolvedIDFieldValues,
-        array &$messages,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
-        $this->validateAndFilterFields(
-            $relationalTypeResolver,
-            $idFieldSet,
-            $fieldDataAccessProvider,
-            $succeedingPipelineIDFieldSet,
-            $resolvedIDFieldValues,
-            $engineIterationFeedbackStore,
-        );
+    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
+        $this->validateAndFilterFields($relationalTypeResolver, $idFieldSet, $fieldDataAccessProvider, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      */
-    protected function validateAndFilterFields(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array &$succeedingPipelineIDFieldSet,
-        array &$resolvedIDFieldValues,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
-        $failedIDFieldSet = $this->validateIDFieldSet(
-            $relationalTypeResolver,
-            $idFieldSet,
-            $fieldDataAccessProvider,
-            $succeedingPipelineIDFieldSet,
-            $resolvedIDFieldValues,
-            $engineIterationFeedbackStore,
-        );
-
+    protected function validateAndFilterFields(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
+        $failedIDFieldSet = $this->validateIDFieldSet($relationalTypeResolver, $idFieldSet, $fieldDataAccessProvider, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
         // Remove from the data_fields list to execute on the object for the next stages of the pipeline
         if ($failedIDFieldSet !== []) {
-            $this->removeIDFieldSet(
-                $succeedingPipelineIDFieldSet,
-                $failedIDFieldSet,
-            );
-            $this->setFieldResponseValueAsNull(
-                $resolvedIDFieldValues,
-                $failedIDFieldSet,
-            );
+            $this->removeIDFieldSet($succeedingPipelineIDFieldSet, $failedIDFieldSet);
+            $this->setFieldResponseValueAsNull($resolvedIDFieldValues, $failedIDFieldSet);
         }
     }
-
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @return array<string|int,EngineIterationFieldSet> Failed $idFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      */
-    abstract protected function validateIDFieldSet(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array &$succeedingPipelineIDFieldSet,
-        array &$resolvedIDFieldValues,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): array;
+    protected abstract function validateIDFieldSet(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array;
 }

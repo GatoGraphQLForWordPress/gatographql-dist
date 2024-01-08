@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\MutationResolvers;
 
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
@@ -24,25 +23,38 @@ use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\CommentMutations\Constants\HookNames;
 use stdClass;
-
 /**
  * Add a comment to a custom post. The user may be logged-in or not
+ * @internal
  */
 class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
 {
     use ValidateUserLoggedInMutationResolverTrait;
-
-    private ?CommentTypeAPIInterface $commentTypeAPI = null;
-    private ?CommentTypeMutationAPIInterface $commentTypeMutationAPI = null;
-    private ?UserTypeAPIInterface $userTypeAPI = null;
-    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
-    private ?RequestHelperServiceInterface $requestHelperService = null;
-
-    final public function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
+     */
+    private $commentTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CommentMutations\TypeAPIs\CommentTypeMutationAPIInterface|null
+     */
+    private $commentTypeMutationAPI;
+    /**
+     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
+     */
+    private $userTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
+     */
+    private $customPostTypeAPI;
+    /**
+     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
+     */
+    private $requestHelperService;
+    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
     {
         $this->commentTypeAPI = $commentTypeAPI;
     }
-    final protected function getCommentTypeAPI(): CommentTypeAPIInterface
+    protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
             /** @var CommentTypeAPIInterface */
@@ -51,11 +63,11 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         }
         return $this->commentTypeAPI;
     }
-    final public function setCommentTypeMutationAPI(CommentTypeMutationAPIInterface $commentTypeMutationAPI): void
+    public final function setCommentTypeMutationAPI(CommentTypeMutationAPIInterface $commentTypeMutationAPI) : void
     {
         $this->commentTypeMutationAPI = $commentTypeMutationAPI;
     }
-    final protected function getCommentTypeMutationAPI(): CommentTypeMutationAPIInterface
+    protected final function getCommentTypeMutationAPI() : CommentTypeMutationAPIInterface
     {
         if ($this->commentTypeMutationAPI === null) {
             /** @var CommentTypeMutationAPIInterface */
@@ -64,11 +76,11 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         }
         return $this->commentTypeMutationAPI;
     }
-    final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
+    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
     {
         $this->userTypeAPI = $userTypeAPI;
     }
-    final protected function getUserTypeAPI(): UserTypeAPIInterface
+    protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
             /** @var UserTypeAPIInterface */
@@ -77,11 +89,11 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         }
         return $this->userTypeAPI;
     }
-    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
+    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
+    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -90,11 +102,11 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         }
         return $this->customPostTypeAPI;
     }
-    final public function setRequestHelperService(RequestHelperServiceInterface $requestHelperService): void
+    public final function setRequestHelperService(RequestHelperServiceInterface $requestHelperService) : void
     {
         $this->requestHelperService = $requestHelperService;
     }
-    final protected function getRequestHelperService(): RequestHelperServiceInterface
+    protected final function getRequestHelperService() : RequestHelperServiceInterface
     {
         if ($this->requestHelperService === null) {
             /** @var RequestHelperServiceInterface */
@@ -103,129 +115,51 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         }
         return $this->requestHelperService;
     }
-
-    public function validate(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         $field = $fieldDataAccessor->getField();
-
         // Check that the user is logged-in
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if ($moduleConfiguration->mustUserBeLoggedInToAddComment()) {
             $errorFeedbackItemResolution = $this->validateUserIsLoggedIn();
             if ($errorFeedbackItemResolution !== null) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        $errorFeedbackItemResolution,
-                        $field,
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFeedbackItemResolution, $field));
                 return;
             }
         } elseif ($moduleConfiguration->requireCommenterNameAndEmail()) {
             // Validate if the commenter's name and email are mandatory
             if (!$fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_NAME)) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            MutationErrorFeedbackItemProvider::class,
-                            MutationErrorFeedbackItemProvider::E2,
-                        ),
-                        $field,
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2), $field));
             }
             if (!$fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_EMAIL)) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            MutationErrorFeedbackItemProvider::class,
-                            MutationErrorFeedbackItemProvider::E3,
-                        ),
-                        $field,
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3), $field));
             }
         }
-
         // Either provide the customPostID, or retrieve it from the parent comment
         if (!$fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID) && !$fieldDataAccessor->getValue(MutationInputProperties::PARENT_COMMENT_ID)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E4,
-                    ),
-                    $field,
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4), $field));
         }
         // Make sure the parent comment exists
         // Either provide the customPostID, or retrieve it from the parent comment
         if ($parentCommentID = $fieldDataAccessor->getValue(MutationInputProperties::PARENT_COMMENT_ID)) {
             $parentComment = $this->getCommentTypeAPI()->getComment($parentCommentID);
             if ($parentComment === null) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            MutationErrorFeedbackItemProvider::class,
-                            MutationErrorFeedbackItemProvider::E6,
-                            [
-                                $parentCommentID,
-                            ]
-                        ),
-                        $field,
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$parentCommentID]), $field));
             }
         }
         // Make sure the custom post exists
         if ($customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID)) {
             if (!$this->getCustomPostTypeAPI()->customPostExists($customPostID)) {
-                $objectTypeFieldResolutionFeedbackStore->addError(
-                    new ObjectTypeFieldResolutionFeedback(
-                        new FeedbackItemResolution(
-                            MutationErrorFeedbackItemProvider::class,
-                            MutationErrorFeedbackItemProvider::E7,
-                            [
-                                $customPostID,
-                            ]
-                        ),
-                        $field,
-                    )
-                );
+                $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$customPostID]), $field));
             } else {
                 // Validate the corresponding CPT supports comments
                 /** @var string */
                 $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
                 if (!$this->getCommentTypeAPI()->doesCustomPostTypeSupportComments($customPostType)) {
-                    $objectTypeFieldResolutionFeedbackStore->addError(
-                        new ObjectTypeFieldResolutionFeedback(
-                            new FeedbackItemResolution(
-                                MutationErrorFeedbackItemProvider::class,
-                                MutationErrorFeedbackItemProvider::E8,
-                                [
-                                    $customPostType,
-                                ]
-                            ),
-                            $field,
-                        )
-                    );
+                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8, [$customPostType]), $field));
                 } elseif (!$this->getCommentTypeAPI()->areCommentsOpen($customPostID)) {
-                    $objectTypeFieldResolutionFeedbackStore->addError(
-                        new ObjectTypeFieldResolutionFeedback(
-                            new FeedbackItemResolution(
-                                MutationErrorFeedbackItemProvider::class,
-                                MutationErrorFeedbackItemProvider::E9,
-                                [
-                                    $customPostID
-                                ]
-                            ),
-                            $field,
-                        )
-                    );
+                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9, [$customPostID]), $field));
                 }
             }
         }
@@ -235,35 +169,24 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
          * @todo In addition to "html", support additional oneof properties for the mutation (eg: provide "blocks" for Gutenberg)
          */
         if (!$commentAs->{MutationInputProperties::HTML}) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E5,
-                    ),
-                    $field,
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5), $field));
         }
     }
-
-    protected function getUserNotLoggedInError(): FeedbackItemResolution
+    protected function getUserNotLoggedInError() : FeedbackItemResolution
     {
-        return new FeedbackItemResolution(
-            MutationErrorFeedbackItemProvider::class,
-            MutationErrorFeedbackItemProvider::E1,
-        );
+        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
-
-    protected function additionals(string|int $comment_id, FieldDataAccessorInterface $fieldDataAccessor): void
+    /**
+     * @param string|int $comment_id
+     */
+    protected function additionals($comment_id, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
         App::doAction(HookNames::ADD_COMMENT, $comment_id, $fieldDataAccessor);
     }
-
     /**
      * @return array<string,mixed>
      */
-    protected function getCommentData(FieldDataAccessorInterface $fieldDataAccessor): array
+    protected function getCommentData(FieldDataAccessorInterface $fieldDataAccessor) : array
     {
         /** @var stdClass */
         $commentAs = $fieldDataAccessor->getValue(MutationInputProperties::COMMENT_AS);
@@ -296,7 +219,6 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
             $comment_data['authorEmail'] = $fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_EMAIL);
             $comment_data['authorURL'] = $fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_URL);
         }
-
         // If the parent comment is provided and the custom post is not,
         // then retrieve it from there
         if ($comment_data['parent'] && !$comment_data['customPostID']) {
@@ -304,32 +226,27 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
             $parentComment = $this->getCommentTypeAPI()->getComment($comment_data['parent']);
             $comment_data['customPostID'] = $this->getCommentTypeAPI()->getCommentPostID($parentComment);
         }
-
         return $comment_data;
     }
-
     /**
      * @throws CommentCRUDMutationException In case of error
      * @param array<string,mixed> $comment_data
+     * @return string|int
      */
-    protected function insertComment(array $comment_data): string|int
+    protected function insertComment(array $comment_data)
     {
         return $this->getCommentTypeMutationAPI()->insertComment($comment_data);
     }
-
     /**
      * @throws AbstractException In case of error
+     * @return mixed
      */
-    public function executeMutation(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $comment_data = $this->getCommentData($fieldDataAccessor);
         $comment_id = $this->insertComment($comment_data);
-
         // Allow for additional operations (eg: set Action categories)
         $this->additionals($comment_id, $fieldDataAccessor);
-
         return $comment_id;
     }
 }

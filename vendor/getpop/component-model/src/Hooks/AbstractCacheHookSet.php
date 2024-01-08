@@ -1,24 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Hooks;
 
 use PoP\ComponentModel\Cache\PersistentCacheInterface;
 use PoP\ComponentModel\Cache\TransientCacheInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-
+/** @internal */
 abstract class AbstractCacheHookSet extends AbstractHookSet
 {
-    private ?PersistentCacheInterface $persistentCache = null;
-    private ?TransientCacheInterface $transientCache = null;
-
-    final public function setPersistentCache(PersistentCacheInterface $persistentCache): void
+    /**
+     * @var \PoP\ComponentModel\Cache\PersistentCacheInterface|null
+     */
+    private $persistentCache;
+    /**
+     * @var \PoP\ComponentModel\Cache\TransientCacheInterface|null
+     */
+    private $transientCache;
+    public final function setPersistentCache(PersistentCacheInterface $persistentCache) : void
     {
         $this->persistentCache = $persistentCache;
     }
-    final protected function getPersistentCache(): PersistentCacheInterface
+    protected final function getPersistentCache() : PersistentCacheInterface
     {
         if ($this->persistentCache === null) {
             /** @var PersistentCacheInterface */
@@ -27,11 +31,11 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
         }
         return $this->persistentCache;
     }
-    final public function setTransientCache(TransientCacheInterface $transientCache): void
+    public final function setTransientCache(TransientCacheInterface $transientCache) : void
     {
         $this->transientCache = $transientCache;
     }
-    final protected function getTransientCache(): TransientCacheInterface
+    protected final function getTransientCache() : TransientCacheInterface
     {
         if ($this->transientCache === null) {
             /** @var TransientCacheInterface */
@@ -40,8 +44,7 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
         }
         return $this->transientCache;
     }
-
-    protected function init(): void
+    protected function init() : void
     {
         /**
          * When a plugin/module/component/etc is activated/deactivated,
@@ -53,12 +56,8 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
          * - 'deactivate_plugin'
          */
         foreach ($this->getClearHookNames() as $hookName) {
-            App::addAction(
-                $hookName,
-                $this->clear(...)
-            );
+            App::addAction($hookName, \Closure::fromCallable([$this, 'clear']));
         }
-
         /**
          * Save all deferred cacheItems.
          *
@@ -66,25 +65,19 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
          *
          * - 'shutdown'
          */
-        App::addAction(
-            $this->getCommitHookName(),
-            $this->commit(...)
-        );
+        App::addAction($this->getCommitHookName(), \Closure::fromCallable([$this, 'commit']));
     }
-
     /**
      * @return string[]
      */
-    abstract protected function getClearHookNames(): array;
-    abstract protected function getCommitHookName(): string;
-
-    public function clear(): void
+    protected abstract function getClearHookNames() : array;
+    protected abstract function getCommitHookName() : string;
+    public function clear() : void
     {
         $this->getPersistentCache()->clear();
         $this->getTransientCache()->clear();
     }
-
-    public function commit(): void
+    public function commit() : void
     {
         $this->getPersistentCache()->commit();
         $this->getTransientCache()->commit();

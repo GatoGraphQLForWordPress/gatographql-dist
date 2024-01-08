@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
-class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends AbstractPostCategoriesMutationErrorPayloadUnionTypeResolver
+/** @internal */
+class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\AbstractPostCategoriesMutationErrorPayloadUnionTypeResolver
 {
-    private ?PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader = null;
-
-    final public function setPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader(PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader|null
+     */
+    private $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
+    public final function setPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader(PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader) : void
     {
         $this->postSetCategoriesMutationErrorPayloadUnionTypeDataLoader = $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
     }
-    final protected function getPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader(): PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader
+    protected final function getPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader() : PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postSetCategoriesMutationErrorPayloadUnionTypeDataLoader === null) {
             /** @var PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader */
@@ -24,18 +25,15 @@ class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends AbstractPos
         }
         return $this->postSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'PostSetCategoriesMutationErrorPayloadUnion';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Union of \'Error Payload\' types when setting categories on a custom post (using nested mutations)', 'postcategory-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader();
     }

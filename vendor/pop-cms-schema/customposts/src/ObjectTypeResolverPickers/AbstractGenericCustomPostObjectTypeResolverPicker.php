@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPosts\Module;
@@ -12,18 +11,26 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTyp
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
-abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements CustomPostObjectTypeResolverPickerInterface
+/** @internal */
+abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements \PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerInterface
 {
-    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
-    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
-    private ?CustomPostObjectTypeResolverPickerRegistryInterface $customPostObjectTypeResolverPickerRegistry = null;
-
-    final public function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
+     */
+    private $genericCustomPostObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
+     */
+    private $customPostTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\Registries\CustomPostObjectTypeResolverPickerRegistryInterface|null
+     */
+    private $customPostObjectTypeResolverPickerRegistry;
+    public final function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver) : void
     {
         $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
     }
-    final protected function getGenericCustomPostObjectTypeResolver(): GenericCustomPostObjectTypeResolver
+    protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
             /** @var GenericCustomPostObjectTypeResolver */
@@ -32,11 +39,11 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
         }
         return $this->genericCustomPostObjectTypeResolver;
     }
-    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
+    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
+    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -45,11 +52,11 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
         }
         return $this->customPostTypeAPI;
     }
-    final public function setCustomPostObjectTypeResolverPickerRegistry(CustomPostObjectTypeResolverPickerRegistryInterface $customPostObjectTypeResolverPickerRegistry): void
+    public final function setCustomPostObjectTypeResolverPickerRegistry(CustomPostObjectTypeResolverPickerRegistryInterface $customPostObjectTypeResolverPickerRegistry) : void
     {
         $this->customPostObjectTypeResolverPickerRegistry = $customPostObjectTypeResolverPickerRegistry;
     }
-    final protected function getCustomPostObjectTypeResolverPickerRegistry(): CustomPostObjectTypeResolverPickerRegistryInterface
+    protected final function getCustomPostObjectTypeResolverPickerRegistry() : CustomPostObjectTypeResolverPickerRegistryInterface
     {
         if ($this->customPostObjectTypeResolverPickerRegistry === null) {
             /** @var CustomPostObjectTypeResolverPickerRegistryInterface */
@@ -58,37 +65,35 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
         }
         return $this->customPostObjectTypeResolverPickerRegistry;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getGenericCustomPostObjectTypeResolver();
     }
-
-    public function isInstanceOfType(object $object): bool
+    public function isInstanceOfType(object $object) : bool
     {
         return $this->getCustomPostTypeAPI()->isInstanceOfCustomPostType($object);
     }
-
-    public function isIDOfType(string|int $objectID): bool
+    /**
+     * @param string|int $objectID
+     */
+    public function isIDOfType($objectID) : bool
     {
         return $this->getCustomPostTypeAPI()->customPostExists($objectID);
     }
-
     /**
      * Process last, as to allow specific Pickers to take precedence,
      * such as for Post or Page. Only when no other Picker is available,
      * will GenericCustomPost be used.
      */
-    public function getPriorityToAttachToClasses(): int
+    public function getPriorityToAttachToClasses() : int
     {
         return 0;
     }
-
     /**
      * Check if there are generic custom post types,
      * and only then enable it
      */
-    public function isServiceEnabled(): bool
+    public function isServiceEnabled() : bool
     {
         $customPostObjectTypeResolverPickers = $this->getCustomPostObjectTypeResolverPickerRegistry()->getCustomPostObjectTypeResolverPickers();
         $nonGenericCustomPostTypes = [];
@@ -99,22 +104,17 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
             }
             $nonGenericCustomPostTypes[] = $customPostObjectTypeResolverPicker->getCustomPostType();
         }
-
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return array_diff(
-            $moduleConfiguration->getQueryableCustomPostTypes(),
-            $nonGenericCustomPostTypes
-        ) !== [];
+        return \array_diff($moduleConfiguration->getQueryableCustomPostTypes(), $nonGenericCustomPostTypes) !== [];
     }
-
     /**
      * Return empty value is OK, because this method will
      * never be called on this class.
      *
      * @see `isServiceEnabled`
      */
-    public function getCustomPostType(): string
+    public function getCustomPostType() : string
     {
         return '';
     }

@@ -1,27 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\ObjectModels;
 
 use stdClass;
-
-final class GenericErrorPayload extends AbstractErrorPayload implements GenericErrorPayloadInterface
+/** @internal */
+final class GenericErrorPayload extends \PoPSchema\SchemaCommons\ObjectModels\AbstractErrorPayload implements \PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayloadInterface
 {
-    public function __construct(
-        string $message,
-        public readonly ?string $code = null,
-        public readonly ?stdClass $data = null,
-    ) {
+    /**
+     * @readonly
+     * @var string|null
+     */
+    public $code;
+    /**
+     * @readonly
+     * @var \stdClass|null
+     */
+    public $data;
+    public function __construct(string $message, ?string $code = null, ?stdClass $data = null)
+    {
+        $this->code = $code;
+        $this->data = $data;
         parent::__construct($message);
     }
-
-    public function getCode(): ?string
+    public function getCode() : ?string
     {
         return $this->code;
     }
-
-    public function getData(): ?stdClass
+    public function getData() : ?stdClass
     {
         return $this->data;
     }

@@ -1,8 +1,9 @@
 <?php
-declare(strict_types=1);
 
-namespace League\Pipeline;
+declare (strict_types=1);
+namespace PrefixedByPoP\League\Pipeline;
 
+/** @internal */
 interface ProcessorInterface
 {
     /**

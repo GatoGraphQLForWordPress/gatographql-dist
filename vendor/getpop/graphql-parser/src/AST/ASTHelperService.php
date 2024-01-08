@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\AST;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
@@ -12,36 +11,34 @@ use PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Services\BasicServiceTrait;
-
-class ASTHelperService implements ASTHelperServiceInterface
+/** @internal */
+class ASTHelperService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterface
 {
     use BasicServiceTrait;
-
-    private ?ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
-
-    final public function setASTNodeDuplicatorService(ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService): void
+    /**
+     * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
+     */
+    private $astNodeDuplicatorService;
+    public final function setASTNodeDuplicatorService(\PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService) : void
     {
         $this->astNodeDuplicatorService = $astNodeDuplicatorService;
     }
-    final protected function getASTNodeDuplicatorService(): ASTNodeDuplicatorServiceInterface
+    protected final function getASTNodeDuplicatorService() : \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {
             /** @var ASTNodeDuplicatorServiceInterface */
-            $astNodeDuplicatorService = $this->instanceManager->getInstance(ASTNodeDuplicatorServiceInterface::class);
+            $astNodeDuplicatorService = $this->instanceManager->getInstance(\PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface::class);
             $this->astNodeDuplicatorService = $astNodeDuplicatorService;
         }
         return $this->astNodeDuplicatorService;
     }
-
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Fragment[] $fragments
      * @return FieldInterface[]
      */
-    public function getAllFieldsFromFieldsOrFragmentBonds(
-        array $fieldsOrFragmentBonds,
-        array $fragments,
-    ): array {
+    public function getAllFieldsFromFieldsOrFragmentBonds(array $fieldsOrFragmentBonds, array $fragments) : array
+    {
         /** @var FieldInterface[] */
         $fields = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
@@ -52,27 +49,15 @@ class ASTHelperService implements ASTHelperServiceInterface
                 if ($fragment === null) {
                     continue;
                 }
-                $allFieldsFromFieldsOrFragmentBonds = $this->getAllFieldsFromFieldsOrFragmentBonds(
-                    $fragment->getFieldsOrFragmentBonds(),
-                    $fragments,
-                );
-                $fields = array_merge(
-                    $fields,
-                    $allFieldsFromFieldsOrFragmentBonds
-                );
+                $allFieldsFromFieldsOrFragmentBonds = $this->getAllFieldsFromFieldsOrFragmentBonds($fragment->getFieldsOrFragmentBonds(), $fragments);
+                $fields = \array_merge($fields, $allFieldsFromFieldsOrFragmentBonds);
                 continue;
             }
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $allFieldsFromFieldsOrFragmentBonds = $this->getAllFieldsFromFieldsOrFragmentBonds(
-                    $inlineFragment->getFieldsOrFragmentBonds(),
-                    $fragments,
-                );
-                $fields = array_merge(
-                    $fields,
-                    $allFieldsFromFieldsOrFragmentBonds
-                );
+                $allFieldsFromFieldsOrFragmentBonds = $this->getAllFieldsFromFieldsOrFragmentBonds($inlineFragment->getFieldsOrFragmentBonds(), $fragments);
+                $fields = \array_merge($fields, $allFieldsFromFieldsOrFragmentBonds);
                 continue;
             }
             /** @var FieldInterface */
@@ -81,17 +66,13 @@ class ASTHelperService implements ASTHelperServiceInterface
         }
         return $fields;
     }
-
     /**
      * @param Fragment[] $fragments
      */
-    public function isFieldEquivalentToField(
-        FieldInterface $thisField,
-        FieldInterface $oppositeField,
-        array $fragments
-    ): bool {
-        if (get_class($thisField) !== get_class($oppositeField)) {
-            return false;
+    public function isFieldEquivalentToField(FieldInterface $thisField, FieldInterface $oppositeField, array $fragments) : bool
+    {
+        if (\get_class($thisField) !== \get_class($oppositeField)) {
+            return \false;
         }
         if ($thisField instanceof LeafField) {
             /** @var LeafField */

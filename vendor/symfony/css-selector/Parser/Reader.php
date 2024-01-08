@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\CssSelector\Parser;
+namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser;
 
 /**
  * CSS selector reader.
@@ -23,63 +22,63 @@ namespace Symfony\Component\CssSelector\Parser;
  */
 class Reader
 {
-    private string $source;
-    private int $length;
-    private int $position = 0;
-
+    /**
+     * @var string
+     */
+    private $source;
+    /**
+     * @var int
+     */
+    private $length;
+    /**
+     * @var int
+     */
+    private $position = 0;
     public function __construct(string $source)
     {
         $this->source = $source;
         $this->length = \strlen($source);
     }
-
-    public function isEOF(): bool
+    public function isEOF() : bool
     {
         return $this->position >= $this->length;
     }
-
-    public function getPosition(): int
+    public function getPosition() : int
     {
         return $this->position;
     }
-
-    public function getRemainingLength(): int
+    public function getRemainingLength() : int
     {
         return $this->length - $this->position;
     }
-
-    public function getSubstring(int $length, int $offset = 0): string
+    public function getSubstring(int $length, int $offset = 0) : string
     {
-        return substr($this->source, $this->position + $offset, $length);
+        return \substr($this->source, $this->position + $offset, $length);
     }
-
     /**
      * @return int|false
      */
-    public function getOffset(string $string): int|bool
+    public function getOffset(string $string)
     {
-        $position = strpos($this->source, $string, $this->position);
-
-        return false === $position ? false : $position - $this->position;
+        $position = \strpos($this->source, $string, $this->position);
+        return \false === $position ? \false : $position - $this->position;
     }
-
-    public function findPattern(string $pattern): array|false
+    /**
+     * @return mixed[]|false
+     */
+    public function findPattern(string $pattern)
     {
-        $source = substr($this->source, $this->position);
-
-        if (preg_match($pattern, $source, $matches)) {
+        $source = \substr($this->source, $this->position);
+        if (\preg_match($pattern, $source, $matches)) {
             return $matches;
         }
-
-        return false;
+        return \false;
     }
-
-    public function moveForward(int $length): void
+    public function moveForward(int $length) : void
     {
         $this->position += $length;
     }
-
-    public function moveToEnd(): void
+    public function moveToEnd() : void
     {
         $this->position = $this->length;
     }

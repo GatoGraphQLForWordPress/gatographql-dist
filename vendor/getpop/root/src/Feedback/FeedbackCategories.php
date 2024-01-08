@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Feedback;
 
+/** @internal */
 class FeedbackCategories
 {
-    public final const ERROR = 'error';
-    public final const DEPRECATION = 'deprecation';
-    public final const LOG = 'log';
+    public const ERROR = 'error';
+    public const DEPRECATION = 'deprecation';
+    public const LOG = 'log';
 }

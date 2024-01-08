@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostCategoryMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
@@ -9,41 +8,27 @@ use PoPCMSSchema\CustomPostCategoryMutations\ObjectModels\CategoryDoesNotExistEr
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCustomPostMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
-
+/** @internal */
 trait PayloadableSetCategoriesOnCustomPostMutationResolverTrait
 {
     use PayloadableCustomPostMutationResolverTrait {
         PayloadableCustomPostMutationResolverTrait::createErrorPayloadFromObjectTypeFieldResolutionFeedback as upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback;
     }
-
-    protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(
-        ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback
-    ): ErrorPayloadInterface {
+    protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
+    {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        return match (
-            [
-            $feedbackItemResolution->getFeedbackProviderServiceClass(),
-            $feedbackItemResolution->getCode()
-            ]
-        ) {
-            [
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E2,
-            ] => new CategoryDoesNotExistErrorPayload(
-                $feedbackItemResolution->getMessage(),
-            ),
-            default => $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback(
-                $objectTypeFieldResolutionFeedback
-            ),
-        };
+        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
+                return new CategoryDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            default:
+                return $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback);
+        }
     }
-
-    protected function getUserNotLoggedInErrorFeedbackItemProviderClass(): string
+    protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string
     {
         return MutationErrorFeedbackItemProvider::class;
     }
-
-    protected function getUserNotLoggedInErrorFeedbackItemProviderCode(): string
+    protected function getUserNotLoggedInErrorFeedbackItemProviderCode() : string
     {
         return MutationErrorFeedbackItemProvider::E1;
     }

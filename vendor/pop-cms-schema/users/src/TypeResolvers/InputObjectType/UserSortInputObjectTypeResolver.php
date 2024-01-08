@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Users\Constants\UserOrderBy;
 use PoPCMSSchema\Users\TypeResolvers\EnumType\UserOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-
+/** @internal */
 class UserSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    private ?UserOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
-
-    final public function setUserOrderByEnumTypeResolver(UserOrderByEnumTypeResolver $customPostSortByEnumTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Users\TypeResolvers\EnumType\UserOrderByEnumTypeResolver|null
+     */
+    private $customPostSortByEnumTypeResolver;
+    public final function setUserOrderByEnumTypeResolver(UserOrderByEnumTypeResolver $customPostSortByEnumTypeResolver) : void
     {
         $this->customPostSortByEnumTypeResolver = $customPostSortByEnumTypeResolver;
     }
-    final protected function getUserOrderByEnumTypeResolver(): UserOrderByEnumTypeResolver
+    protected final function getUserOrderByEnumTypeResolver() : UserOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
             /** @var UserOrderByEnumTypeResolver */
@@ -26,30 +27,27 @@ class UserSortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->customPostSortByEnumTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'UserSortInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'by' => $this->getUserOrderByEnumTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getUserOrderByEnumTypeResolver()]);
     }
-
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'by' => UserOrderBy::ID,
-            default => parent::getInputFieldDefaultValue($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'by':
+                return UserOrderBy::ID;
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
 }

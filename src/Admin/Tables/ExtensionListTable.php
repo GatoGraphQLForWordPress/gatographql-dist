@@ -19,7 +19,10 @@ class ExtensionListTable extends AbstractExtensionListTable
 {
     use WithOpeningModuleDocInModalListTableTrait;
 
-    public function overridePluginsAPIResult(): mixed
+    /**
+     * @return mixed
+     */
+    public function overridePluginsAPIResult()
     {
         $plugins = $this->getAllItems();
         return (object) [
@@ -51,24 +54,16 @@ class ExtensionListTable extends AbstractExtensionListTable
                 continue;
             }
             $isBundleExtension = $moduleResolver instanceof BundleExtensionModuleResolverInterface;
-            $item = [
-                'name' => $moduleResolver->getName($module),
-                'slug' => $moduleResolver->getGatoGraphQLExtensionSlug($module),
-                'short_description' => $moduleResolver->getDescription($module),
-                'homepage' => $moduleResolver->getWebsiteURL($module),
-                'icons' => [
-                    'default' => $moduleResolver->getLogoURL($module),
-                ],
-
-                ...$wordPressPluginAPIUnneededRequiredEntries,
-
+            $item = array_merge(['name' => $moduleResolver->getName($module), 'slug' => $moduleResolver->getGatoGraphQLExtensionSlug($module), 'short_description' => $moduleResolver->getDescription($module), 'homepage' => $moduleResolver->getWebsiteURL($module), 'icons' => [
+                'default' => $moduleResolver->getLogoURL($module),
+            ]], $wordPressPluginAPIUnneededRequiredEntries, [
                 /**
                  * These are custom properties, not required by the upstream class,
                  * but used internally to modify the generated HTML content
                  */
                 'gato_extension_module' => $module,
                 'gato_extension_is_bundle' => $isBundleExtension,
-            ];
+            ]);
             if ($isBundleExtension) {
                 /** @var BundleExtensionModuleResolverInterface */
                 $bundleExtensionModuleResolver = $moduleResolver;
@@ -165,10 +160,7 @@ class ExtensionListTable extends AbstractExtensionListTable
          * @var string
          */
         $extensionModule = $plugin['gato_extension_module'];
-        return $this->getOpeningModuleDocInModalLinkURL(
-            App::request('page') ?? App::query('page', ''),
-            $extensionModule,
-        );
+        return $this->getOpeningModuleDocInModalLinkURL(App::request('page') ?? App::query('page', ''), $extensionModule);
     }
 
     /**

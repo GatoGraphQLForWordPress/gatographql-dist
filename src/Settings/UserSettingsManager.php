@@ -17,7 +17,7 @@ class UserSettingsManager implements UserSettingsManagerInterface
      *
      * @var array<string,array<string,mixed>>
      */
-    protected array $options = [];
+    protected $options = [];
 
     /**
      * Timestamp of latest executed write to DB, concerning plugin activation,
@@ -120,7 +120,10 @@ class UserSettingsManager implements UserSettingsManagerInterface
         return $this->hasItem($optionName, $item);
     }
 
-    public function getSetting(string $module, string $option): mixed
+    /**
+     * @return mixed
+     */
+    public function getSetting(string $module, string $option)
     {
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
@@ -139,7 +142,10 @@ class UserSettingsManager implements UserSettingsManagerInterface
         return $moduleResolver->getSettingsDefaultValue($module, $option);
     }
 
-    public function setSetting(string $module, string $option, mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    public function setSetting(string $module, string $option, $value): void
     {
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
@@ -187,7 +193,10 @@ class UserSettingsManager implements UserSettingsManagerInterface
         $this->setOptionItem(Options::MODULES, $moduleID, $isEnabled);
     }
 
-    protected function setOptionItem(string $optionName, string $item, mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    protected function setOptionItem(string $optionName, string $item, $value): void
     {
         $this->storeItem($optionName, $item, $value);
 
@@ -219,8 +228,9 @@ class UserSettingsManager implements UserSettingsManagerInterface
 
     /**
      * Get the stored value for the option under the group
+     * @return mixed
      */
-    protected function getItem(string $optionName, string $item): mixed
+    protected function getItem(string $optionName, string $item)
     {
         $this->maybeLoadOptions($optionName);
         return $this->options[$optionName][$item];
@@ -248,8 +258,9 @@ class UserSettingsManager implements UserSettingsManagerInterface
 
     /**
      * Store the options in the DB
+     * @param mixed $value
      */
-    protected function storeItem(string $optionName, string $item, mixed $value): void
+    protected function storeItem(string $optionName, string $item, $value): void
     {
         $this->storeItems($optionName, [$item => $value]);
     }

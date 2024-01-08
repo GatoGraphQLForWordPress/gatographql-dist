@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
@@ -10,17 +9,22 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
-
+/** @internal */
 abstract class AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
-    private ?MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver = null;
-
-    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
+     */
+    private $idScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemByOneofInputObjectTypeResolver|null
+     */
+    private $mediaItemByOneofInputObjectTypeResolver;
+    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
+    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -29,11 +33,11 @@ abstract class AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver exten
         }
         return $this->idScalarTypeResolver;
     }
-    final public function setMediaItemByOneofInputObjectTypeResolver(MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver): void
+    public final function setMediaItemByOneofInputObjectTypeResolver(MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver) : void
     {
         $this->mediaItemByOneofInputObjectTypeResolver = $mediaItemByOneofInputObjectTypeResolver;
     }
-    final protected function getMediaItemByOneofInputObjectTypeResolver(): MediaItemByOneofInputObjectTypeResolver
+    protected final function getMediaItemByOneofInputObjectTypeResolver() : MediaItemByOneofInputObjectTypeResolver
     {
         if ($this->mediaItemByOneofInputObjectTypeResolver === null) {
             /** @var MediaItemByOneofInputObjectTypeResolver */
@@ -42,46 +46,37 @@ abstract class AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver exten
         }
         return $this->mediaItemByOneofInputObjectTypeResolver;
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Input to set the featured image on a custom post', 'custompostmedia-mutations');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            [
-                MutationInputProperties::MEDIAITEM_BY => $this->getMediaItemByOneofInputObjectTypeResolver(),
-            ],
-            $this->addCustomPostInputField() ? [
-                MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver(),
-            ] : [],
-        );
+        return \array_merge([MutationInputProperties::MEDIAITEM_BY => $this->getMediaItemByOneofInputObjectTypeResolver()], $this->addCustomPostInputField() ? [MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver()] : []);
     }
-
-    abstract protected function addCustomPostInputField(): bool;
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    protected abstract function addCustomPostInputField() : bool;
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            MutationInputProperties::CUSTOMPOST_ID => $this->__('The ID of the custom post', 'custompostmedia-mutations'),
-            MutationInputProperties::MEDIAITEM_BY => $this->__('The image to set as featured', 'custompostmedia-mutations'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case MutationInputProperties::CUSTOMPOST_ID:
+                return $this->__('The ID of the custom post', 'custompostmedia-mutations');
+            case MutationInputProperties::MEDIAITEM_BY:
+                return $this->__('The image to set as featured', 'custompostmedia-mutations');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldTypeModifiers(string $inputFieldName): int
+    public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        return match ($inputFieldName) {
-            MutationInputProperties::MEDIAITEM_BY,
-            MutationInputProperties::CUSTOMPOST_ID
-                => SchemaTypeModifiers::MANDATORY,
-            default
-                => parent::getInputFieldTypeModifiers($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case MutationInputProperties::MEDIAITEM_BY:
+            case MutationInputProperties::CUSTOMPOST_ID:
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getInputFieldTypeModifiers($inputFieldName);
+        }
     }
 }

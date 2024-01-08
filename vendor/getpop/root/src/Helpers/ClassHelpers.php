@@ -1,17 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Helpers;
 
+/** @internal */
 class ClassHelpers
 {
     /**
      * The PSR-4 namespace, with format "Vendor\Project"
      */
-    public static function getClassPSR4Namespace(string $class): string
+    public static function getClassPSR4Namespace(string $class) : string
     {
-        $parts = explode('\\', $class);
+        $parts = \explode('\\', $class);
         return $parts[0] . (isset($parts[1]) ? '\\' . $parts[1] : '');
     }
 }

@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserAvatars\Facades\RuntimeRegistries;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface;
-
+/** @internal */
 class UserAvatarRuntimeRegistryFacade
 {
-    public static function getInstance(): UserAvatarRuntimeRegistryInterface
+    public static function getInstance() : UserAvatarRuntimeRegistryInterface
     {
         /**
          * @var UserAvatarRuntimeRegistryInterface

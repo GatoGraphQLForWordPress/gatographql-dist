@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -11,19 +10,30 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput;
-
+/** @internal */
 abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?IncludeFilterInput $includeFilterInput = null;
-    private ?SlugFilterInput $slugFilterInput = null;
-
-    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
+     */
+    private $idScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
+     */
+    private $includeFilterInput;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
+     */
+    private $slugFilterInput;
+    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
+    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -32,11 +42,11 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
         }
         return $this->idScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -45,11 +55,11 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setIncludeFilterInput(IncludeFilterInput $includeFilterInput): void
+    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
     {
         $this->includeFilterInput = $includeFilterInput;
     }
-    final protected function getIncludeFilterInput(): IncludeFilterInput
+    protected final function getIncludeFilterInput() : IncludeFilterInput
     {
         if ($this->includeFilterInput === null) {
             /** @var IncludeFilterInput */
@@ -58,11 +68,11 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
         }
         return $this->includeFilterInput;
     }
-    final public function setSlugFilterInput(SlugFilterInput $slugFilterInput): void
+    public final function setSlugFilterInput(SlugFilterInput $slugFilterInput) : void
     {
         $this->slugFilterInput = $slugFilterInput;
     }
-    final protected function getSlugFilterInput(): SlugFilterInput
+    protected final function getSlugFilterInput() : SlugFilterInput
     {
         if ($this->slugFilterInput === null) {
             /** @var SlugFilterInput */
@@ -71,46 +81,41 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
         }
         return $this->slugFilterInput;
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
-        return sprintf(
-            $this->__('Oneof input to specify the property and data to fetch %s', 'customposts'),
-            $this->getTypeDescriptionTaxonomyEntity()
-        );
+        return \sprintf($this->__('Oneof input to specify the property and data to fetch %s', 'customposts'), $this->getTypeDescriptionTaxonomyEntity());
     }
-
-    protected function getTypeDescriptionTaxonomyEntity(): string
+    protected function getTypeDescriptionTaxonomyEntity() : string
     {
         return $this->__('a taxonomy', 'customposts');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            'id' => $this->getIDScalarTypeResolver(),
-            'slug' => $this->getStringScalarTypeResolver(),
-        ];
+        return ['id' => $this->getIDScalarTypeResolver(), 'slug' => $this->getStringScalarTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'id' => $this->__('Query by taxonomy ID', 'taxonomies'),
-            'slug' => $this->__('Query by taxonomy slug', 'taxonomies'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'id':
+                return $this->__('Query by taxonomy ID', 'taxonomies');
+            case 'slug':
+                return $this->__('Query by taxonomy slug', 'taxonomies');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            'id' => $this->getIncludeFilterInput(),
-            'slug' => $this->getSlugFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'id':
+                return $this->getIncludeFilterInput();
+            case 'slug':
+                return $this->getSlugFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

@@ -24,17 +24,35 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
         getPriority as getUpstreamPriority;
     }
 
-    public final const SCHEMA_CUSTOMPOST_META = Plugin::NAMESPACE . '\schema-custompost-meta';
-    public final const SCHEMA_USER_META = Plugin::NAMESPACE . '\schema-user-meta';
-    public final const SCHEMA_COMMENT_META = Plugin::NAMESPACE . '\schema-comment-meta';
-    public final const SCHEMA_TAXONOMY_META = Plugin::NAMESPACE . '\schema-taxonomy-meta';
+    public const SCHEMA_CUSTOMPOST_META = Plugin::NAMESPACE . '\schema-custompost-meta';
+    public const SCHEMA_USER_META = Plugin::NAMESPACE . '\schema-user-meta';
+    public const SCHEMA_COMMENT_META = Plugin::NAMESPACE . '\schema-comment-meta';
+    public const SCHEMA_TAXONOMY_META = Plugin::NAMESPACE . '\schema-taxonomy-meta';
 
-    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
-    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
-    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
-    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
-    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
-    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    /**
+     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
+     */
+    private $commentObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
+     */
+    private $postTagObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
+     */
+    private $postCategoryObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
+     */
+    private $postObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
+     */
+    private $userObjectTypeResolver;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
+     */
+    private $markdownContentParser;
 
     final public function setCommentObjectTypeResolver(CommentObjectTypeResolver $commentObjectTypeResolver): void
     {
@@ -170,43 +188,54 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
 
     public function getName(string $module): string
     {
-        return match ($module) {
-            self::SCHEMA_CUSTOMPOST_META => \__('Custom Post Meta', 'gatographql'),
-            self::SCHEMA_USER_META => \__('User Meta', 'gatographql'),
-            self::SCHEMA_COMMENT_META => \__('Comment Meta', 'gatographql'),
-            self::SCHEMA_TAXONOMY_META => \__('Taxonomy Meta', 'gatographql'),
-            default => $module,
-        };
+        switch ($module) {
+            case self::SCHEMA_CUSTOMPOST_META:
+                return \__('Custom Post Meta', 'gatographql');
+            case self::SCHEMA_USER_META:
+                return \__('User Meta', 'gatographql');
+            case self::SCHEMA_COMMENT_META:
+                return \__('Comment Meta', 'gatographql');
+            case self::SCHEMA_TAXONOMY_META:
+                return \__('Taxonomy Meta', 'gatographql');
+            default:
+                return $module;
+        }
     }
 
     public function getDescription(string $module): string
     {
-        return match ($module) {
-            self::SCHEMA_CUSTOMPOST_META => sprintf(
-                \__('Query meta values from custom posts (such as type <code>%1$s</code>)', 'gatographql'),
-                $this->getPostObjectTypeResolver()->getTypeName()
-            ),
-            self::SCHEMA_USER_META => sprintf(
-                \__('Query meta values from users (for type <code>%1$s</code>)', 'gatographql'),
-                $this->getUserObjectTypeResolver()->getTypeName()
-            ),
-            self::SCHEMA_COMMENT_META => sprintf(
-                \__('Query meta values from comments (for type <code>%1$s</code>)', 'gatographql'),
-                $this->getCommentObjectTypeResolver()->getTypeName()
-            ),
-            self::SCHEMA_TAXONOMY_META => sprintf(
-                \__('Query meta values for taxonomies (such as types <code>%1$s</code> and <code>%2$s</code>)', 'gatographql'),
-                $this->getPostTagObjectTypeResolver()->getTypeName(),
-                $this->getPostCategoryObjectTypeResolver()->getTypeName()
-            ),
-            default => parent::getDescription($module),
-        };
+        switch ($module) {
+            case self::SCHEMA_CUSTOMPOST_META:
+                return sprintf(
+                    \__('Query meta values from custom posts (such as type <code>%1$s</code>)', 'gatographql'),
+                    $this->getPostObjectTypeResolver()->getTypeName()
+                );
+            case self::SCHEMA_USER_META:
+                return sprintf(
+                    \__('Query meta values from users (for type <code>%1$s</code>)', 'gatographql'),
+                    $this->getUserObjectTypeResolver()->getTypeName()
+                );
+            case self::SCHEMA_COMMENT_META:
+                return sprintf(
+                    \__('Query meta values from comments (for type <code>%1$s</code>)', 'gatographql'),
+                    $this->getCommentObjectTypeResolver()->getTypeName()
+                );
+            case self::SCHEMA_TAXONOMY_META:
+                return sprintf(
+                    \__('Query meta values for taxonomies (such as types <code>%1$s</code> and <code>%2$s</code>)', 'gatographql'),
+                    $this->getPostTagObjectTypeResolver()->getTypeName(),
+                    $this->getPostCategoryObjectTypeResolver()->getTypeName()
+                );
+            default:
+                return parent::getDescription($module);
+        }
     }
 
     /**
      * Default value for an option set by the module
+     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option): mixed
+    public function getSettingsDefaultValue(string $module, string $option)
     {
         $useRestrictiveDefaults = BehaviorHelpers::areRestrictiveDefaultsEnabled();
         $defaultMetaValues = [
@@ -246,102 +275,78 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $ulPlaceholder = '<ul><li><code>%s</code></li></ul>';
             $defaultValueDesc = $this->getDefaultValueDescription($this->getName($module));
             $moduleDescriptions = [
-                self::SCHEMA_CUSTOMPOST_META => sprintf(
-                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                self::SCHEMA_CUSTOMPOST_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
+                    $metaKeyDesc,
+                    'custom posts'
+                ), $headsUpDesc, sprintf(
+                    $entryDesc,
+                    '_edit_last',
                     sprintf(
-                        $metaKeyDesc,
-                        'custom posts'
-                    ),
-                    $headsUpDesc,
-                    sprintf(
-                        $entryDesc,
-                        '_edit_last',
-                        sprintf(
-                            $ulPlaceholder,
-                            implode(
-                                '</code></li><li><code>',
-                                [
-                                    '_edit_last',
-                                    '/_edit_.*/',
-                                    '#_edit_([a-zA-Z]*)#',
-                                ]
-                            )
+                        $ulPlaceholder,
+                        implode(
+                            '</code></li><li><code>',
+                            [
+                                '_edit_last',
+                                '/_edit_.*/',
+                                '#_edit_([a-zA-Z]*)#',
+                            ]
                         )
-                    ),
-                    $defaultValueDesc,
-                ),
-                self::SCHEMA_USER_META => sprintf(
-                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                    )
+                ), $defaultValueDesc),
+                self::SCHEMA_USER_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
+                    $metaKeyDesc,
+                    'users'
+                ), $headsUpDesc, sprintf(
+                    $entryDesc,
+                    'last_name',
                     sprintf(
-                        $metaKeyDesc,
-                        'users'
-                    ),
-                    $headsUpDesc,
-                    sprintf(
-                        $entryDesc,
-                        'last_name',
-                        sprintf(
-                            $ulPlaceholder,
-                            implode(
-                                '</code></li><li><code>',
-                                [
-                                    'last_name',
-                                    '/last_.*/',
-                                    '#last_([a-zA-Z]*)#',
-                                ]
-                            )
+                        $ulPlaceholder,
+                        implode(
+                            '</code></li><li><code>',
+                            [
+                                'last_name',
+                                '/last_.*/',
+                                '#last_([a-zA-Z]*)#',
+                            ]
                         )
-                    ),
-                    $defaultValueDesc,
-                ),
-                self::SCHEMA_COMMENT_META => sprintf(
-                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                    )
+                ), $defaultValueDesc),
+                self::SCHEMA_COMMENT_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
+                    $metaKeyDesc,
+                    'comments'
+                ), $headsUpDesc, sprintf(
+                    $entryDesc,
+                    'description',
                     sprintf(
-                        $metaKeyDesc,
-                        'comments'
-                    ),
-                    $headsUpDesc,
-                    sprintf(
-                        $entryDesc,
-                        'description',
-                        sprintf(
-                            $ulPlaceholder,
-                            implode(
-                                '</code></li><li><code>',
-                                [
-                                    'description',
-                                    '/desc.*/',
-                                    '#desc([a-zA-Z]*)#',
-                                ]
-                            )
+                        $ulPlaceholder,
+                        implode(
+                            '</code></li><li><code>',
+                            [
+                                'description',
+                                '/desc.*/',
+                                '#desc([a-zA-Z]*)#',
+                            ]
                         )
-                    ),
-                    $defaultValueDesc,
-                ),
-                self::SCHEMA_TAXONOMY_META => sprintf(
-                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                    )
+                ), $defaultValueDesc),
+                self::SCHEMA_TAXONOMY_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
+                    $metaKeyDesc,
+                    'taxonomies (tags and categories)'
+                ), $headsUpDesc, sprintf(
+                    $entryDesc,
+                    'description',
                     sprintf(
-                        $metaKeyDesc,
-                        'taxonomies (tags and categories)'
-                    ),
-                    $headsUpDesc,
-                    sprintf(
-                        $entryDesc,
-                        'description',
-                        sprintf(
-                            $ulPlaceholder,
-                            implode(
-                                '</code></li><li><code>',
-                                [
-                                    'description',
-                                    '/desc.*/',
-                                    '#desc([a-zA-Z]*)#',
-                                ]
-                            )
+                        $ulPlaceholder,
+                        implode(
+                            '</code></li><li><code>',
+                            [
+                                'description',
+                                '/desc.*/',
+                                '#desc([a-zA-Z]*)#',
+                            ]
                         )
-                    ),
-                    $defaultValueDesc,
-                ),
+                    )
+                ), $defaultValueDesc),
             ];
             $option = ModuleSettingOptions::ENTRIES;
             $moduleSettings[] = [
@@ -363,12 +368,7 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
                     $option
                 ),
                 Properties::TITLE => \__('Behavior', 'gatographql'),
-                Properties::DESCRIPTION => sprintf(
-                    '%s %s%s',
-                    \__('Are the entries being allowed or denied access to?', 'gatographql'),
-                    \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'),
-                    $defaultValueDesc,
-                ),
+                Properties::DESCRIPTION => sprintf('%s %s%s', \__('Are the entries being allowed or denied access to?', 'gatographql'), \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'), $defaultValueDesc),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => [
                     Behaviors::ALLOW => \__('Allow access', 'gatographql'),

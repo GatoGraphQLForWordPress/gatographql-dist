@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\StateServices;
 
 use PoP\ComponentModel\Feedback\EngineIterationFeedbackStore;
@@ -9,7 +8,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
+/** @internal */
 interface ObjectResolvedDynamicVariablesServiceInterface
 {
     /**
@@ -20,29 +19,15 @@ interface ObjectResolvedDynamicVariablesServiceInterface
      * of objectID + field.
      *
      * @param null|FieldInterface[] $dynamicVariableTargetFields
+     * @param string|int $id
+     * @param mixed $value
      */
-    public function setObjectResolvedDynamicVariableInAppState(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        FieldInterface $field,
-        object $object,
-        string|int $id,
-        mixed $value,
-        bool $serializeValue,
-        string $dynamicVariableName,
-        ?array $dynamicVariableTargetFields,
-        AstInterface $astNode,
-        Directive $directive,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void;
-
+    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, $id, $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void;
     /**
      * Duplicate all the dynamic variables for one Field into
      * another Field. It is used by @underJSONObjectProperty
      * to have the "advanced" Field have access to all state
      * set by the underlying Fieldl
      */
-    public function copyObjectResolvedDynamicVariablesFromFieldToFieldInAppState(
-        FieldInterface $fromField,
-        FieldInterface $toField,
-    ): void;
+    public function copyObjectResolvedDynamicVariablesFromFieldToFieldInAppState(FieldInterface $fromField, FieldInterface $toField) : void;
 }

@@ -8,17 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Contracts\Cache;
 
-namespace Symfony\Contracts\Cache;
-
-use Psr\Cache\CacheItemInterface;
-
+use PrefixedByPoP\Psr\Cache\CacheItemInterface;
 /**
  * Computes and returns the cached value of an item.
  *
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @template T
+ * @internal
  */
 interface CallbackInterface
 {
@@ -28,5 +27,5 @@ interface CallbackInterface
      *
      * @return T The computed value for the passed item
      */
-    public function __invoke(CacheItemInterface $item, bool &$save): mixed;
+    public function __invoke(CacheItemInterface $item, bool &$save);
 }

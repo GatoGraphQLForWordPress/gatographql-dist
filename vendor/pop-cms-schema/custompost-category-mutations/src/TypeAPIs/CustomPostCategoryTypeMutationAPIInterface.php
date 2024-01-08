@@ -1,17 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs;
 
+/** @internal */
 interface CustomPostCategoryTypeMutationAPIInterface
 {
     /**
      * @param array<string|int> $categoryIDs
+     * @param int|string $postID
      */
-    public function setCategoriesByID(int|string $postID, array $categoryIDs, bool $append = false): void;
+    public function setCategoriesByID($postID, array $categoryIDs, bool $append = \false) : void;
     /**
      * @param string[] $categorySlugs
+     * @param int|string $postID
      */
-    public function setCategoriesBySlug(int|string $postID, array $categorySlugs, bool $append = false): void;
+    public function setCategoriesBySlug($postID, array $categorySlugs, bool $append = \false) : void;
 }

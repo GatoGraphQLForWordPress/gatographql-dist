@@ -1,10 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-interface WithValueInterface extends AstInterface
+/** @internal */
+interface WithValueInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {
-    public function getValue(): mixed;
+    /**
+     * @return mixed
+     */
+    public function getValue();
 }

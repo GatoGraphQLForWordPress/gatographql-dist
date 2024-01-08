@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface;
@@ -9,18 +8,19 @@ use GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefini
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-
-abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends AbstractIntrospectionObjectTypeResolver
+/** @internal */
+abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-
-    private ?SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader = null;
-
-    final public function setSchemaDefinitionReferenceObjectTypeDataLoader(SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader|null
+     */
+    private $schemaDefinitionReferenceObjectTypeDataLoader;
+    public final function setSchemaDefinitionReferenceObjectTypeDataLoader(SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader) : void
     {
         $this->schemaDefinitionReferenceObjectTypeDataLoader = $schemaDefinitionReferenceObjectTypeDataLoader;
     }
-    final protected function getSchemaDefinitionReferenceObjectTypeDataLoader(): SchemaDefinitionReferenceObjectTypeDataLoader
+    protected final function getSchemaDefinitionReferenceObjectTypeDataLoader() : SchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->schemaDefinitionReferenceObjectTypeDataLoader === null) {
             /** @var SchemaDefinitionReferenceObjectTypeDataLoader */
@@ -29,7 +29,6 @@ abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends Abstrac
         }
         return $this->schemaDefinitionReferenceObjectTypeDataLoader;
     }
-
     /**
      * Introspection names must start with "__".
      * However, when doing so, graphql-js throws an error:
@@ -41,34 +40,31 @@ abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends Abstrac
      *
      * @see https://github.com/graphql/graphql-spec/issues/300#issuecomment-808047303
      */
-    final public function getTypeName(): string
+    public final function getTypeName() : string
     {
         return '_' . $this->getIntrospectionTypeName();
     }
-    abstract protected function getIntrospectionTypeName(): string;
-
-    public function getID(object $object): string|int|null
+    protected abstract function getIntrospectionTypeName() : string;
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         /** @var SchemaDefinitionReferenceObjectInterface $object */
         return $object->getID();
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getSchemaDefinitionReferenceObjectTypeDataLoader();
     }
-
     /**
      * Remove the IdentifiableObject interface
      *
      * @param InterfaceTypeFieldResolverInterface[] $interfaceTypeFieldResolvers
      * @return InterfaceTypeFieldResolverInterface[]
      */
-    final protected function consolidateAllImplementedInterfaceTypeFieldResolvers(
-        array $interfaceTypeFieldResolvers,
-    ): array {
-        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(
-            parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers),
-        );
+    protected final function consolidateAllImplementedInterfaceTypeFieldResolvers(array $interfaceTypeFieldResolvers) : array
+    {
+        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers));
     }
 }

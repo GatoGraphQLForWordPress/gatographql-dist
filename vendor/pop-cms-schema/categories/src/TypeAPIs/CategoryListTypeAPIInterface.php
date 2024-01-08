@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeAPIs;
 
+/** @internal */
 interface CategoryListTypeAPIInterface
 {
     /**
@@ -11,10 +11,10 @@ interface CategoryListTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getCategories(array $query, array $options = []): array;
+    public function getCategories(array $query, array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getCategoryCount(array $query, array $options = []): int;
+    public function getCategoryCount(array $query, array $options = []) : int;
 }

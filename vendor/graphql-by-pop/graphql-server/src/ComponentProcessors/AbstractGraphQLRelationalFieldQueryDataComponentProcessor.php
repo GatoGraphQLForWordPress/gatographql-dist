@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ComponentProcessors;
 
 use GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface;
@@ -11,16 +10,18 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use SplObjectStorage;
-
+/** @internal */
 abstract class AbstractGraphQLRelationalFieldQueryDataComponentProcessor extends AbstractRelationalFieldQueryDataComponentProcessor
 {
-    private ?GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService = null;
-
-    final public function setGraphQLQueryASTTransformationService(GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface|null
+     */
+    private $graphQLQueryASTTransformationService;
+    public final function setGraphQLQueryASTTransformationService(GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService) : void
     {
         $this->graphQLQueryASTTransformationService = $graphQLQueryASTTransformationService;
     }
-    final protected function getGraphQLQueryASTTransformationService(): GraphQLQueryASTTransformationServiceInterface
+    protected final function getGraphQLQueryASTTransformationService() : GraphQLQueryASTTransformationServiceInterface
     {
         if ($this->graphQLQueryASTTransformationService === null) {
             /** @var GraphQLQueryASTTransformationServiceInterface */
@@ -29,22 +30,16 @@ abstract class AbstractGraphQLRelationalFieldQueryDataComponentProcessor extends
         }
         return $this->graphQLQueryASTTransformationService;
     }
-
     /**
      * Convert the operations to include the SuperRoot Fields
      *
      * @return SplObjectStorage<OperationInterface,array<FieldInterface|FragmentBondInterface>>
      */
-    protected function getOperationFieldOrFragmentBonds(
-        ExecutableDocument $executableDocument,
-    ): SplObjectStorage {
+    protected function getOperationFieldOrFragmentBonds(ExecutableDocument $executableDocument) : SplObjectStorage
+    {
         $document = $executableDocument->getDocument();
         /** @var OperationInterface[] */
         $operations = $executableDocument->getMultipleOperationsToExecute();
-        return $this->getGraphQLQueryASTTransformationService()->prepareOperationFieldAndFragmentBondsForExecution(
-            $document,
-            $operations,
-            $document->getFragments(),
-        );
+        return $this->getGraphQLQueryASTTransformationService()->prepareOperationFieldAndFragmentBondsForExecution($document, $operations, $document->getFragments());
     }
 }

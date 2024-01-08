@@ -1,20 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API\ComponentProcessors;
 
-class RelationalFieldQueryDataComponentProcessor extends AbstractRelationalFieldQueryDataComponentProcessor
+/** @internal */
+class RelationalFieldQueryDataComponentProcessor extends \PoPAPI\API\ComponentProcessors\AbstractRelationalFieldQueryDataComponentProcessor
 {
-    public final const COMPONENT_LAYOUT_RELATIONALFIELDS = 'layout-relationalfields';
-
+    public const COMPONENT_LAYOUT_RELATIONALFIELDS = 'layout-relationalfields';
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess(): array
+    public function getComponentNamesToProcess() : array
     {
-        return array(
-            self::COMPONENT_LAYOUT_RELATIONALFIELDS,
-        );
+        return array(self::COMPONENT_LAYOUT_RELATIONALFIELDS);
     }
 }

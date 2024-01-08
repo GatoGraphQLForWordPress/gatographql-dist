@@ -16,8 +16,9 @@ class PostTagTypeMutationAPI implements PostTagTypeMutationAPIInterface
      * Passing the IDs will create a tag with that ID as the name!
      *
      * @param array<string|int> $tags List of tags by ID, slug, or a combination of them
+     * @param int|string $postID
      */
-    public function setTags(int|string $postID, array $tags, bool $append = false): void
+    public function setTags($postID, array $tags, bool $append = false): void
     {
         \wp_set_post_terms((int)$postID, $tags, 'post_tag', $append);
     }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API;
 
 use PoP\Root\App;
@@ -9,78 +8,48 @@ use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\ComponentModel\Module as ComponentModelModule;
 use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
-
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    public function useSchemaDefinitionCache(): bool
+    public function useSchemaDefinitionCache() : bool
     {
         // First check that the Component Model cache is enabled
         /** @var ComponentModelModuleConfiguration */
         $moduleConfiguration = App::getModule(ComponentModelModule::class)->getConfiguration();
         if (!$moduleConfiguration->enableComponentModelCache()) {
-            return false;
+            return \false;
         }
-
-        $envVariable = Environment::USE_SCHEMA_DEFINITION_CACHE;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPAPI\API\Environment::USE_SCHEMA_DEFINITION_CACHE;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function skipExposingGlobalFieldsInFullSchema(): bool
+    public function skipExposingGlobalFieldsInFullSchema() : bool
     {
-        $envVariable = Environment::SKIP_EXPOSING_GLOBAL_FIELDS_IN_FULL_SCHEMA;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPAPI\API\Environment::SKIP_EXPOSING_GLOBAL_FIELDS_IN_FULL_SCHEMA;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function sortFullSchemaAlphabetically(): bool
+    public function sortFullSchemaAlphabetically() : bool
     {
-        $envVariable = Environment::SORT_FULL_SCHEMA_ALPHABETICALLY;
-        $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPAPI\API\Environment::SORT_FULL_SCHEMA_ALPHABETICALLY;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function addFullSchemaFieldToSchema(): bool
+    public function addFullSchemaFieldToSchema() : bool
     {
-        $envVariable = Environment::ADD_FULLSCHEMA_FIELD_TO_SCHEMA;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPAPI\API\Environment::ADD_FULLSCHEMA_FIELD_TO_SCHEMA;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function enablePassingPersistedQueryNameViaURLParam(): bool
+    public function enablePassingPersistedQueryNameViaURLParam() : bool
     {
-        $envVariable = Environment::ENABLE_PASSING_PERSISTED_QUERY_NAME_VIA_URL_PARAM;
-        $defaultValue = false;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPAPI\API\Environment::ENABLE_PASSING_PERSISTED_QUERY_NAME_VIA_URL_PARAM;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

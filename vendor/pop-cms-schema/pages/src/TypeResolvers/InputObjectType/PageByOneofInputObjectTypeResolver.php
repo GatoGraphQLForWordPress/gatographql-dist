@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Pages\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\FilterInputs\FilterInputInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostByOneofInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput;
-
+/** @internal */
 class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputObjectTypeResolver
 {
-    private ?PathOrPathsFilterInput $pathOrPathsFilterInput = null;
-
-    final public function setPathOrPathsFilterInput(PathOrPathsFilterInput $pathOrPathsFilterInput): void
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput|null
+     */
+    private $pathOrPathsFilterInput;
+    public final function setPathOrPathsFilterInput(PathOrPathsFilterInput $pathOrPathsFilterInput) : void
     {
         $this->pathOrPathsFilterInput = $pathOrPathsFilterInput;
     }
-    final protected function getPathOrPathsFilterInput(): PathOrPathsFilterInput
+    protected final function getPathOrPathsFilterInput() : PathOrPathsFilterInput
     {
         if ($this->pathOrPathsFilterInput === null) {
             /** @var PathOrPathsFilterInput */
@@ -26,43 +27,37 @@ class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
         }
         return $this->pathOrPathsFilterInput;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'PageByInput';
     }
-
-    protected function getTypeDescriptionCustomPostEntity(): string
+    protected function getTypeDescriptionCustomPostEntity() : string
     {
         return $this->__('a page', 'pages');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'path' => $this->getStringScalarTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['path' => $this->getStringScalarTypeResolver()]);
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'path' => $this->__('Query by page path', 'pages'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'path':
+                return $this->__('Query by page path', 'pages');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            'path' => $this->getPathOrPathsFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'path':
+                return $this->getPathOrPathsFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

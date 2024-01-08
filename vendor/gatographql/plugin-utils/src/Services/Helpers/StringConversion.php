@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GatoGraphQL\PluginUtils\Services\Helpers;
 
+/** @internal */
 class StringConversion
 {
     /**
@@ -11,11 +11,11 @@ class StringConversion
      *
      * @see https://stackoverflow.com/a/2792045
      */
-    public function dashesToCamelCase(string $string, bool $capitalizeFirstCharacter = false): string
+    public function dashesToCamelCase(string $string, bool $capitalizeFirstCharacter = \false) : string
     {
-        $str = str_replace('-', '', ucwords($string, '-'));
+        $str = \str_replace('-', '', \ucwords($string, '-'));
         if (!$capitalizeFirstCharacter) {
-            $str = lcfirst($str);
+            $str = \lcfirst($str);
         }
         return $str;
     }

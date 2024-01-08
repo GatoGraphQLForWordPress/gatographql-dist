@@ -8,39 +8,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvParameterException;
 /**
  * This class is used to remove circular dependencies between individual passes.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class Compiler
 {
-    private PassConfig $passConfig;
-    private array $log = [];
-    private ServiceReferenceGraph $serviceReferenceGraph;
-
+    /**
+     * @var \Symfony\Component\DependencyInjection\Compiler\PassConfig
+     */
+    private $passConfig;
+    /**
+     * @var mixed[]
+     */
+    private $log = [];
+    /**
+     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph
+     */
+    private $serviceReferenceGraph;
     public function __construct()
     {
         $this->passConfig = new PassConfig();
         $this->serviceReferenceGraph = new ServiceReferenceGraph();
     }
-
-    public function getPassConfig(): PassConfig
+    public function getPassConfig() : PassConfig
     {
         return $this->passConfig;
     }
-
-    public function getServiceReferenceGraph(): ServiceReferenceGraph
+    public function getServiceReferenceGraph() : ServiceReferenceGraph
     {
         return $this->serviceReferenceGraph;
     }
-
     /**
      * @return void
      */
@@ -48,7 +52,6 @@ class Compiler
     {
         $this->passConfig->addPass($pass, $type, $priority);
     }
-
     /**
      * @final
      *
@@ -56,18 +59,15 @@ class Compiler
      */
     public function log(CompilerPassInterface $pass, string $message)
     {
-        if (str_contains($message, "\n")) {
-            $message = str_replace("\n", "\n".$pass::class.': ', trim($message));
+        if (\strpos($message, "\n") !== \false) {
+            $message = \str_replace("\n", "\n" . \get_class($pass) . ': ', \trim($message));
         }
-
-        $this->log[] = $pass::class.': '.$message;
+        $this->log[] = \get_class($pass) . ': ' . $message;
     }
-
-    public function getLog(): array
+    public function getLog() : array
     {
         return $this->log;
     }
-
     /**
      * Run the Compiler and process all Passes.
      *
@@ -82,20 +82,17 @@ class Compiler
         } catch (\Exception $e) {
             $usedEnvs = [];
             $prev = $e;
-
             do {
                 $msg = $prev->getMessage();
-
-                if ($msg !== $resolvedMsg = $container->resolveEnvPlaceholders($msg, null, $usedEnvs)) {
+                if ($msg !== ($resolvedMsg = $container->resolveEnvPlaceholders($msg, null, $usedEnvs))) {
                     $r = new \ReflectionProperty($prev, 'message');
+                    $r->setAccessible(\true);
                     $r->setValue($prev, $resolvedMsg);
                 }
             } while ($prev = $prev->getPrevious());
-
             if ($usedEnvs) {
                 $e = new EnvParameterException($usedEnvs, $e);
             }
-
             throw $e;
         } finally {
             $this->getServiceReferenceGraph()->clear();

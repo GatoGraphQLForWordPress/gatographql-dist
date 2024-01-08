@@ -9,7 +9,10 @@ use GatoGraphQL\GatoGraphQL\Services\BlockCategories\SchemaConfigurationBlockCat
 
 abstract class AbstractSchemaConfigBlock extends AbstractBlock implements SchemaConfigEditorBlockServiceTagInterface
 {
-    private ?SchemaConfigurationBlockCategory $schemaConfigurationBlockCategory = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\SchemaConfigurationBlockCategory|null
+     */
+    private $schemaConfigurationBlockCategory;
 
     final public function setSchemaConfigurationBlockCategory(SchemaConfigurationBlockCategory $schemaConfigurationBlockCategory): void
     {

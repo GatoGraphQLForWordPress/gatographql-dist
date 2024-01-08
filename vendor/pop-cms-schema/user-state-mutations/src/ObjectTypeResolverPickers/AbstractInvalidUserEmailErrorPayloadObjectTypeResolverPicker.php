@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\UserStateMutations\ObjectModels\InvalidUserEmailErrorPayload;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUserEmailErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 abstract class AbstractInvalidUserEmailErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    private ?InvalidUserEmailErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver = null;
-
-    final public function setInvalidUserEmailErrorPayloadObjectTypeResolver(InvalidUserEmailErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUserEmailErrorPayloadObjectTypeResolver|null
+     */
+    private $userIsNotLoggedInErrorPayloadObjectTypeResolver;
+    public final function setInvalidUserEmailErrorPayloadObjectTypeResolver(InvalidUserEmailErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver) : void
     {
         $this->userIsNotLoggedInErrorPayloadObjectTypeResolver = $userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-    final protected function getInvalidUserEmailErrorPayloadObjectTypeResolver(): InvalidUserEmailErrorPayloadObjectTypeResolver
+    protected final function getInvalidUserEmailErrorPayloadObjectTypeResolver() : InvalidUserEmailErrorPayloadObjectTypeResolver
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeResolver === null) {
             /** @var InvalidUserEmailErrorPayloadObjectTypeResolver */
@@ -26,13 +27,11 @@ abstract class AbstractInvalidUserEmailErrorPayloadObjectTypeResolverPicker exte
         }
         return $this->userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-
-    public function getObjectTypeResolver(): ObjectTypeResolverInterface
+    public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {
         return $this->getInvalidUserEmailErrorPayloadObjectTypeResolver();
     }
-
-    protected function getTargetObjectClass(): string
+    protected function getTargetObjectClass() : string
     {
         return InvalidUserEmailErrorPayload::class;
     }

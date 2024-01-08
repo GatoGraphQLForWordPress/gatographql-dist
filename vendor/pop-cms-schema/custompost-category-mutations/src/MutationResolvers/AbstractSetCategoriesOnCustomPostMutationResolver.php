@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostCategoryMutations\Constants\MutationInputProperties;
@@ -18,22 +17,32 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\Exception\AbstractException;
 use stdClass;
-
+/** @internal */
 abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;
-    use SetCategoriesOnCustomPostMutationResolverTrait;
-
-    private ?NameResolverInterface $nameResolver = null;
-    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
-    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
-    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
-
-    final public function setNameResolver(NameResolverInterface $nameResolver): void
+    use \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait;
+    /**
+     * @var \PoP\LooseContracts\NameResolverInterface|null
+     */
+    private $nameResolver;
+    /**
+     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
+     */
+    private $userRoleTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
+     */
+    private $customPostTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
+     */
+    private $customPostTypeMutationAPI;
+    public final function setNameResolver(NameResolverInterface $nameResolver) : void
     {
         $this->nameResolver = $nameResolver;
     }
-    final protected function getNameResolver(): NameResolverInterface
+    protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
             /** @var NameResolverInterface */
@@ -42,11 +51,11 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->nameResolver;
     }
-    final public function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI): void
+    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
     {
         $this->userRoleTypeAPI = $userRoleTypeAPI;
     }
-    final protected function getUserRoleTypeAPI(): UserRoleTypeAPIInterface
+    protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
         if ($this->userRoleTypeAPI === null) {
             /** @var UserRoleTypeAPIInterface */
@@ -55,11 +64,11 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->userRoleTypeAPI;
     }
-    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
+    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
+    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -68,11 +77,11 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->customPostTypeAPI;
     }
-    final public function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI): void
+    public final function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI) : void
     {
         $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
     }
-    final protected function getCustomPostTypeMutationAPI(): CustomPostTypeMutationAPIInterface
+    protected final function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface
     {
         if ($this->customPostTypeMutationAPI === null) {
             /** @var CustomPostTypeMutationAPIInterface */
@@ -81,22 +90,18 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->customPostTypeMutationAPI;
     }
-
     /**
      * @throws AbstractException In case of error
+     * @return mixed
      */
-    public function executeMutation(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
-
         /** @var stdClass|null */
         $categoriesBy = $fieldDataAccessor->getValue(MutationInputProperties::CATEGORIES_BY);
-        if ($categoriesBy === null || ((array) $categoriesBy) === []) {
+        if ($categoriesBy === null || (array) $categoriesBy === []) {
             return $customPostID;
         }
-
         $append = $fieldDataAccessor->getValue(MutationInputProperties::APPEND);
         if (isset($categoriesBy->{MutationInputProperties::IDS})) {
             /** @var array<string|int> */
@@ -109,82 +114,42 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $customPostID;
     }
-
-    abstract protected function getCustomPostCategoryTypeMutationAPI(): CustomPostCategoryTypeMutationAPIInterface;
-
-    public function validate(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    protected abstract function getCustomPostCategoryTypeMutationAPI() : CustomPostCategoryTypeMutationAPIInterface;
+    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
-
-        $this->validateIsUserLoggedIn(
-            $fieldDataAccessor,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
-
+        $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
-        $this->validateCustomPostExists(
-            $customPostID,
-            $fieldDataAccessor,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
-
+        $this->validateCustomPostExists($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         /** @var stdClass */
         $categoriesBy = $fieldDataAccessor->getValue(MutationInputProperties::CATEGORIES_BY);
         if (isset($categoriesBy->{MutationInputProperties::IDS})) {
             $customPostCategoryIDs = $categoriesBy->{MutationInputProperties::IDS};
-            $this->validateCategoriesByIDExist(
-                $customPostCategoryIDs,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
-
+            $this->validateCategoriesByIDExist($customPostCategoryIDs, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
                 return;
             }
         } elseif (isset($categoriesBy->{MutationInputProperties::SLUGS})) {
             $customPostCategorySlugs = $categoriesBy->{MutationInputProperties::SLUGS};
-            $this->validateCategoriesBySlugExist(
-                $customPostCategorySlugs,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
-
+            $this->validateCategoriesBySlugExist($customPostCategorySlugs, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
                 return;
             }
         }
-
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-
-        $this->validateCanLoggedInUserEditCustomPosts(
-            $fieldDataAccessor,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
-
+        $this->validateCanLoggedInUserEditCustomPosts($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-
-        $this->validateCanLoggedInUserEditCustomPost(
-            $customPostID,
-            $fieldDataAccessor,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
+        $this->validateCanLoggedInUserEditCustomPost($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-
-    protected function getUserNotLoggedInError(): FeedbackItemResolution
+    protected function getUserNotLoggedInError() : FeedbackItemResolution
     {
-        return new FeedbackItemResolution(
-            MutationErrorFeedbackItemProvider::class,
-            MutationErrorFeedbackItemProvider::E1,
-        );
+        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
-
-    protected function getEntityName(): string
+    protected function getEntityName() : string
     {
         return $this->__('custom post', 'custompost-category-mutations');
     }

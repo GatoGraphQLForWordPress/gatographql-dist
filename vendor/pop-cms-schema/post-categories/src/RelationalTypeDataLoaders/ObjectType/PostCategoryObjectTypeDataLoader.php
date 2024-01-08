@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\AbstractCategoryObjectTypeDataLoader;
@@ -9,17 +8,22 @@ use PoPCMSSchema\Categories\TypeAPIs\CategoryListTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
-
+/** @internal */
 class PostCategoryObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
-    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
-    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
-
-    final public function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
+     */
+    private $postCategoryTypeAPI;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
+     */
+    private $postCategoryObjectTypeResolver;
+    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
     }
-    final protected function getPostCategoryTypeAPI(): PostCategoryTypeAPIInterface
+    protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
             /** @var PostCategoryTypeAPIInterface */
@@ -28,11 +32,11 @@ class PostCategoryObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoa
         }
         return $this->postCategoryTypeAPI;
     }
-    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
+    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
     {
         $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
-    final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
+    protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
             /** @var PostCategoryObjectTypeResolver */
@@ -41,13 +45,11 @@ class PostCategoryObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoa
         }
         return $this->postCategoryObjectTypeResolver;
     }
-
-    public function getCategoryListTypeAPI(): CategoryListTypeAPIInterface
+    public function getCategoryListTypeAPI() : CategoryListTypeAPIInterface
     {
         return $this->getPostCategoryTypeAPI();
     }
-
-    public function getCategoryTypeResolver(): CategoryObjectTypeResolverInterface
+    public function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface
     {
         return $this->getPostCategoryObjectTypeResolver();
     }

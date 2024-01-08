@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\Feedback\EngineIterationFeedbackStore;
@@ -15,53 +14,48 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
-
+/** @internal */
 interface ObjectTypeResolverInterface extends RelationalTypeResolverInterface, OutputTypeResolverInterface
 {
     /**
      * @return array<string,mixed>
      */
-    public function getFieldSchemaDefinition(FieldInterface $field): ?array;
-    public function hasObjectTypeFieldResolversForField(FieldInterface $field): bool;
-    public function getFieldTypeResolver(
-        FieldInterface $field,
-    ): ?ConcreteTypeResolverInterface;
-    public function getFieldTypeModifiers(
-        FieldInterface $field,
-    ): ?int;
-    public function getFieldMutationResolver(
-        FieldInterface $field,
-    ): ?MutationResolverInterface;
-    public function isFieldAMutation(FieldInterface|string $fieldOrFieldName): ?bool;
+    public function getFieldSchemaDefinition(FieldInterface $field) : ?array;
+    public function hasObjectTypeFieldResolversForField(FieldInterface $field) : bool;
+    public function getFieldTypeResolver(FieldInterface $field) : ?ConcreteTypeResolverInterface;
+    public function getFieldTypeModifiers(FieldInterface $field) : ?int;
+    public function getFieldMutationResolver(FieldInterface $field) : ?MutationResolverInterface;
+    /**
+     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
+     */
+    public function isFieldAMutation($fieldOrFieldName) : ?bool;
     /**
      * @return array<string,Directive[]>
      */
-    public function getAllMandatoryDirectivesForFields(): array;
+    public function getAllMandatoryDirectivesForFields() : array;
     /**
      * The "executable" FieldResolver is the first one in the list
      * for each field, as according to their priority.
      *
      * @return array<string,ObjectTypeFieldResolverInterface> Key: fieldName, Value: FieldResolver
      */
-    public function getExecutableObjectTypeFieldResolversByField(bool $global): array;
+    public function getExecutableObjectTypeFieldResolversByField(bool $global) : array;
     /**
      * The list of all the FieldResolvers that resolve each field, for
      * every fieldName
      *
      * @return array<string,ObjectTypeFieldResolverInterface[]> Key: fieldName, Value: List of FieldResolvers
      */
-    public function getObjectTypeFieldResolversByField(bool $global): array;
+    public function getObjectTypeFieldResolversByField(bool $global) : array;
     /**
      * Get the first FieldResolver that resolves the field
+     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
      */
-    public function getExecutableObjectTypeFieldResolverForField(FieldInterface|string $fieldOrFieldName): ?ObjectTypeFieldResolverInterface;
+    public function getExecutableObjectTypeFieldResolverForField($fieldOrFieldName) : ?ObjectTypeFieldResolverInterface;
     /**
      * @param array<string,mixed> $fieldArgs
      */
-    public function createFieldDataAccessor(
-        FieldInterface $field,
-        array $fieldArgs,
-    ): FieldDataAccessorInterface;
+    public function createFieldDataAccessor(FieldInterface $field, array $fieldArgs) : FieldDataAccessorInterface;
     /**
      * Handle case:
      *
@@ -71,10 +65,7 @@ interface ObjectTypeResolverInterface extends RelationalTypeResolverInterface, O
      *
      * @return SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>|null null if there was an error casting the fieldArgs
      */
-    public function getWildcardObjectTypeResolverObjectFieldData(
-        FieldInterface $field,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): ?SplObjectStorage;
+    public function getWildcardObjectTypeResolverObjectFieldData(FieldInterface $field, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?SplObjectStorage;
     /**
      * Handle case:
      *
@@ -89,25 +80,16 @@ interface ObjectTypeResolverInterface extends RelationalTypeResolverInterface, O
      * @param array<string|int,object> $idObjects
      * @return SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>|null null if there was an error casting the fieldArgs
      */
-    public function getIndependentObjectTypeResolverObjectFieldData(
-        FieldInterface $field,
-        array $objectIDs,
-        array $idObjects,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): ?SplObjectStorage;
+    public function getIndependentObjectTypeResolverObjectFieldData(FieldInterface $field, array $objectIDs, array $idObjects, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?SplObjectStorage;
     /**
      * The mutation resolver might expect to receive the data properties
      * directly (eg: "title", "content" and "status"), and these may be
      * contained under a subproperty (eg: "input") from the original fieldArgs.
      */
-    public function getFieldDataAccessorForMutation(
-        FieldDataAccessorInterface $fieldDataAccessor,
-    ): FieldDataAccessorInterface;
+    public function getFieldDataAccessorForMutation(FieldDataAccessorInterface $fieldDataAccessor) : FieldDataAccessorInterface;
     /**
      * Provide a different error message if a particular version was requested,
      * or if not.
      */
-    public function getFieldNotResolvedByObjectTypeFeedbackItemResolution(
-        FieldInterface $field,
-    ): FeedbackItemResolution;
+    public function getFieldNotResolvedByObjectTypeFeedbackItemResolution(FieldInterface $field) : FeedbackItemResolution;
 }

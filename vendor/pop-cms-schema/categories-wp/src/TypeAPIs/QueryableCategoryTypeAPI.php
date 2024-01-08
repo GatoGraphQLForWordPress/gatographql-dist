@@ -24,7 +24,10 @@ class QueryableCategoryTypeAPI extends AbstractCategoryTypeAPI implements Querya
         return '';
     }
 
-    public function getCategory(string|int $categoryID): ?object
+    /**
+     * @param string|int $categoryID
+     */
+    public function getCategory($categoryID): ?object
     {
         $category = parent::getCategory($categoryID);
         if ($category === null) {
@@ -56,14 +59,12 @@ class QueryableCategoryTypeAPI extends AbstractCategoryTypeAPI implements Querya
         return $this->isQueryableCategoryTaxonomy($object);
     }
 
-    protected function getTaxonomyTermFromObjectOrID(
-        string|int|WP_Term $taxonomyTermObjectOrID,
-        string $taxonomy = '',
-    ): ?WP_Term {
-        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
-            $taxonomyTermObjectOrID,
-            $taxonomy,
-        );
+    /**
+     * @param string|int|\WP_Term $taxonomyTermObjectOrID
+     */
+    protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, string $taxonomy = ''): ?WP_Term
+    {
+        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
         if ($taxonomyTerm === null) {
             return $taxonomyTerm;
         }

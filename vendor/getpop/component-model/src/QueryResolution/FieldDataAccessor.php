@@ -1,59 +1,60 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\QueryResolution;
 
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
-class FieldDataAccessor implements FieldDataAccessorInterface
+/** @internal */
+class FieldDataAccessor implements \PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface
 {
-    use FieldOrDirectiveDataAccessorTrait;
-
+    /**
+     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
+     */
+    protected $field;
+    /**
+     * @var array<string, mixed>
+     */
+    protected $unresolvedFieldArgs;
+    use \PoP\ComponentModel\QueryResolution\FieldOrDirectiveDataAccessorTrait;
     /**
      * @param array<string,mixed> $unresolvedFieldArgs
      */
-    public function __construct(
-        protected FieldInterface $field,
+    public function __construct(FieldInterface $field, array $unresolvedFieldArgs)
+    {
+        $this->field = $field;
         /** @var array<string,mixed> */
-        protected array $unresolvedFieldArgs,
-    ) {
+        $this->unresolvedFieldArgs = $unresolvedFieldArgs;
     }
-
-    public function getField(): FieldInterface
+    public function getField() : FieldInterface
     {
         return $this->field;
     }
-
-    final public function getFieldName(): string
+    public final function getFieldName() : string
     {
         return $this->field->getName();
     }
-
     /**
      * @return array<string,mixed>
      * @throws AbstractValueResolutionPromiseException
      */
-    public function getFieldArgs(): array
+    public function getFieldArgs() : array
     {
         return $this->getResolvedFieldOrDirectiveArgs();
     }
-
     /**
      * @return array<string,mixed>
      */
-    protected function getUnresolvedFieldOrDirectiveArgs(): array
+    protected function getUnresolvedFieldOrDirectiveArgs() : array
     {
         return $this->unresolvedFieldArgs;
     }
-
     /**
      * When the Args contain a "Resolved on Object" Promise,
      * then caching the results will not work across objects,
      * and the cache must then be explicitly cleared.
      */
-    public function resetFieldArgs(): void
+    public function resetFieldArgs() : void
     {
         $this->resetResolvedFieldOrDirectiveArgs();
     }

@@ -1,24 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\ScalarType;
 
 /**
  * GraphQL Built-in Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars
+ * @internal
  */
-class FloatScalarTypeResolver extends AbstractFloatScalarTypeResolver
+class FloatScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractFloatScalarTypeResolver
 {
-    use BuiltInScalarTypeResolverTrait;
-
-    public function getTypeName(): string
+    use \PoP\ComponentModel\TypeResolvers\ScalarType\BuiltInScalarTypeResolverTrait;
+    public function getTypeName() : string
     {
         return 'Float';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('The Float scalar type represents float numbers.', 'component-model');
     }

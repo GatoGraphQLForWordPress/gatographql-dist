@@ -9,7 +9,10 @@ use GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers;
 
 abstract class AbstractBlockSchemaConfigurationExecuter extends AbstractSchemaConfigurationExecuter
 {
-    private ?BlockHelpers $blockHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
+     */
+    private $blockHelpers;
 
     final public function setBlockHelpers(BlockHelpers $blockHelpers): void
     {

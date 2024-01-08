@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations\MutationResolvers;
 
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
@@ -12,43 +11,20 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-
+/** @internal */
 trait SetTagsOnCustomPostMutationResolverTrait
 {
     /**
      * @param array<string|int> $customPostTagIDs
      */
-    protected function validateTagsExist(
-        array $customPostTagIDs,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
-        $query = [
-            'include' => $customPostTagIDs,
-        ];
+    protected function validateTagsExist(array $customPostTagIDs, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        $query = ['include' => $customPostTagIDs];
         $existingTagIDs = $this->getTagTypeAPI()->getTags($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
-        $nonExistingTagIDs = array_values(array_diff(
-            $customPostTagIDs,
-            $existingTagIDs
-        ));
+        $nonExistingTagIDs = \array_values(\array_diff($customPostTagIDs, $existingTagIDs));
         if ($nonExistingTagIDs !== []) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E2,
-                        [
-                            implode(
-                                $this->__('\', \'', 'custompost-tag-mutations'),
-                                $nonExistingTagIDs
-                            ),
-                        ]
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2, [\implode($this->__('\', \'', 'custompost-tag-mutations'), $nonExistingTagIDs)]), $fieldDataAccessor->getField()));
         }
     }
-
-    abstract protected function getTagTypeAPI(): TagTypeAPIInterface;
+    protected abstract function getTagTypeAPI() : TagTypeAPIInterface;
 }

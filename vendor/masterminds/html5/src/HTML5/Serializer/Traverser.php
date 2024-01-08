@@ -1,6 +1,6 @@
 <?php
 
-namespace Masterminds\HTML5\Serializer;
+namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
 
 /**
  * Traverser for walking a DOM tree.
@@ -10,28 +10,19 @@ namespace Masterminds\HTML5\Serializer;
  * implementation.
  *
  * @see http://www.w3.org/TR/2012/CR-html5-20121217/syntax.html#serializing-html-fragments
+ * @internal
  */
 class Traverser
 {
     /**
      * Namespaces that should be treated as "local" to HTML5.
      */
-    protected static $local_ns = array(
-        'http://www.w3.org/1999/xhtml' => 'html',
-        'http://www.w3.org/1998/Math/MathML' => 'math',
-        'http://www.w3.org/2000/svg' => 'svg',
-    );
-
+    protected static $local_ns = array('http://www.w3.org/1999/xhtml' => 'html', 'http://www.w3.org/1998/Math/MathML' => 'math', 'http://www.w3.org/2000/svg' => 'svg');
     protected $dom;
-
     protected $options;
-
-    protected $encode = false;
-
+    protected $encode = \false;
     protected $rules;
-
     protected $out;
-
     /**
      * Create a traverser.
      *
@@ -49,10 +40,8 @@ class Traverser
         $this->out = $out;
         $this->rules = $rules;
         $this->options = $options;
-
         $this->rules->setTraverser($this);
     }
-
     /**
      * Tell the traverser to walk the DOM.
      *
@@ -68,18 +57,14 @@ class Traverser
             if ($this->dom->hasChildNodes()) {
                 $this->children($this->dom->childNodes);
             }
-        }        // If NodeList, loop
-        elseif ($this->dom instanceof \DOMNodeList) {
+        } elseif ($this->dom instanceof \DOMNodeList) {
             // If this is a NodeList of DOMDocuments this will not work.
             $this->children($this->dom);
-        }         // Else assume this is a DOMNode-like datastructure.
-        else {
+        } else {
             $this->node($this->dom);
         }
-
         return $this->out;
     }
-
     /**
      * Process a node in the DOM.
      *
@@ -89,19 +74,19 @@ class Traverser
     {
         // A listing of types is at http://php.net/manual/en/dom.constants.php
         switch ($node->nodeType) {
-            case XML_ELEMENT_NODE:
+            case \XML_ELEMENT_NODE:
                 $this->rules->element($node);
                 break;
-            case XML_TEXT_NODE:
+            case \XML_TEXT_NODE:
                 $this->rules->text($node);
                 break;
-            case XML_CDATA_SECTION_NODE:
+            case \XML_CDATA_SECTION_NODE:
                 $this->rules->cdata($node);
                 break;
-            case XML_PI_NODE:
+            case \XML_PI_NODE:
                 $this->rules->processorInstruction($node);
                 break;
-            case XML_COMMENT_NODE:
+            case \XML_COMMENT_NODE:
                 $this->rules->comment($node);
                 break;
             // Currently we don't support embedding DTDs.
@@ -110,7 +95,6 @@ class Traverser
                 break;
         }
     }
-
     /**
      * Walk through all the nodes on a node list.
      *
@@ -122,7 +106,6 @@ class Traverser
             $this->node($node);
         }
     }
-
     /**
      * Is an element local?
      *
@@ -134,9 +117,8 @@ class Traverser
     {
         $uri = $ele->namespaceURI;
         if (empty($uri)) {
-            return false;
+            return \false;
         }
-
         return isset(static::$local_ns[$uri]);
     }
 }

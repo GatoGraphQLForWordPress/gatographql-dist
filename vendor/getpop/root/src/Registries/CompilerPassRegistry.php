@@ -1,26 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Registries;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
-class CompilerPassRegistry implements CompilerPassRegistryInterface
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+/** @internal */
+class CompilerPassRegistry implements \PoP\Root\Registries\CompilerPassRegistryInterface
 {
     /**
      * @var CompilerPassInterface[]
      */
-    protected array $compilerPasses = [];
-
-    public function addCompilerPass(CompilerPassInterface $compilerPass): void
+    protected $compilerPasses = [];
+    public function addCompilerPass(CompilerPassInterface $compilerPass) : void
     {
         $this->compilerPasses[] = $compilerPass;
     }
     /**
      * @return CompilerPassInterface[]
      */
-    public function getCompilerPasses(): array
+    public function getCompilerPasses() : array
     {
         return $this->compilerPasses;
     }

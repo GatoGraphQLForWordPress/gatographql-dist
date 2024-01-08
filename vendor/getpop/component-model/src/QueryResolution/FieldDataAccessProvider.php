@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\QueryResolution;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
@@ -9,7 +8,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Services\StandaloneServiceTrait;
 use SplObjectStorage;
-
 /**
  * Class to retrieve the values contained in Field Arguments.
  *
@@ -50,28 +48,28 @@ use SplObjectStorage;
  * 2. The ObjectTypeResolver: directly the same ObjectTypeResolver when coming from there,
  *    or each of the targetObjectTypeResolvers when coming from an UnionTypeResolver
  * 3. The object, or a special "wildcard object" to signify "all objects"
+ * @internal
  */
-class FieldDataAccessProvider implements FieldDataAccessProviderInterface
+class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface
 {
+    /**
+     * @var SplObjectStorage<FieldInterface, SplObjectStorage<ObjectTypeResolverInterface, SplObjectStorage<object, array<string, mixed>>>>
+     */
+    protected $fieldObjectTypeResolverObjectFieldData;
     use StandaloneServiceTrait;
-
     /**
      * @param SplObjectStorage<FieldInterface,SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>> $fieldObjectTypeResolverObjectFieldData
      */
-    public function __construct(
-        protected SplObjectStorage $fieldObjectTypeResolverObjectFieldData,
-    ) {
+    public function __construct(SplObjectStorage $fieldObjectTypeResolverObjectFieldData)
+    {
+        $this->fieldObjectTypeResolverObjectFieldData = $fieldObjectTypeResolverObjectFieldData;
     }
-
     /**
      * @return array<string,mixed>|null null if casting the fieldArgs produced an error
      * @throws ShouldNotHappenException
      */
-    public function getFieldArgs(
-        FieldInterface $field,
-        ?ObjectTypeResolverInterface $objectTypeResolver = null,
-        ?object $object = null,
-    ): ?array {
+    public function getFieldArgs(FieldInterface $field, ?ObjectTypeResolverInterface $objectTypeResolver = null, ?object $object = null) : ?array
+    {
         if (!$this->fieldObjectTypeResolverObjectFieldData->contains($field)) {
             return null;
         }
@@ -86,21 +84,15 @@ class FieldDataAccessProvider implements FieldDataAccessProviderInterface
          */
         if ($objectTypeResolver === null) {
             $objectTypeResolvers = \iterator_to_array($objectTypeResolverObjectFieldData);
-            $objectTypeResolverCount = count($objectTypeResolvers);
+            $objectTypeResolverCount = \count($objectTypeResolvers);
             if ($objectTypeResolverCount > 1) {
-                throw new ShouldNotHappenException(
-                    sprintf(
-                        $this->__('When not specifying the ObjectTypeResolver, the FieldDataAccessProvider can contain only 1, but %s were set'),
-                        $objectTypeResolverCount
-                    )
-                );
+                throw new ShouldNotHappenException(\sprintf($this->__('When not specifying the ObjectTypeResolver, the FieldDataAccessProvider can contain only 1, but %s were set'), $objectTypeResolverCount));
             }
             /** @var ObjectTypeResolverInterface */
             $objectTypeResolver = $objectTypeResolvers[0];
         } elseif (!$objectTypeResolverObjectFieldData->contains($objectTypeResolver)) {
             return null;
         }
-
         /** @var SplObjectStorage<object,array<string,mixed>> */
         $objectFieldData = $objectTypeResolverObjectFieldData[$objectTypeResolver];
         /**
@@ -109,7 +101,7 @@ class FieldDataAccessProvider implements FieldDataAccessProviderInterface
          */
         $isNullObject = $object === null;
         if ($isNullObject || !$objectFieldData->contains($object)) {
-            $object = FieldDataAccessWildcardObjectFactory::getWildcardObject();
+            $object = \PoP\ComponentModel\QueryResolution\FieldDataAccessWildcardObjectFactory::getWildcardObject();
             if (!$objectFieldData->contains($object)) {
                 return null;
             }
@@ -118,14 +110,11 @@ class FieldDataAccessProvider implements FieldDataAccessProviderInterface
         $fieldArgs = $objectFieldData[$object];
         return $fieldArgs;
     }
-
     /**
      * Used by the nested directive resolver
      */
-    public function duplicateFieldData(
-        FieldInterface $fromField,
-        FieldInterface $toField,
-    ): void {
+    public function duplicateFieldData(FieldInterface $fromField, FieldInterface $toField) : void
+    {
         if (!$this->fieldObjectTypeResolverObjectFieldData->contains($fromField)) {
             return;
         }

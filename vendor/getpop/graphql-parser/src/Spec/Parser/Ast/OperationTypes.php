@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
+/** @internal */
 class OperationTypes
 {
-    public final const QUERY = 'query';
-    public final const MUTATION = 'mutation';
-    public final const SUBSCRIPTION = 'subscription';
+    public const QUERY = 'query';
+    public const MUTATION = 'mutation';
+    public const SUBSCRIPTION = 'subscription';
 }

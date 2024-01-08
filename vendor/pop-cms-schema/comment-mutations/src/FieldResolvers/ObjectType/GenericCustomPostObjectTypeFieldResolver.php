@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType;
 
-class GenericCustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
+/** @internal */
+class GenericCustomPostObjectTypeFieldResolver extends \PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType\AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
-    use GenericCustomPostObjectTypeFieldResolverTrait;
+    use \PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType\GenericCustomPostObjectTypeFieldResolverTrait;
 }

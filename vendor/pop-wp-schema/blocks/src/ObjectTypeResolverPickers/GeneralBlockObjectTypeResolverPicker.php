@@ -10,7 +10,10 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 
 class GeneralBlockObjectTypeResolverPicker extends AbstractBlockObjectTypeResolverPicker
 {
-    private ?GeneralBlockObjectTypeResolver $generalBlockObjectTypeResolver = null;
+    /**
+     * @var \PoPWPSchema\Blocks\TypeResolvers\ObjectType\GeneralBlockObjectTypeResolver|null
+     */
+    private $generalBlockObjectTypeResolver;
 
     final public function setGeneralBlockObjectTypeResolver(GeneralBlockObjectTypeResolver $generalBlockObjectTypeResolver): void
     {

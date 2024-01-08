@@ -9,7 +9,10 @@ use GraphQLByPoP\GraphQLClientsForWP\ConditionalOnContext\UseGraphiQLExplorer\Ov
 
 class AdminGraphiQLWithExplorerClient extends GraphiQLWithExplorerClient
 {
-    private ?EndpointHelpers $endpointHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
+     */
+    private $endpointHelpers;
 
     final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
     {

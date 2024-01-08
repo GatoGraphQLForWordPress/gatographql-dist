@@ -16,12 +16,15 @@ abstract class AbstractControlBlock extends AbstractBlock
 {
     use WithTypeFieldControlBlockTrait;
 
-    public final const ATTRIBUTE_NAME_OPERATIONS = 'operations';
-    public final const ATTRIBUTE_NAME_TYPE_FIELDS = 'typeFields';
-    public final const ATTRIBUTE_NAME_GLOBAL_FIELDS = 'globalFields';
-    public final const ATTRIBUTE_NAME_DIRECTIVES = 'directives';
+    public const ATTRIBUTE_NAME_OPERATIONS = 'operations';
+    public const ATTRIBUTE_NAME_TYPE_FIELDS = 'typeFields';
+    public const ATTRIBUTE_NAME_GLOBAL_FIELDS = 'globalFields';
+    public const ATTRIBUTE_NAME_DIRECTIVES = 'directives';
 
-    private ?TypeRegistryInterface $typeRegistry = null;
+    /**
+     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
+     */
+    private $typeRegistry;
 
     final public function setTypeRegistry(TypeRegistryInterface $typeRegistry): void
     {
@@ -170,32 +173,16 @@ abstract class AbstractControlBlock extends AbstractBlock
         $blockDataContent = '';
         $blockDataPlaceholder = '<h4>%s</h4>%s';
         if ($this->enableOperations()) {
-            $blockDataContent .= sprintf(
-                $blockDataPlaceholder,
-                __('Operations', 'gatographql'),
-                $operationContent,
-            );
+            $blockDataContent .= sprintf($blockDataPlaceholder, __('Operations', 'gatographql'), $operationContent);
         }
         if ($this->enableTypeFields()) {
-            $blockDataContent .= sprintf(
-                $blockDataPlaceholder,
-                __('Fields', 'gatographql'),
-                $fieldTypeContent,
-            );
+            $blockDataContent .= sprintf($blockDataPlaceholder, __('Fields', 'gatographql'), $fieldTypeContent);
         }
         if ($this->enableGlobalFields()) {
-            $blockDataContent .= sprintf(
-                $blockDataPlaceholder,
-                __('Global Fields', 'gatographql'),
-                $globalFieldContent,
-            );
+            $blockDataContent .= sprintf($blockDataPlaceholder, __('Global Fields', 'gatographql'), $globalFieldContent);
         }
         if ($this->enableDirectives()) {
-            $blockDataContent .= sprintf(
-                $blockDataPlaceholder,
-                __('Directives', 'gatographql'),
-                $directiveContent,
-            );
+            $blockDataContent .= sprintf($blockDataPlaceholder, __('Directives', 'gatographql'), $directiveContent);
         }
 
         $blockContentPlaceholder = '

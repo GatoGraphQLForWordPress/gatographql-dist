@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\HttpFoundation;
 
-use Symfony\Component\HttpFoundation\Request as UpstreamRequest;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Request as UpstreamRequest;
+/** @internal */
 class Request extends UpstreamRequest
 {
 }

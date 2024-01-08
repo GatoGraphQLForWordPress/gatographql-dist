@@ -20,7 +20,10 @@ use WP_Role;
 
 class UserRoleObjectTypeFieldResolver extends AbstractReflectionPropertyObjectTypeFieldResolver
 {
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -72,20 +75,26 @@ class UserRoleObjectTypeFieldResolver extends AbstractReflectionPropertyObjectTy
      */
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'name' => $this->getStringScalarTypeResolver(),
-            'capabilities' => $this->getStringScalarTypeResolver(),
-            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->getStringScalarTypeResolver();
+            case 'capabilities':
+                return $this->getStringScalarTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+        }
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        return match ($fieldName) {
-            'name' => SchemaTypeModifiers::NON_NULLABLE,
-            'capabilities' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
-            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return SchemaTypeModifiers::NON_NULLABLE;
+            case 'capabilities':
+                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+            default:
+                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+        }
     }
 
     /**
@@ -95,19 +104,21 @@ class UserRoleObjectTypeFieldResolver extends AbstractReflectionPropertyObjectTy
      */
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        return match ($fieldName) {
-            'name' => $this->__('The role name', 'user-roles-wp'),
-            'capabilities' => $this->__('Capabilities granted by the role', 'user-roles-wp'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'name':
+                return $this->__('The role name', 'user-roles-wp');
+            case 'capabilities':
+                return $this->__('Capabilities granted by the role', 'user-roles-wp');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
 
-    public function resolveValue(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): mixed {
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'capabilities':
                 /** @var WP_Role */
@@ -116,7 +127,6 @@ class UserRoleObjectTypeFieldResolver extends AbstractReflectionPropertyObjectTy
                 sort($capabilities);
                 return $capabilities;
         }
-
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -124,10 +134,8 @@ class UserRoleObjectTypeFieldResolver extends AbstractReflectionPropertyObjectTy
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-    ): bool {
+    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
+    {
         return false;
     }
 }

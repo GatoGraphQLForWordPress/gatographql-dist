@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Facades\Routing;
 
 use PoP\Root\App;
 use PoP\Root\Routing\RoutingManagerInterface;
-
+/** @internal */
 class RoutingManagerFacade
 {
-    public static function getInstance(): RoutingManagerInterface
+    public static function getInstance() : RoutingManagerInterface
     {
         /**
          * @var RoutingManagerInterface

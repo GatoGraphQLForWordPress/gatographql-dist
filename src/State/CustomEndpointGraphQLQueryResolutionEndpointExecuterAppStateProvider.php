@@ -9,7 +9,10 @@ use GatoGraphQL\GatoGraphQL\Services\EndpointExecuters\CustomEndpointGraphQLQuer
 
 class CustomEndpointGraphQLQueryResolutionEndpointExecuterAppStateProvider extends AbstractGraphQLQueryResolutionEndpointExecuterAppStateProvider
 {
-    private ?CustomEndpointGraphQLQueryResolutionEndpointExecuter $customEndpointGraphQLQueryResolutionEndpointExecuter = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\EndpointExecuters\CustomEndpointGraphQLQueryResolutionEndpointExecuter|null
+     */
+    private $customEndpointGraphQLQueryResolutionEndpointExecuter;
 
     final public function setCustomEndpointGraphQLQueryResolutionEndpointExecuter(CustomEndpointGraphQLQueryResolutionEndpointExecuter $customEndpointGraphQLQueryResolutionEndpointExecuter): void
     {

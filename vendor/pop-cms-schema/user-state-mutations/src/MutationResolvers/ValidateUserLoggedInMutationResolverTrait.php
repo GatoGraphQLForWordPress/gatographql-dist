@@ -1,30 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\MutationResolvers;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\App;
 use PoPCMSSchema\UserStateMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
-
+/** @internal */
 trait ValidateUserLoggedInMutationResolverTrait
 {
     /**
      * Check that the user is logged-in
      */
-    protected function validateUserIsLoggedIn(): ?FeedbackItemResolution
+    protected function validateUserIsLoggedIn() : ?FeedbackItemResolution
     {
         if (!App::getState('is-user-logged-in')) {
             return $this->getUserNotLoggedInError();
         }
         return null;
     }
-    protected function getUserNotLoggedInError(): FeedbackItemResolution
+    protected function getUserNotLoggedInError() : FeedbackItemResolution
     {
-        return new FeedbackItemResolution(
-            MutationErrorFeedbackItemProvider::class,
-            MutationErrorFeedbackItemProvider::E1,
-        );
+        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
 }

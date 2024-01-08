@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Meta\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
@@ -12,17 +11,22 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\Meta\TypeResolvers\InterfaceType\WithMetaInterfaceTypeResolver;
-
+/** @internal */
 class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    private ?AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-
-    final public function setAnyBuiltInScalarScalarTypeResolver(AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver|null
+     */
+    private $anyBuiltInScalarScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    public final function setAnyBuiltInScalarScalarTypeResolver(AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver) : void
     {
         $this->anyBuiltInScalarScalarTypeResolver = $anyBuiltInScalarScalarTypeResolver;
     }
-    final protected function getAnyBuiltInScalarScalarTypeResolver(): AnyBuiltInScalarScalarTypeResolver
+    protected final function getAnyBuiltInScalarScalarTypeResolver() : AnyBuiltInScalarScalarTypeResolver
     {
         if ($this->anyBuiltInScalarScalarTypeResolver === null) {
             /** @var AnyBuiltInScalarScalarTypeResolver */
@@ -31,11 +35,11 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
         }
         return $this->anyBuiltInScalarScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -44,80 +48,80 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
         }
         return $this->stringScalarTypeResolver;
     }
-
     /**
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo(): array
+    public function getInterfaceTypeResolverClassesToAttachTo() : array
     {
-        return [
-            WithMetaInterfaceTypeResolver::class,
-        ];
+        return [WithMetaInterfaceTypeResolver::class];
     }
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement(): array
+    public function getFieldNamesToImplement() : array
     {
-        return [
-            'metaValue',
-            'metaValues',
-        ];
+        return ['metaValue', 'metaValues'];
     }
-
-    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
+    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        return match ($fieldName) {
-            'metaValue' => $this->getStringScalarTypeResolver(),
-            'metaValues' => $this->getAnyBuiltInScalarScalarTypeResolver(),
-            default => parent::getFieldTypeResolver($fieldName),
-        };
+        switch ($fieldName) {
+            case 'metaValue':
+                return $this->getStringScalarTypeResolver();
+            case 'metaValues':
+                return $this->getAnyBuiltInScalarScalarTypeResolver();
+            default:
+                return parent::getFieldTypeResolver($fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(string $fieldName): int
+    public function getFieldTypeModifiers(string $fieldName) : int
     {
-        return match ($fieldName) {
-            'metaValues' => SchemaTypeModifiers::IS_ARRAY,
-            default => parent::getFieldTypeModifiers($fieldName),
-        };
+        switch ($fieldName) {
+            case 'metaValues':
+                return SchemaTypeModifiers::IS_ARRAY;
+            default:
+                return parent::getFieldTypeModifiers($fieldName);
+        }
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(string $fieldName): array
+    public function getFieldArgNameTypeResolvers(string $fieldName) : array
     {
-        return match ($fieldName) {
-            'metaValue',
-            'metaValues' => [
-                'key' => $this->getStringScalarTypeResolver(),
-            ],
-            default => parent::getFieldArgNameTypeResolvers($fieldName),
-        };
+        switch ($fieldName) {
+            case 'metaValue':
+            case 'metaValues':
+                return ['key' => $this->getStringScalarTypeResolver()];
+            default:
+                return parent::getFieldArgNameTypeResolvers($fieldName);
+        }
     }
-
-    public function getFieldArgDescription(string $fieldName, string $fieldArgName): ?string
+    public function getFieldArgDescription(string $fieldName, string $fieldArgName) : ?string
     {
-        return match ($fieldArgName) {
-            'key' => $this->__('The meta key', 'meta'),
-            default => parent::getFieldArgDescription($fieldName, $fieldArgName),
-        };
+        switch ($fieldArgName) {
+            case 'key':
+                return $this->__('The meta key', 'meta');
+            default:
+                return parent::getFieldArgDescription($fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName): int
+    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int
     {
-        return match ($fieldArgName) {
-            'key' => SchemaTypeModifiers::MANDATORY,
-            default => parent::getFieldArgTypeModifiers($fieldName, $fieldArgName),
-        };
+        switch ($fieldArgName) {
+            case 'key':
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getFieldArgTypeModifiers($fieldName, $fieldArgName);
+        }
     }
-
-    public function getFieldDescription(string $fieldName): ?string
+    public function getFieldDescription(string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'metaValue' => $this->__('Single meta value. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta'),
-            'metaValues' => $this->__('List of meta values. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta'),
-            default => parent::getFieldDescription($fieldName),
-        };
+        switch ($fieldName) {
+            case 'metaValue':
+                return $this->__('Single meta value. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta');
+            case 'metaValues':
+                return $this->__('List of meta values. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta');
+            default:
+                return parent::getFieldDescription($fieldName);
+        }
     }
 }

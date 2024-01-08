@@ -10,8 +10,14 @@ use PoP\Root\Hooks\AbstractHookSet;
 
 class PrintEndpointInEditorHookSet extends AbstractHookSet
 {
-    private ?UserAuthorizationInterface $userAuthorization = null;
-    private ?EndpointHelpers $endpointHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
+     */
+    private $userAuthorization;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
+     */
+    private $endpointHelpers;
 
     final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
     {
@@ -47,7 +53,7 @@ class PrintEndpointInEditorHookSet extends AbstractHookSet
          */
         \add_action(
             'admin_print_scripts',
-            $this->printAdminGraphQLEndpointVariables(...)
+            \Closure::fromCallable([$this, 'printAdminGraphQLEndpointVariables'])
         );
     }
 

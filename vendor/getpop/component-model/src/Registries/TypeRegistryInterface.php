@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface;
@@ -11,36 +10,36 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 interface TypeRegistryInterface
 {
-    public function addTypeResolver(TypeResolverInterface $typeResolver): void;
+    public function addTypeResolver(TypeResolverInterface $typeResolver) : void;
     /**
      * @return TypeResolverInterface[]
      */
-    public function getTypeResolvers(): array;
+    public function getTypeResolvers() : array;
     /**
      * @return RelationalTypeResolverInterface[]
      */
-    public function getRelationalTypeResolvers(): array;
+    public function getRelationalTypeResolvers() : array;
     /**
      * @return UnionTypeResolverInterface[]
      */
-    public function getUnionTypeResolvers(): array;
+    public function getUnionTypeResolvers() : array;
     /**
      * @return ObjectTypeResolverInterface[]
      */
-    public function getObjectTypeResolvers(): array;
+    public function getObjectTypeResolvers() : array;
     /**
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getInterfaceTypeResolvers(): array;
+    public function getInterfaceTypeResolvers() : array;
     /**
      * @return EnumTypeResolverInterface[]
      */
-    public function getEnumTypeResolvers(): array;
+    public function getEnumTypeResolvers() : array;
     /**
      * @return ScalarTypeResolverInterface[]
      */
-    public function getScalarTypeResolvers(): array;
+    public function getScalarTypeResolvers() : array;
 }

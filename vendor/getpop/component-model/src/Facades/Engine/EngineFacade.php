@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\Engine;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Engine\EngineInterface;
-
+/** @internal */
 class EngineFacade
 {
-    public static function getInstance(): EngineInterface
+    public static function getInstance() : EngineInterface
     {
         /**
          * @var EngineInterface

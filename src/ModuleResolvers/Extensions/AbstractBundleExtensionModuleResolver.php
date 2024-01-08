@@ -57,7 +57,7 @@ abstract class AbstractBundleExtensionModuleResolver extends AbstractExtensionMo
     final public function getGatoGraphQLBundledExtensionSlugs(string $module): array
     {
         return array_map(
-            $this->addGatoGraphQLPrefixToExtensionSlug(...),
+            \Closure::fromCallable([$this, 'addGatoGraphQLPrefixToExtensionSlug']),
             $this->getBundledExtensionSlugs($module)
         );
     }
@@ -68,7 +68,9 @@ abstract class AbstractBundleExtensionModuleResolver extends AbstractExtensionMo
     final public function getGatoGraphQLBundledBundleExtensionSlugs(string $module): array
     {
         return array_map(
-            fn (string $bundleExtensionSlug) => $this->addGatoGraphQLPrefixToExtensionSlug($bundleExtensionSlug) . '-bundle',
+            function (string $bundleExtensionSlug) {
+                return $this->addGatoGraphQLPrefixToExtensionSlug($bundleExtensionSlug) . '-bundle';
+            },
             $this->getBundledBundleExtensionSlugs($module)
         );
     }
@@ -79,7 +81,9 @@ abstract class AbstractBundleExtensionModuleResolver extends AbstractExtensionMo
     final public function getBundledExtensionSlugs(string $module): array
     {
         return array_map(
-            fn (string $extensionModule) => $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule),
+            function (string $extensionModule) {
+                return $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule);
+            },
             $this->getBundledExtensionModules($module)
         );
     }
@@ -90,7 +94,9 @@ abstract class AbstractBundleExtensionModuleResolver extends AbstractExtensionMo
     final public function getBundledBundleExtensionSlugs(string $module): array
     {
         return array_map(
-            fn (string $extensionModule) => $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule),
+            function (string $extensionModule) {
+                return $this->getModuleRegistry()->getModuleResolver($extensionModule)->getSlug($extensionModule);
+            },
             $this->getBundledBundleExtensionModules($module)
         );
     }

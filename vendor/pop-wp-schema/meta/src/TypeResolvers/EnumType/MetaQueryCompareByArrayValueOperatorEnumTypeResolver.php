@@ -39,12 +39,17 @@ class MetaQueryCompareByArrayValueOperatorEnumTypeResolver extends AbstractEnumT
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        return match ($enumValue) {
-            MetaQueryCompareByOperators::IN => '\'IN\'',
-            MetaQueryCompareByOperators::NOT_IN => '\'NOT IN\'',
-            MetaQueryCompareByOperators::BETWEEN => '\'BETWEEN\'',
-            MetaQueryCompareByOperators::NOT_BETWEEN => '\'NOT BETWEEN\'',
-            default => parent::getEnumValueDescription($enumValue),
-        };
+        switch ($enumValue) {
+            case MetaQueryCompareByOperators::IN:
+                return '\'IN\'';
+            case MetaQueryCompareByOperators::NOT_IN:
+                return '\'NOT IN\'';
+            case MetaQueryCompareByOperators::BETWEEN:
+                return '\'BETWEEN\'';
+            case MetaQueryCompareByOperators::NOT_BETWEEN:
+                return '\'NOT BETWEEN\'';
+            default:
+                return parent::getEnumValueDescription($enumValue);
+        }
     }
 }

@@ -11,8 +11,14 @@ use WP_Post;
 
 abstract class AbstractGraphQLQueryResolutionEndpointExecuter extends AbstractCPTEndpointExecuter implements GraphQLQueryResolutionEndpointExecuterInterface, EndpointExecuterServiceTagInterface
 {
-    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
-    private ?QueryRetrieverInterface $queryRetriever = null;
+    /**
+     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
+     */
+    private $graphQLDataStructureFormatter;
+    /**
+     * @var \GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface|null
+     */
+    private $queryRetriever;
 
     final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
     {

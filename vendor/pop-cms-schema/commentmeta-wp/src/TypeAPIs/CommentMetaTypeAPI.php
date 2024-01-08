@@ -12,8 +12,10 @@ class CommentMetaTypeAPI extends AbstractCommentMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
+     * @param string|int|object $commentObjectOrID
+     * @return mixed
      */
-    protected function doGetCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = false): mixed
+    protected function doGetCommentMeta($commentObjectOrID, string $key, bool $single = false)
     {
         if (is_object($commentObjectOrID)) {
             /** @var WP_Comment */

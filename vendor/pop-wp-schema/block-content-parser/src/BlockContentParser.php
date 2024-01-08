@@ -33,7 +33,10 @@ class BlockContentParser implements BlockContentParserInterface
 {
     use BasicServiceTrait;
 
-    private bool $includeInnerContent = false;
+    /**
+     * @var bool
+     */
+    private $includeInnerContent = false;
 
     /**
      * @param array<string,mixed> $options An associative array of options. Can contain keys:
@@ -44,11 +47,10 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * @return BlockContentParserPayload|null `null` if the custom post does not exist
      * @throws BlockContentParserException If there is any error processing the content
+     * @param \WP_Post|int $customPostObjectOrID
      */
-    public function parseCustomPostIntoBlockDataItems(
-        WP_Post|int $customPostObjectOrID,
-        array $options = [],
-    ): ?BlockContentParserPayload {
+    public function parseCustomPostIntoBlockDataItems($customPostObjectOrID, array $options = []): ?BlockContentParserPayload
+    {
         if ($customPostObjectOrID instanceof WP_Post) {
             $customPost = $customPostObjectOrID;
         } else {
@@ -70,7 +72,7 @@ class BlockContentParser implements BlockContentParserInterface
      * @param mixed[]|WP_Error $parsedBlockData
      * @throws BlockContentParserException
      */
-    protected function processParsedBlockData(array|WP_Error $parsedBlockData): BlockContentParserPayload
+    protected function processParsedBlockData($parsedBlockData): BlockContentParserPayload
     {
         if ($parsedBlockData instanceof WP_Error) {
             throw new BlockContentParserException($parsedBlockData);
@@ -133,10 +135,8 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * @throws BlockContentParserException If there is any error processing the content
      */
-    public function parseCustomPostContentIntoBlockDataItems(
-        string $customPostContent,
-        array $options = [],
-    ): BlockContentParserPayload {
+    public function parseCustomPostContentIntoBlockDataItems(string $customPostContent, array $options = []): BlockContentParserPayload
+    {
         $this->includeInnerContent = $options['include-inner-content'] ?? false;
         $parsedBlockData = $this->parse($customPostContent, null, $options['filter'] ?? []);
         return $this->processParsedBlockData($parsedBlockData);
@@ -151,14 +151,17 @@ class BlockContentParser implements BlockContentParserInterface
      * @see https://github.com/Automattic/vip-block-data-api/blob/585e000e9fa2388e2c4039bde6dd324620ab0ff9/src/parser/content-parser.php
      *
      * ----------------------------------------------------------------
+     * @var \WP_Block_Type_Registry
      */
-
-    protected WP_Block_Type_Registry $block_registry;
-    protected ?int $post_id;
+    protected $block_registry;
+    /**
+     * @var int|null
+     */
+    protected $post_id;
     /** @var string[] */
-    protected array $warnings = [];
+    protected $warnings = [];
 
-    public function __construct(WP_Block_Type_Registry|null $block_registry = null)
+    public function __construct(?\WP_Block_Type_Registry $block_registry = null)
     {
         if (null === $block_registry) {
             $block_registry = WP_Block_Type_Registry::get_instance();
@@ -204,7 +207,7 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * @return mixed[]|WP_Error
      */
-    protected function parse(string $post_content, ?int $post_id = null, array $filter_options = []): array|WP_Error
+    protected function parse(string $post_content, ?int $post_id = null, array $filter_options = [])
     {
         if (isset($filter_options['exclude']) && isset($filter_options['include'])) {
             // return new WP_Error('vip-block-data-api-invalid-params', 'Cannot provide blocks to exclude and include at the same time', [ 'status' => 400 ]);
@@ -397,7 +400,7 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function source_attribute(Crawler $crawler, array $block_attribute_definition): array|string|null
+    protected function source_attribute(Crawler $crawler, array $block_attribute_definition)
     {
         $attribute_value         = null;
         $attribute_default_value = $block_attribute_definition['default'] ?? null;
@@ -695,7 +698,7 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function source_block_node(Crawler $crawler, array $block_attribute_definition): array|string|null
+    protected function source_block_node(Crawler $crawler, array $block_attribute_definition)
     {
         // 'node' attribute usage was removed from core in 2018, but not officically deprecated until WordPress 6.1:
         // https://github.com/WordPress/gutenberg/pull/44265
@@ -731,7 +734,7 @@ class BlockContentParser implements BlockContentParserInterface
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function from_dom_node(DOMNode $node): array|string|null
+    protected function from_dom_node(DOMNode $node)
     {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- external API calls
 

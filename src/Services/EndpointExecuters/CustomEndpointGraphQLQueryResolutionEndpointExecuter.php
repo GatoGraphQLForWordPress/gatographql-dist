@@ -12,7 +12,10 @@ use WP_Post;
 
 class CustomEndpointGraphQLQueryResolutionEndpointExecuter extends AbstractGraphQLQueryResolutionEndpointExecuter
 {
-    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
+     */
+    private $graphQLCustomEndpointCustomPostType;
 
     final public function setGraphQLCustomEndpointCustomPostType(GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType): void
     {
@@ -47,9 +50,6 @@ class CustomEndpointGraphQLQueryResolutionEndpointExecuter extends AbstractGraph
          * Extract the query from the BODY through standard GraphQL endpoint execution
          */
         $graphQLQueryPayload = $this->getQueryRetriever()->extractRequestedGraphQLQueryPayload();
-        return new NullableGraphQLQueryVariablesEntry(
-            $graphQLQueryPayload->query,
-            $graphQLQueryPayload->variables,
-        );
+        return new NullableGraphQLQueryVariablesEntry($graphQLQueryPayload->query, $graphQLQueryPayload->variables);
     }
 }

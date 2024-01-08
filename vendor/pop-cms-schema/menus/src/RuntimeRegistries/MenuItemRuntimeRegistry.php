@@ -1,20 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Menus\RuntimeRegistries;
 
 use PoPCMSSchema\Menus\ObjectModels\MenuItem;
-
-class MenuItemRuntimeRegistry implements MenuItemRuntimeRegistryInterface
+/** @internal */
+class MenuItemRuntimeRegistry implements \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface
 {
     /** @var array<string|int,MenuItem> */
-    protected array $menuItems = [];
-
+    protected $menuItems = [];
     /** @var array<string|int,array<string|int,MenuItem>> */
-    protected array $menuItemsByParent = [];
-
-    public function storeMenuItem(MenuItem $menuItem): void
+    protected $menuItemsByParent = [];
+    public function storeMenuItem(MenuItem $menuItem) : void
     {
         $this->menuItems[$menuItem->id] = $menuItem;
         // Only store MenuItems which have a parent
@@ -23,14 +20,16 @@ class MenuItemRuntimeRegistry implements MenuItemRuntimeRegistryInterface
             $this->menuItemsByParent[$menuItem->parentID][$menuItem->id] = $menuItem;
         }
     }
-
-    public function getMenuItem(string|int $id): ?MenuItem
+    /**
+     * @param string|int $id
+     */
+    public function getMenuItem($id) : ?MenuItem
     {
         return $this->menuItems[$id] ?? null;
     }
-
-    /** @return array<string|int,MenuItem> */
-    public function getMenuItemChildren(string|int|MenuItem $menuItemObjectOrID): array
+    /** @return array<string|int,MenuItem>
+     * @param string|int|\PoPCMSSchema\Menus\ObjectModels\MenuItem $menuItemObjectOrID */
+    public function getMenuItemChildren($menuItemObjectOrID) : array
     {
         if ($menuItemObjectOrID instanceof MenuItem) {
             $menuItemID = $menuItemObjectOrID->id;

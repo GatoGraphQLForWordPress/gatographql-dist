@@ -10,8 +10,14 @@ use PoP\Root\Hooks\AbstractHookSet;
 
 class TemplateHookSet extends AbstractHookSet
 {
-    private ?ApplicationStateHelperServiceInterface $applicationStateHelperService = null;
-    private ?TemplateHelpersInterface $templateHelpers = null;
+    /**
+     * @var \PoP\ComponentModel\HelperServices\ApplicationStateHelperServiceInterface|null
+     */
+    private $applicationStateHelperService;
+    /**
+     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
+     */
+    private $templateHelpers;
 
     final public function setApplicationStateHelperService(ApplicationStateHelperServiceInterface $applicationStateHelperService): void
     {
@@ -44,7 +50,7 @@ class TemplateHookSet extends AbstractHookSet
     {
         \add_filter(
             'template_include',
-            $this->getTemplate(...),
+            \Closure::fromCallable([$this, 'getTemplate']),
             PHP_INT_MAX // Execute last
         );
     }

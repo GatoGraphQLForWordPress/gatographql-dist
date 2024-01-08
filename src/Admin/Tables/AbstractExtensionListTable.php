@@ -33,7 +33,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      *
      * @var array<string,string[]>
      */
-    protected array $pluginActionLinks = [];
+    protected $pluginActionLinks = [];
 
     /**
      * @return void
@@ -41,17 +41,17 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      */
     public function prepare_items()
     {
-        \add_filter('install_plugins_tabs', $this->overrideInstallPluginTabs(...));
-        \add_filter('install_plugins_nonmenu_tabs', $this->overrideInstallPluginNonMenuTabs(...));
-        \add_filter('plugins_api', $this->overridePluginsAPI(...));
-        \add_filter('plugins_api_result', $this->overridePluginsAPIResult(...));
-        \add_filter('plugin_install_action_links', $this->overridePluginInstallActionLinks(...), PHP_INT_MAX, 2);
+        \add_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
+        \add_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
+        \add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
+        \add_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
+        \add_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), PHP_INT_MAX, 2);
         parent::prepare_items();
-        \remove_filter('plugin_install_action_links', $this->overridePluginInstallActionLinks(...), PHP_INT_MAX);
-        \remove_filter('plugins_api_result', $this->overridePluginsAPIResult(...));
-        \remove_filter('plugins_api', $this->overridePluginsAPI(...));
-        \remove_filter('install_plugins_nonmenu_tabs', $this->overrideInstallPluginNonMenuTabs(...));
-        \remove_filter('install_plugins_tabs', $this->overrideInstallPluginTabs(...));
+        \remove_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), PHP_INT_MAX);
+        \remove_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
+        \remove_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
+        \remove_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
+        \remove_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
     }
 
     /**
@@ -81,8 +81,9 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
 
     /**
      * Do not connect to wordpress.org to retrieve data
+     * @return mixed
      */
-    public function overridePluginsAPI(): mixed
+    public function overridePluginsAPI()
     {
         return new stdClass();
     }
@@ -94,8 +95,9 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      * against the wordpress.org plugins API:
      *
      * @see http://api.wordpress.org/plugins/info/1.2/?action=query_plugins&per_page=1
+     * @return mixed
      */
-    abstract public function overridePluginsAPIResult(): mixed;
+    abstract public function overridePluginsAPIResult();
 
     /**
      * @param array<array<string,mixed>> $items
@@ -105,10 +107,12 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
     {
         $commonPluginData = $this->getCommonPluginData();
         return array_map(
-            fn (array $item) => array_merge(
-                $commonPluginData,
-                $item
-            ),
+            function (array $item) use ($commonPluginData) {
+                return array_merge(
+                    $commonPluginData,
+                    $item
+                );
+            },
             $items
         );
     }
@@ -166,7 +170,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
         $pluginName = $plugin['name'];
         $this->pluginActionLinks[$pluginName] = $action_links;
 
-        if (str_starts_with($action_links[0] ?? '', '<a class="install-now button"')) {
+        if (strncmp($action_links[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0) {
             /**
              * Replace the "Install Now" action message
              */
@@ -282,7 +286,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
              * being replaced in "access-control-visitor-ip"
              */
             $actionLinks = $this->pluginActionLinks[$pluginName] ?? [];
-            if (str_starts_with($actionLinks[0] ?? '', '<a class="install-now button"')) {
+            if (strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0) {
                 $html = substr_replace($html, $pluginCardClassname . ' plugin-card-non-installed', $pos, strlen($pluginCardClassname));
             }
         }
@@ -342,11 +346,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
 
-        $alternativeGatoGraphQLLogoURL = str_replace(
-            'GatoGraphQL-logo-face.png',
-            'GatoGraphQL-logo-sleeping.png',
-            $this->getGatoGraphQLLogoURL(),
-        );
+        $alternativeGatoGraphQLLogoURL = str_replace('GatoGraphQL-logo-face.png', 'GatoGraphQL-logo-sleeping.png', $this->getGatoGraphQLLogoURL());
 
         return sprintf(
             $additionalItemHTMLPlaceholder,

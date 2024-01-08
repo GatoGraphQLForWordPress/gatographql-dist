@@ -1,37 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserRoles;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
-
+/** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    public function treatUserRoleAsSensitiveData(): bool
+    public function treatUserRoleAsSensitiveData() : bool
     {
-        $envVariable = Environment::TREAT_USER_ROLE_AS_SENSITIVE_DATA;
-        $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\UserRoles\Environment::TREAT_USER_ROLE_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-
-    public function treatUserCapabilityAsSensitiveData(): bool
+    public function treatUserCapabilityAsSensitiveData() : bool
     {
-        $envVariable = Environment::TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA;
-        $defaultValue = true;
-        $callback = EnvironmentValueHelpers::toBool(...);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
+        $envVariable = \PoPCMSSchema\UserRoles\Environment::TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

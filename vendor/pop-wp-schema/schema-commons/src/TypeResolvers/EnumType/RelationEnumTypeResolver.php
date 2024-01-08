@@ -37,10 +37,13 @@ class RelationEnumTypeResolver extends AbstractEnumTypeResolver
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        return match ($enumValue) {
-            Relation::AND => $this->__('`AND` relation', 'schema-commons'),
-            Relation::OR => $this->__('`OR` relation', 'schema-commons'),
-            default => parent::getEnumValueDescription($enumValue),
-        };
+        switch ($enumValue) {
+            case Relation::AND:
+                return $this->__('`AND` relation', 'schema-commons');
+            case Relation::OR:
+                return $this->__('`OR` relation', 'schema-commons');
+            default:
+                return parent::getEnumValueDescription($enumValue);
+        }
     }
 }

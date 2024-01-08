@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Taxonomies\Constants\TaxonomyOrderBy;
 use PoPCMSSchema\Taxonomies\TypeResolvers\EnumType\TaxonomyOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-
+/** @internal */
 class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    private ?TaxonomyOrderByEnumTypeResolver $taxonomySortByEnumTypeResolver = null;
-
-    final public function setTaxonomyOrderByEnumTypeResolver(TaxonomyOrderByEnumTypeResolver $taxonomySortByEnumTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\EnumType\TaxonomyOrderByEnumTypeResolver|null
+     */
+    private $taxonomySortByEnumTypeResolver;
+    public final function setTaxonomyOrderByEnumTypeResolver(TaxonomyOrderByEnumTypeResolver $taxonomySortByEnumTypeResolver) : void
     {
         $this->taxonomySortByEnumTypeResolver = $taxonomySortByEnumTypeResolver;
     }
-    final protected function getTaxonomyOrderByEnumTypeResolver(): TaxonomyOrderByEnumTypeResolver
+    protected final function getTaxonomyOrderByEnumTypeResolver() : TaxonomyOrderByEnumTypeResolver
     {
         if ($this->taxonomySortByEnumTypeResolver === null) {
             /** @var TaxonomyOrderByEnumTypeResolver */
@@ -26,30 +27,27 @@ class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->taxonomySortByEnumTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'TaxonomySortInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return array_merge(
-            parent::getInputFieldNameTypeResolvers(),
-            [
-                'by' => $this->getTaxonomyOrderByEnumTypeResolver(),
-            ]
-        );
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getTaxonomyOrderByEnumTypeResolver()]);
     }
-
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'by' => TaxonomyOrderBy::NAME,
-            default => parent::getInputFieldDefaultValue($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'by':
+                return TaxonomyOrderBy::NAME;
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
 }

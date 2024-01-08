@@ -24,7 +24,10 @@ class QueryableTagTypeAPI extends AbstractTagTypeAPI implements QueryableTagType
         return '';
     }
 
-    public function getTag(string|int $tagID): ?object
+    /**
+     * @param string|int $tagID
+     */
+    public function getTag($tagID): ?object
     {
         $tag = parent::getTag($tagID);
         if ($tag === null) {
@@ -56,14 +59,12 @@ class QueryableTagTypeAPI extends AbstractTagTypeAPI implements QueryableTagType
         return $this->isQueryableTagTaxonomy($object);
     }
 
-    protected function getTaxonomyTermFromObjectOrID(
-        string|int|WP_Term $taxonomyTermObjectOrID,
-        string $taxonomy = '',
-    ): ?WP_Term {
-        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
-            $taxonomyTermObjectOrID,
-            $taxonomy,
-        );
+    /**
+     * @param string|int|\WP_Term $taxonomyTermObjectOrID
+     */
+    protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, string $taxonomy = ''): ?WP_Term
+    {
+        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
         if ($taxonomyTerm === null) {
             return $taxonomyTerm;
         }

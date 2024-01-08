@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config\Loader;
+namespace PrefixedByPoP\Symfony\Component\Config\Loader;
 
 /**
  * LoaderResolver selects a loader for a given resource.
@@ -18,14 +17,14 @@ namespace Symfony\Component\Config\Loader;
  * Each loader determines whether it can load a resource and how.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class LoaderResolver implements LoaderResolverInterface
 {
     /**
      * @var LoaderInterface[] An array of LoaderInterface objects
      */
-    private array $loaders = [];
-
+    private $loaders = [];
     /**
      * @param LoaderInterface[] $loaders An array of loaders
      */
@@ -35,18 +34,19 @@ class LoaderResolver implements LoaderResolverInterface
             $this->addLoader($loader);
         }
     }
-
-    public function resolve(mixed $resource, string $type = null): LoaderInterface|false
+    /**
+     * @return \Symfony\Component\Config\Loader\LoaderInterface|false
+     * @param mixed $resource
+     */
+    public function resolve($resource, string $type = null)
     {
         foreach ($this->loaders as $loader) {
             if ($loader->supports($resource, $type)) {
                 return $loader;
             }
         }
-
-        return false;
+        return \false;
     }
-
     /**
      * @return void
      */
@@ -55,13 +55,12 @@ class LoaderResolver implements LoaderResolverInterface
         $this->loaders[] = $loader;
         $loader->setResolver($this);
     }
-
     /**
      * Returns the registered loaders.
      *
      * @return LoaderInterface[]
      */
-    public function getLoaders(): array
+    public function getLoaders() : array
     {
         return $this->loaders;
     }

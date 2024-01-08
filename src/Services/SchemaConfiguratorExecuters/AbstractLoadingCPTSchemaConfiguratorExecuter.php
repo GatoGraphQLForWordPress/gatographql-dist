@@ -10,7 +10,10 @@ use PoP\Root\App;
 
 abstract class AbstractLoadingCPTSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
+     */
+    private $endpointBlockHelpers;
 
     final public function setEndpointBlockHelpers(EndpointBlockHelpers $endpointBlockHelpers): void
     {
@@ -57,10 +60,7 @@ abstract class AbstractLoadingCPTSchemaConfiguratorExecuter extends AbstractSche
     protected function getSchemaConfigurationID(): ?int
     {
         $customPostID = App::getState(['routing', 'queried-object-id']);
-        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID(
-            $this->getLoadingCPTSchemaConfiguratorModule(),
-            $customPostID,
-        );
+        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID($this->getLoadingCPTSchemaConfiguratorModule(), $customPostID);
     }
 
     abstract protected function getCustomPostType(): string;

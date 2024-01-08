@@ -1,25 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\SchemaHooks;
 
 use PoPCMSSchema\CustomPostTagMutations\SchemaHooks\AbstractCustomPostMutationResolverHookSet;
 use PoPCMSSchema\PostMutations\SchemaHooks\PostMutationResolverHookSetTrait;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
-
+/** @internal */
 class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use PostMutationResolverHookSetTrait;
-
-    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
-
-    final public function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
+     */
+    private $postTagObjectTypeResolver;
+    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
     {
         $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
     }
-    final protected function getPostTagObjectTypeResolver(): PostTagObjectTypeResolver
+    protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
             /** @var PostTagObjectTypeResolver */
@@ -28,8 +28,7 @@ class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHook
         }
         return $this->postTagObjectTypeResolver;
     }
-
-    protected function getTagTypeResolver(): TagObjectTypeResolverInterface
+    protected function getTagTypeResolver() : TagObjectTypeResolverInterface
     {
         return $this->getPostTagObjectTypeResolver();
     }

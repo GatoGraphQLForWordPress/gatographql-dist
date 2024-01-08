@@ -1,24 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Container\CompilerPasses;
 
 use GraphQLByPoP\GraphQLServer\Container\ServiceTags\MandatoryOperationDirectiveServiceTagInterface;
 use GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface;
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
-
+/** @internal */
 class RegisterMandatoryOperationDirectiveServiceTagCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
-    protected function getRegistryServiceDefinition(): string
+    protected function getRegistryServiceDefinition() : string
     {
         return MandatoryOperationDirectiveResolverRegistryInterface::class;
     }
-    protected function getServiceClass(): string
+    protected function getServiceClass() : string
     {
         return MandatoryOperationDirectiveServiceTagInterface::class;
     }
-    protected function getRegistryMethodCallName(): string
+    protected function getRegistryMethodCallName() : string
     {
         return 'addMandatoryOperationDirectiveResolver';
     }

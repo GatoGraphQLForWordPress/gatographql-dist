@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType;
 
 use PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostSetTagsMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 class PostSetTagsMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver = null;
-
-    final public function setPostSetTagsMutationErrorPayloadUnionTypeResolver(PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostSetTagsMutationErrorPayloadUnionTypeResolver|null
+     */
+    private $postSetTagsMutationErrorPayloadUnionTypeResolver;
+    public final function setPostSetTagsMutationErrorPayloadUnionTypeResolver(PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver) : void
     {
         $this->postSetTagsMutationErrorPayloadUnionTypeResolver = $postSetTagsMutationErrorPayloadUnionTypeResolver;
     }
-    final protected function getPostSetTagsMutationErrorPayloadUnionTypeResolver(): PostSetTagsMutationErrorPayloadUnionTypeResolver
+    protected final function getPostSetTagsMutationErrorPayloadUnionTypeResolver() : PostSetTagsMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postSetTagsMutationErrorPayloadUnionTypeResolver === null) {
             /** @var PostSetTagsMutationErrorPayloadUnionTypeResolver */
@@ -25,8 +26,7 @@ class PostSetTagsMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTy
         }
         return $this->postSetTagsMutationErrorPayloadUnionTypeResolver;
     }
-
-    protected function getUnionTypeResolver(): UnionTypeResolverInterface
+    protected function getUnionTypeResolver() : UnionTypeResolverInterface
     {
         return $this->getPostSetTagsMutationErrorPayloadUnionTypeResolver();
     }

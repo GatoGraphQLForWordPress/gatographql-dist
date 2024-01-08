@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface;
 use GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
-class TypeObjectTypeResolver extends AbstractIntrospectionObjectTypeResolver
+/** @internal */
+class TypeObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
-    private ?WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader = null;
-
-    final public function setWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader(WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader|null
+     */
+    private $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
+    public final function setWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader(WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader) : void
     {
         $this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader = $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
     }
-    final protected function getWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader(): WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader
+    protected final function getWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader() : WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader === null) {
             /** @var WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader */
@@ -25,25 +26,24 @@ class TypeObjectTypeResolver extends AbstractIntrospectionObjectTypeResolver
         }
         return $this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return '__Type';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Representation of each GraphQL type in the graph', 'graphql-server');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         /** @var TypeInterface */
         $type = $object;
         return $type->getID();
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader();
     }

@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\HttpFoundation\Exception;
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
 
 /**
  * Raised when a session does not exist. This happens in the following cases:
@@ -17,6 +16,7 @@ namespace Symfony\Component\HttpFoundation\Exception;
  * - attempt to read a session outside a request context (ie. cli script).
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
+ * @internal
  */
 class SessionNotFoundException extends \LogicException implements RequestExceptionInterface
 {

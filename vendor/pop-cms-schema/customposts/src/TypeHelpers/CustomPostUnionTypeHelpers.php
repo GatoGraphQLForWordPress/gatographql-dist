@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeHelpers;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
@@ -11,10 +10,10 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoPCMSSchema\CustomPosts\Module;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration;
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
-
 /**
  * In the context of WordPress, "Custom Posts" are all posts (eg: posts, pages, attachments, events, etc)
  * Hence, this class can simply inherit from the Post dataloader, and add the post-types for all required types
+ * @internal
  */
 class CustomPostUnionTypeHelpers
 {
@@ -30,33 +29,28 @@ class CustomPostUnionTypeHelpers
      *   and not the Union (since it's more efficient)
      * - If there are none types, return `null`. As a consequence,
      *   the ID is returned as a field, not as a connection
+     * @return \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
      */
-    public static function getCustomPostUnionOrTargetObjectTypeResolver(
-        ?UnionTypeResolverInterface $unionTypeResolver = null
-    ): UnionTypeResolverInterface|ObjectTypeResolverInterface {
+    public static function getCustomPostUnionOrTargetObjectTypeResolver(?UnionTypeResolverInterface $unionTypeResolver = null)
+    {
         if ($unionTypeResolver === null) {
             $instanceManager = InstanceManagerFacade::getInstance();
             /** @var CustomPostUnionTypeResolver */
             $unionTypeResolver = $instanceManager->getInstance(CustomPostUnionTypeResolver::class);
         }
-
         $targetTypeResolvers = $unionTypeResolver->getTargetObjectTypeResolvers();
         if ($targetTypeResolvers === []) {
             return $unionTypeResolver;
         }
-
         /**
          * If there is only 1 item, check if the configuration if
          * to return only that one
          */
-        if (count($targetTypeResolvers) === 1) {
+        if (\count($targetTypeResolvers) === 1) {
             /** @var ModuleConfiguration */
             $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-            return $moduleConfiguration->useSingleTypeInsteadOfCustomPostUnionType()
-                ? $targetTypeResolvers[0]
-                : $unionTypeResolver;
+            return $moduleConfiguration->useSingleTypeInsteadOfCustomPostUnionType() ? $targetTypeResolvers[0] : $unionTypeResolver;
         }
-
         return $unionTypeResolver;
     }
 }

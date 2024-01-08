@@ -13,24 +13,47 @@ use PoP\Root\Module\ModuleInterface;
 
 abstract class AbstractPlugin implements PluginInterface
 {
+    /**
+     * @var string
+     */
+    protected $pluginFile;
+    /**
+     * @var string
+     */
+    protected $pluginVersion;
+    /**
+     * @var string|null
+     */
+    protected $commitHash;
     public const PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER = '#';
 
-    protected ?PluginInfoInterface $pluginInfo = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInfoInterface|null
+     */
+    protected $pluginInfo;
 
-    protected string $pluginBaseName;
-    protected string $pluginSlug;
-    protected string $pluginName;
+    /**
+     * @var string
+     */
+    protected $pluginBaseName;
+    /**
+     * @var string
+     */
+    protected $pluginSlug;
+    /**
+     * @var string
+     */
+    protected $pluginName;
 
-    public function __construct(
-        protected string $pluginFile, /** The main plugin file */
-        protected string $pluginVersion,
-        ?string $pluginName = null,
-        protected ?string $commitHash = null, /** Useful for development to regenerate the container when testing the generated plugin */
-    ) {
+    public function __construct(string $pluginFile, string $pluginVersion, ?string $pluginName = null, ?string $commitHash = null)
+    {
+        $this->pluginFile = $pluginFile;
+        /** The main plugin file */
+        $this->pluginVersion = $pluginVersion;
+        $this->commitHash = $commitHash;
         $this->pluginBaseName = \plugin_basename($pluginFile);
         $this->pluginSlug = dirname($this->pluginBaseName);
         $this->pluginName = $pluginName ?? $this->pluginBaseName;
-
         // Have the Plugin set its own info on the corresponding PluginInfo
         $this->initializeInfo();
     }
@@ -298,10 +321,9 @@ abstract class AbstractPlugin implements PluginInterface
         // Use $serviceDefinitionID for if the class is overriden
         return array_values(array_filter(
             $customPostTypeRegistry->getCustomPostTypes(),
-            fn (string $serviceDefinitionID) => str_starts_with(
-                $serviceDefinitionID,
-                $this->getPluginNamespace() . '\\'
-            ),
+            function (string $serviceDefinitionID) {
+                return strncmp($serviceDefinitionID, $this->getPluginNamespace() . '\\', strlen($this->getPluginNamespace() . '\\')) === 0;
+            },
             ARRAY_FILTER_USE_KEY
         ));
     }
@@ -320,7 +342,7 @@ abstract class AbstractPlugin implements PluginInterface
     public function setup(): void
     {
         // Functions to execute when activating/deactivating the plugin
-        \register_deactivation_hook($this->getPluginFile(), $this->deactivate(...));
+        \register_deactivation_hook($this->getPluginFile(), \Closure::fromCallable([$this, 'deactivate']));
 
         /**
          * PoP depends on hook "init" to set-up the endpoint rewrite,

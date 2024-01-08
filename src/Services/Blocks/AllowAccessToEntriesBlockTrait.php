@@ -36,27 +36,14 @@ trait AllowAccessToEntriesBlockTrait
         $placeholder = '<p><strong>%s</strong></p>%s';
         $entries = $attributes[BlockAttributeNames::ENTRIES] ?? [];
         $behavior = $attributes[BlockAttributeNames::BEHAVIOR] ?? $this->getDefaultBehavior();
-        return sprintf(
-            $placeholder,
-            $this->getRenderBlockLabel(),
-            $entries ?
-                sprintf(
-                    '<ul><li><code>%s</code></li></ul>',
-                    implode('</code></li><li><code>', $entries)
-                ) :
-                sprintf(
-                    '<p><em>%s</em></p>',
-                    \__('(not set)', 'gatographql')
-                )
-        ) . sprintf(
-            $placeholder,
-            $this->__('Behavior', 'gatographql'),
-            match ($behavior) {
-                Behaviors::ALLOW => sprintf('✅ %s', $this->__('Allow access', 'gatographql')),
-                Behaviors::DENY => sprintf('❌ %s', $this->__('Deny access', 'gatographql')),
-                default => $behavior,
-            }
-        );
+        switch ($behavior) {
+            case Behaviors::ALLOW:
+                return sprintf('✅ %s', $this->__('Allow access', 'gatographql'));
+            case Behaviors::DENY:
+                return sprintf('❌ %s', $this->__('Deny access', 'gatographql'));
+            default:
+                return $behavior;
+        }
     }
 
     abstract protected function getRenderBlockLabel(): string;

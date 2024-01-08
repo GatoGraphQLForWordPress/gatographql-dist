@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
-
+/** @internal */
 class QueryRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    private ?QueryRoot $queryRoot = null;
-
-    final public function setQueryRoot(QueryRoot $queryRoot): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot|null
+     */
+    private $queryRoot;
+    public final function setQueryRoot(QueryRoot $queryRoot) : void
     {
         $this->queryRoot = $queryRoot;
     }
-    final protected function getQueryRoot(): QueryRoot
+    protected final function getQueryRoot() : QueryRoot
     {
         if ($this->queryRoot === null) {
             /** @var QueryRoot */
@@ -24,15 +25,12 @@ class QueryRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->queryRoot;
     }
-
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids): array
+    public function getObjects(array $ids) : array
     {
-        return [
-            $this->getQueryRoot(),
-        ];
+        return [$this->getQueryRoot()];
     }
 }

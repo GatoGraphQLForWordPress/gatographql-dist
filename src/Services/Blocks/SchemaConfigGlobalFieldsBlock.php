@@ -17,7 +17,7 @@ class SchemaConfigGlobalFieldsBlock extends AbstractSchemaConfigBlock
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public final const ATTRIBUTE_NAME_SCHEMA_EXPOSURE = 'schemaExposure';
+    public const ATTRIBUTE_NAME_SCHEMA_EXPOSURE = 'schemaExposure';
 
     protected function getBlockName(): string
     {

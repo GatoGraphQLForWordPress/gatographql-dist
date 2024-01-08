@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
-
+/** @internal */
 class CustomPostUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    private ?CustomPostUnionTypeResolver $customPostUnionTypeResolver = null;
-
-    final public function setCustomPostUnionTypeResolver(CustomPostUnionTypeResolver $customPostUnionTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
+     */
+    private $customPostUnionTypeResolver;
+    public final function setCustomPostUnionTypeResolver(CustomPostUnionTypeResolver $customPostUnionTypeResolver) : void
     {
         $this->customPostUnionTypeResolver = $customPostUnionTypeResolver;
     }
-    final protected function getCustomPostUnionTypeResolver(): CustomPostUnionTypeResolver
+    protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {
             /** @var CustomPostUnionTypeResolver */
@@ -25,8 +26,7 @@ class CustomPostUnionTypeDataLoader extends AbstractUnionTypeDataLoader
         }
         return $this->customPostUnionTypeResolver;
     }
-
-    protected function getUnionTypeResolver(): UnionTypeResolverInterface
+    protected function getUnionTypeResolver() : UnionTypeResolverInterface
     {
         return $this->getCustomPostUnionTypeResolver();
     }

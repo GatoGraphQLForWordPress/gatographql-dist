@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\ModuleContracts;
 
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
-
+/** @internal */
 interface TagAPIRequestedContractObjectTypeFieldResolverInterface
 {
-    public function getTagTypeAPI(): TagTypeAPIInterface;
-    public function getTagTypeResolver(): TagObjectTypeResolverInterface;
+    public function getTagTypeAPI() : TagTypeAPIInterface;
+    public function getTagTypeResolver() : TagObjectTypeResolverInterface;
 }

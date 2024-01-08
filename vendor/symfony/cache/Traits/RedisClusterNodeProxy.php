@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Cache\Traits;
+namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
 
 /**
  * This file acts as a wrapper to the \RedisCluster implementation so it can accept the same type of calls as
@@ -24,22 +23,27 @@ namespace Symfony\Component\Cache\Traits;
  */
 class RedisClusterNodeProxy
 {
-    public function __construct(
-        private array $host,
-        private \RedisCluster $redis,
-    ) {
+    /**
+     * @var mixed[]
+     */
+    private $host;
+    /**
+     * @var \RedisCluster
+     */
+    private $redis;
+    public function __construct(array $host, \RedisCluster $redis)
+    {
+        $this->host = $host;
+        $this->redis = $redis;
     }
-
     public function __call(string $method, array $args)
     {
         return $this->redis->{$method}($this->host, ...$args);
     }
-
     public function scan(&$iIterator, $strPattern = null, $iCount = null)
     {
         return $this->redis->scan($iIterator, $this->host, $strPattern, $iCount);
     }
-
     public function getOption($name)
     {
         return $this->redis->getOption($name);

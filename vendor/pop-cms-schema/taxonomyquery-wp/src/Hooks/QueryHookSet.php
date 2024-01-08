@@ -15,7 +15,7 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             AbstractCustomPostTypeAPI::HOOK_QUERY,
-            TaxonomyQueryHelpers::convertTaxonomyQuery(...)
+            \Closure::fromCallable([TaxonomyQueryHelpers::class, 'convertTaxonomyQuery'])
         );
     }
 }

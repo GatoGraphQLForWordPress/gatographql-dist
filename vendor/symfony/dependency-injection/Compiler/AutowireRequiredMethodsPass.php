@@ -8,103 +8,96 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Contracts\Service\Attribute\Required;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
 /**
  * Looks for definitions with autowiring enabled and registers their corresponding "#[Required]" methods as setters.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function processValue($value, bool $isRoot = \false)
     {
         $value = parent::processValue($value, $isRoot);
-
         if (!$value instanceof Definition || !$value->isAutowired() || $value->isAbstract() || !$value->getClass()) {
             return $value;
         }
-        if (!$reflectionClass = $this->container->getReflectionClass($value->getClass(), false)) {
+        if (!($reflectionClass = $this->container->getReflectionClass($value->getClass(), \false))) {
             return $value;
         }
-
         $alreadyCalledMethods = [];
         $withers = [];
-
         foreach ($value->getMethodCalls() as [$method]) {
-            $alreadyCalledMethods[strtolower($method)] = true;
+            $alreadyCalledMethods[\strtolower($method)] = \true;
         }
-
         foreach ($reflectionClass->getMethods() as $reflectionMethod) {
             $r = $reflectionMethod;
-
-            if ($r->isConstructor() || isset($alreadyCalledMethods[strtolower($r->name)])) {
+            if ($r->isConstructor() || isset($alreadyCalledMethods[\strtolower($r->name)])) {
                 continue;
             }
-
-            while (true) {
-                if ($r->getAttributes(Required::class)) {
+            while (\true) {
+                if (\method_exists($r, 'getAttributes') ? $r->getAttributes(Required::class) : []) {
                     if ($this->isWither($r, $r->getDocComment() ?: '')) {
-                        $withers[] = [$r->name, [], true];
+                        $withers[] = [$r->name, [], \true];
                     } else {
                         $value->addMethodCall($r->name, []);
                     }
                     break;
                 }
-                if (false !== $doc = $r->getDocComment()) {
-                    if (false !== stripos($doc, '@required') && preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@required(?:\s|\*/$)#i', $doc)) {
-                        trigger_deprecation('symfony/dependency-injection', '6.3', 'Relying on the "@required" annotation on method "%s::%s()" is deprecated, use the "Symfony\Contracts\Service\Attribute\Required" attribute instead.', $reflectionMethod->class, $reflectionMethod->name);
-
+                if (\false !== ($doc = $r->getDocComment())) {
+                    if (\false !== \stripos($doc, '@required') && \preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+@required(?:\\s|\\*/$)#i', $doc)) {
+                        trigger_deprecation('symfony/dependency-injection', '6.3', 'Relying on the "@required" annotation on method "%s::%s()" is deprecated, use the "Symfony\\Contracts\\Service\\Attribute\\Required" attribute instead.', $reflectionMethod->class, $reflectionMethod->name);
                         if ($this->isWither($reflectionMethod, $doc)) {
-                            $withers[] = [$reflectionMethod->name, [], true];
+                            $withers[] = [$reflectionMethod->name, [], \true];
                         } else {
                             $value->addMethodCall($reflectionMethod->name, []);
                         }
                         break;
                     }
-                    if (false === stripos($doc, '@inheritdoc') || !preg_match('#(?:^/\*\*|\n\s*+\*)\s*+(?:\{@inheritdoc\}|@inheritdoc)(?:\s|\*/$)#i', $doc)) {
+                    if (\false === \stripos($doc, '@inheritdoc') || !\preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+(?:\\{@inheritdoc\\}|@inheritdoc)(?:\\s|\\*/$)#i', $doc)) {
                         break;
                     }
                 }
                 try {
                     $r = $r->getPrototype();
-                } catch (\ReflectionException) {
-                    break; // method has no prototype
+                } catch (\ReflectionException $exception) {
+                    break;
+                    // method has no prototype
                 }
             }
         }
-
         if ($withers) {
             // Prepend withers to prevent creating circular loops
             $setters = $value->getMethodCalls();
             $value->setMethodCalls($withers);
             foreach ($setters as $call) {
-                $value->addMethodCall($call[0], $call[1], $call[2] ?? false);
+                $value->addMethodCall($call[0], $call[1], $call[2] ?? \false);
             }
         }
-
         return $value;
     }
-
-    private function isWither(\ReflectionMethod $reflectionMethod, string $doc): bool
+    private function isWither(\ReflectionMethod $reflectionMethod, string $doc) : bool
     {
-        $match = preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@return\s++(static|\$this)[\s\*]#i', $doc, $matches);
+        $match = \preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+@return\\s++(static|\\$this)[\\s\\*]#i', $doc, $matches);
         if ($match && 'static' === $matches[1]) {
-            return true;
+            return \true;
         }
-
         if ($match && '$this' === $matches[1]) {
-            return false;
+            return \false;
         }
-
         $reflectionType = $reflectionMethod->hasReturnType() ? $reflectionMethod->getReturnType() : null;
-
         return $reflectionType instanceof \ReflectionNamedType && 'static' === $reflectionType->getName();
     }
 }

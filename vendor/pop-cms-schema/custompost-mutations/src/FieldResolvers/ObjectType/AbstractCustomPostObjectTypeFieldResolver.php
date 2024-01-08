@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMutations\Module;
@@ -14,16 +13,18 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-
+/** @internal */
 abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    private ?CustomPostUpdateInputObjectTypeResolver $customPostUpdateInputObjectTypeResolver = null;
-
-    final public function setCustomPostUpdateInputObjectTypeResolver(CustomPostUpdateInputObjectTypeResolver $customPostUpdateInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver|null
+     */
+    private $customPostUpdateInputObjectTypeResolver;
+    public final function setCustomPostUpdateInputObjectTypeResolver(CustomPostUpdateInputObjectTypeResolver $customPostUpdateInputObjectTypeResolver) : void
     {
         $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
     }
-    final protected function getCustomPostUpdateInputObjectTypeResolver(): CustomPostUpdateInputObjectTypeResolver
+    protected final function getCustomPostUpdateInputObjectTypeResolver() : CustomPostUpdateInputObjectTypeResolver
     {
         if ($this->customPostUpdateInputObjectTypeResolver === null) {
             /** @var CustomPostUpdateInputObjectTypeResolver */
@@ -32,26 +33,23 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         }
         return $this->customPostUpdateInputObjectTypeResolver;
     }
-
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve(): array
+    public function getFieldNamesToResolve() : array
     {
-        return [
-            'update',
-        ];
+        return ['update'];
     }
-
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'update' => $this->__('Update the custom post', 'custompost-mutations'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'update':
+                return $this->__('Update the custom post', 'custompost-mutations');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
@@ -59,65 +57,54 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         if (!$usePayloadableCustomPostMutations) {
             return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
         }
-        return match ($fieldName) {
-            'update' => SchemaTypeModifiers::NON_NULLABLE,
-            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'update':
+                return SchemaTypeModifiers::NON_NULLABLE;
+            default:
+                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+        }
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        return match ($fieldName) {
-            'update' => [
-                MutationInputProperties::INPUT => $this->getCustomPostUpdateInputObjectTypeResolver(),
-            ],
-            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'update':
+                return [MutationInputProperties::INPUT => $this->getCustomPostUpdateInputObjectTypeResolver()];
+            default:
+                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
+        }
     }
-
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        return match ([$fieldName => $fieldArgName]) {
-            ['update' => MutationInputProperties::INPUT] => SchemaTypeModifiers::MANDATORY,
-            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
-        };
+        switch ([$fieldName => $fieldArgName]) {
+            case ['update' => MutationInputProperties::INPUT]:
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
     }
-
     /**
      * Validated the mutation on the object because the ID
      * is obtained from the same object, so it's not originally
      * present in the field argument in the query
      */
-    public function validateMutationOnObject(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        string $fieldName
-    ): bool {
+    public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
+    {
         switch ($fieldName) {
             case 'update':
-                return true;
+                return \true;
         }
         return parent::validateMutationOnObject($objectTypeResolver, $fieldName);
     }
-
     /**
      * @param array<string,mixed> $fieldArgsForMutationForObject
      * @return array<string,mixed>
      */
-    public function prepareFieldArgsForMutationForObject(
-        array $fieldArgsForMutationForObject,
-        ObjectTypeResolverInterface $objectTypeResolver,
-        FieldInterface $field,
-        object $object,
-    ): array {
-        $fieldArgsForMutationForObject = parent::prepareFieldArgsForMutationForObject(
-            $fieldArgsForMutationForObject,
-            $objectTypeResolver,
-            $field,
-            $object,
-        );
+    public function prepareFieldArgsForMutationForObject(array $fieldArgsForMutationForObject, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, object $object) : array
+    {
+        $fieldArgsForMutationForObject = parent::prepareFieldArgsForMutationForObject($fieldArgsForMutationForObject, $objectTypeResolver, $field, $object);
         $post = $object;
         switch ($field->getName()) {
             case 'update':

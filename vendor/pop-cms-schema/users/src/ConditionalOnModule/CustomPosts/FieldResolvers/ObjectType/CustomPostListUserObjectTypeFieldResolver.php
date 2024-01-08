@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -10,16 +9,18 @@ use PoPCMSSchema\CustomPosts\FieldResolvers\ObjectType\AbstractCustomPostListObj
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
-
+/** @internal */
 class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListObjectTypeFieldResolver
 {
-    private ?UserCustomPostsFilterInputObjectTypeResolver $userCustomPostsFilterInputObjectTypeResolver = null;
-
-    final public function setUserCustomPostsFilterInputObjectTypeResolver(UserCustomPostsFilterInputObjectTypeResolver $userCustomPostsFilterInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver|null
+     */
+    private $userCustomPostsFilterInputObjectTypeResolver;
+    public final function setUserCustomPostsFilterInputObjectTypeResolver(UserCustomPostsFilterInputObjectTypeResolver $userCustomPostsFilterInputObjectTypeResolver) : void
     {
         $this->userCustomPostsFilterInputObjectTypeResolver = $userCustomPostsFilterInputObjectTypeResolver;
     }
-    final protected function getUserCustomPostsFilterInputObjectTypeResolver(): UserCustomPostsFilterInputObjectTypeResolver
+    protected final function getUserCustomPostsFilterInputObjectTypeResolver() : UserCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->userCustomPostsFilterInputObjectTypeResolver === null) {
             /** @var UserCustomPostsFilterInputObjectTypeResolver */
@@ -28,41 +29,34 @@ class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListOb
         }
         return $this->userCustomPostsFilterInputObjectTypeResolver;
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            UserObjectTypeResolver::class,
-        ];
+        return [UserObjectTypeResolver::class];
     }
-
-    protected function getCustomPostsFilterInputObjectTypeResolver(): AbstractCustomPostsFilterInputObjectTypeResolver
+    protected function getCustomPostsFilterInputObjectTypeResolver() : AbstractCustomPostsFilterInputObjectTypeResolver
     {
         return $this->getUserCustomPostsFilterInputObjectTypeResolver();
     }
-
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        return match ($fieldName) {
-            'customPosts' => $this->__('Custom posts by the user', 'pop-users'),
-            'customPostCount' => $this->__('Number of custom posts by the user', 'pop-users'),
-            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
-        };
+        switch ($fieldName) {
+            case 'customPosts':
+                return $this->__('Custom posts by the user', 'pop-users');
+            case 'customPostCount':
+                return $this->__('Number of custom posts by the user', 'pop-users');
+            default:
+                return parent::getFieldDescription($objectTypeResolver, $fieldName);
+        }
     }
-
     /**
      * @return array<string,mixed>
      */
-    protected function getQuery(
-        ObjectTypeResolverInterface $objectTypeResolver,
-        object $object,
-        FieldDataAccessorInterface $fieldDataAccessor,
-    ): array {
+    protected function getQuery(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor) : array
+    {
         $query = parent::getQuery($objectTypeResolver, $object, $fieldDataAccessor);
-
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'customPosts':
@@ -70,7 +64,6 @@ class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListOb
                 $query['authors'] = [$objectTypeResolver->getID($user)];
                 break;
         }
-
         return $query;
     }
 }

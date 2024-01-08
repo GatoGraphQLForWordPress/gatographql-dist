@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\DirectiveResolvers;
 
 use PoP\ComponentModel\App;
@@ -15,7 +14,7 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\DirectiveResolvers\AbstractFieldDirectiveResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-
+/** @internal */
 abstract class AbstractTransformFieldValueFieldDirectiveResolver extends AbstractFieldDirectiveResolver
 {
     /**
@@ -29,20 +28,8 @@ abstract class AbstractTransformFieldValueFieldDirectiveResolver extends Abstrac
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array $idFieldSet,
-        FieldDataAccessProviderInterface $fieldDataAccessProvider,
-        array $succeedingPipelineFieldDirectiveResolvers,
-        array $idObjects,
-        array $unionTypeOutputKeyIDs,
-        array $previouslyResolvedIDFieldValues,
-        array &$succeedingPipelineIDFieldSet,
-        array &$succeedingPipelineFieldDataAccessProviders,
-        array &$resolvedIDFieldValues,
-        array &$messages,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
+    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
         /**
          * If the directive args contain any reference to a promise,
          * validate it
@@ -50,67 +37,33 @@ abstract class AbstractTransformFieldValueFieldDirectiveResolver extends Abstrac
         /** @var ComponentModelModuleConfiguration */
         $moduleConfiguration = App::getModule(ComponentModelModule::class)->getConfiguration();
         $setFieldAsNullIfDirectiveFailed = $moduleConfiguration->setFieldAsNullIfDirectiveFailed();
-
         $resolveDirectiveArgsOnObject = $this->directive->hasArgumentReferencingResolvedOnObjectPromise();
-
         if (!$resolveDirectiveArgsOnObject) {
-            $directiveArgs = $this->getResolvedDirectiveArgs(
-                $relationalTypeResolver,
-                $idFieldSet,
-                $engineIterationFeedbackStore,
-            );
+            $directiveArgs = $this->getResolvedDirectiveArgs($relationalTypeResolver, $idFieldSet, $engineIterationFeedbackStore);
             if ($directiveArgs === null) {
                 if ($setFieldAsNullIfDirectiveFailed) {
-                    $this->removeIDFieldSet(
-                        $succeedingPipelineIDFieldSet,
-                        $idFieldSet,
-                    );
-                    $this->setFieldResponseValueAsNull(
-                        $resolvedIDFieldValues,
-                        $idFieldSet,
-                    );
+                    $this->removeIDFieldSet($succeedingPipelineIDFieldSet, $idFieldSet);
+                    $this->setFieldResponseValueAsNull($resolvedIDFieldValues, $idFieldSet);
                 }
                 return;
             }
         }
-
         foreach ($idFieldSet as $id => $fieldSet) {
             foreach ($fieldSet->fields as $field) {
                 if ($resolveDirectiveArgsOnObject) {
-                    $directiveArgs = $this->getResolvedDirectiveArgsForObjectAndField(
-                        $relationalTypeResolver,
-                        $field,
-                        $id,
-                        $engineIterationFeedbackStore,
-                    );
+                    $directiveArgs = $this->getResolvedDirectiveArgsForObjectAndField($relationalTypeResolver, $field, $id, $engineIterationFeedbackStore);
                     if ($directiveArgs === null) {
                         if ($setFieldAsNullIfDirectiveFailed) {
                             $iterationFieldSet = [$id => new EngineIterationFieldSet([$field])];
-                            $this->removeIDFieldSet(
-                                $succeedingPipelineIDFieldSet,
-                                $iterationFieldSet,
-                            );
-                            $this->setFieldResponseValueAsNull(
-                                $resolvedIDFieldValues,
-                                $iterationFieldSet,
-                            );
+                            $this->removeIDFieldSet($succeedingPipelineIDFieldSet, $iterationFieldSet);
+                            $this->setFieldResponseValueAsNull($resolvedIDFieldValues, $iterationFieldSet);
                         }
                         continue;
                     }
                 }
-
-                $resolvedIDFieldValues[$id][$field] = $this->transformValue(
-                    $resolvedIDFieldValues[$id][$field],
-                    $id,
-                    $field,
-                    $relationalTypeResolver,
-                    $succeedingPipelineIDFieldSet,
-                    $resolvedIDFieldValues,
-                    $engineIterationFeedbackStore,
-                );
+                $resolvedIDFieldValues[$id][$field] = $this->transformValue($resolvedIDFieldValues[$id][$field], $id, $field, $relationalTypeResolver, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
             }
         }
-
         /**
          * Reset the AppState
          */
@@ -119,18 +72,12 @@ abstract class AbstractTransformFieldValueFieldDirectiveResolver extends Abstrac
             $this->directiveDataAccessor->resetDirectiveArgs();
         }
     }
-
     /**
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
+     * @param string|int $id
+     * @param mixed $value
+     * @return mixed
      */
-    abstract protected function transformValue(
-        mixed $value,
-        string|int $id,
-        FieldInterface $field,
-        RelationalTypeResolverInterface $relationalTypeResolver,
-        array &$succeedingPipelineIDFieldSet,
-        array &$resolvedIDFieldValues,
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): mixed;
+    protected abstract function transformValue($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore);
 }

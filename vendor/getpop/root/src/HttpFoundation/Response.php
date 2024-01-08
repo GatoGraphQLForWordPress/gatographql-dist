@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\HttpFoundation;
 
-use Symfony\Component\HttpFoundation\Response as UpstreamResponse;
-
+use PrefixedByPoP\Symfony\Component\HttpFoundation\Response as UpstreamResponse;
+/** @internal */
 class Response extends UpstreamResponse
 {
 }

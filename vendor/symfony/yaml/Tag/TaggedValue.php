@@ -8,30 +8,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Yaml\Tag;
+namespace PrefixedByPoP\Symfony\Component\Yaml\Tag;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Guilhem N. <egetick@gmail.com>
+ * @internal
  */
 final class TaggedValue
 {
-    private string $tag;
-    private mixed $value;
-
-    public function __construct(string $tag, mixed $value)
+    /**
+     * @var string
+     */
+    private $tag;
+    /**
+     * @var mixed
+     */
+    private $value;
+    /**
+     * @param mixed $value
+     */
+    public function __construct(string $tag, $value)
     {
         $this->tag = $tag;
         $this->value = $value;
     }
-
-    public function getTag(): string
+    public function getTag() : string
     {
         return $this->tag;
     }
-
-    public function getValue(): mixed
+    /**
+     * @return mixed
+     */
+    public function getValue()
     {
         return $this->value;
     }

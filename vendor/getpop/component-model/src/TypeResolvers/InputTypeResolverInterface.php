@@ -1,21 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
-
 /**
  * Input types are those that can be provided inputs via field arguments:
  *
  * - ScalarType
  * - EnumType
  * - InputObjectType
+ * @internal
  */
-interface InputTypeResolverInterface extends TypeResolverInterface
+interface InputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
 {
     /**
      * It handles both "Literal input coercion" and "Value input coercion"
@@ -33,9 +32,5 @@ interface InputTypeResolverInterface extends TypeResolverInterface
      *
      * @see https://spec.graphql.org/draft/#sec-Input-Values
      */
-    public function coerceValue(
-        string|int|float|bool|stdClass $inputValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): string|int|float|bool|object|null;
+    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
 }

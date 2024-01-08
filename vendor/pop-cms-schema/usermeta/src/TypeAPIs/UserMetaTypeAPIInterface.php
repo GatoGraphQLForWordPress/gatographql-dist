@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-
+/** @internal */
 interface UserMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**
@@ -17,6 +16,8 @@ interface UserMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
+     * @param string|int|object $userObjectOrID
+     * @return mixed
      */
-    public function getUserMeta(string|int|object $userObjectOrID, string $key, bool $single = false, array $options = []): mixed;
+    public function getUserMeta($userObjectOrID, string $key, bool $single = \false, array $options = []);
 }

@@ -22,17 +22,15 @@ class PluginOptionsFormHandler
      *
      * @var array<string,array<string,array<string,mixed>|null>>
      */
-    protected array $normalizedModuleOptionValuesCache = [];
+    protected $normalizedModuleOptionValuesCache = [];
 
     /**
      * Get the values from the form submitted to options.php, and normalize them
      *
      * @return array<string,mixed>
      */
-    protected function getNormalizedModuleOptionValues(
-        string $settingsCategory,
-        string $module,
-    ): array {
+    protected function getNormalizedModuleOptionValues(string $settingsCategory, string $module): array
+    {
         if (($this->normalizedModuleOptionValuesCache[$settingsCategory][$module] ?? null) === null) {
             $instanceManager = SystemInstanceManagerFacade::getInstance();
             /** @var SettingsNormalizerInterface */
@@ -67,9 +65,8 @@ class PluginOptionsFormHandler
      *
      * @return array<string,mixed>
      */
-    protected function getSubmittedFormOptionValues(
-        string $settingsCategory,
-    ): array {
+    protected function getSubmittedFormOptionValues(string $settingsCategory): array
+    {
         $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
         $settingsCategoryResolver = $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory);
         $optionsFormName = $settingsCategoryResolver->getOptionsFormName($settingsCategory);
@@ -85,17 +82,15 @@ class PluginOptionsFormHandler
      * Hidden input "form-origin" is used to only execute for this plugin,
      * since options.php is used everywhere, including WP core and other plugins.
      * Otherwise, it may thrown an exception!
+     * @param mixed $value
+     * @return mixed
      */
-    public function maybeOverrideValueFromForm(
-        mixed $value,
-        string $module,
-        string $option,
-    ): mixed {
+    public function maybeOverrideValueFromForm($value, string $module, string $option)
+    {
         global $pagenow;
         if ($pagenow !== 'options.php') {
             return $value;
         }
-
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
         $moduleResolver = $moduleRegistry->getModuleResolver($module);
@@ -104,11 +99,7 @@ class PluginOptionsFormHandler
         if ($formOrigin !== $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory)) {
             return $value;
         }
-
-        $value = $this->getNormalizedModuleOptionValues(
-            $settingsCategory,
-            $module,
-        );
+        $value = $this->getNormalizedModuleOptionValues($settingsCategory, $module);
         // Return the specific value to this module/option
         $optionName = $moduleResolver->getSettingOptionName($module, $option);
         return $value[$optionName];

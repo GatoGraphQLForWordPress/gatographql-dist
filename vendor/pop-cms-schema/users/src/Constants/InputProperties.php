@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\Constants;
 
+/** @internal */
 class InputProperties
 {
-    public final const ID = 'id';
-    public final const USERNAME = 'username';
-    public final const EMAIL = 'email';
+    public const ID = 'id';
+    public const USERNAME = 'username';
+    public const EMAIL = 'email';
 }

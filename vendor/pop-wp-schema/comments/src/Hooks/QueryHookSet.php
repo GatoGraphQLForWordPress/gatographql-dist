@@ -15,19 +15,25 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             CommentTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            $this->getOrderByQueryArgValue(...)
+            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
         );
     }
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        return match ($orderBy) {
-            CommentOrderBy::AUTHOR_EMAIL => 'comment_author_email',
-            CommentOrderBy::AUTHOR_IP => 'comment_author_IP',
-            CommentOrderBy::AUTHOR_URL => 'comment_author_url',
-            CommentOrderBy::KARMA => 'comment_karma',
-            CommentOrderBy::NONE => 'none',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case CommentOrderBy::AUTHOR_EMAIL:
+                return 'comment_author_email';
+            case CommentOrderBy::AUTHOR_IP:
+                return 'comment_author_IP';
+            case CommentOrderBy::AUTHOR_URL:
+                return 'comment_author_url';
+            case CommentOrderBy::KARMA:
+                return 'comment_karma';
+            case CommentOrderBy::NONE:
+                return 'none';
+            default:
+                return $orderBy;
+        }
     }
 }

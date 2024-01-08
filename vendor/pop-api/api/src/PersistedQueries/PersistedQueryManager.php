@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPAPI\API\PersistedQueries;
 
-class PersistedQueryManager extends AbstractPersistedQueryManager
+/** @internal */
+class PersistedQueryManager extends \PoPAPI\API\PersistedQueries\AbstractPersistedQueryManager
 {
 }

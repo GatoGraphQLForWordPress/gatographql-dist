@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface;
@@ -12,20 +11,24 @@ use PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterfac
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
 use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-
-class MutationRootObjectTypeResolver extends AbstractUseRootAsSourceForSchemaObjectTypeResolver
+/** @internal */
+class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractUseRootAsSourceForSchemaObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-
-    private ?TypeResolverHelperInterface $typeResolverHelper = null;
-    private ?MutationRootObjectTypeDataLoader $mutationRootObjectTypeDataLoader = null;
-
-    final public function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper): void
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface|null
+     */
+    private $typeResolverHelper;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\MutationRootObjectTypeDataLoader|null
+     */
+    private $mutationRootObjectTypeDataLoader;
+    public final function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper) : void
     {
         $this->typeResolverHelper = $typeResolverHelper;
     }
-    final protected function getTypeResolverHelper(): TypeResolverHelperInterface
+    protected final function getTypeResolverHelper() : TypeResolverHelperInterface
     {
         if ($this->typeResolverHelper === null) {
             /** @var TypeResolverHelperInterface */
@@ -34,11 +37,11 @@ class MutationRootObjectTypeResolver extends AbstractUseRootAsSourceForSchemaObj
         }
         return $this->typeResolverHelper;
     }
-    final public function setMutationRootObjectTypeDataLoader(MutationRootObjectTypeDataLoader $mutationRootObjectTypeDataLoader): void
+    public final function setMutationRootObjectTypeDataLoader(MutationRootObjectTypeDataLoader $mutationRootObjectTypeDataLoader) : void
     {
         $this->mutationRootObjectTypeDataLoader = $mutationRootObjectTypeDataLoader;
     }
-    final protected function getMutationRootObjectTypeDataLoader(): MutationRootObjectTypeDataLoader
+    protected final function getMutationRootObjectTypeDataLoader() : MutationRootObjectTypeDataLoader
     {
         if ($this->mutationRootObjectTypeDataLoader === null) {
             /** @var MutationRootObjectTypeDataLoader */
@@ -47,50 +50,40 @@ class MutationRootObjectTypeResolver extends AbstractUseRootAsSourceForSchemaObj
         }
         return $this->mutationRootObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'MutationRoot';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Mutation type, starting from which mutations are executed', 'graphql-server');
     }
-
-    public function getID(object $object): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getID(object $object)
     {
         /** @var MutationRoot */
         $mutationRoot = $object;
         return $mutationRoot->getID();
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getMutationRootObjectTypeDataLoader();
     }
-
-    public function isFieldNameConditionSatisfiedForSchema(
-        ObjectTypeFieldResolverInterface $objectTypeFieldResolver,
-        string $fieldName
-    ): bool {
+    public function isFieldNameConditionSatisfiedForSchema(ObjectTypeFieldResolverInterface $objectTypeFieldResolver, string $fieldName) : bool
+    {
         $objectTypeResolverMandatoryFields = $this->getTypeResolverHelper()->getObjectTypeResolverMandatoryFields();
-        return
-            in_array($fieldName, $objectTypeResolverMandatoryFields)
-            || $objectTypeFieldResolver->getFieldMutationResolver($this, $fieldName) !== null;
+        return \in_array($fieldName, $objectTypeResolverMandatoryFields) || $objectTypeFieldResolver->getFieldMutationResolver($this, $fieldName) !== null;
     }
-
     /**
      * Remove the IdentifiableObject interface
      *
      * @param InterfaceTypeFieldResolverInterface[] $interfaceTypeFieldResolvers
      * @return InterfaceTypeFieldResolverInterface[]
      */
-    final protected function consolidateAllImplementedInterfaceTypeFieldResolvers(
-        array $interfaceTypeFieldResolvers,
-    ): array {
-        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(
-            parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers),
-        );
+    protected final function consolidateAllImplementedInterfaceTypeFieldResolvers(array $interfaceTypeFieldResolvers) : array
+    {
+        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers));
     }
 }

@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
+/** @internal */
 class CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    private ?CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader(CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader|null
+     */
+    private $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
+    public final function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader(CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader) : void
     {
         $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader(): CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader
+    protected final function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader() : CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader === null) {
             /** @var CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver extends Abs
         }
         return $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'CommentParentCommentDoesNotExistErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Error payload for: "The comment\'s parent does not exist"', 'comment-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader();
     }

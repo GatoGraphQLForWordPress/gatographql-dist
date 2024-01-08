@@ -1,33 +1,34 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-
-final class ContainerBuilderWrapper implements ContainerBuilderWrapperInterface
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+/** @internal */
+final class ContainerBuilderWrapper implements \PoP\Root\Container\ContainerBuilderWrapperInterface
 {
-    final public function __construct(
-        private readonly ContainerBuilder $containerBuilder
-    ) {
+    /**
+     * @readonly
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    private $containerBuilder;
+    public final function __construct(ContainerBuilder $containerBuilder)
+    {
+        $this->containerBuilder = $containerBuilder;
     }
-
-    final public function getContainerBuilder(): ContainerBuilder
+    public final function getContainerBuilder() : ContainerBuilder
     {
         return $this->containerBuilder;
     }
-
-    final public function getDefinition(string $id): Definition
+    public final function getDefinition(string $id) : Definition
     {
         return $this->containerBuilder->getDefinition($id);
     }
-
     /**
      * @return Definition[] An array of Definition instances
      */
-    final public function getDefinitions(): array
+    public final function getDefinitions() : array
     {
         return $this->containerBuilder->getDefinitions();
     }

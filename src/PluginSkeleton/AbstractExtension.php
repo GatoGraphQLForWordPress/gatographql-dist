@@ -25,21 +25,21 @@ use PoP\Root\Module\ModuleInterface;
  */
 abstract class AbstractExtension extends AbstractPlugin implements ExtensionInterface
 {
-    protected ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\ExtensionInitializationConfigurationInterface|null
+     */
+    protected $extensionInitializationConfiguration;
 
     public function __construct(
-        string $pluginFile, /** The main plugin file */
+        string $pluginFile,
+        /** The main plugin file */
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
-        ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null,
-    ) {
-        parent::__construct(
-            $pluginFile,
-            $pluginVersion,
-            $pluginName,
-            $commitHash,
-        );
+        ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null
+    )
+    {
+        parent::__construct($pluginFile, $pluginVersion, $pluginName, $commitHash);
         $this->extensionInitializationConfiguration = $extensionInitializationConfiguration ?? $this->maybeCreateInitializationConfiguration();
     }
 
@@ -92,7 +92,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     protected function callPluginInitializationConfiguration(): void
     {
-        $this->extensionInitializationConfiguration?->initialize();
+        ($nullsafeVariable1 = $this->extensionInitializationConfiguration) ? $nullsafeVariable1->initialize() : null;
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     public function getModuleClassConfiguration(): array
     {
-        return $this->extensionInitializationConfiguration?->getModuleClassConfiguration() ?? parent::getModuleClassConfiguration();
+        return (($nullsafeVariable2 = $this->extensionInitializationConfiguration) ? $nullsafeVariable2->getModuleClassConfiguration() : null) ?? parent::getModuleClassConfiguration();
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     public function getSchemaModuleClassesToSkip(): array
     {
-        return $this->extensionInitializationConfiguration?->getSchemaModuleClassesToSkip() ?? [];
+        return (($nullsafeVariable3 = $this->extensionInitializationConfiguration) ? $nullsafeVariable3->getSchemaModuleClassesToSkip() : null) ?? [];
     }
 
     /**
@@ -134,19 +134,21 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
                  */
                 \add_action(
                     PluginLifecycleHooks::INITIALIZE_EXTENSION,
-                    $this->initialize(...)
+                    \Closure::fromCallable([$this, 'initialize'])
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION_COMPONENTS,
-                    $this->configureComponents(...)
+                    \Closure::fromCallable([$this, 'configureComponents'])
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION,
-                    fn () => $this->configure($pluginAppGraphQLServerName)
+                    function () use ($pluginAppGraphQLServerName) {
+                        return $this->configure($pluginAppGraphQLServerName);
+                    }
                 );
                 \add_action(
                     PluginLifecycleHooks::BOOT_EXTENSION,
-                    $this->boot(...)
+                    \Closure::fromCallable([$this, 'boot'])
                 );
 
                 // Execute the plugin's custom setup, if any

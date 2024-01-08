@@ -8,68 +8,65 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
-
-use Symfony\Component\Cache\Marshaller\MarshallerInterface;
-
+use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Ahmed TAILOULOUTE <ahmed.tailouloute@gmail.com>
+ * @internal
  */
 class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
-    private AbstractSessionHandler $handler;
-    private MarshallerInterface $marshaller;
-
+    /**
+     * @var \Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler
+     */
+    private $handler;
+    /**
+     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
+     */
+    private $marshaller;
     public function __construct(AbstractSessionHandler $handler, MarshallerInterface $marshaller)
     {
         $this->handler = $handler;
         $this->marshaller = $marshaller;
     }
-
-    public function open(string $savePath, string $name): bool
+    public function open(string $savePath, string $name) : bool
     {
         return $this->handler->open($savePath, $name);
     }
-
-    public function close(): bool
+    public function close() : bool
     {
         return $this->handler->close();
     }
-
-    public function destroy(#[\SensitiveParameter] string $sessionId): bool
+    public function destroy(string $sessionId) : bool
     {
         return $this->handler->destroy($sessionId);
     }
-
-    public function gc(int $maxlifetime): int|false
+    /**
+     * @return int|false
+     */
+    public function gc(int $maxlifetime)
     {
         return $this->handler->gc($maxlifetime);
     }
-
-    public function read(#[\SensitiveParameter] string $sessionId): string
+    public function read(string $sessionId) : string
     {
         return $this->marshaller->unmarshall($this->handler->read($sessionId));
     }
-
-    public function write(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function write(string $sessionId, string $data) : bool
     {
         $failed = [];
         $marshalledData = $this->marshaller->marshall(['data' => $data], $failed);
-
         if (isset($failed['data'])) {
-            return false;
+            return \false;
         }
-
         return $this->handler->write($sessionId, $marshalledData['data']);
     }
-
-    public function validateId(#[\SensitiveParameter] string $sessionId): bool
+    public function validateId(string $sessionId) : bool
     {
         return $this->handler->validateId($sessionId);
     }
-
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(string $sessionId, string $data) : bool
     {
         return $this->handler->updateTimestamp($sessionId, $data);
     }

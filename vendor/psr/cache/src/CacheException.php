@@ -1,9 +1,10 @@
 <?php
 
-namespace Psr\Cache;
+namespace PrefixedByPoP\Psr\Cache;
 
 /**
  * Exception interface for all exceptions thrown by an Implementing Library.
+ * @internal
  */
 interface CacheException extends \Throwable
 {

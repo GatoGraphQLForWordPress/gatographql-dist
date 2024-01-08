@@ -8,9 +8,12 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationC
 
 class SchemaConfigurationBlockCategory extends AbstractBlockCategory
 {
-    public final const SCHEMA_CONFIGURATION_BLOCK_CATEGORY = 'gatographql-schema-config';
+    public const SCHEMA_CONFIGURATION_BLOCK_CATEGORY = 'gatographql-schema-config';
 
-    private ?GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
+     */
+    private $graphQLSchemaConfigurationCustomPostType;
 
     final public function setGraphQLSchemaConfigurationCustomPostType(GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType): void
     {

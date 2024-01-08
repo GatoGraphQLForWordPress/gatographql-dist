@@ -1,34 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Hooks;
 
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
 /**
  * To be used together with:
  *
  * - RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait
  * - AbstractTransientObject
+ * @internal
  */
-abstract class AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet extends AbstractRemoveFieldsFromObjectTypeHookSet
+abstract class AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet extends \PoP\ComponentModel\Hooks\AbstractRemoveFieldsFromObjectTypeHookSet
 {
-    protected function matchesCondition(
-        ObjectTypeResolverInterface | InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver,
-        ObjectTypeFieldResolverInterface | InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver,
-        string $fieldName
-    ): bool {
-        return $fieldName === 'id'
-            || $fieldName === 'globalID'
-            || ($fieldName === 'self' && $this->removeSelfField());
-    }
-
-    protected function removeSelfField(): bool
+    /**
+     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
+     * @param \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver
+     */
+    protected function matchesCondition($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : bool
     {
-        return true;
+        return $fieldName === 'id' || $fieldName === 'globalID' || $fieldName === 'self' && $this->removeSelfField();
+    }
+    protected function removeSelfField() : bool
+    {
+        return \true;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel;
 
 use PoP\ComponentModel\AppThreadInterface;
@@ -11,7 +10,6 @@ use PoP\ComponentModel\Stores\MutationResolutionStore;
 use PoP\ComponentModel\Stores\MutationResolutionStoreInterface;
 use PoP\ComponentModel\Tracing\TracingStore;
 use PoP\Root\AppThread as RootAppThread;
-
 /**
  * The state items are arrays, where a single one of them
  * will be active at a given time in the AppThread: the
@@ -27,83 +25,72 @@ use PoP\Root\AppThread as RootAppThread;
  * `null` and in that moment the PHP logic will throw an
  * Exception, and that's OK (since this would be a development
  * error, not expected to happen otherwise).
+ * @internal
  */
 class AppThread extends RootAppThread implements AppThreadInterface
 {
     /**
      * @var FeedbackStore[]
      */
-    protected array $feedbackStores = [];
+    protected $feedbackStores = [];
     /**
      * @var TracingStore[]
      */
-    protected array $tracingStores = [];
+    protected $tracingStores = [];
     /**
      * @var EngineState[]
      */
-    protected array $engineStates = [];
+    protected $engineStates = [];
     /**
      * @var MutationResolutionStoreInterface[]
      */
-    protected array $mutationResolutionStores = [];
-
-    public function getFeedbackStore(): FeedbackStore
+    protected $mutationResolutionStores = [];
+    public function getFeedbackStore() : FeedbackStore
     {
         return $this->feedbackStores[0];
     }
-
-    public function getTracingStore(): TracingStore
+    public function getTracingStore() : TracingStore
     {
         return $this->tracingStores[0];
     }
-
-    public function getEngineState(): EngineState
+    public function getEngineState() : EngineState
     {
         return $this->engineStates[0];
     }
-
-    public function getMutationResolutionStore(): MutationResolutionStoreInterface
+    public function getMutationResolutionStore() : MutationResolutionStoreInterface
     {
         return $this->mutationResolutionStores[0];
     }
-
-    public function generateAndStackFeedbackStore(): void
+    public function generateAndStackFeedbackStore() : void
     {
-        array_unshift($this->feedbackStores, new FeedbackStore());
+        \array_unshift($this->feedbackStores, new FeedbackStore());
     }
-
-    public function generateAndStackTracingStore(): void
+    public function generateAndStackTracingStore() : void
     {
-        array_unshift($this->tracingStores, new TracingStore());
+        \array_unshift($this->tracingStores, new TracingStore());
     }
-
-    public function generateAndStackEngineState(): void
+    public function generateAndStackEngineState() : void
     {
-        array_unshift($this->engineStates, new EngineState());
+        \array_unshift($this->engineStates, new EngineState());
     }
-
-    public function generateAndStackMutationResolutionStore(): void
+    public function generateAndStackMutationResolutionStore() : void
     {
-        array_unshift($this->mutationResolutionStores, new MutationResolutionStore());
+        \array_unshift($this->mutationResolutionStores, new MutationResolutionStore());
     }
-
-    public function popFeedbackStore(): void
+    public function popFeedbackStore() : void
     {
-        array_shift($this->feedbackStores);
+        \array_shift($this->feedbackStores);
     }
-
-    public function popTracingStore(): void
+    public function popTracingStore() : void
     {
-        array_shift($this->tracingStores);
+        \array_shift($this->tracingStores);
     }
-
-    public function popEngineState(): void
+    public function popEngineState() : void
     {
-        array_shift($this->engineStates);
+        \array_shift($this->engineStates);
     }
-
-    public function popMutationResolutionStore(): void
+    public function popMutationResolutionStore() : void
     {
-        array_shift($this->mutationResolutionStores);
+        \array_shift($this->mutationResolutionStores);
     }
 }

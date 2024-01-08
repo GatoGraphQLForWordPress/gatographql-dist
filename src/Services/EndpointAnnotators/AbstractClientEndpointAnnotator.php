@@ -13,8 +13,14 @@ use WP_Post;
 
 abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator implements ClientEndpointAnnotatorInterface
 {
-    private ?BlockHelpers $blockHelpers = null;
-    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
+     */
+    private $blockHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
+     */
+    private $graphQLCustomEndpointCustomPostType;
 
     final public function setBlockHelpers(BlockHelpers $blockHelpers): void
     {
@@ -50,8 +56,9 @@ abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator
 
     /**
      * Read the options block and check the value of attribute "isEnabled"
+     * @param \WP_Post|int $postOrID
      */
-    public function isClientEnabled(WP_Post|int $postOrID): bool
+    public function isClientEnabled($postOrID): bool
     {
         // Check the endpoint in the post is not disabled
         if (!$this->getCustomPostType()->isEndpointEnabled($postOrID)) {

@@ -54,8 +54,9 @@ class UserRoleTypeAPI extends AbstractUserRoleTypeAPI
 
     /**
      * @return string[]
+     * @param string|int|object $userObjectOrID
      */
-    public function getUserRoles(string|int|object $userObjectOrID): array
+    public function getUserRoles($userObjectOrID): array
     {
         if (is_object($userObjectOrID)) {
             $user = $userObjectOrID;
@@ -71,8 +72,9 @@ class UserRoleTypeAPI extends AbstractUserRoleTypeAPI
 
     /**
      * @return string[]
+     * @param string|int|object $userObjectOrID
      */
-    public function getUserCapabilities(string|int|object $userObjectOrID): array
+    public function getUserCapabilities($userObjectOrID): array
     {
         $roles = $this->getUserRoles($userObjectOrID);
         $capabilities = [];
@@ -90,14 +92,18 @@ class UserRoleTypeAPI extends AbstractUserRoleTypeAPI
 
     /**
      * @return string|null `null` if the user is not found, its first role otherwise
+     * @param string|int|object $userObjectOrID
      */
-    public function getTheUserRole(string|int|object $userObjectOrID): ?string
+    public function getTheUserRole($userObjectOrID): ?string
     {
         $roles = $this->getUserRoles($userObjectOrID);
         return $roles[0] ?? null;
     }
 
-    public function userCan(string|int|object $userObjectOrID, string $capability): bool
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function userCan($userObjectOrID, string $capability): bool
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */

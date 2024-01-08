@@ -168,13 +168,9 @@ class LemonSqueezyCommercialExtensionActivationService implements MarketplacePro
         $mainPluginVersion = PluginApp::getMainPlugin()->getPluginVersion();
         $isExtensionOnDevelopmentMode = PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion);
         if ($isTestMode && !$isExtensionOnDevelopmentMode) {
-            throw new LicenseOperationNotSuccessfulException(
-                $this->__('The license is for test mode, but the extension is not on development mode', 'gatographql'),
-            );
+            throw new LicenseOperationNotSuccessfulException($this->__('The license is for test mode, but the extension is not on development mode', 'gatographql'));
         } elseif (!$isTestMode && $isExtensionOnDevelopmentMode) {
-            throw new LicenseOperationNotSuccessfulException(
-                $this->__('The license is not for test mode, but the extension is on development mode', 'gatographql'),
-            );
+            throw new LicenseOperationNotSuccessfulException($this->__('The license is not for test mode, but the extension is on development mode', 'gatographql'));
         }
 
         /**
@@ -201,18 +197,7 @@ class LemonSqueezyCommercialExtensionActivationService implements MarketplacePro
         /** @var string */
         $customerEmail = $body['meta']['customer_email'];
 
-        return new CommercialExtensionActivatedLicenseObjectProperties(
-            $licenseKey,
-            $body,
-            $status,
-            $instanceID,
-            $instanceName,
-            $activationUsage,
-            $activationLimit,
-            $productName,
-            $customerName,
-            $customerEmail,
-        );
+        return new CommercialExtensionActivatedLicenseObjectProperties($licenseKey, $body, $status, $instanceID, $instanceName, $activationUsage, $activationLimit, $productName, $customerName, $customerEmail);
     }
 
     /**
@@ -223,13 +208,18 @@ class LemonSqueezyCommercialExtensionActivationService implements MarketplacePro
      */
     protected function convertStatus(string $status): string
     {
-        return match ($status) {
-            'active' => LicenseStatus::ACTIVE,
-            'expired' => LicenseStatus::EXPIRED,
-            'inactive' => LicenseStatus::INACTIVE,
-            'disabled' => LicenseStatus::DISABLED,
-            default => LicenseStatus::OTHER,
-        };
+        switch ($status) {
+            case 'active':
+                return LicenseStatus::ACTIVE;
+            case 'expired':
+                return LicenseStatus::EXPIRED;
+            case 'inactive':
+                return LicenseStatus::INACTIVE;
+            case 'disabled':
+                return LicenseStatus::DISABLED;
+            default:
+                return LicenseStatus::OTHER;
+        }
     }
 
     /**

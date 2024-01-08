@@ -18,7 +18,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class GlobalFieldsBlockSchemaConfigurationExecuter extends AbstractBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigGlobalFieldsBlock $schemaConfigGlobalFieldsBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigGlobalFieldsBlock|null
+     */
+    private $schemaConfigGlobalFieldsBlock;
 
     final public function setSchemaConfigGlobalFieldsBlock(SchemaConfigGlobalFieldsBlock $schemaConfigGlobalFieldsBlock): void
     {
@@ -72,7 +75,9 @@ class GlobalFieldsBlockSchemaConfigurationExecuter extends AbstractBlockSchemaCo
         );
         App::addFilter(
             $hookName,
-            fn () => $schemaExposure !== GlobalFieldsSchemaExposure::DO_NOT_EXPOSE,
+            function () use ($schemaExposure) {
+                return $schemaExposure !== GlobalFieldsSchemaExposure::DO_NOT_EXPOSE;
+            },
             PHP_INT_MAX
         );
 
@@ -82,7 +87,9 @@ class GlobalFieldsBlockSchemaConfigurationExecuter extends AbstractBlockSchemaCo
         );
         App::addFilter(
             $hookName,
-            fn () => $schemaExposure === GlobalFieldsSchemaExposure::EXPOSE_IN_ROOT_TYPE_ONLY,
+            function () use ($schemaExposure) {
+                return $schemaExposure === GlobalFieldsSchemaExposure::EXPOSE_IN_ROOT_TYPE_ONLY;
+            },
             PHP_INT_MAX
         );
     }

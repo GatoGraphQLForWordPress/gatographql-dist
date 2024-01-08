@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -15,77 +14,42 @@ use PoPCMSSchema\Users\ConditionalOnModule\API\ComponentProcessors\FieldDataload
 use PoPCMSSchema\Users\Module;
 use PoPCMSSchema\Users\ModuleConfiguration;
 use PoPCMSSchema\Users\Routing\RequestNature as UserRequestNature;
-
+/** @internal */
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
-    protected function doGetGraphQLQueryToResolveRESTEndpoint(): string
+    protected function doGetGraphQLQueryToResolveRESTEndpoint() : string
     {
         return <<<GRAPHQL
-            query {
-                id
-                name
-                url
-            }
-        GRAPHQL;
+    query {
+        id
+        name
+        url
     }
-
+GRAPHQL;
+    }
     /**
      * @return array<string,array<array<string,mixed>>>
      */
-    public function getStatePropertiesToSelectComponentByNature(): array
+    public function getStatePropertiesToSelectComponentByNature() : array
     {
         $ret = array();
-        $ret[UserRequestNature::USER][] = [
-            'component' => new Component(
-                FieldDataloadComponentProcessor::class,
-                FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER,
-                [
-                    'query' => !empty(App::getState('query'))
-                        ? App::getState('query')
-                        : $this->getGraphQLQueryToResolveRESTEndpoint()
-                ]
-            ),
-            'conditions' => [
-                'scheme' => APISchemes::API,
-                'datastructure' => $this->getRestDataStructureFormatter()->getName(),
-            ],
-        ];
+        $ret[UserRequestNature::USER][] = ['component' => new Component(FieldDataloadComponentProcessor::class, FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER, ['query' => !empty(App::getState('query')) ? App::getState('query') : $this->getGraphQLQueryToResolveRESTEndpoint()]), 'conditions' => ['scheme' => APISchemes::API, 'datastructure' => $this->getRestDataStructureFormatter()->getName()]];
         return $ret;
     }
-
     /**
      * @return array<string,array<string,array<array<string,mixed>>>>
      */
-    public function getStatePropertiesToSelectComponentByNatureAndRoute(): array
+    public function getStatePropertiesToSelectComponentByNatureAndRoute() : array
     {
         $restDataStructureFormatter = $this->getRestDataStructureFormatter();
-
         $ret = array();
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         /** @var ComponentModelModuleConfiguration */
         $componentModelModuleConfiguration = App::getModule(ComponentModelModule::class)->getConfiguration();
-        $routeComponents = array(
-            $moduleConfiguration->getUsersRoute() => new Component(
-                FieldDataloadComponentProcessor::class,
-                $componentModelModuleConfiguration->exposeSensitiveDataInSchema() ?
-                    FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST
-                    : FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST,
-                [
-                    'query' => !empty(App::getState('query'))
-                        ? App::getState('query')
-                        : $this->getGraphQLQueryToResolveRESTEndpoint()
-                ]
-            ),
-        );
+        $routeComponents = array($moduleConfiguration->getUsersRoute() => new Component(FieldDataloadComponentProcessor::class, $componentModelModuleConfiguration->exposeSensitiveDataInSchema() ? FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST : FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST, ['query' => !empty(App::getState('query')) ? App::getState('query') : $this->getGraphQLQueryToResolveRESTEndpoint()]));
         foreach ($routeComponents as $route => $component) {
-            $ret[RequestNature::GENERIC][$route][] = [
-                'component' => $component,
-                'conditions' => [
-                    'scheme' => APISchemes::API,
-                    'datastructure' => $restDataStructureFormatter->getName(),
-                ],
-            ];
+            $ret[RequestNature::GENERIC][$route][] = ['component' => $component, 'conditions' => ['scheme' => APISchemes::API, 'datastructure' => $restDataStructureFormatter->getName()]];
         }
         return $ret;
     }

@@ -12,8 +12,10 @@ class TaxonomyMetaTypeAPI extends AbstractTaxonomyMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
+     * @param string|int|object $termObjectOrID
+     * @return mixed
      */
-    protected function doGetTaxonomyMeta(string|int|object $termObjectOrID, string $key, bool $single = false): mixed
+    protected function doGetTaxonomyMeta($termObjectOrID, string $key, bool $single = false)
     {
         if (is_object($termObjectOrID)) {
             /** @var WP_Term */

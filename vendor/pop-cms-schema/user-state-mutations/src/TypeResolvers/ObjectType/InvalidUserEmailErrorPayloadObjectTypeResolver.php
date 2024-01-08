@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\InvalidUserEmailErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-
+/** @internal */
 class InvalidUserEmailErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    private ?InvalidUserEmailErrorPayloadObjectTypeDataLoader $invalidUserEmailErrorPayloadObjectTypeDataLoader = null;
-
-    final public function setInvalidUserEmailErrorPayloadObjectTypeDataLoader(InvalidUserEmailErrorPayloadObjectTypeDataLoader $invalidUserEmailErrorPayloadObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\InvalidUserEmailErrorPayloadObjectTypeDataLoader|null
+     */
+    private $invalidUserEmailErrorPayloadObjectTypeDataLoader;
+    public final function setInvalidUserEmailErrorPayloadObjectTypeDataLoader(InvalidUserEmailErrorPayloadObjectTypeDataLoader $invalidUserEmailErrorPayloadObjectTypeDataLoader) : void
     {
         $this->invalidUserEmailErrorPayloadObjectTypeDataLoader = $invalidUserEmailErrorPayloadObjectTypeDataLoader;
     }
-    final protected function getInvalidUserEmailErrorPayloadObjectTypeDataLoader(): InvalidUserEmailErrorPayloadObjectTypeDataLoader
+    protected final function getInvalidUserEmailErrorPayloadObjectTypeDataLoader() : InvalidUserEmailErrorPayloadObjectTypeDataLoader
     {
         if ($this->invalidUserEmailErrorPayloadObjectTypeDataLoader === null) {
             /** @var InvalidUserEmailErrorPayloadObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class InvalidUserEmailErrorPayloadObjectTypeResolver extends AbstractErrorPayloa
         }
         return $this->invalidUserEmailErrorPayloadObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'InvalidUserEmailErrorPayload';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Error payload for: "No user is registered with the provided email"', 'user-state-mutations');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getInvalidUserEmailErrorPayloadObjectTypeDataLoader();
     }

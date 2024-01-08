@@ -17,17 +17,26 @@ class EndpointSchemaConfigurationBlock extends AbstractBlock implements Persiste
 {
     use MainPluginBlockTrait;
 
-    public final const ATTRIBUTE_NAME_SCHEMA_CONFIGURATION = 'schemaConfiguration';
+    public const ATTRIBUTE_NAME_SCHEMA_CONFIGURATION = 'schemaConfiguration';
     /**
      * These consts must be integer!
      */
-    public final const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT = 0;
-    public final const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_NONE = -1;
-    public final const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_INHERIT = -2;
+    public const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT = 0;
+    public const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_NONE = -1;
+    public const ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_INHERIT = -2;
 
-    private ?BlockRenderingHelpers $blockRenderingHelpers = null;
-    private ?CPTUtils $cptUtils = null;
-    private ?EndpointBlockCategory $endpointBlockCategory = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockRenderingHelpers|null
+     */
+    private $blockRenderingHelpers;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\CPTUtils|null
+     */
+    private $cptUtils;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\EndpointBlockCategory|null
+     */
+    private $endpointBlockCategory;
 
     final public function setBlockRenderingHelpers(BlockRenderingHelpers $blockRenderingHelpers): void
     {

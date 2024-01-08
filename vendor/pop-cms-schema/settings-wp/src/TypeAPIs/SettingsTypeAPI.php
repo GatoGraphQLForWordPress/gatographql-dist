@@ -11,8 +11,9 @@ class SettingsTypeAPI extends AbstractSettingsTypeAPI
     /**
      * If the name is non-existent, return `null`.
      * Otherwise, return the value.
+     * @return mixed
      */
-    protected function doGetOption(string $name): mixed
+    protected function doGetOption(string $name)
     {
         return \get_option($name, null);
     }

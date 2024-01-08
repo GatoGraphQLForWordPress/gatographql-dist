@@ -8,11 +8,14 @@ use PoPCMSSchema\CategoriesWP\TypeAPIs\AbstractCategoryTypeAPI;
 
 final class InjectableTaxonomyCategoryTypeAPI extends AbstractCategoryTypeAPI
 {
-    public function __construct(
-        protected string $catTaxonomy,
-    ) {
+    /**
+     * @var string
+     */
+    protected $catTaxonomy;
+    public function __construct(string $catTaxonomy)
+    {
+        $this->catTaxonomy = $catTaxonomy;
     }
-
     protected function getCategoryTaxonomyName(): string
     {
         return $this->catTaxonomy;

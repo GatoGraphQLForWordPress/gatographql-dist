@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Cache;
 
 /**
  * Inject configuration to the cache
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ * @internal
  */
 interface CacheConfigurationManagerInterface
 {
@@ -17,12 +17,12 @@ interface CacheConfigurationManagerInterface
      *
      * @see https://symfony.com/doc/current/components/cache/adapters/filesystem_adapter.html
      */
-    public function getNamespace(): string;
+    public function getNamespace() : string;
     /**
      * Inject to the FilesystemAdapter:
      * The directory where to store the cache. If null, it uses the default /tmp system folder
      *
      * @see https://symfony.com/doc/current/components/cache/adapters/filesystem_adapter.html
      */
-    public function getDirectory(): ?string;
+    public function getDirectory() : ?string;
 }

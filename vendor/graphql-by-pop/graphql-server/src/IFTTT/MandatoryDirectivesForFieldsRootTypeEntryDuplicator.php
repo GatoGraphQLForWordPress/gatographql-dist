@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\IFTTT;
 
 use GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface;
@@ -13,19 +12,23 @@ use PoP\ComponentModel\Constants\ConfigurationValues;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Root\App;
 use PoP\Root\Services\BasicServiceTrait;
-
-class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
+/** @internal */
+class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
 {
     use BasicServiceTrait;
-
-    private ?RootObjectTypeResolver $rootObjectTypeResolver = null;
-    private ?TypeResolverHelperInterface $typeResolverHelper = null;
-
-    final public function setRootObjectTypeResolver(RootObjectTypeResolver $rootObjectTypeResolver): void
+    /**
+     * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
+     */
+    private $rootObjectTypeResolver;
+    /**
+     * @var \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface|null
+     */
+    private $typeResolverHelper;
+    public final function setRootObjectTypeResolver(RootObjectTypeResolver $rootObjectTypeResolver) : void
     {
         $this->rootObjectTypeResolver = $rootObjectTypeResolver;
     }
-    final protected function getRootObjectTypeResolver(): RootObjectTypeResolver
+    protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
             /** @var RootObjectTypeResolver */
@@ -34,11 +37,11 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDi
         }
         return $this->rootObjectTypeResolver;
     }
-    final public function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper): void
+    public final function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper) : void
     {
         $this->typeResolverHelper = $typeResolverHelper;
     }
-    final protected function getTypeResolverHelper(): TypeResolverHelperInterface
+    protected final function getTypeResolverHelper() : TypeResolverHelperInterface
     {
         if ($this->typeResolverHelper === null) {
             /** @var TypeResolverHelperInterface */
@@ -47,7 +50,6 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDi
         }
         return $this->typeResolverHelper;
     }
-
     /**
      * This function appends entries only when Nested Mutations is disabled,
      * so that we have a QueryRoot and MutationRoot types.
@@ -68,7 +70,7 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDi
      *
      * @return array<mixed[]> The same array $fieldEntries + appended entries for QueryRoot and MutationRoot
      */
-    public function maybeAppendAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes = false): array
+    public function maybeAppendAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes = \false) : array
     {
         /**
          * With Nested Mutations there's no need to duplicate Root entries
@@ -79,36 +81,27 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDi
         if ($moduleConfiguration->enableNestedMutations()) {
             return $fieldEntries;
         }
-
         // Duplicate the Root entries into QueryRoot and/or MutationRoot
-        return array_merge(
-            $fieldEntries,
-            $this->getAdditionalRootEntriesForFields($fieldEntries, $forceBothTypes)
-        );
+        return \array_merge($fieldEntries, $this->getAdditionalRootEntriesForFields($fieldEntries, $forceBothTypes));
     }
-
     /**
      * @return array<mixed[]>
      * @param array<mixed[]> $fieldEntries
      */
-    protected function getAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes): array
+    protected function getAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes) : array
     {
         // Get the entries assigned to Root
         $rootFieldEntries = $this->filterRootEntriesForFields($fieldEntries);
         if ($rootFieldEntries === []) {
             return [];
         }
-
         $additionalFieldEntries = [];
-
         /** Fields "id", "globalID", "self" and "__typename" belong to both QueryRoot and MutationRoot */
         $objectTypeResolverMandatoryFields = $this->getTypeResolverHelper()->getObjectTypeResolverMandatoryFields();
-
         $rootObjectTypeResolver = $this->getRootObjectTypeResolver();
-
         foreach ($rootFieldEntries as $rootFieldEntry) {
             $fieldName = $rootFieldEntry[1];
-            if ($forceBothTypes || $fieldName === ConfigurationValues::ANY || in_array($fieldName, $objectTypeResolverMandatoryFields)) {
+            if ($forceBothTypes || $fieldName === ConfigurationValues::ANY || \in_array($fieldName, $objectTypeResolverMandatoryFields)) {
                 $rootFieldEntry[0] = QueryRootObjectTypeResolver::class;
                 $additionalFieldEntries[] = $rootFieldEntry;
                 $rootFieldEntry[0] = MutationRootObjectTypeResolver::class;
@@ -130,21 +123,18 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements MandatoryDi
             $rootFieldEntry[0] = QueryRootObjectTypeResolver::class;
             $additionalFieldEntries[] = $rootFieldEntry;
         }
-
         return $additionalFieldEntries;
     }
-
     /**
      * Filter the entries set to Root
      *
      * @param array<mixed[]> $fieldEntries
      * @return array<mixed[]>
      */
-    protected function filterRootEntriesForFields(array $fieldEntries): array
+    protected function filterRootEntriesForFields(array $fieldEntries) : array
     {
-        return array_values(array_filter(
-            $fieldEntries,
-            fn (array $fieldEntry) => $fieldEntry[0] === ConfigurationValues::ANY || $fieldEntry[0] === RootObjectTypeResolver::class
-        ));
+        return \array_values(\array_filter($fieldEntries, function (array $fieldEntry) {
+            return $fieldEntry[0] === ConfigurationValues::ANY || $fieldEntry[0] === RootObjectTypeResolver::class;
+        }));
     }
 }

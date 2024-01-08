@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\ScalarType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use stdClass;
-
 /**
  * Special scalar type which is not coerced or validated.
  * In particular, it does not need to validate if it is an array or not,
@@ -19,26 +17,24 @@ use stdClass;
  * For instance, type `DangerouslyNonSpecificScalar` could have values
  * `"hello"` and `["hello"]`, but in GraphQL we must differentiate
  * these values by types `String` and `[String]`.
+ * @internal
  */
-class DangerouslyNonSpecificScalarTypeScalarTypeResolver extends AbstractScalarTypeResolver
+class DangerouslyNonSpecificScalarTypeScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'DangerouslyNonSpecificScalar';
     }
-
     /**
      * This method will never be called for DangerouslyNonSpecificScalar
+     * @param string|int|float|bool|\stdClass $inputValue
+     * @return string|int|float|bool|object|null
      */
-    public function coerceValue(
-        string|int|float|bool|stdClass $inputValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): string|int|float|bool|object|null {
+    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
         return $inputValue;
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Special scalar type which is not coerced or validated. In particular, it does not need to validate if it is an array or not, as GraphQL requires based on the applied WrappingType (such as `[String]`).', 'component-model');
     }

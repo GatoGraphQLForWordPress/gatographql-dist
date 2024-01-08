@@ -16,7 +16,7 @@ abstract class AbstractRemoveMetaQueryInputFieldsInputObjectTypeHookSet extends 
     {
         App::addFilter(
             HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            $this->getInputFieldNameTypeResolvers(...),
+            \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']),
             100,
             2
         );
@@ -25,9 +25,7 @@ abstract class AbstractRemoveMetaQueryInputFieldsInputObjectTypeHookSet extends 
     /**
      * Indicate if to remove the fields added by the SchemaHookSet
      */
-    abstract protected function removeMetaQueryInputFields(
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): bool;
+    abstract protected function removeMetaQueryInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool;
 
     /**
      * Remove the fields added by the SchemaHookSet
@@ -35,10 +33,8 @@ abstract class AbstractRemoveMetaQueryInputFieldsInputObjectTypeHookSet extends 
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(
-        array $inputFieldNameTypeResolvers,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): array {
+    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver): array
+    {
         if (!$this->removeMetaQueryInputFields($inputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }

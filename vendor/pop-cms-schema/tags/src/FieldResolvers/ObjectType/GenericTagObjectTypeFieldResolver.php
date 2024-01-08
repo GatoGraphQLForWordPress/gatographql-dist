@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Tags\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Tags\FieldResolvers\ObjectType\AbstractTagObjectTypeFieldResolver;
@@ -10,17 +9,22 @@ use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-
+/** @internal */
 class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    private ?QueryableTagTypeAPIInterface $queryableTagTypeAPI = null;
-    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
-
-    final public function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
+     */
+    private $queryableTagTypeAPI;
+    /**
+     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
+     */
+    private $genericTagObjectTypeResolver;
+    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagTypeAPI) : void
     {
         $this->queryableTagTypeAPI = $queryableTagTypeAPI;
     }
-    final protected function getQueryableTagTypeAPI(): QueryableTagTypeAPIInterface
+    protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagTypeAPI === null) {
             /** @var QueryableTagTypeAPIInterface */
@@ -29,11 +33,11 @@ class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolv
         }
         return $this->queryableTagTypeAPI;
     }
-    final public function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver): void
+    public final function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver) : void
     {
         $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
     }
-    final protected function getGenericTagObjectTypeResolver(): GenericTagObjectTypeResolver
+    protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
             /** @var GenericTagObjectTypeResolver */
@@ -42,24 +46,19 @@ class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolv
         }
         return $this->genericTagObjectTypeResolver;
     }
-
-    public function getTagTypeAPI(): TagTypeAPIInterface
+    public function getTagTypeAPI() : TagTypeAPIInterface
     {
         return $this->getQueryableTagTypeAPI();
     }
-
-    public function getTagTypeResolver(): TagObjectTypeResolverInterface
+    public function getTagTypeResolver() : TagObjectTypeResolverInterface
     {
         return $this->getGenericTagObjectTypeResolver();
     }
-
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo(): array
+    public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [
-            GenericTagObjectTypeResolver::class,
-        ];
+        return [GenericTagObjectTypeResolver::class];
     }
 }

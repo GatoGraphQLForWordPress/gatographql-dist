@@ -24,11 +24,26 @@ use stdClass;
 
 abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    private ?MetaQueryValueTypeEnumTypeResolver $metaQueryValueTypesEnumTypeResolver = null;
-    private ?MetaQueryCompareByOneofInputObjectTypeResolver $metaQueryCompareByOneofInputObjectTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?RelationEnumTypeResolver $relationEnumTypeResolver = null;
-    private ?AllowOrDenySettingsServiceInterface $allowOrDenySettingsService = null;
+    /**
+     * @var \PoPWPSchema\Meta\TypeResolvers\EnumType\MetaQueryValueTypeEnumTypeResolver|null
+     */
+    private $metaQueryValueTypesEnumTypeResolver;
+    /**
+     * @var \PoPWPSchema\Meta\TypeResolvers\InputObjectType\MetaQueryCompareByOneofInputObjectTypeResolver|null
+     */
+    private $metaQueryCompareByOneofInputObjectTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPWPSchema\SchemaCommons\TypeResolvers\EnumType\RelationEnumTypeResolver|null
+     */
+    private $relationEnumTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
+     */
+    private $allowOrDenySettingsService;
 
     final public function setMetaQueryValueTypesEnumTypeResolver(MetaQueryValueTypeEnumTypeResolver $metaQueryValueTypesEnumTypeResolver): void
     {
@@ -116,79 +131,71 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        return match ($inputFieldName) {
-            'key' => $this->__('Custom field key', 'meta'),
-            'type' => $this->__('Custom field type', 'meta'),
-            'compareBy' => $this->__('Value and operator to compare against', 'meta'),
-            'relation' => $this->__('OR or AND, how the sub-arrays should be compared. Default: AND. Only the value from the first sub-array will be used', 'meta'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'key':
+                return $this->__('Custom field key', 'meta');
+            case 'type':
+                return $this->__('Custom field type', 'meta');
+            case 'compareBy':
+                return $this->__('Value and operator to compare against', 'meta');
+            case 'relation':
+                return $this->__('OR or AND, how the sub-arrays should be compared. Default: AND. Only the value from the first sub-array will be used', 'meta');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
 
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'type' => MetaQueryValueTypes::CHAR,
-            'relation' => Relation::AND,
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'type':
+                return MetaQueryValueTypes::CHAR;
+            case 'relation':
+                return Relation::AND;
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
 
     public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        return match ($inputFieldName) {
-            'key',
-            'type',
-            'compareBy',
-            'relation'
-                => SchemaTypeModifiers::MANDATORY,
-            default
-                => parent::getInputFieldTypeModifiers($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'key':
+            case 'type':
+            case 'compareBy':
+            case 'relation':
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getInputFieldTypeModifiers($inputFieldName);
+        }
     }
 
     /**
      * Custom validations to execute on the input field.
+     * @param mixed $coercedInputFieldValue
      */
-    protected function validateCoercedInputFieldValue(
-        InputTypeResolverInterface $inputFieldTypeResolver,
-        string $inputFieldName,
-        mixed $coercedInputFieldValue,
-        AstInterface $astNode,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    protected function validateCoercedInputFieldValue(InputTypeResolverInterface $inputFieldTypeResolver, string $inputFieldName, $coercedInputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore): void
+    {
         switch ($inputFieldName) {
             case 'key':
                 if (
-                    !$this->getAllowOrDenySettingsService()->isEntryAllowed(
-                        $coercedInputFieldValue,
-                        $this->getAllowOrDenyEntries(),
-                        $this->getAllowOrDenyBehavior(),
-                    )
+                    !$this->getAllowOrDenySettingsService()->isEntryAllowed($coercedInputFieldValue, $this->getAllowOrDenyEntries(), $this->getAllowOrDenyBehavior())
                 ) {
-                    $objectTypeFieldResolutionFeedbackStore->addError(
-                        new ObjectTypeFieldResolutionFeedback(
-                            new FeedbackItemResolution(
-                                FeedbackItemProvider::class,
-                                FeedbackItemProvider::E1,
-                                [
-                                    $coercedInputFieldValue,
-                                ]
-                            ),
-                            $astNode,
-                        ),
-                    );
+                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(
+                        FeedbackItemProvider::class,
+                        FeedbackItemProvider::E1,
+                        [
+                            $coercedInputFieldValue,
+                        ]
+                    ), $astNode));
                     return;
                 }
                 break;
         }
-        parent::validateCoercedInputFieldValue(
-            $inputFieldTypeResolver,
-            $inputFieldName,
-            $coercedInputFieldValue,
-            $astNode,
-            $objectTypeFieldResolutionFeedbackStore,
-        );
+        parent::validateCoercedInputFieldValue($inputFieldTypeResolver, $inputFieldName, $coercedInputFieldValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
     }
 
     /**
@@ -205,7 +212,7 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
      * @param array<string,mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue): void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue): void
     {
         /** @var stdClass[] $inputValue */
         $metaQuery = [];
@@ -254,25 +261,43 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
 
     protected function getOperatorFromInputValue(string $operator): string
     {
-        return match ($operator) {
-            MetaQueryCompareByOperators::EQUALS => '=',
-            MetaQueryCompareByOperators::NOT_EQUALS => '!=',
-            MetaQueryCompareByOperators::GREATER_THAN => '>',
-            MetaQueryCompareByOperators::GREATER_THAN_OR_EQUAL => '>=',
-            MetaQueryCompareByOperators::LESS_THAN => '<',
-            MetaQueryCompareByOperators::LESS_THAN_OR_EQUAL => '<=',
-            MetaQueryCompareByOperators::LIKE => 'LIKE',
-            MetaQueryCompareByOperators::NOT_LIKE => 'NOT LIKE',
-            MetaQueryCompareByOperators::IN => 'IN',
-            MetaQueryCompareByOperators::NOT_IN => 'NOT IN',
-            MetaQueryCompareByOperators::BETWEEN => 'BETWEEN',
-            MetaQueryCompareByOperators::NOT_BETWEEN => 'NOT BETWEEN',
-            MetaQueryCompareByOperators::EXISTS => 'EXISTS',
-            MetaQueryCompareByOperators::NOT_EXISTS => 'NOT EXISTS',
-            MetaQueryCompareByOperators::REGEXP => 'REGEXP',
-            MetaQueryCompareByOperators::NOT_REGEXP => 'NOT REGEXP',
-            MetaQueryCompareByOperators::RLIKE => 'RLIKE',
-            default => throw new ImpossibleToHappenException(sprintf('Unknown operator \'%s\'', $operator)),
-        };
+        switch ($operator) {
+            case MetaQueryCompareByOperators::EQUALS:
+                return '=';
+            case MetaQueryCompareByOperators::NOT_EQUALS:
+                return '!=';
+            case MetaQueryCompareByOperators::GREATER_THAN:
+                return '>';
+            case MetaQueryCompareByOperators::GREATER_THAN_OR_EQUAL:
+                return '>=';
+            case MetaQueryCompareByOperators::LESS_THAN:
+                return '<';
+            case MetaQueryCompareByOperators::LESS_THAN_OR_EQUAL:
+                return '<=';
+            case MetaQueryCompareByOperators::LIKE:
+                return 'LIKE';
+            case MetaQueryCompareByOperators::NOT_LIKE:
+                return 'NOT LIKE';
+            case MetaQueryCompareByOperators::IN:
+                return 'IN';
+            case MetaQueryCompareByOperators::NOT_IN:
+                return 'NOT IN';
+            case MetaQueryCompareByOperators::BETWEEN:
+                return 'BETWEEN';
+            case MetaQueryCompareByOperators::NOT_BETWEEN:
+                return 'NOT BETWEEN';
+            case MetaQueryCompareByOperators::EXISTS:
+                return 'EXISTS';
+            case MetaQueryCompareByOperators::NOT_EXISTS:
+                return 'NOT EXISTS';
+            case MetaQueryCompareByOperators::REGEXP:
+                return 'REGEXP';
+            case MetaQueryCompareByOperators::NOT_REGEXP:
+                return 'NOT REGEXP';
+            case MetaQueryCompareByOperators::RLIKE:
+                return 'RLIKE';
+            default:
+                throw new ImpossibleToHappenException(sprintf('Unknown operator \'%s\'', $operator));
+        }
     }
 }

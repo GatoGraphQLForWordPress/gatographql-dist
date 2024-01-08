@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType;
 
-abstract class AbstractRootCreateCustomPostMutationErrorPayloadUnionTypeResolver extends AbstractCustomPostMutationErrorPayloadUnionTypeResolver
+/** @internal */
+abstract class AbstractRootCreateCustomPostMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\AbstractCustomPostMutationErrorPayloadUnionTypeResolver
 {
 }

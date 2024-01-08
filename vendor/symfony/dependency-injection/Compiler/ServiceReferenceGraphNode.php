@@ -8,32 +8,44 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\Definition;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Alias;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
 /**
  * Represents a node in your service graph.
  *
  * Value is typically a definition, or an alias.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @internal
  */
 class ServiceReferenceGraphNode
 {
-    private string $id;
-    private array $inEdges = [];
-    private array $outEdges = [];
-    private mixed $value;
-
-    public function __construct(string $id, mixed $value)
+    /**
+     * @var string
+     */
+    private $id;
+    /**
+     * @var mixed[]
+     */
+    private $inEdges = [];
+    /**
+     * @var mixed[]
+     */
+    private $outEdges = [];
+    /**
+     * @var mixed
+     */
+    private $value;
+    /**
+     * @param mixed $value
+     */
+    public function __construct(string $id, $value)
     {
         $this->id = $id;
         $this->value = $value;
     }
-
     /**
      * @return void
      */
@@ -41,7 +53,6 @@ class ServiceReferenceGraphNode
     {
         $this->inEdges[] = $edge;
     }
-
     /**
      * @return void
      */
@@ -49,59 +60,53 @@ class ServiceReferenceGraphNode
     {
         $this->outEdges[] = $edge;
     }
-
     /**
      * Checks if the value of this node is an Alias.
      */
-    public function isAlias(): bool
+    public function isAlias() : bool
     {
         return $this->value instanceof Alias;
     }
-
     /**
      * Checks if the value of this node is a Definition.
      */
-    public function isDefinition(): bool
+    public function isDefinition() : bool
     {
         return $this->value instanceof Definition;
     }
-
     /**
      * Returns the identifier.
      */
-    public function getId(): string
+    public function getId() : string
     {
         return $this->id;
     }
-
     /**
      * Returns the in edges.
      *
      * @return ServiceReferenceGraphEdge[]
      */
-    public function getInEdges(): array
+    public function getInEdges() : array
     {
         return $this->inEdges;
     }
-
     /**
      * Returns the out edges.
      *
      * @return ServiceReferenceGraphEdge[]
      */
-    public function getOutEdges(): array
+    public function getOutEdges() : array
     {
         return $this->outEdges;
     }
-
     /**
      * Returns the value of this Node.
+     * @return mixed
      */
-    public function getValue(): mixed
+    public function getValue()
     {
         return $this->value;
     }
-
     /**
      * Clears all edges.
      *

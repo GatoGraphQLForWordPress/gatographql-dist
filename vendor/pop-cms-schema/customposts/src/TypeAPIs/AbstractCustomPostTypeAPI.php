@@ -1,23 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeAPIs;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
-
-abstract class AbstractCustomPostTypeAPI implements CustomPostTypeAPIInterface
+/** @internal */
+abstract class AbstractCustomPostTypeAPI implements \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface
 {
     use BasicServiceTrait;
-
-    private ?CMSHelperServiceInterface $cmsHelperService = null;
-
-    final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
+     */
+    private $cmsHelperService;
+    public final function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService) : void
     {
         $this->cmsHelperService = $cmsHelperService;
     }
-    final protected function getCMSHelperService(): CMSHelperServiceInterface
+    protected final function getCMSHelperService() : CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {
             /** @var CMSHelperServiceInterface */
@@ -26,8 +26,10 @@ abstract class AbstractCustomPostTypeAPI implements CustomPostTypeAPIInterface
         }
         return $this->cmsHelperService;
     }
-
-    public function getPermalinkPath(string|int|object $customPostObjectOrID): ?string
+    /**
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getPermalinkPath($customPostObjectOrID) : ?string
     {
         $permalink = $this->getPermalink($customPostObjectOrID);
         if ($permalink === null) {

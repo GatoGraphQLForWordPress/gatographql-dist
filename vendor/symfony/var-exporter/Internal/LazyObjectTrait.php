@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\VarExporter\Internal;
+namespace PrefixedByPoP\Symfony\Component\VarExporter\Internal;
 
 if (\PHP_VERSION_ID >= 80300) {
     /**
@@ -17,7 +16,11 @@ if (\PHP_VERSION_ID >= 80300) {
      */
     trait LazyObjectTrait
     {
-        private readonly LazyObjectState $lazyObjectState;
+        /**
+         * @readonly
+         * @var \Symfony\Component\VarExporter\Internal\LazyObjectState
+         */
+        private $lazyObjectState;
     }
 } else {
     /**
@@ -25,6 +28,9 @@ if (\PHP_VERSION_ID >= 80300) {
      */
     trait LazyObjectTrait
     {
-        private LazyObjectState $lazyObjectState;
+        /**
+         * @var \Symfony\Component\VarExporter\Internal\LazyObjectState
+         */
+        private $lazyObjectState;
     }
 }

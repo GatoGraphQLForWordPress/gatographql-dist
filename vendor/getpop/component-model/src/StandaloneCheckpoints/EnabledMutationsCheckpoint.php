@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\StandaloneCheckpoints;
 
 use PoP\ComponentModel\FeedbackItemProviders\CheckpointErrorFeedbackItemProvider;
@@ -15,25 +14,24 @@ use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
-
-class EnabledMutationsCheckpoint extends AbstractStandaloneCheckpoint
+/** @internal */
+class EnabledMutationsCheckpoint extends \PoP\ComponentModel\StandaloneCheckpoints\AbstractStandaloneCheckpoint
 {
-    public function __construct(
-        protected FieldInterface $field,
-    ) {
+    /**
+     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
+     */
+    protected $field;
+    public function __construct(FieldInterface $field)
+    {
+        $this->field = $field;
     }
-
-    public function validateCheckpoint(): ?FeedbackItemResolution
+    public function validateCheckpoint() : ?FeedbackItemResolution
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->enableMutations()) {
-            return new FeedbackItemResolution(
-                CheckpointErrorFeedbackItemProvider::class,
-                CheckpointErrorFeedbackItemProvider::E1
-            );
+            return new FeedbackItemResolution(CheckpointErrorFeedbackItemProvider::class, CheckpointErrorFeedbackItemProvider::E1);
         }
-
         /**
          * Get the Operation for the field, and check
          * that it is a Mutation
@@ -51,7 +49,7 @@ class EnabledMutationsCheckpoint extends AbstractStandaloneCheckpoint
         while ($astNode !== null) {
             $astNodeTopMostAncestor = $astNode;
             $astNode = $documentASTNodeAncestors[$astNode] ?? null;
-            $location = $astNode?->getLocation();
+            $location = ($nullsafeVariable1 = $astNode) ? $nullsafeVariable1->getLocation() : null;
             if ($location instanceof RuntimeLocation) {
                 /** @var RuntimeLocation $location */
                 $astNode = $location->getStaticASTNode();
@@ -59,14 +57,10 @@ class EnabledMutationsCheckpoint extends AbstractStandaloneCheckpoint
         }
         if ($astNodeTopMostAncestor instanceof OperationInterface) {
             $operation = $astNodeTopMostAncestor;
-            if (!($operation instanceof MutationOperation)) {
-                return new FeedbackItemResolution(
-                    CheckpointErrorFeedbackItemProvider::class,
-                    CheckpointErrorFeedbackItemProvider::E2
-                );
+            if (!$operation instanceof MutationOperation) {
+                return new FeedbackItemResolution(CheckpointErrorFeedbackItemProvider::class, CheckpointErrorFeedbackItemProvider::E2);
             }
         }
-
         return parent::validateCheckpoint();
     }
 }

@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
-class CategoryUnionGenericCategoryObjectTypeResolverPicker extends AbstractGenericCategoryObjectTypeResolverPicker
+/** @internal */
+class CategoryUnionGenericCategoryObjectTypeResolverPicker extends \PoPCMSSchema\Categories\ObjectTypeResolverPickers\AbstractGenericCategoryObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo(): array
+    public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [
-            CategoryUnionTypeResolver::class,
-        ];
+        return [CategoryUnionTypeResolver::class];
     }
 }

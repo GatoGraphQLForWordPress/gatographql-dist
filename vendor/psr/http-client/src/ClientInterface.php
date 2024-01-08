@@ -1,10 +1,10 @@
 <?php
 
-namespace Psr\Http\Client;
+namespace PrefixedByPoP\Psr\Http\Client;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+/** @internal */
 interface ClientInterface
 {
     /**
@@ -16,5 +16,5 @@ interface ClientInterface
      *
      * @throws \Psr\Http\Client\ClientExceptionInterface If an error happens while processing the request.
      */
-    public function sendRequest(RequestInterface $request): ResponseInterface;
+    public function sendRequest(RequestInterface $request) : ResponseInterface;
 }

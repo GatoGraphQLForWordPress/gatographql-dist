@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -17,21 +16,38 @@ use PoPCMSSchema\Users\FilterInputs\UsernameFilterInput;
 use PoPCMSSchema\Users\Module;
 use PoPCMSSchema\Users\ModuleConfiguration;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver;
-
+/** @internal */
 class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
-    private ?IncludeFilterInput $includeFilterInput = null;
-    private ?UsernameFilterInput $usernameFilterInput = null;
-    private ?EmailFilterInput $emailFilterInput = null;
-
-    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
+     */
+    private $idScalarTypeResolver;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
+     */
+    private $emailScalarTypeResolver;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
+     */
+    private $includeFilterInput;
+    /**
+     * @var \PoPCMSSchema\Users\FilterInputs\UsernameFilterInput|null
+     */
+    private $usernameFilterInput;
+    /**
+     * @var \PoPCMSSchema\Users\FilterInputs\EmailFilterInput|null
+     */
+    private $emailFilterInput;
+    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
+    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -40,11 +56,11 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->idScalarTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
+    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -53,11 +69,11 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver): void
+    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
     {
         $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
-    final protected function getEmailScalarTypeResolver(): EmailScalarTypeResolver
+    protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
     {
         if ($this->emailScalarTypeResolver === null) {
             /** @var EmailScalarTypeResolver */
@@ -66,11 +82,11 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->emailScalarTypeResolver;
     }
-    final public function setIncludeFilterInput(IncludeFilterInput $includeFilterInput): void
+    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
     {
         $this->includeFilterInput = $includeFilterInput;
     }
-    final protected function getIncludeFilterInput(): IncludeFilterInput
+    protected final function getIncludeFilterInput() : IncludeFilterInput
     {
         if ($this->includeFilterInput === null) {
             /** @var IncludeFilterInput */
@@ -79,11 +95,11 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->includeFilterInput;
     }
-    final public function setUsernameFilterInput(UsernameFilterInput $usernameFilterInput): void
+    public final function setUsernameFilterInput(UsernameFilterInput $usernameFilterInput) : void
     {
         $this->usernameFilterInput = $usernameFilterInput;
     }
-    final protected function getUsernameFilterInput(): UsernameFilterInput
+    protected final function getUsernameFilterInput() : UsernameFilterInput
     {
         if ($this->usernameFilterInput === null) {
             /** @var UsernameFilterInput */
@@ -92,11 +108,11 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->usernameFilterInput;
     }
-    final public function setEmailFilterInput(EmailFilterInput $emailFilterInput): void
+    public final function setEmailFilterInput(EmailFilterInput $emailFilterInput) : void
     {
         $this->emailFilterInput = $emailFilterInput;
     }
-    final protected function getEmailFilterInput(): EmailFilterInput
+    protected final function getEmailFilterInput() : EmailFilterInput
     {
         if ($this->emailFilterInput === null) {
             /** @var EmailFilterInput */
@@ -105,33 +121,25 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $this->emailFilterInput;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'UserByInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Oneof input to specify the property and data to fetch a user', 'users');
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            InputProperties::ID => $this->getIDScalarTypeResolver(),
-            InputProperties::USERNAME => $this->getStringScalarTypeResolver(),
-            InputProperties::EMAIL => $this->getEmailScalarTypeResolver(),
-        ];
+        return [InputProperties::ID => $this->getIDScalarTypeResolver(), InputProperties::USERNAME => $this->getStringScalarTypeResolver(), InputProperties::EMAIL => $this->getEmailScalarTypeResolver()];
     }
-
     /**
      * @return string[]
      */
-    public function getSensitiveInputFieldNames(): array
+    public function getSensitiveInputFieldNames() : array
     {
         $sensitiveInputFieldNames = parent::getSensitiveInputFieldNames();
         /** @var ModuleConfiguration */
@@ -141,24 +149,30 @@ class UserByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObje
         }
         return $sensitiveInputFieldNames;
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            InputProperties::ID => $this->__('Query by user ID', 'users'),
-            InputProperties::USERNAME => $this->__('Query by username', 'users'),
-            InputProperties::EMAIL => $this->__('Query by email', 'users'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case InputProperties::ID:
+                return $this->__('Query by user ID', 'users');
+            case InputProperties::USERNAME:
+                return $this->__('Query by username', 'users');
+            case InputProperties::EMAIL:
+                return $this->__('Query by email', 'users');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        return match ($inputFieldName) {
-            InputProperties::ID => $this->getIncludeFilterInput(),
-            InputProperties::USERNAME => $this->getUsernameFilterInput(),
-            InputProperties::EMAIL => $this->getEmailFilterInput(),
-            default => parent::getInputFieldFilterInput($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case InputProperties::ID:
+                return $this->getIncludeFilterInput();
+            case InputProperties::USERNAME:
+                return $this->getUsernameFilterInput();
+            case InputProperties::EMAIL:
+                return $this->getEmailFilterInput();
+            default:
+                return parent::getInputFieldFilterInput($inputFieldName);
+        }
     }
 }

@@ -8,27 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\DependencyInjection\Reference;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Alias;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
 /**
  * Overwrites a service but keeps the overridden one.
  *
  * @author Christophe Coevoet <stof@notk.org>
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Diego Saint Esteben <diego@saintesteben.me>
+ * @internal
  */
 class DecoratorServicePass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
     /**
      * @return void
      */
@@ -36,49 +37,39 @@ class DecoratorServicePass extends AbstractRecursivePass
     {
         $definitions = new \SplPriorityQueue();
         $order = \PHP_INT_MAX;
-
         foreach ($container->getDefinitions() as $id => $definition) {
-            if (!$decorated = $definition->getDecoratedService()) {
+            if (!($decorated = $definition->getDecoratedService())) {
                 continue;
             }
             $definitions->insert([$id, $definition], [$decorated[2], --$order]);
         }
         $decoratingDefinitions = [];
         $decoratedIds = [];
-
-        $tagsToKeep = $container->hasParameter('container.behavior_describing_tags')
-            ? $container->getParameter('container.behavior_describing_tags')
-            : ['proxy', 'container.do_not_inline', 'container.service_locator', 'container.service_subscriber', 'container.service_subscriber.locator'];
-
+        $tagsToKeep = $container->hasParameter('container.behavior_describing_tags') ? $container->getParameter('container.behavior_describing_tags') : ['proxy', 'container.do_not_inline', 'container.service_locator', 'container.service_subscriber', 'container.service_subscriber.locator'];
         foreach ($definitions as [$id, $definition]) {
             $decoratedService = $definition->getDecoratedService();
             [$inner, $renamedId] = $decoratedService;
             $invalidBehavior = $decoratedService[3] ?? ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-
             $definition->setDecoratedService(null);
-
             if (!$renamedId) {
-                $renamedId = $id.'.inner';
+                $renamedId = $id . '.inner';
             }
-
-            $decoratedIds[$inner] ??= $renamedId;
+            $decoratedIds[$inner] = $decoratedIds[$inner] ?? $renamedId;
             $this->currentId = $renamedId;
             $this->processValue($definition);
-
             $definition->innerServiceId = $renamedId;
             $definition->decorationOnInvalid = $invalidBehavior;
-
             // we create a new alias/service for the service we are replacing
             // to be able to reference it in the new one
             if ($container->hasAlias($inner)) {
                 $alias = $container->getAlias($inner);
                 $public = $alias->isPublic();
-                $container->setAlias($renamedId, new Alias((string) $alias, false));
+                $container->setAlias($renamedId, new Alias((string) $alias, \false));
                 $decoratedDefinition = $container->findDefinition($alias);
             } elseif ($container->hasDefinition($inner)) {
                 $decoratedDefinition = $container->getDefinition($inner);
                 $public = $decoratedDefinition->isPublic();
-                $decoratedDefinition->setPublic(false);
+                $decoratedDefinition->setPublic(\false);
                 $container->setDefinition($renamedId, $decoratedDefinition);
                 $decoratingDefinitions[$inner] = $decoratedDefinition;
             } elseif (ContainerInterface::IGNORE_ON_INVALID_REFERENCE === $invalidBehavior) {
@@ -90,17 +81,13 @@ class DecoratorServicePass extends AbstractRecursivePass
             } else {
                 throw new ServiceNotFoundException($inner, $id);
             }
-
-            if ($decoratedDefinition?->isSynthetic()) {
-                throw new InvalidArgumentException(sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
+            if (($nullsafeVariable1 = $decoratedDefinition) ? $nullsafeVariable1->isSynthetic() : null) {
+                throw new InvalidArgumentException(\sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
             }
-
             if (isset($decoratingDefinitions[$inner])) {
                 $decoratingDefinition = $decoratingDefinitions[$inner];
-
                 $decoratingTags = $decoratingDefinition->getTags();
                 $resetTags = [];
-
                 // Behavior-describing tags must not be transferred out to decorators
                 foreach ($tagsToKeep as $containerTag) {
                     if (isset($decoratingTags[$containerTag])) {
@@ -108,26 +95,25 @@ class DecoratorServicePass extends AbstractRecursivePass
                         unset($decoratingTags[$containerTag]);
                     }
                 }
-
-                $definition->setTags(array_merge($decoratingTags, $definition->getTags()));
+                $definition->setTags(\array_merge($decoratingTags, $definition->getTags()));
                 $decoratingDefinition->setTags($resetTags);
                 $decoratingDefinitions[$inner] = $definition;
             }
-
             $container->setAlias($inner, $id)->setPublic($public);
         }
-
         foreach ($decoratingDefinitions as $inner => $definition) {
             $definition->addTag('container.decorator', ['id' => $inner, 'inner' => $decoratedIds[$inner]]);
         }
     }
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function processValue($value, bool $isRoot = \false)
     {
         if ($value instanceof Reference && '.inner' === (string) $value) {
             return new Reference($this->currentId, $value->getInvalidBehavior());
         }
-
         return parent::processValue($value, $isRoot);
     }
 }

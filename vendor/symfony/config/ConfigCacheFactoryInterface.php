@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\Config;
+namespace PrefixedByPoP\Symfony\Component\Config;
 
 /**
  * Interface for a ConfigCache factory. This factory creates
@@ -17,6 +16,7 @@ namespace Symfony\Component\Config;
  * cache if necessary.
  *
  * @author Matthias Pigulla <mp@webfactory.de>
+ * @internal
  */
 interface ConfigCacheFactoryInterface
 {
@@ -26,5 +26,5 @@ interface ConfigCacheFactoryInterface
      * @param string   $file     The absolute cache file path
      * @param callable $callable The callable to be executed when the cache needs to be filled (i. e. is not fresh). The cache will be passed as the only parameter to this callback
      */
-    public function cache(string $file, callable $callable): ConfigCacheInterface;
+    public function cache(string $file, callable $callable) : ConfigCacheInterface;
 }

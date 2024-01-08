@@ -6,7 +6,10 @@ namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 
 class ModuleDocumentationMenuPage extends AbstractModuleDocsMenuPage
 {
-    private ?ModulesMenuPage $modulesMenuPage = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage|null
+     */
+    private $modulesMenuPage;
 
     final public function setModulesMenuPage(ModulesMenuPage $modulesMenuPage): void
     {

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMeta\TypeAPIs;
 
 use PoP\Root\App;
@@ -9,8 +8,8 @@ use PoPCMSSchema\CommentMeta\Module;
 use PoPCMSSchema\CommentMeta\ModuleConfiguration;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
-
-abstract class AbstractCommentMetaTypeAPI extends AbstractMetaTypeAPI implements CommentMetaTypeAPIInterface
+/** @internal */
+abstract class AbstractCommentMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface
 {
     /**
      * If the allow/denylist validation fails, and passing option "assert-is-meta-key-allowed",
@@ -20,34 +19,36 @@ abstract class AbstractCommentMetaTypeAPI extends AbstractMetaTypeAPI implements
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
+     * @param string|int|object $commentObjectOrID
+     * @return mixed
      */
-    final public function getCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = false, array $options = []): mixed
+    public final function getCommentMeta($commentObjectOrID, string $key, bool $single = \false, array $options = [])
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
         }
         return $this->doGetCommentMeta($commentObjectOrID, $key, $single);
     }
-
     /**
      * @return string[]
      */
-    public function getAllowOrDenyMetaEntries(): array
+    public function getAllowOrDenyMetaEntries() : array
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getCommentMetaEntries();
     }
-    public function getAllowOrDenyMetaBehavior(): string
+    public function getAllowOrDenyMetaBehavior() : string
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getCommentMetaBehavior();
     }
-
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
+     * @param string|int|object $commentObjectOrID
+     * @return mixed
      */
-    abstract protected function doGetCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = false): mixed;
+    protected abstract function doGetCommentMeta($commentObjectOrID, string $key, bool $single = \false);
 }

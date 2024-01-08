@@ -20,7 +20,10 @@ class MenuTypeAPI implements MenuTypeAPIInterface
 
     public const HOOK_QUERY = __CLASS__ . ':query';
 
-    public function getMenu(string|int $menuID): ?object
+    /**
+     * @param string|int $menuID
+     */
+    public function getMenu($menuID): ?object
     {
         $object = wp_get_nav_menu_object($menuID);
         // If the object is not found, it returns `false`. Return `null` instead
@@ -31,8 +34,9 @@ class MenuTypeAPI implements MenuTypeAPIInterface
     }
     /**
      * @return MenuItem[]
+     * @param string|int|object $menuObjectOrID
      */
-    public function getMenuItems(string|int|object $menuObjectOrID): array
+    public function getMenuItems($menuObjectOrID): array
     {
         /** @var string|int|WP_Term $menuObjectOrID */
         $menuItems = wp_get_nav_menu_items($menuObjectOrID);
@@ -44,30 +48,24 @@ class MenuTypeAPI implements MenuTypeAPIInterface
          */
         return array_map(
             function (object $menuItem): MenuItem {
-                return new MenuItem(
-                    $menuItem->ID,
-                    (int) $menuItem->object_id,
-                    $menuItem->menu_item_parent === "0" ? null : (int) $menuItem->menu_item_parent,
-                    \apply_filters('the_title', $menuItem->title, $menuItem->object_id),
-                    $menuItem->title,
-                    $menuItem->attr_title,
-                    $menuItem->url,
-                    $menuItem->description,
-                    array_filter($menuItem->classes),
-                    $menuItem->target,
-                    $menuItem->xfn,
-                );
+                return new MenuItem($menuItem->ID, (int) $menuItem->object_id, $menuItem->menu_item_parent === "0" ? null : (int) $menuItem->menu_item_parent, \apply_filters('the_title', $menuItem->title, $menuItem->object_id), $menuItem->title, $menuItem->attr_title, $menuItem->url, $menuItem->description, array_filter($menuItem->classes), $menuItem->target, $menuItem->xfn);
             },
             $menuItems
         );
     }
 
-    public function getMenuID(object $menu): string|int
+    /**
+     * @return string|int
+     */
+    public function getMenuID(object $menu)
     {
         return $menu->term_id;
     }
 
-    public function getMenuIDFromMenuName(string $menuName): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public function getMenuIDFromMenuName(string $menuName)
     {
         $menuObject = $this->getMenuObject($menuName);
         if ($menuObject === null) {

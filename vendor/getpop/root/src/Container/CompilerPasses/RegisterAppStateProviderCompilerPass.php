@@ -1,24 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Container\CompilerPasses;
 
 use PoP\Root\Container\CompilerPasses\AbstractInjectServiceIntoRegistryCompilerPass;
 use PoP\Root\Registries\AppStateProviderRegistryInterface;
 use PoP\Root\State\AppStateProviderInterface;
-
+/** @internal */
 class RegisterAppStateProviderCompilerPass extends AbstractInjectServiceIntoRegistryCompilerPass
 {
-    protected function getRegistryServiceDefinition(): string
+    protected function getRegistryServiceDefinition() : string
     {
         return AppStateProviderRegistryInterface::class;
     }
-    protected function getServiceClass(): string
+    protected function getServiceClass() : string
     {
         return AppStateProviderInterface::class;
     }
-    protected function getRegistryMethodCallName(): string
+    protected function getRegistryMethodCallName() : string
     {
         return 'addAppStateProvider';
     }

@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface;
-
+/** @internal */
 class DataloadHelperServiceFacade
 {
-    public static function getInstance(): DataloadHelperServiceInterface
+    public static function getInstance() : DataloadHelperServiceInterface
     {
         /**
          * @var DataloadHelperServiceInterface

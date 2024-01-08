@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\AbstractCustomPostObjectTypeDataLoader;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
-
+/** @internal */
 class PostObjectTypeDataLoader extends AbstractCustomPostObjectTypeDataLoader
 {
-    private ?PostTypeAPIInterface $postTypeAPI = null;
-
-    final public function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
+     */
+    private $postTypeAPI;
+    public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
     {
         $this->postTypeAPI = $postTypeAPI;
     }
-    final protected function getPostTypeAPI(): PostTypeAPIInterface
+    protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
             /** @var PostTypeAPIInterface */
@@ -24,13 +25,12 @@ class PostObjectTypeDataLoader extends AbstractCustomPostObjectTypeDataLoader
         }
         return $this->postTypeAPI;
     }
-
     /**
      * @return mixed[]
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function executeQuery(array $query, array $options = []): array
+    public function executeQuery(array $query, array $options = []) : array
     {
         return $this->getPostTypeAPI()->getPosts($query, $options);
     }

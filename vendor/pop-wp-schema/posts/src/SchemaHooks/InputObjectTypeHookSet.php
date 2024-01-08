@@ -16,8 +16,14 @@ use PoPWPSchema\Posts\FilterInputs\IsStickyFilterInput;
 
 class InputObjectTypeHookSet extends AbstractHookSet
 {
-    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
-    private ?IsStickyFilterInput $isStickyFilterInput = null;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
+     */
+    private $booleanScalarTypeResolver;
+    /**
+     * @var \PoPWPSchema\Posts\FilterInputs\IsStickyFilterInput|null
+     */
+    private $isStickyFilterInput;
 
     final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
     {
@@ -50,19 +56,19 @@ class InputObjectTypeHookSet extends AbstractHookSet
     {
         App::addFilter(
             HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            $this->getInputFieldNameTypeResolvers(...),
+            \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']),
             10,
             2
         );
         App::addFilter(
             HookNames::INPUT_FIELD_DESCRIPTION,
-            $this->getInputFieldDescription(...),
+            \Closure::fromCallable([$this, 'getInputFieldDescription']),
             10,
             3
         );
         App::addFilter(
             HookNames::INPUT_FIELD_FILTER_INPUT,
-            $this->getInputFieldFilterInput(...),
+            \Closure::fromCallable([$this, 'getInputFieldFilterInput']),
             10,
             3
         );
@@ -72,10 +78,8 @@ class InputObjectTypeHookSet extends AbstractHookSet
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(
-        array $inputFieldNameTypeResolvers,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-    ): array {
+    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver): array
+    {
         if (!($inputObjectTypeResolver instanceof AbstractPostsFilterInputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }
@@ -95,23 +99,24 @@ class InputObjectTypeHookSet extends AbstractHookSet
         if (!($inputObjectTypeResolver instanceof AbstractPostsFilterInputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        return match ($inputFieldName) {
-            'isSticky' => $this->__('Filter by sticky posts', 'posts'),
-            default => $inputFieldDescription,
-        };
+        switch ($inputFieldName) {
+            case 'isSticky':
+                return $this->__('Filter by sticky posts', 'posts');
+            default:
+                return $inputFieldDescription;
+        }
     }
 
-    public function getInputFieldFilterInput(
-        ?FilterInputInterface $inputFieldFilterInput,
-        InputObjectTypeResolverInterface $inputObjectTypeResolver,
-        string $inputFieldName,
-    ): ?FilterInputInterface {
+    public function getInputFieldFilterInput(?FilterInputInterface $inputFieldFilterInput, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName): ?FilterInputInterface
+    {
         if (!($inputObjectTypeResolver instanceof AbstractPostsFilterInputObjectTypeResolver)) {
             return $inputFieldFilterInput;
         }
-        return match ($inputFieldName) {
-            'isSticky' => $this->getIsStickyFilterInput(),
-            default => $inputFieldFilterInput,
-        };
+        switch ($inputFieldName) {
+            case 'isSticky':
+                return $this->getIsStickyFilterInput();
+            default:
+                return $inputFieldFilterInput;
+        }
     }
 }

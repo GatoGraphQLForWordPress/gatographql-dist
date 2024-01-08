@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeAPIs;
 
+/** @internal */
 interface TaxonomyCategoryListTypeAPIInterface
 {
     /**
@@ -11,19 +11,10 @@ interface TaxonomyCategoryListTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyCategories(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): array;
-
+    public function getTaxonomyCategories(string $catTaxonomy, array $query, array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyCategoryCount(
-        string $catTaxonomy,
-        array $query,
-        array $options = [],
-    ): int;
+    public function getTaxonomyCategoryCount(string $catTaxonomy, array $query, array $options = []) : int;
 }

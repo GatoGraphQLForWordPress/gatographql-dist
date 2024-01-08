@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Media\Constants;
 
+/** @internal */
 class InputProperties
 {
-    public final const ID = 'id';
-    public final const SLUG = 'slug';
+    public const ID = 'id';
+    public const SLUG = 'slug';
 }

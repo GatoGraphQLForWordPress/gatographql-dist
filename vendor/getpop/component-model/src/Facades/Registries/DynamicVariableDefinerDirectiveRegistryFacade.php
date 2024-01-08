@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\DynamicVariableDefinerDirectiveRegistryInterface;
-
+/** @internal */
 class DynamicVariableDefinerDirectiveRegistryFacade
 {
-    public static function getInstance(): DynamicVariableDefinerDirectiveRegistryInterface
+    public static function getInstance() : DynamicVariableDefinerDirectiveRegistryInterface
     {
         /**
          * @var DynamicVariableDefinerDirectiveRegistryInterface

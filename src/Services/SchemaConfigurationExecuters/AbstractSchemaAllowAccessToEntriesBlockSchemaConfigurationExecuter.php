@@ -24,7 +24,9 @@ abstract class AbstractSchemaAllowAccessToEntriesBlockSchemaConfigurationExecute
         $hookName = $this->getEntriesHookName();
         App::addFilter(
             $hookName,
-            fn () => $entries,
+            function () use ($entries) {
+                return $entries;
+            },
             PHP_INT_MAX
         );
         $behavior = $schemaConfigBlockDataItem['attrs'][BlockAttributeNames::BEHAVIOR] ?? $this->getDefaultBehavior();
@@ -35,7 +37,9 @@ abstract class AbstractSchemaAllowAccessToEntriesBlockSchemaConfigurationExecute
         $hookName = $this->getBehaviorHookName();
         App::addFilter(
             $hookName,
-            fn () => $behavior,
+            function () use ($behavior) {
+                return $behavior;
+            },
             PHP_INT_MAX
         );
     }

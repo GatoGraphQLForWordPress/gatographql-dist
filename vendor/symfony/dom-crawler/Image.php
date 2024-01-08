@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DomCrawler;
+namespace PrefixedByPoP\Symfony\Component\DomCrawler;
 
 /**
  * Image represents an HTML image (an HTML img tag).
+ * @internal
  */
 class Image extends AbstractUriElement
 {
@@ -20,21 +20,18 @@ class Image extends AbstractUriElement
     {
         parent::__construct($node, $currentUri, 'GET');
     }
-
-    protected function getRawUri(): string
+    protected function getRawUri() : string
     {
         return $this->node->getAttribute('src');
     }
-
     /**
      * @return void
      */
     protected function setNode(\DOMElement $node)
     {
         if ('img' !== $node->nodeName) {
-            throw new \LogicException(sprintf('Unable to visualize a "%s" tag.', $node->nodeName));
+            throw new \LogicException(\sprintf('Unable to visualize a "%s" tag.', $node->nodeName));
         }
-
         $this->node = $node;
     }
 }

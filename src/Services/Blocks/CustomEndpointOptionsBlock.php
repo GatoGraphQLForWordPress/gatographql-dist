@@ -14,7 +14,10 @@ class CustomEndpointOptionsBlock extends AbstractEndpointOptionsBlock implements
 {
     use MainPluginBlockTrait;
 
-    private ?CustomEndpointBlockCategory $customEndpointBlockCategory = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\CustomEndpointBlockCategory|null
+     */
+    private $customEndpointBlockCategory;
 
     final public function setCustomEndpointBlockCategory(CustomEndpointBlockCategory $customEndpointBlockCategory): void
     {

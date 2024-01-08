@@ -14,9 +14,12 @@ class PersistedQueryEndpointOptionsBlock extends AbstractEndpointOptionsBlock im
 {
     use MainPluginBlockTrait;
 
-    public final const ATTRIBUTE_NAME_DO_URL_PARAMS_OVERRIDE_GRAPHQL_VARIABLES = 'doURLParamsOverrideGraphQLVariables';
+    public const ATTRIBUTE_NAME_DO_URL_PARAMS_OVERRIDE_GRAPHQL_VARIABLES = 'doURLParamsOverrideGraphQLVariables';
 
-    private ?PersistedQueryEndpointBlockCategory $persistedQueryEndpointBlockCategory = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\PersistedQueryEndpointBlockCategory|null
+     */
+    private $persistedQueryEndpointBlockCategory;
 
     final public function setPersistedQueryEndpointBlockCategory(PersistedQueryEndpointBlockCategory $persistedQueryEndpointBlockCategory): void
     {

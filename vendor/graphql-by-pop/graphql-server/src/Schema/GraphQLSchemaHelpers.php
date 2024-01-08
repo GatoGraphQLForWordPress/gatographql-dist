@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Schema;
 
+/** @internal */
 class GraphQLSchemaHelpers
 {
     /**
@@ -16,14 +16,8 @@ class GraphQLSchemaHelpers
      * - field response: isNonNullable
      * - field argument: isMandatory (its provided value can still be null)
      */
-    public static function getMaybeWrappedTypeName(
-        string $typeName,
-        ?bool $isNonNullableOrMandatory = false,
-        ?bool $isArray = false,
-        ?bool $isNonNullArrayItems = false,
-        ?bool $isArrayOfArrays = false,
-        ?bool $isNonNullArrayOfArraysItems = false,
-    ): string {
+    public static function getMaybeWrappedTypeName(string $typeName, ?bool $isNonNullableOrMandatory = \false, ?bool $isArray = \false, ?bool $isNonNullArrayItems = \false, ?bool $isArrayOfArrays = \false, ?bool $isNonNullArrayOfArraysItems = \false) : string
+    {
         // Wrap the type with the array brackets
         if ($isArray) {
             if ($isArrayOfArrays) {
@@ -42,22 +36,12 @@ class GraphQLSchemaHelpers
         }
         return $typeName;
     }
-
-    public static function getNonNullTypeName(
-        string $typeName,
-    ): string {
-        return sprintf(
-            '%s!',
-            $typeName
-        );
+    public static function getNonNullTypeName(string $typeName) : string
+    {
+        return \sprintf('%s!', $typeName);
     }
-
-    public static function getListTypeName(
-        string $typeName,
-    ): string {
-        return sprintf(
-            '[%s]',
-            $typeName
-        );
+    public static function getListTypeName(string $typeName) : string
+    {
+        return \sprintf('[%s]', $typeName);
     }
 }

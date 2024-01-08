@@ -8,19 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DependencyInjection\Attribute;
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
 
 /**
  * An attribute to tell under which environment this class should be registered as a service.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::TARGET_FUNCTION | \Attribute::IS_REPEATABLE)]
 class When
 {
-    public function __construct(
-        public string $env,
-    ) {
+    /**
+     * @var string
+     */
+    public $env;
+    public function __construct(string $env)
+    {
+        $this->env = $env;
     }
 }

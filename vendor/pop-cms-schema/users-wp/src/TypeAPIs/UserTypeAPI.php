@@ -23,7 +23,7 @@ use function get_userdata;
 class UserTypeAPI extends AbstractUserTypeAPI
 {
     public const HOOK_QUERY = __CLASS__ . ':query';
-    public final const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
+    public const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
 
     /**
      * Indicates if the passed object is of type User
@@ -33,7 +33,10 @@ class UserTypeAPI extends AbstractUserTypeAPI
         return $object instanceof WP_User;
     }
 
-    protected function getUserBy(string $property, string|int $propertyValue): ?object
+    /**
+     * @param string|int $propertyValue
+     */
+    protected function getUserBy(string $property, $propertyValue): ?object
     {
         $user = get_user_by($property, $propertyValue);
         if ($user === false) {
@@ -42,7 +45,10 @@ class UserTypeAPI extends AbstractUserTypeAPI
         return $user;
     }
 
-    public function getUserByID(string|int $userID): ?object
+    /**
+     * @param string|int $userID
+     */
+    public function getUserByID($userID): ?object
     {
         return $this->getUserBy('id', $userID);
     }
@@ -80,7 +86,7 @@ class UserTypeAPI extends AbstractUserTypeAPI
         // 4. Remove hook
         $filterByEmails = $this->filterByEmails($query);
         if ($filterByEmails) {
-            \add_action('pre_user_query', $this->enableMultipleEmails(...));
+            \add_action('pre_user_query', \Closure::fromCallable([$this, 'enableMultipleEmails']));
         }
 
         // Execute the query. Original solution from:
@@ -93,7 +99,7 @@ class UserTypeAPI extends AbstractUserTypeAPI
 
         // Remove the hook
         if ($filterByEmails) {
-            App::removeAction('pre_user_query', $this->enableMultipleEmails(...));
+            App::removeAction('pre_user_query', \Closure::fromCallable([$this, 'enableMultipleEmails']));
         }
         return $ret;
     }
@@ -116,7 +122,7 @@ class UserTypeAPI extends AbstractUserTypeAPI
         // 4. Remove hook
         $filterByEmails = $this->filterByEmails($query);
         if ($filterByEmails) {
-            \add_action('pre_user_query', $this->enableMultipleEmails(...));
+            \add_action('pre_user_query', \Closure::fromCallable([$this, 'enableMultipleEmails']));
         }
 
         // Execute the query
@@ -124,7 +130,7 @@ class UserTypeAPI extends AbstractUserTypeAPI
 
         // Remove the hook
         if ($filterByEmails) {
-            App::removeAction('pre_user_query', $this->enableMultipleEmails(...));
+            App::removeAction('pre_user_query', \Closure::fromCallable([$this, 'enableMultipleEmails']));
         }
         return $ret;
     }
@@ -232,14 +238,26 @@ class UserTypeAPI extends AbstractUserTypeAPI
     }
     protected function getOrderByQueryArgValue(string $orderBy): string
     {
-        $orderBy = match ($orderBy) {
-            UserOrderBy::ID => 'ID',
-            UserOrderBy::NAME => 'name',
-            UserOrderBy::USERNAME => 'login',
-            UserOrderBy::DISPLAY_NAME => 'display_name',
-            UserOrderBy::REGISTRATION_DATE => 'registered',
-            default => $orderBy,
-        };
+        switch ($orderBy) {
+            case UserOrderBy::ID:
+                $orderBy = 'ID';
+                break;
+            case UserOrderBy::NAME:
+                $orderBy = 'name';
+                break;
+            case UserOrderBy::USERNAME:
+                $orderBy = 'login';
+                break;
+            case UserOrderBy::DISPLAY_NAME:
+                $orderBy = 'display_name';
+                break;
+            case UserOrderBy::REGISTRATION_DATE:
+                $orderBy = 'registered';
+                break;
+            default:
+                $orderBy = $orderBy;
+                break;
+        }
         return App::applyFilters(
             self::HOOK_ORDERBY_QUERY_ARG_VALUE,
             $orderBy
@@ -311,7 +329,11 @@ class UserTypeAPI extends AbstractUserTypeAPI
         return ' AND (' . implode(' OR ', $searches) . ')';
     }
 
-    protected function getUserProperty(string $property, string|int|object $userObjectOrID): mixed
+    /**
+     * @param string|int|object $userObjectOrID
+     * @return mixed
+     */
+    protected function getUserProperty(string $property, $userObjectOrID)
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */
@@ -325,31 +347,52 @@ class UserTypeAPI extends AbstractUserTypeAPI
         }
         return $user->$property;
     }
-    public function getUserDisplayName(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserDisplayName($userObjectOrID): ?string
     {
         return $this->getUserProperty('display_name', $userObjectOrID);
     }
-    public function getUserEmail(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserEmail($userObjectOrID): ?string
     {
         return $this->getUserProperty('user_email', $userObjectOrID);
     }
-    public function getUserFirstname(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserFirstname($userObjectOrID): ?string
     {
         return $this->getUserProperty('user_firstname', $userObjectOrID);
     }
-    public function getUserLastname(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserLastname($userObjectOrID): ?string
     {
         return $this->getUserProperty('user_lastname', $userObjectOrID);
     }
-    public function getUserLogin(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserLogin($userObjectOrID): ?string
     {
         return $this->getUserProperty('user_login', $userObjectOrID);
     }
-    public function getUserDescription(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserDescription($userObjectOrID): ?string
     {
         return $this->getUserProperty('description', $userObjectOrID);
     }
-    public function getUserWebsiteURL(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserWebsiteURL($userObjectOrID): ?string
     {
         $userURL = $this->getUserProperty('user_url', $userObjectOrID);
         if (empty($userURL)) {
@@ -357,17 +400,26 @@ class UserTypeAPI extends AbstractUserTypeAPI
         }
         return $userURL;
     }
-    public function getUserSlug(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserSlug($userObjectOrID): ?string
     {
         return $this->getUserProperty('user_nicename', $userObjectOrID);
     }
-    public function getUserID(object $user): string|int
+    /**
+     * @return string|int
+     */
+    public function getUserID(object $user)
     {
         /** @var WP_User $user */
         return $user->ID;
     }
 
-    public function getUserURL(string|int|object $userObjectOrID): ?string
+    /**
+     * @param string|int|object $userObjectOrID
+     */
+    public function getUserURL($userObjectOrID): ?string
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */

@@ -13,8 +13,14 @@ use PoPWPSchema\Meta\TypeResolvers\EnumType\MetaQueryCompareByStringValueOperato
 
 class MetaQueryCompareByStringValueInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
-    private ?MetaQueryCompareByStringValueOperatorEnumTypeResolver $metaQueryCompareByStringValueOperatorEnumTypeResolver = null;
+    /**
+     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
+     */
+    private $stringScalarTypeResolver;
+    /**
+     * @var \PoPWPSchema\Meta\TypeResolvers\EnumType\MetaQueryCompareByStringValueOperatorEnumTypeResolver|null
+     */
+    private $metaQueryCompareByStringValueOperatorEnumTypeResolver;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -61,28 +67,37 @@ class MetaQueryCompareByStringValueInputObjectTypeResolver extends AbstractInput
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        return match ($inputFieldName) {
-            'value' => $this->__('Custom field value', 'meta'),
-            'operator' => $this->__('The operator to compare against', 'meta'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'value':
+                return $this->__('Custom field value', 'meta');
+            case 'operator':
+                return $this->__('The operator to compare against', 'meta');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
 
-    public function getInputFieldDefaultValue(string $inputFieldName): mixed
+    /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
     {
-        return match ($inputFieldName) {
-            'operator' => MetaQueryCompareByOperators::EQUALS,
-            default => parent::getInputFieldDefaultValue($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'operator':
+                return MetaQueryCompareByOperators::EQUALS;
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
     }
 
     public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        return match ($inputFieldName) {
-            'operator',
-            'value'
-                => SchemaTypeModifiers::MANDATORY,
-            default => parent::getInputFieldTypeModifiers($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'operator':
+            case 'value':
+                return SchemaTypeModifiers::MANDATORY;
+            default:
+                return parent::getInputFieldTypeModifiers($inputFieldName);
+        }
     }
 }

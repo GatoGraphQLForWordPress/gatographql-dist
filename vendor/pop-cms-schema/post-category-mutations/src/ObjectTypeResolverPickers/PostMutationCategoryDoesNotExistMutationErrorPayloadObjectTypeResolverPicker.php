@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\PostCategoryMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostCategoryMutations\ObjectTypeResolverPickers\AbstractCategoryDoesNotExistErrorPayloadObjectTypeResolverPicker;
@@ -9,18 +8,14 @@ use PoPCMSSchema\PostMutations\TypeResolvers\UnionType\PostUpdateMutationErrorPa
 use PoPCMSSchema\PostMutations\TypeResolvers\UnionType\RootCreatePostMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\PostMutations\TypeResolvers\UnionType\RootUpdatePostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
+/** @internal */
 class PostMutationCategoryDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends AbstractCategoryDoesNotExistErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo(): array
+    public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [
-            PostUpdateMutationErrorPayloadUnionTypeResolver::class,
-            RootCreatePostMutationErrorPayloadUnionTypeResolver::class,
-            RootUpdatePostMutationErrorPayloadUnionTypeResolver::class,
-        ];
+        return [PostUpdateMutationErrorPayloadUnionTypeResolver::class, RootCreatePostMutationErrorPayloadUnionTypeResolver::class, RootUpdatePostMutationErrorPayloadUnionTypeResolver::class];
     }
 }

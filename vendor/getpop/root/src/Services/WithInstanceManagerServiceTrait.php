@@ -1,22 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\Root\Services;
 
 use PoP\Root\Instances\InstanceManagerInterface;
-use Symfony\Contracts\Service\Attribute\Required;
-
+use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
+/** @internal */
 trait WithInstanceManagerServiceTrait
 {
-    protected InstanceManagerInterface $instanceManager;
-
-    #[Required]
-    final public function setInstanceManager(InstanceManagerInterface $instanceManager): void
+    /**
+     * @var \PoP\Root\Instances\InstanceManagerInterface
+     */
+    protected $instanceManager;
+    /**
+     * @required
+     */
+    public final function setInstanceManager(InstanceManagerInterface $instanceManager) : void
     {
         $this->instanceManager = $instanceManager;
     }
-    final protected function getInstanceManager(): InstanceManagerInterface
+    protected final function getInstanceManager() : InstanceManagerInterface
     {
         return $this->instanceManager;
     }

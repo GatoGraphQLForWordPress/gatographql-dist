@@ -41,7 +41,7 @@ trait DocMenuPageTrait
          *
          * Eg: Links to release-notes .md files in wp-admin/admin.php?page=gatographql_about
          */
-        while (str_starts_with($filename, '../')) {
+        while (strncmp($filename, '../', strlen('../')) === 0) {
             $filename = substr($filename, 3);
             $relativePathDir .=  '/..';
             $count++;
@@ -56,12 +56,12 @@ trait DocMenuPageTrait
         // Enable "/" in the filename
         \add_filter(
             'sanitize_file_name_chars',
-            $this->enableSpecialCharsForSanitization(...)
+            \Closure::fromCallable([$this, 'enableSpecialCharsForSanitization'])
         );
         $doc = \sanitize_file_name($filename);
         \remove_filter(
             'sanitize_file_name_chars',
-            $this->enableSpecialCharsForSanitization(...)
+            \Closure::fromCallable([$this, 'enableSpecialCharsForSanitization'])
         );
         return $this->getMarkdownContent(
             $doc,

@@ -1,32 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\OperationDependencyDefinerFieldDirectiveResolverInterface;
-
-class OperationDependencyDefinerDirectiveRegistry implements OperationDependencyDefinerDirectiveRegistryInterface
+/** @internal */
+class OperationDependencyDefinerDirectiveRegistry implements \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface
 {
     /**
      * @var array<string,OperationDependencyDefinerFieldDirectiveResolverInterface>
      */
-    protected array $operationDependencyDefinerFieldDirectiveResolvers = [];
-
-    public function addOperationDependencyDefinerFieldDirectiveResolver(OperationDependencyDefinerFieldDirectiveResolverInterface $operationDependencyDefinerFieldDirectiveResolver): void
+    protected $operationDependencyDefinerFieldDirectiveResolvers = [];
+    public function addOperationDependencyDefinerFieldDirectiveResolver(OperationDependencyDefinerFieldDirectiveResolverInterface $operationDependencyDefinerFieldDirectiveResolver) : void
     {
         $this->operationDependencyDefinerFieldDirectiveResolvers[$operationDependencyDefinerFieldDirectiveResolver->getDirectiveName()] = $operationDependencyDefinerFieldDirectiveResolver;
     }
-
     /**
      * @return array<string,OperationDependencyDefinerFieldDirectiveResolverInterface>
      */
-    public function getOperationDependencyDefinerFieldDirectiveResolvers(): array
+    public function getOperationDependencyDefinerFieldDirectiveResolvers() : array
     {
         return $this->operationDependencyDefinerFieldDirectiveResolvers;
     }
-
-    public function getOperationDependencyDefinerFieldDirectiveResolver(string $directiveName): ?OperationDependencyDefinerFieldDirectiveResolverInterface
+    public function getOperationDependencyDefinerFieldDirectiveResolver(string $directiveName) : ?OperationDependencyDefinerFieldDirectiveResolverInterface
     {
         return $this->operationDependencyDefinerFieldDirectiveResolvers[$directiveName] ?? null;
     }

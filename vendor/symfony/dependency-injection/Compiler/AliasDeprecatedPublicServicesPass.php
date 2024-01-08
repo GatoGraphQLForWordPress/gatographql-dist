@@ -8,54 +8,50 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-namespace Symfony\Component\DependencyInjection\Compiler;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Reference;
-
+use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+/** @internal */
 final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    private array $aliases = [];
-
-    public function process(ContainerBuilder $container): void
+    /**
+     * @var bool
+     */
+    protected $skipScalars = \true;
+    /**
+     * @var mixed[]
+     */
+    private $aliases = [];
+    public function process(ContainerBuilder $container) : void
     {
         foreach ($container->findTaggedServiceIds('container.private') as $id => $tags) {
-            if (null === $package = $tags[0]['package'] ?? null) {
-                throw new InvalidArgumentException(sprintf('The "package" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
+            if (null === ($package = $tags[0]['package'] ?? null)) {
+                throw new InvalidArgumentException(\sprintf('The "package" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
             }
-
-            if (null === $version = $tags[0]['version'] ?? null) {
-                throw new InvalidArgumentException(sprintf('The "version" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
+            if (null === ($version = $tags[0]['version'] ?? null)) {
+                throw new InvalidArgumentException(\sprintf('The "version" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
             }
-
             $definition = $container->getDefinition($id);
             if (!$definition->isPublic() || $definition->isPrivate()) {
                 continue;
             }
-
-            $container
-                ->setAlias($id, $aliasId = '.container.private.'.$id)
-                ->setPublic(true)
-                ->setDeprecated($package, $version, 'Accessing the "%alias_id%" service directly from the container is deprecated, use dependency injection instead.');
-
+            $container->setAlias($id, $aliasId = '.container.private.' . $id)->setPublic(\true)->setDeprecated($package, $version, 'Accessing the "%alias_id%" service directly from the container is deprecated, use dependency injection instead.');
             $container->setDefinition($aliasId, $definition);
-
             $this->aliases[$id] = $aliasId;
         }
-
         parent::process($container);
     }
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function processValue($value, bool $isRoot = \false)
     {
         if ($value instanceof Reference && isset($this->aliases[$id = (string) $value])) {
             return new Reference($this->aliases[$id], $value->getInvalidBehavior());
         }
-
         return parent::processValue($value, $isRoot);
     }
 }

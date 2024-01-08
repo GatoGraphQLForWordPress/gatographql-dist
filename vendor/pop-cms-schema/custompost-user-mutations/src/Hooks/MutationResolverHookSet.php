@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostUserMutations\Hooks;
 
 use PoPCMSSchema\CustomPostMutations\Constants\HookNames;
@@ -18,16 +17,18 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use stdClass;
-
+/** @internal */
 class MutationResolverHookSet extends AbstractHookSet
 {
-    private ?UserTypeAPIInterface $userTypeAPI = null;
-
-    final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
+    /**
+     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
+     */
+    private $userTypeAPI;
+    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
     {
         $this->userTypeAPI = $userTypeAPI;
     }
-    final protected function getUserTypeAPI(): UserTypeAPIInterface
+    protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
             /** @var UserTypeAPIInterface */
@@ -36,33 +37,14 @@ class MutationResolverHookSet extends AbstractHookSet
         }
         return $this->userTypeAPI;
     }
-
-    protected function init(): void
+    protected function init() : void
     {
-        App::addAction(
-            HookNames::VALIDATE_CREATE_OR_UPDATE,
-            $this->maybeValidateAuthor(...),
-            10,
-            2
-        );
-        App::addFilter(
-            HookNames::GET_CREATE_OR_UPDATE_DATA,
-            $this->addCreateOrUpdateCustomPostData(...),
-            10,
-            2
-        );
-        App::addFilter(
-            HookNames::ERROR_PAYLOAD,
-            $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...),
-            10,
-            2
-        );
+        App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateAuthor']), 10, 2);
+        App::addFilter(HookNames::GET_CREATE_OR_UPDATE_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateCustomPostData']), 10, 2);
+        App::addFilter(HookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
     }
-
-    public function maybeValidateAuthor(
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    public function maybeValidateAuthor(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         if (!$this->hasProvidedAuthorInput($fieldDataAccessor)) {
             return;
         }
@@ -74,52 +56,32 @@ class MutationResolverHookSet extends AbstractHookSet
         if (isset($authorBy->{InputProperties::ID})) {
             /** @var string|int */
             $authorID = $authorBy->{InputProperties::ID};
-            $this->validateUserByIDExists(
-                $authorID,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
+            $this->validateUserByIDExists($authorID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         } elseif (isset($authorBy->{InputProperties::USERNAME})) {
             /** @var string */
             $authorUsername = $authorBy->{InputProperties::USERNAME};
-            $this->validateUserByUsernameExists(
-                $authorUsername,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
+            $this->validateUserByUsernameExists($authorUsername, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         } elseif (isset($authorBy->{InputProperties::EMAIL})) {
             /** @var string */
             $authorEmail = $authorBy->{InputProperties::EMAIL};
-            $this->validateUserByEmailExists(
-                $authorEmail,
-                $fieldDataAccessor,
-                $objectTypeFieldResolutionFeedbackStore,
-            );
+            $this->validateUserByEmailExists($authorEmail, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
     }
-
-    protected function hasProvidedAuthorInput(
-        FieldDataAccessorInterface $fieldDataAccessor,
-    ): bool {
+    protected function hasProvidedAuthorInput(FieldDataAccessorInterface $fieldDataAccessor) : bool
+    {
         if (!$fieldDataAccessor->hasValue(MutationInputProperties::AUTHOR_BY)) {
-            return false;
+            return \false;
         }
-
         /** @var stdClass|null */
         $authorBy = $fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_BY);
-        return isset($authorBy->{InputProperties::ID})
-            || isset($authorBy->{InputProperties::USERNAME})
-            || isset($authorBy->{InputProperties::EMAIL});
+        return isset($authorBy->{InputProperties::ID}) || isset($authorBy->{InputProperties::USERNAME}) || isset($authorBy->{InputProperties::EMAIL});
     }
-
     /**
      * @param array<string,mixed> $customPostData
      * @return array<string,mixed>
      */
-    public function addCreateOrUpdateCustomPostData(
-        array $customPostData,
-        FieldDataAccessorInterface $fieldDataAccessor,
-    ): array {
+    public function addCreateOrUpdateCustomPostData(array $customPostData, FieldDataAccessorInterface $fieldDataAccessor) : array
+    {
         if (!$this->hasProvidedAuthorInput($fieldDataAccessor)) {
             return $customPostData;
         }
@@ -147,99 +109,38 @@ class MutationResolverHookSet extends AbstractHookSet
         $customPostData['author-id'] = $authorID;
         return $customPostData;
     }
-
-    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(
-        ErrorPayloadInterface $errorPayload,
-        FeedbackItemResolution $feedbackItemResolution
-    ): ErrorPayloadInterface {
-        return match (
-            [
-            $feedbackItemResolution->getFeedbackProviderServiceClass(),
-            $feedbackItemResolution->getCode()
-            ]
-        ) {
-            [
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E1,
-            ] => new UserDoesNotExistErrorPayload(
-                $feedbackItemResolution->getMessage(),
-            ),
-            [
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E2,
-            ] => new UserDoesNotExistErrorPayload(
-                $feedbackItemResolution->getMessage(),
-            ),
-            [
-                MutationErrorFeedbackItemProvider::class,
-                MutationErrorFeedbackItemProvider::E3,
-            ] => new UserDoesNotExistErrorPayload(
-                $feedbackItemResolution->getMessage(),
-            ),
-            default => $errorPayload,
-        };
+    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, FeedbackItemResolution $feedbackItemResolution) : ErrorPayloadInterface
+    {
+        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
+                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
+                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
+                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            default:
+                return $errorPayload;
+        }
     }
-
-    protected function validateUserByIDExists(
-        string|int $userID,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    /**
+     * @param string|int $userID
+     */
+    protected function validateUserByIDExists($userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         if ($this->getUserTypeAPI()->getUserByID($userID) === null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E1,
-                        [
-                            $userID,
-                        ]
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1, [$userID]), $fieldDataAccessor->getField()));
         }
     }
-
-    protected function validateUserByUsernameExists(
-        string $username,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    protected function validateUserByUsernameExists(string $username, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         if ($this->getUserTypeAPI()->getUserByLogin($username) === null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E2,
-                        [
-                            $username,
-                        ]
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2, [$username]), $fieldDataAccessor->getField()));
         }
     }
-
-    protected function validateUserByEmailExists(
-        string $userEmail,
-        FieldDataAccessorInterface $fieldDataAccessor,
-        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
-    ): void {
+    protected function validateUserByEmailExists(string $userEmail, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
         if ($this->getUserTypeAPI()->getUserByEmail($userEmail) === null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(
-                new ObjectTypeFieldResolutionFeedback(
-                    new FeedbackItemResolution(
-                        MutationErrorFeedbackItemProvider::class,
-                        MutationErrorFeedbackItemProvider::E3,
-                        [
-                            $userEmail,
-                        ]
-                    ),
-                    $fieldDataAccessor->getField(),
-                )
-            );
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3, [$userEmail]), $fieldDataAccessor->getField()));
         }
     }
 }

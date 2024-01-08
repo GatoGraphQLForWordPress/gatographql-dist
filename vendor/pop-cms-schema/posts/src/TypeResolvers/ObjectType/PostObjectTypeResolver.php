@@ -1,22 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\Posts\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
 use PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLoader;
-
+/** @internal */
 class PostObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
 {
-    private ?PostObjectTypeDataLoader $postObjectTypeDataLoader = null;
-
-    final public function setPostObjectTypeDataLoader(PostObjectTypeDataLoader $postObjectTypeDataLoader): void
+    /**
+     * @var \PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLoader|null
+     */
+    private $postObjectTypeDataLoader;
+    public final function setPostObjectTypeDataLoader(PostObjectTypeDataLoader $postObjectTypeDataLoader) : void
     {
         $this->postObjectTypeDataLoader = $postObjectTypeDataLoader;
     }
-    final protected function getPostObjectTypeDataLoader(): PostObjectTypeDataLoader
+    protected final function getPostObjectTypeDataLoader() : PostObjectTypeDataLoader
     {
         if ($this->postObjectTypeDataLoader === null) {
             /** @var PostObjectTypeDataLoader */
@@ -25,18 +26,15 @@ class PostObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
         }
         return $this->postObjectTypeDataLoader;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'Post';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Representation of a post', 'posts');
     }
-
-    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
+    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {
         return $this->getPostObjectTypeDataLoader();
     }

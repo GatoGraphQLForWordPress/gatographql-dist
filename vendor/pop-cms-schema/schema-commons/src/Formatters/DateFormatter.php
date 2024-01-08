@@ -1,17 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\Formatters;
 
-class DateFormatter implements DateFormatterInterface
+/** @internal */
+class DateFormatter implements \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface
 {
-    public function format(string $format, string $date): string|int|false
+    /**
+     * @return string|int|false
+     */
+    public function format(string $format, string $date)
     {
-        $time = strtotime($date);
-        if ($time === false) {
-            return false;
+        $time = \strtotime($date);
+        if ($time === \false) {
+            return \false;
         }
-        return date($format, $time);
+        return \date($format, $time);
     }
 }

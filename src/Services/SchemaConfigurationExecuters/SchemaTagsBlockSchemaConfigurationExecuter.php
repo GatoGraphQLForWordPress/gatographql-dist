@@ -14,7 +14,10 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaTagsBlockSchemaConfigurationExecuter extends AbstractCustomizableConfigurationBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    private ?SchemaConfigSchemaTagsBlock $schemaConfigTagsBlock = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaTagsBlock|null
+     */
+    private $schemaConfigTagsBlock;
 
     final public function setSchemaConfigSchemaTagsBlock(SchemaConfigSchemaTagsBlock $schemaConfigTagsBlock): void
     {
@@ -51,7 +54,9 @@ class SchemaTagsBlockSchemaConfigurationExecuter extends AbstractCustomizableCon
         );
         App::addFilter(
             $hookName,
-            fn () => $includedTagTaxonomies,
+            function () use ($includedTagTaxonomies) {
+                return $includedTagTaxonomies;
+            },
             PHP_INT_MAX
         );
     }

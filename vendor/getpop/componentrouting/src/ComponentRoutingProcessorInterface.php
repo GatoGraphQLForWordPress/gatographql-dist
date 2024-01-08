@@ -1,28 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentRouting;
 
+/** @internal */
 interface ComponentRoutingProcessorInterface
 {
     /**
      * @return string[]
      */
-    public function getGroups(): array;
-
+    public function getGroups() : array;
     /**
      * @return array<string,array<string,array<array<string,mixed>>>>
      */
-    public function getStatePropertiesToSelectComponentByNatureAndRoute(): array;
-
+    public function getStatePropertiesToSelectComponentByNatureAndRoute() : array;
     /**
      * @return array<string,array<array<string,mixed>>>
      */
-    public function getStatePropertiesToSelectComponentByNature(): array;
-
+    public function getStatePropertiesToSelectComponentByNature() : array;
     /**
      * @return array<array<string,mixed>>
      */
-    public function getStatePropertiesToSelectComponent(): array;
+    public function getStatePropertiesToSelectComponent() : array;
 }

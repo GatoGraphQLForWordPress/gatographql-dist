@@ -8,98 +8,92 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 
-namespace Symfony\Component\Cache\Adapter;
-
-use Psr\Cache\CacheItemInterface;
-use Symfony\Component\Cache\CacheItem;
-use Symfony\Contracts\Cache\CacheInterface;
-
+use PrefixedByPoP\Psr\Cache\CacheItemInterface;
+use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
+use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ * @internal
  */
 class NullAdapter implements AdapterInterface, CacheInterface
 {
-    private static \Closure $createCacheItem;
-
+    /**
+     * @var \Closure
+     */
+    private static $createCacheItem;
     public function __construct()
     {
-        self::$createCacheItem ??= \Closure::bind(
-            static function ($key) {
-                $item = new CacheItem();
-                $item->key = $key;
-                $item->isHit = false;
-
-                return $item;
-            },
-            null,
-            CacheItem::class
-        );
+        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key) {
+            $item = new CacheItem();
+            $item->key = $key;
+            $item->isHit = \false;
+            return $item;
+        }, null, CacheItem::class);
     }
-
-    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null): mixed
+    /**
+     * @return mixed
+     */
+    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null)
     {
-        $save = true;
-
+        $save = \true;
         return $callback((self::$createCacheItem)($key), $save);
     }
-
-    public function getItem(mixed $key): CacheItem
+    /**
+     * @param mixed $key
+     */
+    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface
     {
         return (self::$createCacheItem)($key);
     }
-
-    public function getItems(array $keys = []): iterable
+    public function getItems(array $keys = []) : iterable
     {
         return $this->generateItems($keys);
     }
-
-    public function hasItem(mixed $key): bool
+    /**
+     * @param mixed $key
+     */
+    public function hasItem($key) : bool
     {
-        return false;
+        return \false;
     }
-
-    public function clear(string $prefix = ''): bool
+    public function clear(string $prefix = '') : bool
     {
-        return true;
+        return \true;
     }
-
-    public function deleteItem(mixed $key): bool
+    /**
+     * @param mixed $key
+     */
+    public function deleteItem($key) : bool
     {
-        return true;
+        return \true;
     }
-
-    public function deleteItems(array $keys): bool
+    public function deleteItems(array $keys) : bool
     {
-        return true;
+        return \true;
     }
-
-    public function save(CacheItemInterface $item): bool
+    public function save(CacheItemInterface $item) : bool
     {
-        return true;
+        return \true;
     }
-
-    public function saveDeferred(CacheItemInterface $item): bool
+    public function saveDeferred(CacheItemInterface $item) : bool
     {
-        return true;
+        return \true;
     }
-
-    public function commit(): bool
+    public function commit() : bool
     {
-        return true;
+        return \true;
     }
-
-    public function delete(string $key): bool
+    public function delete(string $key) : bool
     {
         return $this->deleteItem($key);
     }
-
-    private function generateItems(array $keys): \Generator
+    private function generateItems(array $keys) : \Generator
     {
         $f = self::$createCacheItem;
-
         foreach ($keys as $key) {
-            yield $key => $f($key);
+            (yield $key => $f($key));
         }
     }
 }

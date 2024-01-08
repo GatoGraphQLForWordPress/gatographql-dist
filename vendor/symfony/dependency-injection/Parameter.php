@@ -8,24 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Symfony\Component\DependencyInjection;
+namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
 /**
  * Parameter represents a parameter reference.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ * @internal
  */
 class Parameter
 {
-    private string $id;
-
+    /**
+     * @var string
+     */
+    private $id;
     public function __construct(string $id)
     {
         $this->id = $id;
     }
-
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->id;
     }

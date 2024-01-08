@@ -14,7 +14,10 @@ abstract class AbstractEndpointAnnotator implements EndpointAnnotatorInterface
 {
     use BasicServiceTrait;
 
-    private ?ModuleRegistryInterface $moduleRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

@@ -1,35 +1,30 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\AbstractCommentsFilterInputObjectTypeResolver;
-
+/** @internal */
 class RootMyCommentsFilterInputObjectTypeResolver extends AbstractCommentsFilterInputObjectTypeResolver
 {
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'RootMyCommentsFilterInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
         return $this->__('Input to filter the logged-in user\'s comments', 'comment-mutations');
     }
-
-    protected function addParentInputFields(): bool
+    protected function addParentInputFields() : bool
     {
-        return true;
+        return \true;
     }
-
-    protected function addCustomPostInputFields(): bool
+    protected function addCustomPostInputFields() : bool
     {
-        return true;
+        return \true;
     }
-
-    protected function treatCommentStatusAsSensitiveData(): bool
+    protected function treatCommentStatusAsSensitiveData() : bool
     {
-        return false;
+        return \false;
     }
 }

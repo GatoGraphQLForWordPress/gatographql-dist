@@ -1,50 +1,48 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
-
+/** @internal */
 class LoginUserByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    private ?LoginCredentialsInputObjectTypeResolver $loginCredentialsInputObjectTypeResolver = null;
-
-    final public function setLoginCredentialsInputObjectTypeResolver(LoginCredentialsInputObjectTypeResolver $loginCredentialsInputObjectTypeResolver): void
+    /**
+     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver|null
+     */
+    private $loginCredentialsInputObjectTypeResolver;
+    public final function setLoginCredentialsInputObjectTypeResolver(\PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver $loginCredentialsInputObjectTypeResolver) : void
     {
         $this->loginCredentialsInputObjectTypeResolver = $loginCredentialsInputObjectTypeResolver;
     }
-    final protected function getLoginCredentialsInputObjectTypeResolver(): LoginCredentialsInputObjectTypeResolver
+    protected final function getLoginCredentialsInputObjectTypeResolver() : \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver
     {
         if ($this->loginCredentialsInputObjectTypeResolver === null) {
             /** @var LoginCredentialsInputObjectTypeResolver */
-            $loginCredentialsInputObjectTypeResolver = $this->instanceManager->getInstance(LoginCredentialsInputObjectTypeResolver::class);
+            $loginCredentialsInputObjectTypeResolver = $this->instanceManager->getInstance(\PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver::class);
             $this->loginCredentialsInputObjectTypeResolver = $loginCredentialsInputObjectTypeResolver;
         }
         return $this->loginCredentialsInputObjectTypeResolver;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
         return 'LoginUserByInput';
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            'credentials' => $this->getLoginCredentialsInputObjectTypeResolver(),
-        ];
+        return ['credentials' => $this->getLoginCredentialsInputObjectTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        return match ($inputFieldName) {
-            'credentials' => $this->__('Login using the website credentials', 'user-state-mutations'),
-            default => parent::getInputFieldDescription($inputFieldName),
-        };
+        switch ($inputFieldName) {
+            case 'credentials':
+                return $this->__('Login using the website credentials', 'user-state-mutations');
+            default:
+                return parent::getInputFieldDescription($inputFieldName);
+        }
     }
 }

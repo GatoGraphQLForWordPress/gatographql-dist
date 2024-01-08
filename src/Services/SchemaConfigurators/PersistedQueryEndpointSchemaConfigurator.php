@@ -10,7 +10,10 @@ use GatoGraphQL\GatoGraphQL\Registries\SchemaConfigurationExecuterRegistryInterf
 
 class PersistedQueryEndpointSchemaConfigurator extends AbstractEndpointSchemaConfigurator
 {
-    private ?PersistedQueryEndpointSchemaConfigurationExecuterRegistryInterface $persistedQueryEndpointSchemaConfigurationExecuterRegistry = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\PersistedQueryEndpointSchemaConfigurationExecuterRegistryInterface|null
+     */
+    private $persistedQueryEndpointSchemaConfigurationExecuterRegistry;
 
     final public function setPersistedQueryEndpointSchemaConfigurationExecuterRegistry(PersistedQueryEndpointSchemaConfigurationExecuterRegistryInterface $persistedQueryEndpointSchemaConfigurationExecuterRegistry): void
     {

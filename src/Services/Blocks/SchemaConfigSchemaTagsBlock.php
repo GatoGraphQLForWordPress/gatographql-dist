@@ -13,9 +13,12 @@ class SchemaConfigSchemaTagsBlock extends AbstractSchemaConfigCustomizableConfig
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public final const ATTRIBUTE_NAME_INCLUDED_TAG_TAXONOMIES = 'includedTagTaxonomies';
+    public const ATTRIBUTE_NAME_INCLUDED_TAG_TAXONOMIES = 'includedTagTaxonomies';
 
-    private ?WPDataModelProviderInterface $wpDataModelProvider = null;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\WPDataModel\WPDataModelProviderInterface|null
+     */
+    private $wpDataModelProvider;
 
     final public function setWPDataModelProvider(WPDataModelProviderInterface $wpDataModelProvider): void
     {

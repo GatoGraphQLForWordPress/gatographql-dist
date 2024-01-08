@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-
-class FeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker extends AbstractFeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker
+/** @internal */
+class FeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CustomPostMediaMutations\ObjectTypeResolverPickers\AbstractFeaturedImageIsNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo(): array
+    public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [
-            AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver::class,
-        ];
+        return [AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver::class];
     }
 }

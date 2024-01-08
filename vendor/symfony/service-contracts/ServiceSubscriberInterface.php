@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace PrefixedByPoP\Symfony\Contracts\Service;
 
-namespace Symfony\Contracts\Service;
-
-use Symfony\Contracts\Service\Attribute\SubscribedService;
-
+use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
 /**
  * A ServiceSubscriber exposes its dependencies via the static {@link getSubscribedServices} method.
  *
@@ -27,6 +25,7 @@ use Symfony\Contracts\Service\Attribute\SubscribedService;
  * injection is recommended.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ * @internal
  */
 interface ServiceSubscriberInterface
 {
@@ -58,5 +57,5 @@ interface ServiceSubscriberInterface
      *
      * @return string[]|SubscribedService[] The required service types, optionally keyed by service names
      */
-    public static function getSubscribedServices(): array;
+    public static function getSubscribedServices() : array;
 }

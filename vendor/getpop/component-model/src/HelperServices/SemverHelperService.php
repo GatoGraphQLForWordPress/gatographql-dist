@@ -1,25 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\HelperServices;
 
-use Composer\Semver\Semver;
+use PrefixedByPoP\Composer\Semver\Semver;
 use Exception;
-
-class SemverHelperService implements SemverHelperServiceInterface
+/** @internal */
+class SemverHelperService implements \PoP\ComponentModel\HelperServices\SemverHelperServiceInterface
 {
     /**
      * Determine if given version satisfies given constraints.
      *
      * Use "*" to mean "any version"
      */
-    public function satisfies(string $version, string $constraints): bool
+    public function satisfies(string $version, string $constraints) : bool
     {
         if ($constraints === '*') {
-            return true;
+            return \true;
         }
-
         /**
          * If passing a wrong value to validate against
          * (eg: "saraza" instead of "1.0.0"),
@@ -27,8 +25,8 @@ class SemverHelperService implements SemverHelperServiceInterface
          */
         try {
             return Semver::satisfies($version, $constraints);
-        } catch (Exception) {
-            return false;
+        } catch (Exception $exception) {
+            return \false;
         }
     }
 }

@@ -1,36 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Feedback;
 
+/** @internal */
 class EngineIterationFeedbackStore
 {
-    public SchemaFeedbackStore $schemaFeedbackStore;
-    public ObjectResolutionFeedbackStore $objectResolutionFeedbackStore;
-
+    /**
+     * @var \PoP\ComponentModel\Feedback\SchemaFeedbackStore
+     */
+    public $schemaFeedbackStore;
+    /**
+     * @var \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore
+     */
+    public $objectResolutionFeedbackStore;
     public function __construct()
     {
-        $this->schemaFeedbackStore = new SchemaFeedbackStore();
-        $this->objectResolutionFeedbackStore = new ObjectResolutionFeedbackStore();
+        $this->schemaFeedbackStore = new \PoP\ComponentModel\Feedback\SchemaFeedbackStore();
+        $this->objectResolutionFeedbackStore = new \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore();
     }
-
-    public function incorporate(
-        EngineIterationFeedbackStore $engineIterationFeedbackStore,
-    ): void {
+    public function incorporate(\PoP\ComponentModel\Feedback\EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    {
         $this->schemaFeedbackStore->incorporate($engineIterationFeedbackStore->schemaFeedbackStore);
         $this->objectResolutionFeedbackStore->incorporate($engineIterationFeedbackStore->objectResolutionFeedbackStore);
     }
-
-    public function hasErrors(): bool
+    public function hasErrors() : bool
     {
-        return $this->schemaFeedbackStore->getErrors() !== []
-            || $this->objectResolutionFeedbackStore->getErrors() !== [];
+        return $this->schemaFeedbackStore->getErrors() !== [] || $this->objectResolutionFeedbackStore->getErrors() !== [];
     }
-
-    public function getErrorCount(): int
+    public function getErrorCount() : int
     {
-        return $this->schemaFeedbackStore->getErrorCount()
-            + $this->objectResolutionFeedbackStore->getErrorCount();
+        return $this->schemaFeedbackStore->getErrorCount() + $this->objectResolutionFeedbackStore->getErrorCount();
     }
 }

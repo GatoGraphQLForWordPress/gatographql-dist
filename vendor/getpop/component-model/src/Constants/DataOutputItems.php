@@ -1,14 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\Constants;
 
+/** @internal */
 class DataOutputItems
 {
-    public final const META = 'meta';
-    public final const DATASET_COMPONENT_SETTINGS = 'datasetcomponentsettings';
-    public final const COMPONENT_DATA = 'componentdata';
-    public final const DATABASES = 'databases';
-    public final const SESSION = 'session';
+    public const META = 'meta';
+    public const DATASET_COMPONENT_SETTINGS = 'datasetcomponentsettings';
+    public const COMPONENT_DATA = 'componentdata';
+    public const DATABASES = 'databases';
+    public const SESSION = 'session';
 }

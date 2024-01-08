@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-interface WithNameInterface extends AstInterface
+/** @internal */
+interface WithNameInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {
-    public function getName(): string;
+    public function getName() : string;
 }

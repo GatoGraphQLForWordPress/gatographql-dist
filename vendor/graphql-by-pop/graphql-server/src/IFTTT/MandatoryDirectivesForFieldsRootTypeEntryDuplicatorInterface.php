@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\IFTTT;
 
+/** @internal */
 interface MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
 {
     /**
@@ -26,5 +26,5 @@ interface MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
      * @return array<mixed[]> The same array $fieldEntries + appended entries for QueryRoot and MutationRoot
      * @param array<mixed[]> $fieldEntries
      */
-    public function maybeAppendAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes = false): array;
+    public function maybeAppendAdditionalRootEntriesForFields(array $fieldEntries, bool $forceBothTypes = \false) : array;
 }

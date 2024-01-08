@@ -1,25 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
 use PoP\ComponentModel\Resolvers\QueryableFieldResolverTrait;
-
-abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver implements QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface
+/** @internal */
+abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;
-
-    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
-
-    final public function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager): void
+    /**
+     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
+     */
+    private $componentProcessorManager;
+    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
     {
         $this->componentProcessorManager = $componentProcessorManager;
     }
-    final protected function getComponentProcessorManager(): ComponentProcessorManagerInterface
+    protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
             /** @var ComponentProcessorManagerInterface */
@@ -28,52 +28,49 @@ abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends Abstrac
         }
         return $this->componentProcessorManager;
     }
-
-    public function getFieldFilterInputContainerComponent(string $fieldName): ?Component
+    public function getFieldFilterInputContainerComponent(string $fieldName) : ?Component
     {
         /**
          * An interface may implement another interface which is not Queryable
          */
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($fieldName);
-        if (!($schemaDefinitionResolver instanceof QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface)) {
+        if (!$schemaDefinitionResolver instanceof \PoP\ComponentModel\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface) {
             return null;
         }
-
         /** @var QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface $schemaDefinitionResolver */
         if ($schemaDefinitionResolver !== $this) {
             return $schemaDefinitionResolver->getFieldFilterInputContainerComponent($fieldName);
         }
         return null;
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(string $fieldName): array
+    public function getFieldArgNameTypeResolvers(string $fieldName) : array
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($fieldName)) {
             return $this->getFilterFieldArgNameTypeResolvers($filterDataloadingComponent);
         }
         return parent::getFieldArgNameTypeResolvers($fieldName);
     }
-
-    public function getFieldArgDescription(string $fieldName, string $fieldArgName): ?string
+    public function getFieldArgDescription(string $fieldName, string $fieldArgName) : ?string
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($fieldName)) {
             return $this->getFilterFieldArgDescription($filterDataloadingComponent, $fieldArgName);
         }
         return parent::getFieldArgDescription($fieldName, $fieldArgName);
     }
-
-    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName): mixed
+    /**
+     * @return mixed
+     */
+    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName)
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($fieldName)) {
             return $this->getFilterFieldArgDefaultValue($filterDataloadingComponent, $fieldArgName);
         }
         return parent::getFieldArgDefaultValue($fieldName, $fieldArgName);
     }
-
-    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName): int
+    public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($fieldName)) {
             return $this->getFilterFieldArgTypeModifiers($filterDataloadingComponent, $fieldArgName);

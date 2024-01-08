@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace PoP\ComponentModel\ComponentProcessors;
 
-abstract class AbstractFilterDataComponentProcessor extends AbstractComponentProcessor implements FilterDataComponentProcessorInterface
+/** @internal */
+abstract class AbstractFilterDataComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FilterDataComponentProcessorInterface
 {
-    use FilterDataComponentProcessorTrait;
+    use \PoP\ComponentModel\ComponentProcessors\FilterDataComponentProcessorTrait;
 }
