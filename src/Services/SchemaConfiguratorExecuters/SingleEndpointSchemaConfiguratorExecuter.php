@@ -16,26 +16,11 @@ use GraphQLByPoP\GraphQLEndpointForWP\EndpointHandlers\GraphQLEndpointHandler;
 
 class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SingleEndpointSchemaConfigurator|null
-     */
-    private $singleEndpointSchemaConfigurator;
-    /**
-     * @var \GraphQLByPoP\GraphQLEndpointForWP\EndpointHandlers\GraphQLEndpointHandler|null
-     */
-    private $graphQLEndpointHandler;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
-     */
-    private $endpointBlockHelpers;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?SingleEndpointSchemaConfigurator $singleEndpointSchemaConfigurator = null;
+    private ?GraphQLEndpointHandler $graphQLEndpointHandler = null;
+    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -43,7 +28,7 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

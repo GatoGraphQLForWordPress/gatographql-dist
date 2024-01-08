@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\TypeResolvers\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
@@ -8,22 +9,17 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\UnionType\CategoryUnionTypeDataLoader;
 use PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeResolver;
-/** @internal */
+
 class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\UnionType\CategoryUnionTypeDataLoader|null
-     */
-    private $categoryUnionTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeResolver|null
-     */
-    private $categoryInterfaceTypeResolver;
-    public final function setCategoryUnionTypeDataLoader(CategoryUnionTypeDataLoader $categoryUnionTypeDataLoader) : void
+    private ?CategoryUnionTypeDataLoader $categoryUnionTypeDataLoader = null;
+    private ?CategoryInterfaceTypeResolver $categoryInterfaceTypeResolver = null;
+
+    final public function setCategoryUnionTypeDataLoader(CategoryUnionTypeDataLoader $categoryUnionTypeDataLoader): void
     {
         $this->categoryUnionTypeDataLoader = $categoryUnionTypeDataLoader;
     }
-    protected final function getCategoryUnionTypeDataLoader() : CategoryUnionTypeDataLoader
+    final protected function getCategoryUnionTypeDataLoader(): CategoryUnionTypeDataLoader
     {
         if ($this->categoryUnionTypeDataLoader === null) {
             /** @var CategoryUnionTypeDataLoader */
@@ -32,11 +28,11 @@ class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
         }
         return $this->categoryUnionTypeDataLoader;
     }
-    public final function setCategoryInterfaceTypeResolver(CategoryInterfaceTypeResolver $categoryInterfaceTypeResolver) : void
+    final public function setCategoryInterfaceTypeResolver(CategoryInterfaceTypeResolver $categoryInterfaceTypeResolver): void
     {
         $this->categoryInterfaceTypeResolver = $categoryInterfaceTypeResolver;
     }
-    protected final function getCategoryInterfaceTypeResolver() : CategoryInterfaceTypeResolver
+    final protected function getCategoryInterfaceTypeResolver(): CategoryInterfaceTypeResolver
     {
         if ($this->categoryInterfaceTypeResolver === null) {
             /** @var CategoryInterfaceTypeResolver */
@@ -45,23 +41,29 @@ class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
         }
         return $this->categoryInterfaceTypeResolver;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'CategoryUnion';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Union of \'category\' type resolvers', 'categories');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getCategoryUnionTypeDataLoader();
     }
+
     /**
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getUnionTypeInterfaceTypeResolvers() : array
+    public function getUnionTypeInterfaceTypeResolvers(): array
     {
-        return [$this->getCategoryInterfaceTypeResolver()];
+        return [
+            $this->getCategoryInterfaceTypeResolver(),
+        ];
     }
 }

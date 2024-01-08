@@ -10,8 +10,9 @@ use PoPWPSchema\Meta\SchemaHooks\AbstractMetaOrderByEnumTypeHookSet;
 
 class CommentMetaOrderByEnumTypeHookSet extends AbstractMetaOrderByEnumTypeHookSet
 {
-    protected function isEnumTypeResolver(EnumTypeResolverInterface $enumTypeResolver): bool
-    {
+    protected function isEnumTypeResolver(
+        EnumTypeResolverInterface $enumTypeResolver,
+    ): bool {
         return $enumTypeResolver instanceof CommentOrderByEnumTypeResolver;
     }
 }

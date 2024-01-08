@@ -20,14 +20,8 @@ use WP_Post;
 
 class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
-     */
-    private $htmlScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -92,29 +86,26 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'wpAdminEditURL':
-                return $this->__('The URL in the wp-admin to edit the custom post, or `null` if the user has no permissions to access it', 'customposts');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'wpAdminEditURL' => $this->__('The URL in the wp-admin to edit the custom post, or `null` if the user has no permissions to access it', 'customposts'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'wpAdminEditURL':
-                return $this->getHTMLScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'wpAdminEditURL' => $this->getHTMLScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Post */
         $customPost = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -130,6 +121,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                 }
                 return \get_edit_post_link($customPost);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -137,8 +129,10 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

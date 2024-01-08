@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
@@ -9,31 +10,53 @@ use PoPCMSSchema\CustomPostMediaMutations\ObjectModels\MediaItemDoesNotExistErro
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableCustomPostMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
-/** @internal */
+
 trait PayloadableSetOrRemoveFeaturedImageOnCustomPostMutationResolverTrait
 {
     use PayloadableCustomPostMutationResolverTrait {
         PayloadableCustomPostMutationResolverTrait::createErrorPayloadFromObjectTypeFieldResolutionFeedback as upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback;
     }
-    protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
-    {
+
+    protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(
+        ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback
+    ): ErrorPayloadInterface {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new FeaturedImageIsNotSupportedByCustomPostTypeErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback);
-        }
+        return match (
+            [
+            $feedbackItemResolution->getFeedbackProviderServiceClass(),
+            $feedbackItemResolution->getCode()
+            ]
+        ) {
+            [
+                MutationErrorFeedbackItemProvider::class,
+                MutationErrorFeedbackItemProvider::E2,
+            ] => new MediaItemDoesNotExistErrorPayload(
+                $feedbackItemResolution->getMessage(),
+            ),
+            [
+                MutationErrorFeedbackItemProvider::class,
+                MutationErrorFeedbackItemProvider::E4,
+            ] => new FeaturedImageIsNotSupportedByCustomPostTypeErrorPayload(
+                $feedbackItemResolution->getMessage(),
+            ),
+            [
+                MutationErrorFeedbackItemProvider::class,
+                MutationErrorFeedbackItemProvider::E5,
+            ] => new MediaItemDoesNotExistErrorPayload(
+                $feedbackItemResolution->getMessage(),
+            ),
+            default => $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback(
+                $objectTypeFieldResolutionFeedback
+            ),
+        };
     }
-    protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string
+
+    protected function getUserNotLoggedInErrorFeedbackItemProviderClass(): string
     {
         return MutationErrorFeedbackItemProvider::class;
     }
-    protected function getUserNotLoggedInErrorFeedbackItemProviderCode() : string
+
+    protected function getUserNotLoggedInErrorFeedbackItemProviderCode(): string
     {
         return MutationErrorFeedbackItemProvider::E3;
     }

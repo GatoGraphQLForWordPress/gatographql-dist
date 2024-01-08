@@ -13,18 +13,16 @@ class PostCategoryTypeMutationAPI implements PostCategoryTypeMutationAPIInterfac
 {
     /**
      * @param array<string|int> $categoryIDs
-     * @param int|string $postID
      */
-    public function setCategoriesByID($postID, array $categoryIDs, bool $append = false): void
+    public function setCategoriesByID(int|string $postID, array $categoryIDs, bool $append = false): void
     {
         \wp_set_post_terms((int)$postID, $categoryIDs, 'category', $append);
     }
 
     /**
      * @param string[] $categorySlugs
-     * @param int|string $postID
      */
-    public function setCategoriesBySlug($postID, array $categorySlugs, bool $append = false): void
+    public function setCategoriesBySlug(int|string $postID, array $categorySlugs, bool $append = false): void
     {
         /**
          * Watch out! Can't use `wp_set_post_terms` because it only accepts

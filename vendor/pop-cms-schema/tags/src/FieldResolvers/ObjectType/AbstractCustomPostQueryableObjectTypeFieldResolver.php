@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
@@ -20,35 +21,22 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver implements TagAPIRequestedContractObjectTypeFieldResolverInterface
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\TagPaginationInputObjectTypeResolver|null
-     */
-    private $tagPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver|null
-     */
-    private $taxonomySortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\CustomPostTagsFilterInputObjectTypeResolver|null
-     */
-    private $customPostTagsFilterInputObjectTypeResolver;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
+
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?TagPaginationInputObjectTypeResolver $tagPaginationInputObjectTypeResolver = null;
+    private ?TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver = null;
+    private ?CustomPostTagsFilterInputObjectTypeResolver $customPostTagsFilterInputObjectTypeResolver = null;
+
+    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
+    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -57,11 +45,11 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -70,11 +58,11 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setTagPaginationInputObjectTypeResolver(TagPaginationInputObjectTypeResolver $tagPaginationInputObjectTypeResolver) : void
+    final public function setTagPaginationInputObjectTypeResolver(TagPaginationInputObjectTypeResolver $tagPaginationInputObjectTypeResolver): void
     {
         $this->tagPaginationInputObjectTypeResolver = $tagPaginationInputObjectTypeResolver;
     }
-    protected final function getTagPaginationInputObjectTypeResolver() : TagPaginationInputObjectTypeResolver
+    final protected function getTagPaginationInputObjectTypeResolver(): TagPaginationInputObjectTypeResolver
     {
         if ($this->tagPaginationInputObjectTypeResolver === null) {
             /** @var TagPaginationInputObjectTypeResolver */
@@ -83,11 +71,11 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
         }
         return $this->tagPaginationInputObjectTypeResolver;
     }
-    public final function setTaxonomySortInputObjectTypeResolver(TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver) : void
+    final public function setTaxonomySortInputObjectTypeResolver(TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver): void
     {
         $this->taxonomySortInputObjectTypeResolver = $taxonomySortInputObjectTypeResolver;
     }
-    protected final function getTaxonomySortInputObjectTypeResolver() : TaxonomySortInputObjectTypeResolver
+    final protected function getTaxonomySortInputObjectTypeResolver(): TaxonomySortInputObjectTypeResolver
     {
         if ($this->taxonomySortInputObjectTypeResolver === null) {
             /** @var TaxonomySortInputObjectTypeResolver */
@@ -96,11 +84,11 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
         }
         return $this->taxonomySortInputObjectTypeResolver;
     }
-    public final function setCustomPostTagsFilterInputObjectTypeResolver(CustomPostTagsFilterInputObjectTypeResolver $customPostTagsFilterInputObjectTypeResolver) : void
+    final public function setCustomPostTagsFilterInputObjectTypeResolver(CustomPostTagsFilterInputObjectTypeResolver $customPostTagsFilterInputObjectTypeResolver): void
     {
         $this->customPostTagsFilterInputObjectTypeResolver = $customPostTagsFilterInputObjectTypeResolver;
     }
-    protected final function getCustomPostTagsFilterInputObjectTypeResolver() : CustomPostTagsFilterInputObjectTypeResolver
+    final protected function getCustomPostTagsFilterInputObjectTypeResolver(): CustomPostTagsFilterInputObjectTypeResolver
     {
         if ($this->customPostTagsFilterInputObjectTypeResolver === null) {
             /** @var CustomPostTagsFilterInputObjectTypeResolver */
@@ -109,72 +97,84 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
         }
         return $this->customPostTagsFilterInputObjectTypeResolver;
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['tags', 'tagCount', 'tagNames'];
+        return [
+            'tags',
+            'tagCount',
+            'tagNames',
+        ];
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'tags':
-                return $this->getTagTypeResolver();
-            case 'tagCount':
-                return $this->getIntScalarTypeResolver();
-            case 'tagNames':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tags' => $this->getTagTypeResolver(),
+            'tagCount' => $this->getIntScalarTypeResolver(),
+            'tagNames' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'tagCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'tags':
-            case 'tagNames':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tagCount'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            'tags',
+            'tagNames'
+                => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'tags':
-                return $this->__('Tags added to this custom post', 'pop-tags');
-            case 'tagCount':
-                return $this->__('Number of tags added to this custom post', 'pop-tags');
-            case 'tagNames':
-                return $this->__('Names of the tags added to this custom post', 'pop-tags');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tags' => $this->__('Tags added to this custom post', 'pop-tags'),
+            'tagCount' => $this->__('Number of tags added to this custom post', 'pop-tags'),
+            'tagNames' => $this->__('Names of the tags added to this custom post', 'pop-tags'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'tags':
-            case 'tagNames':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostTagsFilterInputObjectTypeResolver(), 'pagination' => $this->getTagPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
-            case 'tagCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostTagsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'tags',
+            'tagNames' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getCustomPostTagsFilterInputObjectTypeResolver(),
+                    'pagination' => $this->getTagPaginationInputObjectTypeResolver(),
+                    'sort' => $this->getTaxonomySortInputObjectTypeResolver(),
+                ]
+            ),
+            'tagCount' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getCustomPostTagsFilterInputObjectTypeResolver(),
+                ]
+            ),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $tagTypeAPI = $this->getTagTypeAPI();
         $customPost = $object;
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
@@ -187,14 +187,18 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
                 /** @var int */
                 return $tagTypeAPI->getCustomPostTagCount($customPost, $query);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

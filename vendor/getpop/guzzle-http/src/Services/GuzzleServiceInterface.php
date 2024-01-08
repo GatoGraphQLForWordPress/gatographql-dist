@@ -1,22 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GuzzleHTTP\Services;
 
-use PrefixedByPoP\GuzzleHttp\Client;
+use GuzzleHttp\Client;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\ObjectModels\RequestInput;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
-/** @internal */
+
 interface GuzzleServiceInterface
 {
-    public function setClient(Client $client) : void;
+    public function setClient(Client $client): void;
+
     /**
      * Execute an HTTP request to the passed endpoint URL and form params
      *
      * @throws GuzzleHTTPRequestException
      */
-    public function sendHTTPRequest(RequestInput $requestInput) : ResponseInterface;
+    public function sendHTTPRequest(RequestInput $requestInput): ResponseInterface;
+
     /**
      * Execute several JSON requests asynchronously
      *
@@ -25,5 +28,5 @@ interface GuzzleServiceInterface
      *
      * @throws GuzzleHTTPRequestException
      */
-    public function sendAsyncHTTPRequest(array $requestInputs) : array;
+    public function sendAsyncHTTPRequest(array $requestInputs): array;
 }

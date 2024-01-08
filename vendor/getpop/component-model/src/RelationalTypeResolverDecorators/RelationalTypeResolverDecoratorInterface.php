@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\RelationalTypeResolverDecorators;
 
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
-/** @internal */
+
 interface RelationalTypeResolverDecoratorInterface extends AttachableExtensionInterface
 {
     /**
@@ -22,29 +23,29 @@ interface RelationalTypeResolverDecoratorInterface extends AttachableExtensionIn
      *
      * @return array<class-string<RelationalTypeResolverInterface>>
      */
-    public function getRelationalTypeResolverClassesToAttachTo() : array;
+    public function getRelationalTypeResolverClassesToAttachTo(): array;
     /**
      * Allow to disable the functionality
      */
-    public function enabled(RelationalTypeResolverInterface $relationalTypeResolver) : bool;
+    public function enabled(RelationalTypeResolverInterface $relationalTypeResolver): bool;
     /**
      * Return an array of fieldNames as keys, and, for each fieldName, an array of directives (including directive arguments) to be applied always on the field
      *
      * @return array<string,Directive[]> Key: fieldName or "*" (for any field), Value: List of Directives
      */
-    public function getMandatoryDirectivesForFields(ObjectTypeResolverInterface $objectTypeResolver) : array;
+    public function getMandatoryDirectivesForFields(ObjectTypeResolverInterface $objectTypeResolver): array;
     /**
      * Return an array of directiveName as keys, and, for each directiveName,
      * an array of directives (including directive arguments) to be applied before
      *
      * @return array<string,Directive[]> Key: directiveName, Value: List of Directives
      */
-    public function getPrecedingMandatoryDirectivesForDirectives(RelationalTypeResolverInterface $relationalTypeResolver) : array;
+    public function getPrecedingMandatoryDirectivesForDirectives(RelationalTypeResolverInterface $relationalTypeResolver): array;
     /**
      * Return an array of directiveName as keys, and, for each directiveName,
      * an array of directives (including directive arguments) to be applied after
      *
      * @return array<string,Directive[]> Key: directiveName, Value: List of Directives
      */
-    public function getSucceedingMandatoryDirectivesForDirectives(RelationalTypeResolverInterface $relationalTypeResolver) : array;
+    public function getSucceedingMandatoryDirectivesForDirectives(RelationalTypeResolverInterface $relationalTypeResolver): array;
 }

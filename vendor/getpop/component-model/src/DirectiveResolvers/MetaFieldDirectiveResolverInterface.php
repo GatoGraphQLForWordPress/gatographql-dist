@@ -1,10 +1,10 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\DirectiveResolvers;
 
-/** @internal */
-interface MetaFieldDirectiveResolverInterface extends \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
+interface MetaFieldDirectiveResolverInterface extends FieldDirectiveResolverInterface
 {
     /**
      * Name for the directive arg to indicate which directives
@@ -13,9 +13,9 @@ interface MetaFieldDirectiveResolverInterface extends \PoP\ComponentModel\Direct
      *
      * Eg: @foreach(affectDirectivesUnderPos: [1]) @strTranslate
      */
-    public function getAffectDirectivesUnderPosArgumentName() : string;
+    public function getAffectDirectivesUnderPosArgumentName(): string;
     /**
      * @return int[]
      */
-    public function getAffectDirectivesUnderPosArgumentDefaultValue() : array;
+    public function getAffectDirectivesUnderPosArgumentDefaultValue(): array;
 }

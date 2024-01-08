@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Dotenv\Exception;
+
+namespace Symfony\Component\Dotenv\Exception;
 
 /**
  * Interface for exceptions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 interface ExceptionInterface extends \Throwable
 {

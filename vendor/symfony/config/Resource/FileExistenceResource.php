@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Resource;
+
+namespace Symfony\Component\Config\Resource;
 
 /**
  * FileExistenceResource represents a resource stored on the filesystem.
@@ -19,36 +20,34 @@ namespace PrefixedByPoP\Symfony\Component\Config\Resource;
  * @author Charles-Henri Bruyand <charleshenri.bruyand@gmail.com>
  *
  * @final
- * @internal
  */
 class FileExistenceResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $resource;
-    /**
-     * @var bool
-     */
-    private $exists;
+    private string $resource;
+
+    private bool $exists;
+
     /**
      * @param string $resource The file path to the resource
      */
     public function __construct(string $resource)
     {
         $this->resource = $resource;
-        $this->exists = \file_exists($resource);
+        $this->exists = file_exists($resource);
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
-        return 'existence.' . $this->resource;
+        return 'existence.'.$this->resource;
     }
-    public function getResource() : string
+
+    public function getResource(): string
     {
         return $this->resource;
     }
-    public function isFresh(int $timestamp) : bool
+
+    public function isFresh(int $timestamp): bool
     {
-        return \file_exists($this->resource) === $this->exists;
+        return file_exists($this->resource) === $this->exists;
     }
 }

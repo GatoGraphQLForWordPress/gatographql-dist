@@ -1,12 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories;
 
-/** @internal */
 class Environment
 {
-    public const CATEGORY_LIST_DEFAULT_LIMIT = 'CATEGORY_LIST_DEFAULT_LIMIT';
-    public const CATEGORY_LIST_MAX_LIMIT = 'CATEGORY_LIST_MAX_LIMIT';
-    public const QUERYABLE_CATEGORY_TAXONOMIES = 'QUERYABLE_CATEGORY_TAXONOMIES';
+    public final const CATEGORY_LIST_DEFAULT_LIMIT = 'CATEGORY_LIST_DEFAULT_LIMIT';
+    public final const CATEGORY_LIST_MAX_LIMIT = 'CATEGORY_LIST_MAX_LIMIT';
+    public final const QUERYABLE_CATEGORY_TAXONOMIES = 'QUERYABLE_CATEGORY_TAXONOMIES';
 }

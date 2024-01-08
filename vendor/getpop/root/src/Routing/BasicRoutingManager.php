@@ -1,13 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Routing;
 
 /**
  * Basic Routing Manager, needed for PHPUnit.
  * Must be overriden by the CMS implementation.
- * @internal
  */
-class BasicRoutingManager extends \PoP\Root\Routing\AbstractRoutingManager
+class BasicRoutingManager extends AbstractRoutingManager
 {
 }

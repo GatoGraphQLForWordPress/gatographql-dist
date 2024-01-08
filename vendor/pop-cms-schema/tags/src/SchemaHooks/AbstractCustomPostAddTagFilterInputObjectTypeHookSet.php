@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\SchemaHooks;
 
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\FilterCustomPostsByTagsInputObjectTypeResolverInterface;
-/** @internal */
-abstract class AbstractCustomPostAddTagFilterInputObjectTypeHookSet extends \PoPCMSSchema\Tags\SchemaHooks\AbstractAddTagFilterInputObjectTypeHookSet
+
+abstract class AbstractCustomPostAddTagFilterInputObjectTypeHookSet extends AbstractAddTagFilterInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver|null
-     */
-    private $customPostsFilterCustomPostsByTagsInputObjectTypeResolver;
-    public final function setCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver(CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver $customPostsFilterCustomPostsByTagsInputObjectTypeResolver) : void
+    private ?CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver $customPostsFilterCustomPostsByTagsInputObjectTypeResolver = null;
+
+    final public function setCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver(CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver $customPostsFilterCustomPostsByTagsInputObjectTypeResolver): void
     {
         $this->customPostsFilterCustomPostsByTagsInputObjectTypeResolver = $customPostsFilterCustomPostsByTagsInputObjectTypeResolver;
     }
-    protected final function getCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver() : CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver
+    final protected function getCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver(): CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver
     {
         if ($this->customPostsFilterCustomPostsByTagsInputObjectTypeResolver === null) {
             /** @var CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver */
@@ -25,7 +24,8 @@ abstract class AbstractCustomPostAddTagFilterInputObjectTypeHookSet extends \PoP
         }
         return $this->customPostsFilterCustomPostsByTagsInputObjectTypeResolver;
     }
-    protected function getFilterCustomPostsByTagsInputObjectTypeResolver() : FilterCustomPostsByTagsInputObjectTypeResolverInterface
+
+    protected function getFilterCustomPostsByTagsInputObjectTypeResolver(): FilterCustomPostsByTagsInputObjectTypeResolverInterface
     {
         return $this->getCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver();
     }

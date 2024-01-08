@@ -1,25 +1,29 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentRouting;
 
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\Module\AbstractModule;
-/** @internal */
+
 class Module extends AbstractModule
 {
     /**
      * @return array<class-string<ModuleInterface>>
      */
-    public function getDependedModuleClasses() : array
+    public function getDependedModuleClasses(): array
     {
-        return [\PoP\Root\Module::class];
+        return [
+            \PoP\Root\Module::class,
+        ];
     }
+
     /**
      * Initialize services for the system container
      */
-    protected function initializeSystemContainerServices() : void
+    protected function initializeSystemContainerServices(): void
     {
-        $this->initSystemServices(\dirname(__DIR__));
+        $this->initSystemServices(dirname(__DIR__));
     }
 }

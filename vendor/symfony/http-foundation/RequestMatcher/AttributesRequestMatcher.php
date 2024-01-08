@@ -8,40 +8,38 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcher;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
+namespace Symfony\Component\HttpFoundation\RequestMatcher;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestMatcherInterface;
+
 /**
  * Checks the Request attributes matches all regular expressions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class AttributesRequestMatcher implements RequestMatcherInterface
 {
     /**
-     * @var array<string, string>
-     */
-    private $regexps;
-    /**
      * @param array<string, string> $regexps
      */
-    public function __construct(array $regexps)
+    public function __construct(private array $regexps)
     {
-        $this->regexps = $regexps;
     }
-    public function matches(Request $request) : bool
+
+    public function matches(Request $request): bool
     {
         foreach ($this->regexps as $key => $regexp) {
             $attribute = $request->attributes->get($key);
             if (!\is_string($attribute)) {
-                return \false;
+                return false;
             }
-            if (!\preg_match('{' . $regexp . '}', $attribute)) {
-                return \false;
+            if (!preg_match('{'.$regexp.'}', $attribute)) {
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
 }

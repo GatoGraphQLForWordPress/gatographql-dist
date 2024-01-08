@@ -14,7 +14,7 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             MenuTypeAPI::HOOK_QUERY,
-            \Closure::fromCallable([$this, 'convertMenuQuery']),
+            $this->convertMenuQuery(...),
             10,
             2
         );

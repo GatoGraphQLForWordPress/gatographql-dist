@@ -1,36 +1,56 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\MutationResolvers;
 
 use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
-/** @internal */
-class PayloadableRemoveFeaturedImageFromCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver
+
+class PayloadableRemoveFeaturedImageFromCustomPostMutationResolver extends RemoveFeaturedImageFromCustomPostMutationResolver
 {
     use PayloadableMutationResolverTrait;
-    use \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetOrRemoveFeaturedImageOnCustomPostMutationResolverTrait;
+    use PayloadableSetOrRemoveFeaturedImageOnCustomPostMutationResolverTrait;
+
     /**
      * Validate the app-level errors when executing the mutation,
      * return them in the Payload.
      *
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function executeMutation(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $separateObjectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         parent::validate($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
+            return $this->createFailureObjectMutationPayload(
+                array_map(
+                    $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...),
+                    $separateObjectTypeFieldResolutionFeedbackStore->getErrors()
+                )
+            )->getID();
         }
+
         /** @var string|int */
-        $customPostID = parent::executeMutation($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
+        $customPostID = parent::executeMutation(
+            $fieldDataAccessor,
+            $separateObjectTypeFieldResolutionFeedbackStore,
+        );
+
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $customPostID)->getID();
+            return $this->createFailureObjectMutationPayload(
+                array_map(
+                    $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...),
+                    $separateObjectTypeFieldResolutionFeedbackStore->getErrors()
+                ),
+                $customPostID
+            )->getID();
         }
+
         /** @var string|int $customPostID */
         return $this->createSuccessObjectMutationPayload($customPostID)->getID();
     }

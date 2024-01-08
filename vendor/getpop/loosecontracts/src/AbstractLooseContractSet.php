@@ -1,39 +1,43 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\LooseContracts;
 
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 use PoP\Root\Services\WithInstanceManagerServiceTrait;
-/** @internal */
+
 abstract class AbstractLooseContractSet extends AbstractAutomaticallyInstantiatedService
 {
     use WithInstanceManagerServiceTrait;
-    /**
-     * @var \PoP\LooseContracts\LooseContractManagerInterface|null
-     */
-    private $looseContractManager;
-    public final function setLooseContractManager(\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager) : void
+
+    private ?LooseContractManagerInterface $looseContractManager = null;
+
+    final public function setLooseContractManager(LooseContractManagerInterface $looseContractManager): void
     {
         $this->looseContractManager = $looseContractManager;
     }
-    protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
+    final protected function getLooseContractManager(): LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {
             /** @var LooseContractManagerInterface */
-            $looseContractManager = $this->instanceManager->getInstance(\PoP\LooseContracts\LooseContractManagerInterface::class);
+            $looseContractManager = $this->instanceManager->getInstance(LooseContractManagerInterface::class);
             $this->looseContractManager = $looseContractManager;
         }
         return $this->looseContractManager;
     }
-    public function initialize() : void
+
+    public function initialize(): void
     {
-        $this->getLooseContractManager()->requireNames($this->getRequiredNames());
+        $this->getLooseContractManager()->requireNames(
+            $this->getRequiredNames()
+        );
     }
+
     /**
      * @return string[]
      */
-    public function getRequiredNames() : array
+    public function getRequiredNames(): array
     {
         return [];
     }

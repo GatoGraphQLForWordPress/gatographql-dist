@@ -22,18 +22,9 @@ use WP_User;
 
 class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface|null
-     */
-    private $dateFormatter;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver|null
-     */
-    private $dateTimeScalarTypeResolver;
+    private ?DateFormatterInterface $dateFormatter = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?DateTimeScalarTypeResolver $dateTimeScalarTypeResolver = null;
 
     final public function setDateFormatter(DateFormatterInterface $dateFormatter): void
     {
@@ -101,69 +92,56 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'nicename':
-                return $this->getStringScalarTypeResolver();
-            case 'nickname':
-                return $this->getStringScalarTypeResolver();
-            case 'locale':
-                return $this->getStringScalarTypeResolver();
-            case 'registeredDate':
-                return $this->getDateTimeScalarTypeResolver();
-            case 'registeredDateStr':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'nicename' => $this->getStringScalarTypeResolver(),
+            'nickname' => $this->getStringScalarTypeResolver(),
+            'locale' => $this->getStringScalarTypeResolver(),
+            'registeredDate' => $this->getDateTimeScalarTypeResolver(),
+            'registeredDateStr' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'nicename':
-            case 'nickname':
-            case 'locale':
-            case 'registeredDate':
-            case 'registeredDateStr':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'nicename',
+            'nickname',
+            'locale',
+            'registeredDate',
+            'registeredDateStr'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'nicename':
-                return $this->__('User\'s nicename', 'pop-users');
-            case 'nickname':
-                return $this->__('User\'s nickname', 'pop-users');
-            case 'locale':
-                return $this->__('Retrieves the locale of a user', 'pop-users');
-            case 'registeredDate':
-                return $this->__('The date the user registerd on the site', 'pop-users');
-            case 'registeredDateStr':
-                return $this->__('The date the user registerd on the site, in String format', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'nicename' => $this->__('User\'s nicename', 'pop-users'),
+            'nickname' => $this->__('User\'s nickname', 'pop-users'),
+            'locale' => $this->__('Retrieves the locale of a user', 'pop-users'),
+            'registeredDate' => $this->__('The date the user registerd on the site', 'pop-users'),
+            'registeredDateStr' => $this->__('The date the user registerd on the site, in String format', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?Component
     {
-        switch ($fieldName) {
-            case 'registeredDateStr':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'registeredDateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_User */
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -181,6 +159,7 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
                     $user->user_registered
                 );
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -188,8 +167,10 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

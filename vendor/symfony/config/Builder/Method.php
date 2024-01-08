@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Builder;
+
+namespace Symfony\Component\Config\Builder;
 
 /**
  * Represents a method when building classes.
@@ -19,15 +20,14 @@ namespace PrefixedByPoP\Symfony\Component\Config\Builder;
  */
 class Method
 {
-    /**
-     * @var string
-     */
-    private $content;
+    private string $content;
+
     public function __construct(string $content)
     {
         $this->content = $content;
     }
-    public function getContent() : string
+
+    public function getContent(): string
     {
         return $this->content;
     }

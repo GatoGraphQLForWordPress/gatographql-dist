@@ -1,17 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ComponentProcessors;
 
-/** @internal */
-class RootComponentProcessors extends \PoP\ComponentModel\ComponentProcessors\AbstractComponentProcessor
+class RootComponentProcessors extends AbstractComponentProcessor
 {
-    public const COMPONENT_EMPTY = 'empty';
+    public final const COMPONENT_EMPTY = 'empty';
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_EMPTY);
+        return array(
+            self::COMPONENT_EMPTY,
+        );
     }
 }

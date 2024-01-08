@@ -20,10 +20,7 @@ class UserStateTypeAPI implements UserStateTypeAPIInterface
     {
         return wp_get_current_user();
     }
-    /**
-     * @return string|int|null
-     */
-    public function getCurrentUserID()
+    public function getCurrentUserID(): string|int|null
     {
         return get_current_user_id();
     }

@@ -1,9 +1,9 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Exception;
 
-/** @internal */
-final class GenericClientException extends \PoP\Root\Exception\AbstractClientException
+final class GenericClientException extends AbstractClientException
 {
 }

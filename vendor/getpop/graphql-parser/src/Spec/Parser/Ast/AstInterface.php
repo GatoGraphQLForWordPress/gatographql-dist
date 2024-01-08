@@ -1,11 +1,11 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-/** @internal */
-interface AstInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\LocatableInterface
+interface AstInterface extends LocatableInterface
 {
-    public function asQueryString() : string;
-    public function asASTNodeString() : string;
+    public function asQueryString(): string;
+    public function asASTNodeString(): string;
 }

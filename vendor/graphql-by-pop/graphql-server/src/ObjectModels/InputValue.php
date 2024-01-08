@@ -1,17 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-/** @internal */
-class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
+
+class InputValue extends AbstractSchemaDefinitionReferenceObject
 {
-    use \GraphQLByPoP\GraphQLServer\ObjectModels\HasTypeSchemaDefinitionReferenceTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions
-     */
-    protected $inputValueExtensions;
+    use HasTypeSchemaDefinitionReferenceTrait;
+
+    protected InputValueExtensions $inputValueExtensions;
+
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
@@ -19,18 +19,26 @@ class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchema
     public function __construct(array &$fullSchemaDefinition, array $schemaDefinitionPath)
     {
         parent::__construct($fullSchemaDefinition, $schemaDefinitionPath);
+
         /** @var string[] */
-        $inputValueExtensionsSchemaDefinitionPath = \array_merge($schemaDefinitionPath, [SchemaDefinition::EXTENSIONS]);
-        $this->inputValueExtensions = new \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions($fullSchemaDefinition, $inputValueExtensionsSchemaDefinitionPath);
+        $inputValueExtensionsSchemaDefinitionPath = array_merge(
+            $schemaDefinitionPath,
+            [
+                SchemaDefinition::EXTENSIONS,
+            ]
+        );
+        $this->inputValueExtensions = new InputValueExtensions($fullSchemaDefinition, $inputValueExtensionsSchemaDefinitionPath);
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::NAME];
     }
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->schemaDefinition[SchemaDefinition::DESCRIPTION] ?? null;
     }
+
     /**
      * The default value must be returned as a JSON encoded string.
      *
@@ -43,15 +51,16 @@ class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchema
      *
      * @see http://spec.graphql.org/draft/#sec-The-__InputValue-Type
      */
-    public function getDefaultValue() : ?string
+    public function getDefaultValue(): ?string
     {
         $defaultValue = $this->schemaDefinition[SchemaDefinition::DEFAULT_VALUE] ?? null;
         if ($defaultValue === null) {
             return null;
         }
-        return (string) \json_encode($defaultValue);
+        return (string)json_encode($defaultValue);
     }
-    public function getExtensions() : \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions
+
+    public function getExtensions(): InputValueExtensions
     {
         return $this->inputValueExtensions;
     }

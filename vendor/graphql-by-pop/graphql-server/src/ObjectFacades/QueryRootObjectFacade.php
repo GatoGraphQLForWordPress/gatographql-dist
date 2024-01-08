@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectFacades;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot;
-/** @internal */
+
 class QueryRootObjectFacade
 {
-    public static function getInstance() : QueryRoot
+    public static function getInstance(): QueryRoot
     {
         $containerBuilderFactory = App::getContainer();
         /** @var QueryRoot */

@@ -1,10 +1,10 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\QueryResolution;
 
-/** @internal */
-interface InputObjectSubpropertyFieldDataAccessorInterface extends \PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface
+interface InputObjectSubpropertyFieldDataAccessorInterface extends FieldDataAccessorInterface
 {
-    public function getInputObjectSubpropertyName() : string;
+    public function getInputObjectSubpropertyName(): string;
 }

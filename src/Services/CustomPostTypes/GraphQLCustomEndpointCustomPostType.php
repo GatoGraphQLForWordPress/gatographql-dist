@@ -21,22 +21,10 @@ class GraphQLCustomEndpointCustomPostType extends AbstractGraphQLEndpointCustomP
 {
     use WithBlockRegistryCustomPostTypeTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\EndpointBlockRegistryInterface|null
-     */
-    private $endpointBlockRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomEndpointAnnotatorRegistryInterface|null
-     */
-    private $customEndpointAnnotatorRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\CustomEndpointOptionsBlock|null
-     */
-    private $customEndpointOptionsBlock;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Taxonomies\GraphQLEndpointCategoryTaxonomy|null
-     */
-    private $graphQLEndpointCategoryTaxonomy;
+    private ?EndpointBlockRegistryInterface $endpointBlockRegistry = null;
+    private ?CustomEndpointAnnotatorRegistryInterface $customEndpointAnnotatorRegistry = null;
+    private ?CustomEndpointOptionsBlock $customEndpointOptionsBlock = null;
+    private ?GraphQLEndpointCategoryTaxonomy $graphQLEndpointCategoryTaxonomy = null;
 
     final public function setEndpointBlockRegistry(EndpointBlockRegistryInterface $endpointBlockRegistry): void
     {

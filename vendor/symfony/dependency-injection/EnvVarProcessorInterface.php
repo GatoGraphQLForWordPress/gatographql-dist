@@ -8,14 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+namespace Symfony\Component\DependencyInjection;
+
+use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+
 /**
  * The EnvVarProcessorInterface is implemented by objects that manage environment-like variables.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 interface EnvVarProcessorInterface
 {
@@ -27,11 +28,11 @@ interface EnvVarProcessorInterface
      * @param \Closure(string): mixed $getEnv A closure that allows fetching more env vars
      *
      * @throws RuntimeException on error
-     * @return mixed
      */
-    public function getEnv(string $prefix, string $name, \Closure $getEnv);
+    public function getEnv(string $prefix, string $name, \Closure $getEnv): mixed;
+
     /**
      * @return array<string, string> The PHP-types managed by getEnv(), keyed by prefixes
      */
-    public static function getProvidedTypes() : array;
+    public static function getProvidedTypes(): array;
 }

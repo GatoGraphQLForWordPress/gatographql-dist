@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\SchemaHooks;
 
 use PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver;
@@ -9,19 +10,18 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-/** @internal */
+
 abstract class AbstractAddAuthorInputFieldsInputObjectTypeHookSet extends AbstractHookSet
 {
-    use \PoPCMSSchema\Users\SchemaHooks\AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver|null
-     */
-    private $filterByAuthorInputObjectTypeResolver;
-    public final function setFilterByAuthorInputObjectTypeResolver(FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver) : void
+    use AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait;
+
+    private ?FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver = null;
+
+    final public function setFilterByAuthorInputObjectTypeResolver(FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver): void
     {
         $this->filterByAuthorInputObjectTypeResolver = $filterByAuthorInputObjectTypeResolver;
     }
-    protected final function getFilterByAuthorInputObjectTypeResolver() : FilterByAuthorInputObjectTypeResolver
+    final protected function getFilterByAuthorInputObjectTypeResolver(): FilterByAuthorInputObjectTypeResolver
     {
         if ($this->filterByAuthorInputObjectTypeResolver === null) {
             /** @var FilterByAuthorInputObjectTypeResolver */
@@ -30,36 +30,58 @@ abstract class AbstractAddAuthorInputFieldsInputObjectTypeHookSet extends Abstra
         }
         return $this->filterByAuthorInputObjectTypeResolver;
     }
-    protected function init() : void
+
+    protected function init(): void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
+        App::addFilter(
+            HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
+            $this->getInputFieldNameTypeResolvers(...),
+            10,
+            2
+        );
+        App::addFilter(
+            HookNames::INPUT_FIELD_DESCRIPTION,
+            $this->getInputFieldDescription(...),
+            10,
+            3
+        );
     }
+
     /**
      * Indicate if to add the fields added by the SchemaHookSet
      */
-    protected abstract function addAuthorInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool;
+    abstract protected function addAuthorInputFields(
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): bool;
+
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>|mixed[]
      */
-    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver) : array
-    {
+    public function getInputFieldNameTypeResolvers(
+        array $inputFieldNameTypeResolvers,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): array {
         if (!$this->addAuthorInputFields($inputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }
-        return \array_merge($inputFieldNameTypeResolvers, $this->getAuthorInputFieldNameTypeResolvers());
+        return array_merge(
+            $inputFieldNameTypeResolvers,
+            $this->getAuthorInputFieldNameTypeResolvers(),
+        );
     }
-    public function getInputFieldDescription(?string $inputFieldDescription, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : ?string
-    {
+
+    public function getInputFieldDescription(
+        ?string $inputFieldDescription,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+        string $inputFieldName
+    ): ?string {
         if (!$this->addAuthorInputFields($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'author':
-                return $this->__('Filter by author', 'pop-users');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'author' => $this->__('Filter by author', 'pop-users'),
+            default => $inputFieldDescription,
+        };
     }
 }

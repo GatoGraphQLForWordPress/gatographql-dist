@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-/** @internal */
-class ObjectType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType implements \GraphQLByPoP\GraphQLServer\ObjectModels\HasFieldsTypeInterface, \GraphQLByPoP\GraphQLServer\ObjectModels\HasInterfacesTypeInterface
+class ObjectType extends AbstractNamedType implements HasFieldsTypeInterface, HasInterfacesTypeInterface
 {
-    use \GraphQLByPoP\GraphQLServer\ObjectModels\HasFieldsTypeTrait;
-    use \GraphQLByPoP\GraphQLServer\ObjectModels\HasInterfacesTypeTrait;
+    use HasFieldsTypeTrait;
+    use HasInterfacesTypeTrait;
+
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
@@ -15,10 +16,12 @@ class ObjectType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedT
     public function __construct(array &$fullSchemaDefinition, array $schemaDefinitionPath)
     {
         parent::__construct($fullSchemaDefinition, $schemaDefinitionPath);
+
         $this->initFields($fullSchemaDefinition, $schemaDefinitionPath);
     }
-    public function getKind() : string
+
+    public function getKind(): string
     {
-        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::OBJECT;
+        return TypeKinds::OBJECT;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
@@ -8,7 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
-/** @internal */
+
 interface FeedbackEntryManagerInterface
 {
     /**
@@ -20,21 +21,41 @@ interface FeedbackEntryManagerInterface
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $objectFeedbackEntries
      * @return array<string,mixed>
      */
-    public function combineAndAddFeedbackEntries(array $data, array $schemaFeedbackEntries, array $objectFeedbackEntries) : array;
+    public function combineAndAddFeedbackEntries(
+        array $data,
+        array $schemaFeedbackEntries,
+        array $objectFeedbackEntries,
+    ): array;
+
     /**
      * @param Location|null $location If `null` use the Location from the astNode
      * @param array<string,mixed> $extensions
      * @param array<string|int> $ids
      * @return array<string,mixed>
      */
-    public function formatObjectOrSchemaFeedbackCommonEntry(AstInterface $astNode, ?Location $location, array $extensions, FeedbackItemResolution $feedbackItemResolution, array $ids) : array;
+    public function formatObjectOrSchemaFeedbackCommonEntry(
+        AstInterface $astNode,
+        ?Location $location,
+        array $extensions,
+        FeedbackItemResolution $feedbackItemResolution,
+        array $ids,
+    ): array;
+
     /**
      * @param array<string|int,object> $idObjects
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $objectFeedbackEntries
      */
-    public function transferObjectFeedback(array $idObjects, \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore, array &$objectFeedbackEntries) : void;
+    public function transferObjectFeedback(
+        array $idObjects,
+        ObjectResolutionFeedbackStore $objectResolutionFeedbackStore,
+        array &$objectFeedbackEntries,
+    ): void;
+
     /**
      * @param array<string,array<string,array<string,SplObjectStorage<FieldInterface,array<string,mixed>>>>> $schemaFeedbackEntries
      */
-    public function transferSchemaFeedback(\PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaFeedbackStore, array &$schemaFeedbackEntries) : void;
+    public function transferSchemaFeedback(
+        SchemaFeedbackStore $schemaFeedbackStore,
+        array &$schemaFeedbackEntries,
+    ): void;
 }

@@ -13,10 +13,7 @@ class UserSettingsHelpers
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -24,7 +21,7 @@ class UserSettingsHelpers
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     /**

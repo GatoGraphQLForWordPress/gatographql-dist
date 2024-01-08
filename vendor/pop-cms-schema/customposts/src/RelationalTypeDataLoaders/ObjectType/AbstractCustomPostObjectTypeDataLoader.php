@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
@@ -8,22 +9,17 @@ use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-/** @internal */
+
 abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
-     */
-    private $filterCustomPostStatusEnumTypeResolver;
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
+
+    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
+    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -32,11 +28,11 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
         }
         return $this->customPostTypeAPI;
     }
-    public final function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver) : void
+    final public function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver): void
     {
         $this->filterCustomPostStatusEnumTypeResolver = $filterCustomPostStatusEnumTypeResolver;
     }
-    protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
+    final protected function getFilterCustomPostStatusEnumTypeResolver(): FilterCustomPostStatusEnumTypeResolver
     {
         if ($this->filterCustomPostStatusEnumTypeResolver === null) {
             /** @var FilterCustomPostStatusEnumTypeResolver */
@@ -45,44 +41,55 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
         }
         return $this->filterCustomPostStatusEnumTypeResolver;
     }
+
     /**
      * @param array<string|int> $ids
      * @return array<string,mixed>
      */
-    public function getQueryToRetrieveObjectsForIDs(array $ids) : array
+    public function getQueryToRetrieveObjectsForIDs(array $ids): array
     {
-        return ['include' => $ids, 'status' => $this->getFilterCustomPostStatusEnumTypeResolver()->getConsolidatedEnumValues()];
+        return [
+            'include' => $ids,
+            'status' => $this->getFilterCustomPostStatusEnumTypeResolver()->getConsolidatedEnumValues(),
+        ];
     }
+
     /**
      * @return mixed[]
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function executeQuery(array $query, array $options = []) : array
+    public function executeQuery(array $query, array $options = []): array
     {
         return $this->getCustomPostTypeAPI()->getCustomPosts($query, $options);
     }
-    protected function getOrderbyDefault() : string
+
+    protected function getOrderbyDefault(): string
     {
         return $this->getNameResolver()->getName('popcms:dbcolumn:orderby:customposts:date');
     }
-    protected function getOrderDefault() : string
+
+    protected function getOrderDefault(): string
     {
         return 'DESC';
     }
+
     /**
      * @param array<string,mixed> $query
      * @return array<string|int>
      */
-    public function executeQueryIDs(array $query) : array
+    public function executeQueryIDs(array $query): array
     {
-        $options = [QueryOptions::RETURN_TYPE => ReturnTypes::IDS];
+        $options = [
+            QueryOptions::RETURN_TYPE => ReturnTypes::IDS,
+        ];
         return $this->executeQuery($query, $options);
     }
+
     /**
      * @param array<string,mixed> $query_args
      */
-    protected function getLimitParam(array $query_args) : int
+    protected function getLimitParam(array $query_args): int
     {
         // @todo convert the hook from string to const, then re-enable
         // return App::applyFilters(
@@ -91,7 +98,8 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
         // );
         return parent::getLimitParam($query_args);
     }
-    protected function getQueryHookName() : string
+
+    protected function getQueryHookName(): string
     {
         // Allow to add the timestamp for loadingLatest
         return 'CustomPostObjectTypeDataLoader:query';

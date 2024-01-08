@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel;
 
 use PoP\Root\App;
@@ -9,111 +10,166 @@ use PoP\Root\Module\EnvironmentValueHelpers;
 use PoP\Root\Environment as RootEnvironment;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
-/** @internal */
+
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    public function includeSchemaTypeDirectivesInSchema() : bool
+    public function includeSchemaTypeDirectivesInSchema(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::INCLUDE_SCHEMA_TYPE_DIRECTIVES_IN_SCHEMA;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::INCLUDE_SCHEMA_TYPE_DIRECTIVES_IN_SCHEMA;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function enableComponentModelCache() : bool
+
+    public function enableComponentModelCache(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_COMPONENT_MODEL_CACHE;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_COMPONENT_MODEL_CACHE;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function useComponentModelCache() : bool
+
+    public function useComponentModelCache(): bool
     {
         if (!$this->enableComponentModelCache()) {
-            return \false;
+            return false;
         }
+
         /**
          * Component Model Cache is currently broken,
          * hence do not enable this functionality.
          *
          * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/1614
          */
-        return \false;
+        return false;
         /** @phpstan-ignore-next-line */
-        $envVariable = \PoP\ComponentModel\Environment::USE_COMPONENT_MODEL_CACHE;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::USE_COMPONENT_MODEL_CACHE;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    protected function enableHook(string $envVariable) : bool
+
+    protected function enableHook(string $envVariable): bool
     {
-        switch ($envVariable) {
-            case \PoP\ComponentModel\Environment::ENABLE_COMPONENT_MODEL_CACHE:
-            case \PoP\ComponentModel\Environment::USE_COMPONENT_MODEL_CACHE:
-            case \PoP\ComponentModel\Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT:
-                return \false;
-            default:
-                return parent::enableHook($envVariable);
-        }
+        return match ($envVariable) {
+            Environment::ENABLE_COMPONENT_MODEL_CACHE,
+            Environment::USE_COMPONENT_MODEL_CACHE,
+            Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT
+                => false,
+            default => parent::enableHook($envVariable),
+        };
     }
-    public function mustNamespaceTypes() : bool
+
+    public function mustNamespaceTypes(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::NAMESPACE_TYPES_AND_INTERFACES;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::NAMESPACE_TYPES_AND_INTERFACES;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function enableMutations() : bool
+
+    public function enableMutations(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_MUTATIONS;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_MUTATIONS;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function exposeSensitiveDataInSchema() : bool
+
+    public function exposeSensitiveDataInSchema(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::EXPOSE_SENSITIVE_DATA_IN_SCHEMA;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::EXPOSE_SENSITIVE_DATA_IN_SCHEMA;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * Indicate: If a directive fails, then set those fields in `null`
      * and remove the affected IDs/fields from the upcoming stages
      * of the directive pipeline execution.
      */
-    public function setFieldAsNullIfDirectiveFailed() : bool
+    public function setFieldAsNullIfDirectiveFailed(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::SET_FIELD_AS_NULL_IF_DIRECTIVE_FAILED;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::SET_FIELD_AS_NULL_IF_DIRECTIVE_FAILED;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * Support passing a single value where a list is expected.
      * Defined in the GraphQL spec.
      *
      * @see https://spec.graphql.org/draft/#sec-List.Input-Coercion
      */
-    public function convertInputValueFromSingleToList() : bool
+    public function convertInputValueFromSingleToList(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::CONVERT_INPUT_VALUE_FROM_SINGLE_TO_LIST;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::CONVERT_INPUT_VALUE_FROM_SINGLE_TO_LIST;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * Support GraphQL RFC "Union types can implement interfaces".
      * It is disabled by default because it can lead to runtime exceptions.
      *
      * @see https://github.com/graphql/graphql-spec/issues/518
      */
-    public function enableUnionTypeImplementingInterfaceType() : bool
+    public function enableUnionTypeImplementingInterfaceType(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_UNION_TYPE_IMPLEMENTING_INTERFACE_TYPE;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_UNION_TYPE_IMPLEMENTING_INTERFACE_TYPE;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * `DangerouslyNonSpecificScalar` is a special scalar type which is not coerced or validated.
      * In particular, it does not need to validate if it is an array or not,
@@ -129,109 +185,182 @@ class ModuleConfiguration extends AbstractModuleConfiguration
      * field arguments and directive arguments which use this type will
      * automatically not be added to the schema.
      */
-    public function skipExposingDangerouslyNonSpecificScalarTypeTypeInSchema() : bool
+    public function skipExposingDangerouslyNonSpecificScalarTypeTypeInSchema(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::SKIP_EXPOSING_DANGEROUSLY_NON_SPECIFIC_SCALAR_TYPE_IN_SCHEMA;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::SKIP_EXPOSING_DANGEROUSLY_NON_SPECIFIC_SCALAR_TYPE_IN_SCHEMA;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * Indicate if users can add URL params that modify the Engine's behavior.
      */
-    public function enableModifyingEngineBehaviorViaRequest() : bool
+    public function enableModifyingEngineBehaviorViaRequest(): bool
     {
         /** @var RootModuleConfiguration */
         $rootModuleConfiguration = App::getModule(RootModule::class)->getConfiguration();
         if (!$rootModuleConfiguration->enablePassingStateViaRequest()) {
-            return \false;
+            return false;
         }
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_MODIFYING_ENGINE_BEHAVIOR_VIA_REQUEST;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+
+        $envVariable = Environment::ENABLE_MODIFYING_ENGINE_BEHAVIOR_VIA_REQUEST;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * @return string[]
      */
-    public function getEnabledFeedbackCategoryExtensions() : array
+    public function getEnabledFeedbackCategoryExtensions(): array
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_FEEDBACK_CATEGORY_EXTENSIONS;
+        $envVariable = Environment::ENABLE_FEEDBACK_CATEGORY_EXTENSIONS;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function logExceptionErrorMessagesAndTraces() : bool
+
+    public function logExceptionErrorMessagesAndTraces(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::LOG_EXCEPTION_ERROR_MESSAGES_AND_TRACES;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::LOG_EXCEPTION_ERROR_MESSAGES_AND_TRACES;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function sendExceptionErrorMessages() : bool
+
+    public function sendExceptionErrorMessages(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::SEND_EXCEPTION_ERROR_MESSAGES;
+        $envVariable = Environment::SEND_EXCEPTION_ERROR_MESSAGES;
         $defaultValue = RootEnvironment::isApplicationEnvironmentDev();
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function sendExceptionTraces() : bool
+
+    public function sendExceptionTraces(): bool
     {
         if (!$this->sendExceptionErrorMessages()) {
-            return \false;
+            return false;
         }
-        $envVariable = \PoP\ComponentModel\Environment::SEND_EXCEPTION_TRACES;
+
+        $envVariable = Environment::SEND_EXCEPTION_TRACES;
         $defaultValue = RootEnvironment::isApplicationEnvironmentDev();
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function enableSelfField() : bool
+
+    public function enableSelfField(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_SELF_FIELD;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_SELF_FIELD;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function enableTypeNameGlobalFields() : bool
+
+    public function enableTypeNameGlobalFields(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_TYPENAME_GLOBAL_FIELDS;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_TYPENAME_GLOBAL_FIELDS;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function exposeCoreFunctionalityGlobalFields() : bool
+
+    public function exposeCoreFunctionalityGlobalFields(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::EXPOSE_CORE_FUNCTIONALITY_GLOBAL_FIELDS;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::EXPOSE_CORE_FUNCTIONALITY_GLOBAL_FIELDS;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function exposeSchemaTypeDirectiveLocations() : bool
+
+    public function exposeSchemaTypeDirectiveLocations(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::EXPOSE_SCHEMA_TYPE_DIRECTIVE_LOCATIONS;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::EXPOSE_SCHEMA_TYPE_DIRECTIVE_LOCATIONS;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
+
     /**
      * Indicate if to enable to restrict a field and directive by version,
      * using the same semantic versioning constraint rules used by Composer
      *
      * @see https://getcomposer.org/doc/articles/versions.md Composer's semver constraint rules
      */
-    public function enableSemanticVersionConstraints() : bool
+    public function enableSemanticVersionConstraints(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::ENABLE_SEMANTIC_VERSION_CONSTRAINTS;
-        $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::ENABLE_SEMANTIC_VERSION_CONSTRAINTS;
+        $defaultValue = true;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
-    public function getClientIPAddressServerPropertyName() : string
+
+    public function getClientIPAddressServerPropertyName(): string
     {
-        $envVariable = \PoP\ComponentModel\Environment::CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME;
+        $envVariable = Environment::CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME;
         $defaultValue = 'REMOTE_ADDR';
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue
+        );
     }
+
     /**
      * Indicate if the Service Container can depend on some value
      * set as context (eg: an env var).
@@ -247,11 +376,16 @@ class ModuleConfiguration extends AbstractModuleConfiguration
      * corresponding logic throughout the application (and not delete
      * that code), but it is not expected to be set as `true`.
      */
-    public function supportDefiningServicesInTheContainerBasedOnTheContext() : bool
+    public function supportDefiningServicesInTheContainerBasedOnTheContext(): bool
     {
-        $envVariable = \PoP\ComponentModel\Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT;
-        $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        $envVariable = Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT;
+        $defaultValue = false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

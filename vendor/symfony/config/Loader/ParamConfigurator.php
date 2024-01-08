@@ -8,26 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Loader;
+
+namespace Symfony\Component\Config\Loader;
 
 /**
  * Placeholder for a parameter.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
- * @internal
  */
 class ParamConfigurator
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+
     public function __construct(string $name)
     {
         $this->name = $name;
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
-        return '%' . $this->name . '%';
+        return '%'.$this->name.'%';
     }
 }

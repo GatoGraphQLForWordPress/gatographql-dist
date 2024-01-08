@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLRequest\Facades\Execution;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface;
-/** @internal */
+
 class QueryRetrieverFacade
 {
-    public static function getInstance() : QueryRetrieverInterface
+    public static function getInstance(): QueryRetrieverInterface
     {
         /**
          * @var QueryRetrieverInterface

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMeta\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -10,18 +11,16 @@ use PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
 use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldResolver;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-/** @internal */
+
 class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface|null
-     */
-    private $customPostMetaTypeAPI;
-    public final function setCustomPostMetaTypeAPI(CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI) : void
+    private ?CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI = null;
+
+    final public function setCustomPostMetaTypeAPI(CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI): void
     {
         $this->customPostMetaTypeAPI = $customPostMetaTypeAPI;
     }
-    protected final function getCustomPostMetaTypeAPI() : CustomPostMetaTypeAPIInterface
+    final protected function getCustomPostMetaTypeAPI(): CustomPostMetaTypeAPIInterface
     {
         if ($this->customPostMetaTypeAPI === null) {
             /** @var CustomPostMetaTypeAPIInterface */
@@ -30,28 +29,39 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
         }
         return $this->customPostMetaTypeAPI;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractCustomPostObjectTypeResolver::class];
+        return [
+            AbstractCustomPostObjectTypeResolver::class,
+        ];
     }
-    protected function getMetaTypeAPI() : MetaTypeAPIInterface
+
+    protected function getMetaTypeAPI(): MetaTypeAPIInterface
     {
         return $this->getCustomPostMetaTypeAPI();
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $customPost = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
-                return $this->getCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), $fieldDataAccessor->getFieldName() === 'metaValue');
+                return $this->getCustomPostMetaTypeAPI()->getCustomPostMeta(
+                    $customPost,
+                    $fieldDataAccessor->getValue('key'),
+                    $fieldDataAccessor->getFieldName() === 'metaValue'
+                );
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

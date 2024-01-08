@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserRoles\FieldResolvers\ObjectType;
 
 use PoP\Root\App;
@@ -10,22 +11,27 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\Root\Translation\TranslationAPIInterface;
 use PoPCMSSchema\UserRoles\Module;
 use PoPCMSSchema\UserRoles\ModuleConfiguration;
-/** @internal */
+
 trait RolesObjectTypeFieldResolverTrait
 {
-    protected abstract function getTranslationAPI() : TranslationAPIInterface;
-    protected abstract function getStringScalarTypeResolver() : StringScalarTypeResolver;
+    abstract protected function getTranslationAPI(): TranslationAPIInterface;
+    abstract protected function getStringScalarTypeResolver(): StringScalarTypeResolver;
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['roles', 'capabilities'];
+        return [
+            'roles',
+            'capabilities',
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getSensitiveFieldNames() : array
+    public function getSensitiveFieldNames(): array
     {
         $sensitiveFieldNames = parent::getSensitiveFieldNames();
         /** @var ModuleConfiguration */
@@ -38,26 +44,22 @@ trait RolesObjectTypeFieldResolverTrait
         }
         return $sensitiveFieldNames;
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->getStringScalarTypeResolver();
-            case 'capabilities':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->getStringScalarTypeResolver(),
+            'capabilities' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->getTranslationAPI()->__('All user roles', 'user-roles');
-            case 'capabilities':
-                return $this->getTranslationAPI()->__('All user capabilities', 'user-roles');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->getTranslationAPI()->__('All user roles', 'user-roles'),
+            'capabilities' => $this->getTranslationAPI()->__('All user capabilities', 'user-roles'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 }

@@ -19,18 +19,9 @@ use WP_Term;
 
 class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPWPSchema\Menus\TypeResolvers\ScalarType\MenuLocationEnumStringScalarTypeResolver|null
-     */
-    private $menuLocationEnumStringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?MenuLocationEnumStringScalarTypeResolver $menuLocationEnumStringScalarTypeResolver = null;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -97,52 +88,48 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'name':
-            case 'slug':
-                return $this->getStringScalarTypeResolver();
-            case 'locations':
-                return $this->getMenuLocationEnumStringTypeResolver();
-            case 'count':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name',
+            'slug'
+                => $this->getStringScalarTypeResolver(),
+            'locations'
+                => $this->getMenuLocationEnumStringTypeResolver(),
+            'count'
+                => $this->getIntScalarTypeResolver(),
+            default
+                => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'count':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'locations':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'count'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            'locations'
+                => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->__('Menu\'s name', 'pop-menus');
-            case 'slug':
-                return $this->__('Menu\'s slug', 'pop-menus');
-            case 'count':
-                return $this->__('Number of items contained in the menu', 'pop-menus');
-            case 'locations':
-                return $this->__('To which locations has the menu been assigned to', 'pop-menus');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->__('Menu\'s name', 'pop-menus'),
+            'slug' => $this->__('Menu\'s slug', 'pop-menus'),
+            'count' => $this->__('Number of items contained in the menu', 'pop-menus'),
+            'locations' => $this->__('To which locations has the menu been assigned to', 'pop-menus'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Term */
         $menu = $object;
         $menuID = $objectTypeResolver->getID($menu);
@@ -158,12 +145,11 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                 return array_keys(
                     array_filter(
                         $locationMenuIDs,
-                        function ($locationMenuID) use ($menuID) {
-                            return $locationMenuID === $menuID;
-                        }
+                        fn (string|int $locationMenuID) => $locationMenuID === $menuID
                     )
                 );
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -171,8 +157,10 @@ class MenuObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

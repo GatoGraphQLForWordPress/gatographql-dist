@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
-/** @internal */
+
 class CustomPostStatusFilterInput extends AbstractValueToQueryFilterInput
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
-     */
-    private $filterCustomPostStatusEnumTypeResolver;
-    public final function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver) : void
+    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
+
+    final public function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver): void
     {
         $this->filterCustomPostStatusEnumTypeResolver = $filterCustomPostStatusEnumTypeResolver;
     }
-    protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
+    final protected function getFilterCustomPostStatusEnumTypeResolver(): FilterCustomPostStatusEnumTypeResolver
     {
         if ($this->filterCustomPostStatusEnumTypeResolver === null) {
             /** @var FilterCustomPostStatusEnumTypeResolver */
@@ -25,24 +24,28 @@ class CustomPostStatusFilterInput extends AbstractValueToQueryFilterInput
         }
         return $this->filterCustomPostStatusEnumTypeResolver;
     }
-    protected function getQueryArgKey() : string
+
+    protected function getQueryArgKey(): string
     {
         return 'status';
     }
+
     /**
      * Remove any status that is not in the Enum
-     * @param mixed $value
-     * @return mixed
      */
-    protected function getValue($value)
+    protected function getValue(mixed $value): mixed
     {
-        return \array_intersect($value, $this->getFilterCustomPostStatusEnumTypeResolver()->getConsolidatedEnumValues());
+        return array_intersect(
+            $value,
+            $this->getFilterCustomPostStatusEnumTypeResolver()->getConsolidatedEnumValues()
+        );
     }
+
     /**
      * If no status is valid, do not set, as to not override the default value
      */
-    protected function avoidSettingValueIfEmpty() : bool
+    protected function avoidSettingValueIfEmpty(): bool
     {
-        return \true;
+        return true;
     }
 }

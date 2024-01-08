@@ -8,12 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+namespace Symfony\Component\DependencyInjection\Compiler;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 /**
  * Removes abstract Definitions.
- * @internal
  */
 class RemoveAbstractDefinitionsPass implements CompilerPassInterface
 {
@@ -27,7 +28,7 @@ class RemoveAbstractDefinitionsPass implements CompilerPassInterface
         foreach ($container->getDefinitions() as $id => $definition) {
             if ($definition->isAbstract()) {
                 $container->removeDefinition($id);
-                $container->log($this, \sprintf('Removed service "%s"; reason: abstract.', $id));
+                $container->log($this, sprintf('Removed service "%s"; reason: abstract.', $id));
             }
         }
     }

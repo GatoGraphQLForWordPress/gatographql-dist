@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\ConditionalOnModule\Users\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Media\ConditionalOnModule\Users\TypeAPIs\UserMediaTypeAPIInterface;
@@ -12,22 +13,17 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 class MediaUserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\ConditionalOnModule\Users\TypeAPIs\UserMediaTypeAPIInterface|null
-     */
-    private $userMediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    public final function setUserMediaTypeAPI(UserMediaTypeAPIInterface $userMediaTypeAPI) : void
+    private ?UserMediaTypeAPIInterface $userMediaTypeAPI = null;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+
+    final public function setUserMediaTypeAPI(UserMediaTypeAPIInterface $userMediaTypeAPI): void
     {
         $this->userMediaTypeAPI = $userMediaTypeAPI;
     }
-    protected final function getUserMediaTypeAPI() : UserMediaTypeAPIInterface
+    final protected function getUserMediaTypeAPI(): UserMediaTypeAPIInterface
     {
         if ($this->userMediaTypeAPI === null) {
             /** @var UserMediaTypeAPIInterface */
@@ -36,11 +32,11 @@ class MediaUserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->userMediaTypeAPI;
     }
-    public final function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver) : void
+    final public function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver): void
     {
         $this->userObjectTypeResolver = $userObjectTypeResolver;
     }
-    protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
+    final protected function getUserObjectTypeResolver(): UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
             /** @var UserObjectTypeResolver */
@@ -49,57 +45,64 @@ class MediaUserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->userObjectTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [MediaObjectTypeResolver::class];
+        return [
+            MediaObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['author'];
+        return [
+            'author',
+        ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'author':
-                return $this->__('Media element\'s author', 'pop-media');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'author' => $this->__('Media element\'s author', 'pop-media'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $media = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'author':
-                return $this->getUserMediaTypeAPI()->getMediaAuthorID($media);
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'author' => $this->getUserMediaTypeAPI()->getMediaAuthorID($media),
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'author':
-                return $this->getUserObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'author' => $this->getUserObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

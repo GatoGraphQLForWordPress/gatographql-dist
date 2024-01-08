@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Cache;
+namespace Psr\Cache;
 
 /**
  * CacheItemInterface defines an interface for interacting with objects inside a cache.
@@ -20,7 +20,6 @@ namespace PrefixedByPoP\Psr\Cache;
  * be requested from a Pool object via the getItem() method.  Calling Libraries
  * SHOULD NOT assume that an Item created by one Implementing Library is
  * compatible with a Pool from another Implementing Library.
- * @internal
  */
 interface CacheItemInterface
 {
@@ -33,7 +32,8 @@ interface CacheItemInterface
      * @return string
      *   The key string for this cache item.
      */
-    public function getKey() : string;
+    public function getKey(): string;
+
     /**
      * Retrieves the value of the item from the cache associated with this object's key.
      *
@@ -46,7 +46,8 @@ interface CacheItemInterface
      * @return mixed
      *   The value corresponding to this cache item's key, or null if not found.
      */
-    public function get();
+    public function get(): mixed;
+
     /**
      * Confirms if the cache item lookup resulted in a cache hit.
      *
@@ -56,7 +57,8 @@ interface CacheItemInterface
      * @return bool
      *   True if the request resulted in a cache hit. False otherwise.
      */
-    public function isHit() : bool;
+    public function isHit(): bool;
+
     /**
      * Sets the value represented by this cache item.
      *
@@ -70,7 +72,8 @@ interface CacheItemInterface
      * @return static
      *   The invoked object.
      */
-    public function set($value);
+    public function set(mixed $value): static;
+
     /**
      * Sets the expiration time for this cache item.
      *
@@ -83,7 +86,8 @@ interface CacheItemInterface
      * @return static
      *   The called object.
      */
-    public function expiresAt(?\DateTimeInterface $expiration);
+    public function expiresAt(?\DateTimeInterface $expiration): static;
+
     /**
      * Sets the expiration time for this cache item.
      *
@@ -97,5 +101,5 @@ interface CacheItemInterface
      * @return static
      *   The called object.
      */
-    public function expiresAfter($time);
+    public function expiresAfter(int|\DateInterval|null $time): static;
 }

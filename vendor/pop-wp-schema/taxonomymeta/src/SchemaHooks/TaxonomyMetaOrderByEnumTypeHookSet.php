@@ -10,8 +10,9 @@ use PoPWPSchema\Meta\SchemaHooks\AbstractMetaOrderByEnumTypeHookSet;
 
 class TaxonomyMetaOrderByEnumTypeHookSet extends AbstractMetaOrderByEnumTypeHookSet
 {
-    protected function isEnumTypeResolver(EnumTypeResolverInterface $enumTypeResolver): bool
-    {
+    protected function isEnumTypeResolver(
+        EnumTypeResolverInterface $enumTypeResolver,
+    ): bool {
         return $enumTypeResolver instanceof TaxonomyOrderByEnumTypeResolver;
     }
 }

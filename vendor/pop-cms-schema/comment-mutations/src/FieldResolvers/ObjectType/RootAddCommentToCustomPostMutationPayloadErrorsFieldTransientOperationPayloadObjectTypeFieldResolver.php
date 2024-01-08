@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\RootAddCommentToCustomPostMutationPayloadObjectTypeResolver;
@@ -8,18 +9,16 @@ use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustom
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class RootAddCommentToCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver(RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver) : void
+    private ?RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver = null;
+
+    final public function setRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver(RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver): void
     {
         $this->rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver = $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
     }
-    protected final function getRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver() : RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver
+    final protected function getRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver(): RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver === null) {
             /** @var RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver */
@@ -28,14 +27,18 @@ class RootAddCommentToCustomPostMutationPayloadErrorsFieldTransientOperationPayl
         }
         return $this->rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [RootAddCommentToCustomPostMutationPayloadObjectTypeResolver::class];
+        return [
+            RootAddCommentToCustomPostMutationPayloadObjectTypeResolver::class,
+        ];
     }
-    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         return $this->getRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver();
     }

@@ -1,11 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\Root\Services\BasicServiceTrait;
+
 /**
  * Top most ancestor class on the hierarchy of the
  * Directive Resolver classes.
@@ -25,15 +27,13 @@ use PoP\Root\Services\BasicServiceTrait;
  * Operation Directives is also supported.
  *
  * @see AbstractFieldDirectiveResolver
- * @internal
  */
-abstract class AbstractDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface
+abstract class AbstractDirectiveResolver implements DirectiveResolverInterface
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Directive
-     */
-    protected $directive;
+
+    protected Directive $directive;
+
     /**
      * The directiveResolvers are instantiated through the service container,
      * but NOT for the directivePipeline, since there each directiveResolver
@@ -44,20 +44,27 @@ abstract class AbstractDirectiveResolver implements \PoP\ComponentModel\Directiv
      */
     public function __construct()
     {
-        $this->directive = new Directive($this->getDirectiveName(), [], ASTNodesFactory::getNonSpecificLocation());
+        $this->directive = new Directive(
+            $this->getDirectiveName(),
+            [],
+            ASTNodesFactory::getNonSpecificLocation()
+        );
     }
+
     /**
      * Invoked when creating the non-shared directive instance
      * to resolve a directive in the pipeline
      */
-    public final function setDirective(Directive $directive) : void
+    final public function setDirective(Directive $directive): void
     {
         $this->directive = $directive;
     }
-    public function getDirective() : Directive
+
+    public function getDirective(): Directive
     {
         return $this->directive;
     }
+
     /**
      * GraphQLParserModuleConfiguration values cannot be accessed in `isServiceEnabled`,
      * because the DirectiveResolver services are initialized on
@@ -70,12 +77,13 @@ abstract class AbstractDirectiveResolver implements \PoP\ComponentModel\Directiv
      *
      * @see BootAttachExtensionCompilerPass.php
      */
-    public function isDirectiveEnabled() : bool
+    public function isDirectiveEnabled(): bool
     {
-        return \true;
+        return true;
     }
-    public function isRepeatable() : bool
+
+    public function isRepeatable(): bool
     {
-        return \true;
+        return true;
     }
 }

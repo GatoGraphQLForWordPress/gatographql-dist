@@ -1,19 +1,24 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-/** @internal */
-interface FieldInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithNameInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface
+interface FieldInterface extends AstInterface, LocatableInterface, WithDirectivesInterface, WithNameInterface, WithArgumentsInterface
 {
-    public function getName() : string;
-    public function getAlias() : ?string;
+    public function getName(): string;
+
+    public function getAlias(): ?string;
+
     /**
      * @return Argument[]
      */
-    public function getArguments() : array;
-    public function getArgument(string $name) : ?\PoP\GraphQLParser\Spec\Parser\Ast\Argument;
-    public function asFieldOutputQueryString() : string;
+    public function getArguments(): array;
+
+    public function getArgument(string $name): ?Argument;
+
+    public function asFieldOutputQueryString(): string;
+
     /**
      * This function uniquely identifies the field in the query.
      * In this query:
@@ -30,7 +35,8 @@ interface FieldInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
      * => (1x1), hence even if the Location objects are different, they will
      * be treated as the same one, and all their IDs can be processed together.
      */
-    public function getUniqueID() : string;
+    public function getUniqueID(): string;
+
     /**
      * The entry in the JSON output for the field.
      * If the alias is set, use it. Otherwise, use the name,
@@ -38,5 +44,5 @@ interface FieldInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
      *
      * @see https://spec.graphql.org/draft/#sec-Field-Alias
      */
-    public function getOutputKey() : string;
+    public function getOutputKey(): string;
 }

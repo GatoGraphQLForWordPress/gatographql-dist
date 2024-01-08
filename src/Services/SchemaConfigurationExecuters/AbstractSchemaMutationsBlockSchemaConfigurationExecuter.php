@@ -13,10 +13,7 @@ use GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigPayloadTypesForMutations
 
 abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigPayloadTypesForMutationsBlock|null
-     */
-    private $schemaConfigPayloadTypesForMutationsBlock;
+    private ?SchemaConfigPayloadTypesForMutationsBlock $schemaConfigPayloadTypesForMutationsBlock = null;
 
     final public function setSchemaConfigPayloadTypesForMutationsBlock(SchemaConfigPayloadTypesForMutationsBlock $schemaConfigPayloadTypesForMutationsBlock): void
     {

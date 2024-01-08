@@ -9,10 +9,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 
 abstract class AbstractModuleEnabledHookSet extends AbstractHookSet
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

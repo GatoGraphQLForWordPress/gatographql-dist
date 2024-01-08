@@ -32,9 +32,13 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::GROUP_FIELDS_UNDER_TYPE_FOR_PRINT;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -45,7 +49,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::NO_ITEMS_SELECTED_LABEL;
         $defaultValue = \__('(none selected)', 'gatographql');
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -56,7 +63,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::SETTINGS_VALUE_LABEL;
         $defaultValue = \__('🟡 Default', 'gatographql');
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -67,7 +77,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::ENDPOINT_SLUG_BASE;
         $defaultValue = 'graphql';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -78,7 +91,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::PERSISTED_QUERY_SLUG_BASE;
         $defaultValue = 'graphql-query';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -91,16 +107,23 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::EDITING_ACCESS_SCHEME;
         $defaultValue = null;
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function enableSettingClientIPAddressServerPropertyName(): bool
     {
         $envVariable = Environment::ENABLE_SETTING_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function getGatoGraphQLWebsiteURL(): string
@@ -108,7 +131,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_WEBSITE_URL;
         $defaultValue = 'https://gatographql.com';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLExtensionsPageURL(): string
@@ -116,7 +142,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
         $defaultValue = 'https://gatographql.com/extensions';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLRequestExtensionPageURL(): string
@@ -124,7 +153,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL;
         $defaultValue = 'https://github.com/GatoGraphQL/GatoGraphQLExtensions/discussions';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -136,36 +168,52 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function hideTutorialPage(): bool
     {
         $envVariable = Environment::HIDE_TUTORIAL_PAGE;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function installPluginSetupData(): bool
     {
         $envVariable = Environment::INSTALL_PLUGIN_SETUP_DATA;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function showBundlesContainingReferencedExtensionsOnTutorial(): bool
     {
         $envVariable = Environment::SHOW_BUNDLES_CONTAINING_REFERENCED_EXTENSIONS_ON_TUTORIAL;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -173,14 +221,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
      */
     protected function enableHook(string $envVariable): bool
     {
-        switch ($envVariable) {
-            case Environment::GATOGRAPHQL_WEBSITE_URL:
-            case Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL:
-            case Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL:
-            case Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER:
-                return false;
-            default:
-                return parent::enableHook($envVariable);
-        }
+        return match ($envVariable) {
+            Environment::GATOGRAPHQL_WEBSITE_URL,
+            Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL,
+            Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL,
+            Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER
+                => false,
+            default
+                => parent::enableHook($envVariable),
+        };
     }
 }

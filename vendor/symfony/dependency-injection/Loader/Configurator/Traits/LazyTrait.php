@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
 trait LazyTrait
 {
     /**
@@ -20,12 +20,13 @@ trait LazyTrait
      *
      * @return $this
      */
-    public final function lazy($lazy = \true)
+    final public function lazy(bool|string $lazy = true): static
     {
         $this->definition->setLazy((bool) $lazy);
         if (\is_string($lazy)) {
             $this->definition->addTag('proxy', ['interface' => $lazy]);
         }
+
         return $this;
     }
 }

@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\EntryComponent;
 
 use PoP\ComponentModel\Component\Component;
-/** @internal */
+
 interface EntryComponentManagerInterface
 {
     /**
      * Obtain the first module from which the Module Model is processed
      */
-    public function getEntryComponent() : ?Component;
+    public function getEntryComponent(): ?Component;
 }

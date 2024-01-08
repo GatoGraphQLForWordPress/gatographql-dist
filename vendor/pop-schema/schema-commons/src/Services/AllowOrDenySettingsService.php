@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\SchemaCommons\Services;
 
 use PoPSchema\SchemaCommons\Constants\Behaviors;
-/** @internal */
-class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface
+
+class AllowOrDenySettingsService implements AllowOrDenySettingsServiceInterface
 {
     /**
      * Check if the allow/denylist validation fails
@@ -13,24 +14,34 @@ class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\Al
      *
      * @param string[] $entries
      */
-    public function isEntryAllowed(string $name, array $entries, string $behavior) : bool
+    public function isEntryAllowed(string $name, array $entries, string $behavior): bool
     {
         if ($entries === []) {
             return $behavior === Behaviors::DENY;
         }
-        $matchResults = \array_filter(\array_map(function (string $termOrRegex) use($name) : bool {
-            // Remove whitespaces at either end of the string
-            $termOrRegex = \trim($termOrRegex);
-            // Check if it is a regex expression
-            if (\strncmp($termOrRegex, '/', \strlen('/')) === 0 && \substr_compare($termOrRegex, '/', -\strlen('/')) === 0 || \strncmp($termOrRegex, '#', \strlen('#')) === 0 && \substr_compare($termOrRegex, '#', -\strlen('#')) === 0) {
-                return \preg_match($termOrRegex, $name) === 1;
-            }
-            // Check it's a full match
-            return $termOrRegex === $name;
-        }, $entries));
-        if ($behavior === Behaviors::ALLOW && \count($matchResults) === 0 || $behavior === Behaviors::DENY && \count($matchResults) > 0) {
-            return \false;
+        $matchResults = array_filter(array_map(
+            function (string $termOrRegex) use ($name): bool {
+                // Remove whitespaces at either end of the string
+                $termOrRegex = trim($termOrRegex);
+
+                // Check if it is a regex expression
+                if (
+                    (str_starts_with($termOrRegex, '/') && str_ends_with($termOrRegex, '/'))
+                    || (str_starts_with($termOrRegex, '#') && str_ends_with($termOrRegex, '#'))
+                ) {
+                    return preg_match($termOrRegex, $name) === 1;
+                }
+                // Check it's a full match
+                return $termOrRegex === $name;
+            },
+            $entries
+        ));
+        if (
+            ($behavior === Behaviors::ALLOW && count($matchResults) === 0)
+            || ($behavior === Behaviors::DENY && count($matchResults) > 0)
+        ) {
+            return false;
         }
-        return \true;
+        return true;
     }
 }

@@ -26,17 +26,17 @@ abstract class AbstractEndpointHandler extends UpstreamAbstractEndpointHandler
          */
         \add_action(
             'init',
-            \Closure::fromCallable([$this, 'addRewriteEndpoints'])
+            $this->addRewriteEndpoints(...)
         );
         \add_filter(
             'query_vars',
-            \Closure::fromCallable([$this, 'addQueryVar']),
+            $this->addQueryVar(...),
             10,
             1
         );
         \add_action(
             'parse_request',
-            \Closure::fromCallable([$this, 'parseRequest'])
+            $this->parseRequest(...)
         );
 
         // // If it is a partial endpoint, we must add all the combinations of routes to Cortex

@@ -21,10 +21,7 @@ class UserAuthorization implements UserAuthorizationInterface
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface|null
-     */
-    private $userAuthorizationSchemeRegistry;
+    private ?UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry = null;
 
     final public function setUserAuthorizationSchemeRegistry(UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry): void
     {
@@ -48,7 +45,7 @@ class UserAuthorization implements UserAuthorizationInterface
             // If the capability does not exist, catch the exception
             try {
                 return $this->getUserAuthorizationSchemeRegistry()->getUserAuthorizationScheme($accessScheme);
-            } catch (UserAuthorizationException $exception) {
+            } catch (UserAuthorizationException) {
             }
         }
 

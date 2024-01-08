@@ -12,10 +12,7 @@ use WP_Post;
 
 class VoyagerClientEndpointAnnotator extends AbstractClientEndpointAnnotator implements CustomEndpointAnnotatorServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\EndpointVoyagerBlock|null
-     */
-    private $endpointVoyagerBlock;
+    private ?EndpointVoyagerBlock $endpointVoyagerBlock = null;
 
     final public function setEndpointVoyagerBlock(EndpointVoyagerBlock $endpointVoyagerBlock): void
     {

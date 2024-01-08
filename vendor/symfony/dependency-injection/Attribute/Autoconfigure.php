@@ -8,72 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
+
+namespace Symfony\Component\DependencyInjection\Attribute;
 
 /**
  * An attribute to tell how a base type should be autoconfigured.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class Autoconfigure
 {
-    /**
-     * @var mixed[]|null
-     */
-    public $tags;
-    /**
-     * @var mixed[]|null
-     */
-    public $calls;
-    /**
-     * @var mixed[]|null
-     */
-    public $bind;
-    /**
-     * @var bool|string|null
-     */
-    public $lazy = null;
-    /**
-     * @var bool|null
-     */
-    public $public;
-    /**
-     * @var bool|null
-     */
-    public $shared;
-    /**
-     * @var bool|null
-     */
-    public $autowire;
-    /**
-     * @var mixed[]|null
-     */
-    public $properties;
-    /**
-     * @var mixed[]|string|null
-     */
-    public $configurator = null;
-    /**
-     * @var string|null
-     */
-    public $constructor;
-    /**
-     * @param bool|string|null $lazy
-     * @param mixed[]|string|null $configurator
-     */
-    public function __construct(?array $tags = null, ?array $calls = null, ?array $bind = null, $lazy = null, ?bool $public = null, ?bool $shared = null, ?bool $autowire = null, ?array $properties = null, $configurator = null, ?string $constructor = null)
-    {
-        $this->tags = $tags;
-        $this->calls = $calls;
-        $this->bind = $bind;
-        $this->lazy = $lazy;
-        $this->public = $public;
-        $this->shared = $shared;
-        $this->autowire = $autowire;
-        $this->properties = $properties;
-        $this->configurator = $configurator;
-        $this->constructor = $constructor;
+    public function __construct(
+        public ?array $tags = null,
+        public ?array $calls = null,
+        public ?array $bind = null,
+        public bool|string|null $lazy = null,
+        public ?bool $public = null,
+        public ?bool $shared = null,
+        public ?bool $autowire = null,
+        public ?array $properties = null,
+        public array|string|null $configurator = null,
+        public ?string $constructor = null,
+    ) {
     }
 }

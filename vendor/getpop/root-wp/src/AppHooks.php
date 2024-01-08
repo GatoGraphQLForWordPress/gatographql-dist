@@ -9,13 +9,13 @@ class AppHooks
     /**
      * WordPress hook to boot the App when `is_admin()`
      */
-    public const BOOT_APP_IN_ADMIN = 'wp_loaded';
+    public final const BOOT_APP_IN_ADMIN = 'wp_loaded';
     /**
      * WordPress hook to boot the App when in the WP REST API
      */
-    public const BOOT_APP_IN_REST = 'rest_api_init';
+    public final const BOOT_APP_IN_REST = 'rest_api_init';
     /**
      * WordPress hook to boot the App when in the frontend
      */
-    public const BOOT_APP_IN_FRONTEND = 'wp';
+    public final const BOOT_APP_IN_FRONTEND = 'wp';
 }

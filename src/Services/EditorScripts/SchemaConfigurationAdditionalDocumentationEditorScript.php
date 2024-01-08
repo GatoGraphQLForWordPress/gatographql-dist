@@ -12,10 +12,7 @@ class SchemaConfigurationAdditionalDocumentationEditorScript extends AbstractEdi
 {
     use MainPluginScriptTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
-     */
-    private $graphQLSchemaConfigurationCustomPostType;
+    private ?GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType = null;
 
     final public function setGraphQLSchemaConfigurationCustomPostType(GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType): void
     {

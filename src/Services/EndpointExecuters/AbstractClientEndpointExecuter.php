@@ -14,14 +14,8 @@ use PoP\Root\App;
 
 abstract class AbstractClientEndpointExecuter extends AbstractCPTEndpointExecuter implements EndpointExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
-     */
-    private $graphQLCustomEndpointCustomPostType;
-    /**
-     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
-     */
-    private $templateHelpers;
+    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
+    private ?TemplateHelpersInterface $templateHelpers = null;
 
     final public function setGraphQLCustomEndpointCustomPostType(GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType): void
     {

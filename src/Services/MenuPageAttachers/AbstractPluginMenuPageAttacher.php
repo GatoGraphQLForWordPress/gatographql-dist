@@ -12,10 +12,7 @@ use GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu;
  */
 abstract class AbstractPluginMenuPageAttacher extends AbstractMenuPageAttacher
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu|null
-     */
-    private $pluginMenu;
+    private ?PluginMenu $pluginMenu = null;
 
     final public function setPluginMenu(PluginMenu $pluginMenu): void
     {

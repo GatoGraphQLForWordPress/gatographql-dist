@@ -12,10 +12,7 @@ use WP_Comment;
  */
 class CommentTypeAPI implements CommentTypeAPIInterface
 {
-    /**
-     * @return string|int|null
-     */
-    public function getCommentUserID(object $comment)
+    public function getCommentUserID(object $comment): string|int|null
     {
         /** @var WP_Comment */
         $comment = $comment;

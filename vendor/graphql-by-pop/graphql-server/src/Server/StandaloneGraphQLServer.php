@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\Server;
 
 use GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface;
@@ -15,54 +16,29 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\StateManagers\HookManager;
 use PoP\Root\StateManagers\HookManagerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+
 /**
  * This class must be used when there is no underlying
  * PoP architecture that renders the response, hence the
  * constructor must emulate the initialization of the
  * whole application.
- * @internal
  */
-class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\AbstractGraphQLServer
+class StandaloneGraphQLServer extends AbstractGraphQLServer
 {
     /**
-     * @var array<class-string<ModuleInterface>, array<string, mixed>>
-     * @readonly
-     */
-    private $moduleClassConfiguration = [];
-    /**
-     * @var array<class-string<CompilerPassInterface>>
-     * @readonly
-     */
-    private $systemContainerCompilerPassClasses = [];
-    /**
-     * @var array<class-string<CompilerPassInterface>>
-     * @readonly
-     */
-    private $applicationContainerCompilerPassClasses = [];
-    /**
-     * @readonly
-     * @var \PoP\Root\Container\ContainerCacheConfiguration|null
-     */
-    private $containerCacheConfiguration;
-    /**
      * @var array<class-string<ModuleInterface>>
-     * @readonly
      */
-    private $moduleClasses;
-    /**
-     * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
-     */
-    private $graphQLParserHelperService;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface|null
-     */
-    private $graphQLServerAppStateProviderService;
-    public final function setGraphQLParserHelperService(GraphQLParserHelperServiceInterface $graphQLParserHelperService) : void
+    private readonly array $moduleClasses;
+
+    private ?GraphQLParserHelperServiceInterface $graphQLParserHelperService = null;
+    private ?GraphQLServerAppStateProviderServiceInterface $graphQLServerAppStateProviderService = null;
+
+    final public function setGraphQLParserHelperService(GraphQLParserHelperServiceInterface $graphQLParserHelperService): void
     {
         $this->graphQLParserHelperService = $graphQLParserHelperService;
     }
-    protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
+    final protected function getGraphQLParserHelperService(): GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {
             /** @var GraphQLParserHelperServiceInterface */
@@ -71,11 +47,11 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
         }
         return $this->graphQLParserHelperService;
     }
-    public final function setGraphQLServerAppStateProviderService(GraphQLServerAppStateProviderServiceInterface $graphQLServerAppStateProviderService) : void
+    final public function setGraphQLServerAppStateProviderService(GraphQLServerAppStateProviderServiceInterface $graphQLServerAppStateProviderService): void
     {
         $this->graphQLServerAppStateProviderService = $graphQLServerAppStateProviderService;
     }
-    protected final function getGraphQLServerAppStateProviderService() : GraphQLServerAppStateProviderServiceInterface
+    final protected function getGraphQLServerAppStateProviderService(): GraphQLServerAppStateProviderServiceInterface
     {
         if ($this->graphQLServerAppStateProviderService === null) {
             /** @var GraphQLServerAppStateProviderServiceInterface */
@@ -84,62 +60,84 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
         }
         return $this->graphQLServerAppStateProviderService;
     }
+
     /**
      * @param array<class-string<ModuleInterface>> $moduleClasses The component classes to initialize, including those dealing with the schema elements (posts, users, comments, etc)
      * @param array<class-string<ModuleInterface>,array<string,mixed>> $moduleClassConfiguration Predefined configuration for the components
      * @param array<class-string<CompilerPassInterface>> $systemContainerCompilerPassClasses
      * @param array<class-string<CompilerPassInterface>> $applicationContainerCompilerPassClasses
      */
-    public function __construct(array $moduleClasses, array $moduleClassConfiguration = [], array $systemContainerCompilerPassClasses = [], array $applicationContainerCompilerPassClasses = [], ?ContainerCacheConfiguration $containerCacheConfiguration = null)
-    {
-        $this->moduleClassConfiguration = $moduleClassConfiguration;
-        $this->systemContainerCompilerPassClasses = $systemContainerCompilerPassClasses;
-        $this->applicationContainerCompilerPassClasses = $applicationContainerCompilerPassClasses;
-        $this->containerCacheConfiguration = $containerCacheConfiguration;
-        $this->moduleClasses = \array_merge($moduleClasses, [
-            /**
-             * This is the one Module that is required to produce the GraphQL server.
-             * The other classes provide the schema and extra functionality.
-             */
-            Module::class,
-        ]);
+    public function __construct(
+        array $moduleClasses,
+        private readonly array $moduleClassConfiguration = [],
+        private readonly array $systemContainerCompilerPassClasses = [],
+        private readonly array $applicationContainerCompilerPassClasses = [],
+        private readonly ?ContainerCacheConfiguration $containerCacheConfiguration = null,
+    ) {
+        $this->moduleClasses = array_merge(
+            $moduleClasses,
+            [
+                /**
+                 * This is the one Module that is required to produce the GraphQL server.
+                 * The other classes provide the schema and extra functionality.
+                 */
+                Module::class,
+            ]
+        );
+
         App::setAppThread(new AppThread());
-        App::initialize($this->getAppLoader(), $this->getHookManager());
+        App::initialize(
+            $this->getAppLoader(),
+            $this->getHookManager(),
+        );
         $appLoader = App::getAppLoader();
         $appLoader->addModuleClassesToInitialize($this->moduleClasses);
         $appLoader->initializeModules();
+
         // Inject the Compiler Passes
         $appLoader->addSystemContainerCompilerPassClasses($this->systemContainerCompilerPassClasses);
+
         $appLoader->setContainerCacheConfiguration($this->containerCacheConfiguration);
         $appLoader->bootSystem();
+
         /**
          * Only after initializing the System Container,
          * we can obtain the configuration (which may depend on hooks).
          */
         $appLoader->addModuleClassConfiguration($this->moduleClassConfiguration);
+
         // Inject the Compiler Passes
         $appLoader->addApplicationContainerCompilerPassClasses($this->applicationContainerCompilerPassClasses);
+
         // Boot the application
         $appLoader->bootApplication();
+
         /**
          * After booting the application, we can access the Application Container services.
          * Explicitly set the required state to execute GraphQL queries.
          */
-        $graphQLRequestAppState = \array_merge($this->getGraphQLServerAppStateProviderService()->getGraphQLRequestAppState(), ['query' => null]);
+        $graphQLRequestAppState = [
+            ...$this->getGraphQLServerAppStateProviderService()->getGraphQLRequestAppState(),
+            'query' => null,
+        ];
         $appLoader->setInitialAppState($graphQLRequestAppState);
+
         // Finally trigger booting the components
         $appLoader->bootApplicationModules();
     }
-    protected function getAppLoader() : AppLoaderInterface
+
+    protected function getAppLoader(): AppLoaderInterface
     {
         return new AppLoader();
     }
-    protected function getHookManager() : HookManagerInterface
+
+    protected function getHookManager(): HookManagerInterface
     {
         return new HookManager();
     }
-    protected function areFeedbackAndTracingStoresAlreadyCreated() : bool
+
+    protected function areFeedbackAndTracingStoresAlreadyCreated(): bool
     {
-        return \true;
+        return true;
     }
 }

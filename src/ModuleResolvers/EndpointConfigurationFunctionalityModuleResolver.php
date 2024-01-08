@@ -12,12 +12,9 @@ class EndpointConfigurationFunctionalityModuleResolver extends AbstractFunctiona
     use ModuleResolverTrait;
     use EndpointConfigurationFunctionalityModuleResolverTrait;
 
-    public const API_HIERARCHY = Plugin::NAMESPACE . '\api-hierarchy';
+    public final const API_HIERARCHY = Plugin::NAMESPACE . '\api-hierarchy';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -62,21 +59,17 @@ class EndpointConfigurationFunctionalityModuleResolver extends AbstractFunctiona
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::API_HIERARCHY:
-                return \__('API Hierarchy', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::API_HIERARCHY => \__('API Hierarchy', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::API_HIERARCHY:
-                return \__('Create a hierarchy of API endpoints extending from other endpoints, and inheriting their properties', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::API_HIERARCHY => \__('Create a hierarchy of API endpoints extending from other endpoints, and inheriting their properties', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 }

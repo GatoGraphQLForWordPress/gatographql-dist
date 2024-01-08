@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
+
+namespace Symfony\Component\ExpressionLanguage;
 
 /**
  * Represents a function that can be used in an expression.
@@ -26,22 +27,13 @@ namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
  * arguments as remaining arguments).
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class ExpressionFunction
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var \Closure
-     */
-    private $compiler;
-    /**
-     * @var \Closure
-     */
-    private $evaluator;
+    private string $name;
+    private \Closure $compiler;
+    private \Closure $evaluator;
+
     /**
      * @param string   $name      The function name
      * @param callable $compiler  A callable able to compile the function
@@ -50,21 +42,25 @@ class ExpressionFunction
     public function __construct(string $name, callable $compiler, callable $evaluator)
     {
         $this->name = $name;
-        $this->compiler = \Closure::fromCallable($compiler);
-        $this->evaluator = \Closure::fromCallable($evaluator);
+        $this->compiler = $compiler(...);
+        $this->evaluator = $evaluator(...);
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->name;
     }
-    public function getCompiler() : \Closure
+
+    public function getCompiler(): \Closure
     {
         return $this->compiler;
     }
-    public function getEvaluator() : \Closure
+
+    public function getEvaluator(): \Closure
     {
         return $this->evaluator;
     }
+
     /**
      * Creates an ExpressionFunction from a PHP function name.
      *
@@ -74,22 +70,22 @@ class ExpressionFunction
      * @throws \InvalidArgumentException if given PHP function name is in namespace
      *                                   and expression function name is not defined
      */
-    public static function fromPhp(string $phpFunctionName, string $expressionFunctionName = null) : self
+    public static function fromPhp(string $phpFunctionName, string $expressionFunctionName = null): self
     {
-        $phpFunctionName = \ltrim($phpFunctionName, '\\');
+        $phpFunctionName = ltrim($phpFunctionName, '\\');
         if (!\function_exists($phpFunctionName)) {
-            throw new \InvalidArgumentException(\sprintf('PHP function "%s" does not exist.', $phpFunctionName));
+            throw new \InvalidArgumentException(sprintf('PHP function "%s" does not exist.', $phpFunctionName));
         }
-        $parts = \explode('\\', $phpFunctionName);
+
+        $parts = explode('\\', $phpFunctionName);
         if (!$expressionFunctionName && \count($parts) > 1) {
-            throw new \InvalidArgumentException(\sprintf('An expression function name must be defined when PHP function "%s" is namespaced.', $phpFunctionName));
+            throw new \InvalidArgumentException(sprintf('An expression function name must be defined when PHP function "%s" is namespaced.', $phpFunctionName));
         }
-        $compiler = function (...$args) use($phpFunctionName) {
-            return \sprintf('\\%s(%s)', $phpFunctionName, \implode(', ', $args));
-        };
-        $evaluator = function ($p, ...$args) use($phpFunctionName) {
-            return $phpFunctionName(...$args);
-        };
-        return new self($expressionFunctionName ?: \end($parts), $compiler, $evaluator);
+
+        $compiler = fn (...$args) => sprintf('\%s(%s)', $phpFunctionName, implode(', ', $args));
+
+        $evaluator = fn ($p, ...$args) => $phpFunctionName(...$args);
+
+        return new self($expressionFunctionName ?: end($parts), $compiler, $evaluator);
     }
 }

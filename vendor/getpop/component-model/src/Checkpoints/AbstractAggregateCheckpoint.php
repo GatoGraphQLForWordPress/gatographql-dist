@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Checkpoints;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
-abstract class AbstractAggregateCheckpoint extends \PoP\ComponentModel\Checkpoints\AbstractCheckpoint
+
+abstract class AbstractAggregateCheckpoint extends AbstractCheckpoint
 {
-    public final function validateCheckpoint() : ?FeedbackItemResolution
+    final public function validateCheckpoint(): ?FeedbackItemResolution
     {
         /**
          * Iterate through the list of all checkpoints, process all of them,
@@ -19,10 +20,12 @@ abstract class AbstractAggregateCheckpoint extends \PoP\ComponentModel\Checkpoin
                 return $feedbackItemResolution;
             }
         }
+
         return null;
     }
+
     /**
      * @return CheckpointInterface[]
      */
-    protected abstract function getCheckpoints() : array;
+    abstract protected function getCheckpoints(): array;
 }

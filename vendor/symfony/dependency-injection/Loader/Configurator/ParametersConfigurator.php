@@ -8,43 +8,45 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\ExpressionLanguage\Expression;
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class ParametersConfigurator extends AbstractConfigurator
 {
     public const FACTORY = 'parameters';
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
+
+    private ContainerBuilder $container;
+
     public function __construct(ContainerBuilder $container)
     {
         $this->container = $container;
     }
+
     /**
      * @return $this
-     * @param mixed $value
      */
-    public final function set(string $name, $value)
+    final public function set(string $name, mixed $value): static
     {
         if ($value instanceof Expression) {
-            throw new InvalidArgumentException(\sprintf('Using an expression in parameter "%s" is not allowed.', $name));
+            throw new InvalidArgumentException(sprintf('Using an expression in parameter "%s" is not allowed.', $name));
         }
-        $this->container->setParameter($name, static::processValue($value, \true));
+
+        $this->container->setParameter($name, static::processValue($value, true));
+
         return $this;
     }
+
     /**
      * @return $this
-     * @param mixed $value
      */
-    public final function __invoke(string $name, $value)
+    final public function __invoke(string $name, mixed $value): static
     {
         return $this->set($name, $value);
     }

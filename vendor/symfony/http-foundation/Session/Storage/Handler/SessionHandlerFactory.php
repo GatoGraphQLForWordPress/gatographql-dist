@@ -8,82 +8,92 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use PrefixedByPoP\Doctrine\DBAL\Configuration;
-use PrefixedByPoP\Doctrine\DBAL\DriverManager;
-use PrefixedByPoP\Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
-use PrefixedByPoP\Doctrine\DBAL\Tools\DsnParser;
-use PrefixedByPoP\Relay\Relay;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AbstractAdapter;
+namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
+
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
+use Doctrine\DBAL\Tools\DsnParser;
+use Relay\Relay;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class SessionHandlerFactory
 {
-    /**
-     * @param object|string $connection
-     */
-    public static function createHandler($connection, array $options = []) : AbstractSessionHandler
+    public static function createHandler(object|string $connection, array $options = []): AbstractSessionHandler
     {
-        if ($query = \is_string($connection) ? \parse_url($connection) : \false) {
-            \parse_str($query['query'] ?? '', $query);
+        if ($query = \is_string($connection) ? parse_url($connection) : false) {
+            parse_str($query['query'] ?? '', $query);
+
             if (($options['ttl'] ?? null) instanceof \Closure) {
                 $query['ttl'] = $options['ttl'];
             }
         }
         $options = ($query ?: []) + $options;
-        switch (\true) {
+
+        switch (true) {
             case $connection instanceof \Redis:
             case $connection instanceof Relay:
             case $connection instanceof \RedisArray:
             case $connection instanceof \RedisCluster:
-            case $connection instanceof \PrefixedByPoP\Predis\ClientInterface:
+            case $connection instanceof \Predis\ClientInterface:
                 return new RedisSessionHandler($connection);
+
             case $connection instanceof \Memcached:
                 return new MemcachedSessionHandler($connection);
+
             case $connection instanceof \PDO:
                 return new PdoSessionHandler($connection);
+
             case !\is_string($connection):
-                throw new \InvalidArgumentException(\sprintf('Unsupported Connection: "%s".', \get_debug_type($connection)));
-            case \strncmp($connection, 'file://', \strlen('file://')) === 0:
-                $savePath = \substr($connection, 7);
+                throw new \InvalidArgumentException(sprintf('Unsupported Connection: "%s".', get_debug_type($connection)));
+            case str_starts_with($connection, 'file://'):
+                $savePath = substr($connection, 7);
+
                 return new StrictSessionHandler(new NativeFileSessionHandler('' === $savePath ? null : $savePath));
-            case \strncmp($connection, 'redis:', \strlen('redis:')) === 0:
-            case \strncmp($connection, 'rediss:', \strlen('rediss:')) === 0:
-            case \strncmp($connection, 'memcached:', \strlen('memcached:')) === 0:
-                if (!\class_exists(AbstractAdapter::class)) {
+
+            case str_starts_with($connection, 'redis:'):
+            case str_starts_with($connection, 'rediss:'):
+            case str_starts_with($connection, 'memcached:'):
+                if (!class_exists(AbstractAdapter::class)) {
                     throw new \InvalidArgumentException('Unsupported Redis or Memcached DSN. Try running "composer require symfony/cache".');
                 }
-                $handlerClass = \strncmp($connection, 'memcached:', \strlen('memcached:')) === 0 ? MemcachedSessionHandler::class : RedisSessionHandler::class;
-                $connection = AbstractAdapter::createConnection($connection, ['lazy' => \true]);
-                return new $handlerClass($connection, \array_intersect_key($options, ['prefix' => 1, 'ttl' => 1]));
-            case \strncmp($connection, 'pdo_oci://', \strlen('pdo_oci://')) === 0:
-                if (!\class_exists(DriverManager::class)) {
+                $handlerClass = str_starts_with($connection, 'memcached:') ? MemcachedSessionHandler::class : RedisSessionHandler::class;
+                $connection = AbstractAdapter::createConnection($connection, ['lazy' => true]);
+
+                return new $handlerClass($connection, array_intersect_key($options, ['prefix' => 1, 'ttl' => 1]));
+
+            case str_starts_with($connection, 'pdo_oci://'):
+                if (!class_exists(DriverManager::class)) {
                     throw new \InvalidArgumentException('Unsupported PDO OCI DSN. Try running "composer require doctrine/dbal".');
                 }
                 $connection[3] = '-';
-                $params = \class_exists(DsnParser::class) ? (new DsnParser())->parse($connection) : ['url' => $connection];
+                $params = class_exists(DsnParser::class) ? (new DsnParser())->parse($connection) : ['url' => $connection];
                 $config = new Configuration();
-                if (\class_exists(DefaultSchemaManagerFactory::class)) {
+                if (class_exists(DefaultSchemaManagerFactory::class)) {
                     $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
                 }
+
                 $connection = DriverManager::getConnection($params, $config);
                 // The condition should be removed once support for DBAL <3.3 is dropped
-                $connection = \method_exists($connection, 'getNativeConnection') ? $connection->getNativeConnection() : $connection->getWrappedConnection();
-            // no break;
-            case \strncmp($connection, 'mssql://', \strlen('mssql://')) === 0:
-            case \strncmp($connection, 'mysql://', \strlen('mysql://')) === 0:
-            case \strncmp($connection, 'mysql2://', \strlen('mysql2://')) === 0:
-            case \strncmp($connection, 'pgsql://', \strlen('pgsql://')) === 0:
-            case \strncmp($connection, 'postgres://', \strlen('postgres://')) === 0:
-            case \strncmp($connection, 'postgresql://', \strlen('postgresql://')) === 0:
-            case \strncmp($connection, 'sqlsrv://', \strlen('sqlsrv://')) === 0:
-            case \strncmp($connection, 'sqlite://', \strlen('sqlite://')) === 0:
-            case \strncmp($connection, 'sqlite3://', \strlen('sqlite3://')) === 0:
+                $connection = method_exists($connection, 'getNativeConnection') ? $connection->getNativeConnection() : $connection->getWrappedConnection();
+                // no break;
+
+            case str_starts_with($connection, 'mssql://'):
+            case str_starts_with($connection, 'mysql://'):
+            case str_starts_with($connection, 'mysql2://'):
+            case str_starts_with($connection, 'pgsql://'):
+            case str_starts_with($connection, 'postgres://'):
+            case str_starts_with($connection, 'postgresql://'):
+            case str_starts_with($connection, 'sqlsrv://'):
+            case str_starts_with($connection, 'sqlite://'):
+            case str_starts_with($connection, 'sqlite3://'):
                 return new PdoSessionHandler($connection, $options);
         }
-        throw new \InvalidArgumentException(\sprintf('Unsupported Connection: "%s".', $connection));
+
+        throw new \InvalidArgumentException(sprintf('Unsupported Connection: "%s".', $connection));
     }
 }

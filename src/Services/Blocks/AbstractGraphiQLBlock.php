@@ -15,17 +15,11 @@ abstract class AbstractGraphiQLBlock extends AbstractBlock
 {
     use MainPluginBlockTrait;
 
-    public const ATTRIBUTE_NAME_QUERY = 'query';
-    public const ATTRIBUTE_NAME_VARIABLES = 'variables';
+    public final const ATTRIBUTE_NAME_QUERY = 'query';
+    public final const ATTRIBUTE_NAME_VARIABLES = 'variables';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\PersistedQueryEndpointBlockCategory|null
-     */
-    private $persistedQueryEndpointBlockCategory;
+    private ?EndpointHelpers $endpointHelpers = null;
+    private ?PersistedQueryEndpointBlockCategory $persistedQueryEndpointBlockCategory = null;
 
     final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
     {

@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
+
 class FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader|null
-     */
-    private $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
-    public final function setFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader(FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader) : void
+    private ?FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = null;
+
+    final public function setFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader(FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader): void
     {
         $this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
     }
-    protected final function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader() : FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
+    final protected function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader(): FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader === null) {
             /** @var FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader */
@@ -26,15 +25,18 @@ class FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver 
         }
         return $this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'FeaturedImageIsNotSupportedByCustomPostTypeErrorPayload';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Error payload for: "Setting the featured image is not supported by the custom post type"', 'custompostmedia-mutations');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader();
     }

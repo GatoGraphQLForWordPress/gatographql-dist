@@ -8,37 +8,34 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+
+namespace Symfony\Component\DependencyInjection;
 
 /**
  * Reference represents a service reference.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class Reference
 {
-    /**
-     * @var string
-     */
-    private $id;
-    /**
-     * @var int
-     */
-    private $invalidBehavior;
+    private string $id;
+    private int $invalidBehavior;
+
     public function __construct(string $id, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
     {
         $this->id = $id;
         $this->invalidBehavior = $invalidBehavior;
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
         return $this->id;
     }
+
     /**
      * Returns the behavior to be used when the service does not exist.
      */
-    public function getInvalidBehavior() : int
+    public function getInvalidBehavior(): int
     {
         return $this->invalidBehavior;
     }

@@ -12,10 +12,8 @@ class CustomPostMetaTypeAPI extends AbstractCustomPostMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    protected function doGetCustomPostMeta($customPostObjectOrID, string $key, bool $single = false)
+    protected function doGetCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = false): mixed
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */

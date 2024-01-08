@@ -19,12 +19,9 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
 {
     use OpenInModalTriggerMenuPageTrait;
 
-    public const SCREEN_OPTION_NAME = 'gatographql_extensions_per_page';
+    public final const SCREEN_OPTION_NAME = 'gatographql_extensions_per_page';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionDocsMenuPage|null
-     */
-    private $extensionDocsMenuPage;
+    private ?ExtensionDocsMenuPage $extensionDocsMenuPage = null;
 
     final public function setExtensionDocsMenuPage(ExtensionDocsMenuPage $extensionDocsMenuPage): void
     {
@@ -138,6 +135,11 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return sprintf(__('Extensions add functionality and expand the GraphQL schema. Browse all bundles and extensions on the <a href="%1$s" target="%2$s">Gato GraphQL website%3$s</a>.', 'gatographql'), $moduleConfiguration->getGatoGraphQLExtensionsPageURL(), '_blank', HTMLCodes::OPEN_IN_NEW_WINDOW);
+        return sprintf(
+            __('Extensions add functionality and expand the GraphQL schema. Browse all bundles and extensions on the <a href="%1$s" target="%2$s">Gato GraphQL website%3$s</a>.', 'gatographql'),
+            $moduleConfiguration->getGatoGraphQLExtensionsPageURL(),
+            '_blank',
+            HTMLCodes::OPEN_IN_NEW_WINDOW,
+        );
     }
 }

@@ -1,37 +1,37 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Comments\TypeResolvers\InputObjectType;
 
-/** @internal */
-class CustomPostCommentsFilterInputObjectTypeResolver extends \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\AbstractCommentsFilterInputObjectTypeResolver
+class CustomPostCommentsFilterInputObjectTypeResolver extends AbstractCommentsFilterInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'CustomPostCommentsFilterInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to filter comments from custom posts', 'comments');
     }
-    protected function addParentInputFields() : bool
+
+    protected function addParentInputFields(): bool
     {
-        return \true;
+        return true;
     }
-    protected function addCustomPostInputFields() : bool
+
+    protected function addCustomPostInputFields(): bool
     {
-        return \false;
+        return false;
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+
+    public function getInputFieldDefaultValue(string $inputFieldName): mixed
     {
-        switch ($inputFieldName) {
-            case 'parentID':
-                return 0;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            // By default fetch top-level comments
+            'parentID' => 0,
+            default => parent::getInputFieldDefaultValue($inputFieldName)
+        };
     }
 }

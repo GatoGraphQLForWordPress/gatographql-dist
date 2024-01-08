@@ -8,16 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Cache;
 
-use PrefixedByPoP\Psr\Cache\CacheException;
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
+namespace Symfony\Contracts\Cache;
+
+use Psr\Cache\CacheException;
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\InvalidArgumentException;
+
 /**
  * Augments PSR-6's CacheItemInterface with support for tags and metadata.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 interface ItemInterface extends CacheItemInterface
 {
@@ -25,18 +26,22 @@ interface ItemInterface extends CacheItemInterface
      * References the Unix timestamp stating when the item will expire.
      */
     public const METADATA_EXPIRY = 'expiry';
+
     /**
      * References the time the item took to be created, in milliseconds.
      */
     public const METADATA_CTIME = 'ctime';
+
     /**
      * References the list of tags that were assigned to the item, as string[].
      */
     public const METADATA_TAGS = 'tags';
+
     /**
      * Reserved characters that cannot be used in a key or tag.
      */
-    public const RESERVED_CHARACTERS = '{}()/\\@:';
+    public const RESERVED_CHARACTERS = '{}()/\@:';
+
     /**
      * Adds a tag to a cache item.
      *
@@ -49,11 +54,12 @@ interface ItemInterface extends CacheItemInterface
      * @throws InvalidArgumentException When $tag is not valid
      * @throws CacheException           When the item comes from a pool that is not tag-aware
      */
-    public function tag($tags);
+    public function tag(string|iterable $tags): static;
+
     /**
      * Returns a list of metadata info that were saved alongside with the cached value.
      *
      * See ItemInterface::METADATA_* consts for keys potentially found in the returned array.
      */
-    public function getMetadata() : array;
+    public function getMetadata(): array;
 }

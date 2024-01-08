@@ -1,85 +1,43 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeAPIs;
 
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
- * @internal
  */
 interface CustomPostTypeAPIInterface
 {
     /**
      * Indicates if the passed object is of type (Generic)CustomPost
      */
-    public function isInstanceOfCustomPostType(object $object) : bool;
+    public function isInstanceOfCustomPostType(object $object): bool;
     /**
      * Indicate if an post with provided ID exists
-     * @param int|string $id
      */
-    public function customPostExists($id) : bool;
+    public function customPostExists(int|string $id): bool;
     /**
      * Return the object's ID
-     * @return string|int
      */
-    public function getID(object $customPostObject);
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getContent($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawContent($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPermalink($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPermalinkPath($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getSlug($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getStatus($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPublishedDate($customPostObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getModifiedDate($customPostObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getTitle($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawTitle($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getExcerpt($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawExcerpt($customPostObjectOrID) : ?string;
+    public function getID(object $customPostObject): string|int;
+    public function getContent(string|int|object $customPostObjectOrID): ?string;
+    public function getRawContent(string|int|object $customPostObjectOrID): ?string;
+    public function getPermalink(string|int|object $customPostObjectOrID): ?string;
+    public function getPermalinkPath(string|int|object $customPostObjectOrID): ?string;
+    public function getSlug(string|int|object $customPostObjectOrID): ?string;
+    public function getStatus(string|int|object $customPostObjectOrID): ?string;
+    public function getPublishedDate(string|int|object $customPostObjectOrID, bool $gmt = false): ?string;
+    public function getModifiedDate(string|int|object $customPostObjectOrID, bool $gmt = false): ?string;
+    public function getTitle(string|int|object $customPostObjectOrID): ?string;
+    public function getRawTitle(string|int|object $customPostObjectOrID): ?string;
+    public function getExcerpt(string|int|object $customPostObjectOrID): ?string;
+    public function getRawExcerpt(string|int|object $customPostObjectOrID): ?string;
     /**
      * Get the custom post with provided ID or, if it doesn't exist, null
-     * @param int|string $id
      */
-    public function getCustomPost($id) : ?object;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getCustomPostType($customPostObjectOrID) : ?string;
+    public function getCustomPost(int|string $id): ?object;
+    public function getCustomPostType(string|int|object $customPostObjectOrID): ?string;
     /**
      * If param "status" in $query is not passed, it defaults to "publish"
      *
@@ -87,16 +45,16 @@ interface CustomPostTypeAPIInterface
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
      */
-    public function getCustomPosts(array $query, array $options = []) : array;
+    public function getCustomPosts(array $query, array $options = []): array;
     /**
      * If param "status" in $query is not passed, it defaults to "publish"
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getCustomPostCount(array $query, array $options = []) : int;
+    public function getCustomPostCount(array $query, array $options = []): int;
     /**
      * @return string[]
      * @param array<string,mixed> $query
      */
-    public function getCustomPostTypes(array $query = array()) : array;
+    public function getCustomPostTypes(array $query = array()): array;
 }

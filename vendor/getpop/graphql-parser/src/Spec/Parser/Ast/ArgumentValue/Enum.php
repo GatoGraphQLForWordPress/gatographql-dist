@@ -1,42 +1,44 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst;
 use PoP\GraphQLParser\Spec\Parser\Location;
-/** @internal */
-class Enum extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface
+
+class Enum extends AbstractAst implements ArgumentValueAstInterface
 {
-    /**
-     * @var string
-     */
-    protected $enumValue;
-    public function __construct(string $enumValue, Location $location)
-    {
-        $this->enumValue = $enumValue;
+    public function __construct(
+        protected string $enumValue,
+        Location $location
+    ) {
         parent::__construct($location);
     }
-    protected function doAsQueryString() : string
+
+    protected function doAsQueryString(): string
     {
         return $this->enumValue;
     }
-    protected function doAsASTNodeString() : string
+
+    protected function doAsASTNodeString(): string
     {
         return $this->enumValue;
     }
+
     /**
      * @return string
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->enumValue;
     }
+
     /**
      * Indicate if a field equals another one based on its properties,
      * not on its object hash ID.
      */
-    public function isEquivalentTo(\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum $enum) : bool
+    public function isEquivalentTo(Enum $enum): bool
     {
         return $this->getValue() === $enum->getValue();
     }

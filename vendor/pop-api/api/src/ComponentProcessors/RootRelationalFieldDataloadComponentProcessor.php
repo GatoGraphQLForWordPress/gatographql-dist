@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -8,19 +9,18 @@ use PoP\Root\App;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\Engine\ObjectModels\Root;
 use PoP\Engine\Schema\SchemaDefinitionServiceInterface;
-/** @internal */
-class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor
+
+class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT = 'dataload-relationalfields-root';
-    /**
-     * @var \PoP\Engine\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
-    public final function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService) : void
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT = 'dataload-relationalfields-root';
+
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
+
+    final public function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService): void
     {
         $this->schemaDefinitionService = $schemaDefinitionService;
     }
-    protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
+    final protected function getSchemaDefinitionService(): SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {
             /** @var SchemaDefinitionServiceInterface */
@@ -29,19 +29,23 @@ class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\Componen
         }
         return $this->schemaDefinitionService;
     }
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT);
+        return array(
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT,
+        );
     }
+
     /**
      * @return string|int|array<string|int>|null
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties): string|int|array|null
     {
         if (App::getState('does-api-query-have-errors')) {
             return null;
@@ -52,12 +56,14 @@ class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\Componen
         }
         return parent::getObjectIDOrIDs($component, $props, $data_properties);
     }
-    public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface
+
+    public function getRelationalTypeResolver(Component $component): ?RelationalTypeResolverInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT:
                 return $this->getSchemaDefinitionService()->getSchemaRootObjectTypeResolver();
         }
+
         return parent::getRelationalTypeResolver($component);
     }
 }

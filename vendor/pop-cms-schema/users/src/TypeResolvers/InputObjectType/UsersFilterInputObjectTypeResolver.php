@@ -1,12 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\TypeResolvers\InputObjectType;
 
-/** @internal */
-class UsersFilterInputObjectTypeResolver extends \PoPCMSSchema\Users\TypeResolvers\InputObjectType\AbstractUsersFilterInputObjectTypeResolver
+class UsersFilterInputObjectTypeResolver extends AbstractUsersFilterInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'UsersFilterInput';
     }

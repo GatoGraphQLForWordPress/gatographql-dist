@@ -10,47 +10,22 @@ use stdClass;
 abstract class AbstractBlock extends AbstractTransientObject implements BlockInterface
 {
     /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @readonly
-     * @var \stdClass|null
-     */
-    public $attributes;
-    /**
-     * @var BlockInterface[]|null
-     * @readonly
-     */
-    public $innerBlocks;
-    /**
-     * @var array<(string | null)>
-     * @readonly
-     */
-    public $innerContent;
-    /**
-     * @var stdClass
-     */
-    private $blockItem;
-    /**
      * Initialize this field lazily
-     * @var string|null
      */
-    private $contentSource;
+    private ?string $contentSource = null;
 
     /**
      * @param array<string|null> $innerContent
      * @param BlockInterface[]|null $innerBlocks
      * @param stdClass $blockItem Block data, needed to recreate the contentSource attribute lazily
      */
-    public function __construct(string $name, ?stdClass $attributes, ?array $innerBlocks, array $innerContent, stdClass $blockItem)
-    {
-        $this->name = $name;
-        $this->attributes = $attributes;
-        $this->innerBlocks = $innerBlocks;
-        $this->innerContent = $innerContent;
-        $this->blockItem = $blockItem;
+    public function __construct(
+        public readonly string $name,
+        public readonly ?stdClass $attributes,
+        public readonly ?array $innerBlocks,
+        public readonly array $innerContent,
+        private stdClass $blockItem,
+    ) {
         parent::__construct();
     }
 
@@ -134,7 +109,7 @@ abstract class AbstractBlock extends AbstractTransientObject implements BlockInt
             /** @var array<stdClass> */
             $blockInnerBlocks = $blockItem->innerBlocks;
             $serializeBlockData['innerBlocks'] = array_map(
-                \Closure::fromCallable([$this, 'getSerializeBlockData']),
+                $this->getSerializeBlockData(...),
                 $blockInnerBlocks
             );
         }

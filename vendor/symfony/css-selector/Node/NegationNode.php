@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
+
+namespace Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<selector>:not(<identifier>)" node.
@@ -22,33 +23,32 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
  */
 class NegationNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $subSelector;
+    private NodeInterface $selector;
+    private NodeInterface $subSelector;
+
     public function __construct(NodeInterface $selector, NodeInterface $subSelector)
     {
         $this->selector = $selector;
         $this->subSelector = $subSelector;
     }
-    public function getSelector() : NodeInterface
+
+    public function getSelector(): NodeInterface
     {
         return $this->selector;
     }
-    public function getSubSelector() : NodeInterface
+
+    public function getSubSelector(): NodeInterface
     {
         return $this->subSelector;
     }
-    public function getSpecificity() : Specificity
+
+    public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus($this->subSelector->getSpecificity());
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
-        return \sprintf('%s[%s:not(%s)]', $this->getNodeName(), $this->selector, $this->subSelector);
+        return sprintf('%s[%s:not(%s)]', $this->getNodeName(), $this->selector, $this->subSelector);
     }
 }

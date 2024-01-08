@@ -1,22 +1,26 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 trait GlobalObjectTypeFieldResolverTrait
 {
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractObjectTypeResolver::class];
+        return [
+            AbstractObjectTypeResolver::class,
+        ];
     }
-    public function isGlobal(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
+
+    public function isGlobal(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): bool
     {
-        return \true;
+        return true;
     }
 }

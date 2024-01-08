@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Comments\ConditionalOnModule\Users\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Comments\ConditionalOnModule\Users\TypeAPIs\CommentTypeAPIInterface;
-/** @internal */
+
 class CommentTypeAPIFacade
 {
-    public static function getInstance() : CommentTypeAPIInterface
+    public static function getInstance(): CommentTypeAPIInterface
     {
         /**
          * @var CommentTypeAPIInterface

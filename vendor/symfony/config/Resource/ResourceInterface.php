@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Resource;
+
+namespace Symfony\Component\Config\Resource;
 
 /**
  * ResourceInterface is the interface that must be implemented by all Resource classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 interface ResourceInterface extends \Stringable
 {
@@ -27,5 +27,5 @@ interface ResourceInterface extends \Stringable
      * resource; and it should be unlikely to collide with that of other, unrelated
      * resource instances.
      */
-    public function __toString() : string;
+    public function __toString(): string;
 }

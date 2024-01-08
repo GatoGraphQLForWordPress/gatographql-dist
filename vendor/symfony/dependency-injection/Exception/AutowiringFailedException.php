@@ -8,56 +8,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Exception;
+
+namespace Symfony\Component\DependencyInjection\Exception;
 
 /**
  * Thrown when a definition cannot be autowired.
- * @internal
  */
 class AutowiringFailedException extends RuntimeException
 {
-    /**
-     * @var string
-     */
-    private $serviceId;
-    /**
-     * @var \Closure|null
-     */
-    private $messageCallback;
-    /**
-     * @param string|\Closure $message
-     */
-    public function __construct(string $serviceId, $message = '', int $code = 0, \Throwable $previous = null)
+    private string $serviceId;
+    private ?\Closure $messageCallback = null;
+
+    public function __construct(string $serviceId, string|\Closure $message = '', int $code = 0, \Throwable $previous = null)
     {
         $this->serviceId = $serviceId;
-        if ($message instanceof \Closure && (\function_exists('xdebug_is_enabled') ? \xdebug_is_enabled() : \function_exists('xdebug_info'))) {
+
+        if ($message instanceof \Closure
+            && (\function_exists('xdebug_is_enabled') ? xdebug_is_enabled() : \function_exists('xdebug_info'))
+        ) {
             $message = $message();
         }
+
         if (!$message instanceof \Closure) {
             parent::__construct($message, $code, $previous);
+
             return;
         }
+
         $this->messageCallback = $message;
         parent::__construct('', $code, $previous);
-        $this->message = new class($this->message, $this->messageCallback)
-        {
-            /**
-             * @var string|$this
-             */
-            private $message;
-            /**
-             * @var \Closure|null
-             */
-            private $messageCallback;
+
+        $this->message = new class($this->message, $this->messageCallback) {
+            private string|self $message;
+            private ?\Closure $messageCallback;
+
             public function __construct(&$message, &$messageCallback)
             {
-                $this->message =& $message;
-                $this->messageCallback =& $messageCallback;
+                $this->message = &$message;
+                $this->messageCallback = &$messageCallback;
             }
-            public function __toString() : string
+
+            public function __toString(): string
             {
                 $messageCallback = $this->messageCallback;
                 $this->messageCallback = null;
+
                 try {
                     return $this->message = $messageCallback();
                 } catch (\Throwable $e) {
@@ -66,10 +61,12 @@ class AutowiringFailedException extends RuntimeException
             }
         };
     }
-    public function getMessageCallback() : ?\Closure
+
+    public function getMessageCallback(): ?\Closure
     {
         return $this->messageCallback;
     }
+
     /**
      * @return string
      */

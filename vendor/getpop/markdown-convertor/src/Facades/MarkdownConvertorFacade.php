@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\MarkdownConvertor\Facades;
 
 use PoP\Root\App;
 use PoP\MarkdownConvertor\MarkdownConvertorInterface;
-/** @internal */
+
 class MarkdownConvertorFacade
 {
-    public static function getInstance() : MarkdownConvertorInterface
+    public static function getInstance(): MarkdownConvertorInterface
     {
         /**
          * @var MarkdownConvertorInterface

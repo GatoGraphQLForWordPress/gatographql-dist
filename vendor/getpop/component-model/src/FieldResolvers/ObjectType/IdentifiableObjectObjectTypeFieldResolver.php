@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
@@ -10,18 +11,16 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-class IdentifiableObjectObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver
+
+class IdentifiableObjectObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\FieldResolvers\InterfaceType\IdentifiableObjectInterfaceTypeFieldResolver|null
-     */
-    private $identifiableObjectInterfaceTypeFieldResolver;
-    public final function setIdentifiableObjectInterfaceTypeFieldResolver(IdentifiableObjectInterfaceTypeFieldResolver $identifiableObjectInterfaceTypeFieldResolver) : void
+    private ?IdentifiableObjectInterfaceTypeFieldResolver $identifiableObjectInterfaceTypeFieldResolver = null;
+
+    final public function setIdentifiableObjectInterfaceTypeFieldResolver(IdentifiableObjectInterfaceTypeFieldResolver $identifiableObjectInterfaceTypeFieldResolver): void
     {
         $this->identifiableObjectInterfaceTypeFieldResolver = $identifiableObjectInterfaceTypeFieldResolver;
     }
-    protected final function getIdentifiableObjectInterfaceTypeFieldResolver() : IdentifiableObjectInterfaceTypeFieldResolver
+    final protected function getIdentifiableObjectInterfaceTypeFieldResolver(): IdentifiableObjectInterfaceTypeFieldResolver
     {
         if ($this->identifiableObjectInterfaceTypeFieldResolver === null) {
             /** @var IdentifiableObjectInterfaceTypeFieldResolver */
@@ -30,46 +29,65 @@ class IdentifiableObjectObjectTypeFieldResolver extends \PoP\ComponentModel\Fiel
         }
         return $this->identifiableObjectInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractObjectTypeResolver::class];
+        return [
+            AbstractObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getIdentifiableObjectInterfaceTypeFieldResolver()];
+        return [
+            $this->getIdentifiableObjectInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['id', 'globalID'];
+        return [
+            'id',
+            'globalID',
+        ];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'id':
                 return $objectTypeResolver->getID($object);
             case 'globalID':
-                return \base64_encode(\sprintf('%s:%s', $objectTypeResolver->getNamespacedTypeName(), $objectTypeResolver->getID($object)));
+                return base64_encode(sprintf(
+                    '%s:%s',
+                    $objectTypeResolver->getNamespacedTypeName(),
+                    $objectTypeResolver->getID($object)
+                ));
         }
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

@@ -8,10 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+
 trait DeprecateTrait
 {
     /**
@@ -25,9 +26,10 @@ trait DeprecateTrait
      *
      * @throws InvalidArgumentException when the message template is invalid
      */
-    public final function deprecate(string $package, string $version, string $message)
+    final public function deprecate(string $package, string $version, string $message): static
     {
         $this->definition->setDeprecated($package, $version, $message);
+
         return $this;
     }
 }

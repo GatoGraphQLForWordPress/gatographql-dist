@@ -15,10 +15,8 @@ class UserMetaTypeAPI extends AbstractUserMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    protected function doGetUserMeta($userObjectOrID, string $key, bool $single = false)
+    protected function doGetUserMeta(string|int|object $userObjectOrID, string $key, bool $single = false): mixed
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */

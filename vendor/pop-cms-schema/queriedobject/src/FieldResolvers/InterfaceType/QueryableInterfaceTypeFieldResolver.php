@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
@@ -11,26 +12,18 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\QueriedObject\TypeResolvers\InterfaceType\QueryableInterfaceTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLAbsolutePathScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
-/** @internal */
+
 class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLAbsolutePathScalarTypeResolver|null
-     */
-    private $urlAbsolutePathScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?URLAbsolutePathScalarTypeResolver $urlAbsolutePathScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+
+    final public function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver): void
     {
         $this->urlScalarTypeResolver = $urlScalarTypeResolver;
     }
-    protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
+    final protected function getURLScalarTypeResolver(): URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
             /** @var URLScalarTypeResolver */
@@ -39,11 +32,11 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
         }
         return $this->urlScalarTypeResolver;
     }
-    public final function setURLAbsolutePathScalarTypeResolver(URLAbsolutePathScalarTypeResolver $urlAbsolutePathScalarTypeResolver) : void
+    final public function setURLAbsolutePathScalarTypeResolver(URLAbsolutePathScalarTypeResolver $urlAbsolutePathScalarTypeResolver): void
     {
         $this->urlAbsolutePathScalarTypeResolver = $urlAbsolutePathScalarTypeResolver;
     }
-    protected final function getURLAbsolutePathScalarTypeResolver() : URLAbsolutePathScalarTypeResolver
+    final protected function getURLAbsolutePathScalarTypeResolver(): URLAbsolutePathScalarTypeResolver
     {
         if ($this->urlAbsolutePathScalarTypeResolver === null) {
             /** @var URLAbsolutePathScalarTypeResolver */
@@ -52,11 +45,11 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
         }
         return $this->urlAbsolutePathScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -65,55 +58,58 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
         }
         return $this->stringScalarTypeResolver;
     }
+
     /**
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo() : array
+    public function getInterfaceTypeResolverClassesToAttachTo(): array
     {
-        return [QueryableInterfaceTypeResolver::class];
+        return [
+            QueryableInterfaceTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement() : array
+    public function getFieldNamesToImplement(): array
     {
-        return ['url', 'urlPath', 'slug'];
+        return [
+            'url',
+            'urlPath',
+            'slug',
+        ];
     }
-    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->getURLScalarTypeResolver();
-            case 'urlPath':
-                return $this->getURLAbsolutePathScalarTypeResolver();
-            case 'slug':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->getURLScalarTypeResolver(),
+            'urlPath' => $this->getURLAbsolutePathScalarTypeResolver(),
+            'slug' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
-    public function getFieldTypeModifiers(string $fieldName) : int
+
+    public function getFieldTypeModifiers(string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'url':
-            case 'urlPath':
-            case 'slug':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'url',
+            'urlPath',
+            'slug'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($fieldName),
+        };
     }
-    public function getFieldDescription(string $fieldName) : ?string
+
+    public function getFieldDescription(string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('URL to query the object', 'queriedobject');
-            case 'urlPath':
-                return $this->__('URL path to query the object', 'queriedobject');
-            case 'slug':
-                return $this->__('URL\'s slug', 'queriedobject');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('URL to query the object', 'queriedobject'),
+            'urlPath' => $this->__('URL path to query the object', 'queriedobject'),
+            'slug' => $this->__('URL\'s slug', 'queriedobject'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

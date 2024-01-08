@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\ComponentPath;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface;
-/** @internal */
+
 class ComponentPathManagerFacade
 {
-    public static function getInstance() : ComponentPathManagerInterface
+    public static function getInstance(): ComponentPathManagerInterface
     {
         /**
          * @var ComponentPathManagerInterface

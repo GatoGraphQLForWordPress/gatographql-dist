@@ -14,14 +14,8 @@ use WP_Post;
 
 abstract class AbstractSchemaConfigCustomPostListBlock extends AbstractSchemaConfigCustomizableConfigurationBlock
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockRenderingHelpers|null
-     */
-    private $blockRenderingHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\CPTUtils|null
-     */
-    private $cptUtils;
+    private ?BlockRenderingHelpers $blockRenderingHelpers = null;
+    private ?CPTUtils $cptUtils = null;
 
     final public function setBlockRenderingHelpers(BlockRenderingHelpers $blockRenderingHelpers): void
     {
@@ -133,8 +127,10 @@ abstract class AbstractSchemaConfigCustomPostListBlock extends AbstractSchemaCon
         );
     }
 
-    protected function getBlockSectionContentHTML(string $sectionHeader, string $sectionContent): string
-    {
+    protected function getBlockSectionContentHTML(
+        string $sectionHeader,
+        string $sectionContent,
+    ): string {
         $blockContentPlaceholder = '<div class="%s"><h4 class="%s">%s</strong></h4>%s</div>';
         $className = $this->getBlockClassName();
         return sprintf(

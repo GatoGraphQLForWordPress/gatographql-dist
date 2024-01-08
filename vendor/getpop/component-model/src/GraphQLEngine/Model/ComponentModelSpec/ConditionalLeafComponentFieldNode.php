@@ -1,17 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-class ConditionalLeafComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
+
+class ConditionalLeafComponentFieldNode extends AbstractComponentFieldNode
 {
-    /**
-     * @var Component[]
-     */
-    protected $conditionalNestedComponents;
     /**
      * The condition must be satisfied on the implicit field.
      * When the value of the field is `true`, load the conditional
@@ -19,15 +16,19 @@ class ConditionalLeafComponentFieldNode extends \PoP\ComponentModel\GraphQLEngin
      *
      * @param Component[] $conditionalNestedComponents
      */
-    public function __construct(FieldInterface $field, array $conditionalNestedComponents)
-    {
-        $this->conditionalNestedComponents = $conditionalNestedComponents;
-        parent::__construct($field);
+    public function __construct(
+        FieldInterface $field,
+        protected array $conditionalNestedComponents,
+    ) {
+        parent::__construct(
+            $field,
+        );
     }
+
     /**
      * @return Component[]
      */
-    public function getConditionalNestedComponents() : array
+    public function getConditionalNestedComponents(): array
     {
         return $this->conditionalNestedComponents;
     }

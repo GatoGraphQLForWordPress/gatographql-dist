@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
+
+namespace Symfony\Component\CssSelector\Node;
 
 /**
  * Abstract base node class.
@@ -22,12 +23,10 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
  */
 abstract class AbstractNode implements NodeInterface
 {
-    /**
-     * @var string
-     */
-    private $nodeName;
-    public function getNodeName() : string
+    private string $nodeName;
+
+    public function getNodeName(): string
     {
-        return $this->nodeName = $this->nodeName ?? \preg_replace('~.*\\\\([^\\\\]+)Node$~', '$1', static::class);
+        return $this->nodeName ??= preg_replace('~.*\\\\([^\\\\]+)Node$~', '$1', static::class);
     }
 }

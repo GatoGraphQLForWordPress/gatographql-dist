@@ -37,27 +37,21 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return true;
     }
 
-    /**
-     * @return string|int
-     */
-    public function getCategoryID(object $cat)
+    public function getCategoryID(object $cat): string|int
     {
         /** @var WP_Term $cat */
         return $this->getTaxonomyTermID($cat);
     }
 
-    /**
-     * @param string|int $categoryID
-     */
-    public function getCategory($categoryID): ?object
+    public function getCategory(string|int $categoryID): ?object
     {
-        return $this->getTaxonomyTerm($categoryID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTerm(
+            $categoryID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param int|string $id
-     */
-    public function categoryExists($id): bool
+    public function categoryExists(int|string $id): bool
     {
         return $this->getCategory($id) !== null;
     }
@@ -70,7 +64,7 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
      */
-    public function getCustomPostCategories($customPostObjectOrID, array $query = [], array $options = []): array
+    public function getCustomPostCategories(string|int|object $customPostObjectOrID, array $query = [], array $options = []): array
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -81,14 +75,17 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var array<string|int>|object[] */
-        return $this->getCustomPostTaxonomyTerms($customPostObjectOrID, $query, $options);
+        return $this->getCustomPostTaxonomyTerms(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        );
     }
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostCategoryCount($customPostObjectOrID, array $query = [], array $options = []): ?int
+    public function getCustomPostCategoryCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []): ?int
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -99,7 +96,11 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var string|int|WP_Post $customPostObjectOrID */
-        return $this->getCustomPostTaxonomyTermCount($customPostObjectOrID, $query, $options);
+        return $this->getCustomPostTaxonomyTermCount(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        );
     }
     /**
      * @param array<string,mixed> $query
@@ -153,95 +154,93 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return $this->convertTaxonomyTermsQuery($query, $options);
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryURL($catObjectOrID): ?string
+    public function getCategoryURL(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermURL($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermURL(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryURLPath($catObjectOrID): ?string
+    public function getCategoryURLPath(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermURLPath($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermURLPath(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    protected function getCategoryFromObjectOrID($catObjectOrID): ?WP_Term
+    protected function getCategoryFromObjectOrID(string|int|object $catObjectOrID): ?WP_Term
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermFromObjectOrID($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermFromObjectOrID(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategorySlug($catObjectOrID): ?string
+    public function getCategorySlug(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermSlug($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermSlug(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategorySlugPath($catObjectOrID): ?string
+    public function getCategorySlugPath(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermSlugPath($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermSlugPath(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryName($catObjectOrID): ?string
+    public function getCategoryName(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermName($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermName(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     * @return string|int|null
-     */
-    public function getCategoryParentID($catObjectOrID)
+    public function getCategoryParentID(string|int|object $catObjectOrID): string|int|null
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermParentID($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermParentID(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
     /**
      * @return array<string|int>|null
-     * @param string|int|object $catObjectOrID
      */
-    public function getCategoryChildIDs($catObjectOrID): ?array
+    public function getCategoryChildIDs(string|int|object $catObjectOrID): ?array
     {
         /** @var string|int|WP_Term $catObjectOrID */
         return $this->getTaxonomyTermChildIDs($this->getCategoryTaxonomyName(), $catObjectOrID);
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryDescription($catObjectOrID): ?string
+    public function getCategoryDescription(string|int|object $catObjectOrID): ?string
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermDescription($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermDescription(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryItemCount($catObjectOrID): ?int
+    public function getCategoryItemCount(string|int|object $catObjectOrID): ?int
     {
         /** @var string|int|WP_Term $catObjectOrID */
-        return $this->getTaxonomyTermItemCount($catObjectOrID, $this->getCategoryTaxonomyName());
+        return $this->getTaxonomyTermItemCount(
+            $catObjectOrID,
+            $this->getCategoryTaxonomyName(),
+        );
     }
 }

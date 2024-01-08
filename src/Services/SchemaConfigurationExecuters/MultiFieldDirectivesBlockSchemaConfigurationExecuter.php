@@ -15,10 +15,7 @@ use PoP\GraphQLParser\Environment as GraphQLParserEnvironment;
 
 class MultiFieldDirectivesBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigMultiFieldDirectivesBlock|null
-     */
-    private $schemaConfigMultiFieldDirectivesBlock;
+    private ?SchemaConfigMultiFieldDirectivesBlock $schemaConfigMultiFieldDirectivesBlock = null;
 
     final public function setSchemaConfigMultiFieldDirectivesBlock(SchemaConfigMultiFieldDirectivesBlock $schemaConfigMultiFieldDirectivesBlock): void
     {

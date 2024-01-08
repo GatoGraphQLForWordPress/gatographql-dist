@@ -1,35 +1,44 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Routing;
 
 use PoP\Root\App;
 use PoP\Root\Services\BasicServiceTrait;
-/** @internal */
-class RoutingHelperService implements \PoP\Root\Routing\RoutingHelperServiceInterface
+
+class RoutingHelperService implements RoutingHelperServiceInterface
 {
     use BasicServiceTrait;
-    public function getRequestURI() : ?string
+
+    public function getRequestURI(): ?string
     {
         if (!App::isHTTPRequest()) {
             return null;
         }
+
         // Allow to remove the language information from qTranslate (https://domain.com/en/...)
-        return App::applyFilters(\PoP\Root\Routing\HookNames::REQUEST_URI, App::server('REQUEST_URI'));
+        return App::applyFilters(
+            HookNames::REQUEST_URI,
+            App::server('REQUEST_URI')
+        );
     }
-    public function getRequestURIPath() : ?string
+
+    public function getRequestURIPath(): ?string
     {
         if (!App::isHTTPRequest()) {
             return null;
         }
+
         $route = $this->getRequestURI();
         if ($route === null) {
             return null;
         }
-        $params_pos = \strpos($route, '?');
-        if ($params_pos !== \false) {
-            $route = \substr($route, 0, $params_pos);
+
+        $params_pos = strpos($route, '?');
+        if ($params_pos !== false) {
+            $route = substr($route, 0, $params_pos);
         }
-        return \trim($route, '/');
+        return trim($route, '/');
     }
 }

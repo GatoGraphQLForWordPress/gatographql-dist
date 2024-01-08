@@ -1,9 +1,9 @@
 <?php
-
 /**
  * A handler for processor instructions.
  */
-namespace PrefixedByPoP\Masterminds\HTML5;
+
+namespace Masterminds\HTML5;
 
 /**
  * Provide an processor to handle embedded instructions.
@@ -16,7 +16,6 @@ namespace PrefixedByPoP\Masterminds\HTML5;
  *
  * One could, for example, use this mechanism to execute well-formed PHP
  * code embedded inside of an HTML5 document.
- * @internal
  */
 interface InstructionProcessor
 {

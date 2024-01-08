@@ -8,40 +8,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+namespace Symfony\Component\DependencyInjection\Argument;
+
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+
 /**
  * Represents a service wrapped in a memoizing closure.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class ServiceClosureArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value)
+    private array $values;
+
+    public function __construct(mixed $value)
     {
         $this->values = [$value];
     }
-    public function getValues() : array
+
+    public function getValues(): array
     {
         return $this->values;
     }
+
     /**
      * @return void
      */
     public function setValues(array $values)
     {
-        if ([0] !== \array_keys($values)) {
+        if ([0] !== array_keys($values)) {
             throw new InvalidArgumentException('A ServiceClosureArgument must hold one and only one value.');
         }
+
         $this->values = $values;
     }
 }

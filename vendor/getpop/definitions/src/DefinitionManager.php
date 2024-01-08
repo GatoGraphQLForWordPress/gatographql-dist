@@ -1,76 +1,79 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Definitions;
 
 use PoP\Definitions\Configuration\Request;
-/** @internal */
-class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
+
+class DefinitionManager implements DefinitionManagerInterface
 {
     /**
      * @var array<string,array<string,string>>
      */
-    protected $names = [];
+    protected array $names = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $name_definitions = [];
+    protected array $name_definitions = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $definition_names = [];
+    protected array $definition_names = [];
     /**
      * @var array<string,DefinitionResolverInterface>
      */
-    protected $definition_resolvers = [];
-    /**
-     * @var \PoP\Definitions\DefinitionPersistenceInterface|null
-     */
-    private $definition_persistence;
-    public function isEnabled() : bool
+    protected array $definition_resolvers = [];
+    private ?DefinitionPersistenceInterface $definition_persistence = null;
+
+    public function isEnabled(): bool
     {
-        return !\PoP\Definitions\Environment::disableDefinitions() && Request::isMangled();
+        return !Environment::disableDefinitions() && Request::isMangled();
     }
+
     /**
      * @return array<string,DefinitionResolverInterface>
      */
-    public function getDefinitionResolvers() : array
+    public function getDefinitionResolvers(): array
     {
         if (!$this->isEnabled()) {
             return [];
         }
         return $this->definition_resolvers;
     }
-    public function getDefinitionResolver(string $group) : ?\PoP\Definitions\DefinitionResolverInterface
+    public function getDefinitionResolver(string $group): ?DefinitionResolverInterface
     {
         if (!$this->isEnabled()) {
             return null;
         }
         return $this->definition_resolvers[$group] ?? null;
     }
-    public function setDefinitionResolver(\PoP\Definitions\DefinitionResolverInterface $definition_resolver, string $group) : void
+    public function setDefinitionResolver(DefinitionResolverInterface $definition_resolver, string $group): void
     {
         $this->definition_resolvers[$group] = $definition_resolver;
+
         // Allow the Resolver and the Persistence to talk to each other
         if ($this->definition_persistence) {
             $this->definition_persistence->setDefinitionResolver($definition_resolver, $group);
         }
     }
-    public function getDefinitionPersistence() : ?\PoP\Definitions\DefinitionPersistenceInterface
+    public function getDefinitionPersistence(): ?DefinitionPersistenceInterface
     {
         if (!$this->isEnabled()) {
             return null;
         }
         return $this->definition_persistence;
     }
-    public function setDefinitionPersistence(\PoP\Definitions\DefinitionPersistenceInterface $definition_persistence) : void
+    public function setDefinitionPersistence(DefinitionPersistenceInterface $definition_persistence): void
     {
         $this->definition_persistence = $definition_persistence;
+
         // Allow the Resolver and the Persistence to talk to each other
         foreach ($this->definition_resolvers as $group => $definition_resolver) {
             $this->definition_persistence->setDefinitionResolver($definition_resolver, $group);
         }
     }
+
     /**
      * Function used to create a definition for a component.
      * Needed for reducing the filesize of the html generated for PROD
@@ -79,11 +82,12 @@ class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
      * Comment Leo 27/09/2017: Changed from $component to only $id so that it can also
      * be used with ResourceLoaders
      */
-    public function getDefinition(string $name, string $group) : string
+    public function getDefinition(string $name, string $group): string
     {
-        if ($definition = isset($this->name_definitions[$group]) ? $this->name_definitions[$group][$name] : null) {
+        if ($definition = (isset($this->name_definitions[$group]) ? $this->name_definitions[$group][$name] : null)) {
             return $definition;
         }
+
         // Allow the persistence layer to return the value directly
         $definitionPersistence = $this->getDefinitionPersistence();
         if ($definitionPersistence) {
@@ -93,6 +97,7 @@ class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
                 return $definition;
             }
         }
+
         // Allow the injected Resolver to decide how the name is resolved
         if ($definitionResolver = $this->getDefinitionResolver($group)) {
             $definition = $definitionResolver->getDefinition($name, $group);
@@ -103,17 +108,20 @@ class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
             $this->name_definitions[$group][$name] = $definition;
             return $definition;
         }
+
         return $name;
     }
+
     /**
      * Given a definition, retrieve its original name
      */
-    public function getOriginalName(string $definition, string $group) : string
+    public function getOriginalName(string $definition, string $group): string
     {
         // If it is cached in this object, return it already
         if (isset($this->definition_names[$group][$definition])) {
             return $this->definition_names[$group][$definition];
         }
+
         // Otherwise, ask if the persistence object has it
         if ($definitionPersistence = $this->getDefinitionPersistence()) {
             if ($name = $definitionPersistence->getOriginalName($definition, $group)) {
@@ -122,10 +130,12 @@ class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
                 return $name;
             }
         }
+
         // It didn't find it, assume it's the same
         return $definition;
     }
-    public function maybeStoreDefinitionsPersistently() : void
+
+    public function maybeStoreDefinitionsPersistently(): void
     {
         if ($definitionPersistence = $this->getDefinitionPersistence()) {
             $definitionPersistence->storeDefinitionsPersistently();

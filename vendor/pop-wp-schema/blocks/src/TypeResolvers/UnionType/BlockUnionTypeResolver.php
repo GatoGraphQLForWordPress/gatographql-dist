@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 
 class BlockUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\Blocks\TypeResolvers\InterfaceType\BlockInterfaceTypeResolver|null
-     */
-    private $blockInterfaceTypeResolver;
-    /**
-     * @var \PoPWPSchema\Blocks\RelationalTypeDataLoaders\UnionType\BlockUnionTypeDataLoader|null
-     */
-    private $blockUnionTypeDataLoader;
+    private ?BlockInterfaceTypeResolver $blockInterfaceTypeResolver = null;
+    private ?BlockUnionTypeDataLoader $blockUnionTypeDataLoader = null;
 
     final public function setBlockInterfaceTypeResolver(BlockInterfaceTypeResolver $blockInterfaceTypeResolver): void
     {

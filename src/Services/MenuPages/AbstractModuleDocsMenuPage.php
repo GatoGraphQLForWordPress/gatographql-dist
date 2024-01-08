@@ -15,10 +15,7 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
 {
     use PluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -71,7 +68,7 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         $module = urldecode($requestedModule);
         try {
             $moduleResolver = $this->getModuleRegistry()->getModuleResolver($module);
-        } catch (ModuleNotExistsException $exception) {
+        } catch (ModuleNotExistsException) {
             return sprintf(
                 '<p>%s</p>',
                 $this->getModuleDoesNotExistErrorMessage($module)
@@ -85,7 +82,10 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         if (!$hasDocumentation || $documentation === null) {
             return sprintf(
                 '<p>%s</p>',
-                $this->getModuleHasNoDocumentationErrorMessage($module, $moduleResolver)
+                $this->getModuleHasNoDocumentationErrorMessage(
+                    $module,
+                    $moduleResolver,
+                )
             );
         }
         return $documentation;
@@ -107,8 +107,10 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         );
     }
 
-    protected function getModuleHasNoDocumentationErrorMessage(string $module, ModuleResolverInterface $moduleResolver): string
-    {
+    protected function getModuleHasNoDocumentationErrorMessage(
+        string $module,
+        ModuleResolverInterface $moduleResolver,
+    ): string {
         return sprintf(
             \__('Oops, module \'%s\' has no documentation', 'gatographql'),
             $moduleResolver->getName($module)

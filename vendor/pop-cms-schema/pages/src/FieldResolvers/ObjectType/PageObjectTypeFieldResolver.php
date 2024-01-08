@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Pages\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver;
@@ -20,39 +21,23 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\InputObjectType\PageChildrenFilterInputObjectTypeResolver|null
-     */
-    private $pageChildrenFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\InputObjectType\PagePaginationInputObjectTypeResolver|null
-     */
-    private $pagePaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver|null
-     */
-    private $customPostSortInputObjectTypeResolver;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
+
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
+    private ?PageChildrenFilterInputObjectTypeResolver $pageChildrenFilterInputObjectTypeResolver = null;
+    private ?PagePaginationInputObjectTypeResolver $pagePaginationInputObjectTypeResolver = null;
+    private ?CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver = null;
+
+    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
+    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -61,11 +46,11 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
+    final public function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver): void
     {
         $this->pageObjectTypeResolver = $pageObjectTypeResolver;
     }
-    protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
+    final protected function getPageObjectTypeResolver(): PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
             /** @var PageObjectTypeResolver */
@@ -74,11 +59,11 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->pageObjectTypeResolver;
     }
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
+    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    protected final function getPageTypeAPI() : PageTypeAPIInterface
+    final protected function getPageTypeAPI(): PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -87,11 +72,11 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->pageTypeAPI;
     }
-    public final function setPageChildrenFilterInputObjectTypeResolver(PageChildrenFilterInputObjectTypeResolver $pageChildrenFilterInputObjectTypeResolver) : void
+    final public function setPageChildrenFilterInputObjectTypeResolver(PageChildrenFilterInputObjectTypeResolver $pageChildrenFilterInputObjectTypeResolver): void
     {
         $this->pageChildrenFilterInputObjectTypeResolver = $pageChildrenFilterInputObjectTypeResolver;
     }
-    protected final function getPageChildrenFilterInputObjectTypeResolver() : PageChildrenFilterInputObjectTypeResolver
+    final protected function getPageChildrenFilterInputObjectTypeResolver(): PageChildrenFilterInputObjectTypeResolver
     {
         if ($this->pageChildrenFilterInputObjectTypeResolver === null) {
             /** @var PageChildrenFilterInputObjectTypeResolver */
@@ -100,11 +85,11 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->pageChildrenFilterInputObjectTypeResolver;
     }
-    public final function setPagePaginationInputObjectTypeResolver(PagePaginationInputObjectTypeResolver $pagePaginationInputObjectTypeResolver) : void
+    final public function setPagePaginationInputObjectTypeResolver(PagePaginationInputObjectTypeResolver $pagePaginationInputObjectTypeResolver): void
     {
         $this->pagePaginationInputObjectTypeResolver = $pagePaginationInputObjectTypeResolver;
     }
-    protected final function getPagePaginationInputObjectTypeResolver() : PagePaginationInputObjectTypeResolver
+    final protected function getPagePaginationInputObjectTypeResolver(): PagePaginationInputObjectTypeResolver
     {
         if ($this->pagePaginationInputObjectTypeResolver === null) {
             /** @var PagePaginationInputObjectTypeResolver */
@@ -113,11 +98,11 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->pagePaginationInputObjectTypeResolver;
     }
-    public final function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver) : void
+    final public function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver): void
     {
         $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
     }
-    protected final function getCustomPostSortInputObjectTypeResolver() : CustomPostSortInputObjectTypeResolver
+    final protected function getCustomPostSortInputObjectTypeResolver(): CustomPostSortInputObjectTypeResolver
     {
         if ($this->customPostSortInputObjectTypeResolver === null) {
             /** @var CustomPostSortInputObjectTypeResolver */
@@ -126,96 +111,122 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->customPostSortInputObjectTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PageObjectTypeResolver::class];
+        return [
+            PageObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['parent', 'children', 'childCount'];
+        return [
+            'parent',
+            'children',
+            'childCount',
+        ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'parent':
-                return $this->__('Parent page', 'pages');
-            case 'children':
-                return $this->__('Child pages', 'pages');
-            case 'childCount':
-                return $this->__('Number of child pages', 'pages');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'parent' => $this->__('Parent page', 'pages'),
+            'children' => $this->__('Child pages', 'pages'),
+            'childCount' => $this->__('Number of child pages', 'pages'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'parent':
-            case 'children':
-                return $this->getPageObjectTypeResolver();
-            case 'childCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'parent',
+            'children'
+                => $this->getPageObjectTypeResolver(),
+            'childCount'
+                => $this->getIntScalarTypeResolver(),
+            default
+                => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'childCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'children':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'childCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'children' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'children':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getPageChildrenFilterInputObjectTypeResolver(), 'pagination' => $this->getPagePaginationInputObjectTypeResolver(), 'sort' => $this->getCustomPostSortInputObjectTypeResolver()]);
-            case 'childCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getPageChildrenFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'children' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getPageChildrenFilterInputObjectTypeResolver(),
+                    'pagination' => $this->getPagePaginationInputObjectTypeResolver(),
+                    'sort' => $this->getCustomPostSortInputObjectTypeResolver(),
+                ]
+            ),
+            'childCount' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getPageChildrenFilterInputObjectTypeResolver(),
+                ]
+            ),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $page = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'parent':
                 return $this->getPageTypeAPI()->getParentPageID($page);
         }
-        $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), ['parent-id' => $objectTypeResolver->getID($page)]);
+
+        $query = array_merge(
+            $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor),
+            [
+                'parent-id' => $objectTypeResolver->getID($page),
+            ]
+        );
         switch ($fieldDataAccessor->getFieldName()) {
             case 'children':
                 return $this->getPageTypeAPI()->getPages($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
             case 'childCount':
                 return $this->getPageTypeAPI()->getPageCount($query);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

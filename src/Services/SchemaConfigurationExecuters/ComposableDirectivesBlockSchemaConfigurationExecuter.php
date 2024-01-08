@@ -15,10 +15,7 @@ use PoP\GraphQLParser\Environment as GraphQLParserEnvironment;
 
 class ComposableDirectivesBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigComposableDirectivesBlock|null
-     */
-    private $schemaConfigComposableDirectivesBlock;
+    private ?SchemaConfigComposableDirectivesBlock $schemaConfigComposableDirectivesBlock = null;
 
     final public function setSchemaConfigComposableDirectivesBlock(SchemaConfigComposableDirectivesBlock $schemaConfigComposableDirectivesBlock): void
     {

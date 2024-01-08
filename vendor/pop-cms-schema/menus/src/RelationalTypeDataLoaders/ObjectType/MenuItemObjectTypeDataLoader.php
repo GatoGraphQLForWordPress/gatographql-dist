@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface;
-/** @internal */
+
 class MenuItemObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface|null
-     */
-    private $menuItemRuntimeRegistry;
-    public final function setMenuItemRuntimeRegistry(MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry) : void
+    private ?MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry = null;
+
+    final public function setMenuItemRuntimeRegistry(MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry): void
     {
         $this->menuItemRuntimeRegistry = $menuItemRuntimeRegistry;
     }
-    protected final function getMenuItemRuntimeRegistry() : MenuItemRuntimeRegistryInterface
+    final protected function getMenuItemRuntimeRegistry(): MenuItemRuntimeRegistryInterface
     {
         if ($this->menuItemRuntimeRegistry === null) {
             /** @var MenuItemRuntimeRegistryInterface */
@@ -25,13 +24,17 @@ class MenuItemObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->menuItemRuntimeRegistry;
     }
+
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids) : array
+    public function getObjects(array $ids): array
     {
         // Retrieve each item from the dynamic registry
-        return \array_map(\Closure::fromCallable([$this->getMenuItemRuntimeRegistry(), 'getMenuItem']), $ids);
+        return array_map(
+            $this->getMenuItemRuntimeRegistry()->getMenuItem(...),
+            $ids
+        );
     }
 }

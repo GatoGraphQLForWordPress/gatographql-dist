@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Schema;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
@@ -17,19 +18,18 @@ use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\BasicServiceTrait;
 use stdClass;
-/** @internal */
-class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingServiceInterface
+
+class InputCoercingService implements InputCoercingServiceInterface
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
-     */
-    private $outputService;
-    public final function setOutputService(OutputServiceInterface $outputService) : void
+
+    private ?OutputServiceInterface $outputService = null;
+
+    final public function setOutputService(OutputServiceInterface $outputService): void
     {
         $this->outputService = $outputService;
     }
-    protected final function getOutputService() : OutputServiceInterface
+    final protected function getOutputService(): OutputServiceInterface
     {
         if ($this->outputService === null) {
             /** @var OutputServiceInterface */
@@ -38,6 +38,7 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         }
         return $this->outputService;
     }
+
     /**
      * Support passing a single value where a list is expected:
      * `{ posts(ids: 1) }` means `{ posts(ids: [1]) }`
@@ -45,11 +46,13 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
      * Defined in the GraphQL spec.
      *
      * @see https://spec.graphql.org/draft/#sec-List.Input-Coercion
-     * @param mixed $inputValue
-     * @return mixed
      */
-    public function maybeConvertInputValueFromSingleToList($inputValue, bool $inputIsNonNullable, bool $inputIsArrayType, bool $inputIsArrayOfArraysType)
-    {
+    public function maybeConvertInputValueFromSingleToList(
+        mixed $inputValue,
+        bool $inputIsNonNullable,
+        bool $inputIsArrayType,
+        bool $inputIsArrayOfArraysType,
+    ): mixed {
         /**
          * If it is a Promise then don't convert it, since its underlying
          * value may actually be an array, but we don't know it yet.
@@ -59,10 +62,16 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         }
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        if (\is_array($inputValue) || !$moduleConfiguration->convertInputValueFromSingleToList()) {
+        if (
+            is_array($inputValue)
+            || !$moduleConfiguration->convertInputValueFromSingleToList()
+        ) {
             return $inputValue;
         }
-        if ($inputValue === null && !$inputIsNonNullable) {
+        if (
+            $inputValue === null
+            && !$inputIsNonNullable
+        ) {
             return $inputValue;
         }
         if ($inputIsArrayOfArraysType) {
@@ -73,6 +82,7 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         }
         return $inputValue;
     }
+
     /**
      * Validate that the expected array/non-array input is provided,
      * checking that the WrappingType is respected.
@@ -86,10 +96,19 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
      *   - [[DangerouslyNonSpecificScalar]] must be array of arrays => $inputIsArrayType => true, $inputIsArrayOfArraysType => true
      *
      * Eg: `["hello"]` must be `[String]`, can't be `[[String]]` or `String`.
-     * @param mixed $inputValue
      */
-    public function validateInputArrayModifiers(InputTypeResolverInterface $inputTypeResolver, $inputValue, string $inputName, ?bool $inputIsNonNullable, ?bool $inputIsArrayType, ?bool $inputIsNonNullArrayItemsType, ?bool $inputIsArrayOfArraysType, ?bool $inputIsNonNullArrayOfArraysItemsType, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+    public function validateInputArrayModifiers(
+        InputTypeResolverInterface $inputTypeResolver,
+        mixed $inputValue,
+        string $inputName,
+        ?bool $inputIsNonNullable,
+        ?bool $inputIsArrayType,
+        ?bool $inputIsNonNullArrayItemsType,
+        ?bool $inputIsArrayOfArraysType,
+        ?bool $inputIsNonNullArrayOfArraysItemsType,
+        AstInterface $astNode,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         /**
          * If the type is `DangerouslyNonSpecificScalar`, there's nothing
          * to validate
@@ -97,13 +116,15 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         if ($inputIsArrayType === null && $inputIsArrayOfArraysType === null) {
             return;
         }
+
         /**
          * If the value is null and the input can be nullable, there's nothing
          * to validate
          */
-        if ($inputIsNonNullable === \false && $inputValue === null) {
+        if ($inputIsNonNullable === false && $inputValue === null) {
             return;
         }
+
         /**
          * If it is a Promise then don't convert it, since its underlying
          * value may actually be an array, but we don't know it yet.
@@ -111,59 +132,175 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         if ($inputValue instanceof ValueResolutionPromiseInterface) {
             return;
         }
-        if ($inputIsArrayType === \false && \is_array($inputValue)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_8, [$inputName, \json_encode($inputValue)]), $astNode));
+
+        if (
+            $inputIsArrayType === false
+            && is_array($inputValue)
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_8,
+                        [
+                            $inputName,
+                            json_encode($inputValue),
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
-        if ($inputIsArrayType && !\is_array($inputValue)) {
-            $inputValueAsString = $inputValue instanceof stdClass ? $this->getOutputService()->jsonEncodeArrayOrStdClassValue($inputValue) : $inputValue;
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_9, [$inputName, $inputValueAsString]), $astNode));
+        if (
+            $inputIsArrayType
+            && !is_array($inputValue)
+        ) {
+            $inputValueAsString = $inputValue instanceof stdClass
+                ? $this->getOutputService()->jsonEncodeArrayOrStdClassValue($inputValue)
+                : $inputValue;
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_9,
+                        [
+                            $inputName,
+                            $inputValueAsString,
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
-        if ($inputIsNonNullArrayItemsType && \is_array($inputValue) && \array_filter($inputValue, function ($arrayItem) {
-            return $arrayItem === null;
-        })) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_10, [$inputName]), $astNode));
+        if (
+            $inputIsNonNullArrayItemsType
+            && is_array($inputValue)
+            && array_filter(
+                $inputValue,
+                fn ($arrayItem) => $arrayItem === null
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_10,
+                        [
+                            $inputName,
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
-        if ($inputIsArrayType && $inputIsArrayOfArraysType === \false && \array_filter($inputValue, function ($arrayItem) {
-            return \is_array($arrayItem);
-        })) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_11, [$inputName, \json_encode($inputValue)]), $astNode));
+        if (
+            $inputIsArrayType
+            && $inputIsArrayOfArraysType === false
+            && array_filter(
+                $inputValue,
+                fn ($arrayItem) => is_array($arrayItem)
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_11,
+                        [
+                            $inputName,
+                            json_encode($inputValue),
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
-        if ($inputIsArrayOfArraysType && \is_array($inputValue) && \array_filter(
-            $inputValue,
-            // `null` could be accepted as an array! (Validation against null comes next)
-            function ($arrayItem) {
-                return !\is_array($arrayItem) && $arrayItem !== null && !$arrayItem instanceof ValueResolutionPromiseInterface;
-            }
-        )) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_12, [$inputName, \json_encode($inputValue)]), $astNode));
+        if (
+            $inputIsArrayOfArraysType
+            && is_array($inputValue)
+            && array_filter(
+                $inputValue,
+                // `null` could be accepted as an array! (Validation against null comes next)
+                fn ($arrayItem) => !is_array($arrayItem) && $arrayItem !== null && !($arrayItem instanceof ValueResolutionPromiseInterface)
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_12,
+                        [
+                            $inputName,
+                            json_encode($inputValue),
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
-        if ($inputIsNonNullArrayOfArraysItemsType && \is_array($inputValue) && \array_filter($inputValue, function (?array $arrayItem) {
-            return $arrayItem === null ? \false : \array_filter($arrayItem, function ($arrayItemItem) {
-                return $arrayItemItem === null;
-            }) !== [];
-        })) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_13, [$inputName]), $astNode));
+        if (
+            $inputIsNonNullArrayOfArraysItemsType
+            && is_array($inputValue)
+            && array_filter(
+                $inputValue,
+                fn (?array $arrayItem) => $arrayItem === null ? false : array_filter(
+                    $arrayItem,
+                    fn ($arrayItemItem) => $arrayItemItem === null
+                ) !== [],
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_13,
+                        [
+                            $inputName,
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return;
         }
     }
+
     /**
      * Coerce the input value, corresponding to the array type
      * defined by the modifiers.
-     * @param mixed $inputValue
-     * @return mixed
      */
-    public function coerceInputValue(InputTypeResolverInterface $inputTypeResolver, $inputValue, string $inputName, bool $inputIsNonNullable, bool $inputIsArrayType, bool $inputIsArrayOfArraysType, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function coerceInputValue(
+        InputTypeResolverInterface $inputTypeResolver,
+        mixed $inputValue,
+        string $inputName,
+        bool $inputIsNonNullable,
+        bool $inputIsArrayType,
+        bool $inputIsArrayOfArraysType,
+        AstInterface $astNode,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /**
          * If it is a null, validate the input can be nullable
          */
         if ($inputValue === null && $inputIsNonNullable) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_4, [$inputName, $inputTypeResolver->getMaybeNamespacedTypeName()]), $astNode));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_4,
+                        [
+                            $inputName,
+                            $inputTypeResolver->getMaybeNamespacedTypeName(),
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return null;
         }
         /**
@@ -182,34 +319,38 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
         if ($inputIsArrayOfArraysType) {
             /** @var array<mixed[]> $inputValue */
             // If the value is an array of arrays, then cast each subelement to the item type
-            return \array_map(
+            return array_map(
                 // If it contains a null value, return it as is
-                function ($arrayArgValueElem) use($inputTypeResolver, $astNode, $objectTypeFieldResolutionFeedbackStore) {
-                    return $arrayArgValueElem === null || $arrayArgValueElem instanceof ValueResolutionPromiseInterface ? $arrayArgValueElem : \array_map(function ($arrayOfArraysArgValueElem) use($inputTypeResolver, $astNode, $objectTypeFieldResolutionFeedbackStore) {
-                        return $arrayOfArraysArgValueElem === null || $arrayOfArraysArgValueElem instanceof ValueResolutionPromiseInterface ? $arrayOfArraysArgValueElem : $inputTypeResolver->coerceValue($arrayOfArraysArgValueElem, $astNode, $objectTypeFieldResolutionFeedbackStore);
-                    }, $arrayArgValueElem);
-                },
+                fn (array|ValueResolutionPromiseInterface|null $arrayArgValueElem) => ($arrayArgValueElem === null || $arrayArgValueElem instanceof ValueResolutionPromiseInterface) ? $arrayArgValueElem : array_map(
+                    fn (mixed $arrayOfArraysArgValueElem) => ($arrayOfArraysArgValueElem === null || $arrayOfArraysArgValueElem instanceof ValueResolutionPromiseInterface) ? $arrayOfArraysArgValueElem : $inputTypeResolver->coerceValue($arrayOfArraysArgValueElem, $astNode, $objectTypeFieldResolutionFeedbackStore),
+                    $arrayArgValueElem
+                ),
                 $inputValue
             );
         }
         if ($inputIsArrayType) {
             /** @var mixed[] $inputValue */
             // If the value is an array, then cast each element to the item type
-            return \array_map(function ($arrayArgValueElem) use($inputTypeResolver, $astNode, $objectTypeFieldResolutionFeedbackStore) {
-                return $arrayArgValueElem === null || $arrayArgValueElem instanceof ValueResolutionPromiseInterface ? $arrayArgValueElem : $inputTypeResolver->coerceValue($arrayArgValueElem, $astNode, $objectTypeFieldResolutionFeedbackStore);
-            }, $inputValue);
+            return array_map(
+                fn (mixed $arrayArgValueElem) => ($arrayArgValueElem === null || $arrayArgValueElem instanceof ValueResolutionPromiseInterface) ? $arrayArgValueElem : $inputTypeResolver->coerceValue($arrayArgValueElem, $astNode, $objectTypeFieldResolutionFeedbackStore),
+                $inputValue
+            );
         }
         // Otherwise, simply cast the given value directly
         return $inputTypeResolver->coerceValue($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * If applicable, get the deprecation messages for the input value
      *
      * @return string[]
-     * @param mixed $inputValue
      */
-    public function getInputValueDeprecationMessages(DeprecatableInputTypeResolverInterface $deprecatableInputTypeResolver, $inputValue, bool $inputIsArrayType, bool $inputIsArrayOfArraysType) : array
-    {
+    public function getInputValueDeprecationMessages(
+        DeprecatableInputTypeResolverInterface $deprecatableInputTypeResolver,
+        mixed $inputValue,
+        bool $inputIsArrayType,
+        bool $inputIsArrayOfArraysType
+    ): array {
         if ($inputValue === null || $inputValue instanceof ValueResolutionPromiseInterface) {
             return [];
         }
@@ -224,7 +365,10 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
                     if ($arrayOfArraysArgValueElem === null || $arrayOfArraysArgValueElem instanceof ValueResolutionPromiseInterface) {
                         continue;
                     }
-                    $inputValueDeprecations = \array_merge($inputValueDeprecations, $deprecatableInputTypeResolver->getInputValueDeprecationMessages($arrayOfArraysArgValueElem));
+                    $inputValueDeprecations = array_merge(
+                        $inputValueDeprecations,
+                        $deprecatableInputTypeResolver->getInputValueDeprecationMessages($arrayOfArraysArgValueElem)
+                    );
                 }
             }
         } elseif ($inputIsArrayType) {
@@ -233,12 +377,15 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
                 if ($arrayArgValueElem === null || $arrayArgValueElem instanceof ValueResolutionPromiseInterface) {
                     continue;
                 }
-                $inputValueDeprecations = \array_merge($inputValueDeprecations, $deprecatableInputTypeResolver->getInputValueDeprecationMessages($arrayArgValueElem));
+                $inputValueDeprecations = array_merge(
+                    $inputValueDeprecations,
+                    $deprecatableInputTypeResolver->getInputValueDeprecationMessages($arrayArgValueElem)
+                );
             }
         } else {
             // Execute against the single value
             $inputValueDeprecations = $deprecatableInputTypeResolver->getInputValueDeprecationMessages($inputValue);
         }
-        return \array_unique($inputValueDeprecations);
+        return array_unique($inputValueDeprecations);
     }
 }

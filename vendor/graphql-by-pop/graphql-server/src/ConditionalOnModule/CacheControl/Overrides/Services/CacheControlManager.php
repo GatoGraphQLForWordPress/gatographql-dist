@@ -1,28 +1,29 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ConditionalOnModule\CacheControl\Overrides\Services;
 
 use GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface;
 use PoP\CacheControl\Managers\CacheControlManager as UpstreamCacheControlManager;
 use PoP\Root\Services\BasicServiceTrait;
-/** @internal */
+
 class CacheControlManager extends UpstreamCacheControlManager
 {
     use BasicServiceTrait;
+
     /**
      * @var array<mixed[]>|null
      */
-    protected $overriddenFieldEntries;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface|null
-     */
-    private $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
-    public final function setMandatoryDirectivesForFieldsRootTypeEntryDuplicator(MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator) : void
+    protected ?array $overriddenFieldEntries = null;
+
+    private ?MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator = null;
+
+    final public function setMandatoryDirectivesForFieldsRootTypeEntryDuplicator(MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator): void
     {
         $this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator = $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
     }
-    protected final function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator() : MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
+    final protected function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator(): MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
     {
         if ($this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator === null) {
             /** @var MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface */
@@ -31,15 +32,18 @@ class CacheControlManager extends UpstreamCacheControlManager
         }
         return $this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
     }
+
     /**
      * @param array<mixed[]> $fieldEntries
      */
-    public function addEntriesForFields(array $fieldEntries) : void
+    public function addEntriesForFields(array $fieldEntries): void
     {
         parent::addEntriesForFields($fieldEntries);
+
         // Make sure to reset getting the entries
         $this->overriddenFieldEntries = null;
     }
+
     /**
      * Add additional entries: whenever Root is used,
      * duplicate it also for both QueryRoot and MutationRoot,
@@ -52,12 +56,16 @@ class CacheControlManager extends UpstreamCacheControlManager
      *
      * @return array<mixed[]>
      */
-    public function getEntriesForFields() : array
+    public function getEntriesForFields(): array
     {
         if ($this->overriddenFieldEntries !== null) {
             return $this->overriddenFieldEntries;
         }
-        $this->overriddenFieldEntries = $this->getMandatoryDirectivesForFieldsRootTypeEntryDuplicator()->maybeAppendAdditionalRootEntriesForFields(parent::getEntriesForFields());
+
+        $this->overriddenFieldEntries = $this->getMandatoryDirectivesForFieldsRootTypeEntryDuplicator()->maybeAppendAdditionalRootEntriesForFields(
+            parent::getEntriesForFields()
+        );
+
         return $this->overriddenFieldEntries;
     }
 }

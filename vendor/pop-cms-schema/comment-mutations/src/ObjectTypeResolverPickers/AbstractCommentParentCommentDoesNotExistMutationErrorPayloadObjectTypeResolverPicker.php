@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CommentMutations\ObjectModels\CommentParentCommentDoesNotExistErrorPayload;
 use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 abstract class AbstractCommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver(CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver) : void
+    private ?CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver = null;
+
+    final public function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver(CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver): void
     {
         $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver = $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
     }
-    protected final function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver() : CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver
+    final protected function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver(): CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver === null) {
             /** @var CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver */
@@ -27,11 +26,13 @@ abstract class AbstractCommentParentCommentDoesNotExistMutationErrorPayloadObjec
         }
         return $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
     }
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface
+
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface
     {
         return $this->getCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver();
     }
-    protected function getTargetObjectClass() : string
+
+    protected function getTargetObjectClass(): string
     {
         return CommentParentCommentDoesNotExistErrorPayload::class;
     }

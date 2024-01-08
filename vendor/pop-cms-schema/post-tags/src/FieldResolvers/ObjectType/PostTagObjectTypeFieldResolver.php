@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTags\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
@@ -9,22 +10,17 @@ use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\Tags\FieldResolvers\ObjectType\AbstractTagObjectTypeFieldResolver;
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
-/** @internal */
+
 class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+
+    final public function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI): void
     {
         $this->postTagTypeAPI = $postTagTypeAPI;
     }
-    protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
+    final protected function getPostTagTypeAPI(): PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
             /** @var PostTagTypeAPIInterface */
@@ -33,11 +29,11 @@ class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
         }
         return $this->postTagTypeAPI;
     }
-    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
+    final public function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver): void
     {
         $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
     }
-    protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
+    final protected function getPostTagObjectTypeResolver(): PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
             /** @var PostTagObjectTypeResolver */
@@ -46,19 +42,24 @@ class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
         }
         return $this->postTagObjectTypeResolver;
     }
-    public function getTagTypeAPI() : TagTypeAPIInterface
+
+    public function getTagTypeAPI(): TagTypeAPIInterface
     {
         return $this->getPostTagTypeAPI();
     }
-    public function getTagTypeResolver() : TagObjectTypeResolverInterface
+
+    public function getTagTypeResolver(): TagObjectTypeResolverInterface
     {
         return $this->getPostTagObjectTypeResolver();
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PostTagObjectTypeResolver::class];
+        return [
+            PostTagObjectTypeResolver::class,
+        ];
     }
 }

@@ -1,21 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType;
 
-/** @internal */
-class RootCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInputObjectTypeResolverInterface
+class RootCustomPostsFilterInputObjectTypeResolver extends AbstractCustomPostsFilterInputObjectTypeResolver implements CustomPostsFilterInputObjectTypeResolverInterface
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootCustomPostsFilterInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to filter custom posts', 'customposts');
     }
-    protected function addCustomPostInputFields() : bool
+
+    protected function addCustomPostInputFields(): bool
     {
-        return \true;
+        return true;
     }
 }

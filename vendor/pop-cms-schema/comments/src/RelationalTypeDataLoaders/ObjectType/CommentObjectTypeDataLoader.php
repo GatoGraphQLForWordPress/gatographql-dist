@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\Comments\Constants\CommentStatus;
@@ -10,18 +11,16 @@ use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
-/** @internal */
+
 class CommentObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+
+    final public function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI): void
     {
         $this->commentTypeAPI = $commentTypeAPI;
     }
-    protected final function getCommentTypeAPI() : CommentTypeAPIInterface
+    final protected function getCommentTypeAPI(): CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
             /** @var CommentTypeAPIInterface */
@@ -30,37 +29,62 @@ class CommentObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
         }
         return $this->commentTypeAPI;
     }
+
     /**
      * @param array<string|int> $ids
      * @return array<string,mixed>
      */
-    public function getQueryToRetrieveObjectsForIDs(array $ids) : array
+    public function getQueryToRetrieveObjectsForIDs(array $ids): array
     {
-        return ['include' => $ids, 'type' => [CommentTypes::COMMENT, CommentTypes::TRACKBACK, CommentTypes::PINGBACK], 'status' => [CommentStatus::APPROVE, CommentStatus::HOLD, CommentStatus::SPAM, CommentStatus::TRASH], 'custompost-status' => $this->getAllCustomPostStatuses()];
+        return [
+            'include' => $ids,
+            'type' => [
+                CommentTypes::COMMENT,
+                CommentTypes::TRACKBACK,
+                CommentTypes::PINGBACK,
+            ],
+            'status' => [
+                CommentStatus::APPROVE,
+                CommentStatus::HOLD,
+                CommentStatus::SPAM,
+                CommentStatus::TRASH,
+            ],
+            'custompost-status' => $this->getAllCustomPostStatuses(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    protected function getAllCustomPostStatuses() : array
+    protected function getAllCustomPostStatuses(): array
     {
-        return [CustomPostStatus::PUBLISH, CustomPostStatus::PENDING, CustomPostStatus::DRAFT, CustomPostStatus::TRASH];
+        return [
+            CustomPostStatus::PUBLISH,
+            CustomPostStatus::PENDING,
+            CustomPostStatus::DRAFT,
+            CustomPostStatus::TRASH,
+        ];
     }
+
     /**
      * @return mixed[]
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function executeQuery(array $query, array $options = []) : array
+    public function executeQuery(array $query, array $options = []): array
     {
         return $this->getCommentTypeAPI()->getComments($query, $options);
     }
+
     /**
      * @param array<string,mixed> $query
      * @return array<string|int>
      */
-    public function executeQueryIDs(array $query) : array
+    public function executeQueryIDs(array $query): array
     {
-        $options = [QueryOptions::RETURN_TYPE => ReturnTypes::IDS];
+        $options = [
+            QueryOptions::RETURN_TYPE => ReturnTypes::IDS,
+        ];
         return $this->executeQuery($query, $options);
     }
 }

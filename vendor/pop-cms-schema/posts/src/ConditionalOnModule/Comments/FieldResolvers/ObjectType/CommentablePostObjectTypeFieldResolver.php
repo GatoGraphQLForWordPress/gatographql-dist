@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Posts\ConditionalOnModule\Comments\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Comments\FieldResolvers\ObjectType\AbstractCommentableCustomPostObjectTypeFieldResolver;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class CommentablePostObjectTypeFieldResolver extends AbstractCommentableCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
-    public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
+    private ?PostTypeAPIInterface $postTypeAPI = null;
+
+    final public function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI): void
     {
         $this->postTypeAPI = $postTypeAPI;
     }
-    protected final function getPostTypeAPI() : PostTypeAPIInterface
+    final protected function getPostTypeAPI(): PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
             /** @var PostTypeAPIInterface */
@@ -27,14 +26,18 @@ class CommentablePostObjectTypeFieldResolver extends AbstractCommentableCustomPo
         }
         return $this->postTypeAPI;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PostObjectTypeResolver::class];
+        return [
+            PostObjectTypeResolver::class,
+        ];
     }
-    protected function getCustomPostType() : string
+
+    protected function getCustomPostType(): string
     {
         return $this->getPostTypeAPI()->getPostCustomPostType();
     }

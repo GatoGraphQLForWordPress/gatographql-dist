@@ -8,88 +8,80 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+namespace Symfony\Component\HttpFoundation\Session;
+
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+
 // Help opcache.preload discover always-needed symbols
-\class_exists(AttributeBag::class);
-\class_exists(FlashBag::class);
-\class_exists(SessionBagProxy::class);
+class_exists(AttributeBag::class);
+class_exists(FlashBag::class);
+class_exists(SessionBagProxy::class);
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Drak <drak@zikula.org>
  *
  * @implements \IteratorAggregate<string, mixed>
- * @internal
  */
 class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Countable
 {
     protected $storage;
-    /**
-     * @var string
-     */
-    private $flashName;
-    /**
-     * @var string
-     */
-    private $attributeName;
-    /**
-     * @var mixed[]
-     */
-    private $data = [];
-    /**
-     * @var int
-     */
-    private $usageIndex = 0;
-    /**
-     * @var \Closure|null
-     */
-    private $usageReporter;
+
+    private string $flashName;
+    private string $attributeName;
+    private array $data = [];
+    private int $usageIndex = 0;
+    private ?\Closure $usageReporter;
+
     public function __construct(SessionStorageInterface $storage = null, AttributeBagInterface $attributes = null, FlashBagInterface $flashes = null, callable $usageReporter = null)
     {
         $this->storage = $storage ?? new NativeSessionStorage();
-        $this->usageReporter = null === $usageReporter ? null : \Closure::fromCallable($usageReporter);
-        $attributes = $attributes ?? new AttributeBag();
+        $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
+
+        $attributes ??= new AttributeBag();
         $this->attributeName = $attributes->getName();
         $this->registerBag($attributes);
-        $flashes = $flashes ?? new FlashBag();
+
+        $flashes ??= new FlashBag();
         $this->flashName = $flashes->getName();
         $this->registerBag($flashes);
     }
-    public function start() : bool
+
+    public function start(): bool
     {
         return $this->storage->start();
     }
-    public function has(string $name) : bool
+
+    public function has(string $name): bool
     {
         return $this->getAttributeBag()->has($name);
     }
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $name, $default = null)
+
+    public function get(string $name, mixed $default = null): mixed
     {
         return $this->getAttributeBag()->get($name, $default);
     }
+
     /**
      * @return void
-     * @param mixed $value
      */
-    public function set(string $name, $value)
+    public function set(string $name, mixed $value)
     {
         $this->getAttributeBag()->set($name, $value);
     }
-    public function all() : array
+
+    public function all(): array
     {
         return $this->getAttributeBag()->all();
     }
+
     /**
      * @return void
      */
@@ -97,13 +89,12 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->getAttributeBag()->replace($attributes);
     }
-    /**
-     * @return mixed
-     */
-    public function remove(string $name)
+
+    public function remove(string $name): mixed
     {
         return $this->getAttributeBag()->remove($name);
     }
+
     /**
      * @return void
      */
@@ -111,34 +102,39 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->getAttributeBag()->clear();
     }
-    public function isStarted() : bool
+
+    public function isStarted(): bool
     {
         return $this->storage->isStarted();
     }
+
     /**
      * Returns an iterator for attributes.
      *
      * @return \ArrayIterator<string, mixed>
      */
-    public function getIterator() : \ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->getAttributeBag()->all());
     }
+
     /**
      * Returns the number of attributes.
      */
-    public function count() : int
+    public function count(): int
     {
         return \count($this->getAttributeBag()->all());
     }
-    public function &getUsageIndex() : int
+
+    public function &getUsageIndex(): int
     {
         return $this->usageIndex;
     }
+
     /**
      * @internal
      */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         if ($this->isStarted()) {
             ++$this->usageIndex;
@@ -148,20 +144,25 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
         }
         foreach ($this->data as &$data) {
             if (!empty($data)) {
-                return \false;
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
-    public function invalidate(int $lifetime = null) : bool
+
+    public function invalidate(int $lifetime = null): bool
     {
         $this->storage->clear();
-        return $this->migrate(\true, $lifetime);
+
+        return $this->migrate(true, $lifetime);
     }
-    public function migrate(bool $destroy = \false, int $lifetime = null) : bool
+
+    public function migrate(bool $destroy = false, int $lifetime = null): bool
     {
         return $this->storage->regenerate($destroy, $lifetime);
     }
+
     /**
      * @return void
      */
@@ -169,10 +170,12 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->storage->save();
     }
-    public function getId() : string
+
+    public function getId(): string
     {
         return $this->storage->getId();
     }
+
     /**
      * @return void
      */
@@ -182,10 +185,12 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
             $this->storage->setId($id);
         }
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->storage->getName();
     }
+
     /**
      * @return void
      */
@@ -193,14 +198,17 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->storage->setName($name);
     }
-    public function getMetadataBag() : MetadataBag
+
+    public function getMetadataBag(): MetadataBag
     {
         ++$this->usageIndex;
         if ($this->usageReporter && 0 <= $this->usageIndex) {
             ($this->usageReporter)();
         }
+
         return $this->storage->getMetadataBag();
     }
+
     /**
      * @return void
      */
@@ -208,24 +216,28 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->storage->registerBag(new SessionBagProxy($bag, $this->data, $this->usageIndex, $this->usageReporter));
     }
-    public function getBag(string $name) : SessionBagInterface
+
+    public function getBag(string $name): SessionBagInterface
     {
         $bag = $this->storage->getBag($name);
-        return \method_exists($bag, 'getBag') ? $bag->getBag() : $bag;
+
+        return method_exists($bag, 'getBag') ? $bag->getBag() : $bag;
     }
+
     /**
      * Gets the flashbag interface.
      */
-    public function getFlashBag() : FlashBagInterface
+    public function getFlashBag(): FlashBagInterface
     {
         return $this->getBag($this->flashName);
     }
+
     /**
      * Gets the attributebag interface.
      *
      * Note that this method was added to help with IDE autocompletion.
      */
-    private function getAttributeBag() : AttributeBagInterface
+    private function getAttributeBag(): AttributeBagInterface
     {
         return $this->getBag($this->attributeName);
     }

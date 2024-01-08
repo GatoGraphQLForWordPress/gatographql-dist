@@ -8,25 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition\Exception;
+
+namespace Symfony\Component\Config\Definition\Exception;
 
 /**
  * A very general exception which can be thrown whenever non of the more specific
  * exceptions is suitable.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class InvalidConfigurationException extends Exception
 {
-    /**
-     * @var string|null
-     */
-    private $path;
-    /**
-     * @var bool
-     */
-    private $containsHints = \false;
+    private ?string $path = null;
+    private bool $containsHints = false;
+
     /**
      * @return void
      */
@@ -34,10 +29,12 @@ class InvalidConfigurationException extends Exception
     {
         $this->path = $path;
     }
-    public function getPath() : ?string
+
+    public function getPath(): ?string
     {
         return $this->path;
     }
+
     /**
      * Adds extra information that is suffixed to the original exception message.
      *
@@ -46,10 +43,10 @@ class InvalidConfigurationException extends Exception
     public function addHint(string $hint)
     {
         if (!$this->containsHints) {
-            $this->message .= "\nHint: " . $hint;
-            $this->containsHints = \true;
+            $this->message .= "\nHint: ".$hint;
+            $this->containsHints = true;
         } else {
-            $this->message .= ', ' . $hint;
+            $this->message .= ', '.$hint;
         }
     }
 }

@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CommentMutations\ObjectModels\CommentsAreNotSupportedByCustomPostTypeErrorPayload;
 use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 abstract class AbstractCommentsAreNotSupportedByCustomPostTypeMutationErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver|null
-     */
-    private $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
-    public final function setCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver(CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver) : void
+    private ?CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver = null;
+
+    final public function setCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver(CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver): void
     {
         $this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver = $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
     }
-    protected final function getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver() : CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver
+    final protected function getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver(): CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver
     {
         if ($this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver === null) {
             /** @var CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver */
@@ -27,11 +26,13 @@ abstract class AbstractCommentsAreNotSupportedByCustomPostTypeMutationErrorPaylo
         }
         return $this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
     }
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface
+
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface
     {
         return $this->getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver();
     }
-    protected function getTargetObjectClass() : string
+
+    protected function getTargetObjectClass(): string
     {
         return CommentsAreNotSupportedByCustomPostTypeErrorPayload::class;
     }

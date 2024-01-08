@@ -1,8 +1,7 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Message;
+namespace Psr\Http\Message;
 
-/** @internal */
 interface RequestFactoryInterface
 {
     /**
@@ -15,5 +14,5 @@ interface RequestFactoryInterface
      *
      * @return RequestInterface
      */
-    public function createRequest(string $method, $uri) : RequestInterface;
+    public function createRequest(string $method, $uri): RequestInterface;
 }

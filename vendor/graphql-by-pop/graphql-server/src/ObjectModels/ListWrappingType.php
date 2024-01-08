@@ -1,22 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaHelpers;
-/** @internal */
-class ListWrappingType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractWrappingType
+
+class ListWrappingType extends AbstractWrappingType
 {
-    public function getName() : string
+    public function getName(): string
     {
         return GraphQLSchemaHelpers::getListTypeName($this->wrappedType->getName());
     }
-    public function getID() : string
+
+    public function getID(): string
     {
         return GraphQLSchemaHelpers::getListTypeName($this->wrappedType->getID());
     }
-    public function getKind() : string
+
+    public function getKind(): string
     {
-        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::LIST;
+        return TypeKinds::LIST;
     }
 }

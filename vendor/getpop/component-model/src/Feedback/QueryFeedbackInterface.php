@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
-/** @internal */
-interface QueryFeedbackInterface extends \PoP\ComponentModel\Feedback\DocumentFeedbackInterface
+
+interface QueryFeedbackInterface extends DocumentFeedbackInterface
 {
-    public function getAstNode() : AstInterface;
+    public function getAstNode(): AstInterface;
 }

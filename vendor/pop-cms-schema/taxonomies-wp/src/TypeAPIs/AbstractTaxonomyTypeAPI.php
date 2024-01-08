@@ -28,12 +28,9 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
     use BasicServiceTrait;
 
     public const HOOK_QUERY = __CLASS__ . ':query';
-    public const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
+    public final const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
 
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
 
     final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
     {
@@ -49,22 +46,21 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $this->cmsHelperService;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, string $taxonomy = ''): ?WP_Term
-    {
+    protected function getTaxonomyTermFromObjectOrID(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?WP_Term {
         if (is_object($taxonomyTermObjectOrID)) {
             /** @var WP_Term */
             return $taxonomyTermObjectOrID;
         }
-        return $this->getTerm($taxonomyTermObjectOrID, $taxonomy);
+        return $this->getTerm(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
     }
 
-    /**
-     * @param string|int $termObjectID
-     */
-    protected function getTerm($termObjectID, string $taxonomy = ''): ?WP_Term
+    protected function getTerm(string|int $termObjectID, string $taxonomy = ''): ?WP_Term
     {
         $term = get_term((int)$termObjectID, $taxonomy);
         if ($term instanceof WP_Error) {
@@ -74,11 +70,7 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $term;
     }
 
-    /**
-     * @param string|int|\WP_Post $customPostObjectOrID
-     * @return string|int
-     */
-    protected function getCustomPostID($customPostObjectOrID)
+    protected function getCustomPostID(string|int|WP_Post $customPostObjectOrID): string|int
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */
@@ -92,19 +84,27 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]|null
-     * @param string|int|object $customPostObjectOrID
      */
-    protected function getCustomPostTaxonomyTerms($customPostObjectOrID, array $query = [], array $options = []): ?array
-    {
+    protected function getCustomPostTaxonomyTerms(
+        string|int|object $customPostObjectOrID,
+        array $query = [],
+        array $options = [],
+    ): ?array {
         /** @var string|int|WP_Post $customPostObjectOrID */
         $customPostID = $this->getCustomPostID($customPostObjectOrID);
         $query = $this->convertTaxonomyTermsQuery($query, $options);
+
         /** @var string|string[] */
         $taxonomyOrTaxonomies = $query['taxonomy'] ?? '';
         if (empty($taxonomyOrTaxonomies)) {
             return [];
         }
-        $taxonomyTerms =  wp_get_post_terms((int)$customPostID, $taxonomyOrTaxonomies, $query);
+
+        $taxonomyTerms =  wp_get_post_terms(
+            (int)$customPostID,
+            $taxonomyOrTaxonomies,
+            $query,
+        );
         if ($taxonomyTerms instanceof WP_Error) {
             return null;
         }
@@ -115,10 +115,9 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|\WP_Post $customPostObjectOrID
      */
     protected function getCustomPostTaxonomyTermCount(
-        $customPostObjectOrID,
+        string|int|WP_Post $customPostObjectOrID,
         array $query = [],
         array $options = []
     ): ?int {
@@ -142,7 +141,11 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         unset($query['offset']);
 
         // Resolve and count
-        $taxonomyTerms = wp_get_post_terms((int)$customPostID, $taxonomyOrTaxonomies, $query);
+        $taxonomyTerms = wp_get_post_terms(
+            (int)$customPostID,
+            $taxonomyOrTaxonomies,
+            $query,
+        );
         if ($taxonomyTerms instanceof WP_Error) {
             return null;
         }
@@ -238,45 +241,25 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
     /**
      * @return string|string[]|null
      */
-    protected function getQueryDefaultTaxonomyOrTaxonomies()
+    protected function getQueryDefaultTaxonomyOrTaxonomies(): string|array|null
     {
         return null;
     }
 
     protected function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case TaxonomyOrderBy::NAME:
-                $orderBy = 'name';
-                break;
-            case TaxonomyOrderBy::SLUG:
-                $orderBy = 'slug';
-                break;
-            case TaxonomyOrderBy::ID:
-                $orderBy = 'term_id';
-                break;
-            case TaxonomyOrderBy::PARENT:
-                $orderBy = 'parent';
-                break;
-            case TaxonomyOrderBy::COUNT:
-                $orderBy = 'count';
-                break;
-            case TaxonomyOrderBy::NONE:
-                $orderBy = 'none';
-                break;
-            case TaxonomyOrderBy::INCLUDE:
-                $orderBy = 'include';
-                break;
-            case TaxonomyOrderBy::SLUG__IN:
-                $orderBy = 'slug__in';
-                break;
-            case TaxonomyOrderBy::DESCRIPTION:
-                $orderBy = 'description';
-                break;
-            default:
-                $orderBy = $orderBy;
-                break;
-        }
+        $orderBy = match ($orderBy) {
+            TaxonomyOrderBy::NAME => 'name',
+            TaxonomyOrderBy::SLUG => 'slug',
+            TaxonomyOrderBy::ID => 'term_id',
+            TaxonomyOrderBy::PARENT => 'parent',
+            TaxonomyOrderBy::COUNT => 'count',
+            TaxonomyOrderBy::NONE => 'none',
+            TaxonomyOrderBy::INCLUDE => 'include',
+            TaxonomyOrderBy::SLUG__IN => 'slug__in',
+            TaxonomyOrderBy::DESCRIPTION => 'description',
+            default => $orderBy,
+        };
         return App::applyFilters(
             self::HOOK_ORDERBY_QUERY_ARG_VALUE,
             $orderBy
@@ -291,20 +274,24 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $object instanceof WP_Term;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermName($taxonomyTermObjectOrID, string $taxonomy = ''): ?string
-    {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermName(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?string {
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
         return $taxonomyTerm->name;
     }
 
-    protected function getTaxonomyTermByName(string $taxonomyTermName, string $taxonomy = ''): ?WP_Term
-    {
+    protected function getTaxonomyTermByName(
+        string $taxonomyTermName,
+        string $taxonomy = '',
+    ): ?WP_Term {
         $taxonomyTerm = get_term_by('name', $taxonomyTermName, $taxonomy);
         if (!($taxonomyTerm instanceof WP_Term)) {
             return null;
@@ -344,35 +331,38 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return (int) $count;
     }
 
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function getTaxonomyTerm($taxonomyTermID, string $taxonomy = ''): ?WP_Term
-    {
-        $taxonomyTerm = get_term((int)$taxonomyTermID, $taxonomy);
+    protected function getTaxonomyTerm(
+        string|int $taxonomyTermID,
+        string $taxonomy = '',
+    ): ?WP_Term {
+        $taxonomyTerm = get_term(
+            (int)$taxonomyTermID,
+            $taxonomy,
+        );
         if (!($taxonomyTerm instanceof WP_Term)) {
             return null;
         }
         return $taxonomyTerm;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermURL($taxonomyTermObjectOrID, string $taxonomy = ''): ?string
-    {
-        $taxonomyTermLink = get_term_link($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermURL(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?string {
+        $taxonomyTermLink = get_term_link(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTermLink instanceof WP_Error) {
             return null;
         }
         return $taxonomyTermLink;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermURLPath($taxonomyTermObjectOrID, string $taxonomy = ''): ?string
-    {
+    protected function getTaxonomyTermURLPath(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?string {
         $url = $this->getTaxonomyTermURL(
             $taxonomyTermObjectOrID,
             $taxonomy
@@ -383,12 +373,14 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $this->getCMSHelperService()->getLocalURLPath($url);
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermSlug($taxonomyTermObjectOrID, string $taxonomy = ''): ?string
-    {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermSlug(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?string {
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -396,11 +388,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $taxonomyTerm->slug;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermSlugPath($taxonomyTermObjectOrID, string $taxonomy): ?string
-    {
+    protected function getTaxonomyTermSlugPath(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy,
+    ): ?string {
         $taxonomyTermID = is_object($taxonomyTermObjectOrID) ? $this->getTaxonomyTermID($taxonomyTermObjectOrID) : $taxonomyTermObjectOrID;
         $taxonomyTermParentsSlugPath = \get_term_parents_list(
             (int)$taxonomyTermID,
@@ -420,12 +411,14 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return trim($taxonomyTermParentsSlugPath, '/');
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermDescription($taxonomyTermObjectOrID, string $taxonomy = ''): ?string
-    {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermDescription(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?string {
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -433,12 +426,14 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $taxonomyTerm->description;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermItemCount($taxonomyTermObjectOrID, string $taxonomy = ''): ?int
-    {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermItemCount(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): ?int {
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -446,21 +441,19 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         return $taxonomyTerm->count;
     }
 
-    /**
-     * @return string|int
-     */
-    protected function getTaxonomyTermID(WP_Term $taxonomyTerm)
+    protected function getTaxonomyTermID(WP_Term $taxonomyTerm): string|int
     {
         return $taxonomyTerm->term_id;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     * @return string|int|null
-     */
-    protected function getTaxonomyTermParentID($taxonomyTermObjectOrID, string $taxonomy = '')
-    {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+    protected function getTaxonomyTermParentID(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        string $taxonomy = '',
+    ): string|int|null {
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -473,10 +466,11 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
 
     /**
      * @return array<string|int>|null
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
      */
-    protected function getTaxonomyTermChildIDs(string $taxonomy, $taxonomyTermObjectOrID): ?array
-    {
+    protected function getTaxonomyTermChildIDs(
+        string $taxonomy,
+        string|int|WP_Term $taxonomyTermObjectOrID,
+    ): ?array {
         $taxonomyTermID = is_object($taxonomyTermObjectOrID) ? $this->getTaxonomyTermID($taxonomyTermObjectOrID) : $taxonomyTermObjectOrID;
         $childrenIDs = get_term_children((int)$taxonomyTermID, $taxonomy);
         if ($childrenIDs instanceof WP_Error) {

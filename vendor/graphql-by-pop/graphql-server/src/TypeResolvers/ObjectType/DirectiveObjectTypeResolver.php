@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\Directive;
 use GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
-class DirectiveObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
+
+class DirectiveObjectTypeResolver extends AbstractIntrospectionObjectTypeResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader|null
-     */
-    private $schemaDefinitionReferenceObjectTypeDataLoader;
-    public final function setSchemaDefinitionReferenceObjectTypeDataLoader(SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader) : void
+    private ?SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader = null;
+
+    final public function setSchemaDefinitionReferenceObjectTypeDataLoader(SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader): void
     {
         $this->schemaDefinitionReferenceObjectTypeDataLoader = $schemaDefinitionReferenceObjectTypeDataLoader;
     }
-    protected final function getSchemaDefinitionReferenceObjectTypeDataLoader() : SchemaDefinitionReferenceObjectTypeDataLoader
+    final protected function getSchemaDefinitionReferenceObjectTypeDataLoader(): SchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->schemaDefinitionReferenceObjectTypeDataLoader === null) {
             /** @var SchemaDefinitionReferenceObjectTypeDataLoader */
@@ -26,24 +25,25 @@ class DirectiveObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
         }
         return $this->schemaDefinitionReferenceObjectTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return '__Directive';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('A GraphQL directive in the data graph', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+
+    public function getID(object $object): string|int|null
     {
         /** @var Directive */
         $directive = $object;
         return $directive->getID();
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getSchemaDefinitionReferenceObjectTypeDataLoader();
     }

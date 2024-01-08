@@ -18,14 +18,8 @@ use WP_Post;
 
 class PostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -77,44 +71,39 @@ class PostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'postFormat':
-                return $this->__('Retrieve the format slug for a post', 'posts');
-            case 'isSticky':
-                return $this->__('Determines whether a custom post is sticky', 'customposts');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'postFormat' => $this->__('Retrieve the format slug for a post', 'posts'),
+            'isSticky' => $this->__('Determines whether a custom post is sticky', 'customposts'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'postFormat':
-                return $this->getStringScalarTypeResolver();
-            case 'isSticky':
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'postFormat' => $this->getStringScalarTypeResolver(),
+            'isSticky' => $this->getBooleanScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'postFormat':
-            case 'isSticky':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'postFormat',
+            'isSticky'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Post */
         $post = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -128,6 +117,7 @@ class PostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             case 'isSticky':
                 return \is_sticky($post->ID);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -135,8 +125,10 @@ class PostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

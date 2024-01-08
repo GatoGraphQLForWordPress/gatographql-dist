@@ -8,16 +8,17 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver\Constraint;
+
+namespace Composer\Semver\Constraint;
 
 /**
  * Blackhole of constraints, nothing escapes it
- * @internal
  */
 class MatchNoneConstraint implements ConstraintInterface
 {
     /** @var string|null */
     protected $prettyString;
+
     /**
      * @param ConstraintInterface $provider
      *
@@ -25,8 +26,9 @@ class MatchNoneConstraint implements ConstraintInterface
      */
     public function matches(ConstraintInterface $provider)
     {
-        return \false;
+        return false;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -34,6 +36,7 @@ class MatchNoneConstraint implements ConstraintInterface
     {
         return 'false';
     }
+
     /**
      * {@inheritDoc}
      */
@@ -41,6 +44,7 @@ class MatchNoneConstraint implements ConstraintInterface
     {
         $this->prettyString = $prettyString;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -49,8 +53,10 @@ class MatchNoneConstraint implements ConstraintInterface
         if ($this->prettyString) {
             return $this->prettyString;
         }
+
         return (string) $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -58,18 +64,20 @@ class MatchNoneConstraint implements ConstraintInterface
     {
         return '[]';
     }
+
     /**
      * {@inheritDoc}
      */
     public function getUpperBound()
     {
-        return new Bound('0.0.0.0-dev', \false);
+        return new Bound('0.0.0.0-dev', false);
     }
+
     /**
      * {@inheritDoc}
      */
     public function getLowerBound()
     {
-        return new Bound('0.0.0.0-dev', \false);
+        return new Bound('0.0.0.0-dev', false);
     }
 }

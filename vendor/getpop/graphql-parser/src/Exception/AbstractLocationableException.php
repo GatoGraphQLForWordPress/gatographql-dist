@@ -1,35 +1,28 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Exception;
 
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Exception\AbstractClientException;
-/** @internal */
+
 abstract class AbstractLocationableException extends AbstractClientException
 {
-    /**
-     * @readonly
-     * @var \PoP\Root\Feedback\FeedbackItemResolution
-     */
-    private $feedbackItemResolution;
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Location
-     */
-    private $location;
-    public function __construct(FeedbackItemResolution $feedbackItemResolution, Location $location)
-    {
-        $this->feedbackItemResolution = $feedbackItemResolution;
-        $this->location = $location;
+    public function __construct(
+        private readonly FeedbackItemResolution $feedbackItemResolution,
+        private readonly Location $location,
+    ) {
         parent::__construct($feedbackItemResolution->getMessage());
     }
-    public function getFeedbackItemResolution() : FeedbackItemResolution
+
+    public function getFeedbackItemResolution(): FeedbackItemResolution
     {
         return $this->feedbackItemResolution;
     }
-    public function getLocation() : Location
+
+    public function getLocation(): Location
     {
         return $this->location;
     }

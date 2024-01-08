@@ -8,11 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\ElementNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\ParserInterface;
+namespace Symfony\Component\CssSelector\Parser\Shortcut;
+
+use Symfony\Component\CssSelector\Node\ElementNode;
+use Symfony\Component\CssSelector\Node\SelectorNode;
+use Symfony\Component\CssSelector\Parser\ParserInterface;
+
 /**
  * CSS selector class parser shortcut.
  *
@@ -29,12 +31,13 @@ use PrefixedByPoP\Symfony\Component\CssSelector\Parser\ParserInterface;
  */
 class EmptyStringParser implements ParserInterface
 {
-    public function parse(string $source) : array
+    public function parse(string $source): array
     {
         // Matches an empty string
         if ('' == $source) {
             return [new SelectorNode(new ElementNode(null, '*'))];
         }
+
         return [];
     }
 }

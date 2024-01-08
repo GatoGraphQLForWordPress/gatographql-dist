@@ -1,68 +1,66 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FormInputs;
 
 use PoP\Root\App;
-/** @internal */
+
 class FormInput
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @readonly
-     * @var mixed
-     */
-    public $selected;
+    public readonly string $name;
+    public readonly mixed $selected;
     /**
      * @var array<string,mixed> $params
-     * @readonly
      */
-    public $params;
+    public readonly array $params;
+
     /**
      * @param array<string,mixed> $params
-     * @param mixed $selected
      */
-    public function __construct(string $name, $selected = null, array $params = [])
+    public function __construct(string $name, mixed $selected = null, array $params = [])
     {
         $this->name = $name;
+
         // Selected value. If provided, use it
         $this->selected = $selected;
+
         $this->params = $params;
     }
-    public function isMultiple() : bool
+
+    public function isMultiple(): bool
     {
-        return \false;
+        return false;
     }
+
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected function getValueFromSource(?array $source = null)
+    protected function getValueFromSource(?array $source = null): mixed
     {
         $value = $this->getValueFromSourceOrRequest($this->getName(), $source);
+
         // If it is multiple and the URL contains an empty value (eg: &searchfor[]=&), it will interpret it as array(''),
         // but instead it must be an empty array
         // if ($this->isMultiple() && $value && count($value) === 1 && $value[0] === '') {
+
         //     $value = array();
         // }
         if ($value !== null && $this->isMultiple()) {
             // Watch out passing a string as REST endpoint arg when array expected
-            if (!\is_array($value)) {
+            if (!is_array($value)) {
                 $value = [$value];
             }
-            return \array_filter($value);
+            return array_filter($value);
         }
+
         return $value;
     }
+
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected function getValueFromSourceOrRequest(string $name, ?array $source = null)
+    protected function getValueFromSourceOrRequest(string $name, ?array $source = null): mixed
     {
         // If not set, it will be NULL
         $value = null;
@@ -71,44 +69,50 @@ class FormInput
         }
         return $value ?? App::request($name) ?? App::query($name);
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->name;
     }
+
     /**
      * $_POST/$_GET has priority (for when editing post / user data, after
      * submitting form this will override original post / user metadata values)
      *
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function getValue(?array $source = null)
+    public function getValue(?array $source = null): mixed
     {
         // Empty values (eg: '', array()) can be the value. Only if NULL get a default value
         if ($this->selected !== null) {
             return $this->selected;
         }
+
         if (!$this->isInputSetInSource($source)) {
             return $this->getDefaultValue();
         }
+
         return $this->getValueFromSource($source);
     }
+
     /**
      * It checks if the key with the input's name has been set.
      * Setting `key=null` counts as `true`
      *
      * @param array<string,mixed>|null $source
      */
-    public function isInputSetInSource(?array $source = null) : bool
+    public function isInputSetInSource(?array $source = null): bool
     {
         $name = $this->getName();
-        return $source !== null && \array_key_exists($name, $source) || App::getRequest()->request->has($name) || App::getRequest()->query->has($name);
+        return ($source !== null && array_key_exists($name, $source))
+            || App::getRequest()->request->has($name)
+            || App::getRequest()->query->has($name);
     }
+
     /**
      * Function to override
-     * @return mixed
      */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return null;
     }

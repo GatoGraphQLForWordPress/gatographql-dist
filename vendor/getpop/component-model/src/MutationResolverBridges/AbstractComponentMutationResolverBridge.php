@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\MutationResolverBridges;
 
 use Exception;
@@ -19,19 +20,18 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
 use PoP\Root\Exception\AbstractClientException;
 use PoP\Root\Services\BasicServiceTrait;
-/** @internal */
-abstract class AbstractComponentMutationResolverBridge implements \PoP\ComponentModel\MutationResolverBridges\ComponentMutationResolverBridgeInterface
+
+abstract class AbstractComponentMutationResolverBridge implements ComponentMutationResolverBridgeInterface
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
-    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
+
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
+
+    final public function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager): void
     {
         $this->componentProcessorManager = $componentProcessorManager;
     }
-    protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
+    final protected function getComponentProcessorManager(): ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
             /** @var ComponentProcessorManagerInterface */
@@ -40,35 +40,36 @@ abstract class AbstractComponentMutationResolverBridge implements \PoP\Component
         }
         return $this->componentProcessorManager;
     }
-    /**
-     * @param string|int $resultID
-     */
-    public function getSuccessString($resultID) : ?string
+
+    public function getSuccessString(string|int $resultID): ?string
     {
         return null;
     }
+
     /**
      * @return string[]
-     * @param string|int $resultID
      */
-    public function getSuccessStrings($resultID) : array
+    public function getSuccessStrings(string|int $resultID): array
     {
         $success_string = $this->getSuccessString($resultID);
         return $success_string !== null ? [$success_string] : [];
     }
-    protected function onlyExecuteWhenDoingPost() : bool
+
+    protected function onlyExecuteWhenDoingPost(): bool
     {
-        return \true;
+        return true;
     }
-    protected function skipDataloadIfError() : bool
+
+    protected function skipDataloadIfError(): bool
     {
-        return \false;
+        return false;
     }
+
     /**
      * @return array<string,mixed>|null
      * @param array<string,mixed> $data_properties
      */
-    public function executeMutation(array &$data_properties) : ?array
+    public function executeMutation(array &$data_properties): ?array
     {
         if ($this->onlyExecuteWhenDoingPost() && 'POST' !== App::server('REQUEST_METHOD')) {
             return null;
@@ -78,25 +79,33 @@ abstract class AbstractComponentMutationResolverBridge implements \PoP\Component
         $mutationResponse = [];
         // Validate errors
         $errorType = $mutationResolver->getErrorType();
-        $errorTypeKeys = [ErrorTypes::DESCRIPTIONS => ResponseConstants::ERRORSTRINGS, ErrorTypes::CODES => ResponseConstants::ERRORCODES];
+        $errorTypeKeys = [
+            ErrorTypes::DESCRIPTIONS => ResponseConstants::ERRORSTRINGS,
+            ErrorTypes::CODES => ResponseConstants::ERRORCODES,
+        ];
         $errorTypeKey = $errorTypeKeys[$errorType];
         $objectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         $mutationResolver->validate($fieldDataAccessorForMutation, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // @todo Migrate from string to FeedbackItemProvider
-            $mutationResponse[$errorTypeKey] = \array_map(function (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) {
-                return $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage();
-            }, $objectTypeFieldResolutionFeedbackStore->getErrors());
+            $mutationResponse[$errorTypeKey] = array_map(
+                fn (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) => $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage(),
+                $objectTypeFieldResolutionFeedbackStore->getErrors()
+            );
             if ($this->skipDataloadIfError()) {
                 // Bring no results
-                $data_properties[DataloadingConstants::SKIPDATALOAD] = \true;
+                $data_properties[DataloadingConstants::SKIPDATALOAD] = true;
             }
             return $mutationResponse;
         }
+
         $errorMessage = null;
         $resultID = null;
         try {
-            $resultID = $mutationResolver->executeMutation($fieldDataAccessorForMutation, $objectTypeFieldResolutionFeedbackStore);
+            $resultID = $mutationResolver->executeMutation(
+                $fieldDataAccessorForMutation,
+                $objectTypeFieldResolutionFeedbackStore,
+            );
         } catch (AbstractClientException $e) {
             $errorMessage = $e->getMessage();
             $errorTypeKey = ResponseConstants::ERRORSTRINGS;
@@ -106,46 +115,61 @@ abstract class AbstractComponentMutationResolverBridge implements \PoP\Component
             if ($moduleConfiguration->logExceptionErrorMessagesAndTraces()) {
                 // @todo: Implement for Log
             }
-            $errorMessage = $moduleConfiguration->sendExceptionErrorMessages() ? $e->getMessage() : $this->__('Resolving the mutation produced an exception, please contact the admin', 'component-model');
+            $errorMessage = $moduleConfiguration->sendExceptionErrorMessages()
+                ? $e->getMessage()
+                : $this->__('Resolving the mutation produced an exception, please contact the admin', 'component-model');
             $errorTypeKey = ResponseConstants::ERRORSTRINGS;
         }
+
         // @todo Make DRY! This code was copy/pasted from just above
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // @todo Migrate from string to FeedbackItemProvider
-            $mutationResponse[$errorTypeKey] = \array_map(function (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) {
-                return $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage();
-            }, $objectTypeFieldResolutionFeedbackStore->getErrors());
+            $mutationResponse[$errorTypeKey] = array_map(
+                fn (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) => $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage(),
+                $objectTypeFieldResolutionFeedbackStore->getErrors()
+            );
             if ($this->skipDataloadIfError()) {
                 // Bring no results
-                $data_properties[DataloadingConstants::SKIPDATALOAD] = \true;
+                $data_properties[DataloadingConstants::SKIPDATALOAD] = true;
             }
             return $mutationResponse;
         }
+
         if ($errorMessage !== null) {
             if ($this->skipDataloadIfError()) {
                 // Bring no results
-                $data_properties[DataloadingConstants::SKIPDATALOAD] = \true;
+                $data_properties[DataloadingConstants::SKIPDATALOAD] = true;
             }
             $mutationResponse[$errorTypeKey] = [$errorMessage];
             return $mutationResponse;
         }
+
         $this->modifyDataProperties($data_properties, $resultID);
+
         // Save the result for some component to incorporate it into the query args
         App::getMutationResolutionStore()->setResult($this, $resultID);
-        $mutationResponse[ResponseConstants::SUCCESS] = \true;
+
+        $mutationResponse[ResponseConstants::SUCCESS] = true;
         if ($success_strings = $this->getSuccessStrings($resultID)) {
             $mutationResponse[ResponseConstants::SUCCESSSTRINGS] = $success_strings;
         }
         return $mutationResponse;
     }
-    protected function getFieldDataAccessorForMutation() : FieldDataAccessorInterface
+
+    protected function getFieldDataAccessorForMutation(): FieldDataAccessorInterface
     {
         /**
          * Create a runtime field to be executed. It doesn't matter
          * what's the name of the mutation field, so providing
          * a random one suffices.
          */
-        $mutationField = new LeafField('someMutation', null, [], [], ASTNodesFactory::getNonSpecificLocation());
+        $mutationField = new LeafField(
+            'someMutation',
+            null,
+            [],
+            [],
+            ASTNodesFactory::getNonSpecificLocation()
+        );
         /**
          * Inject the data straight as normalized value (no need to add defaults
          * or coerce values)
@@ -155,11 +179,11 @@ abstract class AbstractComponentMutationResolverBridge implements \PoP\Component
         $fieldDataAccessorForMutation = new FieldDataAccessor($mutationField, $mutationData);
         return $fieldDataAccessorForMutation;
     }
+
     /**
      * @param array<string,mixed> $data_properties
-     * @param string|int $resultID
      */
-    protected function modifyDataProperties(array &$data_properties, $resultID) : void
+    protected function modifyDataProperties(array &$data_properties, string|int $resultID): void
     {
     }
 }

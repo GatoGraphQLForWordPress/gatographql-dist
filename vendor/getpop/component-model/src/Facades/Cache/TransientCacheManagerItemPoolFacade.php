@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
-/** @internal */
+use Psr\Cache\CacheItemPoolInterface;
+
 class TransientCacheManagerItemPoolFacade
 {
-    public static function getInstance() : CacheItemPoolInterface
+    public static function getInstance(): CacheItemPoolInterface
     {
         /**
          * @var CacheItemPoolInterface

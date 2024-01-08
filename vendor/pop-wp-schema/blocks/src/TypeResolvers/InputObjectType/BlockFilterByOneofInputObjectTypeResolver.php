@@ -14,18 +14,9 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 
 class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeFilterInput|null
-     */
-    private $excludeFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
+    private ?ExcludeFilterInput $excludeFilterInput = null;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -95,48 +86,41 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'include':
-                return $this->__('Names of blocks to be included', 'blocks');
-            case 'exclude':
-                return $this->__('Names of blocks to be excluded', 'blocks');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'include' => $this->__('Names of blocks to be included', 'blocks'),
+            'exclude' => $this->__('Names of blocks to be excluded', 'blocks'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 
     public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'include':
-                return $this->getIncludeFilterInput();
-            case 'exclude':
-                return $this->getExcludeFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'include' => $this->getIncludeFilterInput(),
+            'exclude' => $this->getExcludeFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 
     public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        switch ($inputFieldName) {
-            case 'include':
-            case 'exclude':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'include',
+            'exclude'
+                => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName)
+        };
     }
 
     protected function isOneOfInputPropertyNullable(
         string $propertyName
     ): bool {
-        switch ($propertyName) {
-            case 'include':
-            case 'exclude':
-                return true;
-            default:
-                return parent::isOneOfInputPropertyNullable($propertyName);
-        }
+        return match ($propertyName) {
+            'include',
+            'exclude'
+                => true,
+            default
+                => parent::isOneOfInputPropertyNullable($propertyName)
+        };
     }
 }

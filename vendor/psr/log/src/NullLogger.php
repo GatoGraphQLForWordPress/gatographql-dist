@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Log;
+namespace Psr\Log;
 
 /**
  * This Logger can be used to avoid conditional log calls.
@@ -9,7 +9,6 @@ namespace PrefixedByPoP\Psr\Log;
  * library creating a NullLogger instance to have something to throw logs at
  * is a good way to avoid littering your code with `if ($this->logger) { }`
  * blocks.
- * @internal
  */
 class NullLogger extends AbstractLogger
 {
@@ -24,7 +23,7 @@ class NullLogger extends AbstractLogger
      *
      * @throws \Psr\Log\InvalidArgumentException
      */
-    public function log($level, $message, array $context = []) : void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         // noop
     }

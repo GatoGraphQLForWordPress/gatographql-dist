@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ComponentFilters;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface;
 use PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface;
-/** @internal */
-class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractComponentFilter
+
+class ComponentPaths extends AbstractComponentFilter
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
-     */
-    private $componentPathHelpers;
-    public final function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers) : void
+    private ?ComponentPathHelpersInterface $componentPathHelpers = null;
+
+    final public function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers): void
     {
         $this->componentPathHelpers = $componentPathHelpers;
     }
-    protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
+    final protected function getComponentPathHelpers(): ComponentPathHelpersInterface
     {
         if ($this->componentPathHelpers === null) {
             /** @var ComponentPathHelpersInterface */
@@ -26,27 +25,27 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
         }
         return $this->componentPathHelpers;
     }
+
     /**
      * @var array<array<Component|null>>|null
      */
-    protected $paths;
+    protected ?array $paths = null;
     /**
      * @var array<array<Component|null>>
      */
-    protected $propagation_unsettled_paths = [];
+    protected array $propagation_unsettled_paths = [];
     /**
      * @var array<string,array<array<Component|null>>>
      */
-    protected $backlog_unsettled_paths = [];
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
-     */
-    private $componentPathManager;
-    public final function setComponentPathManager(ComponentPathManagerInterface $componentPathManager) : void
+    protected array $backlog_unsettled_paths = [];
+
+    private ?ComponentPathManagerInterface $componentPathManager = null;
+
+    final public function setComponentPathManager(ComponentPathManagerInterface $componentPathManager): void
     {
         $this->componentPathManager = $componentPathManager;
     }
-    protected final function getComponentPathManager() : ComponentPathManagerInterface
+    final protected function getComponentPathManager(): ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {
             /** @var ComponentPathManagerInterface */
@@ -55,54 +54,64 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
         }
         return $this->componentPathManager;
     }
-    protected function init() : void
+
+    protected function init(): void
     {
         $this->paths = $this->getComponentPathHelpers()->getComponentPaths();
         $this->propagation_unsettled_paths = $this->paths;
         $this->backlog_unsettled_paths = array();
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return 'componentPaths';
     }
+
     /**
      * @param array<string,mixed> $props
      */
-    public function excludeSubcomponent(Component $component, array &$props) : bool
+    public function excludeSubcomponent(Component $component, array &$props): bool
     {
         if ($this->paths === null) {
             $this->init();
         }
+
         // If there are no paths to include, then exclude everything
         if (!$this->paths) {
-            return \true;
+            return true;
         }
+
         // The component is included for rendering, if either there is no path, or if there is, if it's the last component
         // on the path or any component thereafter
         if (!$this->propagation_unsettled_paths) {
-            return \false;
+            return false;
         }
+
         // Check if this component is the last item of any componentPath
         foreach ($this->propagation_unsettled_paths as $unsettled_path) {
-            if (\count($unsettled_path) === 1 && $unsettled_path[0] === $component) {
-                return \false;
+            if (count($unsettled_path) === 1 && $unsettled_path[0] === $component) {
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
+
     /**
      * @param Component[] $subcomponents
      * @return Component[]|mixed[]
      */
-    public function removeExcludedSubcomponents(Component $component, array $subcomponents) : array
+    public function removeExcludedSubcomponents(Component $component, array $subcomponents): array
     {
         if ($this->paths === null) {
             $this->init();
         }
+
         // If there are no remaining path left, then everything goes in
         if (!$this->propagation_unsettled_paths) {
             return $subcomponents;
         }
+
         // $component_unsettled_path: Start only from the specified component. It is passed under URL param "componentPaths", and it's the list of component paths
         // starting from the entry, and joined by ".", like this: componentPaths[]=toplevel.pagesection-top.frame-top.block-notifications-scroll-list
         // This way, the component can interact with itself to fetch or post data, etc
@@ -111,7 +120,7 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
             // Validate that the current component is at the head of the path
             // This validation will work for the entry component only, since the array_intersect below will guarantee that only the path components are returned
             $unsettled_path_component = $unsettled_path[0];
-            if (\count($unsettled_path) === 1) {
+            if (count($unsettled_path) === 1) {
                 // We reached the end of the unsettled path => from now on, all components must be included
                 if ($unsettled_path_component === $component) {
                     return $subcomponents;
@@ -119,32 +128,37 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
             } else {
                 // Then, check that the following element in the unsettled_path, which is the subcomponent, is on the subcomponents
                 $unsettled_path_subcomponent = $unsettled_path[1];
-                if ($unsettled_path_component === $component && \in_array($unsettled_path_subcomponent, $subcomponents) && !\in_array($unsettled_path_subcomponent, $matching_subcomponents)) {
+                if ($unsettled_path_component === $component && in_array($unsettled_path_subcomponent, $subcomponents) && !in_array($unsettled_path_subcomponent, $matching_subcomponents)) {
                     $matching_subcomponents[] = $unsettled_path_subcomponent;
                 }
             }
         }
+
         return $matching_subcomponents;
     }
+
     /**
      * The `prepare` function advances the componentPath one level down, when interating into the subcomponents, and then calling `restore` the value goes one level up again
      * @param array<string,mixed> $props
      */
-    public function prepareForPropagation(Component $component, array &$props) : void
+    public function prepareForPropagation(Component $component, array &$props): void
     {
         if ($this->paths === null) {
             $this->init();
         }
+
         if (!$this->paths) {
             return;
         }
+
         // Save the current propagation_unsettled_paths, to restore it later on
         $this->backlog_unsettled_paths[$this->getBacklogEntry()] = $this->propagation_unsettled_paths;
+
         $matching_unsettled_paths = array();
         foreach ($this->propagation_unsettled_paths as $unsettled_path) {
             $component_unsettled_path = $unsettled_path[0];
             if ($component_unsettled_path === $component) {
-                \array_shift($unsettled_path);
+                array_shift($unsettled_path);
                 // If there are still elements, then add it to the list
                 if (!$unsettled_path) {
                     continue;
@@ -157,11 +171,12 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
     /**
      * @param array<string,mixed> $props
      */
-    public function restoreFromPropagation(Component $component, array &$props) : void
+    public function restoreFromPropagation(Component $component, array &$props): void
     {
         if ($this->paths === null) {
             $this->init();
         }
+
         // Restore the previous propagation_unsettled_paths
         if ($this->paths) {
             $backlog_entry = $this->getBacklogEntry();
@@ -170,10 +185,10 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
             unset($this->backlog_unsettled_paths[$backlog_entry]);
         }
     }
-    protected function getBacklogEntry() : string
+    protected function getBacklogEntry(): string
     {
-        $entry = \json_encode($this->getComponentPathManager()->getPropagationCurrentPath());
-        if ($entry === \false) {
+        $entry = json_encode($this->getComponentPathManager()->getPropagationCurrentPath());
+        if ($entry === false) {
             return '';
         }
         return $entry;

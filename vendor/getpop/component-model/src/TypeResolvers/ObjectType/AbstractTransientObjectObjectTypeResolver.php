@@ -1,33 +1,36 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\ObjectModels\TransientObjectInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-/** @internal */
+
 abstract class AbstractTransientObjectObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-    /**
-     * @return string|int|null
-     */
-    public final function getID(object $object)
+
+    final public function getID(object $object): string|int|null
     {
         /** @var TransientObjectInterface */
         $transientObject = $object;
         return $transientObject->getID();
     }
+
     /**
      * Remove the IdentifiableObject interface
      *
      * @param InterfaceTypeFieldResolverInterface[] $interfaceTypeFieldResolvers
      * @return InterfaceTypeFieldResolverInterface[]
      */
-    protected final function consolidateAllImplementedInterfaceTypeFieldResolvers(array $interfaceTypeFieldResolvers) : array
-    {
-        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers));
+    final protected function consolidateAllImplementedInterfaceTypeFieldResolvers(
+        array $interfaceTypeFieldResolvers,
+    ): array {
+        return $this->removeIdentifiableObjectInterfaceTypeFieldResolver(
+            parent::consolidateAllImplementedInterfaceTypeFieldResolvers($interfaceTypeFieldResolvers),
+        );
     }
 }

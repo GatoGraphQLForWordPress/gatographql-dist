@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\QueriedObject\Facades\Routing;
 
 use PoP\Root\App;
 use PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface;
-/** @internal */
+
 class CMSRoutingStateServiceFacade
 {
-    public static function getInstance() : CMSRoutingStateServiceInterface
+    public static function getInstance(): CMSRoutingStateServiceInterface
     {
         /**
          * @var CMSRoutingStateServiceInterface

@@ -1,14 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\APIMirrorQuery\DataStructureFormatters;
 
 use PoP\ComponentModel\DataStructureFormatters\XMLDataStructureFormatterTrait;
-/** @internal */
-class XMLMirrorQueryDataStructureFormatter extends \PoPAPI\APIMirrorQuery\DataStructureFormatters\MirrorQueryDataStructureFormatter
+
+class XMLMirrorQueryDataStructureFormatter extends MirrorQueryDataStructureFormatter
 {
     use XMLDataStructureFormatterTrait;
-    public function getName() : string
+
+    public function getName(): string
     {
         return 'xml';
     }

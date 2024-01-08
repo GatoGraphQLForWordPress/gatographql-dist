@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
+
+namespace Symfony\Component\HttpFoundation\Exception;
 
 /**
  * Interface for Request exceptions.
  *
  * Exceptions implementing this interface should trigger an HTTP 400 response in the application code.
- * @internal
  */
 interface RequestExceptionInterface
 {

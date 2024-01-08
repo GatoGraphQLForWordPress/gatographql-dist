@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
-/** @internal */
+
 class AppStateProvider extends AbstractAppStateProvider
 {
     /**
      * @param array<string,mixed> $state
      */
-    public function initialize(array &$state) : void
+    public function initialize(array &$state): void
     {
         /**
          * Dynamic variables are those generated on runtime

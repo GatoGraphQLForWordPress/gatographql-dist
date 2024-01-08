@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Comments\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
-/** @internal */
+
 class CommentTypesFilterInput extends AbstractValueToQueryFilterInput
 {
-    protected function getQueryArgKey() : string
+    protected function getQueryArgKey(): string
     {
         return 'types';
     }

@@ -8,32 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+
+namespace Symfony\Component\HttpFoundation;
 
 /**
  * Represents an Accept-* header item.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
- * @internal
  */
 class AcceptHeaderItem
 {
-    /**
-     * @var string
-     */
-    private $value;
-    /**
-     * @var float
-     */
-    private $quality = 1.0;
-    /**
-     * @var int
-     */
-    private $index = 0;
-    /**
-     * @var mixed[]
-     */
-    private $attributes = [];
+    private string $value;
+    private float $quality = 1.0;
+    private int $index = 0;
+    private array $attributes = [];
+
     public function __construct(string $value, array $attributes = [])
     {
         $this->value = $value;
@@ -41,113 +30,130 @@ class AcceptHeaderItem
             $this->setAttribute($name, $value);
         }
     }
+
     /**
      * Builds an AcceptHeaderInstance instance from a string.
      */
-    public static function fromString(?string $itemValue) : self
+    public static function fromString(?string $itemValue): self
     {
         $parts = HeaderUtils::split($itemValue ?? '', ';=');
-        $part = \array_shift($parts);
+
+        $part = array_shift($parts);
         $attributes = HeaderUtils::combine($parts);
+
         return new self($part[0], $attributes);
     }
+
     /**
      * Returns header value's string representation.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
-        $string = $this->value . ($this->quality < 1 ? ';q=' . $this->quality : '');
+        $string = $this->value.($this->quality < 1 ? ';q='.$this->quality : '');
         if (\count($this->attributes) > 0) {
-            $string .= '; ' . HeaderUtils::toString($this->attributes, ';');
+            $string .= '; '.HeaderUtils::toString($this->attributes, ';');
         }
+
         return $string;
     }
+
     /**
      * Set the item value.
      *
      * @return $this
      */
-    public function setValue(string $value)
+    public function setValue(string $value): static
     {
         $this->value = $value;
+
         return $this;
     }
+
     /**
      * Returns the item value.
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
+
     /**
      * Set the item quality.
      *
      * @return $this
      */
-    public function setQuality(float $quality)
+    public function setQuality(float $quality): static
     {
         $this->quality = $quality;
+
         return $this;
     }
+
     /**
      * Returns the item quality.
      */
-    public function getQuality() : float
+    public function getQuality(): float
     {
         return $this->quality;
     }
+
     /**
      * Set the item index.
      *
      * @return $this
      */
-    public function setIndex(int $index)
+    public function setIndex(int $index): static
     {
         $this->index = $index;
+
         return $this;
     }
+
     /**
      * Returns the item index.
      */
-    public function getIndex() : int
+    public function getIndex(): int
     {
         return $this->index;
     }
+
     /**
      * Tests if an attribute exists.
      */
-    public function hasAttribute(string $name) : bool
+    public function hasAttribute(string $name): bool
     {
         return isset($this->attributes[$name]);
     }
+
     /**
      * Returns an attribute by its name.
-     * @param mixed $default
-     * @return mixed
      */
-    public function getAttribute(string $name, $default = null)
+    public function getAttribute(string $name, mixed $default = null): mixed
     {
         return $this->attributes[$name] ?? $default;
     }
+
     /**
      * Returns all attributes.
      */
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
+
     /**
      * Set an attribute.
      *
      * @return $this
      */
-    public function setAttribute(string $name, string $value)
+    public function setAttribute(string $name, string $value): static
     {
         if ('q' === $name) {
             $this->quality = (float) $value;
         } else {
             $this->attributes[$name] = $value;
         }
+
         return $this;
     }
 }

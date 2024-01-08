@@ -8,14 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
+namespace Symfony\Component\Cache\Adapter;
+
+use Psr\Cache\InvalidArgumentException;
+
 /**
  * Interface for invalidating cached items using tags.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 interface TagAwareAdapterInterface extends AdapterInterface
 {
@@ -26,5 +27,5 @@ interface TagAwareAdapterInterface extends AdapterInterface
      *
      * @throws InvalidArgumentException When $tags is not valid
      */
-    public function invalidateTags(array $tags) : bool;
+    public function invalidateTags(array $tags): bool;
 }

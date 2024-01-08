@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\SchemaCommons\TypeResolvers\UnionType;
 
 use PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
-/** @internal */
+
 abstract class AbstractErrorPayloadUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver|null
-     */
-    private $errorPayloadInterfaceTypeResolver;
-    public final function setErrorPayloadInterfaceTypeResolver(ErrorPayloadInterfaceTypeResolver $errorPayloadInterfaceTypeResolver) : void
+    private ?ErrorPayloadInterfaceTypeResolver $errorPayloadInterfaceTypeResolver = null;
+
+    final public function setErrorPayloadInterfaceTypeResolver(ErrorPayloadInterfaceTypeResolver $errorPayloadInterfaceTypeResolver): void
     {
         $this->errorPayloadInterfaceTypeResolver = $errorPayloadInterfaceTypeResolver;
     }
-    protected final function getErrorPayloadInterfaceTypeResolver() : ErrorPayloadInterfaceTypeResolver
+    final protected function getErrorPayloadInterfaceTypeResolver(): ErrorPayloadInterfaceTypeResolver
     {
         if ($this->errorPayloadInterfaceTypeResolver === null) {
             /** @var ErrorPayloadInterfaceTypeResolver */
@@ -26,11 +25,14 @@ abstract class AbstractErrorPayloadUnionTypeResolver extends AbstractUnionTypeRe
         }
         return $this->errorPayloadInterfaceTypeResolver;
     }
+
     /**
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getUnionTypeInterfaceTypeResolvers() : array
+    public function getUnionTypeInterfaceTypeResolvers(): array
     {
-        return [$this->getErrorPayloadInterfaceTypeResolver()];
+        return [
+            $this->getErrorPayloadInterfaceTypeResolver(),
+        ];
     }
 }

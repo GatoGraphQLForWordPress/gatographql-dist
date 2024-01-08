@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
-/** @internal */
+
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+
+    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
+    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -26,13 +25,15 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->customPostTypeAPI;
     }
+
     /**
      * @param array<string,mixed> $state
      */
-    public function augment(array &$state) : void
+    public function augment(array &$state): void
     {
         $nature = $state['nature'];
         $state['routing']['is-custompost'] = $nature === RequestNature::CUSTOMPOST;
+
         // Attributes needed to match the ComponentRoutingProcessor vars conditions
         if ($nature === RequestNature::CUSTOMPOST) {
             $customPostID = $state['routing']['queried-object-id'];

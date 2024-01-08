@@ -1,31 +1,51 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Container\CompilerPasses;
 
 use PoP\Root\Container\ContainerBuilderWrapperInterface;
-/** @internal */
-abstract class AbstractInjectServiceIntoRegistryCompilerPass extends \PoP\Root\Container\CompilerPasses\AbstractCompilerPass
+
+abstract class AbstractInjectServiceIntoRegistryCompilerPass extends AbstractCompilerPass
 {
-    use \PoP\Root\Container\CompilerPasses\AutoconfigurableServicesCompilerPassTrait;
-    protected function doProcess(ContainerBuilderWrapperInterface $containerBuilderWrapper) : void
+    use AutoconfigurableServicesCompilerPassTrait;
+
+    protected function doProcess(ContainerBuilderWrapperInterface $containerBuilderWrapper): void
     {
         $registryDefinition = $containerBuilderWrapper->getDefinition($this->getRegistryServiceDefinition());
         $definitions = $containerBuilderWrapper->getDefinitions();
         $serviceClass = $this->getServiceClass();
         foreach ($definitions as $definitionID => $definition) {
             $definitionClass = $definition->getClass();
-            if ($definitionClass === null || !\is_a($definitionClass, $serviceClass, \true)) {
+            if (
+                $definitionClass === null
+                || !is_a(
+                    $definitionClass,
+                    $serviceClass,
+                    true
+                )
+            ) {
                 continue;
             }
+
             $onlyProcessAutoconfiguredServices = $this->onlyProcessAutoconfiguredServices();
-            if (!$onlyProcessAutoconfiguredServices || $definition->isAutoconfigured()) {
+            if (
+                !$onlyProcessAutoconfiguredServices
+                || $definition->isAutoconfigured()
+            ) {
                 // Register the service in the corresponding registry
-                $registryDefinition->addMethodCall($this->getRegistryMethodCallName(), [$this->createReference($definitionID), $definitionID]);
+                $registryDefinition->addMethodCall(
+                    $this->getRegistryMethodCallName(),
+                    [
+                        $this->createReference($definitionID),
+                        $definitionID
+                    ]
+                );
             }
         }
     }
-    protected abstract function getRegistryServiceDefinition() : string;
-    protected abstract function getServiceClass() : string;
-    protected abstract function getRegistryMethodCallName() : string;
+
+    abstract protected function getRegistryServiceDefinition(): string;
+    abstract protected function getServiceClass(): string;
+    abstract protected function getRegistryMethodCallName(): string;
 }

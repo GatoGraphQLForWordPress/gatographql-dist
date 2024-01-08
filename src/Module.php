@@ -103,8 +103,10 @@ class Module extends AbstractPluginModule
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
-    {
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
         parent::initializeContainerServices(
             $skipSchema,
             $skipSchemaModuleClasses

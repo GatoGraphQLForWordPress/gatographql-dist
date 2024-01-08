@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
@@ -16,35 +17,22 @@ use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
+
 abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMedia\TypeAPIs\CustomPostMediaTypeAPIInterface|null
-     */
-    private $customPostMediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
+
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostMediaTypeAPIInterface $customPostMediaTypeAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
+
+    final public function setNameResolver(NameResolverInterface $nameResolver): void
     {
         $this->nameResolver = $nameResolver;
     }
-    protected final function getNameResolver() : NameResolverInterface
+    final protected function getNameResolver(): NameResolverInterface
     {
         if ($this->nameResolver === null) {
             /** @var NameResolverInterface */
@@ -53,11 +41,11 @@ abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver exte
         }
         return $this->nameResolver;
     }
-    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
+    final public function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI): void
     {
         $this->userRoleTypeAPI = $userRoleTypeAPI;
     }
-    protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
+    final protected function getUserRoleTypeAPI(): UserRoleTypeAPIInterface
     {
         if ($this->userRoleTypeAPI === null) {
             /** @var UserRoleTypeAPIInterface */
@@ -66,11 +54,11 @@ abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver exte
         }
         return $this->userRoleTypeAPI;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
+    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
+    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -79,11 +67,11 @@ abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver exte
         }
         return $this->customPostTypeAPI;
     }
-    public final function setCustomPostMediaTypeAPI(CustomPostMediaTypeAPIInterface $customPostMediaTypeAPI) : void
+    final public function setCustomPostMediaTypeAPI(CustomPostMediaTypeAPIInterface $customPostMediaTypeAPI): void
     {
         $this->customPostMediaTypeAPI = $customPostMediaTypeAPI;
     }
-    protected final function getCustomPostMediaTypeAPI() : CustomPostMediaTypeAPIInterface
+    final protected function getCustomPostMediaTypeAPI(): CustomPostMediaTypeAPIInterface
     {
         if ($this->customPostMediaTypeAPI === null) {
             /** @var CustomPostMediaTypeAPIInterface */
@@ -92,11 +80,11 @@ abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver exte
         }
         return $this->customPostMediaTypeAPI;
     }
-    public final function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI) : void
+    final public function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI): void
     {
         $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
     }
-    protected final function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface
+    final protected function getCustomPostTypeMutationAPI(): CustomPostTypeMutationAPIInterface
     {
         if ($this->customPostTypeMutationAPI === null) {
             /** @var CustomPostTypeMutationAPIInterface */
@@ -105,35 +93,79 @@ abstract class AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver exte
         }
         return $this->customPostTypeMutationAPI;
     }
-    protected function getUserNotLoggedInError() : FeedbackItemResolution
+
+    protected function getUserNotLoggedInError(): FeedbackItemResolution
     {
-        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3);
+        return new FeedbackItemResolution(
+            MutationErrorFeedbackItemProvider::class,
+            MutationErrorFeedbackItemProvider::E3,
+        );
     }
-    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    public function validate(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
-        $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+
+        $this->validateIsUserLoggedIn(
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
+
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
-        $this->validateCustomPostExists($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        $this->validateCustomPostExists(
+            $customPostID,
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
+
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-        $this->validateDoesCustomPostTypeSupportFeaturedImage($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        $this->validateCanLoggedInUserEditCustomPosts($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+
+        $this->validateDoesCustomPostTypeSupportFeaturedImage(
+            $customPostID,
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
+
+        $this->validateCanLoggedInUserEditCustomPosts(
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
+
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-        $this->validateCanLoggedInUserEditCustomPost($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+
+        $this->validateCanLoggedInUserEditCustomPost(
+            $customPostID,
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateDoesCustomPostTypeSupportFeaturedImage($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    protected function validateDoesCustomPostTypeSupportFeaturedImage(
+        string|int $customPostID,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         /** @var string */
         $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
         if (!$this->getCustomPostMediaTypeAPI()->doesCustomPostTypeSupportFeaturedImage($customPostType)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4, [$customPostType]), $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E4,
+                        [
+                            $customPostType,
+                        ]
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
 }

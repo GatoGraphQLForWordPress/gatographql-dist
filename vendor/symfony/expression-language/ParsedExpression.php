@@ -8,26 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
 
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node\Node;
+namespace Symfony\Component\ExpressionLanguage;
+
+use Symfony\Component\ExpressionLanguage\Node\Node;
+
 /**
  * Represents an already parsed expression.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class ParsedExpression extends Expression
 {
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\Node\Node
-     */
-    private $nodes;
+    private Node $nodes;
+
     public function __construct(string $expression, Node $nodes)
     {
         parent::__construct($expression);
+
         $this->nodes = $nodes;
     }
+
     /**
      * @return Node
      */

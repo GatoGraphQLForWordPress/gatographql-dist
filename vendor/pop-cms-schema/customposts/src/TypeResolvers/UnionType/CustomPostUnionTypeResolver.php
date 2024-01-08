@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
@@ -8,22 +9,17 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType\CustomPostUnionTypeDataLoader;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver;
-/** @internal */
+
 class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType\CustomPostUnionTypeDataLoader|null
-     */
-    private $customPostUnionTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver|null
-     */
-    private $customPostInterfaceTypeResolver;
-    public final function setCustomPostUnionTypeDataLoader(CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader) : void
+    private ?CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader = null;
+    private ?CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver = null;
+
+    final public function setCustomPostUnionTypeDataLoader(CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader): void
     {
         $this->customPostUnionTypeDataLoader = $customPostUnionTypeDataLoader;
     }
-    protected final function getCustomPostUnionTypeDataLoader() : CustomPostUnionTypeDataLoader
+    final protected function getCustomPostUnionTypeDataLoader(): CustomPostUnionTypeDataLoader
     {
         if ($this->customPostUnionTypeDataLoader === null) {
             /** @var CustomPostUnionTypeDataLoader */
@@ -32,11 +28,11 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
         }
         return $this->customPostUnionTypeDataLoader;
     }
-    public final function setCustomPostInterfaceTypeResolver(CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver) : void
+    final public function setCustomPostInterfaceTypeResolver(CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver): void
     {
         $this->customPostInterfaceTypeResolver = $customPostInterfaceTypeResolver;
     }
-    protected final function getCustomPostInterfaceTypeResolver() : CustomPostInterfaceTypeResolver
+    final protected function getCustomPostInterfaceTypeResolver(): CustomPostInterfaceTypeResolver
     {
         if ($this->customPostInterfaceTypeResolver === null) {
             /** @var CustomPostInterfaceTypeResolver */
@@ -45,23 +41,29 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
         }
         return $this->customPostInterfaceTypeResolver;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'CustomPostUnion';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Union of \'custom post\' type resolvers', 'customposts');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getCustomPostUnionTypeDataLoader();
     }
+
     /**
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getUnionTypeInterfaceTypeResolvers() : array
+    public function getUnionTypeInterfaceTypeResolvers(): array
     {
-        return [$this->getCustomPostInterfaceTypeResolver()];
+        return [
+            $this->getCustomPostInterfaceTypeResolver(),
+        ];
     }
 }

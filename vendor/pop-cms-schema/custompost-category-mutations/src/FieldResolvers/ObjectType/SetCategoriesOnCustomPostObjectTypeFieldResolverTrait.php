@@ -1,14 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType;
 
 use PoP\Root\Translation\TranslationAPIInterface;
-/** @internal */
+
 trait SetCategoriesOnCustomPostObjectTypeFieldResolverTrait
 {
-    protected abstract function getTranslationAPI() : TranslationAPIInterface;
-    protected function getEntityName() : string
+    abstract protected function getTranslationAPI(): TranslationAPIInterface;
+
+    protected function getEntityName(): string
     {
         return $this->getTranslationAPI()->__('custom post', 'custompost-category-mutations');
     }

@@ -8,14 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator as InternalHydrator;
+namespace Symfony\Component\VarExporter;
+
+use Symfony\Component\VarExporter\Internal\Hydrator as InternalHydrator;
+
 /**
  * Utility class to hydrate the properties of an object.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 final class Hydrator
 {
@@ -53,22 +54,25 @@ final class Hydrator
      *
      * @return T
      */
-    public static function hydrate(object $instance, array $properties = [], array $scopedProperties = []) : object
+    public static function hydrate(object $instance, array $properties = [], array $scopedProperties = []): object
     {
         if ($properties) {
-            $class = \get_class($instance);
-            $propertyScopes = InternalHydrator::$propertyScopes[$class] = InternalHydrator::$propertyScopes[$class] ?? InternalHydrator::getPropertyScopes($class);
+            $class = $instance::class;
+            $propertyScopes = InternalHydrator::$propertyScopes[$class] ??= InternalHydrator::getPropertyScopes($class);
+
             foreach ($properties as $name => &$value) {
                 [$scope, $name, $readonlyScope] = $propertyScopes[$name] ?? [$class, $name, $class];
-                $scopedProperties[$readonlyScope ?? $scope][$name] =& $value;
+                $scopedProperties[$readonlyScope ?? $scope][$name] = &$value;
             }
             unset($value);
         }
+
         foreach ($scopedProperties as $scope => $properties) {
             if ($properties) {
-                (InternalHydrator::$simpleHydrators[$scope] = InternalHydrator::$simpleHydrators[$scope] ?? InternalHydrator::getSimpleHydrator($scope))($properties, $instance);
+                (InternalHydrator::$simpleHydrators[$scope] ??= InternalHydrator::getSimpleHydrator($scope))($properties, $instance);
             }
         }
+
         return $instance;
     }
 }

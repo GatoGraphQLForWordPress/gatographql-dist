@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Message;
+namespace Psr\Http\Message;
 
 /**
  * Representation of an outgoing, server-side response.
@@ -16,7 +16,6 @@ namespace PrefixedByPoP\Psr\Http\Message;
  * Responses are considered immutable; all methods that might change state MUST
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
- * @internal
  */
 interface ResponseInterface extends MessageInterface
 {
@@ -28,7 +27,8 @@ interface ResponseInterface extends MessageInterface
      *
      * @return int Status code.
      */
-    public function getStatusCode() : int;
+    public function getStatusCode(): int;
+
     /**
      * Return an instance with the specified status code and, optionally, reason phrase.
      *
@@ -49,7 +49,8 @@ interface ResponseInterface extends MessageInterface
      * @return static
      * @throws \InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus(int $code, string $reasonPhrase = '') : ResponseInterface;
+    public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface;
+
     /**
      * Gets the response reason phrase associated with the status code.
      *
@@ -63,5 +64,5 @@ interface ResponseInterface extends MessageInterface
      * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
      * @return string Reason phrase; must return an empty string if none present.
      */
-    public function getReasonPhrase() : string;
+    public function getReasonPhrase(): string;
 }

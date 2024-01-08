@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Engine\DirectiveResolvers;
 
 use PoP\ComponentModel\App;
@@ -19,19 +20,18 @@ use PoP\GraphQLParser\Module as GraphQLParserModule;
 use PoP\GraphQLParser\ModuleConfiguration as GraphQLParserModuleConfiguration;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-/** @internal */
+
 class SkipFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
-    use \PoP\Engine\DirectiveResolvers\FilterIDsSatisfyingConditionFieldDirectiveResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
+    use FilterIDsSatisfyingConditionFieldDirectiveResolverTrait;
+
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+
+    final public function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver): void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
-    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
+    final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
             /** @var BooleanScalarTypeResolver */
@@ -40,10 +40,12 @@ class SkipFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
         }
         return $this->booleanScalarTypeResolver;
     }
-    public function getDirectiveName() : string
+
+    public function getDirectiveName(): string
     {
         return 'skip';
     }
+
     /**
      * For Multiple Query Execution only, this directive
      * can also be used in the operation (otherwise, it
@@ -79,22 +81,25 @@ class SkipFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
      *   }
      *   ```
      */
-    public function getFieldDirectiveBehavior() : string
+    public function getFieldDirectiveBehavior(): string
     {
         /** @var GraphQLParserModuleConfiguration */
         $moduleConfiguration = App::getModule(GraphQLParserModule::class)->getConfiguration();
         if ($moduleConfiguration->enableMultipleQueryExecution()) {
             return FieldDirectiveBehaviors::FIELD_AND_OPERATION;
         }
+
         return parent::getFieldDirectiveBehavior();
     }
+
     /**
      * Place it after the validation and before it's added to $resolvedIDFieldValues in the resolveAndMerge directive
      */
-    public function getPipelinePosition() : string
+    public function getPipelinePosition(): string
     {
         return PipelinePositions::BEFORE_RESOLVE;
     }
+
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
@@ -106,46 +111,69 @@ class SkipFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
-    {
+    public function resolveDirective(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $idFieldSet,
+        FieldDataAccessProviderInterface $fieldDataAccessProvider,
+        array $succeedingPipelineFieldDirectiveResolvers,
+        array $idObjects,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array &$succeedingPipelineIDFieldSet,
+        array &$succeedingPipelineFieldDataAccessProviders,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): void {
         // Check the condition field. If it is satisfied, then skip those fields
-        $idsToRemove = $this->getIDsSatisfyingCondition($relationalTypeResolver, $idObjects, $idFieldSet, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $messages, $engineIterationFeedbackStore);
+        $idsToRemove = $this->getIDsSatisfyingCondition(
+            $relationalTypeResolver,
+            $idObjects,
+            $idFieldSet,
+            $succeedingPipelineIDFieldSet,
+            $resolvedIDFieldValues,
+            $messages,
+            $engineIterationFeedbackStore,
+        );
         $this->removeFieldSetForIDs($idFieldSet, $idsToRemove, $succeedingPipelineIDFieldSet);
     }
-    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
+    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver): ?string
     {
         return $this->__('Include the field value in the output only if the argument \'if\' evals to `false`', 'engine');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver) : array
+    public function getDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver): array
     {
-        return \array_merge(parent::getDirectiveArgNameTypeResolvers($relationalTypeResolver), ['if' => $this->getBooleanScalarTypeResolver()]);
+        return array_merge(
+            parent::getDirectiveArgNameTypeResolvers($relationalTypeResolver),
+            [
+                'if' => $this->getBooleanScalarTypeResolver(),
+            ]
+        );
     }
     /**
      * Do not allow the "multi-field directives" feature for this directive
      */
-    public function getAffectAdditionalFieldsUnderPosArgumentName() : ?string
+    public function getAffectAdditionalFieldsUnderPosArgumentName(): ?string
     {
         return null;
     }
-    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
+
+    public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): ?string
     {
-        switch ($directiveArgName) {
-            case 'if':
-                return $this->__('Argument that must evaluate to `false` to include the field value in the output', 'engine');
-            default:
-                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'if' => $this->__('Argument that must evaluate to `false` to include the field value in the output', 'engine'),
+            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
+        };
     }
-    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
+
+    public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName): int
     {
-        switch ($directiveArgName) {
-            case 'if':
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'if' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName),
+        };
     }
 }

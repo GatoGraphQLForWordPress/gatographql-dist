@@ -1,29 +1,28 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PageMutations\ConditionalOnModule\CommentMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CommentMutations\ConditionalOnModule\Users\FieldResolvers\ObjectType\AbstractAddCommentToCustomPostObjectTypeFieldResolver;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+
 /**
  * Please notice: It extends a class under ConditionalOnModule/Users/
  * but there's no need to do the same, as Users will already exist
  * for Mutations packages
- * @internal
  */
 class PageObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
+
+    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    protected final function getPageTypeAPI() : PageTypeAPIInterface
+    final protected function getPageTypeAPI(): PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -32,18 +31,23 @@ class PageObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTy
         }
         return $this->pageTypeAPI;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PageObjectTypeResolver::class];
+        return [
+            PageObjectTypeResolver::class,
+        ];
     }
-    protected function getCustomPostType() : string
+
+    protected function getCustomPostType(): string
     {
         return $this->getPageTypeAPI()->getPageCustomPostType();
     }
-    public function getAddCommentFieldDescription() : string
+
+    public function getAddCommentFieldDescription(): string
     {
         return $this->__('Add a comment to the page', 'page-mutations');
     }

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMedia\Module;
@@ -8,23 +9,27 @@ use PoPCMSSchema\CustomPostMedia\ModuleConfiguration;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
-class WithFeaturedImageGenericCustomPostObjectTypeFieldResolver extends \PoPCMSSchema\CustomPostMediaMutations\FieldResolvers\ObjectType\AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
+
+class WithFeaturedImageGenericCustomPostObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [GenericCustomPostObjectTypeResolver::class];
+        return [
+            GenericCustomPostObjectTypeResolver::class,
+        ];
     }
-    protected function isFeaturedImageEnabledForCustomPostType() : bool
+
+    protected function isFeaturedImageEnabledForCustomPostType(): bool
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->enableFeaturedImageForGenericCustomPosts();
     }
-    protected function getCustomPostType() : string
+
+    protected function getCustomPostType(): string
     {
         // Satisfy with any value, this function will not be called
         return '';

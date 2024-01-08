@@ -1,13 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-/** @internal */
-class QueryOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractOperation
+class QueryOperation extends AbstractOperation
 {
-    public function getOperationType() : string
+    public function getOperationType(): string
     {
-        return \PoP\GraphQLParser\Spec\Parser\Ast\OperationTypes::QUERY;
+        return OperationTypes::QUERY;
     }
 }

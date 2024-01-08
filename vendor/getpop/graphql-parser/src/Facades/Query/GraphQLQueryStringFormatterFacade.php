@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Facades\Query;
 
 use PoP\Root\App;
 use PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface;
-/** @internal */
+
 class GraphQLQueryStringFormatterFacade
 {
-    public static function getInstance() : GraphQLQueryStringFormatterInterface
+    public static function getInstance(): GraphQLQueryStringFormatterInterface
     {
         /**
          * @var GraphQLQueryStringFormatterInterface

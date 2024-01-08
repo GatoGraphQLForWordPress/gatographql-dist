@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\AST;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
@@ -13,6 +14,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
+
 /**
  * Fragments can be referenced by different Fields. Because values
  * are stored and cached under each Field, every reference to a Field
@@ -51,15 +53,16 @@ use SplObjectStorage;
  * gets cached at the AST node level. By duplicating the node, both
  * references will be resolved independently, and the second reference
  * will then produce "Updated title".
- * @internal
  */
-class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
+class ASTNodeDuplicatorService implements ASTNodeDuplicatorServiceInterface
 {
     use BasicServiceTrait;
+
     /**
      * @var SplObjectStorage<FragmentReference,Fragment>
      */
-    protected $fragmentReferenceFragments;
+    protected SplObjectStorage $fragmentReferenceFragments;
+
     public function __construct()
     {
         /**
@@ -68,13 +71,16 @@ class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicat
         $fragmentReferenceFragments = new SplObjectStorage();
         $this->fragmentReferenceFragments = $fragmentReferenceFragments;
     }
+
     /**
      * Retrieve a specific and dynamic Fragment for that FragmentReference
      *
      * @param Fragment[] $fragments
      */
-    public function getExclusiveFragment(FragmentReference $fragmentReference, array $fragments) : ?Fragment
-    {
+    public function getExclusiveFragment(
+        FragmentReference $fragmentReference,
+        array $fragments,
+    ): ?Fragment {
         if ($this->fragmentReferenceFragments->contains($fragmentReference)) {
             return $this->fragmentReferenceFragments[$fragmentReference];
         }
@@ -88,16 +94,27 @@ class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicat
         }
         return null;
     }
-    protected function recursivelyCloneFragment(Fragment $fragment) : Fragment
+
+    protected function recursivelyCloneFragment(Fragment $fragment): Fragment
     {
-        return new Fragment($fragment->getName(), $fragment->getModel(), $fragment->getDirectives(), $this->recursivelyCloneFieldOrFragmentBonds($fragment->getFieldsOrFragmentBonds()), new RuntimeLocation($fragment));
+        return new Fragment(
+            $fragment->getName(),
+            $fragment->getModel(),
+            $fragment->getDirectives(),
+            $this->recursivelyCloneFieldOrFragmentBonds(
+                $fragment->getFieldsOrFragmentBonds(),
+            ),
+            new RuntimeLocation($fragment),
+        );
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @return array<FieldInterface|FragmentBondInterface>
      */
-    protected function recursivelyCloneFieldOrFragmentBonds(array $fieldsOrFragmentBonds) : array
-    {
+    protected function recursivelyCloneFieldOrFragmentBonds(
+        array $fieldsOrFragmentBonds,
+    ): array {
         $clonedFieldsOrFragmentBonds = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
             if ($fieldOrFragmentBond instanceof FragmentReference) {
@@ -109,7 +126,12 @@ class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicat
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $clonedFieldsOrFragmentBonds = \array_merge($clonedFieldsOrFragmentBonds, $this->recursivelyCloneFieldOrFragmentBonds($inlineFragment->getFieldsOrFragmentBonds()));
+                $clonedFieldsOrFragmentBonds = array_merge(
+                    $clonedFieldsOrFragmentBonds,
+                    $this->recursivelyCloneFieldOrFragmentBonds(
+                        $inlineFragment->getFieldsOrFragmentBonds(),
+                    )
+                );
                 continue;
             }
             if ($fieldOrFragmentBond instanceof RelationalField) {
@@ -126,12 +148,31 @@ class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicat
         }
         return $clonedFieldsOrFragmentBonds;
     }
-    protected function cloneRelationalField(RelationalField $relationalField) : RelationalField
-    {
-        return new RelationalField($relationalField->getName(), $relationalField->getAlias(), $relationalField->getArguments(), $this->recursivelyCloneFieldOrFragmentBonds($relationalField->getFieldsOrFragmentBonds()), $relationalField->getDirectives(), new RuntimeLocation($relationalField));
+
+    protected function cloneRelationalField(
+        RelationalField $relationalField,
+    ): RelationalField {
+        return new RelationalField(
+            $relationalField->getName(),
+            $relationalField->getAlias(),
+            $relationalField->getArguments(),
+            $this->recursivelyCloneFieldOrFragmentBonds(
+                $relationalField->getFieldsOrFragmentBonds(),
+            ),
+            $relationalField->getDirectives(),
+            new RuntimeLocation($relationalField),
+        );
     }
-    protected function cloneLeafField(LeafField $leafField) : LeafField
-    {
-        return new LeafField($leafField->getName(), $leafField->getAlias(), $leafField->getArguments(), $leafField->getDirectives(), new RuntimeLocation($leafField));
+
+    protected function cloneLeafField(
+        LeafField $leafField,
+    ): LeafField {
+        return new LeafField(
+            $leafField->getName(),
+            $leafField->getAlias(),
+            $leafField->getArguments(),
+            $leafField->getDirectives(),
+            new RuntimeLocation($leafField),
+        );
     }
 }

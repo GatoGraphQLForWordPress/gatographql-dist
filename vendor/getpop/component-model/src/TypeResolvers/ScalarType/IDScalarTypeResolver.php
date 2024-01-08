@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers\ScalarType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
@@ -9,23 +10,26 @@ use PoP\ComponentModel\FeedbackItemProviders\InputValueCoercionGraphQLSpecErrorF
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
+
 /**
  * GraphQL Built-in Scalar
  *
  * @see https://spec.graphql.org/draft/#sec-Scalars.Built-in-Scalars
- * @internal
  */
-class IDScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver
+class IDScalarTypeResolver extends AbstractScalarTypeResolver
 {
-    use \PoP\ComponentModel\TypeResolvers\ScalarType\BuiltInScalarTypeResolverTrait;
-    public function getTypeName() : string
+    use BuiltInScalarTypeResolverTrait;
+
+    public function getTypeName(): string
     {
         return 'ID';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('The ID scalar type represents a unique identifier.', 'component-model');
     }
+
     /**
      * From the GraphQL spec, for section "ID > Input Coercion":
      *
@@ -36,24 +40,37 @@ class IDScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\
      *   must raise a request error indicating an incorrect type.
      *
      * @see https://spec.graphql.org/draft/#sec-ID.Input-Coercion
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
      */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function coerceValue(
+        string|int|float|bool|stdClass $inputValue,
+        AstInterface $astNode,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): string|int|float|bool|object|null {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsNotStdClass($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return null;
         }
         /** @var string|int|float|bool $inputValue */
+
         /**
          * Type ID in GraphQL spec: only String or Int allowed.
          *
          * @see https://spec.graphql.org/draft/#sec-ID.Input-Coercion
          */
-        if (\is_float($inputValue) || \is_bool($inputValue)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_17, [$this->getMaybeNamespacedTypeName()]), $astNode));
+        if (is_float($inputValue) || is_bool($inputValue)) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class,
+                        InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_17,
+                        [
+                            $this->getMaybeNamespacedTypeName(),
+                        ]
+                    ),
+                    $astNode,
+                ),
+            );
             return null;
         }
         return $inputValue;

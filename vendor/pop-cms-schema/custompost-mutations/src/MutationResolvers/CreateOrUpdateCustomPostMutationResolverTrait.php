@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
@@ -15,67 +16,145 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
+
 trait CreateOrUpdateCustomPostMutationResolverTrait
 {
     use ValidateUserLoggedInMutationResolverTrait;
-    protected abstract function getNameResolver() : NameResolverInterface;
-    protected abstract function getUserRoleTypeAPI() : UserRoleTypeAPIInterface;
-    protected abstract function getCustomPostTypeAPI() : CustomPostTypeAPIInterface;
-    protected abstract function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface;
+
+    abstract protected function getNameResolver(): NameResolverInterface;
+    abstract protected function getUserRoleTypeAPI(): UserRoleTypeAPIInterface;
+    abstract protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface;
+    abstract protected function getCustomPostTypeMutationAPI(): CustomPostTypeMutationAPIInterface;
+
     /**
      * Check that the user is logged-in
      */
-    protected function validateIsUserLoggedIn(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+    protected function validateIsUserLoggedIn(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         $errorFeedbackItemResolution = $this->validateUserIsLoggedIn();
         if ($errorFeedbackItemResolution !== null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFeedbackItemResolution, $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    $errorFeedbackItemResolution,
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
-    protected function validateCanLoggedInUserEditCustomPosts(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    protected function validateCanLoggedInUserEditCustomPosts(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         // Validate user permission
         $userID = App::getState('current-user-id');
         $editCustomPostsCapability = $this->getNameResolver()->getName(LooseContractSet::NAME_EDIT_CUSTOMPOSTS_CAPABILITY);
-        if (!$this->getUserRoleTypeAPI()->userCan($userID, $editCustomPostsCapability)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2), $fieldDataAccessor->getField()));
+        if (
+            !$this->getUserRoleTypeAPI()->userCan(
+                $userID,
+                $editCustomPostsCapability
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E2,
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
-    protected function validateCanLoggedInUserPublishCustomPosts(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    protected function validateCanLoggedInUserPublishCustomPosts(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         $userID = App::getState('current-user-id');
         $publishCustomPostsCapability = $this->getNameResolver()->getName(LooseContractSet::NAME_PUBLISH_CUSTOMPOSTS_CAPABILITY);
-        if (!$this->getUserRoleTypeAPI()->userCan($userID, $publishCustomPostsCapability)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3), $fieldDataAccessor->getField()));
+        if (
+            !$this->getUserRoleTypeAPI()->userCan(
+                $userID,
+                $publishCustomPostsCapability
+            )
+        ) {
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E3,
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
-    protected function getUserNotLoggedInError() : FeedbackItemResolution
+
+    protected function getUserNotLoggedInError(): FeedbackItemResolution
     {
-        return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
+        return new FeedbackItemResolution(
+            MutationErrorFeedbackItemProvider::class,
+            MutationErrorFeedbackItemProvider::E1,
+        );
     }
-    /**
-     * @param string|int|null $customPostID
-     */
-    protected function validateCustomPostExists($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    protected function validateCustomPostExists(
+        string|int|null $customPostID,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         if (!$customPostID) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6), $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E6,
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
             return;
         }
+
         if (!$this->getCustomPostTypeAPI()->customPostExists($customPostID)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$customPostID]), $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E7,
+                        [
+                            $customPostID,
+                        ]
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateCanLoggedInUserEditCustomPost($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+
+    protected function validateCanLoggedInUserEditCustomPost(
+        string|int $customPostID,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         // Check that the user has access to the edited custom post
         $userID = App::getState('current-user-id');
         if (!$this->getCustomPostTypeMutationAPI()->canUserEditCustomPost($userID, $customPostID)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8, [$customPostID]), $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E8,
+                        [
+                            $customPostID,
+                        ]
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
         }
     }
 }

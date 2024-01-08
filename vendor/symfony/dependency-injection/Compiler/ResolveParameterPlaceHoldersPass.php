@@ -8,41 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+namespace Symfony\Component\DependencyInjection\Compiler;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 /**
  * Resolves all parameter placeholders "%somevalue%" to their real values.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    private $resolveArrays = \true;
-    /**
-     * @var bool
-     */
-    private $throwOnResolveException = \true;
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \false;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
-     */
-    private $bag;
-    public function __construct(bool $resolveArrays = \true, bool $throwOnResolveException = \true)
-    {
-        $this->resolveArrays = $resolveArrays;
-        $this->throwOnResolveException = $throwOnResolveException;
+    protected bool $skipScalars = false;
+
+    private ParameterBagInterface $bag;
+
+    public function __construct(
+        private bool $resolveArrays = true,
+        private bool $throwOnResolveException = true,
+    ) {
     }
+
     /**
      * @return void
      *
@@ -51,8 +41,10 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
     public function process(ContainerBuilder $container)
     {
         $this->bag = $container->getParameterBag();
+
         try {
             parent::process($container);
+
             $aliases = [];
             foreach ($container->getAliases() as $name => $target) {
                 $this->currentId = $name;
@@ -61,16 +53,15 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
             $container->setAliases($aliases);
         } catch (ParameterNotFoundException $e) {
             $e->setSourceId($this->currentId);
+
             throw $e;
         }
+
         $this->bag->resolve();
         unset($this->bag);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if (\is_string($value)) {
             try {
@@ -79,9 +70,11 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
                 if ($this->throwOnResolveException) {
                     throw $e;
                 }
+
                 $v = null;
                 $this->container->getDefinition($this->currentId)->addError($e->getMessage());
             }
+
             return $this->resolveArrays || !$v || !\is_array($v) ? $v : $value;
         }
         if ($value instanceof Definition) {
@@ -99,10 +92,13 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
                 $value->setTags($tags);
             }
         }
+
         $value = parent::processValue($value, $isRoot);
+
         if ($value && \is_array($value)) {
-            $value = \array_combine($this->bag->resolveValue(\array_keys($value)), $value);
+            $value = array_combine($this->bag->resolveValue(array_keys($value)), $value);
         }
+
         return $value;
     }
 }

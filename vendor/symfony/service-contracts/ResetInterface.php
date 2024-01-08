@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service;
+
+namespace Symfony\Contracts\Service;
 
 /**
  * Provides a way to reset an object to its initial state.
@@ -22,7 +23,6 @@ namespace PrefixedByPoP\Symfony\Contracts\Service;
  * services, so that they can be used to handle several requests in the same
  * process loop (note that we advise making your services stateless instead of
  * implementing this interface when possible.)
- * @internal
  */
 interface ResetInterface
 {

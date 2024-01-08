@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
@@ -12,22 +13,17 @@ use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 class CustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeAPIs\CustomPostUserTypeAPIInterface|null
-     */
-    private $customPostUserTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Users\FieldResolvers\InterfaceType\WithAuthorInterfaceTypeFieldResolver|null
-     */
-    private $withAuthorInterfaceTypeFieldResolver;
-    public final function setCustomPostUserTypeAPI(CustomPostUserTypeAPIInterface $customPostUserTypeAPI) : void
+    private ?CustomPostUserTypeAPIInterface $customPostUserTypeAPI = null;
+    private ?WithAuthorInterfaceTypeFieldResolver $withAuthorInterfaceTypeFieldResolver = null;
+
+    final public function setCustomPostUserTypeAPI(CustomPostUserTypeAPIInterface $customPostUserTypeAPI): void
     {
         $this->customPostUserTypeAPI = $customPostUserTypeAPI;
     }
-    protected final function getCustomPostUserTypeAPI() : CustomPostUserTypeAPIInterface
+    final protected function getCustomPostUserTypeAPI(): CustomPostUserTypeAPIInterface
     {
         if ($this->customPostUserTypeAPI === null) {
             /** @var CustomPostUserTypeAPIInterface */
@@ -36,11 +32,11 @@ class CustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->customPostUserTypeAPI;
     }
-    public final function setWithAuthorInterfaceTypeFieldResolver(WithAuthorInterfaceTypeFieldResolver $withAuthorInterfaceTypeFieldResolver) : void
+    final public function setWithAuthorInterfaceTypeFieldResolver(WithAuthorInterfaceTypeFieldResolver $withAuthorInterfaceTypeFieldResolver): void
     {
         $this->withAuthorInterfaceTypeFieldResolver = $withAuthorInterfaceTypeFieldResolver;
     }
-    protected final function getWithAuthorInterfaceTypeFieldResolver() : WithAuthorInterfaceTypeFieldResolver
+    final protected function getWithAuthorInterfaceTypeFieldResolver(): WithAuthorInterfaceTypeFieldResolver
     {
         if ($this->withAuthorInterfaceTypeFieldResolver === null) {
             /** @var WithAuthorInterfaceTypeFieldResolver */
@@ -49,54 +45,68 @@ class CustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->withAuthorInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractCustomPostObjectTypeResolver::class];
+        return [
+            AbstractCustomPostObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getWithAuthorInterfaceTypeFieldResolver()];
+        return [
+            $this->getWithAuthorInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['author'];
+        return [
+            'author',
+        ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'author':
-                return $this->__('The post\'s author', '');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'author' => $this->__('The post\'s author', ''),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'author':
                 /** @var string|int */
                 return $this->getCustomPostUserTypeAPI()->getAuthorID($object);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

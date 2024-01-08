@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\App;
@@ -13,18 +14,16 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-class TypeNameGlobalObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractGlobalObjectTypeFieldResolver
+
+class TypeNameGlobalObjectTypeFieldResolver extends AbstractGlobalObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -33,14 +32,20 @@ class TypeNameGlobalObjectTypeFieldResolver extends \PoP\ComponentModel\FieldRes
         }
         return $this->stringScalarTypeResolver;
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['_typeName', '_namespace', '_qualifiedTypeName'];
+        return [
+            '_typeName',
+            '_namespace',
+            '_qualifiedTypeName',
+        ];
     }
-    public function isServiceEnabled() : bool
+
+    public function isServiceEnabled(): bool
     {
         /**
          * @var ModuleConfiguration
@@ -48,64 +53,67 @@ class TypeNameGlobalObjectTypeFieldResolver extends \PoP\ComponentModel\FieldRes
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->enableTypeNameGlobalFields();
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case '_typeName':
-                return $this->getStringScalarTypeResolver();
-            case '_namespace':
-                return $this->getStringScalarTypeResolver();
-            case '_qualifiedTypeName':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_typeName' => $this->getStringScalarTypeResolver(),
+            '_namespace' => $this->getStringScalarTypeResolver(),
+            '_qualifiedTypeName' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case '_typeName':
-            case '_namespace':
-            case '_qualifiedTypeName':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_typeName',
+            '_namespace',
+            '_qualifiedTypeName'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case '_typeName':
-                return $this->__('The object\'s type', 'component-model');
-            case '_namespace':
-                return $this->__('The object\'s namespace', 'component-model');
-            case '_qualifiedTypeName':
-                return $this->__('The object\'s namespace + type', 'component-model');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_typeName' => $this->__('The object\'s type', 'component-model'),
+            '_namespace' => $this->__('The object\'s namespace', 'component-model'),
+            '_qualifiedTypeName' => $this->__('The object\'s namespace + type', 'component-model'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         switch ($fieldDataAccessor->getFieldName()) {
             case '_typeName':
                 return $objectTypeResolver->getTypeName();
+
             case '_namespace':
                 return $objectTypeResolver->getNamespace();
+
             case '_qualifiedTypeName':
                 return $objectTypeResolver->getNamespacedTypeName();
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

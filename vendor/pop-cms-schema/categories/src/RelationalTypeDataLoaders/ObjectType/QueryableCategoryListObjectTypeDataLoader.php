@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\AbstractCategoryObjectTypeDataLoader;
 use PoPCMSSchema\Categories\TypeAPIs\CategoryListTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface;
-/** @internal */
+
 class QueryableCategoryListObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryListTypeAPI;
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI) : void
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI = null;
+
+    final public function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI): void
     {
         $this->queryableCategoryListTypeAPI = $queryableCategoryListTypeAPI;
     }
-    protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
+    final protected function getQueryableCategoryTypeAPI(): QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryListTypeAPI === null) {
             /** @var QueryableCategoryTypeAPIInterface */
@@ -26,7 +25,8 @@ class QueryableCategoryListObjectTypeDataLoader extends AbstractCategoryObjectTy
         }
         return $this->queryableCategoryListTypeAPI;
     }
-    public function getCategoryListTypeAPI() : CategoryListTypeAPIInterface
+
+    public function getCategoryListTypeAPI(): CategoryListTypeAPIInterface
     {
         return $this->getQueryableCategoryTypeAPI();
     }

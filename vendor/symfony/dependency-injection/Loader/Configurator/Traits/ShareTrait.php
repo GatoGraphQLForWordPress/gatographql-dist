@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
 trait ShareTrait
 {
     /**
@@ -18,9 +18,10 @@ trait ShareTrait
      *
      * @return $this
      */
-    public final function share(bool $shared = \true)
+    final public function share(bool $shared = true): static
     {
         $this->definition->setShared($shared);
+
         return $this;
     }
 }

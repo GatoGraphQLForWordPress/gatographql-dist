@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\QueryResolution;
 
 use GraphQLByPoP\GraphQLServer\Module;
@@ -17,8 +18,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\QueryOperation;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\Root\Exception\ShouldNotHappenException;
 use SplObjectStorage;
-/** @internal */
-class GraphQLQueryASTTransformationService extends QueryASTTransformationService implements \GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface
+
+class GraphQLQueryASTTransformationService extends QueryASTTransformationService implements GraphQLQueryASTTransformationServiceInterface
 {
     /**
      * Because fields are stored in SplObjectStorage,
@@ -27,23 +28,34 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
      *
      * @var SplObjectStorage<Document,array<string,RelationalField>>
      */
-    private $fieldInstanceContainer;
+    private SplObjectStorage $fieldInstanceContainer;
+
     public function __construct()
     {
         parent::__construct();
+
         /**
          * @var SplObjectStorage<Document,array<string,RelationalField>>
          */
         $fieldInstanceContainer = new SplObjectStorage();
         $this->fieldInstanceContainer = $fieldInstanceContainer;
     }
+
     /**
      * @return array<FieldInterface|FragmentBondInterface>
      */
-    protected function getOperationFieldsOrFragmentBonds(Document $document, OperationInterface $operation) : array
-    {
-        return [$this->getGraphQLSuperRootOperationField($document, $operation)];
+    protected function getOperationFieldsOrFragmentBonds(
+        Document $document,
+        OperationInterface $operation,
+    ): array {
+        return [
+            $this->getGraphQLSuperRootOperationField(
+                $document,
+                $operation
+            ),
+        ];
     }
+
     /**
      * Convert the operations (query, mutation, subscription) in the
      * GraphQL Documents, to the corresponding field in the SuperRoot
@@ -55,11 +67,14 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
      *
      * @see layers/GraphQLByPoP/packages/graphql-server/src/ComponentRoutingProcessors/EntryComponentRoutingProcessor.php
      */
-    public function getGraphQLSuperRootOperationField(Document $document, OperationInterface $operation) : FieldInterface
-    {
+    public function getGraphQLSuperRootOperationField(
+        Document $document,
+        OperationInterface $operation
+    ): FieldInterface {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $enableNestedMutations = $moduleConfiguration->enableNestedMutations();
+
         /**
          * The cache must be stored per Document, or otherwise
          * executing multiple PHPUnit tests may access the
@@ -68,14 +83,25 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
          * @var array<string,RelationalField>
          */
         $documentFieldInstanceContainer = $this->fieldInstanceContainer[$document] ?? [];
+
         if ($operation instanceof QueryOperation) {
             $superRootField = $enableNestedMutations ? '_rootForQueryRoot' : '_queryRoot';
         } elseif ($operation instanceof MutationOperation) {
             $superRootField = $enableNestedMutations ? '_rootForMutationRoot' : '_mutationRoot';
         } else {
-            throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize GraphQL Operation AST object, with class \'%s\''), \get_class($operation)));
+            throw new ShouldNotHappenException(
+                sprintf(
+                    $this->__('Cannot recognize GraphQL Operation AST object, with class \'%s\''),
+                    get_class($operation)
+                )
+            );
         }
-        $alias = \sprintf('_superRoot_%s_%s_', $superRootField, $operation->getName());
+
+        $alias = sprintf(
+            '_superRoot_%s_%s_',
+            $superRootField,
+            $operation->getName()
+        );
         if (!isset($documentFieldInstanceContainer[$alias])) {
             $nonSpecificLocation = ASTNodesFactory::getNonSpecificLocation();
             /**
@@ -99,7 +125,16 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
                 'self',
                 $alias . 'self_',
                 [],
-                [new RelationalField($superRootField, $alias, [], $operation->getFieldsOrFragmentBonds(), [], $nonSpecificLocation)],
+                [
+                    new RelationalField(
+                        $superRootField,
+                        $alias,
+                        [],
+                        $operation->getFieldsOrFragmentBonds(),
+                        [],
+                        $nonSpecificLocation
+                    )
+                ],
                 /**
                  * Support for Operation Directives is handled here,
                  * by transferring them into the SuperRoot Field,
@@ -114,12 +149,13 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
         /** @var FieldInterface */
         return $documentFieldInstanceContainer[$alias];
     }
+
     /**
      * Added 2 extra fields, these must be taken into account
      * when generating the "self" fields for Multiple Query
      * Execution.
      */
-    protected function getOperationInitialDepth() : int
+    protected function getOperationInitialDepth(): int
     {
         return 2;
     }

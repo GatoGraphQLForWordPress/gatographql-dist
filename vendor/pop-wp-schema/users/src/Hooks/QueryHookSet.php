@@ -15,23 +15,18 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             UserTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
+            $this->getOrderByQueryArgValue(...)
         );
     }
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case UserOrderBy::INCLUDE:
-                return 'include';
-            case UserOrderBy::WEBSITE_URL:
-                return 'user_url';
-            case UserOrderBy::NICENAME:
-                return 'user_nicename';
-            case UserOrderBy::EMAIL:
-                return 'user_email';
-            default:
-                return $orderBy;
-        }
+        return match ($orderBy) {
+            UserOrderBy::INCLUDE => 'include',
+            UserOrderBy::WEBSITE_URL => 'user_url',
+            UserOrderBy::NICENAME => 'user_nicename',
+            UserOrderBy::EMAIL => 'user_email',
+            default => $orderBy,
+        };
     }
 }

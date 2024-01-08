@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\DirectivePipeline;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
@@ -10,7 +11,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-/** @internal */
+
 class DirectivePipelineUtils
 {
     /**
@@ -24,16 +25,49 @@ class DirectivePipelineUtils
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public static function convertArgumentsToPayload(RelationalTypeResolverInterface $relationalTypeResolver, array $pipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array $pipelineIDFieldSet, array $pipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array
-    {
-        return ['typeResolver' => &$relationalTypeResolver, 'pipelineFieldDirectiveResolvers' => &$pipelineFieldDirectiveResolvers, 'idObjects' => &$idObjects, 'unionTypeOutputKeyIDs' => &$unionTypeOutputKeyIDs, 'previouslyResolvedIDFieldValues' => &$previouslyResolvedIDFieldValues, 'pipelineIDFieldSet' => &$pipelineIDFieldSet, 'pipelineFieldDataAccessProviders' => &$pipelineFieldDataAccessProviders, 'resolvedIDFieldValues' => &$resolvedIDFieldValues, 'messages' => &$messages, 'engineIterationFeedbackStore' => &$engineIterationFeedbackStore];
+    public static function convertArgumentsToPayload(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $pipelineFieldDirectiveResolvers,
+        array $idObjects,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array $pipelineIDFieldSet,
+        array $pipelineFieldDataAccessProviders,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): array {
+        return [
+            'typeResolver' => &$relationalTypeResolver,
+            'pipelineFieldDirectiveResolvers' => &$pipelineFieldDirectiveResolvers,
+            'idObjects' => &$idObjects,
+            'unionTypeOutputKeyIDs' => &$unionTypeOutputKeyIDs,
+            'previouslyResolvedIDFieldValues' => &$previouslyResolvedIDFieldValues,
+            'pipelineIDFieldSet' => &$pipelineIDFieldSet,
+            'pipelineFieldDataAccessProviders' => &$pipelineFieldDataAccessProviders,
+            'resolvedIDFieldValues' => &$resolvedIDFieldValues,
+            'messages' => &$messages,
+            'engineIterationFeedbackStore' => &$engineIterationFeedbackStore,
+        ];
     }
+
     /**
      * @return mixed[]
      * @param array<string,mixed> $payload
      */
-    public static function extractArgumentsFromPayload(array $payload) : array
+    public static function extractArgumentsFromPayload(array $payload): array
     {
-        return [&$payload['typeResolver'], &$payload['pipelineFieldDirectiveResolvers'], &$payload['idObjects'], &$payload['unionTypeOutputKeyIDs'], &$payload['previouslyResolvedIDFieldValues'], &$payload['pipelineIDFieldSet'], &$payload['pipelineFieldDataAccessProviders'], &$payload['resolvedIDFieldValues'], &$payload['messages'], &$payload['engineIterationFeedbackStore']];
+        return [
+            &$payload['typeResolver'],
+            &$payload['pipelineFieldDirectiveResolvers'],
+            &$payload['idObjects'],
+            &$payload['unionTypeOutputKeyIDs'],
+            &$payload['previouslyResolvedIDFieldValues'],
+            &$payload['pipelineIDFieldSet'],
+            &$payload['pipelineFieldDataAccessProviders'],
+            &$payload['resolvedIDFieldValues'],
+            &$payload['messages'],
+            &$payload['engineIterationFeedbackStore'],
+        ];
     }
 }

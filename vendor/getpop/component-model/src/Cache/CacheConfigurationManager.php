@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Cache;
 
 use PoP\Root\Environment;
+
 /**
  * Inject configuration to the cache
  *
  * @author Leonardo Losoviz <leo@getpop.org>
- * @internal
  */
-class CacheConfigurationManager implements \PoP\ComponentModel\Cache\CacheConfigurationManagerInterface
+class CacheConfigurationManager implements CacheConfigurationManagerInterface
 {
     /**
      * Make the cache folder obsolete when increasing the application version,
@@ -18,7 +19,7 @@ class CacheConfigurationManager implements \PoP\ComponentModel\Cache\CacheConfig
      *
      * @see https://symfony.com/doc/current/components/cache/adapters/filesystem_adapter.html
      */
-    public function getNamespace() : string
+    public function getNamespace(): string
     {
         // (Needed for development) Don't share cache among plugin versions
         if ($version = Environment::getApplicationVersion()) {
@@ -26,13 +27,14 @@ class CacheConfigurationManager implements \PoP\ComponentModel\Cache\CacheConfig
         }
         return '';
     }
+
     /**
      * Inject to the FilesystemAdapter:
      * The directory where to store the cache. If null, it uses the default /tmp system folder
      *
      * @see https://symfony.com/doc/current/components/cache/adapters/filesystem_adapter.html
      */
-    public function getDirectory() : ?string
+    public function getDirectory(): ?string
     {
         return null;
     }

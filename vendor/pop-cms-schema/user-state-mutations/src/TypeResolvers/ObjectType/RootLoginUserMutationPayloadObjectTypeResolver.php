@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType;
 
-/** @internal */
-class RootLoginUserMutationPayloadObjectTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\AbstractUserStateMutationPayloadObjectTypeResolver
+class RootLoginUserMutationPayloadObjectTypeResolver extends AbstractUserStateMutationPayloadObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootLoginUserMutationPayload';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Payload of logging the user in', 'user-state-mutations');
     }

@@ -1,9 +1,9 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\SchemaCommons\TypeResolvers\ObjectType;
 
-/** @internal */
-abstract class AbstractTransientEntityOperationPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractTransientOperationPayloadObjectTypeResolver
+abstract class AbstractTransientEntityOperationPayloadObjectTypeResolver extends AbstractTransientOperationPayloadObjectTypeResolver
 {
 }

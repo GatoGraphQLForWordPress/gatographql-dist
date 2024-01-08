@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\ConditionalOnModule\API\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -11,28 +12,25 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProcessorTrait;
 use PoPCMSSchema\Users\ComponentProcessors\UserFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
-/** @internal */
+
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER = 'dataload-relationalfields-singleuser';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST = 'dataload-relationalfields-userlist';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_USERCOUNT = 'dataload-relationalfields-usercount';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST = 'dataload-relationalfields-adminuserlist';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERCOUNT = 'dataload-relationalfields-adminusercount';
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
-     */
-    private $listQueryInputOutputHandler;
-    public final function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver) : void
+
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER = 'dataload-relationalfields-singleuser';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST = 'dataload-relationalfields-userlist';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_USERCOUNT = 'dataload-relationalfields-usercount';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST = 'dataload-relationalfields-adminuserlist';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERCOUNT = 'dataload-relationalfields-adminusercount';
+
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+    private ?ListQueryInputOutputHandler $listQueryInputOutputHandler = null;
+
+    final public function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver): void
     {
         $this->userObjectTypeResolver = $userObjectTypeResolver;
     }
-    protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
+    final protected function getUserObjectTypeResolver(): UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
             /** @var UserObjectTypeResolver */
@@ -41,11 +39,11 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
         }
         return $this->userObjectTypeResolver;
     }
-    public final function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler) : void
+    final public function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler): void
     {
         $this->listQueryInputOutputHandler = $listQueryInputOutputHandler;
     }
-    protected final function getListQueryInputOutputHandler() : ListQueryInputOutputHandler
+    final protected function getListQueryInputOutputHandler(): ListQueryInputOutputHandler
     {
         if ($this->listQueryInputOutputHandler === null) {
             /** @var ListQueryInputOutputHandler */
@@ -54,27 +52,37 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
         }
         return $this->listQueryInputOutputHandler;
     }
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER, self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST, self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERCOUNT, self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST, self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERCOUNT);
+        return array(
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERCOUNT,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERCOUNT,
+        );
     }
+
     /**
      * @return string|int|array<string|int>|null
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties): string|int|array|null
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER:
                 return $this->getQueriedDBObjectID();
         }
+
         return parent::getObjectIDOrIDs($component, $props, $data_properties);
     }
-    public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface
+
+    public function getRelationalTypeResolver(Component $component): ?RelationalTypeResolverInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_SINGLEUSER:
@@ -82,18 +90,22 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST:
                 return $this->getUserObjectTypeResolver();
         }
+
         return parent::getRelationalTypeResolver($component);
     }
-    public function getQueryInputOutputHandler(Component $component) : ?QueryInputOutputHandlerInterface
+
+    public function getQueryInputOutputHandler(Component $component): ?QueryInputOutputHandlerInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST:
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERLIST:
                 return $this->getListQueryInputOutputHandler();
         }
+
         return parent::getQueryInputOutputHandler($component);
     }
-    public function getFilterSubcomponent(Component $component) : ?Component
+
+    public function getFilterSubcomponent(Component $component): ?Component
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_USERLIST:
@@ -105,6 +117,7 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_ADMINUSERCOUNT:
                 return new Component(UserFilterInputContainerComponentProcessor::class, UserFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_ADMINUSERCOUNT);
         }
+
         return parent::getFilterSubcomponent($component);
     }
 }

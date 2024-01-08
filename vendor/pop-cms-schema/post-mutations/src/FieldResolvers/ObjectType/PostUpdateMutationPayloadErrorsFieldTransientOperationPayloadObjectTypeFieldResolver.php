@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\PostMutations\TypeResolvers\UnionType\PostUpdateMutationErrorPayloadUnionTypeResolver;
@@ -8,18 +9,16 @@ use PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\PostUpdateMutationPayloa
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class PostUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\UnionType\PostUpdateMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $postUpdateMutationErrorPayloadUnionTypeResolver;
-    public final function setPostUpdateMutationErrorPayloadUnionTypeResolver(PostUpdateMutationErrorPayloadUnionTypeResolver $postUpdateMutationErrorPayloadUnionTypeResolver) : void
+    private ?PostUpdateMutationErrorPayloadUnionTypeResolver $postUpdateMutationErrorPayloadUnionTypeResolver = null;
+
+    final public function setPostUpdateMutationErrorPayloadUnionTypeResolver(PostUpdateMutationErrorPayloadUnionTypeResolver $postUpdateMutationErrorPayloadUnionTypeResolver): void
     {
         $this->postUpdateMutationErrorPayloadUnionTypeResolver = $postUpdateMutationErrorPayloadUnionTypeResolver;
     }
-    protected final function getPostUpdateMutationErrorPayloadUnionTypeResolver() : PostUpdateMutationErrorPayloadUnionTypeResolver
+    final protected function getPostUpdateMutationErrorPayloadUnionTypeResolver(): PostUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postUpdateMutationErrorPayloadUnionTypeResolver === null) {
             /** @var PostUpdateMutationErrorPayloadUnionTypeResolver */
@@ -28,14 +27,18 @@ class PostUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFie
         }
         return $this->postUpdateMutationErrorPayloadUnionTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PostUpdateMutationPayloadObjectTypeResolver::class];
+        return [
+            PostUpdateMutationPayloadObjectTypeResolver::class,
+        ];
     }
-    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         return $this->getPostUpdateMutationErrorPayloadUnionTypeResolver();
     }

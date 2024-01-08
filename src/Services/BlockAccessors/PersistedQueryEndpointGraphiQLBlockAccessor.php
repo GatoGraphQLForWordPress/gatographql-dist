@@ -14,14 +14,8 @@ class PersistedQueryEndpointGraphiQLBlockAccessor
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
-     */
-    private $blockHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\PersistedQueryEndpointGraphiQLBlock|null
-     */
-    private $persistedQueryEndpointGraphiQLBlock;
+    private ?BlockHelpers $blockHelpers = null;
+    private ?PersistedQueryEndpointGraphiQLBlock $persistedQueryEndpointGraphiQLBlock = null;
 
     final public function setBlockHelpers(BlockHelpers $blockHelpers): void
     {
@@ -88,7 +82,7 @@ class PersistedQueryEndpointGraphiQLBlockAccessor
             // so it keeps iterating upwards to get the ancestor query
             // in `getGraphQLQueryPostAttributes`
             trim($query),
-            $variables
+            $variables,
         );
     }
 }

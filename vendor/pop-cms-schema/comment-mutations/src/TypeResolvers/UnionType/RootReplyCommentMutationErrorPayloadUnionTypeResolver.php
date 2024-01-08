@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
-class RootReplyCommentMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutationErrorPayloadUnionTypeResolver
+
+class RootReplyCommentMutationErrorPayloadUnionTypeResolver extends AbstractCommentMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootReplyCommentMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootReplyCommentMutationErrorPayloadUnionTypeDataLoader(RootReplyCommentMutationErrorPayloadUnionTypeDataLoader $rootReplyCommentMutationErrorPayloadUnionTypeDataLoader) : void
+    private ?RootReplyCommentMutationErrorPayloadUnionTypeDataLoader $rootReplyCommentMutationErrorPayloadUnionTypeDataLoader = null;
+
+    final public function setRootReplyCommentMutationErrorPayloadUnionTypeDataLoader(RootReplyCommentMutationErrorPayloadUnionTypeDataLoader $rootReplyCommentMutationErrorPayloadUnionTypeDataLoader): void
     {
         $this->rootReplyCommentMutationErrorPayloadUnionTypeDataLoader = $rootReplyCommentMutationErrorPayloadUnionTypeDataLoader;
     }
-    protected final function getRootReplyCommentMutationErrorPayloadUnionTypeDataLoader() : RootReplyCommentMutationErrorPayloadUnionTypeDataLoader
+    final protected function getRootReplyCommentMutationErrorPayloadUnionTypeDataLoader(): RootReplyCommentMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootReplyCommentMutationErrorPayloadUnionTypeDataLoader === null) {
             /** @var RootReplyCommentMutationErrorPayloadUnionTypeDataLoader */
@@ -25,15 +24,18 @@ class RootReplyCommentMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchem
         }
         return $this->rootReplyCommentMutationErrorPayloadUnionTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'RootReplyCommentMutationErrorPayloadUnion';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Union of \'Error Payload\' types when replying to a comment', 'comment-mutations');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getRootReplyCommentMutationErrorPayloadUnionTypeDataLoader();
     }

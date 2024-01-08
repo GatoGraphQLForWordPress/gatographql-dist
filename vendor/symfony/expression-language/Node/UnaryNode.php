@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node;
 
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
+namespace Symfony\Component\ExpressionLanguage\Node;
+
+use Symfony\Component\ExpressionLanguage\Compiler;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -18,33 +20,45 @@ use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
  */
 class UnaryNode extends Node
 {
-    private const OPERATORS = ['!' => '!', 'not' => '!', '+' => '+', '-' => '-'];
+    private const OPERATORS = [
+        '!' => '!',
+        'not' => '!',
+        '+' => '+',
+        '-' => '-',
+    ];
+
     public function __construct(string $operator, Node $node)
     {
-        parent::__construct(['node' => $node], ['operator' => $operator]);
+        parent::__construct(
+            ['node' => $node],
+            ['operator' => $operator]
+        );
     }
-    public function compile(Compiler $compiler) : void
+
+    public function compile(Compiler $compiler): void
     {
-        $compiler->raw('(')->raw(self::OPERATORS[$this->attributes['operator']])->compile($this->nodes['node'])->raw(')');
+        $compiler
+            ->raw('(')
+            ->raw(self::OPERATORS[$this->attributes['operator']])
+            ->compile($this->nodes['node'])
+            ->raw(')')
+        ;
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+
+    public function evaluate(array $functions, array $values): mixed
     {
         $value = $this->nodes['node']->evaluate($functions, $values);
-        switch ($this->attributes['operator']) {
-            case 'not':
-            case '!':
-                return !$value;
-            case '-':
-                return -$value;
-            default:
-                return $value;
-        }
+
+        return match ($this->attributes['operator']) {
+            'not',
+            '!' => !$value,
+            '-' => -$value,
+            default => $value,
+        };
     }
-    public function toArray() : array
+
+    public function toArray(): array
     {
-        return ['(', $this->attributes['operator'] . ' ', $this->nodes['node'], ')'];
+        return ['(', $this->attributes['operator'].' ', $this->nodes['node'], ')'];
     }
 }

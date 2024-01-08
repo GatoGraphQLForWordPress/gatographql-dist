@@ -8,11 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+
 trait DecorateTrait
 {
     /**
@@ -24,9 +25,10 @@ trait DecorateTrait
      *
      * @throws InvalidArgumentException in case the decorated service id and the new decorated service id are equals
      */
-    public final function decorate(?string $id, string $renamedId = null, int $priority = 0, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
+    final public function decorate(?string $id, string $renamedId = null, int $priority = 0, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): static
     {
         $this->definition->setDecoratedService($id, $renamedId, $priority, $invalidBehavior);
+
         return $this;
     }
 }

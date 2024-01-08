@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers\ScalarType;
 
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\LeafOutputTypeResolverInterface;
+
 /**
  * Based on GraphQL custom scalars.
  *
  * @see https://www.graphql.de/blog/scalars-in-depth/
- * @internal
  */
 interface ScalarTypeResolverInterface extends ConcreteTypeResolverInterface, InputTypeResolverInterface, LeafOutputTypeResolverInterface
 {
@@ -28,5 +29,5 @@ interface ScalarTypeResolverInterface extends ConcreteTypeResolverInterface, Inp
      *
      * @see https://spec.graphql.org/draft/#sec--specifiedBy
      */
-    public function getSpecifiedByURL() : ?string;
+    public function getSpecifiedByURL(): ?string;
 }

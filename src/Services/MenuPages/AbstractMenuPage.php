@@ -14,19 +14,10 @@ abstract class AbstractMenuPage extends AbstractAutomaticallyInstantiatedService
 {
     use BasicServiceTrait;
 
-    /**
-     * @var string|null
-     */
-    protected $hookName;
+    protected ?string $hookName = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
-     */
-    private $menuPageHelper;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
+    private ?MenuPageHelper $menuPageHelper = null;
+    private ?EndpointHelpers $endpointHelpers = null;
 
     final public function setMenuPageHelper(MenuPageHelper $menuPageHelper): void
     {
@@ -80,7 +71,7 @@ abstract class AbstractMenuPage extends AbstractAutomaticallyInstantiatedService
     {
         \add_action(
             'admin_enqueue_scripts',
-            \Closure::fromCallable([$this, 'maybeEnqueueAssets'])
+            $this->maybeEnqueueAssets(...)
         );
     }
 

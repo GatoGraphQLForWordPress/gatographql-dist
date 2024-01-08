@@ -19,12 +19,9 @@ class EndpointHelpers
     use BasicServiceTrait;
 
     /** @var string[]|null */
-    private $supportedAdminGraphQLEndpointGroups;
+    private ?array $supportedAdminGraphQLEndpointGroups = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu|null
-     */
-    private $pluginMenu;
+    private ?PluginMenu $pluginMenu = null;
 
     final public function setPluginMenu(PluginMenu $pluginMenu): void
     {
@@ -136,14 +133,16 @@ class EndpointHelpers
     /**
      * GraphQL single endpoint to be used in wp-admin
      */
-    public function getAdminGraphQLEndpoint(?string $endpointGroup = null): string
-    {
+    public function getAdminGraphQLEndpoint(
+        ?string $endpointGroup = null,
+    ): string {
         $endpoint = \admin_url(sprintf(
             'edit.php?page=%s&%s=%s',
             $this->getPluginMenu()->getName(),
             RequestParams::ACTION,
             RequestParams::ACTION_EXECUTE_QUERY
         ));
+
         if ($endpointGroup !== null) {
             $endpoint = \add_query_arg(
                 RequestParams::ENDPOINT_GROUP,
@@ -151,6 +150,7 @@ class EndpointHelpers
                 $endpoint
             );
         }
+
         // Add mandatory params from the request, and maybe enable XDebug
         return RequestHelpers::addRequestParamsToEndpoint($endpoint);
     }
@@ -240,10 +240,10 @@ class EndpointHelpers
 
     /**
      * GraphQL endpoint to be used in the admin, when editing Persisted Queries
-     * @param string|int $persistedQueryEndpointCustomPostID
      */
-    public function getAdminPersistedQueryGraphQLEndpoint($persistedQueryEndpointCustomPostID): string
-    {
+    public function getAdminPersistedQueryGraphQLEndpoint(
+        string|int $persistedQueryEndpointCustomPostID,
+    ): string {
         return \add_query_arg(
             [
                 RequestParams::PERSISTED_QUERY_ID => $persistedQueryEndpointCustomPostID,

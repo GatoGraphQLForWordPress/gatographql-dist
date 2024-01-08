@@ -1,17 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ComponentProcessors;
 
-/** @internal */
-class GraphQLRelationalFieldQueryDataComponentProcessor extends \GraphQLByPoP\GraphQLServer\ComponentProcessors\AbstractGraphQLRelationalFieldQueryDataComponentProcessor
+class GraphQLRelationalFieldQueryDataComponentProcessor extends AbstractGraphQLRelationalFieldQueryDataComponentProcessor
 {
-    public const COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS = 'layout-graphqlrelationalfields';
+    public final const COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS = 'layout-graphqlrelationalfields';
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS);
+        return array(
+            self::COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS,
+        );
     }
 }

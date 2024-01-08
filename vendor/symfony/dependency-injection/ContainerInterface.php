@@ -8,18 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Psr\Container\ContainerInterface as PsrContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+namespace Symfony\Component\DependencyInjection;
+
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+
 /**
  * ContainerInterface is the interface implemented by service container classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 interface ContainerInterface extends PsrContainerInterface
 {
@@ -28,10 +29,12 @@ interface ContainerInterface extends PsrContainerInterface
     public const NULL_ON_INVALID_REFERENCE = 2;
     public const IGNORE_ON_INVALID_REFERENCE = 3;
     public const IGNORE_ON_UNINITIALIZED_REFERENCE = 4;
+
     /**
      * @return void
      */
     public function set(string $id, ?object $service);
+
     /**
      * @template B of self::*_REFERENCE
      *
@@ -44,22 +47,26 @@ interface ContainerInterface extends PsrContainerInterface
      *
      * @see Reference
      */
-    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE) : ?object;
-    public function has(string $id) : bool;
+    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE): ?object;
+
+    public function has(string $id): bool;
+
     /**
      * Check for whether or not a service has been initialized.
      */
-    public function initialized(string $id) : bool;
+    public function initialized(string $id): bool;
+
     /**
      * @return array|bool|string|int|float|\UnitEnum|null
      *
      * @throws ParameterNotFoundException if the parameter is not defined
      */
     public function getParameter(string $name);
-    public function hasParameter(string $name) : bool;
+
+    public function hasParameter(string $name): bool;
+
     /**
      * @return void
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function setParameter(string $name, $value);
+    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value);
 }

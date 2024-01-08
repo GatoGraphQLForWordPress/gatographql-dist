@@ -23,7 +23,7 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
 
         \add_action(
             'init',
-            \Closure::fromCallable([$this, 'initTaxonomy'])
+            $this->initTaxonomy(...)
         );
     }
 

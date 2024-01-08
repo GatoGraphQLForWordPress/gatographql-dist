@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\SchemaHooks;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\RootCustomPostsFilterInputObjectTypeResolver;
-/** @internal */
-class RootCustomPostsAddTagFilterInputObjectTypeHookSet extends \PoPCMSSchema\Tags\SchemaHooks\AbstractCustomPostAddTagFilterInputObjectTypeHookSet
+
+class RootCustomPostsAddTagFilterInputObjectTypeHookSet extends AbstractCustomPostAddTagFilterInputObjectTypeHookSet
 {
-    protected function getInputObjectTypeResolverClass() : string
+    protected function getInputObjectTypeResolverClass(): string
     {
         return RootCustomPostsFilterInputObjectTypeResolver::class;
     }

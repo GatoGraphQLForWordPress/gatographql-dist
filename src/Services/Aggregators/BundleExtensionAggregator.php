@@ -12,14 +12,8 @@ class BundleExtensionAggregator
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Aggregators\ModuleAggregator|null
-     */
-    private $moduleAggregator;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?ModuleAggregator $moduleAggregator = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

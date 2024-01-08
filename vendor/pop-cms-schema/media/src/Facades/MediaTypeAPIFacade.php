@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
-/** @internal */
+
 class MediaTypeAPIFacade
 {
-    public static function getInstance() : MediaTypeAPIInterface
+    public static function getInstance(): MediaTypeAPIInterface
     {
         /**
          * @var MediaTypeAPIInterface

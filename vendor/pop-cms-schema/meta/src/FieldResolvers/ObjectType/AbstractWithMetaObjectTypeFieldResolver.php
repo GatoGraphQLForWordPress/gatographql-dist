@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Meta\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
@@ -13,18 +14,16 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoPCMSSchema\Meta\FeedbackItemProviders\FeedbackItemProvider;
 use PoPCMSSchema\Meta\FieldResolvers\InterfaceType\WithMetaInterfaceTypeFieldResolver;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-/** @internal */
+
 abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Meta\FieldResolvers\InterfaceType\WithMetaInterfaceTypeFieldResolver|null
-     */
-    private $withMetaInterfaceTypeFieldResolver;
-    public final function setWithMetaInterfaceTypeFieldResolver(WithMetaInterfaceTypeFieldResolver $withMetaInterfaceTypeFieldResolver) : void
+    private ?WithMetaInterfaceTypeFieldResolver $withMetaInterfaceTypeFieldResolver = null;
+
+    final public function setWithMetaInterfaceTypeFieldResolver(WithMetaInterfaceTypeFieldResolver $withMetaInterfaceTypeFieldResolver): void
     {
         $this->withMetaInterfaceTypeFieldResolver = $withMetaInterfaceTypeFieldResolver;
     }
-    protected final function getWithMetaInterfaceTypeFieldResolver() : WithMetaInterfaceTypeFieldResolver
+    final protected function getWithMetaInterfaceTypeFieldResolver(): WithMetaInterfaceTypeFieldResolver
     {
         if ($this->withMetaInterfaceTypeFieldResolver === null) {
             /** @var WithMetaInterfaceTypeFieldResolver */
@@ -33,33 +32,56 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
         }
         return $this->withMetaInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getWithMetaInterfaceTypeFieldResolver()];
+        return [
+            $this->getWithMetaInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['metaValue', 'metaValues'];
+        return [
+            'metaValue',
+            'metaValues',
+        ];
     }
-    protected abstract function getMetaTypeAPI() : MetaTypeAPIInterface;
+
+    abstract protected function getMetaTypeAPI(): MetaTypeAPIInterface;
+
     /**
      * Custom validations
      */
-    public function validateFieldKeyValues(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
+    public function validateFieldKeyValues(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
         parent::validateFieldKeyValues($objectTypeResolver, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
                 if (!$this->getMetaTypeAPI()->validateIsMetaKeyAllowed($fieldDataAccessor->getValue('key'))) {
                     $field = $fieldDataAccessor->getField();
-                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$fieldDataAccessor->getValue('key')]), $field->getArgument('key') ?? $field));
+                    $objectTypeFieldResolutionFeedbackStore->addError(
+                        new ObjectTypeFieldResolutionFeedback(
+                            new FeedbackItemResolution(
+                                FeedbackItemProvider::class,
+                                FeedbackItemProvider::E1,
+                                [
+                                    $fieldDataAccessor->getValue('key'),
+                                ]
+                            ),
+                            $field->getArgument('key') ?? $field,
+                        )
+                    );
                 }
                 break;
         }

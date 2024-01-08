@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface;
-/** @internal */
+
 class ApplicationStateFillerServiceFacade
 {
-    public static function getInstance() : ApplicationStateFillerServiceInterface
+    public static function getInstance(): ApplicationStateFillerServiceInterface
     {
         /**
          * @var ApplicationStateFillerServiceInterface

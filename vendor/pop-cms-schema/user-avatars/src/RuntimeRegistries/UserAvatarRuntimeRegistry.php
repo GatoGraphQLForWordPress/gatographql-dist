@@ -1,22 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserAvatars\RuntimeRegistries;
 
 use PoPCMSSchema\UserAvatars\ObjectModels\UserAvatar;
-/** @internal */
-class UserAvatarRuntimeRegistry implements \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface
+
+class UserAvatarRuntimeRegistry implements UserAvatarRuntimeRegistryInterface
 {
     /** @var array<string|int,UserAvatar> */
-    protected $userAvatars = [];
-    public function storeUserAvatar(UserAvatar $userAvatar) : void
+    protected array $userAvatars = [];
+
+    public function storeUserAvatar(UserAvatar $userAvatar): void
     {
         $this->userAvatars[$userAvatar->id] = $userAvatar;
     }
-    /**
-     * @param string|int $id
-     */
-    public function getUserAvatar($id) : ?UserAvatar
+
+    public function getUserAvatar(string|int $id): ?UserAvatar
     {
         return $this->userAvatars[$id] ?? null;
     }

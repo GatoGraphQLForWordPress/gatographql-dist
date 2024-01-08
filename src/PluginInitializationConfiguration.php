@@ -122,13 +122,11 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLEndpointForWPEnvironment::GRAPHQL_API_ENDPOINT,
                 'module' => EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT,
                 'option' => ModuleSettingOptions::PATH,
-                'callback' => function ($value) use ($pluginOptionsFormHandler) {
-                    return $pluginOptionsFormHandler->getURLPathSettingValue(
-                        $value,
-                        EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT,
-                        ModuleSettingOptions::PATH
-                    );
-                },
+                'callback' => fn ($value) => $pluginOptionsFormHandler->getURLPathSettingValue(
+                    $value,
+                    EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT,
+                    ModuleSettingOptions::PATH
+                ),
                 'condition' => 'any',
             ],
             // Custom Endpoint path
@@ -137,13 +135,11 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => Environment::ENDPOINT_SLUG_BASE,
                 'module' => EndpointFunctionalityModuleResolver::CUSTOM_ENDPOINTS,
                 'option' => ModuleSettingOptions::PATH,
-                'callback' => function ($value) use ($pluginOptionsFormHandler) {
-                    return $pluginOptionsFormHandler->getCPTPermalinkBasePathSettingValue(
-                        $value,
-                        EndpointFunctionalityModuleResolver::CUSTOM_ENDPOINTS,
-                        ModuleSettingOptions::PATH
-                    );
-                },
+                'callback' => fn ($value) => $pluginOptionsFormHandler->getCPTPermalinkBasePathSettingValue(
+                    $value,
+                    EndpointFunctionalityModuleResolver::CUSTOM_ENDPOINTS,
+                    ModuleSettingOptions::PATH
+                ),
                 'condition' => 'any',
             ],
             // Persisted Query path
@@ -152,13 +148,11 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => Environment::PERSISTED_QUERY_SLUG_BASE,
                 'module' => EndpointFunctionalityModuleResolver::PERSISTED_QUERIES,
                 'option' => ModuleSettingOptions::PATH,
-                'callback' => function ($value) use ($pluginOptionsFormHandler) {
-                    return $pluginOptionsFormHandler->getCPTPermalinkBasePathSettingValue(
-                        $value,
-                        EndpointFunctionalityModuleResolver::PERSISTED_QUERIES,
-                        ModuleSettingOptions::PATH
-                    );
-                },
+                'callback' => fn ($value) => $pluginOptionsFormHandler->getCPTPermalinkBasePathSettingValue(
+                    $value,
+                    EndpointFunctionalityModuleResolver::PERSISTED_QUERIES,
+                    ModuleSettingOptions::PATH
+                ),
                 'condition' => 'any',
             ],
             // GraphiQL client slug
@@ -167,13 +161,11 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLClientsForWPEnvironment::GRAPHIQL_CLIENT_ENDPOINT,
                 'module' => ClientFunctionalityModuleResolver::GRAPHIQL_FOR_SINGLE_ENDPOINT,
                 'option' => ModuleSettingOptions::PATH,
-                'callback' => function ($value) use ($pluginOptionsFormHandler) {
-                    return $pluginOptionsFormHandler->getURLPathSettingValue(
-                        $value,
-                        ClientFunctionalityModuleResolver::GRAPHIQL_FOR_SINGLE_ENDPOINT,
-                        ModuleSettingOptions::PATH
-                    );
-                },
+                'callback' => fn ($value) => $pluginOptionsFormHandler->getURLPathSettingValue(
+                    $value,
+                    ClientFunctionalityModuleResolver::GRAPHIQL_FOR_SINGLE_ENDPOINT,
+                    ModuleSettingOptions::PATH
+                ),
                 'condition' => 'any',
             ],
             // Voyager client slug
@@ -182,13 +174,11 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLClientsForWPEnvironment::VOYAGER_CLIENT_ENDPOINT,
                 'module' => ClientFunctionalityModuleResolver::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT,
                 'option' => ModuleSettingOptions::PATH,
-                'callback' => function ($value) use ($pluginOptionsFormHandler) {
-                    return $pluginOptionsFormHandler->getURLPathSettingValue(
-                        $value,
-                        ClientFunctionalityModuleResolver::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT,
-                        ModuleSettingOptions::PATH
-                    );
-                },
+                'callback' => fn ($value) => $pluginOptionsFormHandler->getURLPathSettingValue(
+                    $value,
+                    ClientFunctionalityModuleResolver::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT,
+                    ModuleSettingOptions::PATH
+                ),
                 'condition' => 'any',
             ],
             // Enable "multi-field directives"?
@@ -250,9 +240,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLServerEnvironment::EXPOSE_GLOBAL_FIELDS_IN_GRAPHQL_SCHEMA,
                 'module' => SchemaConfigurationFunctionalityModuleResolver::GLOBAL_FIELDS,
                 'option' => SchemaConfigurationFunctionalityModuleResolver::OPTION_DEFAULT_SCHEMA_EXPOSURE,
-                'callback' => function ($value) {
-                    return $value !== GlobalFieldsSchemaExposure::DO_NOT_EXPOSE;
-                },
+                'callback' => fn ($value) => $value !== GlobalFieldsSchemaExposure::DO_NOT_EXPOSE,
             ],
             // Expose global fields in root type only?
             [
@@ -260,9 +248,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLServerEnvironment::EXPOSE_GLOBAL_FIELDS_IN_ROOT_TYPE_ONLY_IN_GRAPHQL_SCHEMA,
                 'module' => SchemaConfigurationFunctionalityModuleResolver::GLOBAL_FIELDS,
                 'option' => SchemaConfigurationFunctionalityModuleResolver::OPTION_DEFAULT_SCHEMA_EXPOSURE,
-                'callback' => function ($value) {
-                    return $value === GlobalFieldsSchemaExposure::EXPOSE_IN_ROOT_TYPE_ONLY;
-                },
+                'callback' => fn ($value) => $value === GlobalFieldsSchemaExposure::EXPOSE_IN_ROOT_TYPE_ONLY,
             ],
             // Enable nested mutations?
             // Only assign for Admin clients. For configuration it is assigned always, via the Fixed endpoint
@@ -271,9 +257,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => GraphQLServerEnvironment::ENABLE_NESTED_MUTATIONS,
                 'module' => SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS,
                 'option' => ModuleSettingOptions::DEFAULT_VALUE,
-                'callback' => function ($value) use ($moduleRegistry) {
-                    return $moduleRegistry->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS) && $value !== MutationSchemes::STANDARD;
-                },
+                'callback' => fn ($value) => $moduleRegistry->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS) && $value !== MutationSchemes::STANDARD,
             ],
             // Disable redundant mutation fields in the root type?
             [
@@ -281,9 +265,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'envVariable' => EngineEnvironment::DISABLE_REDUNDANT_ROOT_TYPE_MUTATION_FIELDS,
                 'module' => SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS,
                 'option' => ModuleSettingOptions::DEFAULT_VALUE,
-                'callback' => function ($value) use ($moduleRegistry) {
-                    return $moduleRegistry->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS) && $value === MutationSchemes::NESTED_WITHOUT_REDUNDANT_ROOT_FIELDS;
-                },
+                'callback' => fn ($value) => $moduleRegistry->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::NESTED_MUTATIONS) && $value === MutationSchemes::NESTED_WITHOUT_REDUNDANT_ROOT_FIELDS,
             ],
             // Post default/max limits, add to CustomPostUnion
             [
@@ -501,9 +483,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => SchemaTypeModuleResolver::SCHEMA_SETTINGS,
                 'option' => ModuleSettingOptions::ENTRIES,
                 // Remove whitespaces, and empty entries (they mess up with regex)
-                'callback' => function (array $value) {
-                    return array_filter(array_map(\Closure::fromCallable('trim'), $value));
-                },
+                'callback' => fn (array $value) => array_filter(array_map(trim(...), $value)),
             ],
             [
                 'class' => SettingsModule::class,
@@ -526,9 +506,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => MetaSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_META,
                 'option' => ModuleSettingOptions::ENTRIES,
                 // Remove whitespaces, and empty entries (they mess up with regex)
-                'callback' => function (array $value) {
-                    return array_filter(array_map(\Closure::fromCallable('trim'), $value));
-                },
+                'callback' => fn (array $value) => array_filter(array_map(trim(...), $value)),
             ],
             [
                 'class' => CustomPostMetaModule::class,
@@ -543,9 +521,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => MetaSchemaTypeModuleResolver::SCHEMA_USER_META,
                 'option' => ModuleSettingOptions::ENTRIES,
                 // Remove whitespaces, and empty entries (they mess up with regex)
-                'callback' => function (array $value) {
-                    return array_filter(array_map(\Closure::fromCallable('trim'), $value));
-                },
+                'callback' => fn (array $value) => array_filter(array_map(trim(...), $value)),
             ],
             [
                 'class' => UserMetaModule::class,
@@ -560,9 +536,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => MetaSchemaTypeModuleResolver::SCHEMA_COMMENT_META,
                 'option' => ModuleSettingOptions::ENTRIES,
                 // Remove whitespaces, and empty entries (they mess up with regex)
-                'callback' => function (array $value) {
-                    return array_filter(array_map(\Closure::fromCallable('trim'), $value));
-                },
+                'callback' => fn (array $value) => array_filter(array_map(trim(...), $value)),
             ],
             [
                 'class' => CommentMetaModule::class,
@@ -577,9 +551,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => MetaSchemaTypeModuleResolver::SCHEMA_TAXONOMY_META,
                 'option' => ModuleSettingOptions::ENTRIES,
                 // Remove whitespaces, and empty entries (they mess up with regex)
-                'callback' => function (array $value) {
-                    return array_filter(array_map(\Closure::fromCallable('trim'), $value));
-                },
+                'callback' => fn (array $value) => array_filter(array_map(trim(...), $value)),
             ],
             [
                 'class' => TaxonomyMetaModule::class,
@@ -661,16 +633,12 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             [
                 'class' => \PoPCMSSchema\CommentMutations\Module::class,
                 'envVariable' => \PoPCMSSchema\CommentMutations\Environment::MUST_USER_BE_LOGGED_IN_TO_ADD_COMMENT,
-                'callback' => function () {
-                    return \get_option('comment_registration') === '1';
-                },
+                'callback' => fn () => \get_option('comment_registration') === '1',
             ],
             [
                 'class' => \PoPCMSSchema\CommentMutations\Module::class,
                 'envVariable' => \PoPCMSSchema\CommentMutations\Environment::REQUIRE_COMMENTER_NAME_AND_EMAIL,
-                'callback' => function () {
-                    return \get_option('require_name_email') === '1';
-                },
+                'callback' => fn () => \get_option('require_name_email') === '1',
             ],
         ];
     }
@@ -959,19 +927,19 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT,
                 'class' => GraphQLEndpointForWPModule::class,
                 'envVariable' => GraphQLEndpointForWPEnvironment::DISABLE_GRAPHQL_API_ENDPOINT,
-                'callback' => \Closure::fromCallable([$this, 'opposite']),
+                'callback' => $this->opposite(...),
             ],
             [
                 'module' => ClientFunctionalityModuleResolver::GRAPHIQL_FOR_SINGLE_ENDPOINT,
                 'class' => GraphQLClientsForWPModule::class,
                 'envVariable' => GraphQLClientsForWPEnvironment::DISABLE_GRAPHIQL_CLIENT_ENDPOINT,
-                'callback' => \Closure::fromCallable([$this, 'opposite']),
+                'callback' => $this->opposite(...),
             ],
             [
                 'module' => ClientFunctionalityModuleResolver::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT,
                 'class' => GraphQLClientsForWPModule::class,
                 'envVariable' => GraphQLClientsForWPEnvironment::DISABLE_VOYAGER_CLIENT_ENDPOINT,
-                'callback' => \Closure::fromCallable([$this, 'opposite']),
+                'callback' => $this->opposite(...),
             ],
             [
                 'module' => DeprecatedClientFunctionalityModuleResolver::GRAPHIQL_EXPLORER,

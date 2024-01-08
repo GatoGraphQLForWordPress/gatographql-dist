@@ -1,21 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
-/** @internal */
-abstract class AbstractTransientObjectObjectTypeResolverPicker extends \PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker
+
+abstract class AbstractTransientObjectObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
-    public final function setObjectDictionary(ObjectDictionaryInterface $objectDictionary) : void
+    private ?ObjectDictionaryInterface $objectDictionary = null;
+
+    final public function setObjectDictionary(ObjectDictionaryInterface $objectDictionary): void
     {
         $this->objectDictionary = $objectDictionary;
     }
-    protected final function getObjectDictionary() : ObjectDictionaryInterface
+    final protected function getObjectDictionary(): ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
             /** @var ObjectDictionaryInterface */
@@ -24,19 +23,19 @@ abstract class AbstractTransientObjectObjectTypeResolverPicker extends \PoP\Comp
         }
         return $this->objectDictionary;
     }
-    public final function isInstanceOfType(object $object) : bool
+
+    final public function isInstanceOfType(object $object): bool
     {
-        return \is_a($object, $this->getTargetObjectClass(), \true);
+        return is_a($object, $this->getTargetObjectClass(), true);
     }
-    protected abstract function getTargetObjectClass() : string;
-    /**
-     * @param string|int $objectID
-     */
-    public final function isIDOfType($objectID) : bool
+
+    abstract protected function getTargetObjectClass(): string;
+
+    final public function isIDOfType(string|int $objectID): bool
     {
         $transientObject = $this->getObjectDictionary()->get($this->getTargetObjectClass(), $objectID);
         if ($transientObject === null) {
-            return \false;
+            return false;
         }
         return $this->isInstanceOfType($transientObject);
     }

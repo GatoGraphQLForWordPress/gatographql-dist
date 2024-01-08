@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -11,30 +12,19 @@ use PoPCMSSchema\Media\FilterInputs\MimeTypesFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver;
-/** @internal */
+
 abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver|null
-     */
-    private $dateQueryInputObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\FilterInputs\MimeTypesFilterInput|null
-     */
-    private $mimeTypesFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
-     */
-    private $seachFilterInput;
-    public final function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver) : void
+    private ?DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?MimeTypesFilterInput $mimeTypesFilterInput = null;
+    private ?SearchFilterInput $seachFilterInput = null;
+
+    final public function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver): void
     {
         $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
     }
-    protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
+    final protected function getDateQueryInputObjectTypeResolver(): DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
             /** @var DateQueryInputObjectTypeResolver */
@@ -43,11 +33,11 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
         }
         return $this->dateQueryInputObjectTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -56,11 +46,11 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setMimeTypesFilterInput(MimeTypesFilterInput $mimeTypesFilterInput) : void
+    final public function setMimeTypesFilterInput(MimeTypesFilterInput $mimeTypesFilterInput): void
     {
         $this->mimeTypesFilterInput = $mimeTypesFilterInput;
     }
-    protected final function getMimeTypesFilterInput() : MimeTypesFilterInput
+    final protected function getMimeTypesFilterInput(): MimeTypesFilterInput
     {
         if ($this->mimeTypesFilterInput === null) {
             /** @var MimeTypesFilterInput */
@@ -69,11 +59,11 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
         }
         return $this->mimeTypesFilterInput;
     }
-    public final function setSearchFilterInput(SearchFilterInput $seachFilterInput) : void
+    final public function setSearchFilterInput(SearchFilterInput $seachFilterInput): void
     {
         $this->seachFilterInput = $seachFilterInput;
     }
-    protected final function getSearchFilterInput() : SearchFilterInput
+    final protected function getSearchFilterInput(): SearchFilterInput
     {
         if ($this->seachFilterInput === null) {
             /** @var SearchFilterInput */
@@ -82,56 +72,56 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
         }
         return $this->seachFilterInput;
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
-        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['search' => $this->getStringScalarTypeResolver(), 'dateQuery' => $this->getDateQueryInputObjectTypeResolver(), 'mimeTypes' => $this->getStringScalarTypeResolver()]);
+        return array_merge(
+            parent::getInputFieldNameTypeResolvers(),
+            [
+                'search' => $this->getStringScalarTypeResolver(),
+                'dateQuery' => $this->getDateQueryInputObjectTypeResolver(),
+                'mimeTypes' => $this->getStringScalarTypeResolver(),
+            ]
+        );
     }
-    public function getInputFieldDescription(string $inputFieldName) : ?string
+
+    public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->__('Search for comments containing the given string', 'comments');
-            case 'dateQuery':
-                return $this->__('Filter comments based on date', 'comments');
-            case 'mimeTypes':
-                return $this->__('Filter comments based on type', 'comments');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->__('Search for comments containing the given string', 'comments'),
+            'dateQuery' => $this->__('Filter comments based on date', 'comments'),
+            'mimeTypes' => $this->__('Filter comments based on type', 'comments'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+
+    public function getInputFieldDefaultValue(string $inputFieldName): mixed
     {
-        switch ($inputFieldName) {
-            case 'mimeTypes':
-                return ['image'];
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'mimeTypes' => [
+                'image',
+            ],
+            default => parent::getInputFieldDefaultValue($inputFieldName)
+        };
     }
-    public function getInputFieldTypeModifiers(string $inputFieldName) : int
+
+    public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        switch ($inputFieldName) {
-            case 'mimeTypes':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'mimeTypes' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName)
+        };
     }
-    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
+
+    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->getSearchFilterInput();
-            case 'mimeTypes':
-                return $this->getMimeTypesFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->getSearchFilterInput(),
+            'mimeTypes' => $this->getMimeTypesFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

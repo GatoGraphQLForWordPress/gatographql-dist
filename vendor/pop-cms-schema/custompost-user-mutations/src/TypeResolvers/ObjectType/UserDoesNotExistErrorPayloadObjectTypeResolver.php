@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostUserMutations\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostUserMutations\RelationalTypeDataLoaders\ObjectType\UserDoesNotExistErrorPayloadObjectTypeDataLoader;
 use PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
+
 class UserDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostUserMutations\RelationalTypeDataLoaders\ObjectType\UserDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $customPostDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setUserDoesNotExistErrorPayloadObjectTypeDataLoader(UserDoesNotExistErrorPayloadObjectTypeDataLoader $customPostDoesNotExistErrorPayloadObjectTypeDataLoader) : void
+    private ?UserDoesNotExistErrorPayloadObjectTypeDataLoader $customPostDoesNotExistErrorPayloadObjectTypeDataLoader = null;
+
+    final public function setUserDoesNotExistErrorPayloadObjectTypeDataLoader(UserDoesNotExistErrorPayloadObjectTypeDataLoader $customPostDoesNotExistErrorPayloadObjectTypeDataLoader): void
     {
         $this->customPostDoesNotExistErrorPayloadObjectTypeDataLoader = $customPostDoesNotExistErrorPayloadObjectTypeDataLoader;
     }
-    protected final function getUserDoesNotExistErrorPayloadObjectTypeDataLoader() : UserDoesNotExistErrorPayloadObjectTypeDataLoader
+    final protected function getUserDoesNotExistErrorPayloadObjectTypeDataLoader(): UserDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->customPostDoesNotExistErrorPayloadObjectTypeDataLoader === null) {
             /** @var UserDoesNotExistErrorPayloadObjectTypeDataLoader */
@@ -26,15 +25,18 @@ class UserDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloa
         }
         return $this->customPostDoesNotExistErrorPayloadObjectTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'UserDoesNotExistErrorPayload';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Error payload for: "The requested media item does not exist"', 'custompost-user-mutations');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getUserDoesNotExistErrorPayloadObjectTypeDataLoader();
     }

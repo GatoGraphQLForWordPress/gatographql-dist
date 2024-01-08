@@ -18,9 +18,7 @@ class AppLoader extends UpstreamAppLoader
         foreach ($this->getBootApplicationHooks() as $actionHook) {
             App::addAction(
                 $actionHook,
-                function () {
-                    return parent::bootApplicationModules();
-                },
+                fn () => parent::bootApplicationModules(),
                 /**
                  * Execute at the beginning, only to tell developers that,
                  * starting from these hooks on, the GraphQL server is ready

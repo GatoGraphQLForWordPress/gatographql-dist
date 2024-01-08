@@ -1,14 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\APIMirrorQuery\DataStructureFormatters;
 
 use PoP\ComponentModel\DataStructureFormatters\PropertyDataStructureFormatterTrait;
-/** @internal */
-class PropertyMirrorQueryDataStructureFormatter extends \PoPAPI\APIMirrorQuery\DataStructureFormatters\MirrorQueryDataStructureFormatter
+
+class PropertyMirrorQueryDataStructureFormatter extends MirrorQueryDataStructureFormatter
 {
     use PropertyDataStructureFormatterTrait;
-    public function getName() : string
+
+    public function getName(): string
     {
         return 'props';
     }

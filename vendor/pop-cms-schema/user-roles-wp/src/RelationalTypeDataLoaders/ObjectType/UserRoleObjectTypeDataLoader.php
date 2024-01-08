@@ -17,6 +17,6 @@ class UserRoleObjectTypeDataLoader extends AbstractObjectTypeDataLoader
     public function getObjects(array $ids): array
     {
         /** @var string[] $ids */
-        return array_map(\Closure::fromCallable('get_role'), $ids);
+        return array_map(get_role(...), $ids);
     }
 }

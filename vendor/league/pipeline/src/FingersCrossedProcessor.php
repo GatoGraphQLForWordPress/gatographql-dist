@@ -1,9 +1,8 @@
 <?php
+declare(strict_types=1);
 
-declare (strict_types=1);
-namespace PrefixedByPoP\League\Pipeline;
+namespace League\Pipeline;
 
-/** @internal */
 class FingersCrossedProcessor implements ProcessorInterface
 {
     public function process($payload, callable ...$stages)
@@ -11,6 +10,7 @@ class FingersCrossedProcessor implements ProcessorInterface
         foreach ($stages as $stage) {
             $payload = $stage($payload);
         }
+
         return $payload;
     }
 }

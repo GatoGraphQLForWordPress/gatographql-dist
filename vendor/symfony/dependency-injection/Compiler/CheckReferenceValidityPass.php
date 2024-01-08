@@ -8,11 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+namespace Symfony\Component\DependencyInjection\Compiler;
+
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use Symfony\Component\DependencyInjection\Reference;
+
 /**
  * Checks the validity of references.
  *
@@ -20,29 +22,24 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
  * - target definitions are not abstract
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class CheckReferenceValidityPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = true;
+
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($isRoot && $value instanceof Definition && ($value->isSynthetic() || $value->isAbstract())) {
             return $value;
         }
         if ($value instanceof Reference && $this->container->hasDefinition((string) $value)) {
             $targetDefinition = $this->container->getDefinition((string) $value);
+
             if ($targetDefinition->isAbstract()) {
-                throw new RuntimeException(\sprintf('The definition "%s" has a reference to an abstract definition "%s". Abstract definitions cannot be the target of references.', $this->currentId, $value));
+                throw new RuntimeException(sprintf('The definition "%s" has a reference to an abstract definition "%s". Abstract definitions cannot be the target of references.', $this->currentId, $value));
             }
         }
+
         return parent::processValue($value, $isRoot);
     }
 }

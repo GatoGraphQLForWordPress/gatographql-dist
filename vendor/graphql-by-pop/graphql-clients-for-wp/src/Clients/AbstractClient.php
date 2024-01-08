@@ -18,10 +18,7 @@ abstract class AbstractClient extends AbstractEndpointHandler
         WPClientTrait::getModuleBaseURL insteadof ClientTrait;
     }
 
-    /**
-     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
-     */
-    private $templateHelpers;
+    private ?TemplateHelpersInterface $templateHelpers = null;
 
     final public function setTemplateHelpers(TemplateHelpersInterface $templateHelpers): void
     {

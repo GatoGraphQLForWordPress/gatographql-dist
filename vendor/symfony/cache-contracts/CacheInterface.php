@@ -8,15 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Cache;
 
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
+namespace Symfony\Contracts\Cache;
+
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\InvalidArgumentException;
+
 /**
  * Covers most simple to advanced caching needs.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 interface CacheInterface
 {
@@ -43,7 +44,8 @@ interface CacheInterface
      *
      * @throws InvalidArgumentException When $key is not valid or when $beta is negative
      */
-    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null);
+    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null): mixed;
+
     /**
      * Removes an item from the pool.
      *
@@ -53,5 +55,5 @@ interface CacheInterface
      *
      * @throws InvalidArgumentException When $key is not valid
      */
-    public function delete(string $key) : bool;
+    public function delete(string $key): bool;
 }

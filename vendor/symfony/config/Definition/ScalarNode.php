@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidTypeException;
+namespace Symfony\Component\Config\Definition;
+
+use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
+
 /**
  * This node represents a scalar value in the config tree.
  *
@@ -22,38 +24,37 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidTypeExcep
  *   * floats
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class ScalarNode extends VariableNode
 {
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
         if (!\is_scalar($value) && null !== $value) {
-            $ex = new InvalidTypeException(\sprintf('Invalid type for path "%s". Expected "scalar", but got "%s".', $this->getPath(), \get_debug_type($value)));
+            $ex = new InvalidTypeException(sprintf('Invalid type for path "%s". Expected "scalar", but got "%s".', $this->getPath(), get_debug_type($value)));
             if ($hint = $this->getInfo()) {
                 $ex->addHint($hint);
             }
             $ex->setPath($this->getPath());
+
             throw $ex;
         }
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isValueEmpty($value) : bool
+
+    protected function isValueEmpty(mixed $value): bool
     {
         // assume environment variables are never empty (which in practice is likely to be true during runtime)
         // not doing so breaks many configs that are valid today
         if ($this->isHandlingPlaceholder()) {
-            return \false;
+            return false;
         }
+
         return null === $value || '' === $value;
     }
-    protected function getValidPlaceholderTypes() : array
+
+    protected function getValidPlaceholderTypes(): array
     {
         return ['bool', 'int', 'float', 'string'];
     }

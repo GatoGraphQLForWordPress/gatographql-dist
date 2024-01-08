@@ -11,10 +11,7 @@ use WP_Post;
 
 abstract class AbstractPersistedQueryEndpointGraphQLQueryResolutionEndpointExecuter extends AbstractGraphQLQueryResolutionEndpointExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\GraphQLQueryPostTypeHelpers|null
-     */
-    private $graphQLQueryPostTypeHelpers;
+    private ?GraphQLQueryPostTypeHelpers $graphQLQueryPostTypeHelpers = null;
 
     final public function setGraphQLQueryPostTypeHelpers(GraphQLQueryPostTypeHelpers $graphQLQueryPostTypeHelpers): void
     {
@@ -39,7 +36,10 @@ abstract class AbstractPersistedQueryEndpointGraphQLQueryResolutionEndpointExecu
          * Extract the query from the post (or from its parents), and set it in the application state
          */
         $graphQLQueryPostAttributes = $this->getGraphQLQueryPostTypeHelpers()->getGraphQLQueryPostAttributes($graphQLQueryPost, true);
-        return new NullableGraphQLQueryVariablesEntry($graphQLQueryPostAttributes->query, $graphQLQueryPostAttributes->variables);
+        return new NullableGraphQLQueryVariablesEntry(
+            $graphQLQueryPostAttributes->query,
+            $graphQLQueryPostAttributes->variables,
+        );
     }
 
     /**

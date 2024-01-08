@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMeta\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -10,18 +11,16 @@ use PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldResolver;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-/** @internal */
+
 class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface|null
-     */
-    private $commentMetaTypeAPI;
-    public final function setCommentMetaTypeAPI(CommentMetaTypeAPIInterface $commentMetaTypeAPI) : void
+    private ?CommentMetaTypeAPIInterface $commentMetaTypeAPI = null;
+
+    final public function setCommentMetaTypeAPI(CommentMetaTypeAPIInterface $commentMetaTypeAPI): void
     {
         $this->commentMetaTypeAPI = $commentMetaTypeAPI;
     }
-    protected final function getCommentMetaTypeAPI() : CommentMetaTypeAPIInterface
+    final protected function getCommentMetaTypeAPI(): CommentMetaTypeAPIInterface
     {
         if ($this->commentMetaTypeAPI === null) {
             /** @var CommentMetaTypeAPIInterface */
@@ -30,28 +29,39 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
         }
         return $this->commentMetaTypeAPI;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [CommentObjectTypeResolver::class];
+        return [
+            CommentObjectTypeResolver::class,
+        ];
     }
-    protected function getMetaTypeAPI() : MetaTypeAPIInterface
+
+    protected function getMetaTypeAPI(): MetaTypeAPIInterface
     {
         return $this->getCommentMetaTypeAPI();
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $comment = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
-                return $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $fieldDataAccessor->getValue('key'), $fieldDataAccessor->getFieldName() === 'metaValue');
+                return $this->getCommentMetaTypeAPI()->getCommentMeta(
+                    $comment,
+                    $fieldDataAccessor->getValue('key'),
+                    $fieldDataAccessor->getFieldName() === 'metaValue'
+                );
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

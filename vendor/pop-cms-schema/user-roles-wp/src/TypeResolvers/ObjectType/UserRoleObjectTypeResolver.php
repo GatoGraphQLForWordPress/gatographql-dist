@@ -11,10 +11,7 @@ use WP_Role;
 
 class UserRoleObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserRolesWP\RelationalTypeDataLoaders\ObjectType\UserRoleObjectTypeDataLoader|null
-     */
-    private $userRoleObjectTypeDataLoader;
+    private ?UserRoleObjectTypeDataLoader $userRoleObjectTypeDataLoader = null;
 
     final public function setUserRoleObjectTypeDataLoader(UserRoleObjectTypeDataLoader $userRoleObjectTypeDataLoader): void
     {
@@ -40,10 +37,7 @@ class UserRoleObjectTypeResolver extends AbstractObjectTypeResolver
         return $this->__('User roles', 'user-roles');
     }
 
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object): string|int|null
     {
         /** @var WP_Role */
         $role = $object;

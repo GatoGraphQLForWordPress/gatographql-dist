@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategories\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\Categories\ObjectTypeResolverPickers\CategoryObjectTypeResolverPickerInterface;
@@ -9,23 +10,19 @@ use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 abstract class AbstractPostCategoryObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements CategoryObjectTypeResolverPickerInterface
 {
     use CategoryObjectTypeResolverPickerTrait;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
-    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
+
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
+
+    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
     {
         $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
-    protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
+    final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
             /** @var PostCategoryObjectTypeResolver */
@@ -34,11 +31,11 @@ abstract class AbstractPostCategoryObjectTypeResolverPicker extends AbstractObje
         }
         return $this->postCategoryObjectTypeResolver;
     }
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
+    final public function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI): void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
     }
-    protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
+    final protected function getPostCategoryTypeAPI(): PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
             /** @var PostCategoryTypeAPIInterface */
@@ -47,22 +44,23 @@ abstract class AbstractPostCategoryObjectTypeResolverPicker extends AbstractObje
         }
         return $this->postCategoryTypeAPI;
     }
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface
+
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface
     {
         return $this->getPostCategoryObjectTypeResolver();
     }
-    public function isInstanceOfType(object $object) : bool
+
+    public function isInstanceOfType(object $object): bool
     {
         return $this->getPostCategoryTypeAPI()->isInstanceOfCategoryType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+
+    public function isIDOfType(string|int $objectID): bool
     {
         return $this->getPostCategoryTypeAPI()->categoryExists($objectID);
     }
-    public function getCategoryTaxonomy() : string
+
+    public function getCategoryTaxonomy(): string
     {
         return $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
     }

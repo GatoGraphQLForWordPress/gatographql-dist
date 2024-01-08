@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
@@ -15,22 +16,17 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers\ObjectType\AbstractUserObjectTypeFieldResolver
+
+class RootUserObjectTypeFieldResolver extends AbstractUserObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserByOneofInputObjectTypeResolver|null
-     */
-    private $userByOneofInputObjectTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?UserByOneofInputObjectTypeResolver $userByOneofInputObjectTypeResolver = null;
+
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -39,11 +35,11 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setUserByOneofInputObjectTypeResolver(UserByOneofInputObjectTypeResolver $userByOneofInputObjectTypeResolver) : void
+    final public function setUserByOneofInputObjectTypeResolver(UserByOneofInputObjectTypeResolver $userByOneofInputObjectTypeResolver): void
     {
         $this->userByOneofInputObjectTypeResolver = $userByOneofInputObjectTypeResolver;
     }
-    protected final function getUserByOneofInputObjectTypeResolver() : UserByOneofInputObjectTypeResolver
+    final protected function getUserByOneofInputObjectTypeResolver(): UserByOneofInputObjectTypeResolver
     {
         if ($this->userByOneofInputObjectTypeResolver === null) {
             /** @var UserByOneofInputObjectTypeResolver */
@@ -52,58 +48,70 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
         }
         return $this->userByOneofInputObjectTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [RootObjectTypeResolver::class];
+        return [
+            RootObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return \array_merge(parent::getFieldNamesToResolve(), ['user']);
+        return array_merge(
+            parent::getFieldNamesToResolve(),
+            [
+                'user',
+            ]
+        );
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'user':
-                return $this->__('Retrieve a single user', 'pop-users');
-            case 'users':
-                return $this->__('Retrieve a list of users', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'user' => $this->__('Retrieve a single user', 'pop-users'),
+            'users' => $this->__('Retrieve a list of users', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'user':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getUserByOneofInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'user' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'by' => $this->getUserByOneofInputObjectTypeResolver(),
+                ]
+            ),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['user' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['user' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
         switch ($fieldDataAccessor->getFieldName()) {
             case 'user':
@@ -112,23 +120,26 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
                 }
                 return null;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'user':
-                return $this->getUserObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'user' => $this->getUserObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

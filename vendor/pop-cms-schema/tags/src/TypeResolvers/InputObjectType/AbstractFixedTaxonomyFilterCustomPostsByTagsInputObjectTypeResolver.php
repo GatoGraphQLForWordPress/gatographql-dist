@@ -1,24 +1,28 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
 use stdClass;
-/** @internal */
-abstract class AbstractFixedTaxonomyFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByTagsInputObjectTypeResolver
+
+abstract class AbstractFixedTaxonomyFilterCustomPostsByTagsInputObjectTypeResolver extends AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
-    protected function addTagTaxonomyFilterInput() : bool
+    protected function addTagTaxonomyFilterInput(): bool
     {
-        return \false;
+        return false;
     }
-    protected abstract function getTagTaxonomyName() : string;
+
+    abstract protected function getTagTaxonomyName(): string;
+
     /**
      * @param array<string,mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue): void
     {
         parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
+
         $query['tag-taxonomy'] = $this->getTagTaxonomyName();
     }
 }

@@ -1,59 +1,60 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\APIClients;
 
 use PoP\ComponentModel\Configuration\RequestHelpers;
 use PoP\Root\Exception\ShouldNotHappenException;
-/** @internal */
+
 trait ClientTrait
 {
-    /**
-     * @var string|null
-     */
-    private $clientHTMLCache;
+    private ?string $clientHTMLCache = null;
+
     /**
      * Relative Path
      */
-    protected abstract function getClientRelativePath() : string;
+    abstract protected function getClientRelativePath(): string;
     /**
      * JavaScript file name
      */
-    protected abstract function getJSFilename() : string;
+    abstract protected function getJSFilename(): string;
     /**
      * HTML file name
      */
-    protected function getIndexFilename() : string
+    protected function getIndexFilename(): string
     {
         return 'index.html';
     }
     /**
      * Assets folder name
      */
-    protected function getAssetDirname() : string
+    protected function getAssetDirname(): string
     {
         return 'assets';
     }
     /**
      * Base dir
      */
-    protected abstract function getModuleBaseDir() : string;
+    abstract protected function getModuleBaseDir(): string;
     /**
      * Base URL
      */
-    protected function getModuleBaseURL() : ?string
+    protected function getModuleBaseURL(): ?string
     {
         return null;
     }
     /**
      * Endpoint URL
      */
-    protected abstract function getEndpointURLOrURLPath() : ?string;
-    protected abstract function __(string $text, string $domain = 'default') : string;
+    abstract protected function getEndpointURLOrURLPath(): ?string;
+
+    abstract protected function __(string $text, string $domain = 'default'): string;
+
     /**
      * HTML to print the client
      */
-    public function getClientHTML() : string
+    public function getClientHTML(): string
     {
         if ($this->clientHTMLCache !== null) {
             return $this->clientHTMLCache;
@@ -61,9 +62,14 @@ trait ClientTrait
         // Read from the static HTML files and replace their endpoints
         $assetRelativePath = $this->getClientRelativePath();
         $file = $this->getModuleBaseDir() . $assetRelativePath . '/' . $this->getIndexFilename();
-        $fileContents = \file_get_contents($file, \true);
-        if ($fileContents === \false) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Cannot read the contents of file \'%s\''), $file));
+        $fileContents = \file_get_contents($file, true);
+        if ($fileContents === false) {
+            throw new ShouldNotHappenException(
+                sprintf(
+                    $this->__('Cannot read the contents of file \'%s\''),
+                    $file
+                )
+            );
         }
         $jsFileName = $this->getJSFilename();
         /**
@@ -76,22 +82,31 @@ trait ClientTrait
             // GraphiQL Explorer loads under "/assets...", so the dirname starts with "/"
             // But otherwise it does not. So don't add "/" again if it already has
             $assetDirname = $this->getAssetDirname();
-            $fileContents = \str_replace('"' . $assetDirname . '/', '"' . \trim($moduleBaseURL, '/') . $assetRelativePath . (\strncmp($assetDirname, '/', \strlen('/')) === 0 ? '' : '/') . $assetDirname . '/', $fileContents);
+            $fileContents = \str_replace(
+                '"' . $assetDirname . '/',
+                '"' . \trim($moduleBaseURL, '/') . $assetRelativePath . (\str_starts_with($assetDirname, '/') ? '' : '/') . $assetDirname . '/',
+                $fileContents
+            );
         }
+
         // Can pass either URL or path under current domain
         $endpoint = $this->getEndpointURLOrURLPath();
         if ($endpoint === null) {
-            throw new ShouldNotHappenException($this->__('There is no endpoint for the client'));
+            throw new ShouldNotHappenException(
+                $this->__('There is no endpoint for the client')
+            );
         }
+
         // Add mandatory params from the request, and maybe enable XDebug
         $endpoint = RequestHelpers::addRequestParamsToEndpoint($endpoint);
+
         /**
          * Must remove the protocol, or we might get an error with status 406
          * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/436
          *
          * @var string
          */
-        $endpoint = \preg_replace('#^https?:#', '', $endpoint);
+        $endpoint = preg_replace('#^https?:#', '', $endpoint);
         // // If namespaced, add /?use_namespace=1 to the endpoint
         // /** @var ComponentModelModuleConfiguration */
         // $moduleConfiguration = \PoP\Root\App::getModule(ComponentModelModule::class)->getConfiguration();
@@ -105,8 +120,13 @@ trait ClientTrait
         // }
         // Modify the endpoint, as a param to the script.
         // GraphiQL Explorer doesn't have other params. Otherwise it does, so check for "?"
-        $jsFileHasParams = \strpos($fileContents, '/' . $jsFileName . '?') !== \false;
-        $fileContents = \str_replace('/' . $jsFileName . ($jsFileHasParams ? '?' : ''), '/' . $jsFileName . '?endpoint=' . \urlencode($endpoint) . ($jsFileHasParams ? '&' : ''), $fileContents);
+        $jsFileHasParams = \str_contains($fileContents, '/' . $jsFileName . '?');
+        $fileContents = \str_replace(
+            '/' . $jsFileName . ($jsFileHasParams ? '?' : ''),
+            '/' . $jsFileName . '?endpoint=' . urlencode($endpoint) . ($jsFileHasParams ? '&' : ''),
+            $fileContents
+        );
+
         $this->clientHTMLCache = $fileContents;
         return $this->clientHTMLCache;
     }

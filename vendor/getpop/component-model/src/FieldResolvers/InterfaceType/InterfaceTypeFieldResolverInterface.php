@@ -1,12 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\FieldResolvers\FieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
-/** @internal */
-interface InterfaceTypeFieldResolverInterface extends FieldResolverInterface, \PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldSchemaDefinitionResolverInterface
+
+interface InterfaceTypeFieldResolverInterface extends FieldResolverInterface, InterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     /**
      * The classes of the InterfaceTypeResolvers this InterfaceTypeFieldResolver adds fields to.
@@ -15,13 +16,13 @@ interface InterfaceTypeFieldResolverInterface extends FieldResolverInterface, \P
      *
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo() : array;
+    public function getInterfaceTypeResolverClassesToAttachTo(): array;
     /**
      * Get an array with the fieldNames that the fieldResolver must implement
      *
      * @return string[]
      */
-    public function getFieldNamesToImplement() : array;
+    public function getFieldNamesToImplement(): array;
     /**
      * Each InterfaceTypeFieldResolver provides a list of fieldNames to the Interface.
      * The Interface may also accept other fieldNames from other InterfaceTypeFieldResolvers.
@@ -30,10 +31,10 @@ interface InterfaceTypeFieldResolverInterface extends FieldResolverInterface, \P
      *
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getPartiallyImplementedInterfaceTypeResolvers() : array;
-    public function skipExposingFieldInSchema(string $fieldName) : bool;
+    public function getPartiallyImplementedInterfaceTypeResolvers(): array;
+    public function skipExposingFieldInSchema(string $fieldName): bool;
     /**
      * @return array<string,mixed>
      */
-    public function getFieldSchemaDefinition(string $fieldName) : array;
+    public function getFieldSchemaDefinition(string $fieldName): array;
 }

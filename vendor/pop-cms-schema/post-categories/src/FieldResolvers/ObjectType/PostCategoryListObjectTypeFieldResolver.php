@@ -1,39 +1,45 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategories\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoPCMSSchema\Posts\FieldResolvers\ObjectType\AbstractPostObjectTypeFieldResolver;
-/** @internal */
+
 class PostCategoryListObjectTypeFieldResolver extends AbstractPostObjectTypeFieldResolver
 {
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PostCategoryObjectTypeResolver::class];
+        return [
+            PostCategoryObjectTypeResolver::class,
+        ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'posts':
-                return $this->__('Posts which contain this category', 'post-categories');
-            case 'postCount':
-                return $this->__('Number of posts which contain this category', 'post-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'posts' => $this->__('Posts which contain this category', 'post-categories'),
+            'postCount' => $this->__('Number of posts which contain this category', 'post-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,mixed>
      */
-    protected function getQuery(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor) : array
-    {
+    protected function getQuery(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+    ): array {
         $query = parent::getQuery($objectTypeResolver, $object, $fieldDataAccessor);
+
         $category = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'posts':
@@ -41,6 +47,7 @@ class PostCategoryListObjectTypeFieldResolver extends AbstractPostObjectTypeFiel
                 $query['category-ids'] = [$objectTypeResolver->getID($category)];
                 break;
         }
+
         return $query;
     }
 }

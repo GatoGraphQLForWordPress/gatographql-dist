@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Info;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Info\ApplicationInfoInterface;
-/** @internal */
+
 class ApplicationInfoFacade
 {
-    public static function getInstance() : ApplicationInfoInterface
+    public static function getInstance(): ApplicationInfoInterface
     {
         /**
          * @var ApplicationInfoInterface

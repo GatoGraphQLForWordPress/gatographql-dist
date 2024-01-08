@@ -16,12 +16,9 @@ class PersistedQueryEndpointAPIHierarchyBlock extends AbstractBlock implements P
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public const ATTRIBUTE_NAME_INHERIT_QUERY = 'inheritQuery';
+    public final const ATTRIBUTE_NAME_INHERIT_QUERY = 'inheritQuery';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\PersistedQueryEndpointBlockCategory|null
-     */
-    private $persistedQueryEndpointBlockCategory;
+    private ?PersistedQueryEndpointBlockCategory $persistedQueryEndpointBlockCategory = null;
 
     final public function setPersistedQueryEndpointBlockCategory(PersistedQueryEndpointBlockCategory $persistedQueryEndpointBlockCategory): void
     {

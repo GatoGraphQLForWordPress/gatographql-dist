@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver;
@@ -14,30 +15,19 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements TagAPIRequestedContractObjectTypeFieldResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\FieldResolvers\InterfaceType\TagInterfaceTypeFieldResolver|null
-     */
-    private $tagInterfaceTypeFieldResolver;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
+    private ?TagInterfaceTypeFieldResolver $tagInterfaceTypeFieldResolver = null;
+
+    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
+    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -46,11 +36,11 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -59,11 +49,11 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
+    final public function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver): void
     {
         $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
     }
-    protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
+    final protected function getQueryableInterfaceTypeFieldResolver(): QueryableInterfaceTypeFieldResolver
     {
         if ($this->queryableInterfaceTypeFieldResolver === null) {
             /** @var QueryableInterfaceTypeFieldResolver */
@@ -72,11 +62,11 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         }
         return $this->queryableInterfaceTypeFieldResolver;
     }
-    public final function setTagInterfaceTypeFieldResolver(TagInterfaceTypeFieldResolver $tagInterfaceTypeFieldResolver) : void
+    final public function setTagInterfaceTypeFieldResolver(TagInterfaceTypeFieldResolver $tagInterfaceTypeFieldResolver): void
     {
         $this->tagInterfaceTypeFieldResolver = $tagInterfaceTypeFieldResolver;
     }
-    protected final function getTagInterfaceTypeFieldResolver() : TagInterfaceTypeFieldResolver
+    final protected function getTagInterfaceTypeFieldResolver(): TagInterfaceTypeFieldResolver
     {
         if ($this->tagInterfaceTypeFieldResolver === null) {
             /** @var TagInterfaceTypeFieldResolver */
@@ -85,77 +75,91 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         }
         return $this->tagInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getQueryableInterfaceTypeFieldResolver(), $this->getTagInterfaceTypeFieldResolver()];
+        return [
+            $this->getQueryableInterfaceTypeFieldResolver(),
+            $this->getTagInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
         return [
             // Queryable interface
             'url',
             'urlPath',
             'slug',
+
             // Tag interface
             'name',
             'description',
             'count',
         ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('Tag URL', 'pop-tags');
-            case 'urlPath':
-                return $this->__('Tag URL path', 'pop-tags');
-            case 'slug':
-                return $this->__('Tag slug', 'pop-tags');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('Tag URL', 'pop-tags'),
+            'urlPath' => $this->__('Tag URL path', 'pop-tags'),
+            'slug' => $this->__('Tag slug', 'pop-tags'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $tagTypeAPI = $this->getTagTypeAPI();
         $tag = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'url':
                 /** @var string */
                 return $tagTypeAPI->getTagURL($tag);
+
             case 'urlPath':
                 /** @var string */
                 return $tagTypeAPI->getTagURLPath($tag);
+
             case 'name':
                 /** @var string */
                 return $tagTypeAPI->getTagName($tag);
+
             case 'slug':
                 /** @var string */
                 return $tagTypeAPI->getTagSlug($tag);
+
             case 'description':
                 /** @var string */
                 return $tagTypeAPI->getTagDescription($tag);
+
             case 'count':
                 /** @var int */
                 return $tagTypeAPI->getTagItemCount($tag);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

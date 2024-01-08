@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\RootMyCustomPostsFilterInputObjectTypeResolver;
@@ -27,43 +28,24 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
-/** @internal */
+
 class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostByOneofInputObjectTypeResolver|null
-     */
-    private $customPostByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\RootMyCustomPostsFilterInputObjectTypeResolver|null
-     */
-    private $rootMyCustomPostsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostPaginationInputObjectTypeResolver|null
-     */
-    private $customPostPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver|null
-     */
-    private $customPostSortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
+
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver = null;
+    private ?RootMyCustomPostsFilterInputObjectTypeResolver $rootMyCustomPostsFilterInputObjectTypeResolver = null;
+    private ?CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver = null;
+    private ?CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
+
+    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
+    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -72,11 +54,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
+    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
+    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -85,11 +67,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostTypeAPI;
     }
-    public final function setCustomPostByOneofInputObjectTypeResolver(CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver) : void
+    final public function setCustomPostByOneofInputObjectTypeResolver(CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver): void
     {
         $this->customPostByOneofInputObjectTypeResolver = $customPostByOneofInputObjectTypeResolver;
     }
-    protected final function getCustomPostByOneofInputObjectTypeResolver() : CustomPostByOneofInputObjectTypeResolver
+    final protected function getCustomPostByOneofInputObjectTypeResolver(): CustomPostByOneofInputObjectTypeResolver
     {
         if ($this->customPostByOneofInputObjectTypeResolver === null) {
             /** @var CustomPostByOneofInputObjectTypeResolver */
@@ -98,11 +80,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostByOneofInputObjectTypeResolver;
     }
-    public final function setRootMyCustomPostsFilterInputObjectTypeResolver(RootMyCustomPostsFilterInputObjectTypeResolver $rootMyCustomPostsFilterInputObjectTypeResolver) : void
+    final public function setRootMyCustomPostsFilterInputObjectTypeResolver(RootMyCustomPostsFilterInputObjectTypeResolver $rootMyCustomPostsFilterInputObjectTypeResolver): void
     {
         $this->rootMyCustomPostsFilterInputObjectTypeResolver = $rootMyCustomPostsFilterInputObjectTypeResolver;
     }
-    protected final function getRootMyCustomPostsFilterInputObjectTypeResolver() : RootMyCustomPostsFilterInputObjectTypeResolver
+    final protected function getRootMyCustomPostsFilterInputObjectTypeResolver(): RootMyCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->rootMyCustomPostsFilterInputObjectTypeResolver === null) {
             /** @var RootMyCustomPostsFilterInputObjectTypeResolver */
@@ -111,11 +93,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->rootMyCustomPostsFilterInputObjectTypeResolver;
     }
-    public final function setCustomPostPaginationInputObjectTypeResolver(CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver) : void
+    final public function setCustomPostPaginationInputObjectTypeResolver(CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver): void
     {
         $this->customPostPaginationInputObjectTypeResolver = $customPostPaginationInputObjectTypeResolver;
     }
-    protected final function getCustomPostPaginationInputObjectTypeResolver() : CustomPostPaginationInputObjectTypeResolver
+    final protected function getCustomPostPaginationInputObjectTypeResolver(): CustomPostPaginationInputObjectTypeResolver
     {
         if ($this->customPostPaginationInputObjectTypeResolver === null) {
             /** @var CustomPostPaginationInputObjectTypeResolver */
@@ -124,11 +106,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostPaginationInputObjectTypeResolver;
     }
-    public final function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver) : void
+    final public function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver): void
     {
         $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
     }
-    protected final function getCustomPostSortInputObjectTypeResolver() : CustomPostSortInputObjectTypeResolver
+    final protected function getCustomPostSortInputObjectTypeResolver(): CustomPostSortInputObjectTypeResolver
     {
         if ($this->customPostSortInputObjectTypeResolver === null) {
             /** @var CustomPostSortInputObjectTypeResolver */
@@ -137,11 +119,11 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostSortInputObjectTypeResolver;
     }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
+    final public function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint): void
     {
         $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
-    protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
+    final protected function getUserLoggedInCheckpoint(): UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
             /** @var UserLoggedInCheckpoint */
@@ -150,139 +132,179 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->userLoggedInCheckpoint;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [RootObjectTypeResolver::class];
+        return [
+            RootObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['myCustomPosts', 'myCustomPostCount', 'myCustomPost'];
+        return [
+            'myCustomPosts',
+            'myCustomPostCount',
+            'myCustomPost',
+        ];
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'myCustomPosts':
-                return CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver();
-            case 'myCustomPost':
-                return CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver();
-            case 'myCustomPostCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myCustomPosts' => CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver(),
+            'myCustomPost' => CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver(),
+            'myCustomPostCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'myCustomPostCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'myCustomPosts':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myCustomPostCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'myCustomPosts' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'myCustomPosts':
-                return $this->__('Custom posts by the logged-in user', 'custompost-mutations');
-            case 'myCustomPostCount':
-                return $this->__('Number of custom posts by the logged-in user', 'custompost-mutations');
-            case 'myCustomPost':
-                return $this->__('Retrieve a single custom post', 'custompost-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myCustomPosts' => $this->__('Custom posts by the logged-in user', 'custompost-mutations'),
+            'myCustomPostCount' => $this->__('Number of custom posts by the logged-in user', 'custompost-mutations'),
+            'myCustomPost' => $this->__('Retrieve a single custom post', 'custompost-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
+
+    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?Component
     {
-        switch ($fieldName) {
-            case 'myCustomPost':
-                return new Component(CommonCustomPostFilterInputContainerComponentProcessor::class, CommonCustomPostFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOST_BY_STATUS_UNIONTYPE);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myCustomPost' => new Component(
+                CommonCustomPostFilterInputContainerComponentProcessor::class,
+                CommonCustomPostFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOST_BY_STATUS_UNIONTYPE
+            ),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'myCustomPost':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getCustomPostByOneofInputObjectTypeResolver()]);
-            case 'myCustomPosts':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyCustomPostsFilterInputObjectTypeResolver(), 'pagination' => $this->getCustomPostPaginationInputObjectTypeResolver(), 'sort' => $this->getCustomPostSortInputObjectTypeResolver()]);
-            case 'myCustomPostCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyCustomPostsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'myCustomPost' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'by' => $this->getCustomPostByOneofInputObjectTypeResolver(),
+                ]
+            ),
+            'myCustomPosts' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getRootMyCustomPostsFilterInputObjectTypeResolver(),
+                    'pagination' => $this->getCustomPostPaginationInputObjectTypeResolver(),
+                    'sort' => $this->getCustomPostSortInputObjectTypeResolver(),
+                ]
+            ),
+            'myCustomPostCount' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'filter' => $this->getRootMyCustomPostsFilterInputObjectTypeResolver(),
+                ]
+            ),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['myCustomPost' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['myCustomPost' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
+
     /**
      * @return array<string,mixed>
      */
-    protected function getQuery(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor) : array
-    {
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'myCustomPost':
-            case 'myCustomPosts':
-            case 'myCustomPostCount':
-                return ['authors' => [App::getState('current-user-id')]];
-            default:
-                return [];
-        }
+    protected function getQuery(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+    ): array {
+        return match ($fieldDataAccessor->getFieldName()) {
+            'myCustomPost',
+            'myCustomPosts',
+            'myCustomPostCount'
+                => [
+                    'authors' => [App::getState('current-user-id')],
+                ],
+            default
+                => [],
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
-        $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor));
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
+        $query = array_merge(
+            $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor),
+            $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor)
+        );
         switch ($fieldDataAccessor->getFieldName()) {
             case 'myCustomPostCount':
                 return $this->getCustomPostTypeAPI()->getCustomPostCount($query);
+
             case 'myCustomPosts':
                 return $this->getCustomPostTypeAPI()->getCustomPosts($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
+
             case 'myCustomPost':
                 if ($customPosts = $this->getCustomPostTypeAPI()->getCustomPosts($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS])) {
                     return $customPosts[0];
                 }
                 return null;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
+
     /**
      * @return CheckpointInterface[]
      */
-    public function getValidationCheckpoints(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor, object $object) : array
-    {
-        $validationCheckpoints = parent::getValidationCheckpoints($objectTypeResolver, $fieldDataAccessor, $object);
+    public function getValidationCheckpoints(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        object $object,
+    ): array {
+        $validationCheckpoints = parent::getValidationCheckpoints(
+            $objectTypeResolver,
+            $fieldDataAccessor,
+            $object,
+        );
         $validationCheckpoints[] = $this->getUserLoggedInCheckpoint();
         return $validationCheckpoints;
     }

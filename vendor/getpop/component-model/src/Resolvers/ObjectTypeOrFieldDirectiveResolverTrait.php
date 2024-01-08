@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Resolvers;
 
 use PoP\ComponentModel\App;
@@ -8,7 +9,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use stdClass;
-/** @internal */
+
 trait ObjectTypeOrFieldDirectiveResolverTrait
 {
     /**
@@ -20,7 +21,7 @@ trait ObjectTypeOrFieldDirectiveResolverTrait
      * @param array<string,mixed> $fieldOrDirectiveArgsSchemaDefinition
      * @return array<string,mixed>
      */
-    protected final function getFieldOrDirectiveArgumentNameDefaultValues(array $fieldOrDirectiveArgsSchemaDefinition) : array
+    final protected function getFieldOrDirectiveArgumentNameDefaultValues(array $fieldOrDirectiveArgsSchemaDefinition): array
     {
         $fieldOrDirectiveArgNameDefaultValues = [];
         foreach ($fieldOrDirectiveArgsSchemaDefinition as $fieldOrDirectiveSchemaDefinitionArg) {
@@ -31,73 +32,86 @@ trait ObjectTypeOrFieldDirectiveResolverTrait
                 $fieldOrDirectiveArgNameDefaultValues[$fieldOrDirectiveName] = $fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::DEFAULT_VALUE];
                 continue;
             }
-            if ($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::TYPE_RESOLVER] instanceof InputObjectTypeResolverInterface && !($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY] ?? \false)) {
+            if (
+                // If it is a non-mandatory InputObject, set {}
+                // (If it is mandatory, don't set a value as to let the validation fail)
+                $fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::TYPE_RESOLVER] instanceof InputObjectTypeResolverInterface
+                && !($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY] ?? false)
+            ) {
                 $fieldOrDirectiveArgNameDefaultValues[$fieldOrDirectiveName] = new stdClass();
             }
         }
         return $fieldOrDirectiveArgNameDefaultValues;
     }
+
     /**
      * Get the mandatory argument names for the field
      *
      * @param array<string,mixed> $fieldOrDirectiveArgsSchemaDefinition
      * @return string[]
      */
-    private function getFieldOrDirectiveMandatoryArgumentNames(array $fieldOrDirectiveArgsSchemaDefinition) : array
+    private function getFieldOrDirectiveMandatoryArgumentNames(array $fieldOrDirectiveArgsSchemaDefinition): array
     {
         $mandatoryFieldOrDirectiveArgumentNames = [];
         foreach ($fieldOrDirectiveArgsSchemaDefinition as $fieldOrDirectiveSchemaDefinitionArg) {
-            if ($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY] ?? \false) {
+            if ($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY] ?? false) {
                 $mandatoryFieldOrDirectiveArgumentNames[] = $fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::NAME];
             }
         }
         return $mandatoryFieldOrDirectiveArgumentNames;
     }
+
     /**
      * Get the mandatory argument names for the field
      *
      * @param array<string,mixed> $fieldOrDirectiveArgsSchemaDefinition
      * @return string[]
      */
-    private function getFieldOrDirectiveMandatoryButNullableArgumentNames(array $fieldOrDirectiveArgsSchemaDefinition) : array
+    private function getFieldOrDirectiveMandatoryButNullableArgumentNames(array $fieldOrDirectiveArgsSchemaDefinition): array
     {
         $mandatoryButNullableFieldOrDirectiveArgumentNames = [];
         foreach ($fieldOrDirectiveArgsSchemaDefinition as $fieldOrDirectiveSchemaDefinitionArg) {
-            if ($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY_BUT_NULLABLE] ?? \false) {
+            if ($fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::MANDATORY_BUT_NULLABLE] ?? false) {
                 $mandatoryButNullableFieldOrDirectiveArgumentNames[] = $fieldOrDirectiveSchemaDefinitionArg[SchemaDefinition::NAME];
             }
         }
         return $mandatoryButNullableFieldOrDirectiveArgumentNames;
     }
+
     /**
      * @param array<string,mixed> $fieldOrDirectiveArgs
      * @param array<string,mixed> $argumentNameDefaultValues
      * @return array<string,mixed>
      */
-    protected final function addDefaultFieldOrDirectiveArguments(array $fieldOrDirectiveArgs, array $argumentNameDefaultValues) : array
-    {
+    final protected function addDefaultFieldOrDirectiveArguments(
+        array $fieldOrDirectiveArgs,
+        array $argumentNameDefaultValues,
+    ): array {
         foreach ($argumentNameDefaultValues as $argName => $argDefaultValue) {
-            if (\array_key_exists($argName, $fieldOrDirectiveArgs)) {
+            if (array_key_exists($argName, $fieldOrDirectiveArgs)) {
                 continue;
             }
             $fieldOrDirectiveArgs[$argName] = $argDefaultValue;
         }
         return $fieldOrDirectiveArgs;
     }
-    protected function resetObjectResolvedDynamicVariablesInAppState() : void
+
+    protected function resetObjectResolvedDynamicVariablesInAppState(): void
     {
         $appStateManager = App::getAppStateManager();
+
         // The current object ID for which to retrieve the dynamic variable for.
         $appStateManager->override('object-resolved-dynamic-variables-current-object-id', null);
         // The current field for which to retrieve the dynamic variable for.
         $appStateManager->override('object-resolved-dynamic-variables-current-field', null);
     }
-    /**
-     * @param string|int $id
-     */
-    protected function loadObjectResolvedDynamicVariablesInAppState(FieldInterface $field, $id) : void
-    {
+
+    protected function loadObjectResolvedDynamicVariablesInAppState(
+        FieldInterface $field,
+        string|int $id,
+    ): void {
         $appStateManager = App::getAppStateManager();
+
         // The current object ID for which to retrieve the dynamic variable for.
         $appStateManager->override('object-resolved-dynamic-variables-current-object-id', $id);
         // The current field for which to retrieve the dynamic variable for.

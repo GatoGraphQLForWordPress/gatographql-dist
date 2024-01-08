@@ -48,14 +48,16 @@ class Module extends AbstractModule
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
-    {
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
         $this->initServices(dirname(__DIR__));
         try {
             if (class_exists(CustomPostsModule::class) && App::getModule(CustomPostsModule::class)->isEnabled()) {
                 $this->initServices(dirname(__DIR__), '/ConditionalOnModule/CustomPosts');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

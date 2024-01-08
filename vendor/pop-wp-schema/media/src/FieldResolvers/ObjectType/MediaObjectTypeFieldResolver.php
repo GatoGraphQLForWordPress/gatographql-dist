@@ -18,18 +18,9 @@ use WP_Post;
 
 class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface|null
-     */
-    private $dateFormatter;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
+    private ?DateFormatterInterface $dateFormatter = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
 
     final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
     {
@@ -105,23 +96,20 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('Media element URL', 'pop-media');
-            case 'urlPath':
-                return $this->__('Media element URL path', 'pop-media');
-            case 'slug':
-                return $this->__('Media element slug', 'pop-media');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('Media element URL', 'pop-media'),
+            'urlPath' => $this->__('Media element URL path', 'pop-media'),
+            'slug' => $this->__('Media element slug', 'pop-media'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Post */
         $mediaItem = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -139,6 +127,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             case 'slug':
                 return $mediaItem->post_name;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -146,8 +135,10 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

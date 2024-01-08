@@ -8,22 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\OutOfBoundsException;
+namespace Symfony\Component\DependencyInjection;
+
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Exception\OutOfBoundsException;
+
 /**
  * This definition extends another definition.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class ChildDefinition extends Definition
 {
-    /**
-     * @var string
-     */
-    private $parent;
+    private string $parent;
+
     /**
      * @param string $parent The id of Definition instance to decorate
      */
@@ -31,23 +30,27 @@ class ChildDefinition extends Definition
     {
         $this->parent = $parent;
     }
+
     /**
      * Returns the Definition to inherit from.
      */
-    public function getParent() : string
+    public function getParent(): string
     {
         return $this->parent;
     }
+
     /**
      * Sets the Definition to inherit from.
      *
      * @return $this
      */
-    public function setParent(string $parent)
+    public function setParent(string $parent): static
     {
         $this->parent = $parent;
+
         return $this;
     }
+
     /**
      * Gets an argument to pass to the service constructor/factory method.
      *
@@ -55,16 +58,16 @@ class ChildDefinition extends Definition
      * will return the replacement value.
      *
      * @throws OutOfBoundsException When the argument does not exist
-     * @param int|string $index
-     * @return mixed
      */
-    public function getArgument($index)
+    public function getArgument(int|string $index): mixed
     {
-        if (\array_key_exists('index_' . $index, $this->arguments)) {
-            return $this->arguments['index_' . $index];
+        if (\array_key_exists('index_'.$index, $this->arguments)) {
+            return $this->arguments['index_'.$index];
         }
+
         return parent::getArgument($index);
     }
+
     /**
      * You should always use this method when overwriting existing arguments
      * of the parent definition.
@@ -76,18 +79,17 @@ class ChildDefinition extends Definition
      * @return $this
      *
      * @throws InvalidArgumentException when $index isn't an integer
-     * @param int|string $index
-     * @param mixed $value
      */
-    public function replaceArgument($index, $value)
+    public function replaceArgument(int|string $index, mixed $value): static
     {
         if (\is_int($index)) {
-            $this->arguments['index_' . $index] = $value;
-        } elseif (\strncmp($index, '$', \strlen('$')) === 0) {
+            $this->arguments['index_'.$index] = $value;
+        } elseif (str_starts_with($index, '$')) {
             $this->arguments[$index] = $value;
         } else {
             throw new InvalidArgumentException('The argument must be an existing index or the name of a constructor\'s parameter.');
         }
+
         return $this;
     }
 }

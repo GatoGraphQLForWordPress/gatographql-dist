@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Posts\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPosts\ComponentProcessors\CommonCustomPostFilterInputContainerComponentProcessor;
@@ -21,18 +22,16 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
-/** @internal */
-class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers\ObjectType\AbstractPostObjectTypeFieldResolver
+
+class RootPostObjectTypeFieldResolver extends AbstractPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostByOneofInputObjectTypeResolver|null
-     */
-    private $postByOneofInputObjectTypeResolver;
-    public final function setPostByOneofInputObjectTypeResolver(PostByOneofInputObjectTypeResolver $postByOneofInputObjectTypeResolver) : void
+    private ?PostByOneofInputObjectTypeResolver $postByOneofInputObjectTypeResolver = null;
+
+    final public function setPostByOneofInputObjectTypeResolver(PostByOneofInputObjectTypeResolver $postByOneofInputObjectTypeResolver): void
     {
         $this->postByOneofInputObjectTypeResolver = $postByOneofInputObjectTypeResolver;
     }
-    protected final function getPostByOneofInputObjectTypeResolver() : PostByOneofInputObjectTypeResolver
+    final protected function getPostByOneofInputObjectTypeResolver(): PostByOneofInputObjectTypeResolver
     {
         if ($this->postByOneofInputObjectTypeResolver === null) {
             /** @var PostByOneofInputObjectTypeResolver */
@@ -41,55 +40,70 @@ class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers
         }
         return $this->postByOneofInputObjectTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [RootObjectTypeResolver::class];
+        return [
+            RootObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return \array_merge(parent::getFieldNamesToResolve(), ['post']);
+        return array_merge(
+            parent::getFieldNamesToResolve(),
+            [
+                'post',
+            ]
+        );
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'post':
-                return $this->__('Retrieve a single post', 'posts');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'post' => $this->__('Retrieve a single post', 'posts'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
+
+    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?Component
     {
-        switch ($fieldName) {
-            case 'post':
-                return new Component(CommonCustomPostFilterInputContainerComponentProcessor::class, CommonCustomPostFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTSTATUS);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'post' => new Component(
+                CommonCustomPostFilterInputContainerComponentProcessor::class,
+                CommonCustomPostFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTSTATUS
+            ),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'post':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getPostByOneofInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'post' => array_merge(
+                $fieldArgNameTypeResolvers,
+                [
+                    'by' => $this->getPostByOneofInputObjectTypeResolver(),
+                ]
+            ),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
+
     /**
      * @return string[]
      */
-    public function getSensitiveFieldArgNames(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getSensitiveFieldArgNames(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $sensitiveFieldArgNames = parent::getSensitiveFieldArgNames($objectTypeResolver, $fieldName);
         /** @var ModuleConfiguration */
@@ -97,27 +111,31 @@ class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers
         switch ($fieldName) {
             case 'post':
                 if ($moduleConfiguration->treatCustomPostStatusAsSensitiveData()) {
-                    $customPostStatusFilterInputName = FilterInputHelper::getFilterInputName(new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS));
+                    $customPostStatusFilterInputName = FilterInputHelper::getFilterInputName(new Component(
+                        FilterInputComponentProcessor::class,
+                        FilterInputComponentProcessor::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS
+                    ));
                     $sensitiveFieldArgNames[] = $customPostStatusFilterInputName;
                 }
                 break;
         }
         return $sensitiveFieldArgNames;
     }
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['post' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['post' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
         switch ($fieldDataAccessor->getFieldName()) {
             case 'post':
@@ -126,23 +144,26 @@ class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers
                 }
                 return null;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'post':
-                return $this->getPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'post' => $this->getPostObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

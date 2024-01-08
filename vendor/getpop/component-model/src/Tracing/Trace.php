@@ -1,96 +1,68 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Tracing;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-class Trace implements \PoP\ComponentModel\Tracing\TraceInterface
+
+class Trace implements TraceInterface
 {
     /**
-     * @var string|int
-     */
-    protected $id;
-    /**
-     * @var array<string, mixed>
-     */
-    protected $data = [];
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Directive|null
-     */
-    protected $directive;
-    /**
-     * @var mixed[]|null
-     */
-    protected $idFields;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface|null
-     */
-    protected $relationalTypeResolver;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|null
-     */
-    protected $field;
-    /**
-     * @var string|int|null
-     */
-    protected $objectID = null;
-    /**
      * @param array<string,mixed> $data
-     * @param string|int $id
-     * @param string|int|null $objectID
      */
-    public function __construct($id, array $data = [], ?Directive $directive = null, ?array $idFields = null, ?RelationalTypeResolverInterface $relationalTypeResolver = null, ?FieldInterface $field = null, $objectID = null)
-    {
-        $this->id = $id;
+    public function __construct(
+        protected string|int $id,
         /** @var array<string,mixed> */
-        $this->data = $data;
-        $this->directive = $directive;
+        protected array $data = [],
+        protected ?Directive $directive = null,
         /** @var array<string|int,FieldInterface[]>|null */
-        $this->idFields = $idFields;
-        $this->relationalTypeResolver = $relationalTypeResolver;
-        $this->field = $field;
-        $this->objectID = $objectID;
+        protected ?array $idFields = null,
+        protected ?RelationalTypeResolverInterface $relationalTypeResolver = null,
+        protected ?FieldInterface $field = null,
+        protected string|int|null $objectID = null,
+    ) {
     }
-    /**
-     * @return string|int
-     */
-    public function getID()
+
+    public function getID(): string|int
     {
         return $this->id;
     }
+
     /**
      * @return array<string,mixed>
      */
-    public function getData() : array
+    public function getData(): array
     {
         return $this->data;
     }
-    public function getDirective() : ?Directive
+
+    public function getDirective(): ?Directive
     {
         return $this->directive;
     }
+
     /**
      * @return array<string|int,FieldInterface[]>|null
      */
-    public function getIDFields() : ?array
+    public function getIDFields(): ?array
     {
         return $this->idFields;
     }
-    public function getRelationalTypeResolver() : ?RelationalTypeResolverInterface
+
+    public function getRelationalTypeResolver(): ?RelationalTypeResolverInterface
     {
         return $this->relationalTypeResolver;
     }
-    public function getField() : ?FieldInterface
+
+    public function getField(): ?FieldInterface
     {
         return $this->field;
     }
-    /**
-     * @return string|int|null
-     */
-    public function getObjectID()
+
+    public function getObjectID(): string|int|null
     {
         return $this->objectID;
     }

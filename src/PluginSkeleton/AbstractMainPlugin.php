@@ -69,25 +69,24 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     /**
      * If there is any error when initializing the plugin,
      * set this var to `true` to stop loading it and show an error message.
-     * @var \Exception|null
      */
-    private $inititalizationException;
+    private ?Exception $inititalizationException = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInitializationConfigurationInterface
-     */
-    protected $pluginInitializationConfiguration;
+    protected MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration;
 
     public function __construct(
-        string $pluginFile,
-        /** The main plugin file */
+        string $pluginFile, /** The main plugin file */
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
-        ?MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration = null
-    )
-    {
-        parent::__construct($pluginFile, $pluginVersion, $pluginName, $commitHash);
+        ?MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration = null,
+    ) {
+        parent::__construct(
+            $pluginFile,
+            $pluginVersion,
+            $pluginName,
+            $commitHash,
+        );
         $this->pluginInitializationConfiguration = $pluginInitializationConfiguration ?? $this->createInitializationConfiguration();
     }
 
@@ -204,8 +203,10 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
      *
      * @see https://developer.wordpress.org/reference/hooks/upgrader_process_complete/
      */
-    public function maybeRegenerateContainerWhenPluginUpdated(WP_Upgrader $upgrader_object, array $options): void
-    {
+    public function maybeRegenerateContainerWhenPluginUpdated(
+        WP_Upgrader $upgrader_object,
+        array $options,
+    ): void {
         if ($options['action'] !== 'update' || $options['type'] !== 'plugin') {
             return;
         }
@@ -308,7 +309,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             /** @var MainPluginInfoInterface */
             $mainPluginInfo = PluginApp::getMainPlugin()->getInfo();
             $fileSystemWrapper->remove($mainPluginInfo->getCacheDir());
-        } catch (IOException $exception) {
+        } catch (IOException) {
             // If the folder does not exist, do nothing
         }
     }
@@ -366,9 +367,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 $this->maybeRegenerateContainerWhenPluginActivatedOrDeactivated($pluginFile);
             }
         );
-        add_action('deactivate_plugin', \Closure::fromCallable([$this, 'maybeRemoveStoredPluginVersionWhenPluginDeactivated']));
+        add_action('deactivate_plugin', $this->maybeRemoveStoredPluginVersionWhenPluginDeactivated(...));
 
-        add_action('upgrader_process_complete', \Closure::fromCallable([$this, 'maybeRegenerateContainerWhenPluginUpdated']), 10, 2);
+        add_action('upgrader_process_complete', $this->maybeRegenerateContainerWhenPluginUpdated(...), 10, 2);
 
         // Dump the container whenever a new plugin or extension is activated
         $this->handleNewActivations();
@@ -450,7 +451,14 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                  */
                 add_action(
                     PluginAppHooks::INITIALIZE_APP,
-                    function () use ($isMainPluginJustFirstTimeActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justFirstTimeActivatedExtensions, $justUpdatedExtensions) : void {
+                    function () use (
+                        $isMainPluginJustFirstTimeActivated,
+                        $isMainPluginJustUpdated,
+                        $previousPluginVersions,
+                        $storedPluginVersions,
+                        $justFirstTimeActivatedExtensions,
+                        $justUpdatedExtensions,
+                    ): void {
                         if ($isMainPluginJustFirstTimeActivated) {
                             $this->pluginJustFirstTimeActivated();
                         } elseif ($isMainPluginJustUpdated) {
@@ -575,9 +583,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     protected function installPluginSetupData(?string $previousVersion = null): void
     {
         $versionCallbacks = [
-            '1.1' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot1']),
-            '1.2' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot2']),
-            '1.4' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot4']),
+            '1.1' => $this->installPluginSetupDataForVersion1Dot1(...),
+            '1.2' => $this->installPluginSetupDataForVersion1Dot2(...),
+            '1.4' => $this->installPluginSetupDataForVersion1Dot4(...),
         ];
         foreach ($versionCallbacks as $version => $callback) {
             if ($previousVersion !== null && SemverWrapper::satisfies($previousVersion, '>= ' . $version)) {
@@ -605,12 +613,15 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             [
                 'post_title' => \__('Nested mutations', 'gatographql'),
                 'post_excerpt' => \__('Private client to execute queries that need nested mutations', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-                    'attrs' => [
-                        EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                        'attrs' => [
+                            EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                        ],
                     ],
-                ]], $defaultCustomEndpointBlocks))),
+                    ...$defaultCustomEndpointBlocks
+                ])),
             ]
         ));
 
@@ -633,251 +644,378 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Duplicate post', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-post', TutorialLessons::DUPLICATING_A_BLOG_POST),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/duplicate-post',
+                                TutorialLessons::DUPLICATING_A_BLOG_POST,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Duplicate posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-posts', TutorialLessons::DUPLICATING_MULTIPLE_BLOG_POSTS_AT_ONCE),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/duplicate-posts'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/duplicate-posts',
+                                TutorialLessons::DUPLICATING_MULTIPLE_BLOG_POSTS_AT_ONCE,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/duplicate-posts',
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace strings in post', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/replace-strings-in-post'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/replace-strings-in-post',
+                                TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/replace-strings-in-post',
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace strings in posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-strings-in-posts', TutorialLessons::ADAPTING_CONTENT_IN_BULK),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/replace-strings-in-posts'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/replace-strings-in-posts',
+                                TutorialLessons::ADAPTING_CONTENT_IN_BULK,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/replace-strings-in-posts',
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Regex replace strings in post', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/regex-replace-strings-in-post'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/regex-replace-strings-in-post',
+                                TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/regex-replace-strings-in-post',
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Regex replace strings in posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/regex-replace-strings-in-posts', TutorialLessons::ADAPTING_CONTENT_IN_BULK),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/regex-replace-strings-in-posts'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/regex-replace-strings-in-posts',
+                                TutorialLessons::ADAPTING_CONTENT_IN_BULK,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/regex-replace-strings-in-posts',
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Add missing links in post', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/add-missing-links-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/add-missing-links-in-post',
+                                TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace "http" with "https" in image sources in post', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-http-with-https-in-image-sources-in-post', TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/replace-http-with-https-in-image-sources-in-post',
+                                TutorialLessons::SEARCH_REPLACE_AND_STORE_AGAIN,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace domain in posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/replace-domain-in-posts', TutorialLessons::SITE_MIGRATIONS),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/replace-domain-in-posts',
+                                TutorialLessons::SITE_MIGRATIONS,
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Replace post slug in posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
-                            'admin/transform/replace-post-slug-in-posts',
-                            TutorialLessons::SITE_MIGRATIONS,
-                            [
-                                ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
-                            ]
-                        ),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/replace-post-slug-in-posts',
+                                TutorialLessons::SITE_MIGRATIONS,
+                                [
+                                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                                ]
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Insert block in posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/insert-block-in-posts', TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/insert-block-in-posts',
+                                TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK,
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Remove block from posts', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/remove-block-from-posts', TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/remove-block-from-posts',
+                                TutorialLessons::INSERTING_REMOVING_A_GUTENBERG_BLOCK_IN_BULK,
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Translate post (Gutenberg)', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-gutenberg', TutorialLessons::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/translate-post-gutenberg',
+                                TutorialLessons::TRANSLATING_BLOCK_CONTENT_IN_A_POST_TO_A_DIFFERENT_LANGUAGE,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Translate posts (Gutenberg)', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-gutenberg', TutorialLessons::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/translate-posts-gutenberg',
+                                TutorialLessons::BULK_TRANSLATING_BLOCK_CONTENT_IN_MULTIPLE_POSTS_TO_A_DIFFERENT_LANGUAGE,
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Import post from WordPress site', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-site', TutorialLessons::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/sync/import-post-from-wp-site',
+                                TutorialLessons::IMPORTING_A_POST_FROM_ANOTHER_WORDPRESS_SITE,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Export post to WordPress site', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/export-post-to-wp-site', TutorialLessons::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/sync/export-post-to-wp-site',
+                                TutorialLessons::DISTRIBUTING_CONTENT_FROM_AN_UPSTREAM_TO_MULTIPLE_DOWNSTREAM_SITES,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch posts by thumbnail', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/posts-by-thumbnail', TutorialLessons::SEARCHING_WORDPRESS_DATA),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/report/posts-by-thumbnail',
+                                TutorialLessons::SEARCHING_WORDPRESS_DATA,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch users by locale', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/users-by-locale', TutorialLessons::SEARCHING_WORDPRESS_DATA),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/report/users-by-locale',
+                                TutorialLessons::SEARCHING_WORDPRESS_DATA,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch comments by period', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/comments-by-period', TutorialLessons::QUERYING_DYNAMIC_DATA),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/report/comments-by-period',
+                                TutorialLessons::QUERYING_DYNAMIC_DATA,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch image URLs in blocks', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/images-in-blocks', TutorialLessons::RETRIEVING_STRUCTURED_DATA_FROM_BLOCKS),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/report/images-in-blocks',
+                                TutorialLessons::RETRIEVING_STRUCTURED_DATA_FROM_BLOCKS,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
 
@@ -887,12 +1025,18 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             [
                 'post_title' => \__('Register a newsletter subscriber from InstaWP to Mailchimp', 'gatographql'),
                 'post_excerpt' => \__('Setup this persisted query\'s URL as webhook in an InstaWP template, to automatically capture the email from the visitors who ticked the "Subscribe to mailing list" checkbox (when creating a sandbox site), and send it straight to a Mailchimp list. More info: gatographql.com/blog/instawp-gatographql', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('webhook/register-a-newsletter-subscriber-from-instawp-to-mailchimp', TutorialLessons::AUTOMATICALLY_SENDING_NEWSLETTER_SUBSCRIBERS_FROM_INSTAWP_TO_MAILCHIMP),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'webhook/register-a-newsletter-subscriber-from-instawp-to-mailchimp',
+                                TutorialLessons::AUTOMATICALLY_SENDING_NEWSLETTER_SUBSCRIBERS_FROM_INSTAWP_TO_MAILCHIMP,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
     }
@@ -1128,26 +1272,42 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Translate content from URL', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-content-from-url', TutorialLessons::TRANSLATING_CONTENT_FROM_URL),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/translate-content-from-url'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/translate-content-from-url',
+                                TutorialLessons::TRANSLATING_CONTENT_FROM_URL,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/transform/translate-content-from-url',
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Import post from WordPress RSS feed', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed', VirtualTutorialLessons::IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-post-from-wp-rss-feed'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/sync/import-post-from-wp-rss-feed',
+                                VirtualTutorialLessons::IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/sync/import-post-from-wp-rss-feed',
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks();
@@ -1155,37 +1315,57 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Import posts from CSV', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-posts-from-csv', VirtualTutorialLessons::IMPORTING_POSTS_FROM_A_CSV),
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-posts-from-csv'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/sync/import-posts-from-csv',
+                                VirtualTutorialLessons::IMPORTING_POSTS_FROM_A_CSV,
+                            ),
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput(
+                                'admin/sync/import-posts-from-csv',
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Fetch post links', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/report/post-links', VirtualTutorialLessons::FETCH_POST_LINKS),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/report/post-links',
+                                VirtualTutorialLessons::FETCH_POST_LINKS,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         \wp_insert_post(array_merge(
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Translate post (Classic editor)', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-post-classic-editor', VirtualTutorialLessons::TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/translate-post-classic-editor',
+                                VirtualTutorialLessons::TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE,
+                            ),
+                        ],
                     ],
-                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                    ...$defaultSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
         $nestedMutationsSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsSchemaConfigurationPersistedQueryBlocks();
@@ -1193,12 +1373,18 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             $adminPersistedQueryOptions,
             [
                 'post_title' => \__('Translate posts (Classic editor)', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
-                    'attrs' => [
-                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-classic-editor', VirtualTutorialLessons::BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput(
+                                'admin/transform/translate-posts-classic-editor',
+                                VirtualTutorialLessons::BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE,
+                            ),
+                        ],
                     ],
-                ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ...$nestedMutationsSchemaConfigurationPersistedQueryBlocks,
+                ])),
             ]
         ));
     }
@@ -1328,7 +1514,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             return $endpointCategoryID;
         }
 
-        return $this->createEndpointCategoryID($slug, \__('Admin', 'gatographql'), \__('Internal admin tasks', 'gatographql'));
+        return $this->createEndpointCategoryID(
+            $slug,
+            \__('Admin', 'gatographql'),
+            \__('Internal admin tasks', 'gatographql'),
+        );
     }
 
     protected function getEndpointCategoryID(string $slug): ?int
@@ -1374,7 +1564,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             return $endpointCategoryID;
         }
 
-        return $this->createEndpointCategoryID($slug, \__('Webhook', 'gatographql'), \__('Process data from external services', 'gatographql'));
+        return $this->createEndpointCategoryID(
+            $slug,
+            \__('Webhook', 'gatographql'),
+            \__('Process data from external services', 'gatographql'),
+        );
     }
 
     /**
@@ -1392,7 +1586,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
 
         $graphQLPersistedQuery = $this->readSetupGraphQLPersistedQuery($relativeFilePath);
         if ($tutorialLessonSlug !== null) {
-            $graphQLPersistedQuery = $graphQLDocumentDataComposer->addRequiredBundlesAndExtensionsToGraphQLDocumentHeader($graphQLPersistedQuery, $tutorialLessonSlug, $skipExtensionModules);
+            $graphQLPersistedQuery = $graphQLDocumentDataComposer->addRequiredBundlesAndExtensionsToGraphQLDocumentHeader(
+                $graphQLPersistedQuery,
+                $tutorialLessonSlug,
+                $skipExtensionModules,
+            );
         }
         $graphQLPersistedQuery = $graphQLDocumentDataComposer->encodeGraphQLDocumentForOutput($graphQLPersistedQuery);
         return $graphQLPersistedQuery;
@@ -1404,8 +1602,10 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         return $this->readFile($persistedQueryFile);
     }
 
-    protected function getSetupGraphQLPersistedQueryFilePath(string $relativeFilePath, string $extension): string
-    {
+    protected function getSetupGraphQLPersistedQueryFilePath(
+        string $relativeFilePath,
+        string $extension,
+    ): string {
         $rootFolder = dirname(__DIR__, 2);
         $persistedQueriesFolder = $rootFolder . '/setup/persisted-queries';
         return $persistedQueriesFolder . '/' . $relativeFilePath . '.' . $extension;
@@ -1446,9 +1646,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     protected function addInnerContentToBlockAtts(array $blockDataItems): array
     {
         return array_map(
-            function (array $blockDataItem) {
-                return array_merge($blockDataItem, ['innerContent' => []]);
-            },
+            fn (array $blockDataItem) => [...$blockDataItem, 'innerContent' => []],
             $blockDataItems
         );
     }
@@ -1819,12 +2017,15 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             [
                 'post_title' => \__('Nested mutations + Entity as mutation payload type', 'gatographql'),
                 'post_excerpt' => \__('Private client to execute queries that create resources in bulk', 'gatographql'),
-                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
-                    'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
-                    'attrs' => [
-                        EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts([
+                    [
+                        'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                        'attrs' => [
+                            EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => $nestedMutationsPlusEntityAsPayloadTypeSchemaConfigurationCustomPostID ?? EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                        ],
                     ],
-                ]], $defaultCustomEndpointBlocks))),
+                    ...$defaultCustomEndpointBlocks
+                ])),
             ]
         ));
     }

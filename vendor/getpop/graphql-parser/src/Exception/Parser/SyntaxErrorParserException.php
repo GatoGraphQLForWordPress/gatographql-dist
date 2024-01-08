@@ -1,9 +1,9 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Exception\Parser;
 
-/** @internal */
-final class SyntaxErrorParserException extends \PoP\GraphQLParser\Exception\Parser\AbstractParserException
+final class SyntaxErrorParserException extends AbstractParserException
 {
 }

@@ -16,10 +16,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 
 class BlockObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPWPSchema\Blocks\FieldResolvers\InterfaceType\BlockInterfaceTypeFieldResolver|null
-     */
-    private $blockInterfaceTypeFieldResolver;
+    private ?BlockInterfaceTypeFieldResolver $blockInterfaceTypeFieldResolver = null;
 
     final public function setBlockInterfaceTypeFieldResolver(BlockInterfaceTypeFieldResolver $blockInterfaceTypeFieldResolver): void
     {
@@ -69,11 +66,12 @@ class BlockObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var BlockInterface */
         $block = $object;
         $fieldName = $fieldDataAccessor->getFieldName();
@@ -84,14 +82,13 @@ class BlockObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     return null;
                 }
                 return array_map(
-                    function (BlockInterface $block) {
-                        return $block->getID();
-                    },
+                    fn (BlockInterface $block) => $block->getID(),
                     $innerBlocks
                 );
             case 'contentSource':
                 return $block->getContentSource();
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -99,8 +96,10 @@ class BlockObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

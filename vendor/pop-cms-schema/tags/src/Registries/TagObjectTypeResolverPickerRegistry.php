@@ -1,24 +1,27 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\Registries;
 
 use PoPCMSSchema\Tags\ObjectTypeResolverPickers\TagObjectTypeResolverPickerInterface;
-/** @internal */
-class TagObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Tags\Registries\TagObjectTypeResolverPickerRegistryInterface
+
+class TagObjectTypeResolverPickerRegistry implements TagObjectTypeResolverPickerRegistryInterface
 {
     /**
      * @var TagObjectTypeResolverPickerInterface[]
      */
-    protected $tagObjectTypeResolverPickers = [];
-    public function addTagObjectTypeResolverPicker(TagObjectTypeResolverPickerInterface $tagObjectTypeResolverPicker) : void
+    protected array $tagObjectTypeResolverPickers = [];
+
+    public function addTagObjectTypeResolverPicker(TagObjectTypeResolverPickerInterface $tagObjectTypeResolverPicker): void
     {
         $this->tagObjectTypeResolverPickers[] = $tagObjectTypeResolverPicker;
     }
+
     /**
      * @return TagObjectTypeResolverPickerInterface[]
      */
-    public function getTagObjectTypeResolverPickers() : array
+    public function getTagObjectTypeResolverPickers(): array
     {
         return $this->tagObjectTypeResolverPickers;
     }

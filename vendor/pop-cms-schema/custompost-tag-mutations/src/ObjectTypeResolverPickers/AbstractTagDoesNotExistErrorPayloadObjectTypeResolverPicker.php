@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostTagMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\TagDoesNotExistErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 abstract class AbstractTagDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\TagDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $tagDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setTagDoesNotExistErrorPayloadObjectTypeResolver(TagDoesNotExistErrorPayloadObjectTypeResolver $tagDoesNotExistErrorPayloadObjectTypeResolver) : void
+    private ?TagDoesNotExistErrorPayloadObjectTypeResolver $tagDoesNotExistErrorPayloadObjectTypeResolver = null;
+
+    final public function setTagDoesNotExistErrorPayloadObjectTypeResolver(TagDoesNotExistErrorPayloadObjectTypeResolver $tagDoesNotExistErrorPayloadObjectTypeResolver): void
     {
         $this->tagDoesNotExistErrorPayloadObjectTypeResolver = $tagDoesNotExistErrorPayloadObjectTypeResolver;
     }
-    protected final function getTagDoesNotExistErrorPayloadObjectTypeResolver() : TagDoesNotExistErrorPayloadObjectTypeResolver
+    final protected function getTagDoesNotExistErrorPayloadObjectTypeResolver(): TagDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->tagDoesNotExistErrorPayloadObjectTypeResolver === null) {
             /** @var TagDoesNotExistErrorPayloadObjectTypeResolver */
@@ -27,11 +26,13 @@ abstract class AbstractTagDoesNotExistErrorPayloadObjectTypeResolverPicker exten
         }
         return $this->tagDoesNotExistErrorPayloadObjectTypeResolver;
     }
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface
+
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface
     {
         return $this->getTagDoesNotExistErrorPayloadObjectTypeResolver();
     }
-    protected function getTargetObjectClass() : string
+
+    protected function getTargetObjectClass(): string
     {
         return TagDoesNotExistErrorPayload::class;
     }

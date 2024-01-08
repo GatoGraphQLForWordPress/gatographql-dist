@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserStateMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\RootLogoutUserMutationErrorPayloadUnionTypeResolver;
@@ -8,18 +9,16 @@ use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\RootLogoutUserMutat
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class RootLogoutUserMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\RootLogoutUserMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootLogoutUserMutationErrorPayloadUnionTypeResolver;
-    public final function setRootLogoutUserMutationErrorPayloadUnionTypeResolver(RootLogoutUserMutationErrorPayloadUnionTypeResolver $rootLogoutUserMutationErrorPayloadUnionTypeResolver) : void
+    private ?RootLogoutUserMutationErrorPayloadUnionTypeResolver $rootLogoutUserMutationErrorPayloadUnionTypeResolver = null;
+
+    final public function setRootLogoutUserMutationErrorPayloadUnionTypeResolver(RootLogoutUserMutationErrorPayloadUnionTypeResolver $rootLogoutUserMutationErrorPayloadUnionTypeResolver): void
     {
         $this->rootLogoutUserMutationErrorPayloadUnionTypeResolver = $rootLogoutUserMutationErrorPayloadUnionTypeResolver;
     }
-    protected final function getRootLogoutUserMutationErrorPayloadUnionTypeResolver() : RootLogoutUserMutationErrorPayloadUnionTypeResolver
+    final protected function getRootLogoutUserMutationErrorPayloadUnionTypeResolver(): RootLogoutUserMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootLogoutUserMutationErrorPayloadUnionTypeResolver === null) {
             /** @var RootLogoutUserMutationErrorPayloadUnionTypeResolver */
@@ -28,14 +27,18 @@ class RootLogoutUserMutationPayloadErrorsFieldTransientOperationPayloadObjectTyp
         }
         return $this->rootLogoutUserMutationErrorPayloadUnionTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [RootLogoutUserMutationPayloadObjectTypeResolver::class];
+        return [
+            RootLogoutUserMutationPayloadObjectTypeResolver::class,
+        ];
     }
-    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         return $this->getRootLogoutUserMutationErrorPayloadUnionTypeResolver();
     }

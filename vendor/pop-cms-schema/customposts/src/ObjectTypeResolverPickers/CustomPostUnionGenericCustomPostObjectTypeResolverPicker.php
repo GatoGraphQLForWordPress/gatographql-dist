@@ -1,18 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-/** @internal */
-class CustomPostUnionGenericCustomPostObjectTypeResolverPicker extends \PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\AbstractGenericCustomPostObjectTypeResolverPicker
+
+class CustomPostUnionGenericCustomPostObjectTypeResolverPicker extends AbstractGenericCustomPostObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo() : array
+    public function getUnionTypeResolverClassesToAttachTo(): array
     {
-        return [CustomPostUnionTypeResolver::class];
+        return [
+            CustomPostUnionTypeResolver::class,
+        ];
     }
 }

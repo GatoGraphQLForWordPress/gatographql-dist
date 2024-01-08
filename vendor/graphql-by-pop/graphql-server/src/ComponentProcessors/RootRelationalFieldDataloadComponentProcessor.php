@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -10,20 +11,19 @@ use GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot;
 use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface;
 use PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
-/** @internal */
+
 class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT = 'dataload-relationalfields-queryroot';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT = 'dataload-relationalfields-mutationroot';
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
-     */
-    private $graphQLSchemaDefinitionService;
-    public final function setGraphQLSchemaDefinitionService(GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService) : void
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT = 'dataload-relationalfields-queryroot';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT = 'dataload-relationalfields-mutationroot';
+
+    private ?GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService = null;
+
+    final public function setGraphQLSchemaDefinitionService(GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService): void
     {
         $this->graphQLSchemaDefinitionService = $graphQLSchemaDefinitionService;
     }
-    protected final function getGraphQLSchemaDefinitionService() : GraphQLSchemaDefinitionServiceInterface
+    final protected function getGraphQLSchemaDefinitionService(): GraphQLSchemaDefinitionServiceInterface
     {
         if ($this->graphQLSchemaDefinitionService === null) {
             /** @var GraphQLSchemaDefinitionServiceInterface */
@@ -32,19 +32,24 @@ class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFi
         }
         return $this->graphQLSchemaDefinitionService;
     }
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT, self::COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT);
+        return array(
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT,
+        );
     }
+
     /**
      * @return string|int|array<string|int>|null
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties): string|int|array|null
     {
         if (App::getState('does-api-query-have-errors')) {
             return null;
@@ -57,7 +62,8 @@ class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFi
         }
         return parent::getObjectIDOrIDs($component, $props, $data_properties);
     }
-    public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface
+
+    public function getRelationalTypeResolver(Component $component): ?RelationalTypeResolverInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT:
@@ -65,6 +71,7 @@ class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFi
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT:
                 return $this->getGraphQLSchemaDefinitionService()->getSchemaMutationRootObjectTypeResolver();
         }
+
         return parent::getRelationalTypeResolver($component);
     }
 }

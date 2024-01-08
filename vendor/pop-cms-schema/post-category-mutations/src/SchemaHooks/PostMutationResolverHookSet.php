@@ -1,25 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategoryMutations\SchemaHooks;
 
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostCategoryMutations\SchemaHooks\AbstractCustomPostMutationResolverHookSet;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoPCMSSchema\PostMutations\SchemaHooks\PostMutationResolverHookSetTrait;
-/** @internal */
+
 class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use PostMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
+
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+
+    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
     {
         $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
-    protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
+    final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
             /** @var PostCategoryObjectTypeResolver */
@@ -28,7 +28,8 @@ class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHook
         }
         return $this->postCategoryObjectTypeResolver;
     }
-    protected function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface
+
+    protected function getCategoryTypeResolver(): CategoryObjectTypeResolverInterface
     {
         return $this->getPostCategoryObjectTypeResolver();
     }

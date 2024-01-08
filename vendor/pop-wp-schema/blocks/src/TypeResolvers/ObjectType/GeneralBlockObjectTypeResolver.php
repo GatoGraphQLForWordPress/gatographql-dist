@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 
 class GeneralBlockObjectTypeResolver extends AbstractBlockObjectTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\Blocks\RelationalTypeDataLoaders\ObjectType\GeneralBlockObjectTypeDataLoader|null
-     */
-    private $genericBlockObjectTypeDataLoader;
+    private ?GeneralBlockObjectTypeDataLoader $genericBlockObjectTypeDataLoader = null;
 
     final public function setGeneralBlockObjectTypeDataLoader(GeneralBlockObjectTypeDataLoader $genericBlockObjectTypeDataLoader): void
     {

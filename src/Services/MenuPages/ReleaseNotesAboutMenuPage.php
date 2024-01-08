@@ -13,10 +13,7 @@ class ReleaseNotesAboutMenuPage extends AbstractDocAboutMenuPage
 {
     use PluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\AboutMenuPage|null
-     */
-    private $aboutMenuPage;
+    private ?AboutMenuPage $aboutMenuPage = null;
 
     final public function setAboutMenuPage(AboutMenuPage $aboutMenuPage): void
     {

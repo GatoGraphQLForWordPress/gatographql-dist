@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\App\Architecture\Downgrade\PHP81;
 
 /**
@@ -10,14 +11,9 @@ namespace PoP\Root\App\Architecture\Downgrade\PHP81;
  * If this feature is not present in the code anymore, then it's been downgraded.
  *
  * @see AppArchitecture::isDowngraded()
- * @internal
  */
 class ObserveDowngradeClassSample
 {
     // @phpstan-ignore-next-line
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $property;
+    protected readonly string $property;
 }

@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+namespace Symfony\Component\Config\Definition;
+
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+
 /**
  * This node represents a value of variable type in the config tree.
  *
@@ -18,34 +20,34 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidConfigura
  * Any PHP type is accepted as a value.
  *
  * @author Jeremy Mikola <jmikola@gmail.com>
- * @internal
  */
 class VariableNode extends BaseNode implements PrototypeNodeInterface
 {
-    protected $defaultValueSet = \false;
+    protected $defaultValueSet = false;
     protected $defaultValue;
-    protected $allowEmptyValue = \true;
+    protected $allowEmptyValue = true;
+
     /**
      * @return void
-     * @param mixed $value
      */
-    public function setDefaultValue($value)
+    public function setDefaultValue(mixed $value)
     {
-        $this->defaultValueSet = \true;
+        $this->defaultValueSet = true;
         $this->defaultValue = $value;
     }
-    public function hasDefaultValue() : bool
+
+    public function hasDefaultValue(): bool
     {
         return $this->defaultValueSet;
     }
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+
+    public function getDefaultValue(): mixed
     {
         $v = $this->defaultValue;
+
         return $v instanceof \Closure ? $v() : $v;
     }
+
     /**
      * Sets if this node is allowed to have an empty value.
      *
@@ -57,6 +59,7 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
     {
         $this->allowEmptyValue = $boolean;
     }
+
     /**
      * @return void
      */
@@ -64,56 +67,51 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
     {
         $this->name = $name;
     }
+
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function finalizeValue($value)
+
+    protected function finalizeValue(mixed $value): mixed
     {
         // deny environment variables only when using custom validators
         // this avoids ever passing an empty value to final validation closures
         if (!$this->allowEmptyValue && $this->isHandlingPlaceholder() && $this->finalValidationClosures) {
-            $e = new InvalidConfigurationException(\sprintf('The path "%s" cannot contain an environment variable when empty values are not allowed by definition and are validated.', $this->getPath()));
+            $e = new InvalidConfigurationException(sprintf('The path "%s" cannot contain an environment variable when empty values are not allowed by definition and are validated.', $this->getPath()));
             if ($hint = $this->getInfo()) {
                 $e->addHint($hint);
             }
             $e->setPath($this->getPath());
+
             throw $e;
         }
+
         if (!$this->allowEmptyValue && $this->isValueEmpty($value)) {
-            $ex = new InvalidConfigurationException(\sprintf('The path "%s" cannot contain an empty value, but got %s.', $this->getPath(), \json_encode($value)));
+            $ex = new InvalidConfigurationException(sprintf('The path "%s" cannot contain an empty value, but got %s.', $this->getPath(), json_encode($value)));
             if ($hint = $this->getInfo()) {
                 $ex->addHint($hint);
             }
             $ex->setPath($this->getPath());
+
             throw $ex;
         }
+
         return $value;
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function normalizeValue($value)
+
+    protected function normalizeValue(mixed $value): mixed
     {
         return $value;
     }
-    /**
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
-     */
-    protected function mergeValues($leftSide, $rightSide)
+
+    protected function mergeValues(mixed $leftSide, mixed $rightSide): mixed
     {
         return $rightSide;
     }
+
     /**
      * Evaluates if the given value is to be treated as empty.
      *
@@ -122,9 +120,8 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
      * of empty data.
      *
      * @see finalizeValue()
-     * @param mixed $value
      */
-    protected function isValueEmpty($value) : bool
+    protected function isValueEmpty(mixed $value): bool
     {
         return empty($value);
     }

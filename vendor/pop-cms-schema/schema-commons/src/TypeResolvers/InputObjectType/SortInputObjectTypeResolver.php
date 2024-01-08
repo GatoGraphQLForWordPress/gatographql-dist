@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -11,30 +12,19 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\OrderByFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\OrderFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\EnumType\OrderEnumTypeResolver;
 use PoPSchema\SchemaCommons\Constants\Order;
-/** @internal */
+
 class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\EnumType\OrderEnumTypeResolver|null
-     */
-    private $orderEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OrderByFilterInput|null
-     */
-    private $excludeIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OrderFilterInput|null
-     */
-    private $includeFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?OrderEnumTypeResolver $orderEnumTypeResolver = null;
+    private ?OrderByFilterInput $excludeIDsFilterInput = null;
+    private ?OrderFilterInput $includeFilterInput = null;
+
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -43,11 +33,11 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setOrderEnumTypeResolver(OrderEnumTypeResolver $orderEnumTypeResolver) : void
+    final public function setOrderEnumTypeResolver(OrderEnumTypeResolver $orderEnumTypeResolver): void
     {
         $this->orderEnumTypeResolver = $orderEnumTypeResolver;
     }
-    protected final function getOrderEnumTypeResolver() : OrderEnumTypeResolver
+    final protected function getOrderEnumTypeResolver(): OrderEnumTypeResolver
     {
         if ($this->orderEnumTypeResolver === null) {
             /** @var OrderEnumTypeResolver */
@@ -56,11 +46,11 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
         }
         return $this->orderEnumTypeResolver;
     }
-    public final function setOrderByFilterInput(OrderByFilterInput $excludeIDsFilterInput) : void
+    final public function setOrderByFilterInput(OrderByFilterInput $excludeIDsFilterInput): void
     {
         $this->excludeIDsFilterInput = $excludeIDsFilterInput;
     }
-    protected final function getOrderByFilterInput() : OrderByFilterInput
+    final protected function getOrderByFilterInput(): OrderByFilterInput
     {
         if ($this->excludeIDsFilterInput === null) {
             /** @var OrderByFilterInput */
@@ -69,11 +59,11 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
         }
         return $this->excludeIDsFilterInput;
     }
-    public final function setOrderFilterInput(OrderFilterInput $includeFilterInput) : void
+    final public function setOrderFilterInput(OrderFilterInput $includeFilterInput): void
     {
         $this->includeFilterInput = $includeFilterInput;
     }
-    protected final function getOrderFilterInput() : OrderFilterInput
+    final protected function getOrderFilterInput(): OrderFilterInput
     {
         if ($this->includeFilterInput === null) {
             /** @var OrderFilterInput */
@@ -82,53 +72,51 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
         }
         return $this->includeFilterInput;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'SortInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to sort custom posts', 'customposts');
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
-        return ['order' => $this->getOrderEnumTypeResolver(), 'by' => $this->getStringScalarTypeResolver()];
+        return [
+            'order' => $this->getOrderEnumTypeResolver(),
+            'by' => $this->getStringScalarTypeResolver(),
+        ];
     }
-    public function getInputFieldDescription(string $inputFieldName) : ?string
+
+    public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return $this->__('Sorting direction', 'schema-commons');
-            case 'by':
-                return $this->__('Property to order by', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => $this->__('Sorting direction', 'schema-commons'),
+            'by' => $this->__('Property to order by', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+
+    public function getInputFieldDefaultValue(string $inputFieldName): mixed
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return Order::DESC;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => Order::DESC,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
-    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
+
+    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return $this->getOrderFilterInput();
-            case 'by':
-                return $this->getOrderByFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => $this->getOrderFilterInput(),
+            'by' => $this->getOrderByFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

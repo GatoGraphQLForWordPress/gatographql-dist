@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Exception\InvalidRequestException;
@@ -10,30 +11,30 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Fragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use SplObjectStorage;
-/** @internal */
+
 interface DocumentInterface
 {
-    /**
+/**
      * @return OperationInterface[]
      */
-    public function getOperations() : array;
+    public function getOperations(): array;
     /**
      * @return Fragment[]
      */
-    public function getFragments() : array;
-    public function getFragment(string $name) : ?Fragment;
+    public function getFragments(): array;
+    public function getFragment(string $name): ?Fragment;
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException
      */
-    public function validate() : void;
+    public function validate(): void;
     /**
      * Gather all the VariableReference within the Operation.
      *
      * @return VariableReference[]
      */
-    public function getVariableReferencesInOperation(OperationInterface $operation) : array;
-    public function asDocumentString() : string;
+    public function getVariableReferencesInOperation(OperationInterface $operation): array;
+    public function asDocumentString(): string;
     /**
      * Create a dictionary mapping every element of the AST
      * to their parent. This is useful to report the full
@@ -41,5 +42,5 @@ interface DocumentInterface
      *
      * @return SplObjectStorage<AstInterface,AstInterface>
      */
-    public function getASTNodeAncestors() : SplObjectStorage;
+    public function getASTNodeAncestors(): SplObjectStorage;
 }

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\SchemaCommons\FieldResolvers\InterfaceType;
 
 use PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver;
@@ -9,18 +10,16 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
-/** @internal */
+
 class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -29,45 +28,48 @@ class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldR
         }
         return $this->stringScalarTypeResolver;
     }
+
     /**
      * @return array<class-string<InterfaceTypeResolverInterface>>
      */
-    public function getInterfaceTypeResolverClassesToAttachTo() : array
+    public function getInterfaceTypeResolverClassesToAttachTo(): array
     {
-        return [ErrorPayloadInterfaceTypeResolver::class];
+        return [
+            ErrorPayloadInterfaceTypeResolver::class,
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToImplement() : array
+    public function getFieldNamesToImplement(): array
     {
-        return ['message'];
+        return [
+            'message',
+        ];
     }
-    public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'message':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
-    public function getFieldTypeModifiers(string $fieldName) : int
+
+    public function getFieldTypeModifiers(string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'message':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($fieldName),
+        };
     }
-    public function getFieldDescription(string $fieldName) : ?string
+
+    public function getFieldDescription(string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'message':
-                return $this->__('Error message', 'schema-commons');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => $this->__('Error message', 'schema-commons'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

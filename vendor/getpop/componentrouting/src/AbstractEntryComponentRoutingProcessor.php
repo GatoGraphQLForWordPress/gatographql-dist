@@ -1,16 +1,18 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentRouting;
 
-/** @internal */
-abstract class AbstractEntryComponentRoutingProcessor extends \PoP\ComponentRouting\AbstractComponentRoutingProcessor
+abstract class AbstractEntryComponentRoutingProcessor extends AbstractComponentRoutingProcessor
 {
     /**
      * @return string[]
      */
-    public function getGroups() : array
+    public function getGroups(): array
     {
-        return [\PoP\ComponentRouting\ComponentRoutingGroups::ENTRYCOMPONENT];
+        return [
+            ComponentRoutingGroups::ENTRYCOMPONENT,
+        ];
     }
 }

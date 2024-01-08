@@ -18,7 +18,11 @@ trait MarkdownContentRetrieverTrait
         string $relativePathDir = '',
         array $options = []
     ): ?string {
-        $this->initializeMarkdownContentParser($markdownFilename, $relativePathDir, $options);
+        $this->initializeMarkdownContentParser(
+            $markdownFilename,
+            $relativePathDir,
+            $options,
+        );
         try {
             return $this->getMarkdownContentParser()->getContent(
                 $markdownFilename,
@@ -26,7 +30,7 @@ trait MarkdownContentRetrieverTrait
                 $relativePathDir,
                 $options
             );
-        } catch (ContentNotExistsException $exception) {
+        } catch (ContentNotExistsException) {
             return null;
         }
     }

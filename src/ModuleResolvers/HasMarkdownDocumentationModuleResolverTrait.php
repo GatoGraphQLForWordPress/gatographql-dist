@@ -43,14 +43,19 @@ trait HasMarkdownDocumentationModuleResolverTrait
             return null;
         }
 
-        return $this->getDocumentationMarkdownContent($module, $markdownFilename) ?? sprintf(
+        return $this->getDocumentationMarkdownContent(
+            $module,
+            $markdownFilename,
+        ) ?? sprintf(
             '<p>%s</p>',
             \__('Oops, the documentation for this module is not available', 'gatographql')
         );
     }
 
-    protected function getDocumentationMarkdownContent(string $module, string $markdownFilename): ?string
-    {
+    protected function getDocumentationMarkdownContent(
+        string $module,
+        string $markdownFilename,
+    ): ?string {
         return $this->getMarkdownContent(
             $markdownFilename,
             $this->getDocumentationMarkdownContentRelativePathDir($module),
@@ -68,8 +73,9 @@ trait HasMarkdownDocumentationModuleResolverTrait
         ];
     }
 
-    protected function getDocumentationMarkdownContentRelativePathDir(string $module): string
-    {
+    protected function getDocumentationMarkdownContentRelativePathDir(
+        string $module,
+    ): string {
         return 'modules';
     }
 }

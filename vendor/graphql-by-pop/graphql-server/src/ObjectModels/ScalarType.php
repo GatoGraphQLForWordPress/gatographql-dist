@@ -1,17 +1,19 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-/** @internal */
-class ScalarType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedType
+
+class ScalarType extends AbstractNamedType
 {
-    public function getKind() : string
+    public function getKind(): string
     {
-        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::SCALAR;
+        return TypeKinds::SCALAR;
     }
-    public function getSpecifiedByURL() : ?string
+
+    public function getSpecifiedByURL(): ?string
     {
         return $this->schemaDefinition[SchemaDefinition::SPECIFIED_BY_URL] ?? null;
     }

@@ -1,30 +1,27 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
-/** @internal */
 class FeedbackStore
 {
-    /**
-     * @var \PoP\ComponentModel\Feedback\GeneralFeedbackStore
-     */
-    public $generalFeedbackStore;
-    /**
-     * @var \PoP\ComponentModel\Feedback\DocumentFeedbackStore
-     */
-    public $documentFeedbackStore;
+    public GeneralFeedbackStore $generalFeedbackStore;
+    public DocumentFeedbackStore $documentFeedbackStore;
+
     public function __construct()
     {
         $this->generateGeneralFeedbackStore();
         $this->generateDocumentFeedbackStore();
     }
-    public function generateGeneralFeedbackStore() : void
+
+    public function generateGeneralFeedbackStore(): void
     {
-        $this->generalFeedbackStore = new \PoP\ComponentModel\Feedback\GeneralFeedbackStore();
+        $this->generalFeedbackStore = new GeneralFeedbackStore();
     }
-    public function generateDocumentFeedbackStore() : void
+
+    public function generateDocumentFeedbackStore(): void
     {
-        $this->documentFeedbackStore = new \PoP\ComponentModel\Feedback\DocumentFeedbackStore();
+        $this->documentFeedbackStore = new DocumentFeedbackStore();
     }
 }

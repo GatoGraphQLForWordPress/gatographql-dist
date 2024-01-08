@@ -20,12 +20,9 @@ class DeprecatedClientFunctionalityModuleResolver extends AbstractFunctionalityM
     use ModuleResolverTrait;
     use ClientFunctionalityModuleResolverTrait;
 
-    public const GRAPHIQL_EXPLORER = Plugin::NAMESPACE . '\graphiql-explorer';
+    public final const GRAPHIQL_EXPLORER = Plugin::NAMESPACE . '\graphiql-explorer';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -65,22 +62,18 @@ class DeprecatedClientFunctionalityModuleResolver extends AbstractFunctionalityM
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::GRAPHIQL_EXPLORER:
-                return \__('GraphiQL Explorer', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::GRAPHIQL_EXPLORER => \__('GraphiQL Explorer', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::GRAPHIQL_EXPLORER:
-                return \__('Add the Explorer widget to the GraphiQL client, to simplify coding the query (by point-and-clicking on the fields)', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::GRAPHIQL_EXPLORER => \__('Add the Explorer widget to the GraphiQL client, to simplify coding the query (by point-and-clicking on the fields)', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     /**
@@ -95,12 +88,10 @@ class DeprecatedClientFunctionalityModuleResolver extends AbstractFunctionalityM
      */
     public function isHidden(string $module): bool
     {
-        switch ($module) {
-            case self::GRAPHIQL_EXPLORER:
-                return true;
-            default:
-                return parent::isHidden($module);
-        }
+        return match ($module) {
+            self::GRAPHIQL_EXPLORER => true,
+            default => parent::isHidden($module),
+        };
     }
 
     /**
@@ -115,11 +106,9 @@ class DeprecatedClientFunctionalityModuleResolver extends AbstractFunctionalityM
      */
     public function areSettingsHidden(string $module): bool
     {
-        switch ($module) {
-            case self::GRAPHIQL_EXPLORER:
-                return true;
-            default:
-                return parent::areSettingsHidden($module);
-        }
+        return match ($module) {
+            self::GRAPHIQL_EXPLORER => true,
+            default => parent::areSettingsHidden($module),
+        };
     }
 }

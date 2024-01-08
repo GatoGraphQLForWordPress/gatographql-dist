@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Posts\ConditionalOnModule\Users\ConditionalOnModule\API\ComponentRoutingProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -11,21 +12,32 @@ use PoPCMSSchema\Posts\Module;
 use PoPCMSSchema\Posts\ModuleConfiguration;
 use PoPCMSSchema\Posts\ConditionalOnModule\Users\ConditionalOnModule\API\ComponentProcessors\FieldDataloadComponentProcessor;
 use PoPCMSSchema\Users\Routing\RequestNature;
-/** @internal */
+
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
     /**
      * @return array<string,array<string,array<array<string,mixed>>>>
      */
-    public function getStatePropertiesToSelectComponentByNatureAndRoute() : array
+    public function getStatePropertiesToSelectComponentByNatureAndRoute(): array
     {
         $ret = array();
+
         // Author's posts
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        $routeComponents = array($moduleConfiguration->getPostsRoute() => new Component(FieldDataloadComponentProcessor::class, FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORPOSTLIST));
+        $routeComponents = array(
+            $moduleConfiguration->getPostsRoute() => new Component(
+                FieldDataloadComponentProcessor::class,
+                FieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORPOSTLIST
+            ),
+        );
         foreach ($routeComponents as $route => $component) {
-            $ret[RequestNature::USER][$route][] = ['component' => $component, 'conditions' => ['scheme' => APISchemes::API]];
+            $ret[RequestNature::USER][$route][] = [
+                'component' => $component,
+                'conditions' => [
+                    'scheme' => APISchemes::API,
+                ],
+            ];
         }
         return $ret;
     }

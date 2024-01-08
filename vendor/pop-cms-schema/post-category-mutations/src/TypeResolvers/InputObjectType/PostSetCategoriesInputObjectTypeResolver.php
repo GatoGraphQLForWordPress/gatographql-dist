@@ -1,17 +1,18 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType;
 
-/** @internal */
-class PostSetCategoriesInputObjectTypeResolver extends \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\AbstractSetCategoriesOnPostInputObjectTypeResolver
+class PostSetCategoriesInputObjectTypeResolver extends AbstractSetCategoriesOnPostInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'PostSetCategoriesInput';
     }
-    protected function addCustomPostInputField() : bool
+
+    protected function addCustomPostInputField(): bool
     {
-        return \false;
+        return false;
     }
 }

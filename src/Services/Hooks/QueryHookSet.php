@@ -15,12 +15,9 @@ use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 
 class QueryHookSet extends AbstractHookSet
 {
-    public const NON_EXISTING_ID = "non-existing";
+    public final const NON_EXISTING_ID = "non-existing";
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
-     */
-    private $customPostTypeRegistry;
+    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
 
     final public function setCustomPostTypeRegistry(CustomPostTypeRegistryInterface $customPostTypeRegistry): void
     {
@@ -40,7 +37,7 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             CustomPostTypeAPI::HOOK_QUERY,
-            \Closure::fromCallable([$this, 'convertCustomPostsQuery']),
+            $this->convertCustomPostsQuery(...),
             10,
             2
         );
@@ -71,9 +68,7 @@ class QueryHookSet extends AbstractHookSet
             $query['post_type'] = array_values(array_diff(
                 is_array($query['post_type']) ? $query['post_type'] : [$query['post_type']],
                 array_map(
-                    function (CustomPostTypeInterface $customPostTypeService) {
-                        return $customPostTypeService->getCustomPostType();
-                    },
+                    fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService->getCustomPostType(),
                     $customPostTypeServices
                 )
             ));

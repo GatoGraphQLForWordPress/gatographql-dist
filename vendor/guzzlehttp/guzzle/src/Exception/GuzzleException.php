@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GuzzleHttp\Exception;
 
-use PrefixedByPoP\Psr\Http\Client\ClientExceptionInterface;
-/** @internal */
+use Psr\Http\Client\ClientExceptionInterface;
+
 interface GuzzleException extends ClientExceptionInterface
 {
 }

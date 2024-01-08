@@ -1,22 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\TypeResolvers\ObjectType;
 
 use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPCMSSchema\Taxonomies\TypeResolvers\ObjectType\AbstractTaxonomyObjectTypeResolver;
-/** @internal */
-abstract class AbstractTagObjectTypeResolver extends AbstractTaxonomyObjectTypeResolver implements \PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface
+
+abstract class AbstractTagObjectTypeResolver extends AbstractTaxonomyObjectTypeResolver implements TagObjectTypeResolverInterface
 {
-    public abstract function getTagTypeAPI() : TagTypeAPIInterface;
-    public function getTypeDescription() : ?string
+    abstract public function getTagTypeAPI(): TagTypeAPIInterface;
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Representation of a tag, added to a custom post', 'tags');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+
+    public function getID(object $object): string|int|null
     {
         $tagTypeAPI = $this->getTagTypeAPI();
         $tag = $object;

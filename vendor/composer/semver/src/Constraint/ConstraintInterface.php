@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver\Constraint;
+
+namespace Composer\Semver\Constraint;
 
 /**
  * DO NOT IMPLEMENT this interface. It is only meant for usage as a type hint
  * in libraries relying on composer/semver but creating your own constraint class
  * that implements this interface is not a supported use case and will cause the
  * composer/semver components to return unexpected results.
- * @internal
  */
 interface ConstraintInterface
 {
@@ -27,6 +27,7 @@ interface ConstraintInterface
      * @return bool
      */
     public function matches(ConstraintInterface $provider);
+
     /**
      * Provides a compiled version of the constraint for the given operator
      * The compiled version must be a PHP expression.
@@ -44,24 +45,29 @@ interface ConstraintInterface
      * @phpstan-param Constraint::OP_* $otherOperator
      */
     public function compile($otherOperator);
+
     /**
      * @return Bound
      */
     public function getUpperBound();
+
     /**
      * @return Bound
      */
     public function getLowerBound();
+
     /**
      * @return string
      */
     public function getPrettyString();
+
     /**
      * @param string|null $prettyString
      *
      * @return void
      */
     public function setPrettyString($prettyString);
+
     /**
      * @return string
      */

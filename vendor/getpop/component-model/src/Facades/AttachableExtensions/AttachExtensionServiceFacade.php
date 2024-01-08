@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\AttachableExtensions;
 
 use PoP\Root\App;
 use PoP\ComponentModel\AttachableExtensions\AttachExtensionServiceInterface;
-/** @internal */
+
 class AttachExtensionServiceFacade
 {
-    public static function getInstance() : AttachExtensionServiceInterface
+    public static function getInstance(): AttachExtensionServiceInterface
     {
         /**
          * @var AttachExtensionServiceInterface

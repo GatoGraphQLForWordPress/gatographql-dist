@@ -1,20 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\PersistedQueries;
 
-/** @internal */
 interface PersistedQueryManagerInterface
 {
     /**
      * @return array<string,string>
      */
-    public function getPersistedQueries() : array;
-    public function getPersistedQuery(string $queryName) : ?string;
-    public function hasPersistedQuery(string $queryName) : bool;
-    public function addPersistedQuery(string $queryName, string $queryResolution, ?string $description = null) : void;
+    public function getPersistedQueries(): array;
+    public function getPersistedQuery(string $queryName): ?string;
+    public function hasPersistedQuery(string $queryName): bool;
+    public function addPersistedQuery(string $queryName, string $queryResolution, ?string $description = null): void;
     /**
      * @return array<string,array<string,string>>
      */
-    public function getPersistedQueriesForSchema() : array;
+    public function getPersistedQueriesForSchema(): array;
 }

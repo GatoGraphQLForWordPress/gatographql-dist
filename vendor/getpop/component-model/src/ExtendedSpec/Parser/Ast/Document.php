@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ExtendedSpec\Parser\Ast;
 
 use PoP\ComponentModel\DirectiveResolvers\DynamicVariableDefinerFieldDirectiveResolverInterface;
@@ -11,22 +12,17 @@ use PoP\GraphQLParser\ExtendedSpec\Parser\Ast\AbstractDocument;
 use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
-/** @internal */
+
 class Document extends AbstractDocument
 {
-    /**
-     * @var \PoP\ComponentModel\Registries\DynamicVariableDefinerDirectiveRegistryInterface|null
-     */
-    private $dynamicVariableDefinerDirectiveRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface|null
-     */
-    private $operationDependencyDefinerDirectiveRegistry;
-    public final function setDynamicVariableDefinerDirectiveRegistry(DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry) : void
+    private ?DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry = null;
+    private ?OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry = null;
+
+    final public function setDynamicVariableDefinerDirectiveRegistry(DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry): void
     {
         $this->dynamicVariableDefinerDirectiveRegistry = $dynamicVariableDefinerDirectiveRegistry;
     }
-    protected final function getDynamicVariableDefinerDirectiveRegistry() : DynamicVariableDefinerDirectiveRegistryInterface
+    final protected function getDynamicVariableDefinerDirectiveRegistry(): DynamicVariableDefinerDirectiveRegistryInterface
     {
         if ($this->dynamicVariableDefinerDirectiveRegistry === null) {
             /** @var DynamicVariableDefinerDirectiveRegistryInterface */
@@ -35,11 +31,11 @@ class Document extends AbstractDocument
         }
         return $this->dynamicVariableDefinerDirectiveRegistry;
     }
-    public final function setOperationDependencyDefinerDirectiveRegistry(OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry) : void
+    final public function setOperationDependencyDefinerDirectiveRegistry(OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry): void
     {
         $this->operationDependencyDefinerDirectiveRegistry = $operationDependencyDefinerDirectiveRegistry;
     }
-    protected final function getOperationDependencyDefinerDirectiveRegistry() : OperationDependencyDefinerDirectiveRegistryInterface
+    final protected function getOperationDependencyDefinerDirectiveRegistry(): OperationDependencyDefinerDirectiveRegistryInterface
     {
         if ($this->operationDependencyDefinerDirectiveRegistry === null) {
             /** @var OperationDependencyDefinerDirectiveRegistryInterface */
@@ -48,37 +44,44 @@ class Document extends AbstractDocument
         }
         return $this->operationDependencyDefinerDirectiveRegistry;
     }
-    protected function isDynamicVariableDefinerDirective(Directive $directive) : bool
+
+    protected function isDynamicVariableDefinerDirective(Directive $directive): bool
     {
         return $this->getDynamicVariableDefinerFieldDirectiveResolver($directive) !== null;
     }
-    protected function getDynamicVariableDefinerFieldDirectiveResolver(Directive $directive) : ?DynamicVariableDefinerFieldDirectiveResolverInterface
+
+    protected function getDynamicVariableDefinerFieldDirectiveResolver(Directive $directive): ?DynamicVariableDefinerFieldDirectiveResolverInterface
     {
         return $this->getDynamicVariableDefinerDirectiveRegistry()->getDynamicVariableDefinerFieldDirectiveResolver($directive->getName());
     }
+
     /**
      * @return Argument[]|null
      */
-    protected function getExportUnderVariableNameArguments(Directive $directive) : ?array
+    protected function getExportUnderVariableNameArguments(Directive $directive): ?array
     {
         $dynamicVariableDefinerFieldDirectiveResolver = $this->getDynamicVariableDefinerFieldDirectiveResolver($directive);
         if ($dynamicVariableDefinerFieldDirectiveResolver === null) {
             return null;
         }
         $exportUnderVariableNameArgumentNames = $dynamicVariableDefinerFieldDirectiveResolver->getExportUnderVariableNameArgumentNames();
-        return \array_values(\array_filter(\array_map(function (string $exportUnderVariableNameArgumentName) use($directive) {
-            return $directive->getArgument($exportUnderVariableNameArgumentName);
-        }, $exportUnderVariableNameArgumentNames)));
+        return array_values(array_filter(array_map(
+            fn (string $exportUnderVariableNameArgumentName) => $directive->getArgument($exportUnderVariableNameArgumentName),
+            $exportUnderVariableNameArgumentNames
+        )));
     }
-    protected function isOperationDependencyDefinerDirective(Directive $directive) : bool
+
+    protected function isOperationDependencyDefinerDirective(Directive $directive): bool
     {
         return $this->getOperationDependencyDefinerFieldDirectiveResolver($directive) !== null;
     }
-    protected function getOperationDependencyDefinerFieldDirectiveResolver(Directive $directive) : ?OperationDependencyDefinerFieldDirectiveResolverInterface
+
+    protected function getOperationDependencyDefinerFieldDirectiveResolver(Directive $directive): ?OperationDependencyDefinerFieldDirectiveResolverInterface
     {
         return $this->getOperationDependencyDefinerDirectiveRegistry()->getOperationDependencyDefinerFieldDirectiveResolver($directive->getName());
     }
-    protected function getProvideDependedUponOperationNamesArgument(Directive $directive) : ?Argument
+
+    protected function getProvideDependedUponOperationNamesArgument(Directive $directive): ?Argument
     {
         $operationDependencyDefinerFieldDirectiveResolver = $this->getOperationDependencyDefinerFieldDirectiveResolver($directive);
         if ($operationDependencyDefinerFieldDirectiveResolver === null) {

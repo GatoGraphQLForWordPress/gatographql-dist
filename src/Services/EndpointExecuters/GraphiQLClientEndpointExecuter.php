@@ -13,14 +13,8 @@ use GraphQLByPoP\GraphQLClientsForWP\Clients\AbstractClient;
 
 class GraphiQLClientEndpointExecuter extends AbstractClientEndpointExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Clients\CustomEndpointGraphiQLClient|null
-     */
-    private $customEndpointGraphiQLClient;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\EndpointAnnotators\GraphiQLClientEndpointAnnotator|null
-     */
-    private $graphiQLClientEndpointAnnotator;
+    private ?CustomEndpointGraphiQLClient $customEndpointGraphiQLClient = null;
+    private ?GraphiQLClientEndpointAnnotator $graphiQLClientEndpointAnnotator = null;
 
     final public function setCustomEndpointGraphiQLClient(CustomEndpointGraphiQLClient $customEndpointGraphiQLClient): void
     {

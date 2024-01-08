@@ -1,15 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-/** @internal */
-interface OperationInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
+interface OperationInterface extends AstInterface, LocatableInterface, WithDirectivesInterface, WithFieldsOrFragmentBondsInterface
 {
-    public function getName() : string;
-    public function getOperationType() : string;
+    public function getName(): string;
+    public function getOperationType(): string;
+
     /**
      * @return Variable[]
      */
-    public function getVariables() : array;
+    public function getVariables(): array;
 }

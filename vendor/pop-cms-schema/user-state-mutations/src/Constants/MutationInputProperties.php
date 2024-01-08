@@ -1,12 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserStateMutations\Constants;
 
-/** @internal */
 class MutationInputProperties
 {
-    public const BY = 'by';
-    public const USERNAME_OR_EMAIL = 'usernameOrEmail';
-    public const PASSWORD = 'password';
+    public final const BY = 'by';
+    public final const USERNAME_OR_EMAIL = 'usernameOrEmail';
+    public final const PASSWORD = 'password';
 }

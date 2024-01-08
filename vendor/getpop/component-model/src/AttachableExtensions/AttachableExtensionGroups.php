@@ -1,14 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\AttachableExtensions;
 
-/** @internal */
 class AttachableExtensionGroups
 {
-    public const OBJECT_TYPE_FIELD_RESOLVERS = 'object-type-field-resolvers';
-    public const INTERFACE_TYPE_FIELD_RESOLVERS = 'interface-type-field-resolvers';
-    public const DIRECTIVE_RESOLVERS = 'directive-resolvers';
-    public const OBJECT_TYPE_RESOLVER_PICKERS = 'object-type-resolver-pickers';
-    public const RELATIONAL_TYPE_RESOLVER_DECORATORS = 'relational-type-resolver-decorators';
+    public final const OBJECT_TYPE_FIELD_RESOLVERS = 'object-type-field-resolvers';
+    public final const INTERFACE_TYPE_FIELD_RESOLVERS = 'interface-type-field-resolvers';
+    public final const DIRECTIVE_RESOLVERS = 'directive-resolvers';
+    public final const OBJECT_TYPE_RESOLVER_PICKERS = 'object-type-resolver-pickers';
+    public final const RELATIONAL_TYPE_RESOLVER_DECORATORS = 'relational-type-resolver-decorators';
 }

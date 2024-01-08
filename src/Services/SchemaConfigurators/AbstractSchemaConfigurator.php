@@ -12,10 +12,7 @@ abstract class AbstractSchemaConfigurator implements SchemaConfiguratorInterface
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

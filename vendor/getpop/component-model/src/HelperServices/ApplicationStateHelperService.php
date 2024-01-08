@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Constants\Outputs;
-/** @internal */
-class ApplicationStateHelperService implements \PoP\ComponentModel\HelperServices\ApplicationStateHelperServiceInterface
+
+class ApplicationStateHelperService implements ApplicationStateHelperServiceInterface
 {
-    public function doingJSON() : bool
+    public function doingJSON(): bool
     {
         return App::getState('output') === Outputs::JSON;
     }

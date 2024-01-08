@@ -35,18 +35,11 @@ use PoP\Root\StateManagers\HookManagerInterface;
  */
 class AppThreadHookManagerWrapper implements HookManagerInterface
 {
-    /**
-     * @var \PoP\Root\StateManagers\HookManagerInterface
-     */
-    private $hookManager;
-    /**
-     * @var string
-     */
-    private $appThreadName;
+    private string $appThreadName;
 
-    public function __construct(HookManagerInterface $hookManager)
-    {
-        $this->hookManager = $hookManager;
+    public function __construct(
+        private HookManagerInterface $hookManager,
+    ) {
         $currentAppThreadName = App::getAppThread()->getName();
         if ($currentAppThreadName === null) {
             throw new ShouldNotHappenException(
@@ -73,12 +66,7 @@ class AppThreadHookManagerWrapper implements HookManagerInterface
     {
         return $this->hookManager->removeFilter($this->getAppThreadTag($tag), $function_to_remove, $priority);
     }
-    /**
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
-     */
-    public function applyFilters(string $tag, $value, ...$args)
+    public function applyFilters(string $tag, mixed $value, mixed ...$args): mixed
     {
         return $this->hookManager->applyFilters($this->getAppThreadTag($tag), $value, ...$args);
     }
@@ -90,10 +78,7 @@ class AppThreadHookManagerWrapper implements HookManagerInterface
     {
         return $this->hookManager->removeAction($this->getAppThreadTag($tag), $function_to_remove, $priority);
     }
-    /**
-     * @param mixed ...$args
-     */
-    public function doAction(string $tag, ...$args): void
+    public function doAction(string $tag, mixed ...$args): void
     {
         $this->hookManager->doAction($this->getAppThreadTag($tag), ...$args);
     }

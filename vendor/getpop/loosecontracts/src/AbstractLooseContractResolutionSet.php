@@ -1,54 +1,53 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\LooseContracts;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
-/** @internal */
+
 abstract class AbstractLooseContractResolutionSet extends AbstractAutomaticallyInstantiatedService
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoP\LooseContracts\LooseContractManagerInterface|null
-     */
-    private $looseContractManager;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    public final function setLooseContractManager(\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager) : void
+
+    private ?LooseContractManagerInterface $looseContractManager = null;
+    private ?NameResolverInterface $nameResolver = null;
+
+    final public function setLooseContractManager(LooseContractManagerInterface $looseContractManager): void
     {
         $this->looseContractManager = $looseContractManager;
     }
-    protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
+    final protected function getLooseContractManager(): LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {
             /** @var LooseContractManagerInterface */
-            $looseContractManager = $this->instanceManager->getInstance(\PoP\LooseContracts\LooseContractManagerInterface::class);
+            $looseContractManager = $this->instanceManager->getInstance(LooseContractManagerInterface::class);
             $this->looseContractManager = $looseContractManager;
         }
         return $this->looseContractManager;
     }
-    public final function setNameResolver(\PoP\LooseContracts\NameResolverInterface $nameResolver) : void
+    final public function setNameResolver(NameResolverInterface $nameResolver): void
     {
         $this->nameResolver = $nameResolver;
     }
-    protected final function getNameResolver() : \PoP\LooseContracts\NameResolverInterface
+    final protected function getNameResolver(): NameResolverInterface
     {
         if ($this->nameResolver === null) {
             /** @var NameResolverInterface */
-            $nameResolver = $this->instanceManager->getInstance(\PoP\LooseContracts\NameResolverInterface::class);
+            $nameResolver = $this->instanceManager->getInstance(NameResolverInterface::class);
             $this->nameResolver = $nameResolver;
         }
         return $this->nameResolver;
     }
-    public final function initialize() : void
+
+    final public function initialize(): void
     {
         $this->resolveContracts();
     }
+
     /**
      * Function to execute all code to satisfy the contracts
      */
-    protected abstract function resolveContracts() : void;
+    abstract protected function resolveContracts(): void;
 }

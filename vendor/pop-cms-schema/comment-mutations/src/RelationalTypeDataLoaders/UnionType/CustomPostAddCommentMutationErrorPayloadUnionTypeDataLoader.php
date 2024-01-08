@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType;
 
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\UnionType\AbstractUnionTypeDataLoader;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-/** @internal */
+
 class CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $customPostAddCommentMutationErrorPayloadUnionTypeResolver;
-    public final function setCustomPostAddCommentMutationErrorPayloadUnionTypeResolver(CustomPostAddCommentMutationErrorPayloadUnionTypeResolver $customPostAddCommentMutationErrorPayloadUnionTypeResolver) : void
+    private ?CustomPostAddCommentMutationErrorPayloadUnionTypeResolver $customPostAddCommentMutationErrorPayloadUnionTypeResolver = null;
+
+    final public function setCustomPostAddCommentMutationErrorPayloadUnionTypeResolver(CustomPostAddCommentMutationErrorPayloadUnionTypeResolver $customPostAddCommentMutationErrorPayloadUnionTypeResolver): void
     {
         $this->customPostAddCommentMutationErrorPayloadUnionTypeResolver = $customPostAddCommentMutationErrorPayloadUnionTypeResolver;
     }
-    protected final function getCustomPostAddCommentMutationErrorPayloadUnionTypeResolver() : CustomPostAddCommentMutationErrorPayloadUnionTypeResolver
+    final protected function getCustomPostAddCommentMutationErrorPayloadUnionTypeResolver(): CustomPostAddCommentMutationErrorPayloadUnionTypeResolver
     {
         if ($this->customPostAddCommentMutationErrorPayloadUnionTypeResolver === null) {
             /** @var CustomPostAddCommentMutationErrorPayloadUnionTypeResolver */
@@ -26,7 +25,8 @@ class CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader extends Abstra
         }
         return $this->customPostAddCommentMutationErrorPayloadUnionTypeResolver;
     }
-    protected function getUnionTypeResolver() : UnionTypeResolverInterface
+
+    protected function getUnionTypeResolver(): UnionTypeResolverInterface
     {
         return $this->getCustomPostAddCommentMutationErrorPayloadUnionTypeResolver();
     }

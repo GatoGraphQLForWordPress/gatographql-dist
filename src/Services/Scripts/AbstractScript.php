@@ -22,14 +22,8 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\PluginUtils\Services\Helpers\StringConversion|null
-     */
-    private $stringConversion;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?StringConversion $stringConversion = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -63,7 +57,7 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
      */
     final public function initialize(): void
     {
-        \add_action('init', \Closure::fromCallable([$this, 'initScript']));
+        \add_action('init', $this->initScript(...));
     }
 
     public function getEnablingModule(): ?string

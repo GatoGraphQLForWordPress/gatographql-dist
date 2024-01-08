@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace Masterminds\HTML5\Parser;
 
 /**
  * The FileInputStream loads a file to be parsed.
@@ -13,7 +13,6 @@ namespace PrefixedByPoP\Masterminds\HTML5\Parser;
  * stream reads (and thus efficiently handle large documents).
  *
  * @deprecated since 2.4, to remove in 3.0. Use a string in the scanner instead.
- * @internal
  */
 class FileInputStream extends StringInputStream implements InputStream
 {
@@ -27,7 +26,8 @@ class FileInputStream extends StringInputStream implements InputStream
     public function __construct($data, $encoding = 'UTF-8', $debug = '')
     {
         // Get the contents of the file.
-        $content = \file_get_contents($data);
+        $content = file_get_contents($data);
+
         parent::__construct($content, $encoding, $debug);
     }
 }

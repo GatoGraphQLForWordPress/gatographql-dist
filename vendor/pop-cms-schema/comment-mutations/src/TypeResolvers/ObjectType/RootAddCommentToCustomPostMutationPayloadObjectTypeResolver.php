@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
 
-/** @internal */
-class RootAddCommentToCustomPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\AbstractCommentMutationPayloadObjectTypeResolver
+class RootAddCommentToCustomPostMutationPayloadObjectTypeResolver extends AbstractCommentMutationPayloadObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootAddCommentToCustomPostMutationPayload';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Payload of adding a comment to a custom post', 'comment-mutations');
     }

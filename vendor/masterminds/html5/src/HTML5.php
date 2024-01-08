@@ -1,16 +1,16 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds;
+namespace Masterminds;
 
-use PrefixedByPoP\Masterminds\HTML5\Parser\DOMTreeBuilder;
-use PrefixedByPoP\Masterminds\HTML5\Parser\Scanner;
-use PrefixedByPoP\Masterminds\HTML5\Parser\Tokenizer;
-use PrefixedByPoP\Masterminds\HTML5\Serializer\OutputRules;
-use PrefixedByPoP\Masterminds\HTML5\Serializer\Traverser;
+use Masterminds\HTML5\Parser\DOMTreeBuilder;
+use Masterminds\HTML5\Parser\Scanner;
+use Masterminds\HTML5\Parser\Tokenizer;
+use Masterminds\HTML5\Serializer\OutputRules;
+use Masterminds\HTML5\Serializer\Traverser;
+
 /**
  * This class offers convenience methods for parsing and serializing HTML5.
  * It is roughly designed to mirror the \DOMDocument native class.
- * @internal
  */
 class HTML5
 {
@@ -21,15 +21,19 @@ class HTML5
      */
     private $defaultOptions = array(
         // Whether the serializer should aggressively encode all characters as entities.
-        'encode_entities' => \false,
+        'encode_entities' => false,
+
         // Prevents the parser from automatically assigning the HTML5 namespace to the DOM document.
-        'disable_html_ns' => \false,
+        'disable_html_ns' => false,
     );
+
     protected $errors = array();
+
     public function __construct(array $defaultOptions = array())
     {
-        $this->defaultOptions = \array_merge($this->defaultOptions, $defaultOptions);
+        $this->defaultOptions = array_merge($this->defaultOptions, $defaultOptions);
     }
+
     /**
      * Get the current default options.
      *
@@ -39,6 +43,7 @@ class HTML5
     {
         return $this->defaultOptions;
     }
+
     /**
      * Load and parse an HTML file.
      *
@@ -60,11 +65,13 @@ class HTML5
     public function load($file, array $options = array())
     {
         // Handle the case where file is a resource.
-        if (\is_resource($file)) {
-            return $this->parse(\stream_get_contents($file), $options);
+        if (is_resource($file)) {
+            return $this->parse(stream_get_contents($file), $options);
         }
-        return $this->parse(\file_get_contents($file), $options);
+
+        return $this->parse(file_get_contents($file), $options);
     }
+
     /**
      * Parse a HTML Document from a string.
      *
@@ -81,6 +88,7 @@ class HTML5
     {
         return $this->parse($string, $options);
     }
+
     /**
      * Convenience function to load an HTML file.
      *
@@ -99,6 +107,7 @@ class HTML5
     {
         return $this->load($file, $options);
     }
+
     /**
      * Parse a HTML fragment from a string.
      *
@@ -112,6 +121,7 @@ class HTML5
     {
         return $this->parseFragment($string, $options);
     }
+
     /**
      * Return all errors encountered into parsing phase.
      *
@@ -121,6 +131,7 @@ class HTML5
     {
         return $this->errors;
     }
+
     /**
      * Return true it some errors were encountered into parsing phase.
      *
@@ -128,8 +139,9 @@ class HTML5
      */
     public function hasErrors()
     {
-        return \count($this->errors) > 0;
+        return count($this->errors) > 0;
     }
+
     /**
      * Parse an input string.
      *
@@ -141,14 +153,17 @@ class HTML5
     public function parse($input, array $options = array())
     {
         $this->errors = array();
-        $options = \array_merge($this->defaultOptions, $options);
-        $events = new DOMTreeBuilder(\false, $options);
+        $options = array_merge($this->defaultOptions, $options);
+        $events = new DOMTreeBuilder(false, $options);
         $scanner = new Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
         $parser = new Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? Tokenizer::CONFORMANT_XML : Tokenizer::CONFORMANT_HTML);
+
         $parser->parse();
         $this->errors = $events->getErrors();
+
         return $events->document();
     }
+
     /**
      * Parse an input stream where the stream is a fragment.
      *
@@ -162,14 +177,17 @@ class HTML5
      */
     public function parseFragment($input, array $options = array())
     {
-        $options = \array_merge($this->defaultOptions, $options);
-        $events = new DOMTreeBuilder(\true, $options);
+        $options = array_merge($this->defaultOptions, $options);
+        $events = new DOMTreeBuilder(true, $options);
         $scanner = new Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
         $parser = new Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? Tokenizer::CONFORMANT_XML : Tokenizer::CONFORMANT_HTML);
+
         $parser->parse();
         $this->errors = $events->getErrors();
+
         return $events->fragment();
     }
+
     /**
      * Save a DOM into a given file as HTML5.
      *
@@ -182,25 +200,27 @@ class HTML5
      */
     public function save($dom, $file, $options = array())
     {
-        $close = \true;
-        if (\is_resource($file)) {
+        $close = true;
+        if (is_resource($file)) {
             $stream = $file;
-            $close = \false;
+            $close = false;
         } else {
-            $stream = \fopen($file, 'wb');
+            $stream = fopen($file, 'wb');
         }
-        $options = \array_merge($this->defaultOptions, $options);
+        $options = array_merge($this->defaultOptions, $options);
         $rules = new OutputRules($stream, $options);
         $trav = new Traverser($dom, $stream, $rules, $options);
+
         $trav->walk();
         /*
          * release the traverser to avoid cyclic references and allow PHP to free memory without waiting for gc_collect_cycles
          */
         $rules->unsetTraverser();
         if ($close) {
-            \fclose($stream);
+            fclose($stream);
         }
     }
+
     /**
      * Convert a DOM into an HTML5 string.
      *
@@ -214,10 +234,13 @@ class HTML5
      */
     public function saveHTML($dom, $options = array())
     {
-        $stream = \fopen('php://temp', 'wb');
-        $this->save($dom, $stream, \array_merge($this->defaultOptions, $options));
-        $html = \stream_get_contents($stream, -1, 0);
-        \fclose($stream);
+        $stream = fopen('php://temp', 'wb');
+        $this->save($dom, $stream, array_merge($this->defaultOptions, $options));
+
+        $html = stream_get_contents($stream, -1, 0);
+
+        fclose($stream);
+
         return $html;
     }
 }

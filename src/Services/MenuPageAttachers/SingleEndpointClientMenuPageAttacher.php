@@ -12,10 +12,7 @@ use PoP\Root\App;
 
 class SingleEndpointClientMenuPageAttacher extends AbstractPluginMenuPageAttacher
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

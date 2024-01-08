@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategories\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
-/** @internal */
+
 class PostCategoryTypeAPIFacade
 {
-    public static function getInstance() : PostCategoryTypeAPIInterface
+    public static function getInstance(): PostCategoryTypeAPIInterface
     {
         /**
          * @var PostCategoryTypeAPIInterface

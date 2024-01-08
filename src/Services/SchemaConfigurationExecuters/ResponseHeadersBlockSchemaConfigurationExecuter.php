@@ -14,10 +14,7 @@ use PoP\ComponentModel\Engine\EngineHookNames;
 
 class ResponseHeadersBlockSchemaConfigurationExecuter extends AbstractCustomizableConfigurationBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigResponseHeadersBlock|null
-     */
-    private $schemaConfigCategoriesBlock;
+    private ?SchemaConfigResponseHeadersBlock $schemaConfigCategoriesBlock = null;
 
     final public function setSchemaConfigResponseHeadersBlock(SchemaConfigResponseHeadersBlock $schemaConfigCategoriesBlock): void
     {
@@ -63,12 +60,10 @@ class ResponseHeadersBlockSchemaConfigurationExecuter extends AbstractCustomizab
              * @param array<string,string> $headers
              * @return array<string,string>
              */
-            function (array $headers) use ($responseHeaders) : array {
-                return array_merge(
-                    $headers,
-                    $responseHeaders
-                );
-            },
+            fn (array $headers): array => array_merge(
+                $headers,
+                $responseHeaders
+            ),
             PHP_INT_MAX
         );
     }

@@ -1,9 +1,11 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GuzzleHTTP\UpstreamWrappers\Http\Message;
 
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
+use Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
+
 /**
  * Extend the interface so this one can be returned in the GuzzleService
  * methods, and it will not be scoped (the Psr upstream one will be scoped).
@@ -23,7 +25,6 @@ use PrefixedByPoP\Psr\Http\Message\ResponseInterface as UpstreamResponseInterfac
  * Responses are considered immutable; all methods that might change state MUST
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
- * @internal
  */
 interface ResponseInterface extends UpstreamResponseInterface
 {

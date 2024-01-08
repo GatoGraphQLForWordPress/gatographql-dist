@@ -12,16 +12,10 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpoi
  */
 class EndpointBlockCategory extends AbstractBlockCategory
 {
-    public const ENDPOINT_BLOCK_CATEGORY = 'gatographql-query-exec';
+    public final const ENDPOINT_BLOCK_CATEGORY = 'gatographql-query-exec';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
-     */
-    private $graphQLCustomEndpointCustomPostType;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpointCustomPostType|null
-     */
-    private $graphQLPersistedQueryEndpointCustomPostType;
+    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
+    private ?GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType = null;
 
     final public function setGraphQLCustomEndpointCustomPostType(GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType): void
     {

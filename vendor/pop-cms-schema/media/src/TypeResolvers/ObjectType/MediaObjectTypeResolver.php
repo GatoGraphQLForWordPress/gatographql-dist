@@ -1,28 +1,24 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType\MediaObjectTypeDataLoader;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
-/** @internal */
+
 class MediaObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType\MediaObjectTypeDataLoader|null
-     */
-    private $mediaObjectTypeDataLoader;
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?MediaObjectTypeDataLoader $mediaObjectTypeDataLoader = null;
+
+    final public function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI): void
     {
         $this->mediaTypeAPI = $mediaTypeAPI;
     }
-    protected final function getMediaTypeAPI() : MediaTypeAPIInterface
+    final protected function getMediaTypeAPI(): MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
             /** @var MediaTypeAPIInterface */
@@ -31,11 +27,11 @@ class MediaObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->mediaTypeAPI;
     }
-    public final function setMediaObjectTypeDataLoader(MediaObjectTypeDataLoader $mediaObjectTypeDataLoader) : void
+    final public function setMediaObjectTypeDataLoader(MediaObjectTypeDataLoader $mediaObjectTypeDataLoader): void
     {
         $this->mediaObjectTypeDataLoader = $mediaObjectTypeDataLoader;
     }
-    protected final function getMediaObjectTypeDataLoader() : MediaObjectTypeDataLoader
+    final protected function getMediaObjectTypeDataLoader(): MediaObjectTypeDataLoader
     {
         if ($this->mediaObjectTypeDataLoader === null) {
             /** @var MediaObjectTypeDataLoader */
@@ -44,23 +40,24 @@ class MediaObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->mediaObjectTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'Media';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Media elements (such as images, videos, etc), attached to a post or independent', 'media');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+
+    public function getID(object $object): string|int|null
     {
         $media = $object;
         return $this->getMediaTypeAPI()->getMediaItemID($media);
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getMediaObjectTypeDataLoader();
     }

@@ -8,12 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\DefaultsConfigurator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
+use Symfony\Component\DependencyInjection\Argument\BoundArgument;
+use Symfony\Component\DependencyInjection\Loader\Configurator\DefaultsConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
+
 trait BindTrait
 {
     /**
@@ -28,13 +29,14 @@ trait BindTrait
      *
      * @return $this
      */
-    public final function bind(string $nameOrFqcn, $valueOrRef)
+    final public function bind(string $nameOrFqcn, mixed $valueOrRef): static
     {
-        $valueOrRef = static::processValue($valueOrRef, \true);
+        $valueOrRef = static::processValue($valueOrRef, true);
         $bindings = $this->definition->getBindings();
         $type = $this instanceof DefaultsConfigurator ? BoundArgument::DEFAULTS_BINDING : ($this instanceof InstanceofConfigurator ? BoundArgument::INSTANCEOF_BINDING : BoundArgument::SERVICE_BINDING);
-        $bindings[$nameOrFqcn] = new BoundArgument($valueOrRef, \true, $type, $this->path ?? null);
+        $bindings[$nameOrFqcn] = new BoundArgument($valueOrRef, true, $type, $this->path ?? null);
         $this->definition->setBindings($bindings);
+
         return $this;
     }
 }

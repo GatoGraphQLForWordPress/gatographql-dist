@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserMeta\TypeAPIs;
 
 use PoP\Root\App;
@@ -8,8 +9,8 @@ use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
 use PoPCMSSchema\UserMeta\Module;
 use PoPCMSSchema\UserMeta\ModuleConfiguration;
-/** @internal */
-abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface
+
+abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements UserMetaTypeAPIInterface
 {
     /**
      * If the allow/denylist validation fails, and passing option "assert-is-meta-key-allowed",
@@ -19,36 +20,34 @@ abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \P
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    public final function getUserMeta($userObjectOrID, string $key, bool $single = \false, array $options = [])
+    final public function getUserMeta(string|int|object $userObjectOrID, string $key, bool $single = false, array $options = []): mixed
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
         }
         return $this->doGetUserMeta($userObjectOrID, $key, $single);
     }
+
     /**
      * @return string[]
      */
-    public function getAllowOrDenyMetaEntries() : array
+    public function getAllowOrDenyMetaEntries(): array
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getUserMetaEntries();
     }
-    public function getAllowOrDenyMetaBehavior() : string
+    public function getAllowOrDenyMetaBehavior(): string
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getUserMetaBehavior();
     }
+
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    protected abstract function doGetUserMeta($userObjectOrID, string $key, bool $single = \false);
+    abstract protected function doGetUserMeta(string|int|object $userObjectOrID, string $key, bool $single = false): mixed;
 }

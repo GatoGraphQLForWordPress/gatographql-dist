@@ -8,28 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Loader;
+
+namespace Symfony\Component\Config\Loader;
 
 /**
  * GlobFileLoader loads files from a glob pattern.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class GlobFileLoader extends FileLoader
 {
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, string $type = null)
+    public function load(mixed $resource, string $type = null): mixed
     {
         return $this->import($resource);
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, string $type = null) : bool
+
+    public function supports(mixed $resource, string $type = null): bool
     {
         return 'glob' === $type;
     }

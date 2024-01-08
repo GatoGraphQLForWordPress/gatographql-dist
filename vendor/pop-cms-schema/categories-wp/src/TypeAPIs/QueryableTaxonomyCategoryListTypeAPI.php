@@ -12,7 +12,7 @@ class QueryableTaxonomyCategoryListTypeAPI implements QueryableTaxonomyCategoryL
     /**
      * @var array<string,InjectableTaxonomyCategoryTypeAPI>
      */
-    private $injectableTaxonomyCategoryTypeAPIs = [];
+    private array $injectableTaxonomyCategoryTypeAPIs = [];
 
     protected function getInjectableTaxonomyCategoryTypeAPI(string $catTaxonomy): InjectableTaxonomyCategoryTypeAPI
     {
@@ -27,17 +27,29 @@ class QueryableTaxonomyCategoryListTypeAPI implements QueryableTaxonomyCategoryL
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyCategories(string $catTaxonomy, array $query, array $options = []): array
-    {
-        return $this->getInjectableTaxonomyCategoryTypeAPI($catTaxonomy)->getCategories($query, $options);
+    public function getTaxonomyCategories(
+        string $catTaxonomy,
+        array $query,
+        array $options = [],
+    ): array {
+        return $this->getInjectableTaxonomyCategoryTypeAPI($catTaxonomy)->getCategories(
+            $query,
+            $options,
+        );
     }
 
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTaxonomyCategoryCount(string $catTaxonomy, array $query, array $options = []): int
-    {
-        return $this->getInjectableTaxonomyCategoryTypeAPI($catTaxonomy)->getCategoryCount($query, $options);
+    public function getTaxonomyCategoryCount(
+        string $catTaxonomy,
+        array $query,
+        array $options = [],
+    ): int {
+        return $this->getInjectableTaxonomyCategoryTypeAPI($catTaxonomy)->getCategoryCount(
+            $query,
+            $options,
+        );
     }
 }

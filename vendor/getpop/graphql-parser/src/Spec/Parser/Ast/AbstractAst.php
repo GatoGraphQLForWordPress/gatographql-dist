@@ -1,38 +1,28 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Services\StandaloneServiceTrait;
-/** @internal */
-abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
+
+abstract class AbstractAst implements AstInterface
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Location
-     */
-    protected $location;
     use StandaloneServiceTrait;
-    /**
-     * @var string|null
-     */
-    protected $queryString;
-    /**
-     * @var string|null
-     */
-    protected $astNodeString;
-    /**
-     * @var \PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface|null
-     */
-    private $graphQLQueryStringFormatter;
-    public final function setGraphQLQueryStringFormatter(GraphQLQueryStringFormatterInterface $graphQLQueryStringFormatter) : void
+
+    protected ?string $queryString = null;
+    protected ?string $astNodeString = null;
+
+    private ?GraphQLQueryStringFormatterInterface $graphQLQueryStringFormatter = null;
+
+    final public function setGraphQLQueryStringFormatter(GraphQLQueryStringFormatterInterface $graphQLQueryStringFormatter): void
     {
         $this->graphQLQueryStringFormatter = $graphQLQueryStringFormatter;
     }
-    protected final function getGraphQLQueryStringFormatter() : GraphQLQueryStringFormatterInterface
+    final protected function getGraphQLQueryStringFormatter(): GraphQLQueryStringFormatterInterface
     {
         if ($this->graphQLQueryStringFormatter === null) {
             /** @var GraphQLQueryStringFormatterInterface */
@@ -41,32 +31,39 @@ abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInte
         }
         return $this->graphQLQueryStringFormatter;
     }
-    public function __construct(Location $location)
-    {
-        $this->location = $location;
+
+    public function __construct(
+        protected readonly Location $location
+    ) {
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
         return $this->asQueryString();
     }
-    public function getLocation() : Location
+
+    public function getLocation(): Location
     {
         return $this->location;
     }
-    public final function asQueryString() : string
+
+    final public function asQueryString(): string
     {
         if ($this->queryString === null) {
             $this->queryString = $this->doAsQueryString();
         }
         return $this->queryString;
     }
-    protected abstract function doAsQueryString() : string;
-    public final function asASTNodeString() : string
+
+    abstract protected function doAsQueryString(): string;
+
+    final public function asASTNodeString(): string
     {
         if ($this->astNodeString === null) {
             $this->astNodeString = $this->doAsASTNodeString();
         }
         return $this->astNodeString;
     }
-    protected abstract function doAsASTNodeString() : string;
+
+    abstract protected function doAsASTNodeString(): string;
 }

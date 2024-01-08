@@ -19,21 +19,23 @@ abstract class AbstractMainPluginInitializationConfiguration extends AbstractPlu
      *
      * @var array<string,ContainerCacheConfiguration>
      */
-    private $containerCacheConfigurationsCache = [];
+    private array $containerCacheConfigurationsCache = [];
 
     /**
      * Provide the configuration to cache the container
      */
-    public function getContainerCacheConfiguration(string $pluginAppGraphQLServerName): ContainerCacheConfiguration
-    {
+    public function getContainerCacheConfiguration(
+        string $pluginAppGraphQLServerName,
+    ): ContainerCacheConfiguration {
         if (!isset($this->containerCacheConfigurationsCache[$pluginAppGraphQLServerName])) {
             $this->containerCacheConfigurationsCache[$pluginAppGraphQLServerName] = $this->doGetContainerCacheConfiguration($pluginAppGraphQLServerName);
         }
         return $this->containerCacheConfigurationsCache[$pluginAppGraphQLServerName];
     }
 
-    protected function doGetContainerCacheConfiguration(string $pluginAppGraphQLServerName): ContainerCacheConfiguration
-    {
+    protected function doGetContainerCacheConfiguration(
+        string $pluginAppGraphQLServerName,
+    ): ContainerCacheConfiguration {
         $containerConfigurationCacheNamespace = null;
         $containerConfigurationCacheDirectory = null;
         if ($cacheContainerConfiguration = $this->isContainerCachingEnabled()) {

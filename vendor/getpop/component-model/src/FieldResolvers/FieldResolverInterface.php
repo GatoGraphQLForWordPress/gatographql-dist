@@ -1,12 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers;
 
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
-/** @internal */
+
 interface FieldResolverInterface extends AttachableExtensionInterface
 {
     /**
@@ -14,7 +15,7 @@ interface FieldResolverInterface extends AttachableExtensionInterface
      *
      * @return string[]
      */
-    public function getSensitiveFieldNames() : array;
+    public function getSensitiveFieldNames(): array;
     /**
      * Each InterfaceTypeFieldResolver provides a list of fieldNames to the Interface.
      * The Interface may also accept other fieldNames from other InterfaceTypeFieldResolvers.
@@ -23,11 +24,11 @@ interface FieldResolverInterface extends AttachableExtensionInterface
      *
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getPartiallyImplementedInterfaceTypeResolvers() : array;
+    public function getPartiallyImplementedInterfaceTypeResolvers(): array;
     /**
      * The interfaces the fieldResolver implements
      *
      * @return InterfaceTypeFieldResolverInterface[]
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array;
+    public function getImplementedInterfaceTypeFieldResolvers(): array;
 }

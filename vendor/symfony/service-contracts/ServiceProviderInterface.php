@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service;
 
-use PrefixedByPoP\Psr\Container\ContainerInterface;
+namespace Symfony\Contracts\Service;
+
+use Psr\Container\ContainerInterface;
+
 /**
  * A ServiceProviderInterface exposes the identifiers and the types of services provided by a container.
  *
@@ -18,15 +20,16 @@ use PrefixedByPoP\Psr\Container\ContainerInterface;
  * @author Mateusz Sip <mateusz.sip@gmail.com>
  *
  * @template-covariant T of mixed
- * @internal
  */
 interface ServiceProviderInterface extends ContainerInterface
 {
     /**
      * @return T
      */
-    public function get(string $id);
-    public function has(string $id) : bool;
+    public function get(string $id): mixed;
+
+    public function has(string $id): bool;
+
     /**
      * Returns an associative array of service types keyed by the identifiers provided by the current container.
      *
@@ -38,5 +41,5 @@ interface ServiceProviderInterface extends ContainerInterface
      *
      * @return array<string, string> The provided service types, keyed by service names
      */
-    public function getProvidedServices() : array;
+    public function getProvidedServices(): array;
 }

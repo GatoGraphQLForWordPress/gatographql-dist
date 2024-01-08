@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType;
 
-/** @internal */
-class RootSetCategoriesOnPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\AbstractPostCategoriesMutationPayloadObjectTypeResolver
+class RootSetCategoriesOnPostMutationPayloadObjectTypeResolver extends AbstractPostCategoriesMutationPayloadObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootSetCategoriesOnPostMutationPayload';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Payload of setting categories on a post', 'postcategory-mutations');
     }

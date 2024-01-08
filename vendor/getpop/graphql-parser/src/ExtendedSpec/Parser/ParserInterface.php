@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\ExtendedSpec\Parser;
 
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\ParserInterface as UpstreamParserInterface;
-/** @internal */
+
 interface ParserInterface extends UpstreamParserInterface
 {
     /**
@@ -25,5 +26,5 @@ interface ParserInterface extends UpstreamParserInterface
      *
      * @return FieldInterface[]
      */
-    public function getObjectResolvedFieldValueReferencedFields() : array;
+    public function getObjectResolvedFieldValueReferencedFields(): array;
 }

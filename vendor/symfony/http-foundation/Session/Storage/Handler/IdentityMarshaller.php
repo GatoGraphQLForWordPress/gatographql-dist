@@ -8,25 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
+
+use Symfony\Component\Cache\Marshaller\MarshallerInterface;
+
 /**
  * @author Ahmed TAILOULOUTE <ahmed.tailouloute@gmail.com>
- * @internal
  */
 class IdentityMarshaller implements MarshallerInterface
 {
-    public function marshall(array $values, ?array &$failed) : array
+    public function marshall(array $values, ?array &$failed): array
     {
         foreach ($values as $key => $value) {
             if (!\is_string($value)) {
-                throw new \LogicException(\sprintf('%s accepts only string as data.', __METHOD__));
+                throw new \LogicException(sprintf('%s accepts only string as data.', __METHOD__));
             }
         }
+
         return $values;
     }
-    public function unmarshall(string $value) : string
+
+    public function unmarshall(string $value): string
     {
         return $value;
     }

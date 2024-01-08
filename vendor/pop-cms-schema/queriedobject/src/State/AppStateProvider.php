@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\QueriedObject\State;
 
 use PoP\Root\App;
@@ -8,18 +9,16 @@ use PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
 use PoP\Root\State\AbstractAppStateProvider;
-/** @internal */
+
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface|null
-     */
-    private $cmsRoutingStateService;
-    public final function setCMSRoutingStateService(CMSRoutingStateServiceInterface $cmsRoutingStateService) : void
+    private ?CMSRoutingStateServiceInterface $cmsRoutingStateService = null;
+
+    final public function setCMSRoutingStateService(CMSRoutingStateServiceInterface $cmsRoutingStateService): void
     {
         $this->cmsRoutingStateService = $cmsRoutingStateService;
     }
-    protected final function getCMSRoutingStateService() : CMSRoutingStateServiceInterface
+    final protected function getCMSRoutingStateService(): CMSRoutingStateServiceInterface
     {
         if ($this->cmsRoutingStateService === null) {
             /** @var CMSRoutingStateServiceInterface */
@@ -28,10 +27,11 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->cmsRoutingStateService;
     }
+
     /**
      * @param array<string,mixed> $state
      */
-    public function initialize(array &$state) : void
+    public function initialize(array &$state): void
     {
         /** @var RootModuleConfiguration */
         $rootModuleConfiguration = App::getModule(RootModule::class)->getConfiguration();

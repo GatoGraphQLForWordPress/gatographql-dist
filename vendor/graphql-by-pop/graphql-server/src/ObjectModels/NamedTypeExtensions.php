@@ -1,29 +1,33 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-/** @internal */
-class NamedTypeExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
+
+class NamedTypeExtensions extends AbstractSchemaDefinitionReferenceObject
 {
-    public function getTypeElementName() : string
+    public function getTypeElementName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::ELEMENT_NAME];
     }
-    public function getTypeNamespacedName() : string
+
+    public function getTypeNamespacedName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::NAMESPACED_NAME];
     }
+
     /**
      * Enum-like "possible values" for EnumString type resolvers, `null` otherwise
      *
      * @return string[]|null
      */
-    public function getTypePossibleValues() : ?array
+    public function getTypePossibleValues(): ?array
     {
         return $this->schemaDefinition[SchemaDefinition::POSSIBLE_VALUES] ?? null;
     }
+
     /**
      * @see https://github.com/graphql/graphql-spec/pull/825
      *
@@ -33,8 +37,8 @@ class NamedTypeExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\Abstr
      * > This is represented in introspection with the
      * __Type.isOneOf: Boolean field.
      */
-    public function getTypeIsOneOfInputObjectType() : bool
+    public function getTypeIsOneOfInputObjectType(): bool
     {
-        return $this->schemaDefinition[SchemaDefinition::IS_ONE_OF] ?? \false;
+        return $this->schemaDefinition[SchemaDefinition::IS_ONE_OF] ?? false;
     }
 }

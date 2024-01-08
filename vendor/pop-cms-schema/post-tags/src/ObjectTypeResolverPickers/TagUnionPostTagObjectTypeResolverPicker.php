@@ -1,18 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTags\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-/** @internal */
-class TagUnionPostTagObjectTypeResolverPicker extends \PoPCMSSchema\PostTags\ObjectTypeResolverPickers\AbstractPostTagObjectTypeResolverPicker
+
+class TagUnionPostTagObjectTypeResolverPicker extends AbstractPostTagObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo() : array
+    public function getUnionTypeResolverClassesToAttachTo(): array
     {
-        return [TagUnionTypeResolver::class];
+        return [
+            TagUnionTypeResolver::class,
+        ];
     }
 }

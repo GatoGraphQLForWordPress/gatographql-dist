@@ -16,14 +16,8 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput;
 
 class InputObjectTypeHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
-     */
-    private $slugFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?SlugFilterInput $slugFilterInput = null;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -56,19 +50,19 @@ class InputObjectTypeHookSet extends AbstractHookSet
     {
         App::addFilter(
             HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
-            \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']),
+            $this->getInputFieldNameTypeResolvers(...),
             10,
             2
         );
         App::addFilter(
             HookNames::INPUT_FIELD_DESCRIPTION,
-            \Closure::fromCallable([$this, 'getInputFieldDescription']),
+            $this->getInputFieldDescription(...),
             10,
             3
         );
         App::addFilter(
             HookNames::INPUT_FIELD_FILTER_INPUT,
-            \Closure::fromCallable([$this, 'getInputFieldFilterInput']),
+            $this->getInputFieldFilterInput(...),
             10,
             3
         );
@@ -78,8 +72,10 @@ class InputObjectTypeHookSet extends AbstractHookSet
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver): array
-    {
+    public function getInputFieldNameTypeResolvers(
+        array $inputFieldNameTypeResolvers,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): array {
         if (!($inputObjectTypeResolver instanceof MediaItemByOneofInputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
         }
@@ -99,24 +95,23 @@ class InputObjectTypeHookSet extends AbstractHookSet
         if (!($inputObjectTypeResolver instanceof MediaItemByOneofInputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'slug':
-                return $this->__('Query media item by slug', 'media');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'slug' => $this->__('Query media item by slug', 'media'),
+            default => $inputFieldDescription,
+        };
     }
 
-    public function getInputFieldFilterInput(?FilterInputInterface $inputFieldFilterInput, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName): ?FilterInputInterface
-    {
+    public function getInputFieldFilterInput(
+        ?FilterInputInterface $inputFieldFilterInput,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+        string $inputFieldName,
+    ): ?FilterInputInterface {
         if (!($inputObjectTypeResolver instanceof MediaItemByOneofInputObjectTypeResolver)) {
             return $inputFieldFilterInput;
         }
-        switch ($inputFieldName) {
-            case 'slug':
-                return $this->getSlugFilterInput();
-            default:
-                return $inputFieldFilterInput;
-        }
+        return match ($inputFieldName) {
+            'slug' => $this->getSlugFilterInput(),
+            default => $inputFieldFilterInput,
+        };
     }
 }

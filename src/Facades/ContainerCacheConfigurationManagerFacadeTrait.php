@@ -8,10 +8,7 @@ use PoP\ComponentModel\Cache\CacheConfigurationManagerInterface;
 
 trait ContainerCacheConfigurationManagerFacadeTrait
 {
-    /**
-     * @var \PoP\ComponentModel\Cache\CacheConfigurationManagerInterface|null
-     */
-    protected static $instance;
+    protected static ?CacheConfigurationManagerInterface $instance = null;
 
     public static function getInstance(): CacheConfigurationManagerInterface
     {

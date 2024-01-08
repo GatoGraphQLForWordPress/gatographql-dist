@@ -1,58 +1,52 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Location;
-/** @internal */
-abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
+
+abstract class AbstractField extends AbstractAst implements FieldInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @readonly
-     * @var string|null
-     */
-    protected $alias;
-    use \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsTrait;
-    use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
-    /**
-     * @var string|null
-     */
-    protected $uniqueID;
-    /**
-     * @var string|null
-     */
-    protected $fieldOutputQueryString;
+    use WithArgumentsTrait;
+    use WithDirectivesTrait;
+
+    protected ?string $uniqueID = null;
+    protected ?string $fieldOutputQueryString = null;
+
     /**
      * @param Argument[] $arguments
      * @param Directive[] $directives
      */
-    public function __construct(string $name, ?string $alias, array $arguments, array $directives, Location $location)
-    {
-        $this->name = $name;
-        $this->alias = $alias;
+    public function __construct(
+        protected readonly string $name,
+        protected readonly ?string $alias,
+        array $arguments,
+        array $directives,
+        Location $location,
+    ) {
         parent::__construct($location);
         $this->setArguments($arguments);
         $this->setDirectives($directives);
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->name;
     }
-    public function getAlias() : ?string
+
+    public function getAlias(): ?string
     {
         return $this->alias;
     }
-    public function getOutputKey() : string
+
+    public function getOutputKey(): string
     {
         return $this->getAlias() ?? $this->getName();
     }
+
     /**
      * Take the Location into consideration to indicate
      * that 2 AST elements are the same.
@@ -63,26 +57,28 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
      *
      * fields `name` are different fields (even if under the same type).
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->getUniqueID();
     }
+
     /**
      * Print the field as string, and attach the location as a GraphQL comment
      */
-    public final function getUniqueID() : string
+    final public function getUniqueID(): string
     {
         if ($this->uniqueID === null) {
             $location = $this->getLocation();
             $locationComment = ' # Location: ' . $location->getLine() . 'x' . $location->getColumn();
             $this->uniqueID = $this->asFieldOutputQueryString() . $locationComment;
             if ($location instanceof RuntimeLocation) {
-                $this->uniqueID .= ' #Hash: ' . \spl_object_hash($this);
+                $this->uniqueID .= ' #Hash: ' . spl_object_hash($this);
             }
         }
         return $this->uniqueID;
     }
-    protected function doAsQueryString() : string
+
+    protected function doAsQueryString(): string
     {
         // Generate the string for directives
         $strFieldDirectives = '';
@@ -91,11 +87,20 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
             foreach ($this->getDirectives() as $directive) {
                 $strDirectives[] = $directive->asQueryString();
             }
-            $strFieldDirectives = \sprintf(' %s', \implode(' ', $strDirectives));
+            $strFieldDirectives = sprintf(
+                ' %s',
+                implode(' ', $strDirectives)
+            );
         }
-        return \sprintf('%s%s', $this->asFieldOutputQueryString(), $strFieldDirectives);
+
+        return sprintf(
+            '%s%s',
+            $this->asFieldOutputQueryString(),
+            $strFieldDirectives,
+        );
     }
-    protected function doAsASTNodeString() : string
+
+    protected function doAsASTNodeString(): string
     {
         // Generate the string for directives
         $strFieldDirectives = '';
@@ -104,8 +109,12 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
             foreach ($this->getDirectives() as $directive) {
                 $strDirectives[] = $directive->asQueryString();
             }
-            $strFieldDirectives = \sprintf(' %s', \implode(' ', $strDirectives));
+            $strFieldDirectives = sprintf(
+                ' %s',
+                implode(' ', $strDirectives)
+            );
         }
+
         // Generate the string for arguments
         $strFieldArguments = '';
         if ($this->getArguments() !== []) {
@@ -113,18 +122,30 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
             foreach ($this->getArguments() as $argument) {
                 $strArguments[] = $argument->asQueryString();
             }
-            $strFieldArguments = \sprintf('(%s)', \implode(', ', $strArguments));
+            $strFieldArguments = sprintf(
+                '(%s)',
+                implode(', ', $strArguments)
+            );
         }
-        return \sprintf('%s%s%s%s', $this->getAlias() !== null ? \sprintf('%s: ', $this->getAlias()) : '', $this->getName(), $strFieldArguments, $strFieldDirectives);
+
+        return sprintf(
+            '%s%s%s%s',
+            $this->getAlias() !== null ? sprintf('%s: ', $this->getAlias()) : '',
+            $this->getName(),
+            $strFieldArguments,
+            $strFieldDirectives,
+        );
     }
-    public final function asFieldOutputQueryString() : string
+
+    final public function asFieldOutputQueryString(): string
     {
         if ($this->fieldOutputQueryString === null) {
             $this->fieldOutputQueryString = $this->doAsFieldOutputQueryString();
         }
         return $this->fieldOutputQueryString;
     }
-    protected function doAsFieldOutputQueryString() : string
+
+    protected function doAsFieldOutputQueryString(): string
     {
         // Generate the string for arguments
         $strFieldArguments = '';
@@ -133,10 +154,20 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
             foreach ($this->getArguments() as $argument) {
                 $strArguments[] = $argument->asQueryString();
             }
-            $strFieldArguments = \sprintf('(%s)', \implode(', ', $strArguments));
+            $strFieldArguments = sprintf(
+                '(%s)',
+                implode(', ', $strArguments)
+            );
         }
-        return \sprintf('%s%s%s', $this->getAlias() !== null ? \sprintf('%s: ', $this->getAlias()) : '', $this->getName(), $strFieldArguments);
+
+        return sprintf(
+            '%s%s%s',
+            $this->getAlias() !== null ? sprintf('%s: ', $this->getAlias()) : '',
+            $this->getName(),
+            $strFieldArguments,
+        );
     }
+
     /**
      * Indicate if a field equals another one based on its properties,
      * not on its object hash ID.
@@ -145,29 +176,36 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
      *
      * @see https://spec.graphql.org/draft/#sec-Field-Selection-Merging
      */
-    protected function doIsEquivalentTo(\PoP\GraphQLParser\Spec\Parser\Ast\AbstractField $field) : bool
+    protected function doIsEquivalentTo(AbstractField $field): bool
     {
         if ($this->getName() !== $field->getName()) {
-            return \false;
+            return false;
         }
+
         if ($this->getAlias() !== $field->getAlias()) {
             /**
              * If the alias is the same as the name then can skip,
              * as to have `{ title: title }` equivalent to `{ title }`
              */
-            if (!($this->getName() === $this->getAlias() && $field->getAlias() === null || $field->getName() === $field->getAlias() && $this->getAlias() === null)) {
-                return \false;
+            if (
+                !(($this->getName() === $this->getAlias() && $field->getAlias() === null)
+                || ($field->getName() === $field->getAlias() && $this->getAlias() === null)
+                )
+            ) {
+                return false;
             }
         }
+
         /**
          * Compare arguments
          */
         $thisArguments = $this->getArguments();
         $againstArguments = $field->getArguments();
-        $argumentCount = \count($thisArguments);
-        if ($argumentCount !== \count($againstArguments)) {
-            return \false;
+        $argumentCount = count($thisArguments);
+        if ($argumentCount !== count($againstArguments)) {
+            return false;
         }
+
         /**
          * The order of the arguments does not matter.
          * These 2 fields are equivalent:
@@ -181,19 +219,16 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
          *
          * So first sort them as to compare apples to apples.
          */
-        \usort($thisArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
-        \usort($againstArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
+        usort($thisArguments, fn (Argument $argument1, Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
+        usort($againstArguments, fn (Argument $argument1, Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
         for ($i = 0; $i < $argumentCount; $i++) {
             $thisArgument = $thisArguments[$i];
             $againstArgument = $againstArguments[$i];
             if (!$thisArgument->isEquivalentTo($againstArgument)) {
-                return \false;
+                return false;
             }
         }
+
         /**
          * The order of the directives does matter.
          * These 2 fields are not equivalent:
@@ -207,17 +242,18 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
          */
         $thisDirectives = $this->getDirectives();
         $againstDirectives = $field->getDirectives();
-        $directiveCount = \count($thisDirectives);
-        if ($directiveCount !== \count($againstDirectives)) {
-            return \false;
+        $directiveCount = count($thisDirectives);
+        if ($directiveCount !== count($againstDirectives)) {
+            return false;
         }
         for ($i = 0; $i < $directiveCount; $i++) {
             $thisDirective = $thisDirectives[$i];
             $againstDirective = $againstDirectives[$i];
             if (!$thisDirective->isEquivalentTo($againstDirective)) {
-                return \false;
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
 }

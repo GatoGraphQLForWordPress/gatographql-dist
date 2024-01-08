@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\Component\Component;
@@ -15,19 +16,18 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\QueryableInputObjectTypeRes
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
-/** @internal */
-abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\ObjectType\QueryableObjectTypeFieldSchemaDefinitionResolverInterface
+
+abstract class AbstractQueryableObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements QueryableObjectTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
-    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
+
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
+
+    final public function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager): void
     {
         $this->componentProcessorManager = $componentProcessorManager;
     }
-    protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
+    final protected function getComponentProcessorManager(): ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
             /** @var ComponentProcessorManagerInterface */
@@ -36,7 +36,8 @@ abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentMo
         }
         return $this->componentProcessorManager;
     }
-    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
+
+    public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?Component
     {
         /** @var QueryableObjectTypeFieldSchemaDefinitionResolverInterface */
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($objectTypeResolver, $fieldName);
@@ -45,59 +46,63 @@ abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentMo
         }
         return null;
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             return $this->getFilterFieldArgNameTypeResolvers($filterDataloadingComponent);
         }
         return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
     }
-    public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
+
+    public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): ?string
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             return $this->getFilterFieldArgDescription($filterDataloadingComponent, $fieldArgName);
         }
         return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): mixed
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             return $this->getFilterFieldArgDefaultValue($filterDataloadingComponent, $fieldArgName);
         }
         return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
     }
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             return $this->getFilterFieldArgTypeModifiers($filterDataloadingComponent, $fieldArgName);
         }
         return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
     }
+
     /**
      * @return class-string<InterfaceSchemaDefinitionResolverAdapter>
      */
-    protected function getInterfaceSchemaDefinitionResolverAdapterClass() : string
+    protected function getInterfaceSchemaDefinitionResolverAdapterClass(): string
     {
         return QueryableInterfaceSchemaDefinitionResolverAdapter::class;
     }
-    public function enableOrderedSchemaFieldArgs(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
+
+    public function enableOrderedSchemaFieldArgs(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): bool
     {
         // If there is a filter, and it has many filterInputs, then by default we'd rather not enable ordering
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             /** @var FilterInputContainerComponentProcessorInterface */
             $filterDataComponentProcessor = $this->getComponentProcessorManager()->getComponentProcessor($filterDataloadingComponent);
-            if (\count($filterDataComponentProcessor->getFilterInputComponents($filterDataloadingComponent)) > 1) {
-                return \false;
+            if (count($filterDataComponentProcessor->getFilterInputComponents($filterDataloadingComponent)) > 1) {
+                return false;
             }
         }
         return parent::enableOrderedSchemaFieldArgs($objectTypeResolver, $fieldName);
     }
+
     /**
      * The names of the inputs supplied in the fieldArgs are not necessarily the same
      * input names expected by the function to retrieve entities in the Type API.
@@ -115,7 +120,7 @@ abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentMo
      * @return array<string,mixed>
      * @throws AbstractValueResolutionPromiseException
      */
-    protected function convertFieldArgsToFilteringQueryArgs(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor) : array
+    protected function convertFieldArgsToFilteringQueryArgs(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor): array
     {
         $filteringQueryArgs = [];
         $fieldName = $fieldDataAccessor->getFieldName();
@@ -129,7 +134,7 @@ abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentMo
         $consolidatedFieldArgNameTypeResolvers = $this->getConsolidatedFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         foreach ($fieldArgs as $argName => $argValue) {
             $fieldArgTypeResolver = $consolidatedFieldArgNameTypeResolvers[$argName];
-            if (!$fieldArgTypeResolver instanceof QueryableInputObjectTypeResolverInterface) {
+            if (!($fieldArgTypeResolver instanceof QueryableInputObjectTypeResolverInterface)) {
                 continue;
             }
             $fieldArgTypeResolver->integrateInputValueToFilteringQueryArgs($filteringQueryArgs, $argValue);

@@ -1,34 +1,39 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Registries;
 
 use PoP\Root\State\AppStateProviderInterface;
-/** @internal */
-class AppStateProviderRegistry implements \PoP\Root\Registries\AppStateProviderRegistryInterface
+
+class AppStateProviderRegistry implements AppStateProviderRegistryInterface
 {
     /**
      * @var AppStateProviderInterface[]
      */
-    protected $appStateProviders = [];
-    public function addAppStateProvider(AppStateProviderInterface $appStateProvider) : void
+    protected array $appStateProviders = [];
+
+    public function addAppStateProvider(AppStateProviderInterface $appStateProvider): void
     {
         $this->appStateProviders[] = $appStateProvider;
     }
+
     /**
      * @return AppStateProviderInterface[]
      */
-    public function getAppStateProviders() : array
+    public function getAppStateProviders(): array
     {
         return $this->appStateProviders;
     }
+
     /**
      * @return AppStateProviderInterface[]
      */
-    public function getEnabledAppStateProviders() : array
+    public function getEnabledAppStateProviders(): array
     {
-        return \array_values(\array_filter($this->getAppStateProviders(), function (AppStateProviderInterface $service) {
-            return $service->isServiceEnabled();
-        }));
+        return array_values(array_filter(
+            $this->getAppStateProviders(),
+            fn (AppStateProviderInterface $service) => $service->isServiceEnabled()
+        ));
     }
 }

@@ -11,18 +11,9 @@ use WP_Post;
 
 abstract class AbstractViewPersistedQueryEndpointSourceEndpointExecuter extends AbstractViewSourceEndpointExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\GraphQLQueryPostTypeHelpers|null
-     */
-    private $graphQLQueryPostTypeHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockAccessors\PersistedQueryEndpointAPIHierarchyBlockAccessor|null
-     */
-    private $persistedQueryEndpointAPIHierarchyBlockAccessor;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\PersistedQueryEndpointGraphiQLBlock|null
-     */
-    private $persistedQueryEndpointGraphiQLBlock;
+    private ?GraphQLQueryPostTypeHelpers $graphQLQueryPostTypeHelpers = null;
+    private ?PersistedQueryEndpointAPIHierarchyBlockAccessor $persistedQueryEndpointAPIHierarchyBlockAccessor = null;
+    private ?PersistedQueryEndpointGraphiQLBlock $persistedQueryEndpointGraphiQLBlock = null;
 
     final public function setGraphQLQueryPostTypeHelpers(GraphQLQueryPostTypeHelpers $graphQLQueryPostTypeHelpers): void
     {

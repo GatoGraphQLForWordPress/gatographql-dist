@@ -1,17 +1,18 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType;
 
-/** @internal */
-class PostSetTagsInputObjectTypeResolver extends \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\AbstractSetTagsOnPostInputObjectTypeResolver
+class PostSetTagsInputObjectTypeResolver extends AbstractSetTagsOnPostInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'PostSetTagsInput';
     }
-    protected function addCustomPostInputField() : bool
+
+    protected function addCustomPostInputField(): bool
     {
-        return \false;
+        return false;
     }
 }

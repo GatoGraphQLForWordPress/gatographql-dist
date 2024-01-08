@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostMutations\ConditionalOnModule\API\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -11,25 +12,22 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoPCMSSchema\PostMutations\ComponentProcessors\PostMutationFilterInputContainerComponentProcessor;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProcessorTrait;
-/** @internal */
+
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST = 'dataload-relationalfields-mypostlist';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT = 'dataload-relationalfields-mypostcount';
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
-     */
-    private $listQueryInputOutputHandler;
-    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
+
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST = 'dataload-relationalfields-mypostlist';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT = 'dataload-relationalfields-mypostcount';
+
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?ListQueryInputOutputHandler $listQueryInputOutputHandler = null;
+
+    final public function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver): void
     {
         $this->postObjectTypeResolver = $postObjectTypeResolver;
     }
-    protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
+    final protected function getPostObjectTypeResolver(): PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
             /** @var PostObjectTypeResolver */
@@ -38,11 +36,11 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
         }
         return $this->postObjectTypeResolver;
     }
-    public final function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler) : void
+    final public function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler): void
     {
         $this->listQueryInputOutputHandler = $listQueryInputOutputHandler;
     }
-    protected final function getListQueryInputOutputHandler() : ListQueryInputOutputHandler
+    final protected function getListQueryInputOutputHandler(): ListQueryInputOutputHandler
     {
         if ($this->listQueryInputOutputHandler === null) {
             /** @var ListQueryInputOutputHandler */
@@ -51,31 +49,40 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
         }
         return $this->listQueryInputOutputHandler;
     }
+
     /**
      * @return string[]
      */
-    public function getComponentNamesToProcess() : array
+    public function getComponentNamesToProcess(): array
     {
-        return array(self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST, self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT);
+        return array(
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST,
+            self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT,
+        );
     }
-    public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface
+
+    public function getRelationalTypeResolver(Component $component): ?RelationalTypeResolverInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST:
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT:
                 return $this->getPostObjectTypeResolver();
         }
+
         return parent::getRelationalTypeResolver($component);
     }
-    public function getQueryInputOutputHandler(Component $component) : ?QueryInputOutputHandlerInterface
+
+    public function getQueryInputOutputHandler(Component $component): ?QueryInputOutputHandlerInterface
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST:
                 return $this->getListQueryInputOutputHandler();
         }
+
         return parent::getQueryInputOutputHandler($component);
     }
-    public function getFilterSubcomponent(Component $component) : ?Component
+
+    public function getFilterSubcomponent(Component $component): ?Component
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTLIST:
@@ -83,6 +90,7 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_MYPOSTCOUNT:
                 return new Component(PostMutationFilterInputContainerComponentProcessor::class, PostMutationFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_MYPOSTCOUNT);
         }
+
         return parent::getFilterSubcomponent($component);
     }
 }

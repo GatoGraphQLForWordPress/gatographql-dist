@@ -8,16 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\ExceptionInterface;
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\NotInstantiableTypeException;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Registry;
+namespace Symfony\Component\VarExporter;
+
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
+use Symfony\Component\VarExporter\Exception\NotInstantiableTypeException;
+use Symfony\Component\VarExporter\Internal\Registry;
+
 /**
  * A utility class to create objects without calling their constructor.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 final class Instantiator
 {
@@ -37,20 +38,22 @@ final class Instantiator
      *
      * @throws ExceptionInterface When the instance cannot be created
      */
-    public static function instantiate(string $class, array $properties = [], array $scopedProperties = []) : object
+    public static function instantiate(string $class, array $properties = [], array $scopedProperties = []): object
     {
-        $reflector = Registry::$reflectors[$class] = Registry::$reflectors[$class] ?? Registry::getClassReflector($class);
+        $reflector = Registry::$reflectors[$class] ??= Registry::getClassReflector($class);
+
         if (Registry::$cloneable[$class]) {
             $instance = clone Registry::$prototypes[$class];
         } elseif (Registry::$instantiableWithoutConstructor[$class]) {
             $instance = $reflector->newInstanceWithoutConstructor();
         } elseif (null === Registry::$prototypes[$class]) {
             throw new NotInstantiableTypeException($class);
-        } elseif ($reflector->implementsInterface('Serializable') && !\method_exists($class, '__unserialize')) {
-            $instance = \unserialize('C:' . \strlen($class) . ':"' . $class . '":0:{}');
+        } elseif ($reflector->implementsInterface('Serializable') && !method_exists($class, '__unserialize')) {
+            $instance = unserialize('C:'.\strlen($class).':"'.$class.'":0:{}');
         } else {
-            $instance = \unserialize('O:' . \strlen($class) . ':"' . $class . '":0:{}');
+            $instance = unserialize('O:'.\strlen($class).':"'.$class.'":0:{}');
         }
+
         return $properties || $scopedProperties ? Hydrator::hydrate($instance, $properties, $scopedProperties) : $instance;
     }
 }

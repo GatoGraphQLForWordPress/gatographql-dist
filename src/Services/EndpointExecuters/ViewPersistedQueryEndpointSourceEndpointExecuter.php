@@ -10,10 +10,7 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpoi
 
 class ViewPersistedQueryEndpointSourceEndpointExecuter extends AbstractViewPersistedQueryEndpointSourceEndpointExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpointCustomPostType|null
-     */
-    private $graphQLPersistedQueryEndpointCustomPostType;
+    private ?GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType = null;
 
     final public function setGraphQLPersistedQueryEndpointCustomPostType(GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType): void
     {

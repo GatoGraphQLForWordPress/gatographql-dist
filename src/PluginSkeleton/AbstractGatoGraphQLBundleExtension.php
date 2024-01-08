@@ -15,9 +15,7 @@ abstract class AbstractGatoGraphQLBundleExtension extends AbstractBundleExtensio
     protected function getExtensionPluginFilenames(array $extensionSlugs): array
     {
         return array_map(
-            function (string $extensionSlug) {
-                return 'gatographql-' . $extensionSlug . '/gatographql-' . $extensionSlug . '.php';
-            },
+            fn (string $extensionSlug) => 'gatographql-' . $extensionSlug . '/gatographql-' . $extensionSlug . '.php',
             $extensionSlugs
         );
     }

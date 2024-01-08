@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Engine\ConditionalOnModule\CacheControl\Hooks;
 
 use PoP\CacheControl\Managers\CacheControlEngineInterface;
 use PoP\ComponentModel\Engine\EngineHookNames;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-/** @internal */
+
 class CacheControlHeadersHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\CacheControl\Managers\CacheControlEngineInterface|null
-     */
-    private $cacheControlEngine;
-    public final function setCacheControlEngine(CacheControlEngineInterface $cacheControlEngine) : void
+    private ?CacheControlEngineInterface $cacheControlEngine = null;
+
+    final public function setCacheControlEngine(CacheControlEngineInterface $cacheControlEngine): void
     {
         $this->cacheControlEngine = $cacheControlEngine;
     }
-    protected final function getCacheControlEngine() : CacheControlEngineInterface
+    final protected function getCacheControlEngine(): CacheControlEngineInterface
     {
         if ($this->cacheControlEngine === null) {
             /** @var CacheControlEngineInterface */
@@ -27,20 +26,28 @@ class CacheControlHeadersHookSet extends AbstractHookSet
         }
         return $this->cacheControlEngine;
     }
-    protected function init() : void
+
+    protected function init(): void
     {
-        App::addFilter(EngineHookNames::HEADERS, \Closure::fromCallable([$this, 'addHeaders']));
+        App::addFilter(
+            EngineHookNames::HEADERS,
+            $this->addHeaders(...)
+        );
     }
+
     /**
      * @param array<string,string> $headers
      * @return array<string,string>
      */
-    public function addHeaders(array $headers) : array
+    public function addHeaders(array $headers): array
     {
         $cacheControlHeaders = $this->getCacheControlEngine()->getCacheControlHeaders();
         if ($cacheControlHeaders === null) {
             return $headers;
         }
-        return \array_merge($headers, $cacheControlHeaders);
+        return array_merge(
+            $headers,
+            $cacheControlHeaders
+        );
     }
 }

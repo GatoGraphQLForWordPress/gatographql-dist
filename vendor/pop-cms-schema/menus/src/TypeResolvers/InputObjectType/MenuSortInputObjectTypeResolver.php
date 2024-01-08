@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Menus\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Menus\Constants\MenuOrderBy;
 use PoPCMSSchema\Menus\TypeResolvers\EnumType\MenuOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-/** @internal */
+
 class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\EnumType\MenuOrderByEnumTypeResolver|null
-     */
-    private $menuSortByEnumTypeResolver;
-    public final function setMenuOrderByEnumTypeResolver(MenuOrderByEnumTypeResolver $menuSortByEnumTypeResolver) : void
+    private ?MenuOrderByEnumTypeResolver $menuSortByEnumTypeResolver = null;
+
+    final public function setMenuOrderByEnumTypeResolver(MenuOrderByEnumTypeResolver $menuSortByEnumTypeResolver): void
     {
         $this->menuSortByEnumTypeResolver = $menuSortByEnumTypeResolver;
     }
-    protected final function getMenuOrderByEnumTypeResolver() : MenuOrderByEnumTypeResolver
+    final protected function getMenuOrderByEnumTypeResolver(): MenuOrderByEnumTypeResolver
     {
         if ($this->menuSortByEnumTypeResolver === null) {
             /** @var MenuOrderByEnumTypeResolver */
@@ -27,27 +26,30 @@ class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->menuSortByEnumTypeResolver;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'MenuSortInput';
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
-        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getMenuOrderByEnumTypeResolver()]);
+        return array_merge(
+            parent::getInputFieldNameTypeResolvers(),
+            [
+                'by' => $this->getMenuOrderByEnumTypeResolver(),
+            ]
+        );
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+
+    public function getInputFieldDefaultValue(string $inputFieldName): mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return MenuOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => MenuOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

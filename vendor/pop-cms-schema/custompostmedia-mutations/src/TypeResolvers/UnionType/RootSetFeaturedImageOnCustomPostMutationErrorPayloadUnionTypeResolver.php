@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
-class RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver
+
+class RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeResolver extends AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader(RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
+    private ?RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader = null;
+
+    final public function setRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader(RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader): void
     {
         $this->rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
     }
-    protected final function getRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader
+    final protected function getRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader(): RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {
             /** @var RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader */
@@ -25,15 +24,18 @@ class RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeResolver exte
         }
         return $this->rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnion';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Union of \'Error Payload\' types when setting a featured image to a custom post', 'custompostmedia-mutations');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader();
     }

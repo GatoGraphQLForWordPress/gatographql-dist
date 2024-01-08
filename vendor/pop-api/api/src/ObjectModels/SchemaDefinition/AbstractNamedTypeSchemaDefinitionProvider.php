@@ -1,29 +1,35 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
 use PoP\ComponentModel\TypeResolvers\InputObjectType\OneofInputObjectTypeResolverInterface;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EnumStringScalarTypeResolverInterface;
-/** @internal */
-abstract class AbstractNamedTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractTypeSchemaDefinitionProvider
+
+abstract class AbstractNamedTypeSchemaDefinitionProvider extends AbstractTypeSchemaDefinitionProvider
 {
     /**
      * @return array<string,mixed>
      */
-    public function getSchemaDefinition() : array
+    public function getSchemaDefinition(): array
     {
         $schemaDefinition = parent::getSchemaDefinition();
         $schemaDefinition[SchemaDefinition::EXTENSIONS] = $this->getNamedTypeExtensions();
         return $schemaDefinition;
     }
+
     /**
      * @return array<string,mixed>
      */
-    protected function getNamedTypeExtensions() : array
+    protected function getNamedTypeExtensions(): array
     {
-        $namedTypeExtensions = [SchemaDefinition::NAMESPACED_NAME => $this->typeResolver->getNamespacedTypeName(), SchemaDefinition::ELEMENT_NAME => $this->typeResolver->getTypeName()];
+        $namedTypeExtensions = [
+            SchemaDefinition::NAMESPACED_NAME => $this->typeResolver->getNamespacedTypeName(),
+            SchemaDefinition::ELEMENT_NAME => $this->typeResolver->getTypeName(),
+        ];
+
         /**
          * Enum-like "possible values" for EnumString type resolvers, `null` otherwise
          */
@@ -32,12 +38,14 @@ abstract class AbstractNamedTypeSchemaDefinitionProvider extends \PoPAPI\API\Obj
             $enumStringScalarTypeResolver = $this->typeResolver;
             $namedTypeExtensions[SchemaDefinition::POSSIBLE_VALUES] = $enumStringScalarTypeResolver->getConsolidatedPossibleValues();
         }
+
         /**
          * "oneOf" Input Objects
          */
         if ($this->typeResolver instanceof OneofInputObjectTypeResolverInterface) {
-            $namedTypeExtensions[SchemaDefinition::IS_ONE_OF] = \true;
+            $namedTypeExtensions[SchemaDefinition::IS_ONE_OF] = true;
         }
+
         return $namedTypeExtensions;
     }
 }

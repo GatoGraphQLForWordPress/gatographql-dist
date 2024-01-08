@@ -16,10 +16,7 @@ use PoP\ComponentModel\App;
  */
 class CategoryUnionTypeDataLoader extends UpstreamCategoryUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\QueryableCategoryListObjectTypeDataLoader|null
-     */
-    private $queryableCategoryListObjectTypeDataLoader;
+    private ?QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader = null;
 
     final public function setQueryableCategoryListObjectTypeDataLoader(QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader): void
     {

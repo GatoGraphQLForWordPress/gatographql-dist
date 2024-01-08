@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-interface SchemaFeedbackInterface extends \PoP\ComponentModel\Feedback\QueryFeedbackInterface
+
+interface SchemaFeedbackInterface extends QueryFeedbackInterface
 {
-    public function getRelationalTypeResolver() : RelationalTypeResolverInterface;
+    public function getRelationalTypeResolver(): RelationalTypeResolverInterface;
     /**
      * @return FieldInterface[]
      */
-    public function getFields() : array;
+    public function getFields(): array;
 }

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\AppStateProviderServices;
 
 use PoPAPI\API\Response\Schemes;
@@ -8,19 +9,18 @@ use PoPAPI\API\Routing\RequestNature;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Services\StandaloneServiceTrait;
-/** @internal */
-class GraphQLServerAppStateProviderService implements \GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface
+
+class GraphQLServerAppStateProviderService implements GraphQLServerAppStateProviderServiceInterface
 {
     use StandaloneServiceTrait;
-    /**
-     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
-     */
-    private $graphQLDataStructureFormatter;
-    public final function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter) : void
+
+    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
+
+    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
     {
         $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
     }
-    protected final function getGraphQLDataStructureFormatter() : GraphQLDataStructureFormatter
+    final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {
             /** @var GraphQLDataStructureFormatter */
@@ -29,13 +29,18 @@ class GraphQLServerAppStateProviderService implements \GraphQLByPoP\GraphQLServe
         }
         return $this->graphQLDataStructureFormatter;
     }
+
     /**
      * The required state to execute GraphQL queries.
      *
      * @return array<string,mixed>
      */
-    public function getGraphQLRequestAppState() : array
+    public function getGraphQLRequestAppState(): array
     {
-        return ['scheme' => Schemes::API, 'datastructure' => $this->getGraphQLDataStructureFormatter()->getName(), 'nature' => RequestNature::QUERY_ROOT];
+        return [
+            'scheme' => Schemes::API,
+            'datastructure' => $this->getGraphQLDataStructureFormatter()->getName(),
+            'nature' => RequestNature::QUERY_ROOT,
+        ];
     }
 }

@@ -35,30 +35,12 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
     use HasDocumentationScriptTrait;
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\PluginUtils\Services\Helpers\StringConversion|null
-     */
-    private $stringConversion;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EditorHelpers|null
-     */
-    private $editorHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\LocaleHelper|null
-     */
-    private $localeHelper;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\RenderingHelpers|null
-     */
-    private $renderingHelpers;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?StringConversion $stringConversion = null;
+    private ?EditorHelpers $editorHelpers = null;
+    private ?LocaleHelper $localeHelper = null;
+    private ?RenderingHelpers $renderingHelpers = null;
 
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {
@@ -144,7 +126,7 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
      */
     final public function initialize(): void
     {
-        \add_action('init', \Closure::fromCallable([$this, 'initBlock']));
+        \add_action('init', $this->initBlock(...));
     }
 
     public function getEnablingModule(): ?string
@@ -464,9 +446,9 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
              * Show only if the user has the right permission
              */
             if ($this->getUserAuthorization()->canAccessSchemaEditor()) {
-                $blockConfiguration['render_callback'] = \Closure::fromCallable([$this, 'renderBlock']);
+                $blockConfiguration['render_callback'] = $this->renderBlock(...);
             } else {
-                $blockConfiguration['render_callback'] = \Closure::fromCallable([$this->getRenderingHelpers(), 'getUnauthorizedAccessHTMLMessage']);
+                $blockConfiguration['render_callback'] = $this->getRenderingHelpers()->getUnauthorizedAccessHTMLMessage(...);
             }
         }
 

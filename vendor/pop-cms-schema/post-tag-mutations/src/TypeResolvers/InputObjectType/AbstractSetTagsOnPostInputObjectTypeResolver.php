@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\AbstractSetTagsOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
-/** @internal */
+
 abstract class AbstractSetTagsOnPostInputObjectTypeResolver extends AbstractSetTagsOnCustomPostInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+
+    final public function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver): void
     {
         $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
     }
-    protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
+    final protected function getPostTagObjectTypeResolver(): PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
             /** @var PostTagObjectTypeResolver */
@@ -26,11 +25,13 @@ abstract class AbstractSetTagsOnPostInputObjectTypeResolver extends AbstractSetT
         }
         return $this->postTagObjectTypeResolver;
     }
-    protected function getTagTypeResolver() : TagObjectTypeResolverInterface
+
+    protected function getTagTypeResolver(): TagObjectTypeResolverInterface
     {
         return $this->getPostTagObjectTypeResolver();
     }
-    protected function getEntityName() : string
+
+    protected function getEntityName(): string
     {
         return $this->__('post', 'postcategory-mutations');
     }

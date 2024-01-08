@@ -8,34 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+
+namespace Symfony\Component\HttpFoundation;
 
 /**
  * ChainRequestMatcher verifies that all checks match against a Request instance.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class ChainRequestMatcher implements RequestMatcherInterface
 {
     /**
-     * @var iterable<RequestMatcherInterface>
-     */
-    private $matchers;
-    /**
      * @param iterable<RequestMatcherInterface> $matchers
      */
-    public function __construct(iterable $matchers)
+    public function __construct(private iterable $matchers)
     {
-        $this->matchers = $matchers;
     }
-    public function matches(Request $request) : bool
+
+    public function matches(Request $request): bool
     {
         foreach ($this->matchers as $matcher) {
             if (!$matcher->matches($request)) {
-                return \false;
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
 }

@@ -1,22 +1,20 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\FilterInputs;
 
 use PoP\ComponentModel\FilterInputs\AbstractValueToQueryFilterInput;
-/** @internal */
+
 class EmailOrEmailsFilterInput extends AbstractValueToQueryFilterInput
 {
-    protected function getQueryArgKey() : string
+    protected function getQueryArgKey(): string
     {
         return 'emails';
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function getValue($value)
+
+    protected function getValue(mixed $value): mixed
     {
-        return \is_array($value) ? $value : [$value];
+        return is_array($value) ? $value : [$value];
     }
 }

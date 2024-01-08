@@ -8,14 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+namespace Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
+
+use Symfony\Component\DependencyInjection\Definition;
+
 /**
  * Lazy proxy dumper capable of generating the instantiation logic PHP code for proxied services.
  *
  * @author Marco Pivetta <ocramius@gmail.com>
- * @internal
  */
 interface DumperInterface
 {
@@ -25,15 +26,17 @@ interface DumperInterface
      * @param bool|null   &$asGhostObject Set to true after the call if the proxy is a ghost object
      * @param string|null $id
      */
-    public function isProxyCandidate(Definition $definition) : bool;
+    public function isProxyCandidate(Definition $definition/* , bool &$asGhostObject = null, string $id = null */): bool;
+
     /**
      * Generates the code to be used to instantiate a proxy in the dumped factory code.
      */
-    public function getProxyFactoryCode(Definition $definition, string $id, string $factoryCode) : string;
+    public function getProxyFactoryCode(Definition $definition, string $id, string $factoryCode): string;
+
     /**
      * Generates the code for the lazy proxy.
      *
      * @param string|null $id
      */
-    public function getProxyCode(Definition $definition) : string;
+    public function getProxyCode(Definition $definition/* , string $id = null */): string;
 }

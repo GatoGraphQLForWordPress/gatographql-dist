@@ -31,10 +31,7 @@ class ModuleListTable extends AbstractItemListTable
 {
     use WithOpeningModuleDocInModalListTableTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -42,7 +39,7 @@ class ModuleListTable extends AbstractItemListTable
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     /**
@@ -195,7 +192,7 @@ class ModuleListTable extends AbstractItemListTable
      *
      * @return array<array<string,mixed>>
      */
-    public function getItems(int $per_page, int $page_number)
+    public function getItems(int $per_page, int $page_number): mixed
     {
         $results = $this->getAllItems();
         return array_splice(
@@ -537,7 +534,13 @@ class ModuleListTable extends AbstractItemListTable
                 ],
             [
                 'desc' => \__('Description', 'gatographql'),
-                'depends-on' => sprintf(\__('%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s', 'gatographql'), \__('Depends on:', 'gatographql'), \__('▹ active module', 'gatographql'), \__('☑︎ active plugin', 'gatographql'), \__('☒ inactive plugin', 'gatographql')),
+                'depends-on' => sprintf(
+                    \__('%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s', 'gatographql'),
+                    \__('Depends on:', 'gatographql'),
+                    \__('▹ active module', 'gatographql'),
+                    \__('☑︎ active plugin', 'gatographql'),
+                    \__('☒ inactive plugin', 'gatographql'),
+                ),
             ]
         );
     }

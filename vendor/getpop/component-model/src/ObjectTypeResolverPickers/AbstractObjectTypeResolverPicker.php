@@ -1,25 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionTrait;
 use PoP\Root\Services\BasicServiceTrait;
-/** @internal */
-abstract class AbstractObjectTypeResolverPicker implements \PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface
+
+abstract class AbstractObjectTypeResolverPicker implements ObjectTypeResolverPickerInterface
 {
     use AttachableExtensionTrait;
     use BasicServiceTrait;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
-    public final function setAttachableExtensionManager(AttachableExtensionManagerInterface $attachableExtensionManager) : void
+
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
+
+    final public function setAttachableExtensionManager(AttachableExtensionManagerInterface $attachableExtensionManager): void
     {
         $this->attachableExtensionManager = $attachableExtensionManager;
     }
-    protected final function getAttachableExtensionManager() : AttachableExtensionManagerInterface
+    final protected function getAttachableExtensionManager(): AttachableExtensionManagerInterface
     {
         if ($this->attachableExtensionManager === null) {
             /** @var AttachableExtensionManagerInterface */
@@ -28,10 +28,11 @@ abstract class AbstractObjectTypeResolverPicker implements \PoP\ComponentModel\O
         }
         return $this->attachableExtensionManager;
     }
+
     /**
      * @return string[]
      */
-    public final function getClassesToAttachTo() : array
+    final public function getClassesToAttachTo(): array
     {
         return $this->getUnionTypeResolverClassesToAttachTo();
     }

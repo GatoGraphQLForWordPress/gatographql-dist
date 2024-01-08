@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\UserStateMutations\ObjectModels\InvalidUsernameErrorPayload;
 use PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUsernameErrorPayloadObjectTypeResolver;
 use PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 abstract class AbstractInvalidUsernameErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUsernameErrorPayloadObjectTypeResolver|null
-     */
-    private $userIsNotLoggedInErrorPayloadObjectTypeResolver;
-    public final function setInvalidUsernameErrorPayloadObjectTypeResolver(InvalidUsernameErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver) : void
+    private ?InvalidUsernameErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver = null;
+
+    final public function setInvalidUsernameErrorPayloadObjectTypeResolver(InvalidUsernameErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver): void
     {
         $this->userIsNotLoggedInErrorPayloadObjectTypeResolver = $userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-    protected final function getInvalidUsernameErrorPayloadObjectTypeResolver() : InvalidUsernameErrorPayloadObjectTypeResolver
+    final protected function getInvalidUsernameErrorPayloadObjectTypeResolver(): InvalidUsernameErrorPayloadObjectTypeResolver
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeResolver === null) {
             /** @var InvalidUsernameErrorPayloadObjectTypeResolver */
@@ -27,11 +26,13 @@ abstract class AbstractInvalidUsernameErrorPayloadObjectTypeResolverPicker exten
         }
         return $this->userIsNotLoggedInErrorPayloadObjectTypeResolver;
     }
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface
+
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface
     {
         return $this->getInvalidUsernameErrorPayloadObjectTypeResolver();
     }
-    protected function getTargetObjectClass() : string
+
+    protected function getTargetObjectClass(): string
     {
         return InvalidUsernameErrorPayload::class;
     }

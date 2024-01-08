@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\SchemaHooks;
 
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCategoriesInputObjectTypeResolverInterface;
-/** @internal */
-abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends \PoPCMSSchema\Categories\SchemaHooks\AbstractAddCategoryFilterInputObjectTypeHookSet
+
+abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends AbstractAddCategoryFilterInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver|null
-     */
-    private $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
-    public final function setCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver(CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver) : void
+    private ?CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver = null;
+
+    final public function setCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver(CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver): void
     {
         $this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver = $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
     }
-    protected final function getCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver() : CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver
+    final protected function getCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver(): CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver
     {
         if ($this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver === null) {
             /** @var CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver */
@@ -25,7 +24,8 @@ abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends
         }
         return $this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
     }
-    protected function getFilterCustomPostsByCategoriesInputObjectTypeResolver() : FilterCustomPostsByCategoriesInputObjectTypeResolverInterface
+
+    protected function getFilterCustomPostsByCategoriesInputObjectTypeResolver(): FilterCustomPostsByCategoriesInputObjectTypeResolverInterface
     {
         return $this->getCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver();
     }

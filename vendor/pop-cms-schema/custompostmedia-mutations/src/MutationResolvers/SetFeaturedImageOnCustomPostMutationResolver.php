@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
@@ -13,23 +14,19 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
-/** @internal */
-class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
+
+class SetFeaturedImageOnCustomPostMutationResolver extends AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
 {
-    use \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
-     */
-    private $customPostMediaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    public final function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI) : void
+    use SetFeaturedImageOnCustomPostMutationResolverTrait;
+
+    private ?CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI = null;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+
+    final public function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI): void
     {
         $this->customPostMediaTypeMutationAPI = $customPostMediaTypeMutationAPI;
     }
-    protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
+    final protected function getCustomPostMediaTypeMutationAPI(): CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {
             /** @var CustomPostMediaTypeMutationAPIInterface */
@@ -38,11 +35,11 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
         }
         return $this->customPostMediaTypeMutationAPI;
     }
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
+    final public function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI): void
     {
         $this->mediaTypeAPI = $mediaTypeAPI;
     }
-    protected final function getMediaTypeAPI() : MediaTypeAPIInterface
+    final protected function getMediaTypeAPI(): MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
             /** @var MediaTypeAPIInterface */
@@ -51,12 +48,14 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
         }
         return $this->mediaTypeAPI;
     }
+
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function executeMutation(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $mediaItemID = null;
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
         $mediaItemBy = $fieldDataAccessor->getValue(MutationInputProperties::MEDIAITEM_BY);
@@ -75,22 +74,46 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
         $this->getCustomPostMediaTypeMutationAPI()->setFeaturedImage($customPostID, $mediaItemID);
         return $customPostID;
     }
-    public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
-        parent::validate($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+
+    public function validate(
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): void {
+        parent::validate(
+            $fieldDataAccessor,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
+
         $mediaItemBy = $fieldDataAccessor->getValue(MutationInputProperties::MEDIAITEM_BY);
         if ($mediaItemBy === null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1), $fieldDataAccessor->getField()));
+            $objectTypeFieldResolutionFeedbackStore->addError(
+                new ObjectTypeFieldResolutionFeedback(
+                    new FeedbackItemResolution(
+                        MutationErrorFeedbackItemProvider::class,
+                        MutationErrorFeedbackItemProvider::E1,
+                    ),
+                    $fieldDataAccessor->getField(),
+                )
+            );
             return;
         }
+
         if (isset($mediaItemBy->{InputProperties::ID})) {
             /** @var string|int */
             $mediaItemID = $mediaItemBy->{InputProperties::ID};
-            $this->validateMediaItemByIDExists($mediaItemID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemByIDExists(
+                $mediaItemID,
+                $fieldDataAccessor,
+                $objectTypeFieldResolutionFeedbackStore,
+            );
         } elseif (isset($mediaItemBy->{InputProperties::SLUG})) {
             /** @var string */
             $mediaItemSlug = $mediaItemBy->{InputProperties::SLUG};
-            $this->validateMediaItemBySlugExists($mediaItemSlug, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemBySlugExists(
+                $mediaItemSlug,
+                $fieldDataAccessor,
+                $objectTypeFieldResolutionFeedbackStore,
+            );
         }
     }
 }

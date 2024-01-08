@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
-/** @internal */
-abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface
+
+abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeResolver implements CustomPostObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+
+    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
     }
-    protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
+    final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
             /** @var CustomPostTypeAPIInterface */
@@ -25,14 +24,13 @@ abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeRe
         }
         return $this->customPostTypeAPI;
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Representation of a custom post', 'customposts');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+
+    public function getID(object $object): string|int|null
     {
         return $this->getCustomPostTypeAPI()->getID($object);
     }

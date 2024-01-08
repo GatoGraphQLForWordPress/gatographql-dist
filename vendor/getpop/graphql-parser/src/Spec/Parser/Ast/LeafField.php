@@ -1,10 +1,10 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
-/** @internal */
-class LeafField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField
+class LeafField extends AbstractField
 {
     /**
      * Indicate if a field equals another one based on its properties,
@@ -14,7 +14,7 @@ class LeafField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField
      *
      * @see https://spec.graphql.org/draft/#sec-Field-Selection-Merging
      */
-    public function isEquivalentTo(\PoP\GraphQLParser\Spec\Parser\Ast\LeafField $leafField) : bool
+    public function isEquivalentTo(LeafField $leafField): bool
     {
         return $this->doIsEquivalentTo($leafField);
     }

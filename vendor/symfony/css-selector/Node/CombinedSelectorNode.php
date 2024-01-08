@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
+
+namespace Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a combined node.
@@ -22,43 +23,41 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
  */
 class CombinedSelectorNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var string
-     */
-    private $combinator;
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $subSelector;
+    private NodeInterface $selector;
+    private string $combinator;
+    private NodeInterface $subSelector;
+
     public function __construct(NodeInterface $selector, string $combinator, NodeInterface $subSelector)
     {
         $this->selector = $selector;
         $this->combinator = $combinator;
         $this->subSelector = $subSelector;
     }
-    public function getSelector() : NodeInterface
+
+    public function getSelector(): NodeInterface
     {
         return $this->selector;
     }
-    public function getCombinator() : string
+
+    public function getCombinator(): string
     {
         return $this->combinator;
     }
-    public function getSubSelector() : NodeInterface
+
+    public function getSubSelector(): NodeInterface
     {
         return $this->subSelector;
     }
-    public function getSpecificity() : Specificity
+
+    public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus($this->subSelector->getSpecificity());
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
         $combinator = ' ' === $this->combinator ? '<followed>' : $this->combinator;
-        return \sprintf('%s[%s %s %s]', $this->getNodeName(), $this->selector, $combinator, $this->subSelector);
+
+        return sprintf('%s[%s %s %s]', $this->getNodeName(), $this->selector, $combinator, $this->subSelector);
     }
 }

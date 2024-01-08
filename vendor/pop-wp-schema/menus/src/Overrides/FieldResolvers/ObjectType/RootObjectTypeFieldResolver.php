@@ -12,11 +12,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 
 class RootObjectTypeFieldResolver extends UpstreamRootObjectTypeFieldResolver
 {
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'menu':
                 $menuParam = null;
@@ -39,6 +40,7 @@ class RootObjectTypeFieldResolver extends UpstreamRootObjectTypeFieldResolver
                 }
                 return $menu->term_id;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -46,8 +48,10 @@ class RootObjectTypeFieldResolver extends UpstreamRootObjectTypeFieldResolver
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

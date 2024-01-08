@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\Directives\DirectiveKinds;
@@ -18,18 +19,16 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
-/** @internal */
-final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
+
+final class ValidateFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
-     */
-    private $typeSerializationService;
-    public final function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService) : void
+    private ?TypeSerializationServiceInterface $typeSerializationService = null;
+
+    final public function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService): void
     {
         $this->typeSerializationService = $typeSerializationService;
     }
-    protected final function getTypeSerializationService() : TypeSerializationServiceInterface
+    final protected function getTypeSerializationService(): TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
             /** @var TypeSerializationServiceInterface */
@@ -38,24 +37,28 @@ final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\Directive
         }
         return $this->typeSerializationService;
     }
-    public function getDirectiveName() : string
+
+    public function getDirectiveName(): string
     {
         return 'validate';
     }
+
     /**
      * This is a system directive
      */
-    public function getDirectiveKind() : string
+    public function getDirectiveKind(): string
     {
         return DirectiveKinds::SYSTEM;
     }
+
     /**
      * This directive must be the first one of its group
      */
-    public function getPipelinePosition() : string
+    public function getPipelinePosition(): string
     {
         return PipelinePositions::AFTER_VALIDATE;
     }
+
     /**
      * Validate at the schema level first that Fields
      * exist, and RelationalFields are indeed relational
@@ -71,8 +74,20 @@ final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\Directive
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
-    {
+    public function resolveDirective(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $idFieldSet,
+        FieldDataAccessProviderInterface $fieldDataAccessProvider,
+        array $succeedingPipelineFieldDirectiveResolvers,
+        array $idObjects,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array &$succeedingPipelineIDFieldSet,
+        array &$succeedingPipelineFieldDataAccessProviders,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): void {
         if ($relationalTypeResolver instanceof UnionTypeResolverInterface) {
             /** @var UnionTypeResolverInterface */
             $unionTypeResolver = $relationalTypeResolver;
@@ -86,31 +101,55 @@ final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\Directive
                 }
                 $processedFields = $processedObjectTypeResolverFields[$targetObjectTypeResolver] ?? [];
                 foreach ($fieldSet->fields as $field) {
-                    if (\in_array($field, $processedFields)) {
+                    if (in_array($field, $processedFields)) {
                         continue;
                     }
                     $processedFields[] = $field;
-                    $this->executeValidationForField($targetObjectTypeResolver, $field, $idFieldSet, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
+                    $this->executeValidationForField(
+                        $targetObjectTypeResolver,
+                        $field,
+                        $idFieldSet,
+                        $succeedingPipelineIDFieldSet,
+                        $resolvedIDFieldValues,
+                        $engineIterationFeedbackStore,
+                    );
                 }
                 $processedObjectTypeResolverFields[$targetObjectTypeResolver] = $processedFields;
             }
             return;
         }
+
         /** @var ObjectTypeResolverInterface */
         $objectTypeResolver = $relationalTypeResolver;
         $fields = MethodHelpers::getFieldsFromIDFieldSet($idFieldSet);
         foreach ($fields as $field) {
-            $this->executeValidationForField($objectTypeResolver, $field, $idFieldSet, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
+            $this->executeValidationForField(
+                $objectTypeResolver,
+                $field,
+                $idFieldSet,
+                $succeedingPipelineIDFieldSet,
+                $resolvedIDFieldValues,
+                $engineIterationFeedbackStore,
+            );
         }
     }
+
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
      */
-    protected function executeValidationForField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, array $idFieldSet, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
-    {
+    protected function executeValidationForField(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+        array $idFieldSet,
+        array &$succeedingPipelineIDFieldSet,
+        array &$resolvedIDFieldValues,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): void {
+
         $feedbackItemResolution = null;
+
         /**
          * Validation that the field exists will have been done
          * when parsing the Field Data, but possibly not so
@@ -121,8 +160,18 @@ final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\Directive
          */
         $objectTypeFieldResolver = $objectTypeResolver->getExecutableObjectTypeFieldResolverForField($field);
         if ($objectTypeFieldResolver === null) {
-            $feedbackItemResolution = new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_3_1, [$field->getName(), $objectTypeResolver->getMaybeNamespacedTypeName()]);
-        } elseif ($field instanceof RelationalField && !$objectTypeFieldResolver->getFieldTypeResolver($objectTypeResolver, $field->getName()) instanceof RelationalTypeResolverInterface) {
+            $feedbackItemResolution = new FeedbackItemResolution(
+                GraphQLSpecErrorFeedbackItemProvider::class,
+                GraphQLSpecErrorFeedbackItemProvider::E_5_3_1,
+                [
+                    $field->getName(),
+                    $objectTypeResolver->getMaybeNamespacedTypeName(),
+                ]
+            );
+        } elseif (
+            $field instanceof RelationalField
+            && !($objectTypeFieldResolver->getFieldTypeResolver($objectTypeResolver, $field->getName()) instanceof RelationalTypeResolverInterface)
+        ) {
             /**
              * Validate that a RelationalField in the AST is not actually
              * a leaf field in the resolver.
@@ -138,13 +187,30 @@ final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\Directive
              *   }
              *   ```
              */
-            $feedbackItemResolution = new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_3_3, [$field->getOutputKey(), $objectTypeResolver->getMaybeNamespacedTypeName()]);
+            $feedbackItemResolution = new FeedbackItemResolution(
+                GraphQLSpecErrorFeedbackItemProvider::class,
+                GraphQLSpecErrorFeedbackItemProvider::E_5_3_3,
+                [
+                    $field->getOutputKey(),
+                    $objectTypeResolver->getMaybeNamespacedTypeName(),
+                ]
+            );
         }
+
         if ($feedbackItemResolution !== null) {
-            $this->processSchemaFailure($objectTypeResolver, $feedbackItemResolution, MethodHelpers::filterFieldsInIDFieldSet($idFieldSet, [$field]), $succeedingPipelineIDFieldSet, $field, $resolvedIDFieldValues, $engineIterationFeedbackStore);
+            $this->processSchemaFailure(
+                $objectTypeResolver,
+                $feedbackItemResolution,
+                MethodHelpers::filterFieldsInIDFieldSet($idFieldSet, [$field]),
+                $succeedingPipelineIDFieldSet,
+                $field,
+                $resolvedIDFieldValues,
+                $engineIterationFeedbackStore,
+            );
         }
     }
-    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string
+
+    public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver): ?string
     {
         return $this->__('Validate the fields before they are resolved. This directive is already included by the engine, since its execution is mandatory', 'component-model');
     }

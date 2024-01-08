@@ -8,21 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
 
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node\Node;
+namespace Symfony\Component\ExpressionLanguage;
+
+use Symfony\Component\ExpressionLanguage\Node\Node;
+
 /**
  * Represents an already parsed expression.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class SerializedParsedExpression extends ParsedExpression
 {
-    /**
-     * @var string
-     */
-    private $nodes;
+    private string $nodes;
+
     /**
      * @param string $expression An expression
      * @param string $nodes      The serialized nodes for the expression
@@ -32,11 +31,12 @@ class SerializedParsedExpression extends ParsedExpression
         $this->expression = $expression;
         $this->nodes = $nodes;
     }
+
     /**
      * @return Node
      */
     public function getNodes()
     {
-        return \unserialize($this->nodes);
+        return unserialize($this->nodes);
     }
 }

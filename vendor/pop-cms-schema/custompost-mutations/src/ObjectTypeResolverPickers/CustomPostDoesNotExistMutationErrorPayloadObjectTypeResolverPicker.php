@@ -1,18 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
-/** @internal */
-class CustomPostDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends \PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers\AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker
+
+class CustomPostDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo() : array
+    public function getUnionTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver::class];
+        return [
+            AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver::class,
+        ];
     }
 }

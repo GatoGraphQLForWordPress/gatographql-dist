@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Response;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Response\OutputServiceInterface;
-/** @internal */
+
 class OutputServiceFacade
 {
-    public static function getInstance() : OutputServiceInterface
+    public static function getInstance(): OutputServiceInterface
     {
         /**
          * @var OutputServiceInterface

@@ -14,17 +14,25 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::DISABLE_GRAPHQL_API_ENDPOINT;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function getGatoGraphQLEndpoint(): string
     {
         $envVariable = Environment::GRAPHQL_API_ENDPOINT;
         $defaultValue = '/api/graphql/';
-        $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
+        $callback = EndpointUtils::slashURI(...);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

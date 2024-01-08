@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
-/** @internal */
-interface DocumentFeedbackInterface extends \PoP\ComponentModel\Feedback\FeedbackInterface
+
+interface DocumentFeedbackInterface extends FeedbackInterface
 {
-    public function getLocation() : Location;
+    public function getLocation(): Location;
 }

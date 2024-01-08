@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers;
 
 /**
@@ -26,16 +27,15 @@ namespace PoP\ComponentModel\TypeResolvers;
  * In the "serialize" step, the directive takes the objects
  * stored in $resolvedIDFieldValues, such as a DateTime object,
  * and converts them to string for printing in the response.
- * @internal
  */
 class PipelinePositions
 {
-    public const BEGINNING = 'beginning';
-    public const BEFORE_VALIDATE = 'before-validate';
-    public const AFTER_VALIDATE = 'after-validate';
-    public const BEFORE_RESOLVE = 'before-resolve';
-    public const AFTER_RESOLVE = 'after-resolve';
-    public const BEFORE_SERIALIZE = 'before-serialize';
-    public const AFTER_SERIALIZE = 'after-serialize';
-    public const END = 'end';
+    public final const BEGINNING = 'beginning';
+    public final const BEFORE_VALIDATE = 'before-validate';
+    public final const AFTER_VALIDATE = 'after-validate';
+    public final const BEFORE_RESOLVE = 'before-resolve';
+    public final const AFTER_RESOLVE = 'after-resolve';
+    public final const BEFORE_SERIALIZE = 'before-serialize';
+    public final const AFTER_SERIALIZE = 'after-serialize';
+    public final const END = 'end';
 }

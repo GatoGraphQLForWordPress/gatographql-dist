@@ -25,14 +25,8 @@ abstract class AbstractCacheConfigurationManager implements CacheConfigurationMa
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    private ?EndpointHelpers $endpointHelpers = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -40,7 +34,7 @@ abstract class AbstractCacheConfigurationManager implements CacheConfigurationMa
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
     final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
     {

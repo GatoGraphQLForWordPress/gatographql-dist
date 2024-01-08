@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserState\Hooks;
 
 use PoP\ComponentModel\Response\DatabaseEntryManager;
@@ -8,18 +9,16 @@ use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPCMSSchema\UserState\Constants\HookNames;
 use PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver;
-/** @internal */
+
 class DBEntriesHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver|null
-     */
-    private $globalObjectTypeFieldResolver;
-    public final function setObjectTypeFieldResolver(ObjectTypeFieldResolver $globalObjectTypeFieldResolver) : void
+    private ?ObjectTypeFieldResolver $globalObjectTypeFieldResolver = null;
+
+    final public function setObjectTypeFieldResolver(ObjectTypeFieldResolver $globalObjectTypeFieldResolver): void
     {
         $this->globalObjectTypeFieldResolver = $globalObjectTypeFieldResolver;
     }
-    protected final function getObjectTypeFieldResolver() : ObjectTypeFieldResolver
+    final protected function getObjectTypeFieldResolver(): ObjectTypeFieldResolver
     {
         if ($this->globalObjectTypeFieldResolver === null) {
             /** @var ObjectTypeFieldResolver */
@@ -28,17 +27,27 @@ class DBEntriesHookSet extends AbstractHookSet
         }
         return $this->globalObjectTypeFieldResolver;
     }
-    protected function init() : void
+
+    protected function init(): void
     {
-        App::addFilter(DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES, \Closure::fromCallable([$this, 'moveEntriesUnderDBName']), 10, 1);
+        App::addFilter(
+            DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES,
+            $this->moveEntriesUnderDBName(...),
+            10,
+            1
+        );
     }
+
     /**
      * @param array<string,string[]> $dbNameToFieldNames
      * @return array<string,string[]>
      */
-    public function moveEntriesUnderDBName(array $dbNameToFieldNames) : array
+    public function moveEntriesUnderDBName(array $dbNameToFieldNames): array
     {
-        $dbNameToFieldNames['userstate'] = App::applyFilters(HookNames::MOVE_ENTRIES_UNDER_DB_NAME_META_FIELDS, $this->getObjectTypeFieldResolver()->getFieldNamesToResolve());
+        $dbNameToFieldNames['userstate'] = App::applyFilters(
+            HookNames::MOVE_ENTRIES_UNDER_DB_NAME_META_FIELDS,
+            $this->getObjectTypeFieldResolver()->getFieldNamesToResolve()
+        );
         return $dbNameToFieldNames;
     }
 }

@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface;
-/** @internal */
+
 class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface|null
-     */
-    private $userAvatarRuntimeRegistry;
-    public final function setUserAvatarRuntimeRegistry(UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry) : void
+    private ?UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry = null;
+
+    final public function setUserAvatarRuntimeRegistry(UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry): void
     {
         $this->userAvatarRuntimeRegistry = $userAvatarRuntimeRegistry;
     }
-    protected final function getUserAvatarRuntimeRegistry() : UserAvatarRuntimeRegistryInterface
+    final protected function getUserAvatarRuntimeRegistry(): UserAvatarRuntimeRegistryInterface
     {
         if ($this->userAvatarRuntimeRegistry === null) {
             /** @var UserAvatarRuntimeRegistryInterface */
@@ -25,12 +24,16 @@ class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->userAvatarRuntimeRegistry;
     }
+
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids) : array
+    public function getObjects(array $ids): array
     {
-        return \array_map(\Closure::fromCallable([$this->getUserAvatarRuntimeRegistry(), 'getUserAvatar']), $ids);
+        return array_map(
+            $this->getUserAvatarRuntimeRegistry()->getUserAvatar(...),
+            $ids
+        );
     }
 }

@@ -46,7 +46,10 @@ class UserStateTypeMutationAPI implements UserStateTypeMutationAPIInterface
         if ($result instanceof WP_Error) {
             /** @var WP_Error */
             $wpError = $result;
-            throw $this->createUserStateMutationException($wpError, $credentials);
+            throw $this->createUserStateMutationException(
+                $wpError,
+                $credentials,
+            );
         }
 
         $user = $result;
@@ -57,30 +60,35 @@ class UserStateTypeMutationAPI implements UserStateTypeMutationAPIInterface
     /**
      * @param array<string,mixed> $credentials
      */
-    protected function createUserStateMutationException(WP_Error $wpError, array $credentials): UserStateMutationException
-    {
+    protected function createUserStateMutationException(
+        WP_Error $wpError,
+        array $credentials,
+    ): UserStateMutationException {
         $errorCode = $wpError->get_error_code() ? $wpError->get_error_code() : null;
         $errorMessage = $wpError->get_error_message();
-        switch ($errorCode) {
-            case 'invalid_username':
-                $errorMessage = sprintf(
-                    $this->__('The username \'%s\' is not registered on this site.', 'user-state-mutations'),
-                    $credentials['user_login']
-                );
-                break;
-            case 'incorrect_password':
-                $errorMessage = sprintf(
-                    $this->__('The password you entered for the username \'%s\' is incorrect.', 'user-state-mutations'),
-                    $credentials['user_login']
-                );
-                break;
-            default:
-                $errorMessage = $errorMessage;
-                break;
-        }
+
+        /**
+         * Override the messages to remove HTML tags and links
+         */
+        $errorMessage = match ($errorCode) {
+            'invalid_username' => sprintf(
+                $this->__('The username \'%s\' is not registered on this site.', 'user-state-mutations'),
+                $credentials['user_login']
+            ),
+            'incorrect_password' => sprintf(
+                $this->__('The password you entered for the username \'%s\' is incorrect.', 'user-state-mutations'),
+                $credentials['user_login']
+            ),
+            default => $errorMessage,
+        };
+
         $errorData = $this->getWPErrorData($wpError) ?? new stdClass();
         $errorData->userLogin = $credentials['user_login'];
-        return new UserStateMutationException($errorMessage, $errorCode, $errorData);
+        return new UserStateMutationException(
+            $errorMessage,
+            $errorCode,
+            $errorData,
+        );
     }
 
     public function logout(): void

@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\QueryInputOutputHandlers;
 
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
-class ActionExecutionQueryInputOutputHandler extends \PoP\ComponentModel\QueryInputOutputHandlers\AbstractQueryInputOutputHandler
+
+class ActionExecutionQueryInputOutputHandler extends AbstractQueryInputOutputHandler
 {
     /**
      * @return array<string,mixed>
@@ -13,13 +14,18 @@ class ActionExecutionQueryInputOutputHandler extends \PoP\ComponentModel\QueryIn
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs): array
     {
         $ret = parent::getQueryResult($data_properties, $dataaccess_checkpoint_validation, $actionexecution_checkpoint_validation, $executed, $objectIDOrIDs);
+
         if ($executed) {
             // $executed may contain strings "success", "successstrings", "softredirect", etc
-            $ret = \array_merge($ret, $executed);
+            $ret = array_merge(
+                $ret,
+                $executed
+            );
         }
+
         return $ret;
     }
 }

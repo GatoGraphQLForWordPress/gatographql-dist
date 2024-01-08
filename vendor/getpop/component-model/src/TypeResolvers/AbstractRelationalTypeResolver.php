@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers;
 
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionGroups;
@@ -28,59 +29,58 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
-/** @internal */
-abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeResolvers\AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
+
+abstract class AbstractRelationalTypeResolver extends AbstractTypeResolver implements RelationalTypeResolverInterface
 {
-    use \PoP\ComponentModel\TypeResolvers\ExcludeFieldNamesFromSchemaTypeResolverTrait;
+    use ExcludeFieldNamesFromSchemaTypeResolverTrait;
+
     /**
      * @var array<string,Directive>
      */
-    protected $directives = [];
+    protected array $directives = [];
+
     /**
      * @var array<string,FieldDirectiveResolverInterface[]>|null
      */
-    protected $directiveNameResolvers;
+    protected ?array $directiveNameResolvers = null;
     /**
      * @var RelationalTypeResolverDecoratorInterface[]|null
      */
-    protected $typeResolverDecorators;
+    protected ?array $typeResolverDecorators = null;
     /**
      * @var array<string,Directive[]>|null
      */
-    protected $precedingMandatoryDirectivesForDirectives;
+    protected ?array $precedingMandatoryDirectivesForDirectives = null;
     /**
      * @var array<string,Directive[]>|null
      */
-    protected $succeedingMandatoryDirectivesForDirectives;
+    protected ?array $succeedingMandatoryDirectivesForDirectives = null;
+
     /**
      * @var SplObjectStorage<Directive,array<string|int,EngineIterationFieldSet>>
      */
-    private $directiveIDFieldSet;
+    private SplObjectStorage $directiveIDFieldSet;
     /**
      * @var SplObjectStorage<FieldInterface,Directive[]>
      */
-    private $fieldDirectives;
+    private SplObjectStorage $fieldDirectives;
     /**
      * @var array<string,SplObjectStorage<Directive,FieldDirectiveResolverInterface>>
      */
-    private $directiveResolverClassDirectivesCache = [];
+    private array $directiveResolverClassDirectivesCache = [];
     /**
      * @var SplObjectStorage<FieldInterface,array<string,SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>|null>>
      */
-    private $objectTypeResolverObjectFieldDataCache;
-    /**
-     * @var \PoP\ComponentModel\Registries\MandatoryFieldDirectiveResolverRegistryInterface|null
-     */
-    private $mandatoryFieldDirectiveResolverRegistry;
-    /**
-     * @var \PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface|null
-     */
-    private $directivePipelineService;
-    public final function setMandatoryFieldDirectiveResolverRegistry(MandatoryFieldDirectiveResolverRegistryInterface $mandatoryFieldDirectiveResolverRegistry) : void
+    private SplObjectStorage $objectTypeResolverObjectFieldDataCache;
+
+    private ?MandatoryFieldDirectiveResolverRegistryInterface $mandatoryFieldDirectiveResolverRegistry = null;
+    private ?DirectivePipelineServiceInterface $directivePipelineService = null;
+
+    final public function setMandatoryFieldDirectiveResolverRegistry(MandatoryFieldDirectiveResolverRegistryInterface $mandatoryFieldDirectiveResolverRegistry): void
     {
         $this->mandatoryFieldDirectiveResolverRegistry = $mandatoryFieldDirectiveResolverRegistry;
     }
-    protected final function getMandatoryFieldDirectiveResolverRegistry() : MandatoryFieldDirectiveResolverRegistryInterface
+    final protected function getMandatoryFieldDirectiveResolverRegistry(): MandatoryFieldDirectiveResolverRegistryInterface
     {
         if ($this->mandatoryFieldDirectiveResolverRegistry === null) {
             /** @var MandatoryFieldDirectiveResolverRegistryInterface */
@@ -89,11 +89,11 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         }
         return $this->mandatoryFieldDirectiveResolverRegistry;
     }
-    public final function setDirectivePipelineService(DirectivePipelineServiceInterface $directivePipelineService) : void
+    final public function setDirectivePipelineService(DirectivePipelineServiceInterface $directivePipelineService): void
     {
         $this->directivePipelineService = $directivePipelineService;
     }
-    protected final function getDirectivePipelineService() : DirectivePipelineServiceInterface
+    final protected function getDirectivePipelineService(): DirectivePipelineServiceInterface
     {
         if ($this->directivePipelineService === null) {
             /** @var DirectivePipelineServiceInterface */
@@ -102,39 +102,48 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         }
         return $this->directivePipelineService;
     }
+
     public function __construct()
     {
         $this->directiveIDFieldSet = new SplObjectStorage();
         $this->fieldDirectives = new SplObjectStorage();
         $this->objectTypeResolverObjectFieldDataCache = new SplObjectStorage();
     }
+
     /**
      * @return array<string,FieldDirectiveResolverInterface[]>
      */
-    protected function getDirectiveNameResolvers() : array
+    protected function getDirectiveNameResolvers(): array
     {
-        if (\is_null($this->directiveNameResolvers)) {
+        if (is_null($this->directiveNameResolvers)) {
             $this->directiveNameResolvers = $this->calculateFieldDirectiveNameResolvers();
         }
         return $this->directiveNameResolvers;
     }
+
     /**
      * @param string|int|array<string|int> $objectIDOrIDs
      * @return string|int|array<string|int>
      */
-    public function getQualifiedDBObjectIDOrIDs($objectIDOrIDs)
+    public function getQualifiedDBObjectIDOrIDs(string|int|array $objectIDOrIDs): string|int|array
     {
         // Add the type before the ID
-        $objectIDs = \is_array($objectIDOrIDs) ? $objectIDOrIDs : [$objectIDOrIDs];
-        $qualifiedDBObjectIDs = \array_map(function ($id) {
-            return UnionTypeHelpers::getObjectComposedTypeAndID($this, $id);
-        }, $objectIDs);
-        return \is_array($objectIDOrIDs) ? $qualifiedDBObjectIDs : $qualifiedDBObjectIDs[0];
+        $objectIDs = is_array($objectIDOrIDs) ? $objectIDOrIDs : [$objectIDOrIDs];
+        $qualifiedDBObjectIDs = array_map(
+            fn (int|string $id) => UnionTypeHelpers::getObjectComposedTypeAndID(
+                $this,
+                $id
+            ),
+            $objectIDs
+        );
+        return is_array($objectIDOrIDs) ? $qualifiedDBObjectIDs : $qualifiedDBObjectIDs[0];
     }
-    public function qualifyDBObjectIDsToRemoveFromErrors() : bool
+
+    public function qualifyDBObjectIDsToRemoveFromErrors(): bool
     {
-        return \false;
+        return false;
     }
+
     /**
      * By default, the pipeline must always have directives:
      *
@@ -150,33 +159,47 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      *
      * @return Directive[]
      */
-    protected final function getMandatoryDirectives() : array
+    final protected function getMandatoryDirectives(): array
     {
-        return \array_map(function (FieldDirectiveResolverInterface $directiveResolver) {
-            return $this->getDirective($directiveResolver->getDirectiveName());
-        }, \array_merge($this->getMandatorySystemFieldDirectiveResolvers(), $this->getMandatoryFieldOrOperationDirectiveResolvers()));
+        return array_map(
+            fn (FieldDirectiveResolverInterface $directiveResolver) => $this->getDirective($directiveResolver->getDirectiveName()),
+            array_merge(
+                $this->getMandatorySystemFieldDirectiveResolvers(),
+                $this->getMandatoryFieldOrOperationDirectiveResolvers()
+            )
+        );
     }
+
     /**
      * Mandatory system directives
      *
      * @return FieldDirectiveResolverInterface[]
      */
-    protected final function getMandatorySystemFieldDirectiveResolvers() : array
+    final protected function getMandatorySystemFieldDirectiveResolvers(): array
     {
-        return \array_map(function (string $directiveResolverClass) : FieldDirectiveResolverInterface {
-            /** @var FieldDirectiveResolverInterface */
-            return $this->instanceManager->getInstance($directiveResolverClass);
-        }, $this->getMandatorySystemFieldDirectiveResolverClasses());
+        return array_map(
+            function (string $directiveResolverClass): FieldDirectiveResolverInterface {
+                /** @var FieldDirectiveResolverInterface */
+                return $this->instanceManager->getInstance($directiveResolverClass);
+            },
+            $this->getMandatorySystemFieldDirectiveResolverClasses()
+        );
     }
+
     /**
      * Mandatory system directives
      *
      * @return array<class-string<FieldDirectiveResolverInterface>>
      */
-    protected final function getMandatorySystemFieldDirectiveResolverClasses() : array
+    final protected function getMandatorySystemFieldDirectiveResolverClasses(): array
     {
-        return [ValidateFieldDirectiveResolver::class, ResolveValueAndMergeFieldDirectiveResolver::class, SerializeLeafOutputTypeValuesFieldDirectiveResolver::class];
+        return [
+            ValidateFieldDirectiveResolver::class,
+            ResolveValueAndMergeFieldDirectiveResolver::class,
+            SerializeLeafOutputTypeValuesFieldDirectiveResolver::class,
+        ];
     }
+
     /**
      * By default, handle mandatory directives for Fields.
      * This method will be overriden by SuperRoot, to handle
@@ -184,17 +207,23 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      *
      * @return FieldDirectiveResolverInterface[]
      */
-    protected function getMandatoryFieldOrOperationDirectiveResolvers() : array
+    protected function getMandatoryFieldOrOperationDirectiveResolvers(): array
     {
         return $this->getMandatoryFieldDirectiveResolverRegistry()->getMandatoryFieldDirectiveResolvers();
     }
-    protected function getDirective(string $directiveName) : Directive
+
+    protected function getDirective(string $directiveName): Directive
     {
         if (!isset($this->directives[$directiveName])) {
-            $this->directives[$directiveName] = new Directive($directiveName, [], ASTNodesFactory::getNonSpecificLocation());
+            $this->directives[$directiveName] = new Directive(
+                $directiveName,
+                [],
+                ASTNodesFactory::getNonSpecificLocation()
+            );
         }
         return $this->directives[$directiveName];
     }
+
     /**
      * Validate and resolve the directives into an array, each item containing:
      *
@@ -206,8 +235,11 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param SplObjectStorage<Directive,FieldInterface[]> $directiveFields
      * @return SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]>
      */
-    public function resolveDirectivesIntoPipelineData(array $directives, SplObjectStorage $directiveFields, EngineIterationFeedbackStore $engineIterationFeedbackStore) : SplObjectStorage
-    {
+    public function resolveDirectivesIntoPipelineData(
+        array $directives,
+        SplObjectStorage $directiveFields,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): SplObjectStorage {
         /**
          * All directives are placed somewhere in the pipeline.
          *
@@ -218,9 +250,24 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
          *   5. After the Serialize directive
          *   6. At the very end
          */
-        $directiveResolversByPosition = $fieldDirectivesByPosition = $directiveFieldsByPosition = [\PoP\ComponentModel\TypeResolvers\PipelinePositions::BEGINNING => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::BEFORE_VALIDATE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::AFTER_VALIDATE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::BEFORE_RESOLVE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::AFTER_RESOLVE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::BEFORE_SERIALIZE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::AFTER_SERIALIZE => [], \PoP\ComponentModel\TypeResolvers\PipelinePositions::END => []];
+        $directiveResolversByPosition = $fieldDirectivesByPosition = $directiveFieldsByPosition = [
+            PipelinePositions::BEGINNING => [],
+            PipelinePositions::BEFORE_VALIDATE => [],
+            PipelinePositions::AFTER_VALIDATE => [],
+            PipelinePositions::BEFORE_RESOLVE => [],
+            PipelinePositions::AFTER_RESOLVE => [],
+            PipelinePositions::BEFORE_SERIALIZE => [],
+            PipelinePositions::AFTER_SERIALIZE => [],
+            PipelinePositions::END => [],
+        ];
+
         // Resolve from directive into their actual object instance.
-        $directiveResolverFields = $this->validateAndResolveFieldDirectiveResolverToFields($directives, $directiveFields, $engineIterationFeedbackStore);
+        $directiveResolverFields = $this->validateAndResolveFieldDirectiveResolverToFields(
+            $directives,
+            $directiveFields,
+            $engineIterationFeedbackStore,
+        );
+
         // Create an array with the dataFields affected by each directive, in order in which they will be invoked
         foreach ($directiveResolverFields as $directiveResolver) {
             /** @var FieldDirectiveResolverInterface $directiveResolver */
@@ -232,24 +279,30 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             $fieldDirectivesByPosition[$pipelinePosition][] = $directiveResolver->getDirective();
             $directiveFieldsByPosition[$pipelinePosition][] = $fields;
         }
+
         // Once we have them ordered, we can simply discard the positions, keep only the values
         // Each item has 2 elements: the DirectiveResolver instance and the fields it affects
         /** @var SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]> */
         $pipelineData = new SplObjectStorage();
         foreach ($directiveResolversByPosition as $position => $directiveResolvers) {
-            for ($i = 0; $i < \count($directiveResolvers); $i++) {
+            for ($i = 0; $i < count($directiveResolvers); $i++) {
                 $pipelineData[$directiveResolvers[$i]] = $directiveFieldsByPosition[$position][$i];
             }
         }
+
         return $pipelineData;
     }
+
     /**
      * @param Directive[] $directives
      * @param SplObjectStorage<Directive,FieldInterface[]> $directiveFields
      * @return SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]>
      */
-    protected function validateAndResolveFieldDirectiveResolverToFields(array $directives, SplObjectStorage $directiveFields, EngineIterationFeedbackStore $engineIterationFeedbackStore) : SplObjectStorage
-    {
+    protected function validateAndResolveFieldDirectiveResolverToFields(
+        array $directives,
+        SplObjectStorage $directiveFields,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): SplObjectStorage {
         /** @var SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]> */
         $instances = new SplObjectStorage();
         // Count how many times each directive is added
@@ -258,24 +311,71 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         /** @var SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]> */
         $directiveResolverInstanceFields = new SplObjectStorage();
         foreach ($directives as $directive) {
-            $fieldDirectiveResolvers = $this->getFieldDirectiveResolvers($directive, $directiveFields[$directive]);
+            $fieldDirectiveResolvers = $this->getFieldDirectiveResolvers(
+                $directive,
+                $directiveFields[$directive],
+            );
             // If there is no directive with this name, show an error and skip it
             if ($fieldDirectiveResolvers === null) {
                 $fields = $directiveFields[$directive];
-                $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_7_1, [$directive->getName()]), $directive, $this, $fields));
+                $engineIterationFeedbackStore->schemaFeedbackStore->addError(
+                    new SchemaFeedback(
+                        new FeedbackItemResolution(
+                            GraphQLSpecErrorFeedbackItemProvider::class,
+                            GraphQLSpecErrorFeedbackItemProvider::E_5_7_1,
+                            [
+                                $directive->getName(),
+                            ]
+                        ),
+                        $directive,
+                        $this,
+                        $fields,
+                    )
+                );
                 continue;
             }
             if ($fieldDirectiveResolvers->count() === 0) {
                 $fields = $directiveFields[$directive];
-                $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_7_2, [$directive->getName()]), $directive, $this, $fields));
+                $engineIterationFeedbackStore->schemaFeedbackStore->addError(
+                    new SchemaFeedback(
+                        new FeedbackItemResolution(
+                            GraphQLSpecErrorFeedbackItemProvider::class,
+                            GraphQLSpecErrorFeedbackItemProvider::E_5_7_2,
+                            [
+                                $directive->getName(),
+                            ]
+                        ),
+                        $directive,
+                        $this,
+                        $fields,
+                    )
+                );
                 continue;
             }
+
             foreach ($directiveFields[$directive] as $field) {
                 $fieldDirectiveResolver = $fieldDirectiveResolvers[$field] ?? null;
-                if ($fieldDirectiveResolver === null || !$this->isFieldDirectiveResolverInRightDirectiveLocation($fieldDirectiveResolver, $field)) {
-                    $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_7_2, [$directive->getName()]), $directive, $this, [$field]));
+                if (
+                    $fieldDirectiveResolver === null
+                    || !$this->isFieldDirectiveResolverInRightDirectiveLocation($fieldDirectiveResolver, $field)
+                ) {
+                    $engineIterationFeedbackStore->schemaFeedbackStore->addError(
+                        new SchemaFeedback(
+                            new FeedbackItemResolution(
+                                GraphQLSpecErrorFeedbackItemProvider::class,
+                                GraphQLSpecErrorFeedbackItemProvider::E_5_7_2,
+                                [
+                                    $directive->getName(),
+                                ]
+                            ),
+                            $directive,
+                            $this,
+                            [$field],
+                        )
+                    );
                     continue;
                 }
+
                 // Consolidate the same DirectiveResolvers for different fields,
                 // as to do the validation only once on each of them
                 $directiveResolverFieldsSplObjectStorage = $directiveResolverInstanceFields[$fieldDirectiveResolver] ?? [];
@@ -283,6 +383,7 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 $directiveResolverInstanceFields[$fieldDirectiveResolver] = $directiveResolverFieldsSplObjectStorage;
             }
         }
+
         /**
          * Validate all the directiveResolvers in the field.
          */
@@ -290,7 +391,12 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         foreach ($directiveResolverInstanceFields as $directiveResolver) {
             /** @var FieldInterface[] */
             $directiveResolverFields = $directiveResolverInstanceFields[$directiveResolver];
-            $directiveResolver->prepareDirective($this, $directiveResolverFields, $engineIterationFeedbackStore);
+            $directiveResolver->prepareDirective(
+                $this,
+                $directiveResolverFields,
+                $engineIterationFeedbackStore,
+            );
+
             /**
              * If the DirectiveResolver has errors, they have just been
              * added to the FeedbackStore, so just skip.
@@ -298,23 +404,62 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             if ($directiveResolver->hasValidationErrors()) {
                 continue;
             }
+
             $directive = $directiveResolver->getDirective();
             $directiveName = $directive->getName();
+
             // Check for deprecations
             if ($deprecationMessage = $directiveResolver->getDirectiveDeprecationMessage($this)) {
                 $fields = $directiveFields[$directive];
-                $engineIterationFeedbackStore->schemaFeedbackStore->addDeprecation(new SchemaFeedback(new FeedbackItemResolution(DeprecationFeedbackItemProvider::class, DeprecationFeedbackItemProvider::D2, [$directiveName, $deprecationMessage]), $directive, $this, $fields));
+                $engineIterationFeedbackStore->schemaFeedbackStore->addDeprecation(
+                    new SchemaFeedback(
+                        new FeedbackItemResolution(
+                            DeprecationFeedbackItemProvider::class,
+                            DeprecationFeedbackItemProvider::D2,
+                            [
+                                $directiveName,
+                                $deprecationMessage,
+                            ]
+                        ),
+                        $directive,
+                        $this,
+                        $fields,
+                    )
+                );
             }
+
             // Validate if the directive can be executed multiple times on each field
             if (!$directiveResolver->isRepeatable()) {
                 // Check if the directive is already processing any of the fields
-                $alreadyProcessingFields = \array_intersect($directiveFieldTrack[$directiveName] ?? [], $directiveResolverFields);
-                $directiveFieldTrack[$directiveName] = \array_unique(\array_merge($directiveFieldTrack[$directiveName] ?? [], $directiveResolverFields));
+                $alreadyProcessingFields = array_intersect(
+                    $directiveFieldTrack[$directiveName] ?? [],
+                    $directiveResolverFields
+                );
+                $directiveFieldTrack[$directiveName] = array_unique(array_merge(
+                    $directiveFieldTrack[$directiveName] ?? [],
+                    $directiveResolverFields
+                ));
                 if ($alreadyProcessingFields) {
                     // Remove the fields from this iteration, and add an error
-                    $directiveResolverFields = \array_diff($directiveResolverFields, $alreadyProcessingFields);
+                    $directiveResolverFields = array_diff(
+                        $directiveResolverFields,
+                        $alreadyProcessingFields
+                    );
                     if ($alreadyProcessingFields !== []) {
-                        $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_7_3, [$directive->getName()]), $directive, $this, $alreadyProcessingFields));
+                        $engineIterationFeedbackStore->schemaFeedbackStore->addError(
+                            new SchemaFeedback(
+                                new FeedbackItemResolution(
+                                    GraphQLSpecErrorFeedbackItemProvider::class,
+                                    GraphQLSpecErrorFeedbackItemProvider::E_5_7_3,
+                                    [
+                                        $directive->getName(),
+                                    ]
+                                ),
+                                $directive,
+                                $this,
+                                $alreadyProcessingFields,
+                            )
+                        );
                     }
                     // If after removing the duplicated fields there are still others, process them
                     // Otherwise, skip
@@ -323,46 +468,63 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                     }
                 }
             }
+
             // Directive is valid. Add it under its instanceID, which enables to add fields under the same directiveResolver
             $instances[$directiveResolver] = $directiveResolverFields;
         }
         return $instances;
     }
+
     /**
      * Override by SuperRoot to satisfy for Operation Directives
      */
-    protected function isFieldDirectiveResolverInRightDirectiveLocation(FieldDirectiveResolverInterface $fieldDirectiveResolver, FieldInterface $field) : bool
-    {
-        return \in_array($fieldDirectiveResolver->getFieldDirectiveBehavior(), $this->getSupportedDirectiveLocationsByBehavior());
+    protected function isFieldDirectiveResolverInRightDirectiveLocation(
+        FieldDirectiveResolverInterface $fieldDirectiveResolver,
+        FieldInterface $field
+    ): bool {
+        return in_array(
+            $fieldDirectiveResolver->getFieldDirectiveBehavior(),
+            $this->getSupportedDirectiveLocationsByBehavior()
+        );
     }
+
     /**
      * Override by SuperRoot to satisfy for Operation Directives
      *
      * @return string[]
      */
-    protected function getSupportedDirectiveLocationsByBehavior() : array
+    protected function getSupportedDirectiveLocationsByBehavior(): array
     {
-        return [FieldDirectiveBehaviors::FIELD, FieldDirectiveBehaviors::FIELD_AND_OPERATION];
+        return [
+            FieldDirectiveBehaviors::FIELD,
+            FieldDirectiveBehaviors::FIELD_AND_OPERATION,
+        ];
     }
+
     /**
      * @param FieldInterface[] $fields
      * @return SplObjectStorage<FieldInterface,FieldDirectiveResolverInterface>|null
      */
-    protected function getFieldDirectiveResolvers(Directive $directive, array $fields) : ?SplObjectStorage
-    {
+    protected function getFieldDirectiveResolvers(
+        Directive $directive,
+        array $fields,
+    ): ?SplObjectStorage {
         $directiveName = $directive->getName();
         $directiveNameResolvers = $this->getDirectiveNameResolvers();
         $directiveResolvers = $directiveNameResolvers[$directiveName] ?? null;
         if ($directiveResolvers === null) {
             return null;
         }
+
         // Only consider the directiveResolvers that can satisfy this directive
-        $directiveResolvers = \array_filter($directiveResolvers, function (FieldDirectiveResolverInterface $directiveResolver) use($directive) {
-            return $directiveResolver->resolveCanProcessDirective($this, $directive);
-        });
+        $directiveResolvers = array_filter(
+            $directiveResolvers,
+            fn (FieldDirectiveResolverInterface $directiveResolver) => $directiveResolver->resolveCanProcessDirective($this, $directive)
+        );
         if ($directiveResolvers === []) {
             return null;
         }
+
         /**
          * Calculate directiveResolvers per field
          *
@@ -379,28 +541,38 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 if (!$directiveResolver->resolveCanProcessField($this, $field)) {
                     continue;
                 }
+
                 /**
                  * Create a non-shared directiveResolver instance to handle
                  * this specific $directive object instance.
                  */
-                $fieldDirectiveResolvers[$field] = $this->getUniqueFieldDirectiveResolverForDirective($directiveResolver, $directive);
+                $fieldDirectiveResolvers[$field] = $this->getUniqueFieldDirectiveResolverForDirective(
+                    $directiveResolver,
+                    $directive,
+                );
+
                 // As this instance can process the directive and the field, we found it, then end the loop
                 break;
             }
         }
         return $fieldDirectiveResolvers;
     }
+
     /**
      * The instance from the container is shared. We need a non-shared instance
      * to set the unique $directive. So clone the service.
      */
-    protected function getUniqueFieldDirectiveResolverForDirective(FieldDirectiveResolverInterface $directiveResolver, Directive $directive) : FieldDirectiveResolverInterface
-    {
-        $directiveResolverClass = \get_class($directiveResolver);
+    protected function getUniqueFieldDirectiveResolverForDirective(
+        FieldDirectiveResolverInterface $directiveResolver,
+        Directive $directive,
+    ): FieldDirectiveResolverInterface {
+        $directiveResolverClass = get_class($directiveResolver);
         // Get the instance from the cache if it exists, or create it if not
         if (!isset($this->directiveResolverClassDirectivesCache[$directiveResolverClass]) || !$this->directiveResolverClassDirectivesCache[$directiveResolverClass]->contains($directive)) {
             $uniqueFieldDirectiveResolver = clone $directiveResolver;
-            $uniqueFieldDirectiveResolver->setDirective($directive);
+            $uniqueFieldDirectiveResolver->setDirective(
+                $directive,
+            );
             /**
              * @var SplObjectStorage<Directive,FieldDirectiveResolverInterface>
              */
@@ -410,22 +582,25 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         }
         return $this->directiveResolverClassDirectivesCache[$directiveResolverClass][$directive];
     }
+
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @return array<string|int>
      */
-    protected function getIDsToQuery(array $idFieldSet) : array
+    protected function getIDsToQuery(array $idFieldSet): array
     {
-        return \array_keys($idFieldSet);
+        return array_keys($idFieldSet);
     }
+
     /**
      * @param array<string|int> $objectIDs
      * @return array<string|int>
      */
-    protected function getResolvedObjectIDs(array $objectIDs) : array
+    protected function getResolvedObjectIDs(array $objectIDs): array
     {
         return $objectIDs;
     }
+
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,mixed>>> $previouslyResolvedIDFieldValues
@@ -434,14 +609,20 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function fillObjects(array $idFieldSet, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array
-    {
+    public function fillObjects(
+        array $idFieldSet,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): array {
         // Obtain the data for the required object IDs
         $idObjects = [];
         $ids = $this->getIDsToQuery($idFieldSet);
         $typeDataLoader = $this->getRelationalTypeDataLoader();
         // If any ID cannot be resolved, the object will be null
-        $objects = \array_filter($typeDataLoader->getObjects($ids));
+        $objects = array_filter($typeDataLoader->getObjects($ids));
         foreach ($objects as $object) {
             $objectID = $this->getID($object);
             // If the UnionTypeResolver doesn't have a TypeResolver to process this element, the ID will be null, and an error will be show below
@@ -453,12 +634,12 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
              * If no fields are queried, the entry will be null.
              * Initialize it to [] to simplify typing/null-checking
              */
-            $resolvedIDFieldValues[$objectID] = $resolvedIDFieldValues[$objectID] ?? new SplObjectStorage();
+            $resolvedIDFieldValues[$objectID] ??= new SplObjectStorage();
         }
         // Show an error for all objects that couldn't be processed
-        $resolvedObjectIDs = $this->getResolvedObjectIDs(\array_keys($idObjects));
+        $resolvedObjectIDs = $this->getResolvedObjectIDs(array_keys($idObjects));
         $unresolvedObjectIDs = [];
-        foreach (\array_diff($ids, $resolvedObjectIDs) as $unresolvedObjectID) {
+        foreach (array_diff($ids, $resolvedObjectIDs) as $unresolvedObjectID) {
             /**
              * If a UnionTypeResolver fails to load an object,
              * the fields will be NULL
@@ -471,8 +652,16 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
              * which it can't do.
              */
             foreach ($failedFields as $failedField) {
-                $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback($errorFeedbackItemResolution, $failedField, $this, [$failedField]));
+                $engineIterationFeedbackStore->schemaFeedbackStore->addError(
+                    new SchemaFeedback(
+                        $errorFeedbackItemResolution,
+                        $failedField,
+                        $this,
+                        [$failedField],
+                    )
+                );
             }
+
             // Indicate that this ID must be removed from the results
             $unresolvedObjectIDs[] = $unresolvedObjectID;
         }
@@ -488,23 +677,41 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 /** @var array<string|int> */
                 $unresolvedObjectIDs = $this->getQualifiedDBObjectIDOrIDs($unresolvedObjectIDs);
             }
-            $idFieldSet = \array_filter($idFieldSet, function ($id) use($unresolvedObjectIDs) {
-                return !\in_array($id, $unresolvedObjectIDs);
-            }, \ARRAY_FILTER_USE_KEY);
+            $idFieldSet = array_filter(
+                $idFieldSet,
+                fn (int|string $id) => !in_array($id, $unresolvedObjectIDs),
+                ARRAY_FILTER_USE_KEY
+            );
         }
+
         // Enqueue the items
         $this->enqueueFillingObjectsFromIDs($idFieldSet);
+
         // Process them
-        $this->processFillingObjectsFromIDs($unionTypeOutputKeyIDs, $idObjects, $previouslyResolvedIDFieldValues, $resolvedIDFieldValues, $messages, $engineIterationFeedbackStore);
+        $this->processFillingObjectsFromIDs(
+            $unionTypeOutputKeyIDs,
+            $idObjects,
+            $previouslyResolvedIDFieldValues,
+            $resolvedIDFieldValues,
+            $messages,
+            $engineIterationFeedbackStore,
+        );
+
         return $idObjects;
     }
-    /**
-     * @param string|int $objectID
-     */
-    protected function getUnresolvedObjectIDErrorFeedbackItemResolution($objectID) : FeedbackItemResolution
+
+    protected function getUnresolvedObjectIDErrorFeedbackItemResolution(string|int $objectID): FeedbackItemResolution
     {
-        return new FeedbackItemResolution(ErrorFeedbackItemProvider::class, ErrorFeedbackItemProvider::E9, [$this->getMaybeNamespacedTypeName(), $objectID]);
+        return new FeedbackItemResolution(
+            ErrorFeedbackItemProvider::class,
+            ErrorFeedbackItemProvider::E9,
+            [
+                $this->getMaybeNamespacedTypeName(),
+                $objectID
+            ]
+        );
     }
+
     /**
      * Given an array of directives, attach, before and after each of them, their own mandatory directives
      * Eg: a directive `@validateDoesUserHaveCapability` must be preceded by a directive `@validateIsUserLoggedIn`
@@ -514,43 +721,63 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param Directive[] $directives
      * @return Directive[]
      */
-    protected function addMandatoryDirectivesForDirectives(array $directives) : array
+    protected function addMandatoryDirectivesForDirectives(array $directives): array
     {
         $precedingMandatoryDirectivesForDirectives = $this->getAllPrecedingMandatoryDirectivesForDirectives();
         $succeedingMandatoryDirectivesForDirectives = $this->getAllSucceedingMandatoryDirectivesForDirectives();
         if ($precedingMandatoryDirectivesForDirectives === [] && $succeedingMandatoryDirectivesForDirectives === []) {
             return $directives;
         }
+
         $allDirectives = [];
         foreach ($directives as $directive) {
             $directiveName = $directive->getName();
             // Add preceding mandatory directives
-            if ($mandatoryDirectivesForDirective = \array_merge($precedingMandatoryDirectivesForDirectives[ConfigurationValues::ANY] ?? [], $precedingMandatoryDirectivesForDirectives[$directiveName] ?? [])) {
-                $allDirectives = \array_merge($allDirectives, $this->addMandatoryDirectivesForDirectives($mandatoryDirectivesForDirective));
+            if (
+                $mandatoryDirectivesForDirective = array_merge(
+                    $precedingMandatoryDirectivesForDirectives[ConfigurationValues::ANY] ?? [],
+                    $precedingMandatoryDirectivesForDirectives[$directiveName] ?? []
+                )
+            ) {
+                $allDirectives = array_merge(
+                    $allDirectives,
+                    $this->addMandatoryDirectivesForDirectives($mandatoryDirectivesForDirective)
+                );
             }
             // Add the directive
             $allDirectives[] = $directive;
             // Add succeeding mandatory directives
-            if ($mandatoryDirectivesForDirective = \array_merge($succeedingMandatoryDirectivesForDirectives[ConfigurationValues::ANY] ?? [], $succeedingMandatoryDirectivesForDirectives[$directiveName] ?? [])) {
-                $allDirectives = \array_merge($allDirectives, $this->addMandatoryDirectivesForDirectives($mandatoryDirectivesForDirective));
+            if (
+                $mandatoryDirectivesForDirective = array_merge(
+                    $succeedingMandatoryDirectivesForDirectives[ConfigurationValues::ANY] ?? [],
+                    $succeedingMandatoryDirectivesForDirectives[$directiveName] ?? []
+                )
+            ) {
+                $allDirectives = array_merge(
+                    $allDirectives,
+                    $this->addMandatoryDirectivesForDirectives($mandatoryDirectivesForDirective)
+                );
             }
         }
+
         return $allDirectives;
     }
+
     /**
      * @return array<string,Directive[]> Key: '*' (for all) or directiveName, Value: List of directives
      */
-    protected function getAllPrecedingMandatoryDirectivesForDirectives() : array
+    protected function getAllPrecedingMandatoryDirectivesForDirectives(): array
     {
         if ($this->precedingMandatoryDirectivesForDirectives === null) {
             $this->precedingMandatoryDirectivesForDirectives = $this->calculateAllPrecedingMandatoryDirectivesForDirectives();
         }
         return $this->precedingMandatoryDirectivesForDirectives;
     }
+
     /**
      * @return array<string,Directive[]> Key: '*' (for all) or directiveName, Value: List of directives
      */
-    protected function calculateAllPrecedingMandatoryDirectivesForDirectives() : array
+    protected function calculateAllPrecedingMandatoryDirectivesForDirectives(): array
     {
         $precedingMandatoryDirectivesForDirectives = [];
         $typeResolverDecorators = $this->getAllRelationalTypeResolverDecorators();
@@ -562,24 +789,30 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
              * `array_merge_recursive` so that if 2 different decorators add a directive
              * for the same directive, the results are merged together, not override each other.
              */
-            $precedingMandatoryDirectivesForDirectives = \array_merge_recursive($precedingMandatoryDirectivesForDirectives, $typeResolverDecorator->getPrecedingMandatoryDirectivesForDirectives($this));
+            $precedingMandatoryDirectivesForDirectives = array_merge_recursive(
+                $precedingMandatoryDirectivesForDirectives,
+                $typeResolverDecorator->getPrecedingMandatoryDirectivesForDirectives($this)
+            );
         }
+
         return $precedingMandatoryDirectivesForDirectives;
     }
+
     /**
      * @return array<string,Directive[]> Key: '*' (for all) or directiveName, Value: List of directives
      */
-    protected function getAllSucceedingMandatoryDirectivesForDirectives() : array
+    protected function getAllSucceedingMandatoryDirectivesForDirectives(): array
     {
         if ($this->succeedingMandatoryDirectivesForDirectives === null) {
             $this->succeedingMandatoryDirectivesForDirectives = $this->calculateAllSucceedingMandatoryDirectivesForDirectives();
         }
         return $this->succeedingMandatoryDirectivesForDirectives;
     }
+
     /**
      * @return array<string,Directive[]> Key: '*' (for all) or directiveName, Value: List of directives
      */
-    protected function calculateAllSucceedingMandatoryDirectivesForDirectives() : array
+    protected function calculateAllSucceedingMandatoryDirectivesForDirectives(): array
     {
         $succeedingMandatoryDirectivesForDirectives = [];
         $typeResolverDecorators = $this->getAllRelationalTypeResolverDecorators();
@@ -591,24 +824,30 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
              * `array_merge_recursive` so that if 2 different decorators add a directive
              * for the same directive, the results are merged together, not override each other.
              */
-            $succeedingMandatoryDirectivesForDirectives = \array_merge_recursive($succeedingMandatoryDirectivesForDirectives, $typeResolverDecorator->getSucceedingMandatoryDirectivesForDirectives($this));
+            $succeedingMandatoryDirectivesForDirectives = array_merge_recursive(
+                $succeedingMandatoryDirectivesForDirectives,
+                $typeResolverDecorator->getSucceedingMandatoryDirectivesForDirectives($this)
+            );
         }
+
         return $succeedingMandatoryDirectivesForDirectives;
     }
+
     /**
      * @return RelationalTypeResolverDecoratorInterface[]
      */
-    protected function getAllRelationalTypeResolverDecorators() : array
+    protected function getAllRelationalTypeResolverDecorators(): array
     {
         if ($this->typeResolverDecorators === null) {
             $this->typeResolverDecorators = $this->calculateAllRelationalTypeResolverDecorators();
         }
         return $this->typeResolverDecorators;
     }
+
     /**
      * @return RelationalTypeResolverDecoratorInterface[]
      */
-    protected function calculateAllRelationalTypeResolverDecorators() : array
+    protected function calculateAllRelationalTypeResolverDecorators(): array
     {
         /**
          * Order them by object hash, as to return a single instance from each
@@ -616,26 +855,37 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
          * @var array<string,RelationalTypeResolverDecoratorInterface>
          */
         $typeResolverDecorators = [];
+
         /**
          * Also get the decorators for the implemented interfaces
          */
-        $classes = \array_merge([\get_class($this->getTypeResolverToCalculateSchema())], \array_map(\Closure::fromCallable('get_class'), $this->getImplementedInterfaceTypeResolvers()));
+        $classes = array_merge(
+            [
+                get_class($this->getTypeResolverToCalculateSchema()),
+            ],
+            array_map(
+                get_class(...),
+                $this->getImplementedInterfaceTypeResolvers()
+            )
+        );
         foreach ($classes as $class) {
             $relationalTypeResolverDecorators = $this->calculateAllRelationalTypeResolverDecoratorsForRelationalTypeOrInterfaceTypeResolverClass($class);
             foreach ($relationalTypeResolverDecorators as $relationalTypeResolverDecorator) {
-                $relationalTypeResolverDecoratorObjectHash = \spl_object_hash($relationalTypeResolverDecorator);
+                $relationalTypeResolverDecoratorObjectHash = spl_object_hash($relationalTypeResolverDecorator);
                 if (isset($typeResolverDecorators[$relationalTypeResolverDecoratorObjectHash])) {
                     continue;
                 }
                 $typeResolverDecorators[$relationalTypeResolverDecoratorObjectHash] = $relationalTypeResolverDecorator;
             }
         }
-        return \array_values($typeResolverDecorators);
+
+        return array_values($typeResolverDecorators);
     }
+
     /**
      * @return RelationalTypeResolverDecoratorInterface[]
      */
-    protected function calculateAllRelationalTypeResolverDecoratorsForRelationalTypeOrInterfaceTypeResolverClass(string $class) : array
+    protected function calculateAllRelationalTypeResolverDecoratorsForRelationalTypeOrInterfaceTypeResolverClass(string $class): array
     {
         /**
          * Order them by object hash, as to return a single instance from each
@@ -643,17 +893,20 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
          * @var array<string,RelationalTypeResolverDecoratorInterface>
          */
         $typeResolverDecorators = [];
+
         $attachableExtensionManager = $this->getAttachableExtensionManager();
+
         // Iterate classes from the current class towards the parent classes until finding typeResolver that satisfies processing this field
         do {
             // Important: do array_reverse to enable more specific hooks, which are initialized later on in the project, to be the chosen ones (if their priority is the same)
             /** @var RelationalTypeResolverDecoratorInterface[] */
-            $attachedRelationalTypeResolverDecorators = \array_reverse($attachableExtensionManager->getAttachedExtensions($class, AttachableExtensionGroups::RELATIONAL_TYPE_RESOLVER_DECORATORS));
+            $attachedRelationalTypeResolverDecorators = array_reverse($attachableExtensionManager->getAttachedExtensions($class, AttachableExtensionGroups::RELATIONAL_TYPE_RESOLVER_DECORATORS));
             // Order them by priority: higher priority are evaluated first
-            $extensionPriorities = \array_map(function (RelationalTypeResolverDecoratorInterface $typeResolverDecorator) {
-                return $typeResolverDecorator->getPriorityToAttachToClasses();
-            }, $attachedRelationalTypeResolverDecorators);
-            \array_multisort($extensionPriorities, \SORT_DESC, \SORT_NUMERIC, $attachedRelationalTypeResolverDecorators);
+            $extensionPriorities = array_map(
+                fn (RelationalTypeResolverDecoratorInterface $typeResolverDecorator) => $typeResolverDecorator->getPriorityToAttachToClasses(),
+                $attachedRelationalTypeResolverDecorators
+            );
+            array_multisort($extensionPriorities, SORT_DESC, SORT_NUMERIC, $attachedRelationalTypeResolverDecorators);
             /**
              * Add them to the results.
              *
@@ -661,43 +914,65 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
              * same decorator, then do array_unique
              */
             foreach ($attachedRelationalTypeResolverDecorators as $attachedRelationalTypeResolverDecorator) {
-                $attachedRelationalTypeResolverDecoratorObjectHash = \spl_object_hash($attachedRelationalTypeResolverDecorator);
+                $attachedRelationalTypeResolverDecoratorObjectHash = spl_object_hash($attachedRelationalTypeResolverDecorator);
                 if (isset($typeResolverDecorators[$attachedRelationalTypeResolverDecoratorObjectHash])) {
                     continue;
                 }
                 $typeResolverDecorators[$attachedRelationalTypeResolverDecoratorObjectHash] = $attachedRelationalTypeResolverDecorator;
             }
+
             // Continue iterating for the class parents
-        } while ($class = \get_parent_class($class));
-        return \array_values($typeResolverDecorators);
+        } while ($class = get_parent_class($class));
+
+        return array_values($typeResolverDecorators);
     }
+
     /**
      * Execute a hook to allow to disable directives (eg: to implement a private schema)
      *
      * @param array<string,FieldDirectiveResolverInterface[]> $directiveNameResolvers
      * @return array<string,FieldDirectiveResolverInterface[]> $directiveNameResolvers
      */
-    protected function filterDirectiveNameResolvers(array $directiveNameResolvers) : array
+    protected function filterDirectiveNameResolvers(array $directiveNameResolvers): array
     {
         // Execute a hook, allowing to filter them out (eg: removing fieldNames from a private schema)
-        return \array_filter($directiveNameResolvers, function ($directiveName) use($directiveNameResolvers) {
-            $directiveResolvers = $directiveNameResolvers[$directiveName];
-            foreach ($directiveResolvers as $directiveResolver) {
-                // Execute 2 filters: a generic one, and a specific one
-                if (App::applyFilters(\PoP\ComponentModel\TypeResolvers\HookHelpers::getHookNameToFilterDirective(), \true, $this, $directiveResolver, $directiveName)) {
-                    return App::applyFilters(\PoP\ComponentModel\TypeResolvers\HookHelpers::getHookNameToFilterDirective($directiveName), \true, $this, $directiveResolver, $directiveName);
+        return array_filter(
+            $directiveNameResolvers,
+            function ($directiveName) use ($directiveNameResolvers) {
+                $directiveResolvers = $directiveNameResolvers[$directiveName];
+                foreach ($directiveResolvers as $directiveResolver) {
+                    // Execute 2 filters: a generic one, and a specific one
+                    if (
+                        App::applyFilters(
+                            HookHelpers::getHookNameToFilterDirective(),
+                            true,
+                            $this,
+                            $directiveResolver,
+                            $directiveName
+                        )
+                    ) {
+                        return App::applyFilters(
+                            HookHelpers::getHookNameToFilterDirective($directiveName),
+                            true,
+                            $this,
+                            $directiveResolver,
+                            $directiveName
+                        );
+                    }
+                    return false;
                 }
-                return \false;
-            }
-            return \true;
-        }, \ARRAY_FILTER_USE_KEY);
+                return true;
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
+
     /**
      * Split function, so it can be invoked both from here and from the UnionTypeResolver
      *
      * @return FieldInterface[]
      */
-    protected function getFieldsToEnqueueFillingObjectsFromIDs(EngineIterationFieldSet $engineIterationFieldSet) : array
+    protected function getFieldsToEnqueueFillingObjectsFromIDs(EngineIterationFieldSet $engineIterationFieldSet): array
     {
         /**
          * Watch out: If there are conditional fields,
@@ -708,43 +983,65 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
         $allConditionalFields = [];
         foreach ($engineIterationFieldSet->conditionalFields as $conditionField) {
             $conditionalFields = $engineIterationFieldSet->conditionalFields[$conditionField];
-            $allConditionalFields = \array_merge($allConditionalFields, $conditionalFields);
+            $allConditionalFields = array_merge(
+                $allConditionalFields,
+                $conditionalFields
+            );
         }
-        return \array_unique(\array_merge($engineIterationFieldSet->fields, $allConditionalFields));
+        return array_unique(array_merge(
+            $engineIterationFieldSet->fields,
+            $allConditionalFields
+        ));
     }
+
     /**
      * Split function, so it can be invoked both from here and from the UnionTypeResolver
      *
      * @param FieldInterface[] $fields
      * @param array<string,Directive[]> $mandatoryDirectivesForFields Key: '*' (for all) or fieldName, Value: List of Directives
      * @param Directive[] $mandatorySystemDirectives
-     * @param string|int $id
      */
-    protected function doEnqueueFillingObjectsFromIDs(array $fields, array $mandatoryDirectivesForFields, array $mandatorySystemDirectives, $id, EngineIterationFieldSet $fieldSet) : void
+    protected function doEnqueueFillingObjectsFromIDs(array $fields, array $mandatoryDirectivesForFields, array $mandatorySystemDirectives, string|int $id, EngineIterationFieldSet $fieldSet): void
     {
         foreach ($fields as $field) {
             if (!$this->fieldDirectives->contains($field)) {
                 $directives = $field->getDirectives();
+
                 // Add the mandatory directives defined for this field or for any field in this typeResolver
                 $fieldName = $field->getName();
-                if ($mandatoryDirectivesForField = \array_merge($mandatoryDirectivesForFields[ConfigurationValues::ANY] ?? [], $mandatoryDirectivesForFields[$fieldName] ?? [])) {
+                if (
+                    $mandatoryDirectivesForField = array_merge(
+                        $mandatoryDirectivesForFields[ConfigurationValues::ANY] ?? [],
+                        $mandatoryDirectivesForFields[$fieldName] ?? []
+                    )
+                ) {
                     // The mandatory directives must be placed first!
-                    $directives = \array_merge($mandatoryDirectivesForField, $directives);
+                    $directives = array_merge(
+                        $mandatoryDirectivesForField,
+                        $directives
+                    );
                 }
+
                 // Place the mandatory "system" directives at the beginning of the list, then they will be added to their needed position in the pipeline
-                $directives = \array_merge($mandatorySystemDirectives, $directives);
+                $directives = array_merge(
+                    $mandatorySystemDirectives,
+                    $directives
+                );
+
                 // If the directives must be preceded by other directives, add them now
                 $directives = $this->addMandatoryDirectivesForDirectives($directives);
+
                 $this->fieldDirectives[$field] = $directives;
             }
+
             // Store which fields do the directives process
             /** @var Directive[] */
             $directives = $this->fieldDirectives[$field];
             foreach ($directives as $directive) {
                 $idFieldSet = $this->directiveIDFieldSet[$directive] ?? [];
-                $idFieldSet[$id] = $idFieldSet[$id] ?? new EngineIterationFieldSet();
+                $idFieldSet[$id] ??= new EngineIterationFieldSet();
                 // Store which ID/field this directive must process
-                if (\in_array($field, $fieldSet->fields)) {
+                if (in_array($field, $fieldSet->fields)) {
                     $idFieldSet[$id]->fields[] = $field;
                 }
                 /** @var FieldInterface[]|null */
@@ -756,6 +1053,7 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             }
         }
     }
+
     /**
      * Execute the directive pipeline to resolve the data
      * for all IDs and fields.
@@ -777,8 +1075,14 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param array<string|int,object> $idObjects
      * @param array<string,mixed> $messages
      */
-    protected function processFillingObjectsFromIDs(array $unionTypeOutputKeyIDs, array $idObjects, array $previouslyResolvedIDFieldValues, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
-    {
+    protected function processFillingObjectsFromIDs(
+        array $unionTypeOutputKeyIDs,
+        array $idObjects,
+        array $previouslyResolvedIDFieldValues,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): void {
         $directivePipelineService = $this->getDirectivePipelineService();
         // Iterate while there are directives with data to be processed
         while ($this->directiveIDFieldSet->count() > 0) {
@@ -789,7 +1093,9 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             // Now that we have all data, remove all entries from the inner stack.
             // It may be filled again with composed directives, when resolving the pipeline
             $this->directiveIDFieldSet = new SplObjectStorage();
-            $directives = \iterator_to_array($directiveIDFieldSet);
+
+            $directives = iterator_to_array($directiveIDFieldSet);
+
             // Calculate all the fields on which the directive will be applied.
             /** @var SplObjectStorage<Directive,FieldInterface[]> */
             $directiveFields = new SplObjectStorage();
@@ -803,13 +1109,25 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 /** @var FieldInterface[] */
                 $fields = [];
                 foreach ($directiveIDFieldSet[$directive] as $id => $fieldSet) {
-                    $directiveDirectFields = \array_merge($directiveDirectFields, $fieldSet->fields);
+                    $directiveDirectFields = array_merge(
+                        $directiveDirectFields,
+                        $fieldSet->fields
+                    );
                     $conditionalFields = [];
                     foreach ($fieldSet->conditionalFields as $conditionField) {
-                        $conditionalFields = \array_merge($conditionalFields, $fieldSet->conditionalFields[$conditionField]);
+                        $conditionalFields = array_merge(
+                            $conditionalFields,
+                            $fieldSet->conditionalFields[$conditionField]
+                        );
                     }
-                    $idFieldDirectiveIDFields = \array_unique(\array_merge($fieldSet->fields, $conditionalFields));
-                    $fields = \array_merge($fields, $idFieldDirectiveIDFields);
+                    $idFieldDirectiveIDFields = array_unique(array_merge(
+                        $fieldSet->fields,
+                        $conditionalFields
+                    ));
+                    $fields = array_merge(
+                        $fields,
+                        $idFieldDirectiveIDFields
+                    );
                     // Also transpose the array to match field to IDs later on
                     foreach ($idFieldDirectiveIDFields as $field) {
                         $ids = $fieldIDsSplObjectStorage[$field] ?? [];
@@ -818,13 +1136,19 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                     }
                 }
                 $directiveFieldIDs[$directive] = $fieldIDsSplObjectStorage;
-                $directiveFields[$directive] = \array_unique($fields);
+                $directiveFields[$directive] = array_unique($fields);
             }
-            $directiveDirectFields = \array_unique($directiveDirectFields);
+            $directiveDirectFields = array_unique($directiveDirectFields);
+
             // Validate and resolve the directives into instances and fields they operate on
             $separateEngineIterationFeedbackStore = new EngineIterationFeedbackStore();
-            $directivePipelineData = $this->resolveDirectivesIntoPipelineData($directives, $directiveFields, $separateEngineIterationFeedbackStore);
+            $directivePipelineData = $this->resolveDirectivesIntoPipelineData(
+                $directives,
+                $directiveFields,
+                $separateEngineIterationFeedbackStore,
+            );
             $engineIterationFeedbackStore->incorporate($separateEngineIterationFeedbackStore);
+
             // If any directive failed validation and the field must be set to `null`,
             // then skip processing that field altogether
             /** @var array<string|int,FieldInterface[]> */
@@ -832,7 +1156,10 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             if ($separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->getErrors() !== []) {
                 foreach ($separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->getErrors() as $objectResolutionFeedback) {
                     foreach ($objectResolutionFeedback->getIDFieldSet() as $id => $fieldSet) {
-                        $errorIDFields[$id] = \array_merge($errorIDFields[$id] ?? [], $fieldSet->fields);
+                        $errorIDFields[$id] = array_merge(
+                            $errorIDFields[$id] ?? [],
+                            $fieldSet->fields
+                        );
                     }
                 }
             }
@@ -840,17 +1167,27 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 // Extract the failing fields from the errors
                 $schemaErrorFailingFields = [];
                 foreach ($separateEngineIterationFeedbackStore->schemaFeedbackStore->getErrors() as $schemaFeedback) {
-                    $schemaErrorFailingFields = \array_merge($schemaErrorFailingFields, $schemaFeedback->getFields());
+                    $schemaErrorFailingFields = array_merge(
+                        $schemaErrorFailingFields,
+                        $schemaFeedback->getFields()
+                    );
                 }
-                $schemaErrorFailingFields = \array_unique($schemaErrorFailingFields);
+                $schemaErrorFailingFields = array_unique($schemaErrorFailingFields);
                 // Set those fields as null
                 foreach ($directives as $directive) {
                     foreach ($directiveIDFieldSet[$directive] as $id => $fieldSet) {
-                        $failingFields = \array_intersect($fieldSet->fields, $schemaErrorFailingFields);
-                        $errorIDFields[$id] = \array_merge($errorIDFields[$id] ?? [], $failingFields);
+                        $failingFields = array_intersect(
+                            $fieldSet->fields,
+                            $schemaErrorFailingFields
+                        );
+                        $errorIDFields[$id] = array_merge(
+                            $errorIDFields[$id] ?? [],
+                            $failingFields
+                        );
                     }
                 }
             }
+
             // From the fields, reconstitute the $idFieldSet for each directive,
             // and build the array to pass to the pipeline, for each directive (stage)
             $directiveResolvers = [];
@@ -878,16 +1215,28 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 /** @var FieldInterface[] */
                 $directiveFields = $directivePipelineData[$directiveResolver];
                 $directive = $directiveResolver->getDirective();
+
                 // Only process the direct fields
-                $directiveDirectFieldsToProcess = \array_intersect($directiveFields, $directiveDirectFields);
+                $directiveDirectFieldsToProcess = array_intersect(
+                    $directiveFields,
+                    $directiveDirectFields
+                );
+
                 $directiveResolvers[] = $directiveResolver;
+
                 /**
                  * Generate the Field Data, and for those Fields that produced
                  * some error (which are the ones not present in the SplObjectStorage),
                  * remove them already from the pipeline.
                  */
-                $fieldObjectTypeResolverObjectFieldData = $this->getFieldObjectTypeResolverObjectFieldData($directiveDirectFieldsToProcess, $directiveFieldIDs[$directive], $idObjects, $engineIterationFeedbackStore);
+                $fieldObjectTypeResolverObjectFieldData = $this->getFieldObjectTypeResolverObjectFieldData(
+                    $directiveDirectFieldsToProcess,
+                    $directiveFieldIDs[$directive],
+                    $idObjects,
+                    $engineIterationFeedbackStore,
+                );
                 $pipelineFieldDataAccessProviders[] = new FieldDataAccessProvider($fieldObjectTypeResolverObjectFieldData);
+
                 /**
                  * From the fields, reconstitute the $idFieldSet for each directive,
                  * and build the array to pass to the pipeline, for each directive (stage)
@@ -906,10 +1255,10 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                     }
                     foreach ($ids as $id) {
                         // If the $id/$field had an error, skip
-                        if (isset($errorIDFields[$id]) && \in_array($field, $errorIDFields[$id])) {
+                        if (isset($errorIDFields[$id]) && in_array($field, $errorIDFields[$id])) {
                             continue;
                         }
-                        $idFieldSet[$id] = $idFieldSet[$id] ?? new EngineIterationFieldSet();
+                        $idFieldSet[$id] ??= new EngineIterationFieldSet();
                         $idFieldSet[$id]->fields[] = $field;
                         /** @var FieldInterface[]|null */
                         $fieldConditionalFields = $directiveIDFieldSet[$directive][$id]->conditionalFields[$field] ?? null;
@@ -921,20 +1270,34 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                 }
                 $pipelineIDFieldSet[] = $idFieldSet;
             }
+
             /**
              * All ID/Fields with error, set them in null in the response
              */
             foreach ($errorIDFields as $id => $fields) {
-                $resolvedIDFieldValues[$id] = $resolvedIDFieldValues[$id] ?? new SplObjectStorage();
+                $resolvedIDFieldValues[$id] ??= new SplObjectStorage();
                 foreach ($fields as $field) {
                     $resolvedIDFieldValues[$id][$field] = null;
                 }
             }
+
             // We can finally resolve the pipeline, passing along an array with the ID and fields for each directive
             $directivePipeline = $directivePipelineService->getDirectivePipeline($directiveResolvers);
-            $directivePipeline->resolveDirectivePipeline($this, $pipelineIDFieldSet, $pipelineFieldDataAccessProviders, $directiveResolvers, $idObjects, $unionTypeOutputKeyIDs, $previouslyResolvedIDFieldValues, $resolvedIDFieldValues, $messages, $engineIterationFeedbackStore);
+            $directivePipeline->resolveDirectivePipeline(
+                $this,
+                $pipelineIDFieldSet,
+                $pipelineFieldDataAccessProviders,
+                $directiveResolvers,
+                $idObjects,
+                $unionTypeOutputKeyIDs,
+                $previouslyResolvedIDFieldValues,
+                $resolvedIDFieldValues,
+                $messages,
+                $engineIterationFeedbackStore,
+            );
         }
     }
+
     /**
      * Convert the FieldArgs into its corresponding FieldDataAccessor, which integrates
      * within the default values and coerces them according to the schema.
@@ -946,12 +1309,22 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param array<string|int,object> $idObjects
      * @return SplObjectStorage<FieldInterface,SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>>
      */
-    protected function getFieldObjectTypeResolverObjectFieldData(array $fields, SplObjectStorage $fieldIDs, array $idObjects, EngineIterationFeedbackStore $engineIterationFeedbackStore) : SplObjectStorage
-    {
+    protected function getFieldObjectTypeResolverObjectFieldData(
+        array $fields,
+        SplObjectStorage $fieldIDs,
+        array $idObjects,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): SplObjectStorage {
         /** @var SplObjectStorage<FieldInterface,SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>> */
         $fieldObjectTypeResolverObjectFieldData = new SplObjectStorage();
+
         foreach ($fields as $field) {
-            $objectTypeResolverObjectFieldData = $this->getObjectTypeResolverObjectFieldData($field, $fieldIDs[$field], $idObjects, $engineIterationFeedbackStore);
+            $objectTypeResolverObjectFieldData = $this->getObjectTypeResolverObjectFieldData(
+                $field,
+                $fieldIDs[$field],
+                $idObjects,
+                $engineIterationFeedbackStore,
+            );
             /**
              * If the field does not exist in the schema, then skip it.
              *
@@ -962,8 +1335,10 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             }
             $fieldObjectTypeResolverObjectFieldData[$field] = $objectTypeResolverObjectFieldData;
         }
+
         return $fieldObjectTypeResolverObjectFieldData;
     }
+
     /**
      * Convert the FieldArgs into its corresponding FieldDataAccessor, which integrates
      * within the default values and coerces them according to the schema.
@@ -978,18 +1353,32 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param array<string|int,object> $idObjects
      * @return SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>|null
      */
-    protected function getObjectTypeResolverObjectFieldData(FieldInterface $field, array $ids, array $idObjects, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?SplObjectStorage
-    {
-        $cacheKey = \implode('|', $ids);
-        if ($this->objectTypeResolverObjectFieldDataCache->contains($field) && \array_key_exists($cacheKey, $this->objectTypeResolverObjectFieldDataCache[$field])) {
+    protected function getObjectTypeResolverObjectFieldData(
+        FieldInterface $field,
+        array $ids,
+        array $idObjects,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): ?SplObjectStorage {
+        $cacheKey = implode('|', $ids);
+        if (
+            $this->objectTypeResolverObjectFieldDataCache->contains($field)
+            // The cached value can be `null` (in case of error), so can't use `isset`
+            && array_key_exists($cacheKey, $this->objectTypeResolverObjectFieldDataCache[$field])
+        ) {
             return $this->objectTypeResolverObjectFieldDataCache[$field][$cacheKey];
         }
-        $objectTypeResolverObjectFieldData = $this->doGetObjectTypeResolverObjectFieldData($field, $ids, $idObjects, $engineIterationFeedbackStore);
+        $objectTypeResolverObjectFieldData = $this->doGetObjectTypeResolverObjectFieldData(
+            $field,
+            $ids,
+            $idObjects,
+            $engineIterationFeedbackStore,
+        );
         $fieldObjectTypeResolverObjectFieldDataCache = $this->objectTypeResolverObjectFieldDataCache[$field] ?? [];
         $fieldObjectTypeResolverObjectFieldDataCache[$cacheKey] = $objectTypeResolverObjectFieldData;
         $this->objectTypeResolverObjectFieldDataCache[$field] = $fieldObjectTypeResolverObjectFieldDataCache;
         return $objectTypeResolverObjectFieldData;
     }
+
     /**
      * Convert the FieldArgs into its corresponding FieldDataAccessor, which integrates
      * within the default values and coerces them according to the schema.
@@ -1009,11 +1398,17 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @param array<string|int,object> $idObjects
      * @return SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>|null
      */
-    protected abstract function doGetObjectTypeResolverObjectFieldData(FieldInterface $field, array $ids, array $idObjects, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?SplObjectStorage;
+    abstract protected function doGetObjectTypeResolverObjectFieldData(
+        FieldInterface $field,
+        array $ids,
+        array $idObjects,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): ?SplObjectStorage;
+
     /**
      * @return array<string,FieldDirectiveResolverInterface>
      */
-    public function getSchemaFieldDirectiveResolvers(bool $global) : array
+    public function getSchemaFieldDirectiveResolvers(bool $global): array
     {
         $directiveResolverInstances = [];
         $directiveNameResolvers = $this->getDirectiveNameResolvers();
@@ -1024,37 +1419,50 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                     continue;
                 }
                 $isGlobal = $directiveResolver->isGlobal($this);
-                if ($global && $isGlobal || !$global && !$isGlobal) {
+                if (($global && $isGlobal) || (!$global && !$isGlobal)) {
                     $directiveResolverInstances[$directiveName] = $directiveResolver;
                 }
             }
         }
         return $directiveResolverInstances;
     }
-    protected function getTypeResolverToCalculateSchema() : \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
+
+    protected function getTypeResolverToCalculateSchema(): RelationalTypeResolverInterface
     {
         return $this;
     }
+
     /**
      * @return array<string,FieldDirectiveResolverInterface[]>
      */
-    protected function calculateFieldDirectiveNameResolvers() : array
+    protected function calculateFieldDirectiveNameResolvers(): array
     {
         $directiveNameResolvers = [];
+
         $attachableExtensionManager = $this->getAttachableExtensionManager();
+
         // Directives can also be attached to the interface implemented by this typeResolver
-        $classes = \array_merge([\get_class($this->getTypeResolverToCalculateSchema())], \array_map(\Closure::fromCallable('get_class'), $this->getImplementedInterfaceTypeResolvers()));
+        $classes = array_merge(
+            [
+                get_class($this->getTypeResolverToCalculateSchema()),
+            ],
+            array_map(
+                get_class(...),
+                $this->getImplementedInterfaceTypeResolvers()
+            )
+        );
         foreach ($classes as $class) {
             // Iterate classes from the current class towards the parent classes until finding typeResolver that satisfies processing this field
             do {
                 // Important: do array_reverse to enable more specific hooks, which are initialized later on in the project, to be the chosen ones (if their priority is the same)
                 /** @var FieldDirectiveResolverInterface[] */
-                $attachedFieldDirectiveResolvers = \array_reverse($attachableExtensionManager->getAttachedExtensions($class, AttachableExtensionGroups::DIRECTIVE_RESOLVERS));
+                $attachedFieldDirectiveResolvers = array_reverse($attachableExtensionManager->getAttachedExtensions($class, AttachableExtensionGroups::DIRECTIVE_RESOLVERS));
                 // Order them by priority: higher priority are evaluated first
-                $extensionPriorities = \array_map(function (FieldDirectiveResolverInterface $directiveResolver) {
-                    return $directiveResolver->getPriorityToAttachToClasses();
-                }, $attachedFieldDirectiveResolvers);
-                \array_multisort($extensionPriorities, \SORT_DESC, \SORT_NUMERIC, $attachedFieldDirectiveResolvers);
+                $extensionPriorities = array_map(
+                    fn (FieldDirectiveResolverInterface $directiveResolver) => $directiveResolver->getPriorityToAttachToClasses(),
+                    $attachedFieldDirectiveResolvers
+                );
+                array_multisort($extensionPriorities, SORT_DESC, SORT_NUMERIC, $attachedFieldDirectiveResolvers);
                 /**
                  * Add them to the results. We keep the list of all resolvers,
                  * so that if the first one cannot process the directive
@@ -1069,10 +1477,12 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
                     $directiveNameResolvers[$directiveName][] = $directiveResolver;
                 }
                 // Continue iterating for the class parents
-            } while ($class = \get_parent_class($class));
+            } while ($class = get_parent_class($class));
         }
+
         // Validate that the user has access to the directives (eg: can remove access to them for non logged-in users)
         $directiveNameResolvers = $this->filterDirectiveNameResolvers($directiveNameResolvers);
+
         return $directiveNameResolvers;
     }
 }

@@ -8,10 +8,11 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver;
 
-use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
-/** @internal */
+namespace Composer\Semver;
+
+use Composer\Semver\Constraint\Constraint;
+
 class Comparator
 {
     /**
@@ -26,6 +27,7 @@ class Comparator
     {
         return self::compare($version1, '>', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 >= $version2.
      *
@@ -38,6 +40,7 @@ class Comparator
     {
         return self::compare($version1, '>=', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 < $version2.
      *
@@ -50,6 +53,7 @@ class Comparator
     {
         return self::compare($version1, '<', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 <= $version2.
      *
@@ -62,6 +66,7 @@ class Comparator
     {
         return self::compare($version1, '<=', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 == $version2.
      *
@@ -74,6 +79,7 @@ class Comparator
     {
         return self::compare($version1, '==', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 != $version2.
      *
@@ -86,6 +92,7 @@ class Comparator
     {
         return self::compare($version1, '!=', $version2);
     }
+
     /**
      * Evaluates the expression: $version1 $operator $version2.
      *
@@ -100,6 +107,7 @@ class Comparator
     public static function compare($version1, $operator, $version2)
     {
         $constraint = new Constraint($operator, $version2);
-        return $constraint->matchSpecific(new Constraint('==', $version1), \true);
+
+        return $constraint->matchSpecific(new Constraint('==', $version1), true);
     }
 }

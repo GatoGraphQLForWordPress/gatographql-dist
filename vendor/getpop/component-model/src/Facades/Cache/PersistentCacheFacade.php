@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Cache\PersistentCacheInterface;
-/** @internal */
+
 class PersistentCacheFacade
 {
-    public static function getInstance() : PersistentCacheInterface
+    public static function getInstance(): PersistentCacheInterface
     {
         /**
          * @var PersistentCacheInterface

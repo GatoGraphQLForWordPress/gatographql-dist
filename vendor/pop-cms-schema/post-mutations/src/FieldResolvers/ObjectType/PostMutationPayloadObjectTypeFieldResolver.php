@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\AbstractPostMutationPayloadObjectTypeResolver;
@@ -8,18 +9,16 @@ use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractObjectMutationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class PostMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+
+    final public function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver): void
     {
         $this->postObjectTypeResolver = $postObjectTypeResolver;
     }
-    protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
+    final protected function getPostObjectTypeResolver(): PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
             /** @var PostObjectTypeResolver */
@@ -28,24 +27,28 @@ class PostMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationP
         }
         return $this->postObjectTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [AbstractPostMutationPayloadObjectTypeResolver::class];
+        return [
+            AbstractPostMutationPayloadObjectTypeResolver::class,
+        ];
     }
-    protected function getObjectFieldName() : string
+
+    protected function getObjectFieldName(): string
     {
         return 'post';
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case $this->getObjectFieldName():
-                return $this->getPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            $this->getObjectFieldName() => $this->getPostObjectTypeResolver(),
+            default
+                => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

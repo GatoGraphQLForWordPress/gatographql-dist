@@ -1,28 +1,24 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\ASTNodes;
 
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
+
 /**
  * For the AST nodes provided by this Factory (acting
  * as a Singleton model), provide a single instance,
  * so that comparing the object by reference when storing
  * it on SplObjectStorage objects works well
- * @internal
  */
 class ASTNodesFactory
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\RuntimeLocation|null
-     */
-    public static $nonSpecificLocation;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|null
-     */
-    public static $wildcardField;
+    public static ?RuntimeLocation $nonSpecificLocation = null;
+    public static ?FieldInterface $wildcardField = null;
+
     /**
      * Use a non-existing location to indicate that the
      * AST node was created on runtime, and is not to be
@@ -36,13 +32,14 @@ class ASTNodesFactory
      *
      * This Location will not be printed on the GraphQL response
      */
-    public static function getNonSpecificLocation() : RuntimeLocation
+    public static function getNonSpecificLocation(): RuntimeLocation
     {
         if (self::$nonSpecificLocation === null) {
             self::$nonSpecificLocation = new RuntimeLocation();
         }
         return self::$nonSpecificLocation;
     }
+
     /**
      * Use the "wildcard" Leaf to represent all fields
      * for the Object Resolved Dynamic Variable, i.e.
@@ -53,10 +50,16 @@ class ASTNodesFactory
      * this object allows to simplify the data structure where to
      * store both cases.
      */
-    public static function getWildcardField() : FieldInterface
+    public static function getWildcardField(): FieldInterface
     {
         if (self::$wildcardField === null) {
-            self::$wildcardField = new LeafField('wildcardField', null, [], [], static::getNonSpecificLocation());
+            self::$wildcardField = new LeafField(
+                'wildcardField',
+                null,
+                [],
+                [],
+                static::getNonSpecificLocation(),
+            );
         }
         return self::$wildcardField;
     }

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\Hooks;
 
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
@@ -12,18 +13,16 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInte
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
-/** @internal */
+
 abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\FeaturedImageByOneofInputObjectTypeResolver|null
-     */
-    private $featuredImageByOneofInputObjectTypeResolver;
-    public final function setFeaturedImageByOneofInputObjectTypeResolver(FeaturedImageByOneofInputObjectTypeResolver $featuredImageByOneofInputObjectTypeResolver) : void
+    private ?FeaturedImageByOneofInputObjectTypeResolver $featuredImageByOneofInputObjectTypeResolver = null;
+
+    final public function setFeaturedImageByOneofInputObjectTypeResolver(FeaturedImageByOneofInputObjectTypeResolver $featuredImageByOneofInputObjectTypeResolver): void
     {
         $this->featuredImageByOneofInputObjectTypeResolver = $featuredImageByOneofInputObjectTypeResolver;
     }
-    protected final function getFeaturedImageByOneofInputObjectTypeResolver() : FeaturedImageByOneofInputObjectTypeResolver
+    final protected function getFeaturedImageByOneofInputObjectTypeResolver(): FeaturedImageByOneofInputObjectTypeResolver
     {
         if ($this->featuredImageByOneofInputObjectTypeResolver === null) {
             /** @var FeaturedImageByOneofInputObjectTypeResolver */
@@ -32,17 +31,31 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
         }
         return $this->featuredImageByOneofInputObjectTypeResolver;
     }
-    protected function init() : void
+
+    protected function init(): void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'maybeAddInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'maybeAddInputFieldDescription']), 10, 3);
+        App::addFilter(
+            HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS,
+            $this->maybeAddInputFieldNameTypeResolvers(...),
+            10,
+            2
+        );
+        App::addFilter(
+            HookNames::INPUT_FIELD_DESCRIPTION,
+            $this->maybeAddInputFieldDescription(...),
+            10,
+            3
+        );
     }
+
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
      * @return array<string,InputTypeResolverInterface>
      */
-    public function maybeAddInputFieldNameTypeResolvers(array $inputFieldNameTypeResolvers, InputObjectTypeResolverInterface $inputObjectTypeResolver) : array
-    {
+    public function maybeAddInputFieldNameTypeResolvers(
+        array $inputFieldNameTypeResolvers,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): array {
         // Only for the specific combinations of Type and fieldName
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldNameTypeResolvers;
@@ -50,12 +63,19 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
         $inputFieldNameTypeResolvers[MutationInputProperties::FEATUREDIMAGE_BY] = $this->getFeaturedImageByOneofInputObjectTypeResolver();
         return $inputFieldNameTypeResolvers;
     }
-    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool
-    {
-        return $inputObjectTypeResolver instanceof CreateCustomPostInputObjectTypeResolverInterface || $inputObjectTypeResolver instanceof UpdateCustomPostInputObjectTypeResolverInterface;
+
+    protected function isInputObjectTypeResolver(
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): bool {
+        return $inputObjectTypeResolver instanceof CreateCustomPostInputObjectTypeResolverInterface
+            || $inputObjectTypeResolver instanceof UpdateCustomPostInputObjectTypeResolverInterface;
     }
-    public function maybeAddInputFieldDescription(?string $inputFieldDescription, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : ?string
-    {
+
+    public function maybeAddInputFieldDescription(
+        ?string $inputFieldDescription,
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+        string $inputFieldName,
+    ): ?string {
         // Only for the newly added inputFieldName
         if ($inputFieldName !== MutationInputProperties::FEATUREDIMAGE_BY || !$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldDescription;

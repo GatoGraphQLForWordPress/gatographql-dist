@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserState\State;
 
 use PoP\Root\State\AbstractAppStateProvider;
 use PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface;
-/** @internal */
+
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface|null
-     */
-    private $userStateTypeAPI;
-    public final function setUserStateTypeAPI(UserStateTypeAPIInterface $userStateTypeAPI) : void
+    private ?UserStateTypeAPIInterface $userStateTypeAPI = null;
+
+    final public function setUserStateTypeAPI(UserStateTypeAPIInterface $userStateTypeAPI): void
     {
         $this->userStateTypeAPI = $userStateTypeAPI;
     }
-    protected final function getUserStateTypeAPI() : UserStateTypeAPIInterface
+    final protected function getUserStateTypeAPI(): UserStateTypeAPIInterface
     {
         if ($this->userStateTypeAPI === null) {
             /** @var UserStateTypeAPIInterface */
@@ -25,27 +24,29 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->userStateTypeAPI;
     }
+
     /**
      * @param array<string,mixed> $state
      */
-    public function initialize(array &$state) : void
+    public function initialize(array &$state): void
     {
         $this->setUserStateVars($state);
     }
+
     /**
      * Add the user's (non)logged-in state
      *
      * @param array<string,mixed> $state
      */
-    public function setUserStateVars(array &$state) : void
+    public function setUserStateVars(array &$state): void
     {
         if ($this->getUserStateTypeAPI()->isUserLoggedIn()) {
-            $state['is-user-logged-in'] = \true;
+            $state['is-user-logged-in'] = true;
             $state['current-user'] = $this->getUserStateTypeAPI()->getCurrentUser();
             $state['current-user-id'] = $this->getUserStateTypeAPI()->getCurrentUserID();
             return;
         }
-        $state['is-user-logged-in'] = \false;
+        $state['is-user-logged-in'] = false;
         $state['current-user'] = null;
         $state['current-user-id'] = null;
     }

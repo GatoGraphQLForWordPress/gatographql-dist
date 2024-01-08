@@ -20,19 +20,21 @@ trait CommonModuleResolverTrait
         string $blockTitle,
         ?array $applicableItems = null
     ): string {
-        $applicableItems = $applicableItems ?? $this->getDefaultValueApplicableItems($blockTitle);
+        $applicableItems ??= $this->getDefaultValueApplicableItems($blockTitle);
         return $this->getSettingsInfoContent(
             sprintf(
                 \__('%s %s', 'gatographql'),
                 \__('This is the default value for the schema configuration.', 'gatographql'),
-                $this->getCollapsible(sprintf(
-                    '<br/>%s<ul><li>%s</li></ul>',
-                    \__('It will be used whenever:', 'gatographql'),
-                    implode(
-                        '</li><li>',
-                        $applicableItems
-                    )
-                ))
+                $this->getCollapsible(
+                    sprintf(
+                        '<br/>%s<ul><li>%s</li></ul>',
+                        \__('It will be used whenever:', 'gatographql'),
+                        implode(
+                            '</li><li>',
+                            $applicableItems
+                        )
+                    ),
+                )
             )
         );
     }

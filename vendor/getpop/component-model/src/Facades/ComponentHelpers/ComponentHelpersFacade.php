@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\ComponentHelpers;
 
 use PoP\Root\App;
 use PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface;
-/** @internal */
+
 class ComponentHelpersFacade
 {
-    public static function getInstance() : ComponentHelpersInterface
+    public static function getInstance(): ComponentHelpersInterface
     {
         /**
          * @var ComponentHelpersInterface

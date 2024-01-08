@@ -1,11 +1,11 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Constants;
 
-/** @internal */
 class DatabasesOutputModes
 {
-    public const SPLITBYDATABASES = 'splitbydbs';
-    public const COMBINED = 'combined';
+    public final const SPLITBYDATABASES = 'splitbydbs';
+    public final const COMBINED = 'combined';
 }

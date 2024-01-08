@@ -6,18 +6,18 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class RequestParams
 {
-    public const VIEW = 'view';
-    public const VIEW_SOURCE = 'source';
-    public const VIEW_GRAPHIQL = 'graphiql';
-    public const VIEW_SCHEMA = 'schema';
-    public const ACTION = 'action';
-    public const ACTION_EXECUTE_QUERY = 'execute_query';
-    public const CATEGORY = 'category';
-    public const TAB = 'tab';
-    public const TAB_DOCS = 'docs';
-    public const MODULE = 'module';
-    public const DOC = 'doc';
-    public const PERSISTED_QUERY_ID = 'persisted_query_id';
+    public final const VIEW = 'view';
+    public final const VIEW_SOURCE = 'source';
+    public final const VIEW_GRAPHIQL = 'graphiql';
+    public final const VIEW_SCHEMA = 'schema';
+    public final const ACTION = 'action';
+    public final const ACTION_EXECUTE_QUERY = 'execute_query';
+    public final const CATEGORY = 'category';
+    public final const TAB = 'tab';
+    public final const TAB_DOCS = 'docs';
+    public final const MODULE = 'module';
+    public final const DOC = 'doc';
+    public final const PERSISTED_QUERY_ID = 'persisted_query_id';
 
     /**
      * Param used to obtain the configuration to apply to the requested
@@ -32,5 +32,5 @@ class RequestParams
      * If the endpointGroup is not provided, the default admin endpoint
      * configuration is applied.
      */
-    public const ENDPOINT_GROUP = 'endpoint_group';
+    public final const ENDPOINT_GROUP = 'endpoint_group';
 }

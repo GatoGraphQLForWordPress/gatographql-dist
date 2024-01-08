@@ -18,22 +18,10 @@ class EndpointBlockHelpers
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
-     */
-    private $blockHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\EndpointSchemaConfigurationBlock|null
-     */
-    private $endpointSchemaConfigurationBlock;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?BlockHelpers $blockHelpers = null;
+    private ?EndpointSchemaConfigurationBlock $endpointSchemaConfigurationBlock = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -41,7 +29,7 @@ class EndpointBlockHelpers
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
     final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
     {

@@ -11,10 +11,7 @@ class RootRolesObjectTypeFieldResolver extends UpstreamRootRolesObjectTypeFieldR
 {
     use RolesObjectTypeFieldResolverTrait;
 
-    /**
-     * @var \PoPCMSSchema\UserRolesWP\TypeResolvers\ObjectType\UserRoleObjectTypeResolver|null
-     */
-    private $userRoleObjectTypeResolver;
+    private ?UserRoleObjectTypeResolver $userRoleObjectTypeResolver = null;
 
     final public function setUserRoleObjectTypeResolver(UserRoleObjectTypeResolver $userRoleObjectTypeResolver): void
     {

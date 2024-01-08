@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers\InterfaceType;
 
 use PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface;
 use PoP\ComponentModel\TypeResolvers\OutputTypeResolverInterface;
-/** @internal */
+
 interface InterfaceTypeResolverInterface extends OutputTypeResolverInterface
 {
     /**
@@ -14,14 +15,14 @@ interface InterfaceTypeResolverInterface extends OutputTypeResolverInterface
      *
      * @return string[]
      */
-    public function getFieldNamesToImplement() : array;
+    public function getFieldNamesToImplement(): array;
     /**
      * Produce an array of all the interface's fieldNames and, for each,
      * a list of all the ObjectTypeFieldResolvers
      *
      * @return array<string,InterfaceTypeFieldResolverInterface[]>
      */
-    public function getInterfaceTypeFieldResolversByField() : array;
+    public function getInterfaceTypeFieldResolversByField(): array;
     /**
      * Produce an array of all the interface's fieldNames and, for each,
      * the first ObjectTypeFieldResolver that resolves it, as according
@@ -29,17 +30,17 @@ interface InterfaceTypeResolverInterface extends OutputTypeResolverInterface
      *
      * @return array<string,InterfaceTypeFieldResolverInterface>
      */
-    public function getExecutableInterfaceTypeFieldResolversByField() : array;
+    public function getExecutableInterfaceTypeFieldResolversByField(): array;
     /**
      * Produce an array of all the attached ObjectTypeFieldResolverInterfaces
      *
      * @return InterfaceTypeFieldResolverInterface[]
      */
-    public function getInterfaceTypeFieldResolvers() : array;
+    public function getInterfaceTypeFieldResolvers(): array;
     /**
      * Interfaces "partially" implemented by this Interface
      *
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getPartiallyImplementedInterfaceTypeResolvers() : array;
+    public function getPartiallyImplementedInterfaceTypeResolvers(): array;
 }

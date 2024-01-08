@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
+
+namespace Symfony\Component\HttpFoundation\Session;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
- * @internal
  */
 interface SessionFactoryInterface
 {
-    public function createSession() : SessionInterface;
+    public function createSession(): SessionInterface;
 }

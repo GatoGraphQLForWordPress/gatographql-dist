@@ -1,9 +1,9 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\SchemaCommons\Services;
 
-/** @internal */
 interface AllowOrDenySettingsServiceInterface
 {
     /**
@@ -12,5 +12,5 @@ interface AllowOrDenySettingsServiceInterface
      *
      * @param string[] $entries
      */
-    public function isEntryAllowed(string $name, array $entries, string $behavior) : bool;
+    public function isEntryAllowed(string $name, array $entries, string $behavior): bool;
 }

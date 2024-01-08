@@ -15,18 +15,9 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  */
 class ForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver extends AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
-     */
-    private $graphQLSchemaConfigurationCustomPostType;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLPersistedQueryEndpointCustomPostType|null
-     */
-    private $graphQLPersistedQueryEndpointCustomPostType;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
-     */
-    private $graphQLCustomEndpointCustomPostType;
+    private ?GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType = null;
+    private ?GraphQLPersistedQueryEndpointCustomPostType $graphQLPersistedQueryEndpointCustomPostType = null;
+    private ?GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType = null;
 
     final public function setGraphQLSchemaConfigurationCustomPostType(GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType): void
     {
@@ -82,29 +73,21 @@ class ForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver extends Abstra
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'schemaConfigurations':
-                return $this->__('Schema Configurations', 'gatographql');
-            case 'persistedQueryEndpoints':
-                return $this->__('Persisted Query Endpoints', 'gatographql');
-            case 'customEndpoints':
-                return $this->__('Custom Endpoints', 'gatographql');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'schemaConfigurations' => $this->__('Schema Configurations', 'gatographql'),
+            'persistedQueryEndpoints' => $this->__('Persisted Query Endpoints', 'gatographql'),
+            'customEndpoints' => $this->__('Custom Endpoints', 'gatographql'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     protected function getFieldCustomPostType(FieldDataAccessorInterface $fieldDataAccessor): string
     {
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'schemaConfigurations':
-                return $this->getGraphQLSchemaConfigurationCustomPostType()->getCustomPostType();
-            case 'persistedQueryEndpoints':
-                return $this->getGraphQLPersistedQueryEndpointCustomPostType()->getCustomPostType();
-            case 'customEndpoints':
-                return $this->getGraphQLCustomEndpointCustomPostType()->getCustomPostType();
-            default:
-                return '';
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'schemaConfigurations' => $this->getGraphQLSchemaConfigurationCustomPostType()->getCustomPostType(),
+            'persistedQueryEndpoints' => $this->getGraphQLPersistedQueryEndpointCustomPostType()->getCustomPostType(),
+            'customEndpoints' => $this->getGraphQLCustomEndpointCustomPostType()->getCustomPostType(),
+            default => '', // It will never reach here
+        };
     }
 }

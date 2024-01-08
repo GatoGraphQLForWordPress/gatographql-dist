@@ -1,38 +1,30 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Pages\TypeAPIs;
 
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
+
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
- * @internal
  */
 interface PageTypeAPIInterface extends CustomPostTypeAPIInterface
 {
     /**
      * Indicates if the passed object is of type Page
      */
-    public function isInstanceOfPageType(object $object) : bool;
+    public function isInstanceOfPageType(object $object): bool;
     /**
      * Indicate if an page with provided ID exists
-     * @param int|string $id
      */
-    public function pageExists($id) : bool;
+    public function pageExists(int|string $id): bool;
     /**
      * Get the page with provided ID or, if it doesn't exist, null
-     * @param int|string $id
      */
-    public function getPage($id) : ?object;
-    /**
-     * @param int|string|object $pageObjectOrID
-     */
-    public function getParentPage($pageObjectOrID) : ?object;
-    /**
-     * @param int|string|object $pageObjectOrID
-     * @return int|string|null
-     */
-    public function getParentPageID($pageObjectOrID);
+    public function getPage(int|string $id): ?object;
+    public function getParentPage(int|string|object $pageObjectOrID): ?object;
+    public function getParentPageID(int|string|object $pageObjectOrID): int|string|null;
     /**
      * Get the list of pages.
      * If param "status" in $query is not passed, it defaults to "publish"
@@ -41,20 +33,18 @@ interface PageTypeAPIInterface extends CustomPostTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getPages(array $query, array $options = []) : array;
+    public function getPages(array $query, array $options = []): array;
     /**
      * Get the number of pages.
      * If param "status" in $query is not passed, it defaults to "publish"
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getPageCount(array $query, array $options = []) : int;
+    public function getPageCount(array $query, array $options = []): int;
     /**
      * Page custom post type
      */
-    public function getPageCustomPostType() : string;
-    /**
-     * @return string|int
-     */
-    public function getPageID(object $page);
+    public function getPageCustomPostType(): string;
+
+    public function getPageID(object $page): string|int;
 }

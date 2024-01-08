@@ -7,27 +7,19 @@ namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
 abstract class AbstractPluginInfo implements PluginInfoInterface
 {
     /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInterface
-     */
-    protected $plugin;
-    /**
      * @var array<string,mixed>
      */
-    protected $values = [];
+    protected array $values = [];
 
     final public function __construct(
-        PluginInterface $plugin
+        protected PluginInterface $plugin
     ) {
-        $this->plugin = $plugin;
         $this->initialize();
     }
 
     abstract protected function initialize(): void;
 
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         return $this->values[$key] ?? null;
     }

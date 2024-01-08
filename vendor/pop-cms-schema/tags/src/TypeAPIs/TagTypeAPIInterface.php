@@ -1,75 +1,48 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags\TypeAPIs;
 
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTypeAPIInterface;
-/** @internal */
+
 interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
 {
     /**
      * Indicates if the passed object is of type Tag
      */
-    public function isInstanceOfTagType(object $object) : bool;
-    /**
-     * @return string|int
-     */
-    public function getTagID(object $tag);
-    /**
-     * @param string|int $tagID
-     */
-    public function getTag($tagID) : ?object;
-    /**
-     * @param int|string $id
-     */
-    public function tagExists($id) : bool;
-    public function getTagByName(string $tagName) : ?object;
+    public function isInstanceOfTagType(object $object): bool;
+
+    public function getTagID(object $tag): string|int;
+    public function getTag(string|int $tagID): ?object;
+    public function tagExists(int|string $id): bool;
+    public function getTagByName(string $tagName): ?object;
     /**
      * @return array<string|int>|object[]
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTags(array $query, array $options = []) : array;
+    public function getTags(array $query, array $options = []): array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
-    public function getTagCount(array $query = [], array $options = []) : int;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURL($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURLPath($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagName($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagSlug($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagDescription($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagItemCount($tagObjectOrID) : ?int;
+    public function getTagCount(array $query = [], array $options = []): int;
+    public function getTagURL(string|int|object $tagObjectOrID): ?string;
+    public function getTagURLPath(string|int|object $tagObjectOrID): ?string;
+    public function getTagName(string|int|object $tagObjectOrID): ?string;
+    public function getTagSlug(string|int|object $tagObjectOrID): ?string;
+    public function getTagDescription(string|int|object $tagObjectOrID): ?string;
+    public function getTagItemCount(string|int|object $tagObjectOrID): ?int;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostTags($customPostObjectOrID, array $query = [], array $options = []) : array;
+    public function getCustomPostTags(string|int|object $customPostObjectOrID, array $query = [], array $options = []): array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostTagCount($customPostObjectOrID, array $query = [], array $options = []) : ?int;
+    public function getCustomPostTagCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []): ?int;
 }

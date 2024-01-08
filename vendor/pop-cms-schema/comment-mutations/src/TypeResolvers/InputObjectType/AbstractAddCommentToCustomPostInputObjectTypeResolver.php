@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -14,34 +15,20 @@ use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\Constants\MutationInputProperties;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
-/** @internal */
+
 abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
-     */
-    private $emailScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver|null
-     */
-    private $commentAsOneofInputObjectTypeResolver;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?CommentAsOneofInputObjectTypeResolver $commentAsOneofInputObjectTypeResolver = null;
+
+    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
+    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -50,11 +37,11 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
+    final public function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver): void
     {
         $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
-    protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
+    final protected function getEmailScalarTypeResolver(): EmailScalarTypeResolver
     {
         if ($this->emailScalarTypeResolver === null) {
             /** @var EmailScalarTypeResolver */
@@ -63,11 +50,11 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->emailScalarTypeResolver;
     }
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
+    final public function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver): void
     {
         $this->urlScalarTypeResolver = $urlScalarTypeResolver;
     }
-    protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
+    final protected function getURLScalarTypeResolver(): URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
             /** @var URLScalarTypeResolver */
@@ -76,11 +63,11 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->urlScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -89,61 +76,69 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setCommentAsOneofInputObjectTypeResolver(\PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver $commentAsOneofInputObjectTypeResolver) : void
+    final public function setCommentAsOneofInputObjectTypeResolver(CommentAsOneofInputObjectTypeResolver $commentAsOneofInputObjectTypeResolver): void
     {
         $this->commentAsOneofInputObjectTypeResolver = $commentAsOneofInputObjectTypeResolver;
     }
-    protected final function getCommentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver
+    final protected function getCommentAsOneofInputObjectTypeResolver(): CommentAsOneofInputObjectTypeResolver
     {
         if ($this->commentAsOneofInputObjectTypeResolver === null) {
             /** @var CommentAsOneofInputObjectTypeResolver */
-            $commentAsOneofInputObjectTypeResolver = $this->instanceManager->getInstance(\PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver::class);
+            $commentAsOneofInputObjectTypeResolver = $this->instanceManager->getInstance(CommentAsOneofInputObjectTypeResolver::class);
             $this->commentAsOneofInputObjectTypeResolver = $commentAsOneofInputObjectTypeResolver;
         }
         return $this->commentAsOneofInputObjectTypeResolver;
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return \array_merge([MutationInputProperties::COMMENT_AS => $this->getCommentAsOneofInputObjectTypeResolver()], $this->addCustomPostInputField() ? [MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver()] : [], $this->addParentCommentInputField() ? [MutationInputProperties::PARENT_COMMENT_ID => $this->getIDScalarTypeResolver()] : [], !$moduleConfiguration->mustUserBeLoggedInToAddComment() ? [MutationInputProperties::AUTHOR_NAME => $this->getStringScalarTypeResolver(), MutationInputProperties::AUTHOR_EMAIL => $this->getEmailScalarTypeResolver(), MutationInputProperties::AUTHOR_URL => $this->getURLScalarTypeResolver()] : []);
+        return array_merge(
+            [
+                MutationInputProperties::COMMENT_AS => $this->getCommentAsOneofInputObjectTypeResolver(),
+            ],
+            $this->addCustomPostInputField() ? [
+                MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver(),
+            ] : [],
+            $this->addParentCommentInputField() ? [
+                MutationInputProperties::PARENT_COMMENT_ID => $this->getIDScalarTypeResolver(),
+            ] : [],
+            !$moduleConfiguration->mustUserBeLoggedInToAddComment() ? [
+                MutationInputProperties::AUTHOR_NAME => $this->getStringScalarTypeResolver(),
+                MutationInputProperties::AUTHOR_EMAIL => $this->getEmailScalarTypeResolver(),
+                MutationInputProperties::AUTHOR_URL => $this->getURLScalarTypeResolver(),
+            ] : [],
+        );
     }
-    protected abstract function addCustomPostInputField() : bool;
-    protected abstract function addParentCommentInputField() : bool;
-    protected abstract function isParentCommentInputFieldMandatory() : bool;
-    public function getInputFieldDescription(string $inputFieldName) : ?string
+
+    abstract protected function addCustomPostInputField(): bool;
+    abstract protected function addParentCommentInputField(): bool;
+    abstract protected function isParentCommentInputFieldMandatory(): bool;
+
+    public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::COMMENT_AS:
-                return $this->__('The comment to add', 'comment-mutations');
-            case MutationInputProperties::PARENT_COMMENT_ID:
-                return $this->__('The ID of the parent comment', 'comment-mutations');
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return $this->__('The ID of the custom post to add a comment to', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_NAME:
-                return $this->__('The comment author\'s name', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_EMAIL:
-                return $this->__('The comment author\'s email', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_URL:
-                return $this->__('The comment author\'s site URL', 'comment-mutations');
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::COMMENT_AS => $this->__('The comment to add', 'comment-mutations'),
+            MutationInputProperties::PARENT_COMMENT_ID => $this->__('The ID of the parent comment', 'comment-mutations'),
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('The ID of the custom post to add a comment to', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_NAME => $this->__('The comment author\'s name', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_EMAIL => $this->__('The comment author\'s email', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_URL => $this->__('The comment author\'s site URL', 'comment-mutations'),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
-    public function getInputFieldTypeModifiers(string $inputFieldName) : int
+
+    public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::COMMENT_AS:
-                return SchemaTypeModifiers::MANDATORY;
-            case MutationInputProperties::PARENT_COMMENT_ID:
-                return $this->isParentCommentInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE;
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::COMMENT_AS => SchemaTypeModifiers::MANDATORY,
+            MutationInputProperties::PARENT_COMMENT_ID => $this->isParentCommentInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE,
+            MutationInputProperties::CUSTOMPOST_ID => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

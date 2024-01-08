@@ -12,11 +12,7 @@ use WP_Post;
  */
 class CustomPostUserTypeAPI implements CustomPostUserTypeAPIInterface
 {
-    /**
-     * @param string|int|object $customPostObjectOrID
-     * @return string|int|null
-     */
-    public function getAuthorID($customPostObjectOrID)
+    public function getAuthorID(string|int|object $customPostObjectOrID): string|int|null
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */

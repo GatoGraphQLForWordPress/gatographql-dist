@@ -1,28 +1,27 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-/** @internal */
-abstract class AbstractWrappingType implements \GraphQLByPoP\GraphQLServer\ObjectModels\WrappingTypeInterface
+abstract class AbstractWrappingType implements WrappingTypeInterface
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface
-     */
-    protected $wrappedType;
-    public function __construct(\GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface $wrappedType)
-    {
-        $this->wrappedType = $wrappedType;
+    public function __construct(
+        protected TypeInterface $wrappedType,
+    ) {
     }
-    public function getWrappedType() : \GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface
+
+    public function getWrappedType(): TypeInterface
     {
         return $this->wrappedType;
     }
-    public function getWrappedTypeID() : string
+
+    public function getWrappedTypeID(): string
     {
         return $this->wrappedType->getID();
     }
-    public function getDescription() : ?string
+
+    public function getDescription(): ?string
     {
         return null;
     }

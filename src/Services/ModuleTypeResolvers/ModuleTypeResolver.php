@@ -11,26 +11,26 @@ use GatoGraphQL\GatoGraphQL\Plugin;
  */
 class ModuleTypeResolver extends AbstractModuleTypeResolver
 {
-    public const CLIENT = Plugin::NAMESPACE . '\client';
-    public const ENDPOINT = Plugin::NAMESPACE . '\endpoint';
-    public const ENDPOINT_CONFIGURATION = Plugin::NAMESPACE . '\endpoint-configuration';
-    public const FUNCTIONALITY = Plugin::NAMESPACE . '\functionality';
-    public const OPERATIONAL = Plugin::NAMESPACE . '\operational';
-    public const PERFORMANCE = Plugin::NAMESPACE . '\performance';
-    public const PLUGIN_GENERAL_SETTINGS = Plugin::NAMESPACE . '\plugin-general-settings';
-    public const PLUGIN_MANAGEMENT = Plugin::NAMESPACE . '\plugin-management';
-    public const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
-    public const SERVER = Plugin::NAMESPACE . '\server';
-    public const SCHEMA_TYPE = Plugin::NAMESPACE . '\schema-type';
-    public const SCHEMA_DIRECTIVE = Plugin::NAMESPACE . '\schema-directive';
-    public const USER_INTERFACE = Plugin::NAMESPACE . '\user-interface';
-    public const VERSIONING = Plugin::NAMESPACE . '\versioning';
+    public final const CLIENT = Plugin::NAMESPACE . '\client';
+    public final const ENDPOINT = Plugin::NAMESPACE . '\endpoint';
+    public final const ENDPOINT_CONFIGURATION = Plugin::NAMESPACE . '\endpoint-configuration';
+    public final const FUNCTIONALITY = Plugin::NAMESPACE . '\functionality';
+    public final const OPERATIONAL = Plugin::NAMESPACE . '\operational';
+    public final const PERFORMANCE = Plugin::NAMESPACE . '\performance';
+    public final const PLUGIN_GENERAL_SETTINGS = Plugin::NAMESPACE . '\plugin-general-settings';
+    public final const PLUGIN_MANAGEMENT = Plugin::NAMESPACE . '\plugin-management';
+    public final const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
+    public final const SERVER = Plugin::NAMESPACE . '\server';
+    public final const SCHEMA_TYPE = Plugin::NAMESPACE . '\schema-type';
+    public final const SCHEMA_DIRECTIVE = Plugin::NAMESPACE . '\schema-directive';
+    public final const USER_INTERFACE = Plugin::NAMESPACE . '\user-interface';
+    public final const VERSIONING = Plugin::NAMESPACE . '\versioning';
 
     /**
      * These are a special type, used to display extensions
      */
-    public const EXTENSION = Plugin::NAMESPACE . '\extension';
-    public const BUNDLE_EXTENSION = Plugin::NAMESPACE . '\bundle-extension';
+    public final const EXTENSION = Plugin::NAMESPACE . '\extension';
+    public final const BUNDLE_EXTENSION = Plugin::NAMESPACE . '\bundle-extension';
 
     /**
      * @return string[]
@@ -59,52 +59,35 @@ class ModuleTypeResolver extends AbstractModuleTypeResolver
 
     public function getName(string $moduleType): string
     {
-        switch ($moduleType) {
-            case self::CLIENT:
-                return $this->__('Client', 'gatographql');
-            case self::ENDPOINT:
-                return $this->__('Endpoint', 'gatographql');
-            case self::ENDPOINT_CONFIGURATION:
-                return $this->__('Endpoint Configuration', 'gatographql');
-            case self::FUNCTIONALITY:
-                return $this->__('Functionality', 'gatographql');
-            case self::OPERATIONAL:
-                return $this->__('Operational', 'gatographql');
-            case self::PERFORMANCE:
-                return $this->__('Performance', 'gatographql');
-            case self::PLUGIN_GENERAL_SETTINGS:
-                return $this->__('General Settings', 'gatographql');
-            case self::PLUGIN_MANAGEMENT:
-                return $this->__('Plugin Management', 'gatographql');
-            case self::SCHEMA_CONFIGURATION:
-                return $this->__('Schema Configuration', 'gatographql');
-            case self::SERVER:
-                return $this->__('Server', 'gatographql');
-            case self::SCHEMA_TYPE:
-                return $this->__('Schema Type', 'gatographql');
-            case self::SCHEMA_DIRECTIVE:
-                return $this->__('Schema Directive', 'gatographql');
-            case self::USER_INTERFACE:
-                return $this->__('User Interface', 'gatographql');
-            case self::VERSIONING:
-                return $this->__('Versioning', 'gatographql');
-            case self::EXTENSION:
-                return $this->__('Extensions', 'gatographql');
-            case self::BUNDLE_EXTENSION:
-                return $this->__('Bundle Extensions', 'gatographql');
-            default:
-                return '';
-        }
+        return match ($moduleType) {
+            self::CLIENT => $this->__('Client', 'gatographql'),
+            self::ENDPOINT => $this->__('Endpoint', 'gatographql'),
+            self::ENDPOINT_CONFIGURATION => $this->__('Endpoint Configuration', 'gatographql'),
+            self::FUNCTIONALITY => $this->__('Functionality', 'gatographql'),
+            self::OPERATIONAL => $this->__('Operational', 'gatographql'),
+            self::PERFORMANCE => $this->__('Performance', 'gatographql'),
+            self::PLUGIN_GENERAL_SETTINGS => $this->__('General Settings', 'gatographql'),
+            self::PLUGIN_MANAGEMENT => $this->__('Plugin Management', 'gatographql'),
+            self::SCHEMA_CONFIGURATION => $this->__('Schema Configuration', 'gatographql'),
+            self::SERVER => $this->__('Server', 'gatographql'),
+            self::SCHEMA_TYPE => $this->__('Schema Type', 'gatographql'),
+            self::SCHEMA_DIRECTIVE => $this->__('Schema Directive', 'gatographql'),
+            self::USER_INTERFACE => $this->__('User Interface', 'gatographql'),
+            self::VERSIONING => $this->__('Versioning', 'gatographql'),
+            self::EXTENSION => $this->__('Extensions', 'gatographql'),
+            self::BUNDLE_EXTENSION => $this->__('Bundle Extensions', 'gatographql'),
+            default => '',
+        };
     }
 
     public function isHidden(string $moduleType): bool
     {
-        switch ($moduleType) {
-            case self::EXTENSION:
-            case self::BUNDLE_EXTENSION:
-                return true;
-            default:
-                return parent::isHidden($moduleType);
-        }
+        return match ($moduleType) {
+            self::EXTENSION,
+            self::BUNDLE_EXTENSION
+                => true,
+            default
+                => parent::isHidden($moduleType),
+        };
     }
 }

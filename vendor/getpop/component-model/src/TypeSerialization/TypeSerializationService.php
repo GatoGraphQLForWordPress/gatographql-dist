@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeSerialization;
 
 use PoP\ComponentModel\App;
@@ -17,19 +18,18 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Services\BasicServiceTrait;
 use SplObjectStorage;
 use stdClass;
-/** @internal */
-class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface
+
+class TypeSerializationService implements TypeSerializationServiceInterface
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    public final function setDangerouslyNonSpecificScalarTypeScalarTypeResolver(DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver) : void
+
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+
+    final public function setDangerouslyNonSpecificScalarTypeScalarTypeResolver(DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver): void
     {
         $this->dangerouslyNonSpecificScalarTypeScalarTypeResolver = $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
     }
-    protected final function getDangerouslyNonSpecificScalarTypeScalarTypeResolver() : DangerouslyNonSpecificScalarTypeScalarTypeResolver
+    final protected function getDangerouslyNonSpecificScalarTypeScalarTypeResolver(): DangerouslyNonSpecificScalarTypeScalarTypeResolver
     {
         if ($this->dangerouslyNonSpecificScalarTypeScalarTypeResolver === null) {
             /** @var DangerouslyNonSpecificScalarTypeScalarTypeResolver */
@@ -38,14 +38,21 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
         }
         return $this->dangerouslyNonSpecificScalarTypeScalarTypeResolver;
     }
+
     /**
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $idFieldValues
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @return array<string|int,SplObjectStorage<FieldInterface,mixed>>
      * @param array<string|int,object> $idObjects
      */
-    public function serializeOutputTypeIDFieldValues(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldValues, array $idFieldSet, array $idObjects, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array
-    {
+    public function serializeOutputTypeIDFieldValues(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $idFieldValues,
+        array $idFieldSet,
+        array $idObjects,
+        Directive $directive,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): array {
         if (!$idObjects) {
             return [];
         }
@@ -61,6 +68,7 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
             /** @var ObjectTypeResolverInterface */
             $targetObjectTypeResolver = $relationalTypeResolver;
         }
+
         foreach ($idFieldSet as $id => $fieldSet) {
             // Obtain its ID and the required data-fields for that ID
             $object = $idObjects[$id];
@@ -75,11 +83,13 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
                 if ($value === null) {
                     continue;
                 }
+
                 /** @var ObjectTypeResolverInterface $targetObjectTypeResolver */
                 $fieldTypeResolver = $targetObjectTypeResolver->getFieldTypeResolver($field);
                 if ($fieldTypeResolver === null) {
                     continue;
                 }
+
                 /**
                  * If it is not a leaf node, then it is a relational node.
                  * Then the values are the IDs of the elements to load.
@@ -101,28 +111,39 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
                  * ...must still retrieve the value for `self`, which is
                  * a relational node.
                  */
-                if (!$fieldTypeResolver instanceof LeafOutputTypeResolverInterface) {
+                if (!($fieldTypeResolver instanceof LeafOutputTypeResolverInterface)) {
                     $fieldValues[$field] = $value;
                     continue;
                 }
+
                 /** @var LeafOutputTypeResolverInterface */
                 $fieldLeafOutputTypeResolver = $fieldTypeResolver;
+
                 // Serialize the scalar/enum value stored in $idFieldValues
-                $fieldValues[$field] = $this->serializeLeafOutputTypeValue($value, $fieldLeafOutputTypeResolver, $targetObjectTypeResolver, $field);
+                $fieldValues[$field] = $this->serializeLeafOutputTypeValue(
+                    $value,
+                    $fieldLeafOutputTypeResolver,
+                    $targetObjectTypeResolver,
+                    $field,
+                );
             }
             $serializedIDFieldValues[$id] = $fieldValues;
         }
         return $serializedIDFieldValues;
     }
+
     /**
      * The response for Scalar Types and Enum types must be serialized.
      * The response type is the same as in the type's `serialize` method.
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param mixed $value
      */
-    public function serializeLeafOutputTypeValue($value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field)
-    {
+    public function serializeLeafOutputTypeValue(
+        mixed $value,
+        LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver,
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): string|int|float|bool|array|stdClass {
         /**
          * `DangerouslyNonSpecificScalar` is a special scalar type which is not coerced or validated.
          * In particular, it does not need to validate if it is an array or not,
@@ -133,18 +154,23 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
              * Array is not supported by `serialize`, but can still be handled
              * by DangerouslyNonSpecificScalar. So convert it into stdClass
              */
-            $isArray = \is_array($value);
+            $isArray = is_array($value);
             if ($isArray) {
                 $value = (object) $value;
             }
             $serializedValue = $fieldLeafOutputTypeResolver->serialize($value);
             if ($isArray) {
                 /** @var stdClass $serializedValue */
-                return (array) $serializedValue;
+                return (array)$serializedValue;
             }
             return $serializedValue;
         }
-        $fieldTypeModifiers = $this->getFieldTypeModifiersFromAppStateOrField($objectTypeResolver, $field);
+
+        $fieldTypeModifiers = $this->getFieldTypeModifiersFromAppStateOrField(
+            $objectTypeResolver,
+            $field
+        );
+
         /**
          * If the value is an array of arrays, then serialize each subelement to the item type.
          * To make sure the array is not associative (on which case it should be treated
@@ -152,26 +178,29 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
          */
         $fieldLeafOutputTypeIsArrayOfArrays = ($fieldTypeModifiers & SchemaTypeModifiers::IS_ARRAY_OF_ARRAYS) === SchemaTypeModifiers::IS_ARRAY_OF_ARRAYS;
         if ($fieldLeafOutputTypeIsArrayOfArrays) {
-            return \array_values(\array_map(
+            return array_values(array_map(
                 // If it contains a null value, return it as is
-                function (?array $arrayValueElem) use($fieldLeafOutputTypeResolver) {
-                    return $arrayValueElem === null ? null : \array_values(\array_map(function ($arrayOfArraysValueElem) use($fieldLeafOutputTypeResolver) {
-                        return $arrayOfArraysValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayOfArraysValueElem);
-                    }, $arrayValueElem));
-                },
+                fn (?array $arrayValueElem) => $arrayValueElem === null ? null : array_values(array_map(
+                    fn (mixed $arrayOfArraysValueElem) => $arrayOfArraysValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayOfArraysValueElem),
+                    $arrayValueElem
+                )),
                 $value
             ));
         }
+
         // If the value is an array, then serialize each element to the item type
         $fieldLeafOutputTypeIsArray = ($fieldTypeModifiers & SchemaTypeModifiers::IS_ARRAY) === SchemaTypeModifiers::IS_ARRAY;
         if ($fieldLeafOutputTypeIsArray) {
-            return \array_values(\array_map(function ($arrayValueElem) use($fieldLeafOutputTypeResolver) {
-                return $arrayValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayValueElem);
-            }, $value));
+            return array_values(array_map(
+                fn (mixed $arrayValueElem) => $arrayValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayValueElem),
+                $value
+            ));
         }
+
         // Otherwise, simply serialize the given value directly
         return $fieldLeafOutputTypeResolver->serialize($value);
     }
+
     /**
      * The modifiers for "IsArrayOfArrays" and "IsArray"
      * can be provided via the AppState, because @underEachArrayItem
@@ -199,8 +228,10 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
      *   }
      *   ```
      */
-    protected function getFieldTypeModifiersFromAppStateOrField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : int
-    {
+    protected function getFieldTypeModifiersFromAppStateOrField(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): int {
         /** @var SplObjectStorage<FieldInterface,int|null> */
         $fieldTypeModifiersByField = App::getState('field-type-modifiers-for-serialization');
         /** @var int|null */
@@ -208,6 +239,7 @@ class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\
         if ($currentFieldTypeModifiers !== null) {
             return $currentFieldTypeModifiers;
         }
+
         /** @var int */
         return $objectTypeResolver->getFieldTypeModifiers($field);
     }

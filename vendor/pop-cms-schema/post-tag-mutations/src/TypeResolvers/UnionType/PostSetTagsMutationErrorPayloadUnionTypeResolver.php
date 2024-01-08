@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\PostSetTagsMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-/** @internal */
-class PostSetTagsMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractPostTagsMutationErrorPayloadUnionTypeResolver
+
+class PostSetTagsMutationErrorPayloadUnionTypeResolver extends AbstractPostTagsMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\PostSetTagsMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $postSetTagsMutationErrorPayloadUnionTypeDataLoader;
-    public final function setPostSetTagsMutationErrorPayloadUnionTypeDataLoader(PostSetTagsMutationErrorPayloadUnionTypeDataLoader $postSetTagsMutationErrorPayloadUnionTypeDataLoader) : void
+    private ?PostSetTagsMutationErrorPayloadUnionTypeDataLoader $postSetTagsMutationErrorPayloadUnionTypeDataLoader = null;
+
+    final public function setPostSetTagsMutationErrorPayloadUnionTypeDataLoader(PostSetTagsMutationErrorPayloadUnionTypeDataLoader $postSetTagsMutationErrorPayloadUnionTypeDataLoader): void
     {
         $this->postSetTagsMutationErrorPayloadUnionTypeDataLoader = $postSetTagsMutationErrorPayloadUnionTypeDataLoader;
     }
-    protected final function getPostSetTagsMutationErrorPayloadUnionTypeDataLoader() : PostSetTagsMutationErrorPayloadUnionTypeDataLoader
+    final protected function getPostSetTagsMutationErrorPayloadUnionTypeDataLoader(): PostSetTagsMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postSetTagsMutationErrorPayloadUnionTypeDataLoader === null) {
             /** @var PostSetTagsMutationErrorPayloadUnionTypeDataLoader */
@@ -25,15 +24,18 @@ class PostSetTagsMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Pos
         }
         return $this->postSetTagsMutationErrorPayloadUnionTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'PostSetTagsMutationErrorPayloadUnion';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Union of \'Error Payload\' types when setting tags on a custom post (using nested mutations)', 'posttag-mutations');
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getPostSetTagsMutationErrorPayloadUnionTypeDataLoader();
     }

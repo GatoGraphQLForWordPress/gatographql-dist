@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\ComponentModel\Directives\FieldDirectiveBehaviors;
@@ -10,20 +11,21 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
+
 /**
  * A directive that is a "pure" Operation Directive is
  * a Directive that is only Operation Directive,
  * and not Field Directive too.
  *
  * Eg: directive `@depends(on: "OpName")`
- * @internal
  */
 trait PureOperationDirectiveResolverTrait
 {
-    public function getFieldDirectiveBehavior() : string
+    public function getFieldDirectiveBehavior(): string
     {
         return FieldDirectiveBehaviors::OPERATION;
     }
+
     /**
      * This directive does not need to do anything
      * in ->resolveValue, then keep this method empty.
@@ -38,8 +40,20 @@ trait PureOperationDirectiveResolverTrait
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function resolveDirective(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array $succeedingPipelineFieldDirectiveResolvers, array $idObjects, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$succeedingPipelineFieldDataAccessProviders, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
-    {
+    public function resolveDirective(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $idFieldSet,
+        FieldDataAccessProviderInterface $fieldDataAccessProvider,
+        array $succeedingPipelineFieldDirectiveResolvers,
+        array $idObjects,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array &$succeedingPipelineIDFieldSet,
+        array &$succeedingPipelineFieldDataAccessProviders,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): void {
         // Do nothing
     }
 }

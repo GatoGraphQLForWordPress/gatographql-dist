@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\DirectiveCommons\DirectiveResolvers;
 
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
@@ -11,54 +12,64 @@ use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
-/** @internal */
-abstract class AbstractTransformJSONObjectFieldValueFieldDirectiveResolver extends \PoPSchema\DirectiveCommons\DirectiveResolvers\AbstractTransformTypedFieldValueFieldDirectiveResolver
+
+abstract class AbstractTransformJSONObjectFieldValueFieldDirectiveResolver extends AbstractTransformTypedFieldValueFieldDirectiveResolver
 {
     /**
      * @return array<class-string<ConcreteTypeResolverInterface>>|null
      */
-    protected function getSupportedFieldTypeResolverClasses() : ?array
+    protected function getSupportedFieldTypeResolverClasses(): ?array
     {
-        return [JSONObjectScalarTypeResolver::class];
+        return [
+            JSONObjectScalarTypeResolver::class,
+        ];
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isMatchingType($value) : bool
+
+    protected function isMatchingType(mixed $value): bool
     {
         return $value instanceof stdClass;
     }
+
     /**
-     * @param mixed $value
+     * @param stdClass $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    protected final function transformTypeValue($value)
+    final protected function transformTypeValue(mixed $value): mixed
     {
         return $this->transformStdClassValue($value);
     }
-    /**
-     * @return \stdClass|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
-     */
-    protected abstract function transformStdClassValue(stdClass $value);
+
+    abstract protected function transformStdClassValue(stdClass $value): stdClass|TypedDataValidationPayload;
+
     /**
      * Validate the value against the directive args
      *
-     * @param mixed $value
+     * @param stdClass $value
      */
-    protected final function validateTypeData($value) : ?TypedDataValidationPayload
+    final protected function validateTypeData(mixed $value): ?TypedDataValidationPayload
     {
         return $this->validateStdClassData($value);
     }
-    protected function validateStdClassData(stdClass $value) : ?TypedDataValidationPayload
+
+    protected function validateStdClassData(stdClass $value): ?TypedDataValidationPayload
     {
         return null;
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
-    {
-        return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E6, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
+
+    protected function getNonMatchingTypeValueFeedbackItemResolution(
+        mixed $value,
+        string|int $id,
+        FieldInterface $field,
+        RelationalTypeResolverInterface $relationalTypeResolver,
+    ): FeedbackItemResolution {
+        return new FeedbackItemResolution(
+            FeedbackItemProvider::class,
+            FeedbackItemProvider::E6,
+            [
+                $this->getDirectiveName(),
+                $field->getOutputKey(),
+                $id,
+            ]
+        );
     }
 }

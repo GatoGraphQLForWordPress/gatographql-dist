@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CommentMeta\TypeAPIs;
 
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
-/** @internal */
+
 interface CommentMetaTypeAPIInterface extends MetaTypeAPIInterface
 {
     /**
@@ -16,8 +17,6 @@ interface CommentMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $commentObjectOrID
-     * @return mixed
      */
-    public function getCommentMeta($commentObjectOrID, string $key, bool $single = \false, array $options = []);
+    public function getCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = false, array $options = []): mixed;
 }

@@ -1,16 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-/** @internal */
-abstract class AbstractNamedType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject implements \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
+
+abstract class AbstractNamedType extends AbstractSchemaDefinitionReferenceObject implements NamedTypeInterface
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeExtensions
-     */
-    protected $namedTypeExtensions;
+    protected NamedTypeExtensions $namedTypeExtensions;
+
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
@@ -18,27 +17,38 @@ abstract class AbstractNamedType extends \GraphQLByPoP\GraphQLServer\ObjectModel
     public function __construct(array &$fullSchemaDefinition, array $schemaDefinitionPath)
     {
         parent::__construct($fullSchemaDefinition, $schemaDefinitionPath);
+
         /** @var string[] */
-        $namedTypeExtensionsSchemaDefinitionPath = \array_merge($schemaDefinitionPath, [SchemaDefinition::EXTENSIONS]);
-        $this->namedTypeExtensions = new \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeExtensions($fullSchemaDefinition, $namedTypeExtensionsSchemaDefinitionPath);
+        $namedTypeExtensionsSchemaDefinitionPath = array_merge(
+            $schemaDefinitionPath,
+            [
+                SchemaDefinition::EXTENSIONS,
+            ]
+        );
+        $this->namedTypeExtensions = new NamedTypeExtensions($fullSchemaDefinition, $namedTypeExtensionsSchemaDefinitionPath);
     }
-    public function getNamespacedName() : string
+
+    public function getNamespacedName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::EXTENSIONS][SchemaDefinition::NAMESPACED_NAME];
     }
-    public function getElementName() : string
+
+    public function getElementName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::EXTENSIONS][SchemaDefinition::ELEMENT_NAME];
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->schemaDefinition[SchemaDefinition::NAME];
     }
-    public function getDescription() : ?string
+
+    public function getDescription(): ?string
     {
         return $this->schemaDefinition[SchemaDefinition::DESCRIPTION] ?? null;
     }
-    public function getExtensions() : \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeExtensions
+
+    public function getExtensions(): NamedTypeExtensions
     {
         return $this->namedTypeExtensions;
     }

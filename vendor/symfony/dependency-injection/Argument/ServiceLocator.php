@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ServiceLocator as BaseServiceLocator;
+namespace Symfony\Component\DependencyInjection\Argument;
+
+use Symfony\Component\DependencyInjection\ServiceLocator as BaseServiceLocator;
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *
@@ -18,18 +20,10 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\ServiceLocator as BaseSe
  */
 class ServiceLocator extends BaseServiceLocator
 {
-    /**
-     * @var \Closure
-     */
-    private $factory;
-    /**
-     * @var mixed[]
-     */
-    private $serviceMap;
-    /**
-     * @var mixed[]|null
-     */
-    private $serviceTypes;
+    private \Closure $factory;
+    private array $serviceMap;
+    private ?array $serviceTypes;
+
     public function __construct(\Closure $factory, array $serviceMap, array $serviceTypes = null)
     {
         $this->factory = $factory;
@@ -37,24 +31,18 @@ class ServiceLocator extends BaseServiceLocator
         $this->serviceTypes = $serviceTypes;
         parent::__construct($serviceMap);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $id)
+
+    public function get(string $id): mixed
     {
-        switch (\count($this->serviceMap[$id] ?? [])) {
-            case 0:
-                return parent::get($id);
-            case 1:
-                return $this->serviceMap[$id][0];
-            default:
-                return ($this->factory)(...$this->serviceMap[$id]);
-        }
+        return match (\count($this->serviceMap[$id] ?? [])) {
+            0 => parent::get($id),
+            1 => $this->serviceMap[$id][0],
+            default => ($this->factory)(...$this->serviceMap[$id]),
+        };
     }
-    public function getProvidedServices() : array
+
+    public function getProvidedServices(): array
     {
-        return $this->serviceTypes = $this->serviceTypes ?? \array_map(function () {
-            return '?';
-        }, $this->serviceMap);
+        return $this->serviceTypes ??= array_map(fn () => '?', $this->serviceMap);
     }
 }

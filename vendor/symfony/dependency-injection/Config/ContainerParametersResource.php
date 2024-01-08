@@ -8,23 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Config;
 
-use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
+namespace Symfony\Component\DependencyInjection\Config;
+
+use Symfony\Component\Config\Resource\ResourceInterface;
+
 /**
  * Tracks container parameters.
  *
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
  *
  * @final
- * @internal
  */
 class ContainerParametersResource implements ResourceInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $parameters;
+    private array $parameters;
+
     /**
      * @param array $parameters The container parameters to track
      */
@@ -32,11 +31,13 @@ class ContainerParametersResource implements ResourceInterface
     {
         $this->parameters = $parameters;
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
-        return 'container_parameters_' . \hash('md5', \serialize($this->parameters));
+        return 'container_parameters_'.hash('xxh128', serialize($this->parameters));
     }
-    public function getParameters() : array
+
+    public function getParameters(): array
     {
         return $this->parameters;
     }

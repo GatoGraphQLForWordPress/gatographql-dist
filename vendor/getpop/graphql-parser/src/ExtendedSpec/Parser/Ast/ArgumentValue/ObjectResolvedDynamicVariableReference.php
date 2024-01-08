@@ -1,16 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue;
 
 use PoP\GraphQLParser\ExtendedSpec\Execution\ObjectResolvedDynamicVariableValuePromise;
-/** @internal */
-class ObjectResolvedDynamicVariableReference extends \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\AbstractDynamicVariableReference
+
+class ObjectResolvedDynamicVariableReference extends AbstractDynamicVariableReference
 {
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return new ObjectResolvedDynamicVariableValuePromise($this);
     }

@@ -1,12 +1,13 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 interface ObjectTypeResolverPickerInterface extends AttachableExtensionInterface
 {
     /**
@@ -16,11 +17,8 @@ interface ObjectTypeResolverPickerInterface extends AttachableExtensionInterface
      *
      * @return array<class-string<UnionTypeResolverInterface>>
      */
-    public function getUnionTypeResolverClassesToAttachTo() : array;
-    public function getObjectTypeResolver() : ObjectTypeResolverInterface;
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool;
-    public function isInstanceOfType(object $object) : bool;
+    public function getUnionTypeResolverClassesToAttachTo(): array;
+    public function getObjectTypeResolver(): ObjectTypeResolverInterface;
+    public function isIDOfType(string|int $objectID): bool;
+    public function isInstanceOfType(object $object): bool;
 }

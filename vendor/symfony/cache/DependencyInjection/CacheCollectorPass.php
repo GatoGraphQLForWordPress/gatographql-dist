@@ -8,20 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\TraceableAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\TraceableTagAwareAdapter;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+namespace Symfony\Component\Cache\DependencyInjection;
+
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+use Symfony\Component\Cache\Adapter\TraceableAdapter;
+use Symfony\Component\Cache\Adapter\TraceableTagAwareAdapter;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+
 /**
  * Inject a data collector to all the cache services to be able to get detailed statistics.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
- * @internal
  */
 class CacheCollectorPass implements CompilerPassInterface
 {
@@ -33,24 +34,29 @@ class CacheCollectorPass implements CompilerPassInterface
         if (!$container->hasDefinition('data_collector.cache')) {
             return;
         }
+
         foreach ($container->findTaggedServiceIds('cache.pool') as $id => $attributes) {
             $poolName = $attributes[0]['name'] ?? $id;
+
             $this->addToCollector($id, $poolName, $container);
         }
     }
-    private function addToCollector(string $id, string $name, ContainerBuilder $container) : void
+
+    private function addToCollector(string $id, string $name, ContainerBuilder $container): void
     {
         $definition = $container->getDefinition($id);
         if ($definition->isAbstract()) {
             return;
         }
+
         $collectorDefinition = $container->getDefinition('data_collector.cache');
-        $recorder = new Definition(\is_subclass_of($definition->getClass(), TagAwareAdapterInterface::class) ? TraceableTagAwareAdapter::class : TraceableAdapter::class);
+        $recorder = new Definition(is_subclass_of($definition->getClass(), TagAwareAdapterInterface::class) ? TraceableTagAwareAdapter::class : TraceableAdapter::class);
         $recorder->setTags($definition->getTags());
         if (!$definition->isPublic() || !$definition->isPrivate()) {
             $recorder->setPublic($definition->isPublic());
         }
-        $recorder->setArguments([new Reference($innerId = $id . '.recorder_inner')]);
+        $recorder->setArguments([new Reference($innerId = $id.'.recorder_inner')]);
+
         foreach ($definition->getMethodCalls() as [$method, $args]) {
             if ('setCallbackWrapper' !== $method || !$args[0] instanceof Definition || !($args[0]->getArguments()[2] ?? null) instanceof Definition) {
                 continue;
@@ -59,10 +65,13 @@ class CacheCollectorPass implements CompilerPassInterface
                 $args[0]->getArguments()[2]->setFactory([new Reference($innerId), 'setCallbackWrapper']);
             }
         }
+
         $definition->setTags([]);
-        $definition->setPublic(\false);
+        $definition->setPublic(false);
+
         $container->setDefinition($innerId, $definition);
         $container->setDefinition($id, $recorder);
+
         // Tell the collector to add the new instance
         $collectorDefinition->addMethodCall('addInstance', [$name, new Reference($id)]);
     }

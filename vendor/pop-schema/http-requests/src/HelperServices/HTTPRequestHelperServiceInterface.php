@@ -1,9 +1,9 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\HTTPRequests\HelperServices;
 
-/** @internal */
 interface HTTPRequestHelperServiceInterface
 {
     /**
@@ -18,5 +18,5 @@ interface HTTPRequestHelperServiceInterface
      * @param array<string,string[]> $headers
      * @return array<string,string>
      */
-    public function convertHeaderArrayValuesToSingleValue(array $headers) : array;
+    public function convertHeaderArrayValuesToSingleValue(array $headers): array;
 }

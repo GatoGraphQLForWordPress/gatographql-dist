@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\Facades\Schema;
 
 use PoP\Root\App;
 use PoPAPI\API\Schema\SchemaDefinitionServiceInterface;
-/** @internal */
+
 class SchemaDefinitionServiceFacade
 {
-    public static function getInstance() : SchemaDefinitionServiceInterface
+    public static function getInstance(): SchemaDefinitionServiceInterface
     {
         /**
          * @var SchemaDefinitionServiceInterface

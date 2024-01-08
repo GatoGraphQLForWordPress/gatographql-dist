@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Execution;
 
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
@@ -14,22 +15,13 @@ use PoP\Root\App;
 use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
-/** @internal */
-class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\ExecutableDocumentInterface
+
+class ExecutableDocument implements ExecutableDocumentInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Document
-     */
-    protected $document;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Execution\Context
-     */
-    protected $context;
     use StandaloneServiceTrait;
-    /**
-     * @var bool
-     */
-    protected $isValidatedAndInitialized = \false;
+
+    protected bool $isValidatedAndInitialized = false;
+
     /**
      * The operation to execute:
      *
@@ -38,53 +30,64 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
      *
      * @var OperationInterface|null
      */
-    private $requestedOperation;
-    public function __construct(Document $document, \PoP\GraphQLParser\Spec\Execution\Context $context)
-    {
-        $this->document = $document;
-        $this->context = $context;
+    private ?OperationInterface $requestedOperation = null;
+
+    public function __construct(
+        protected Document $document,
+        protected Context $context,
+    ) {
     }
-    public function getDocument() : Document
+
+    public function getDocument(): Document
     {
         return $this->document;
     }
-    public function getContext() : \PoP\GraphQLParser\Spec\Execution\Context
+
+    public function getContext(): Context
     {
         return $this->context;
     }
+
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException
      */
-    public function validateAndInitialize() : void
+    public function validateAndInitialize(): void
     {
-        $this->isValidatedAndInitialized = \true;
+        $this->isValidatedAndInitialized = true;
+
         $this->validate();
+
         // Obtain the operations that must be executed
         $this->requestedOperation = $this->assertAndGetRequestedOperation();
+
         // Inject the variable values into the objects
         $this->propagateContext($this->requestedOperation, $this->context);
     }
+
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException
      */
-    protected function validate() : void
+    protected function validate(): void
     {
         $this->document->validate();
         $this->assertAllMandatoryVariablesHaveValue();
     }
+
     /**
      * @throws InvalidRequestException
      */
-    public function reset() : void
+    public function reset(): void
     {
-        $this->isValidatedAndInitialized = \false;
+        $this->isValidatedAndInitialized = false;
+
         if ($this->requestedOperation === null) {
             return;
         }
         $this->propagateContext($this->requestedOperation, null);
     }
+
     /**
      * The operation to execute:
      *
@@ -94,7 +97,7 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
      * @throws InvalidRequestException
      * @see https://spec.graphql.org/draft/#sec-Executing-Requests
      */
-    protected function assertAndGetRequestedOperation() : OperationInterface
+    protected function assertAndGetRequestedOperation(): OperationInterface
     {
         $operations = $this->document->getOperations();
         if ($this->context->getOperationName() === '') {
@@ -102,9 +105,10 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
              * The count can't be 0, or the validation
              * will already fail in the Document
              */
-            $operationCount = \count($operations);
+            $operationCount = count($operations);
             if ($operationCount > 1) {
                 $lastOperation = $operations[$operationCount - 1];
+
                 /**
                  * Check if the last operation is to be used
                  * when no ?operationName=... is provided
@@ -114,12 +118,20 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
                 if ($moduleConfiguration->useLastOperationInDocumentForMultipleQueryExecutionWhenOperationNameNotProvided()) {
                     return $lastOperation;
                 }
+
                 // Return an error...
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_6_1_B), $lastOperation);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_6_1_B,
+                    ),
+                    $lastOperation
+                );
             }
             // There is exactly 1 operation
             return $operations[0];
         }
+
         /**
          * Find the operation with the requested name
          */
@@ -129,19 +141,30 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
             }
             return $operation;
         }
+
         /**
          * None found, it's an error!
          */
         $firstOperation = $operations[0];
-        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_6_1_A, [$this->context->getOperationName()]), $firstOperation);
+        throw new InvalidRequestException(
+            new FeedbackItemResolution(
+                GraphQLSpecErrorFeedbackItemProvider::class,
+                GraphQLSpecErrorFeedbackItemProvider::E_6_1_A,
+                [
+                    $this->context->getOperationName(),
+                ]
+            ),
+            $firstOperation
+        );
     }
+
     /**
      * Validate that all referenced mandatory variable are provided a value,
      * or they have a default value. Otherwise, throw an exception.
      *
      * @throws InvalidRequestException
      */
-    protected function assertAllMandatoryVariablesHaveValue() : void
+    protected function assertAllMandatoryVariablesHaveValue(): void
     {
         foreach ($this->document->getOperations() as $operation) {
             foreach ($this->document->getVariableReferencesInOperation($operation) as $variableReference) {
@@ -154,28 +177,48 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
                 if ($variable === null) {
                     continue;
                 }
-                if (!$variable->isRequired() || \array_key_exists($variable->getName(), $this->context->getVariableValues()) || $variable->hasDefaultValue()) {
+                if (
+                    !$variable->isRequired()
+                    || array_key_exists($variable->getName(), $this->context->getVariableValues())
+                    || $variable->hasDefaultValue()
+                ) {
                     continue;
                 }
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_5, [$variableReference->getName()]), $variableReference);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_8_5,
+                        [
+                             $variableReference->getName(),
+                        ]
+                    ),
+                    $variableReference
+                );
             }
         }
     }
-    protected function propagateContext(OperationInterface $operation, ?\PoP\GraphQLParser\Spec\Execution\Context $context) : void
+
+    protected function propagateContext(OperationInterface $operation, ?Context $context): void
     {
         foreach ($operation->getVariables() as $variable) {
             $variable->setContext($context);
         }
     }
+
     /**
      * The requested operation via ?operationName=...
      *
      * @throws InvalidRequestException
      */
-    public function getRequestedOperation() : ?OperationInterface
+    public function getRequestedOperation(): ?OperationInterface
     {
         if (!$this->isValidatedAndInitialized) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Before executing `%s`, must call `validateAndInitialize`', 'graphql-server'), __FUNCTION__));
+            throw new ShouldNotHappenException(
+                sprintf(
+                    $this->__('Before executing `%s`, must call `validateAndInitialize`', 'graphql-server'),
+                    __FUNCTION__,
+                )
+            );
         }
         return $this->requestedOperation;
     }

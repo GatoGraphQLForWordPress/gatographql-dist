@@ -1,12 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\Hooks;
 
 use GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\MutationRootObjectTypeResolver;
 use PoP\ComponentModel\Hooks\AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+
 /**
  * This service is disabled because it's not really needed:
  * The fields are never added to MutationRoot
@@ -14,19 +16,19 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  *
  * @see layers/GraphQLByPoP/packages/graphql-server/src/Helpers/TypeResolverHelper.php
  * @see function `getObjectTypeResolverMandatoryFields`
- * @internal
  */
 class RemoveIdentifiableObjectFieldsFromMutationRootObjectTypeHookSet extends AbstractRemoveIdentifiableObjectFieldsFromObjectTypeHookSet
 {
     /**
      * @phpstan-return class-string<ObjectTypeResolverInterface|InterfaceTypeResolverInterface>
      */
-    protected function getObjectTypeOrInterfaceTypeResolverClass() : string
+    protected function getObjectTypeOrInterfaceTypeResolverClass(): string
     {
         return MutationRootObjectTypeResolver::class;
     }
-    public function isServiceEnabled() : bool
+
+    public function isServiceEnabled(): bool
     {
-        return \false;
+        return false;
     }
 }

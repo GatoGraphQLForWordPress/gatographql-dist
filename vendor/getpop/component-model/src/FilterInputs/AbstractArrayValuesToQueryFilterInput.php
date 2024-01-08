@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\FilterInputs;
 
-/** @internal */
-abstract class AbstractArrayValuesToQueryFilterInput extends \PoP\ComponentModel\FilterInputs\AbstractFilterInput
+abstract class AbstractArrayValuesToQueryFilterInput extends AbstractFilterInput
 {
     /**
      * @param array<string,mixed> $query
-     * @param mixed $value
      */
-    public final function filterDataloadQueryArgs(array &$query, $value) : void
+    final public function filterDataloadQueryArgs(array &$query, mixed $value): void
     {
         /** @var mixed[] $value */
         $value = $this->getValue($value);
         $avoidSettingArrayValueIfEmpty = $this->avoidSettingArrayValueIfEmpty();
         foreach ($this->getValueToQueryArgKeys() as $valueKey => $queryKey) {
-            if (\is_numeric($valueKey)) {
+            if (is_numeric($valueKey)) {
                 $valueKey = $queryKey;
             }
             if ($avoidSettingArrayValueIfEmpty && empty($value[$valueKey] ?? null)) {
@@ -25,20 +24,23 @@ abstract class AbstractArrayValuesToQueryFilterInput extends \PoP\ComponentModel
             $query[$queryKey] = $value[$valueKey] ?? null;
         }
     }
+
     /**
      * @return array<int|string,string>
      */
-    protected abstract function getValueToQueryArgKeys() : array;
+    abstract protected function getValueToQueryArgKeys(): array;
+
     /**
      * @return mixed[]
      * @param mixed[] $value
      */
-    protected function getValue(array $value) : array
+    protected function getValue(array $value): array
     {
         return $value;
     }
-    protected function avoidSettingArrayValueIfEmpty() : bool
+
+    protected function avoidSettingArrayValueIfEmpty(): bool
     {
-        return \false;
+        return false;
     }
 }

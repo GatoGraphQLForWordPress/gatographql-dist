@@ -1,12 +1,12 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Tags;
 
-/** @internal */
 class Environment
 {
-    public const TAG_LIST_DEFAULT_LIMIT = 'TAG_LIST_DEFAULT_LIMIT';
-    public const TAG_LIST_MAX_LIMIT = 'TAG_LIST_MAX_LIMIT';
-    public const QUERYABLE_TAG_TAXONOMIES = 'QUERYABLE_TAG_TAXONOMIES';
+    public final const TAG_LIST_DEFAULT_LIMIT = 'TAG_LIST_DEFAULT_LIMIT';
+    public final const TAG_LIST_MAX_LIMIT = 'TAG_LIST_MAX_LIMIT';
+    public final const QUERYABLE_TAG_TAXONOMIES = 'QUERYABLE_TAG_TAXONOMIES';
 }

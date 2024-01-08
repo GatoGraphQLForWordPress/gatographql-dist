@@ -1,23 +1,22 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Menus\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
-/** @internal */
+
 class MenuByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+
+    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
     {
         $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
-    protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
+    final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
             /** @var IDScalarTypeResolver */
@@ -26,28 +25,32 @@ class MenuByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
         }
         return $this->idScalarTypeResolver;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'MenuByInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Oneof input to specify the property and data to fetch a menu', 'menus');
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
-        return ['id' => $this->getIDScalarTypeResolver()];
+        return [
+            'id' => $this->getIDScalarTypeResolver(),
+        ];
     }
-    public function getInputFieldDescription(string $inputFieldName) : ?string
+
+    public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->__('Query by menu ID', 'menus');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->__('Query by menu ID', 'menus'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

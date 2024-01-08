@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Engine\RelationalTypeDataLoaders\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
 use PoP\Engine\ObjectModels\SuperRoot;
-/** @internal */
+
 class SuperRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoP\Engine\ObjectModels\SuperRoot|null
-     */
-    private $superRoot;
-    public final function setSuperRoot(SuperRoot $superRoot) : void
+    private ?SuperRoot $superRoot = null;
+
+    final public function setSuperRoot(SuperRoot $superRoot): void
     {
         $this->superRoot = $superRoot;
     }
-    protected final function getSuperRoot() : SuperRoot
+    final protected function getSuperRoot(): SuperRoot
     {
         if ($this->superRoot === null) {
             /** @var SuperRoot */
@@ -25,12 +24,15 @@ class SuperRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
         }
         return $this->superRoot;
     }
+
     /**
      * @param array<string|int> $ids
      * @return array<object|null>
      */
-    public function getObjects(array $ids) : array
+    public function getObjects(array $ids): array
     {
-        return [$this->getSuperRoot()];
+        return [
+            $this->getSuperRoot(),
+        ];
     }
 }

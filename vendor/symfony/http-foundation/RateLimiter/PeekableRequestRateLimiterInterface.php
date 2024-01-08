@@ -8,10 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RateLimiter;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
-use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
+namespace Symfony\Component\HttpFoundation\RateLimiter;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\RateLimiter\RateLimit;
+
 /**
  * A request limiter which allows peeking ahead.
  *
@@ -26,9 +28,8 @@ use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
  * is successful (2 backend ops).
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
- * @internal
  */
 interface PeekableRequestRateLimiterInterface extends RequestRateLimiterInterface
 {
-    public function peek(Request $request) : RateLimit;
+    public function peek(Request $request): RateLimit;
 }

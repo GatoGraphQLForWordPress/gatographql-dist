@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Menus\TypeResolvers\InputObjectType;
 
-/** @internal */
-class RootMenusFilterInputObjectTypeResolver extends \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\AbstractMenusFilterInputObjectTypeResolver
+class RootMenusFilterInputObjectTypeResolver extends AbstractMenusFilterInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootMenusFilterInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to filter menus', 'menus');
     }

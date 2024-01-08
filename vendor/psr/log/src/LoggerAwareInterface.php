@@ -1,10 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Log;
+namespace Psr\Log;
 
 /**
  * Describes a logger-aware instance.
- * @internal
  */
 interface LoggerAwareInterface
 {
@@ -15,5 +14,5 @@ interface LoggerAwareInterface
      *
      * @return void
      */
-    public function setLogger(LoggerInterface $logger) : void;
+    public function setLogger(LoggerInterface $logger): void;
 }

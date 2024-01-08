@@ -1,15 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\EnumType;
 
 /**
  * Enable to search custom posts by additional statuses, such as "any"
- * @internal
  */
-class FilterCustomPostStatusEnumTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver
+class FilterCustomPostStatusEnumTypeResolver extends CustomPostStatusEnumTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'FilterCustomPostStatusEnum';
     }

@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
+
+namespace Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<selector>:<identifier>" node.
@@ -22,33 +23,32 @@ namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
  */
 class PseudoNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var string
-     */
-    private $identifier;
+    private NodeInterface $selector;
+    private string $identifier;
+
     public function __construct(NodeInterface $selector, string $identifier)
     {
         $this->selector = $selector;
-        $this->identifier = \strtolower($identifier);
+        $this->identifier = strtolower($identifier);
     }
-    public function getSelector() : NodeInterface
+
+    public function getSelector(): NodeInterface
     {
         return $this->selector;
     }
-    public function getIdentifier() : string
+
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
-    public function getSpecificity() : Specificity
+
+    public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
-        return \sprintf('%s[%s:%s]', $this->getNodeName(), $this->selector, $this->identifier);
+        return sprintf('%s[%s:%s]', $this->getNodeName(), $this->selector, $this->identifier);
     }
 }

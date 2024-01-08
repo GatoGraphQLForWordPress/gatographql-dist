@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\QueryResolution;
 
 use PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
-/** @internal */
+
 interface GraphQLQueryASTTransformationServiceInterface extends QueryASTTransformationServiceInterface
 {
     /**
@@ -21,5 +22,8 @@ interface GraphQLQueryASTTransformationServiceInterface extends QueryASTTransfor
      *
      * @see layers/GraphQLByPoP/packages/graphql-server/src/ComponentRoutingProcessors/EntryComponentRoutingProcessor.php
      */
-    public function getGraphQLSuperRootOperationField(Document $document, OperationInterface $operation) : FieldInterface;
+    public function getGraphQLSuperRootOperationField(
+        Document $document,
+        OperationInterface $operation
+    ): FieldInterface;
 }

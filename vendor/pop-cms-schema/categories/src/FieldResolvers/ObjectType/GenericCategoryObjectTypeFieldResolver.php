@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Categories\FieldResolvers\ObjectType\AbstractCategoryObjectTypeFieldResolver;
@@ -9,22 +10,17 @@ use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class GenericCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI) : void
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI = null;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
+
+    final public function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI): void
     {
         $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
     }
-    protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
+    final protected function getQueryableCategoryTypeAPI(): QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryTypeAPI === null) {
             /** @var QueryableCategoryTypeAPIInterface */
@@ -33,11 +29,11 @@ class GenericCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeF
         }
         return $this->queryableCategoryTypeAPI;
     }
-    public final function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver) : void
+    final public function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver): void
     {
         $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
     }
-    protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
+    final protected function getGenericCategoryObjectTypeResolver(): GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {
             /** @var GenericCategoryObjectTypeResolver */
@@ -46,19 +42,24 @@ class GenericCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeF
         }
         return $this->genericCategoryObjectTypeResolver;
     }
-    public function getCategoryTypeAPI() : CategoryTypeAPIInterface
+
+    public function getCategoryTypeAPI(): CategoryTypeAPIInterface
     {
         return $this->getQueryableCategoryTypeAPI();
     }
-    public function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface
+
+    public function getCategoryTypeResolver(): CategoryObjectTypeResolverInterface
     {
         return $this->getGenericCategoryObjectTypeResolver();
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [GenericCategoryObjectTypeResolver::class];
+        return [
+            GenericCategoryObjectTypeResolver::class,
+        ];
     }
 }

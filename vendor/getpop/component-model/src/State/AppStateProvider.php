@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\State;
 
 use PoP\ComponentModel\App;
@@ -19,26 +20,18 @@ use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
 use PoP\Root\State\AbstractAppStateProvider;
 use SplObjectStorage;
-/** @internal */
+
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoP\ComponentModel\Variables\VariableManagerInterface|null
-     */
-    private $fieldQueryInterpreter;
-    /**
-     * @var \PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface|null
-     */
-    private $componentFilterManager;
-    /**
-     * @var \PoP\ComponentModel\Engine\EngineInterface|null
-     */
-    private $engine;
-    public final function setVariableManager(VariableManagerInterface $fieldQueryInterpreter) : void
+    private ?VariableManagerInterface $fieldQueryInterpreter = null;
+    private ?ComponentFilterManagerInterface $componentFilterManager = null;
+    private ?EngineInterface $engine = null;
+
+    final public function setVariableManager(VariableManagerInterface $fieldQueryInterpreter): void
     {
         $this->fieldQueryInterpreter = $fieldQueryInterpreter;
     }
-    protected final function getVariableManager() : VariableManagerInterface
+    final protected function getVariableManager(): VariableManagerInterface
     {
         if ($this->fieldQueryInterpreter === null) {
             /** @var VariableManagerInterface */
@@ -47,11 +40,11 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->fieldQueryInterpreter;
     }
-    public final function setComponentFilterManager(ComponentFilterManagerInterface $componentFilterManager) : void
+    final public function setComponentFilterManager(ComponentFilterManagerInterface $componentFilterManager): void
     {
         $this->componentFilterManager = $componentFilterManager;
     }
-    protected final function getComponentFilterManager() : ComponentFilterManagerInterface
+    final protected function getComponentFilterManager(): ComponentFilterManagerInterface
     {
         if ($this->componentFilterManager === null) {
             /** @var ComponentFilterManagerInterface */
@@ -60,11 +53,11 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->componentFilterManager;
     }
-    public final function setEngine(EngineInterface $engine) : void
+    final public function setEngine(EngineInterface $engine): void
     {
         $this->engine = $engine;
     }
-    protected final function getEngine() : EngineInterface
+    final protected function getEngine(): EngineInterface
     {
         if ($this->engine === null) {
             /** @var EngineInterface */
@@ -73,21 +66,26 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->engine;
     }
+
     /**
      * @param array<string,mixed> $state
      */
-    public function initialize(array &$state) : void
+    public function initialize(array &$state): void
     {
         // For Serialization
         /** @var SplObjectStorage<FieldInterface,int|null> */
         $fieldTypeModifiersForSerialization = new SplObjectStorage();
         $state['field-type-modifiers-for-serialization'] = $fieldTypeModifiersForSerialization;
+
         // For Validating if the Directive supports only certain types
         $state['field-type-resolver-for-supported-directive-resolution'] = null;
+
         // Show a warning when providing a duplicate variable name to `@export` or similar
-        $state['show-warnings-on-exporting-duplicate-dynamic-variable-name'] = \true;
+        $state['show-warnings-on-exporting-duplicate-dynamic-variable-name'] = true;
+
         $state['componentFilter'] = $this->getComponentFilterManager()->getSelectedComponentFilterName();
         $state['variables'] = $this->getVariableManager()->getVariablesFromRequest();
+
         /** @var RootModuleConfiguration */
         $rootModuleConfiguration = App::getModule(RootModule::class)->getConfiguration();
         if ($rootModuleConfiguration->enablePassingStateViaRequest()) {
@@ -105,6 +103,7 @@ class AppStateProvider extends AbstractAppStateProvider
             $state['field-version-constraints'] = null;
             $state['directive-version-constraints'] = null;
         }
+
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $enableModifyingEngineBehaviorViaRequest = $moduleConfiguration->enableModifyingEngineBehaviorViaRequest();
@@ -115,6 +114,7 @@ class AppStateProvider extends AbstractAppStateProvider
         $state['dataoutputmode'] = EngineRequest::getDataOutputMode($enableModifyingEngineBehaviorViaRequest);
         $state['dboutputmode'] = EngineRequest::getDBOutputMode($enableModifyingEngineBehaviorViaRequest);
         $state['scheme'] = EngineRequest::getScheme($enableModifyingEngineBehaviorViaRequest);
+
         /**
          * These one will be filled at the API level, but they are
          * created at this level since they are referenced at the
@@ -134,6 +134,7 @@ class AppStateProvider extends AbstractAppStateProvider
         $documentObjectResolvedFieldValueReferencedFields = [];
         $state['document-object-resolved-field-value-referenced-fields'] = $documentObjectResolvedFieldValueReferencedFields;
     }
+
     /**
      * Must initialize the Engine state before parsing the GraphQL query in:
      *
@@ -155,11 +156,12 @@ class AppStateProvider extends AbstractAppStateProvider
      * That's why these are called on `execute` and not `initialize`.
      * @param array<string,mixed> $state
      */
-    public function execute(array &$state) : void
+    public function execute(array &$state): void
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $state['namespace-types-and-interfaces'] = $moduleConfiguration->mustNamespaceTypes();
+
         // Initialize stores to catch initial errors in the GraphQL document
         App::generateAndStackFeedbackStore();
         App::generateAndStackTracingStore();

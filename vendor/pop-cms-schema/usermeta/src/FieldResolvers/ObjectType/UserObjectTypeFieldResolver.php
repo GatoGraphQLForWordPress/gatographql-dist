@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserMeta\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -10,18 +11,16 @@ use PoPCMSSchema\Meta\FieldResolvers\ObjectType\AbstractWithMetaObjectTypeFieldR
 use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 use PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
-/** @internal */
+
 class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface|null
-     */
-    private $userMetaTypeAPI;
-    public final function setUserMetaTypeAPI(UserMetaTypeAPIInterface $userMetaTypeAPI) : void
+    private ?UserMetaTypeAPIInterface $userMetaTypeAPI = null;
+
+    final public function setUserMetaTypeAPI(UserMetaTypeAPIInterface $userMetaTypeAPI): void
     {
         $this->userMetaTypeAPI = $userMetaTypeAPI;
     }
-    protected final function getUserMetaTypeAPI() : UserMetaTypeAPIInterface
+    final protected function getUserMetaTypeAPI(): UserMetaTypeAPIInterface
     {
         if ($this->userMetaTypeAPI === null) {
             /** @var UserMetaTypeAPIInterface */
@@ -30,28 +29,39 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
         }
         return $this->userMetaTypeAPI;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [UserObjectTypeResolver::class];
+        return [
+            UserObjectTypeResolver::class,
+        ];
     }
-    protected function getMetaTypeAPI() : MetaTypeAPIInterface
+
+    protected function getMetaTypeAPI(): MetaTypeAPIInterface
     {
         return $this->getUserMetaTypeAPI();
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
-                return $this->getUserMetaTypeAPI()->getUserMeta($user, $fieldDataAccessor->getValue('key'), $fieldDataAccessor->getFieldName() === 'metaValue');
+                return $this->getUserMetaTypeAPI()->getUserMeta(
+                    $user,
+                    $fieldDataAccessor->getValue('key'),
+                    $fieldDataAccessor->getFieldName() === 'metaValue'
+                );
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

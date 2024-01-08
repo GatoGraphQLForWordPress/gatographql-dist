@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser;
 
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
 use PoP\GraphQLParser\Exception\Parser\SyntaxErrorParserException;
 use PoP\GraphQLParser\Exception\Parser\UnsupportedSyntaxErrorParserException;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
-/** @internal */
+
 interface ParserInterface
 {
     /**
@@ -15,5 +16,5 @@ interface ParserInterface
      * @throws FeatureNotSupportedException
      * @throws UnsupportedSyntaxErrorParserException
      */
-    public function parse(string $source) : Document;
+    public function parse(string $source): Document;
 }

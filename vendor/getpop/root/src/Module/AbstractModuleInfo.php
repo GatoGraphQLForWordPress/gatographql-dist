@@ -1,29 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Module;
 
-/** @internal */
-abstract class AbstractModuleInfo implements \PoP\Root\Module\ModuleInfoInterface
+abstract class AbstractModuleInfo implements ModuleInfoInterface
 {
-    /**
-     * @var \PoP\Root\Module\ModuleInterface
-     */
-    protected $module;
     /**
      * @var array<string,mixed>
      */
-    protected $values = [];
-    public final function __construct(\PoP\Root\Module\ModuleInterface $module)
-    {
-        $this->module = $module;
+    protected array $values = [];
+
+    final public function __construct(
+        protected ModuleInterface $module
+    ) {
         $this->initialize();
     }
-    protected abstract function initialize() : void;
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+
+    abstract protected function initialize(): void;
+
+    public function get(string $key): mixed
     {
         return $this->values[$key] ?? null;
     }

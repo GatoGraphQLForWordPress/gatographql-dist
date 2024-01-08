@@ -13,27 +13,18 @@ use PoP\Root\App;
  */
 class ModuleListTableAction extends AbstractListTableAction
 {
-    public const ACTION_ENABLE = 'enable';
-    public const ACTION_DISABLE = 'disable';
-    public const INPUT_BULK_ACTION_IDS = 'bulk-action-items';
+    public final const ACTION_ENABLE = 'enable';
+    public final const ACTION_DISABLE = 'disable';
+    public final const INPUT_BULK_ACTION_IDS = 'bulk-action-items';
 
-    /**
-     * @var bool
-     */
-    private $processed = false;
+    private bool $processed = false;
     /**
      * @var string[]
      */
-    private $mutatedModuleIDs = [];
-    /**
-     * @var bool
-     */
-    private $mutatedEnabled = false;
+    private array $mutatedModuleIDs = [];
+    private bool $mutatedEnabled = false;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
     {
@@ -41,7 +32,7 @@ class ModuleListTableAction extends AbstractListTableAction
     }
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     /**
@@ -49,7 +40,7 @@ class ModuleListTableAction extends AbstractListTableAction
      */
     public function initialize(): void
     {
-        \add_action('admin_notices', \Closure::fromCallable([$this, 'maybeAddAdminNotice']));
+        \add_action('admin_notices', $this->maybeAddAdminNotice(...));
     }
 
     /**

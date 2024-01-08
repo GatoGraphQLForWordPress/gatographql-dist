@@ -1,15 +1,15 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Client;
+namespace Psr\Http\Client;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
+
 /**
  * Exception for when a request failed.
  *
  * Examples:
  *      - Request is invalid (e.g. method is missing)
  *      - Runtime request errors (e.g. the body stream is not seekable)
- * @internal
  */
 interface RequestExceptionInterface extends ClientExceptionInterface
 {
@@ -20,5 +20,5 @@ interface RequestExceptionInterface extends ClientExceptionInterface
      *
      * @return RequestInterface
      */
-    public function getRequest() : RequestInterface;
+    public function getRequest(): RequestInterface;
 }

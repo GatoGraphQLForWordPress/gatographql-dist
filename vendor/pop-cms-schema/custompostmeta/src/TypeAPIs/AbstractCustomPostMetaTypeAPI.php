@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMeta\TypeAPIs;
 
 use PoP\Root\App;
@@ -8,8 +9,8 @@ use PoPCMSSchema\CustomPostMeta\Module;
 use PoPCMSSchema\CustomPostMeta\ModuleConfiguration;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
-/** @internal */
-abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI implements \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface
+
+abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI implements CustomPostMetaTypeAPIInterface
 {
     /**
      * If the allow/denylist validation fails, and passing option "assert-is-meta-key-allowed",
@@ -19,36 +20,34 @@ abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI impleme
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    public final function getCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false, array $options = [])
+    final public function getCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = false, array $options = []): mixed
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
         }
         return $this->doGetCustomPostMeta($customPostObjectOrID, $key, $single);
     }
+
     /**
      * @return string[]
      */
-    public function getAllowOrDenyMetaEntries() : array
+    public function getAllowOrDenyMetaEntries(): array
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getCustomPostMetaEntries();
     }
-    public function getAllowOrDenyMetaBehavior() : string
+    public function getAllowOrDenyMetaBehavior(): string
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getCustomPostMetaBehavior();
     }
+
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    protected abstract function doGetCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false);
+    abstract protected function doGetCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = false): mixed;
 }

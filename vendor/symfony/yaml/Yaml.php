@@ -8,16 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Yaml;
 
-use PrefixedByPoP\Symfony\Component\Yaml\Exception\ParseException;
+namespace Symfony\Component\Yaml;
+
+use Symfony\Component\Yaml\Exception\ParseException;
+
 /**
  * Yaml offers convenience methods to load and dump YAML.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
- * @internal
  */
 class Yaml
 {
@@ -34,6 +35,7 @@ class Yaml
     public const DUMP_EMPTY_ARRAY_AS_SEQUENCE = 1024;
     public const DUMP_NULL_AS_TILDE = 2048;
     public const DUMP_NUMERIC_KEY_AS_STRING = 4096;
+
     /**
      * Parses a YAML file into a PHP value.
      *
@@ -46,13 +48,14 @@ class Yaml
      * @param int    $flags    A bit field of PARSE_* constants to customize the YAML parser behavior
      *
      * @throws ParseException If the file could not be read or the YAML is not valid
-     * @return mixed
      */
-    public static function parseFile(string $filename, int $flags = 0)
+    public static function parseFile(string $filename, int $flags = 0): mixed
     {
         $yaml = new Parser();
+
         return $yaml->parseFile($filename, $flags);
     }
+
     /**
      * Parses YAML into a PHP value.
      *
@@ -66,13 +69,14 @@ class Yaml
      * @param int    $flags A bit field of PARSE_* constants to customize the YAML parser behavior
      *
      * @throws ParseException If the YAML is not valid
-     * @return mixed
      */
-    public static function parse(string $input, int $flags = 0)
+    public static function parse(string $input, int $flags = 0): mixed
     {
         $yaml = new Parser();
+
         return $yaml->parse($input, $flags);
     }
+
     /**
      * Dumps a PHP value to a YAML string.
      *
@@ -84,9 +88,10 @@ class Yaml
      * @param int   $indent The amount of spaces to use for indentation of nested nodes
      * @param int   $flags  A bit field of DUMP_* constants to customize the dumped YAML string
      */
-    public static function dump($input, int $inline = 2, int $indent = 4, int $flags = 0) : string
+    public static function dump(mixed $input, int $inline = 2, int $indent = 4, int $flags = 0): string
     {
         $yaml = new Dumper($indent);
+
         return $yaml->dump($input, $inline, 0, $flags);
     }
 }

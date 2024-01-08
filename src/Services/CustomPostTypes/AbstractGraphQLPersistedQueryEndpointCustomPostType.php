@@ -17,22 +17,10 @@ abstract class AbstractGraphQLPersistedQueryEndpointCustomPostType extends Abstr
 {
     use WithBlockRegistryCustomPostTypeTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\PersistedQueryEndpointBlockRegistryInterface|null
-     */
-    private $persistedQueryEndpointBlockRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\PersistedQueryEndpointOptionsBlock|null
-     */
-    private $persistedQueryEndpointOptionsBlock;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Taxonomies\GraphQLEndpointCategoryTaxonomy|null
-     */
-    private $graphQLEndpointCategoryTaxonomy;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\PersistedQueryEndpointAnnotatorRegistryInterface|null
-     */
-    private $persistedQueryEndpointAnnotatorRegistry;
+    private ?PersistedQueryEndpointBlockRegistryInterface $persistedQueryEndpointBlockRegistry = null;
+    private ?PersistedQueryEndpointOptionsBlock $persistedQueryEndpointOptionsBlock = null;
+    private ?GraphQLEndpointCategoryTaxonomy $graphQLEndpointCategoryTaxonomy = null;
+    private ?PersistedQueryEndpointAnnotatorRegistryInterface $persistedQueryEndpointAnnotatorRegistry = null;
 
     final public function setPersistedQueryEndpointBlockRegistry(PersistedQueryEndpointBlockRegistryInterface $persistedQueryEndpointBlockRegistry): void
     {

@@ -8,50 +8,58 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class ReferenceConfigurator extends AbstractConfigurator
 {
-    /** @internal
-     * @var string */
-    protected $id;
-    /** @internal
-     * @var int */
-    protected $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+    /** @internal */
+    protected string $id;
+
+    /** @internal */
+    protected int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+
     public function __construct(string $id)
     {
         $this->id = $id;
     }
+
     /**
      * @return $this
      */
-    public final function ignoreOnInvalid()
+    final public function ignoreOnInvalid(): static
     {
         $this->invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
+
         return $this;
     }
+
     /**
      * @return $this
      */
-    public final function nullOnInvalid()
+    final public function nullOnInvalid(): static
     {
         $this->invalidBehavior = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+
         return $this;
     }
+
     /**
      * @return $this
      */
-    public final function ignoreOnUninitialized()
+    final public function ignoreOnUninitialized(): static
     {
         $this->invalidBehavior = ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE;
+
         return $this;
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
         return $this->id;
     }

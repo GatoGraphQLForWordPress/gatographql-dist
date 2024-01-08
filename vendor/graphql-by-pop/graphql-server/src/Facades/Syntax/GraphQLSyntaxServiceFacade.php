@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\Facades\Syntax;
 
 use PoP\Root\App;
 use GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface;
-/** @internal */
+
 class GraphQLSyntaxServiceFacade
 {
-    public static function getInstance() : GraphQLSyntaxServiceInterface
+    public static function getInstance(): GraphQLSyntaxServiceInterface
     {
         /**
          * @var GraphQLSyntaxServiceInterface

@@ -1,15 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
-/** @internal */
-interface TypeSchemaDefinitionProviderInterface extends \PoPAPI\API\ObjectModels\SchemaDefinition\SchemaDefinitionProviderInterface
+
+interface TypeSchemaDefinitionProviderInterface extends SchemaDefinitionProviderInterface
 {
-    public function getTypeKind() : string;
+    public function getTypeKind(): string;
     /**
      * @return array<string,RelationalTypeResolverInterface> Key: directive resolver class, Value: The Type Resolver Class which loads the directive
      */
-    public function getAccessedFieldDirectiveResolverClassRelationalTypeResolvers() : array;
+    public function getAccessedFieldDirectiveResolverClassRelationalTypeResolvers(): array;
 }

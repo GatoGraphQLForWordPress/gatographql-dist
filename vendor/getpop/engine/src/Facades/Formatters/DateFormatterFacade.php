@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Engine\Facades\Formatters;
 
 use PoP\Root\App;
 use PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface;
-/** @internal */
+
 class DateFormatterFacade
 {
-    public static function getInstance() : DateFormatterInterface
+    public static function getInstance(): DateFormatterInterface
     {
         /**
          * @var DateFormatterInterface

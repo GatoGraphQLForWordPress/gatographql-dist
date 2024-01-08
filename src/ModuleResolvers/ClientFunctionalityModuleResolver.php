@@ -23,15 +23,12 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
     use ModuleResolverTrait;
     use ClientFunctionalityModuleResolverTrait;
 
-    public const GRAPHIQL_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\graphiql-for-single-endpoint';
-    public const GRAPHIQL_FOR_CUSTOM_ENDPOINTS = Plugin::NAMESPACE . '\graphiql-for-custom-endpoints';
-    public const INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\interactive-schema-for-single-endpoint';
-    public const INTERACTIVE_SCHEMA_FOR_CUSTOM_ENDPOINTS = Plugin::NAMESPACE . '\interactive-schema-for-custom-endpoints';
+    public final const GRAPHIQL_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\graphiql-for-single-endpoint';
+    public final const GRAPHIQL_FOR_CUSTOM_ENDPOINTS = Plugin::NAMESPACE . '\graphiql-for-custom-endpoints';
+    public final const INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\interactive-schema-for-single-endpoint';
+    public final const INTERACTIVE_SCHEMA_FOR_CUSTOM_ENDPOINTS = Plugin::NAMESPACE . '\interactive-schema-for-custom-endpoints';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -104,18 +101,13 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::GRAPHIQL_FOR_SINGLE_ENDPOINT:
-                return \__('GraphiQL for Single Endpoint', 'gatographql');
-            case self::GRAPHIQL_FOR_CUSTOM_ENDPOINTS:
-                return \__('GraphiQL for Custom Endpoints', 'gatographql');
-            case self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT:
-                return \__('Interactive Schema for Single Endpoint', 'gatographql');
-            case self::INTERACTIVE_SCHEMA_FOR_CUSTOM_ENDPOINTS:
-                return \__('Interactive Schema for Custom Endpoints', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::GRAPHIQL_FOR_SINGLE_ENDPOINT => \__('GraphiQL for Single Endpoint', 'gatographql'),
+            self::GRAPHIQL_FOR_CUSTOM_ENDPOINTS => \__('GraphiQL for Custom Endpoints', 'gatographql'),
+            self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT => \__('Interactive Schema for Single Endpoint', 'gatographql'),
+            self::INTERACTIVE_SCHEMA_FOR_CUSTOM_ENDPOINTS => \__('Interactive Schema for Custom Endpoints', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
@@ -143,9 +135,8 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $defaultValues = [
             self::GRAPHIQL_FOR_SINGLE_ENDPOINT => [

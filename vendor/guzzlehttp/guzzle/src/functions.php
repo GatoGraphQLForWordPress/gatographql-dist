@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GuzzleHttp;
 
 /**
  * Debug function used to describe the provided value type and class.
@@ -12,12 +12,12 @@ namespace PrefixedByPoP\GuzzleHttp;
  *                if a class is provided, the class name.
  *
  * @deprecated describe_type will be removed in guzzlehttp/guzzle:8.0. Use Utils::describeType instead.
- * @internal
  */
-function describe_type($input) : string
+function describe_type($input): string
 {
     return Utils::describeType($input);
 }
+
 /**
  * Parses an array of header lines into an associative array of headers.
  *
@@ -25,12 +25,12 @@ function describe_type($input) : string
  *                        format: "Name: Value"
  *
  * @deprecated headers_from_lines will be removed in guzzlehttp/guzzle:8.0. Use Utils::headersFromLines instead.
- * @internal
  */
-function headers_from_lines(iterable $lines) : array
+function headers_from_lines(iterable $lines): array
 {
     return Utils::headersFromLines($lines);
 }
+
 /**
  * Returns a debug stream based on the provided variable.
  *
@@ -39,12 +39,12 @@ function headers_from_lines(iterable $lines) : array
  * @return resource
  *
  * @deprecated debug_resource will be removed in guzzlehttp/guzzle:8.0. Use Utils::debugResource instead.
- * @internal
  */
 function debug_resource($value = null)
 {
     return Utils::debugResource($value);
 }
+
 /**
  * Chooses and creates a default handler to use based on the environment.
  *
@@ -55,22 +55,22 @@ function debug_resource($value = null)
  * @throws \RuntimeException if no viable Handler is available.
  *
  * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
- * @internal
  */
-function choose_handler() : callable
+function choose_handler(): callable
 {
     return Utils::chooseHandler();
 }
+
 /**
  * Get the default User-Agent string to use with Guzzle.
  *
  * @deprecated default_user_agent will be removed in guzzlehttp/guzzle:8.0. Use Utils::defaultUserAgent instead.
- * @internal
  */
-function default_user_agent() : string
+function default_user_agent(): string
 {
     return Utils::defaultUserAgent();
 }
+
 /**
  * Returns the default cacert bundle for the current system.
  *
@@ -85,23 +85,23 @@ function default_user_agent() : string
  * @throws \RuntimeException if no bundle can be found.
  *
  * @deprecated default_ca_bundle will be removed in guzzlehttp/guzzle:8.0. This function is not needed in PHP 5.6+.
- * @internal
  */
-function default_ca_bundle() : string
+function default_ca_bundle(): string
 {
     return Utils::defaultCaBundle();
 }
+
 /**
  * Creates an associative array of lowercase header names to the actual
  * header casing.
  *
  * @deprecated normalize_header_keys will be removed in guzzlehttp/guzzle:8.0. Use Utils::normalizeHeaderKeys instead.
- * @internal
  */
-function normalize_header_keys(array $headers) : array
+function normalize_header_keys(array $headers): array
 {
     return Utils::normalizeHeaderKeys($headers);
 }
+
 /**
  * Returns true if the provided host matches any of the no proxy areas.
  *
@@ -122,12 +122,12 @@ function normalize_header_keys(array $headers) : array
  * @throws Exception\InvalidArgumentException
  *
  * @deprecated is_host_in_noproxy will be removed in guzzlehttp/guzzle:8.0. Use Utils::isHostInNoProxy instead.
- * @internal
  */
-function is_host_in_noproxy(string $host, array $noProxyArray) : bool
+function is_host_in_noproxy(string $host, array $noProxyArray): bool
 {
     return Utils::isHostInNoProxy($host, $noProxyArray);
 }
+
 /**
  * Wrapper for json_decode that throws when an error occurs.
  *
@@ -143,12 +143,12 @@ function is_host_in_noproxy(string $host, array $noProxyArray) : bool
  *
  * @see https://www.php.net/manual/en/function.json-decode.php
  * @deprecated json_decode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonDecode instead.
- * @internal
  */
-function json_decode(string $json, bool $assoc = \false, int $depth = 512, int $options = 0)
+function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
 {
     return Utils::jsonDecode($json, $assoc, $depth, $options);
 }
+
 /**
  * Wrapper for JSON encoding that throws when an error occurs.
  *
@@ -160,9 +160,8 @@ function json_decode(string $json, bool $assoc = \false, int $depth = 512, int $
  *
  * @see https://www.php.net/manual/en/function.json-encode.php
  * @deprecated json_encode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonEncode instead.
- * @internal
  */
-function json_encode($value, int $options = 0, int $depth = 512) : string
+function json_encode($value, int $options = 0, int $depth = 512): string
 {
     return Utils::jsonEncode($value, $options, $depth);
 }

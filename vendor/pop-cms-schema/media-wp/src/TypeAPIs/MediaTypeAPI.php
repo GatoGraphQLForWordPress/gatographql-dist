@@ -27,10 +27,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return ($object instanceof WP_Post) && $object->post_type === 'attachment';
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getMediaItemSrc($mediaItemObjectOrID): ?string
+    public function getMediaItemSrc(string|int|object $mediaItemObjectOrID): ?string
     {
         if (is_object($mediaItemObjectOrID)) {
             /** @var WP_Post */
@@ -46,10 +43,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $url;
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getMediaItemSrcPath($mediaItemObjectOrID): ?string
+    public function getMediaItemSrcPath(string|int|object $mediaItemObjectOrID): ?string
     {
         $src = $this->getMediaItemSrc($mediaItemObjectOrID);
         if ($src === null) {
@@ -58,10 +52,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $this->getCMSHelperService()->getLocalURLPath($src);
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrc($mediaItemObjectOrID, ?string $size = null): ?string
+    public function getImageSrc(string|int|object $mediaItemObjectOrID, ?string $size = null): ?string
     {
         $img = $this->getImageProperties($mediaItemObjectOrID, $size);
         if ($img === null) {
@@ -70,10 +61,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $img['src'];
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrcPath($mediaItemObjectOrID, ?string $size = null): ?string
+    public function getImageSrcPath(string|int|object $mediaItemObjectOrID, ?string $size = null): ?string
     {
         $src = $this->getImageSrc($mediaItemObjectOrID, $size);
         if ($src === null) {
@@ -82,10 +70,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $this->getCMSHelperService()->getLocalURLPath($src);
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrcSet($mediaItemObjectOrID, ?string $size = null): ?string
+    public function getImageSrcSet(string|int|object $mediaItemObjectOrID, ?string $size = null): ?string
     {
         if (is_object($mediaItemObjectOrID)) {
             /** @var WP_Post */
@@ -101,10 +86,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $srcSet;
     }
 
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSizes($mediaItemObjectOrID, ?string $size = null): ?string
+    public function getImageSizes(string|int|object $mediaItemObjectOrID, ?string $size = null): ?string
     {
         $imageProperties = $this->getImageProperties($mediaItemObjectOrID, $size);
         if ($imageProperties === null) {
@@ -128,9 +110,8 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
 
     /**
      * @return array{src: string, width: ?int, height: ?int}
-     * @param string|int|object $mediaItemObjectOrID
      */
-    public function getImageProperties($mediaItemObjectOrID, ?string $size = null): ?array
+    public function getImageProperties(string|int|object $mediaItemObjectOrID, ?string $size = null): ?array
     {
         if (is_object($mediaItemObjectOrID)) {
             /** @var WP_Post */
@@ -196,9 +177,8 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
 
     /**
      * Get the media item with provided ID or, if it doesn't exist, null
-     * @param int|string $id
      */
-    public function getMediaItemByID($id): ?object
+    public function getMediaItemByID(int|string $id): ?object
     {
         $post = get_post((int)$id);
         if ($post === null || $post->post_type !== 'attachment') {
@@ -234,10 +214,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $this->getCustomPosts($query, $options);
     }
 
-    /**
-     * @param int|string $id
-     */
-    public function mediaItemByIDExists($id): bool
+    public function mediaItemByIDExists(int|string $id): bool
     {
         return $this->getMediaItemByID($id) !== null;
     }
@@ -272,19 +249,13 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $query;
     }
 
-    /**
-     * @return string|int
-     */
-    public function getMediaItemID(object $mediaItem)
+    public function getMediaItemID(object $mediaItem): string|int
     {
         /** @var WP_Post $mediaItem */
         return $mediaItem->ID;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getTitle($mediaObjectOrID): ?string
+    public function getTitle(string|int|object $mediaObjectOrID): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {
@@ -294,10 +265,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $mediaItem->post_title;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getCaption($mediaObjectOrID): ?string
+    public function getCaption(string|int|object $mediaObjectOrID): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {
@@ -307,19 +275,13 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $mediaItem->post_excerpt;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getAltText($mediaObjectOrID): ?string
+    public function getAltText(string|int|object $mediaObjectOrID): ?string
     {
         $mediaItemID = $this->getCustomPostID($mediaObjectOrID);
         return get_post_meta($mediaItemID, '_wp_attachment_image_alt', true);
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getDescription($mediaObjectOrID): ?string
+    public function getDescription(string|int|object $mediaObjectOrID): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {
@@ -329,10 +291,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $mediaItem->post_content;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getDate($mediaObjectOrID, bool $gmt = false): ?string
+    public function getDate(string|int|object $mediaObjectOrID, bool $gmt = false): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {
@@ -342,10 +301,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $gmt ? $mediaItem->post_date_gmt : $mediaItem->post_date;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getModified($mediaObjectOrID, bool $gmt = false): ?string
+    public function getModified(string|int|object $mediaObjectOrID, bool $gmt = false): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {
@@ -355,10 +311,7 @@ class MediaTypeAPI extends AbstractCustomPostTypeAPI implements MediaTypeAPIInte
         return $gmt ? $mediaItem->post_modified_gmt : $mediaItem->post_modified;
     }
 
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getMimeType($mediaObjectOrID): ?string
+    public function getMimeType(string|int|object $mediaObjectOrID): ?string
     {
         $mediaItem = $this->getCustomPostObject($mediaObjectOrID);
         if ($mediaItem === null) {

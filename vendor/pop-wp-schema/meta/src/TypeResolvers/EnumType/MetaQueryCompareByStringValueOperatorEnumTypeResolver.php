@@ -42,23 +42,15 @@ class MetaQueryCompareByStringValueOperatorEnumTypeResolver extends AbstractEnum
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        switch ($enumValue) {
-            case MetaQueryCompareByOperators::EQUALS:
-                return '\'=\'';
-            case MetaQueryCompareByOperators::NOT_EQUALS:
-                return '\'!=\'';
-            case MetaQueryCompareByOperators::LIKE:
-                return '\'LIKE\'';
-            case MetaQueryCompareByOperators::NOT_LIKE:
-                return '\'NOT LIKE\'';
-            case MetaQueryCompareByOperators::REGEXP:
-                return '\'REGEXP\'';
-            case MetaQueryCompareByOperators::NOT_REGEXP:
-                return '\'NOT REGEXP\'';
-            case MetaQueryCompareByOperators::RLIKE:
-                return '\'RLIKE\'';
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            MetaQueryCompareByOperators::EQUALS => '\'=\'',
+            MetaQueryCompareByOperators::NOT_EQUALS => '\'!=\'',
+            MetaQueryCompareByOperators::LIKE => '\'LIKE\'',
+            MetaQueryCompareByOperators::NOT_LIKE => '\'NOT LIKE\'',
+            MetaQueryCompareByOperators::REGEXP => '\'REGEXP\'',
+            MetaQueryCompareByOperators::NOT_REGEXP => '\'NOT REGEXP\'',
+            MetaQueryCompareByOperators::RLIKE => '\'RLIKE\'',
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

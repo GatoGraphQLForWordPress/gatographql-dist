@@ -201,9 +201,10 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
             );
             /** @var callable */
             $callback = $mapping['callback'];
-            App::addFilter($hookName, function () use ($callback) {
-                return $callback();
-            });
+            App::addFilter(
+                $hookName,
+                fn () => $callback(),
+            );
         }
     }
 
@@ -249,7 +250,11 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
             : [];
 
         /** @var array<class-string<ModuleInterface>,array<string,mixed>> */
-        return array_merge_recursive($this->getPredefinedModuleClassConfiguration(), $predefinedAdminEndpointModuleClassConfiguration, $this->getBasedOnModuleEnabledStateModuleClassConfiguration());
+        return array_merge_recursive(
+            $this->getPredefinedModuleClassConfiguration(),
+            $predefinedAdminEndpointModuleClassConfiguration,
+            $this->getBasedOnModuleEnabledStateModuleClassConfiguration(),
+        );
     }
 
     /**
@@ -377,7 +382,11 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
          * Private endpoints: Allow to not disable modules on custom
          * admin endpoints, for some specific group.
          */
-        return apply_filters(HookNames::ADMIN_ENDPOINT_GROUP_MODULE_CLASSES_TO_SKIP, $schemaModuleClassesToSkip, $endpointHelpers->getAdminGraphQLEndpointGroup());
+        return apply_filters(
+            HookNames::ADMIN_ENDPOINT_GROUP_MODULE_CLASSES_TO_SKIP,
+            $schemaModuleClassesToSkip,
+            $endpointHelpers->getAdminGraphQLEndpointGroup(),
+        );
     }
 
     /**
@@ -389,9 +398,7 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $skipSchemaModuleClassesPerModule = array_filter(
             $this->getModuleClassesToSkipIfModuleDisabled(),
-            function ($module) use ($moduleRegistry) {
-                return !$moduleRegistry->isModuleEnabled($module);
-            },
+            fn ($module) => !$moduleRegistry->isModuleEnabled($module),
             ARRAY_FILTER_USE_KEY
         );
         return GeneralUtils::arrayFlatten(array_values(

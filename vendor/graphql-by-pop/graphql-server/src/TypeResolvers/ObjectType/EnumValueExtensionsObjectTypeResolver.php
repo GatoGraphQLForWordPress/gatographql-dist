@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType;
 
-/** @internal */
-class EnumValueExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractSchemaElementExtensionsObjectTypeResolver
+class EnumValueExtensionsObjectTypeResolver extends AbstractSchemaElementExtensionsObjectTypeResolver
 {
-    public function getIntrospectionTypeName() : string
+    public function getIntrospectionTypeName(): string
     {
         return 'EnumValueExtensions';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Extensions (custom metadata) added to the enum value', 'graphql-server');
     }

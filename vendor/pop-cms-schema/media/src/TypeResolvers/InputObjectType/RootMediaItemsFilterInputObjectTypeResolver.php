@@ -1,16 +1,17 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\TypeResolvers\InputObjectType;
 
-/** @internal */
-class RootMediaItemsFilterInputObjectTypeResolver extends \PoPCMSSchema\Media\TypeResolvers\InputObjectType\AbstractMediaItemsFilterInputObjectTypeResolver
+class RootMediaItemsFilterInputObjectTypeResolver extends AbstractMediaItemsFilterInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootMediaItemsFilterInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to filter media items', 'media');
     }

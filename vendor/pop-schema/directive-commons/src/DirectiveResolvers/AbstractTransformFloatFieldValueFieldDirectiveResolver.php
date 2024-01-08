@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPSchema\DirectiveCommons\DirectiveResolvers;
 
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
@@ -12,54 +13,66 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\FloatScalarTypeResolver;
 use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\NumericScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
-abstract class AbstractTransformFloatFieldValueFieldDirectiveResolver extends \PoPSchema\DirectiveCommons\DirectiveResolvers\AbstractTransformTypedFieldValueFieldDirectiveResolver
+
+abstract class AbstractTransformFloatFieldValueFieldDirectiveResolver extends AbstractTransformTypedFieldValueFieldDirectiveResolver
 {
     /**
      * @return array<class-string<ConcreteTypeResolverInterface>>|null
      */
-    protected function getSupportedFieldTypeResolverClasses() : ?array
+    protected function getSupportedFieldTypeResolverClasses(): ?array
     {
-        return [FloatScalarTypeResolver::class, NumericScalarTypeResolver::class, AnyBuiltInScalarScalarTypeResolver::class];
+        return [
+            FloatScalarTypeResolver::class,
+            NumericScalarTypeResolver::class,
+            AnyBuiltInScalarScalarTypeResolver::class,
+        ];
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isMatchingType($value) : bool
+
+    protected function isMatchingType(mixed $value): bool
     {
-        return \is_float($value) || \is_integer($value);
+        return is_float($value) || is_integer($value);
     }
+
     /**
-     * @param mixed $value
+     * @param float|int $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    protected final function transformTypeValue($value)
+    final protected function transformTypeValue(mixed $value): mixed
     {
         return $this->transformFloatValue((float) $value);
     }
-    /**
-     * @return float|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
-     */
-    protected abstract function transformFloatValue(float $value);
+
+    abstract protected function transformFloatValue(float $value): float|TypedDataValidationPayload;
+
     /**
      * Validate the value against the directive args
      *
-     * @param mixed $value
+     * @param float|int $value
      */
-    protected final function validateTypeData($value) : ?TypedDataValidationPayload
+    final protected function validateTypeData(mixed $value): ?TypedDataValidationPayload
     {
         return $this->validateFloatData((float) $value);
     }
-    protected function validateFloatData(float $value) : ?TypedDataValidationPayload
+
+    protected function validateFloatData(float $value): ?TypedDataValidationPayload
     {
         return null;
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
-    {
-        return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E5, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
+
+    protected function getNonMatchingTypeValueFeedbackItemResolution(
+        mixed $value,
+        string|int $id,
+        FieldInterface $field,
+        RelationalTypeResolverInterface $relationalTypeResolver,
+    ): FeedbackItemResolution {
+        return new FeedbackItemResolution(
+            FeedbackItemProvider::class,
+            FeedbackItemProvider::E5,
+            [
+                $this->getDirectiveName(),
+                $field->getOutputKey(),
+                $id,
+            ]
+        );
     }
 }

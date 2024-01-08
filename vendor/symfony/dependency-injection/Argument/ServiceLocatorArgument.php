@@ -8,43 +8,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
+
+namespace Symfony\Component\DependencyInjection\Argument;
 
 /**
  * Represents a closure acting as a service locator.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class ServiceLocatorArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument|null
-     */
-    private $taggedIteratorArgument;
-    /**
-     * @param mixed[]|\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument $values
-     */
-    public function __construct($values = [])
+    private array $values;
+    private ?TaggedIteratorArgument $taggedIteratorArgument = null;
+
+    public function __construct(array|TaggedIteratorArgument $values = [])
     {
         if ($values instanceof TaggedIteratorArgument) {
             $this->taggedIteratorArgument = $values;
             $values = [];
         }
+
         $this->setValues($values);
     }
-    public function getTaggedIteratorArgument() : ?TaggedIteratorArgument
+
+    public function getTaggedIteratorArgument(): ?TaggedIteratorArgument
     {
         return $this->taggedIteratorArgument;
     }
-    public function getValues() : array
+
+    public function getValues(): array
     {
         return $this->values;
     }
+
     /**
      * @return void
      */

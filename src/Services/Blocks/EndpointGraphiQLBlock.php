@@ -14,10 +14,7 @@ class EndpointGraphiQLBlock extends AbstractBlock implements EndpointEditorBlock
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockCategories\CustomEndpointBlockCategory|null
-     */
-    private $customEndpointBlockCategory;
+    private ?CustomEndpointBlockCategory $customEndpointBlockCategory = null;
 
     final public function setCustomEndpointBlockCategory(CustomEndpointBlockCategory $customEndpointBlockCategory): void
     {

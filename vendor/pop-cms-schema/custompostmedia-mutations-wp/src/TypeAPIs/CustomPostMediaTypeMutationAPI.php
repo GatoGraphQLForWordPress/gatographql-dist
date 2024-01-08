@@ -11,19 +11,12 @@ use PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAP
  */
 class CustomPostMediaTypeMutationAPI implements CustomPostMediaTypeMutationAPIInterface
 {
-    /**
-     * @param int|string $customPostID
-     * @param string|int $mediaItemID
-     */
-    public function setFeaturedImage($customPostID, $mediaItemID): void
+    public function setFeaturedImage(int|string $customPostID, string|int $mediaItemID): void
     {
         \set_post_thumbnail((int)$customPostID, (int)$mediaItemID);
     }
 
-    /**
-     * @param int|string $customPostID
-     */
-    public function removeFeaturedImage($customPostID): void
+    public function removeFeaturedImage(int|string $customPostID): void
     {
         \delete_post_thumbnail((int)$customPostID);
     }

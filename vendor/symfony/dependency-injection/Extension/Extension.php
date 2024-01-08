@@ -8,41 +8,42 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Extension;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurationInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Processor;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Container;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+namespace Symfony\Component\DependencyInjection\Extension;
+
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
+
 /**
  * Provides useful features shared by many extensions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 abstract class Extension implements ExtensionInterface, ConfigurationExtensionInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $processedConfigs = [];
+    private array $processedConfigs = [];
+
     /**
      * @return string|false
      */
     public function getXsdValidationBasePath()
     {
-        return \false;
+        return false;
     }
+
     /**
      * @return string
      */
     public function getNamespace()
     {
-        return 'http://example.org/schema/dic/' . $this->getAlias();
+        return 'http://example.org/schema/dic/'.$this->getAlias();
     }
+
     /**
      * Returns the recommended alias to use in XML.
      *
@@ -61,47 +62,57 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
      *
      * @throws BadMethodCallException When the extension name does not follow conventions
      */
-    public function getAlias() : string
+    public function getAlias(): string
     {
         $className = static::class;
-        if (\substr_compare($className, 'Extension', -\strlen('Extension')) !== 0) {
+        if (!str_ends_with($className, 'Extension')) {
             throw new BadMethodCallException('This extension does not follow the naming convention; you must overwrite the getAlias() method.');
         }
-        $classBaseName = \substr(\strrchr($className, '\\'), 1, -9);
+        $classBaseName = substr(strrchr($className, '\\'), 1, -9);
+
         return Container::underscore($classBaseName);
     }
+
     /**
      * @return ConfigurationInterface|null
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         $class = static::class;
-        if (\strpos($class, "\x00") !== \false) {
-            return null;
-            // ignore anonymous classes
+
+        if (str_contains($class, "\0")) {
+            return null; // ignore anonymous classes
         }
-        $class = \substr_replace($class, '\\Configuration', \strrpos($class, '\\'));
+
+        $class = substr_replace($class, '\Configuration', strrpos($class, '\\'));
         $class = $container->getReflectionClass($class);
+
         if (!$class) {
             return null;
         }
+
         if (!$class->implementsInterface(ConfigurationInterface::class)) {
-            throw new LogicException(\sprintf('The extension configuration class "%s" must implement "%s".', $class->getName(), ConfigurationInterface::class));
+            throw new LogicException(sprintf('The extension configuration class "%s" must implement "%s".', $class->getName(), ConfigurationInterface::class));
         }
+
         if (!($constructor = $class->getConstructor()) || !$constructor->getNumberOfRequiredParameters()) {
             return $class->newInstance();
         }
+
         return null;
     }
-    protected final function processConfiguration(ConfigurationInterface $configuration, array $configs) : array
+
+    final protected function processConfiguration(ConfigurationInterface $configuration, array $configs): array
     {
         $processor = new Processor();
+
         return $this->processedConfigs[] = $processor->processConfiguration($configuration, $configs);
     }
+
     /**
      * @internal
      */
-    public final function getProcessedConfigs() : array
+    final public function getProcessedConfigs(): array
     {
         try {
             return $this->processedConfigs;
@@ -109,14 +120,16 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
             $this->processedConfigs = [];
         }
     }
+
     /**
      * @throws InvalidArgumentException When the config is not enableable
      */
-    protected function isConfigEnabled(ContainerBuilder $container, array $config) : bool
+    protected function isConfigEnabled(ContainerBuilder $container, array $config): bool
     {
         if (!\array_key_exists('enabled', $config)) {
             throw new InvalidArgumentException("The config array has no 'enabled' key.");
         }
+
         return (bool) $container->getParameterBag()->resolveValue($config['enabled']);
     }
 }

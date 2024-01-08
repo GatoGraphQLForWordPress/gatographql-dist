@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers;
 
 /**
@@ -14,8 +15,7 @@ namespace PoP\ComponentModel\TypeResolvers;
  * - EnumType
  * - ObjectType
  * - InterfaceType
- * @internal
  */
-interface OutputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
+interface OutputTypeResolverInterface extends TypeResolverInterface
 {
 }

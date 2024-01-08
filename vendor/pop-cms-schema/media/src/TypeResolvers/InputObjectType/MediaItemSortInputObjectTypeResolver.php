@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media\TypeResolvers\InputObjectType;
 
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoPCMSSchema\Media\Constants\MediaItemOrderBy;
 use PoPCMSSchema\Media\TypeResolvers\EnumType\MediaItemOrderByEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectTypeResolver;
-/** @internal */
+
 class MediaItemSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\EnumType\MediaItemOrderByEnumTypeResolver|null
-     */
-    private $customPostSortByEnumTypeResolver;
-    public final function setMediaItemOrderByEnumTypeResolver(MediaItemOrderByEnumTypeResolver $customPostSortByEnumTypeResolver) : void
+    private ?MediaItemOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
+
+    final public function setMediaItemOrderByEnumTypeResolver(MediaItemOrderByEnumTypeResolver $customPostSortByEnumTypeResolver): void
     {
         $this->customPostSortByEnumTypeResolver = $customPostSortByEnumTypeResolver;
     }
-    protected final function getMediaItemOrderByEnumTypeResolver() : MediaItemOrderByEnumTypeResolver
+    final protected function getMediaItemOrderByEnumTypeResolver(): MediaItemOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
             /** @var MediaItemOrderByEnumTypeResolver */
@@ -27,27 +26,30 @@ class MediaItemSortInputObjectTypeResolver extends SortInputObjectTypeResolver
         }
         return $this->customPostSortByEnumTypeResolver;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'MediaItemSortInput';
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers() : array
+    public function getInputFieldNameTypeResolvers(): array
     {
-        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getMediaItemOrderByEnumTypeResolver()]);
+        return array_merge(
+            parent::getInputFieldNameTypeResolvers(),
+            [
+                'by' => $this->getMediaItemOrderByEnumTypeResolver(),
+            ]
+        );
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+
+    public function getInputFieldDefaultValue(string $inputFieldName): mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return MediaItemOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => MediaItemOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

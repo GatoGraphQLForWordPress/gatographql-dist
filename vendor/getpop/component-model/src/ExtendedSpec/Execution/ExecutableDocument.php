@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\ExtendedSpec\Execution;
 
 use PoP\ComponentModel\DirectiveResolvers\OperationDependencyDefinerFieldDirectiveResolverInterface;
@@ -28,30 +29,26 @@ use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\GraphQLParser\Spec\Parser\Ast\Variable;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-/** @internal */
+
 class ExecutableDocument extends AbstractExecutableDocument
 {
     /**
      * @var array<ObjectTypeResolverInterface|UnionTypeResolverInterface|InterfaceTypeResolverInterface>
      */
-    protected $compositeUnionTypeResolvers;
+    protected array $compositeUnionTypeResolvers;
     /**
      * @var array<EnumTypeResolverInterface|ScalarTypeResolverInterface>
      */
-    protected $nonCompositeUnionTypeResolvers;
-    /**
-     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
-     */
-    private $typeRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface|null
-     */
-    private $operationDependencyDefinerDirectiveRegistry;
-    public final function setTypeRegistry(TypeRegistryInterface $typeRegistry) : void
+    protected array $nonCompositeUnionTypeResolvers;
+
+    private ?TypeRegistryInterface $typeRegistry = null;
+    private ?OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry = null;
+
+    final public function setTypeRegistry(TypeRegistryInterface $typeRegistry): void
     {
         $this->typeRegistry = $typeRegistry;
     }
-    protected final function getTypeRegistry() : TypeRegistryInterface
+    final protected function getTypeRegistry(): TypeRegistryInterface
     {
         if ($this->typeRegistry === null) {
             /** @var TypeRegistryInterface */
@@ -60,11 +57,11 @@ class ExecutableDocument extends AbstractExecutableDocument
         }
         return $this->typeRegistry;
     }
-    public final function setOperationDependencyDefinerDirectiveRegistry(OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry) : void
+    final public function setOperationDependencyDefinerDirectiveRegistry(OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry): void
     {
         $this->operationDependencyDefinerDirectiveRegistry = $operationDependencyDefinerDirectiveRegistry;
     }
-    protected final function getOperationDependencyDefinerDirectiveRegistry() : OperationDependencyDefinerDirectiveRegistryInterface
+    final protected function getOperationDependencyDefinerDirectiveRegistry(): OperationDependencyDefinerDirectiveRegistryInterface
     {
         if ($this->operationDependencyDefinerDirectiveRegistry === null) {
             /** @var OperationDependencyDefinerDirectiveRegistryInterface */
@@ -73,26 +70,41 @@ class ExecutableDocument extends AbstractExecutableDocument
         }
         return $this->operationDependencyDefinerDirectiveRegistry;
     }
-    public function __construct(Document $document, Context $context)
-    {
-        parent::__construct($document, $context);
-        $this->compositeUnionTypeResolvers = \array_merge($this->getTypeRegistry()->getObjectTypeResolvers(), $this->getTypeRegistry()->getUnionTypeResolvers(), $this->getTypeRegistry()->getInterfaceTypeResolvers());
-        $this->nonCompositeUnionTypeResolvers = \array_merge($this->getTypeRegistry()->getEnumTypeResolvers(), $this->getTypeRegistry()->getScalarTypeResolvers());
+
+    public function __construct(
+        Document $document,
+        Context $context,
+    ) {
+        parent::__construct(
+            $document,
+            $context
+        );
+        $this->compositeUnionTypeResolvers = [
+            ...$this->getTypeRegistry()->getObjectTypeResolvers(),
+            ...$this->getTypeRegistry()->getUnionTypeResolvers(),
+            ...$this->getTypeRegistry()->getInterfaceTypeResolvers(),
+        ];
+        $this->nonCompositeUnionTypeResolvers = [
+            ...$this->getTypeRegistry()->getEnumTypeResolvers(),
+            ...$this->getTypeRegistry()->getScalarTypeResolvers(),
+        ];
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function validate() : void
+    protected function validate(): void
     {
         parent::validate();
         $this->assertFragmentSpreadTypesExistInSchema();
         $this->assertVariablesAreInputTypes();
     }
+
     /**
      * @throws InvalidRequestException
      * @see https://spec.graphql.org/draft/#sec-Fragment-Spread-Type-Existence
      */
-    protected function assertFragmentSpreadTypesExistInSchema() : void
+    protected function assertFragmentSpreadTypesExistInSchema(): void
     {
         foreach ($this->document->getFragments() as $fragment) {
             $this->assertFragmentSpreadTypeExistsInSchema($fragment->getModel(), $fragment);
@@ -102,41 +114,77 @@ class ExecutableDocument extends AbstractExecutableDocument
             $this->assertInlineFragmentSpreadTypesInFieldsOrFragmentsExistInSchema($operation->getFieldsOrFragmentBonds());
         }
     }
+
     /**
      * @throws InvalidRequestException
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\Fragment|\PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment $astNode
      */
-    protected function assertFragmentSpreadTypeExistsInSchema(string $fragmentSpreadType, $astNode) : void
-    {
+    protected function assertFragmentSpreadTypeExistsInSchema(
+        string $fragmentSpreadType,
+        Fragment|InlineFragment $astNode,
+    ): void {
         foreach ($this->compositeUnionTypeResolvers as $typeResolver) {
-            if ($this->isTypeResolverForType($fragmentSpreadType, $typeResolver)) {
+            if (
+                $this->isTypeResolverForType(
+                    $fragmentSpreadType,
+                    $typeResolver
+                )
+            ) {
                 return;
             }
         }
+
         /**
          * The type is neither Union, Object or Interface.
          * Check if it is Enum/Scalar as to determine which validation
          * from the GraphQL spec it belongs to.
          */
         foreach ($this->nonCompositeUnionTypeResolvers as $typeResolver) {
-            if ($this->isTypeResolverForType($fragmentSpreadType, $typeResolver)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_3, [$fragmentSpreadType]), $astNode);
+            if (
+                $this->isTypeResolverForType(
+                    $fragmentSpreadType,
+                    $typeResolver
+                )
+            ) {
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_3,
+                        [
+                            $fragmentSpreadType,
+                        ]
+                    ),
+                    $astNode
+                );
             }
         }
-        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_2, [$fragmentSpreadType]), $astNode);
+        throw new InvalidRequestException(
+            new FeedbackItemResolution(
+                GraphQLSpecErrorFeedbackItemProvider::class,
+                GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_2,
+                [
+                    $fragmentSpreadType,
+                ]
+            ),
+            $astNode
+        );
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function isTypeResolverForType(string $typeName, TypeResolverInterface $typeResolver) : bool
-    {
-        return $typeResolver->getTypeName() === $typeName || $typeResolver->getNamespacedTypeName() === $typeName;
+    protected function isTypeResolverForType(
+        string $typeName,
+        TypeResolverInterface $typeResolver
+    ): bool {
+        return $typeResolver->getTypeName() === $typeName
+            || $typeResolver->getNamespacedTypeName() === $typeName;
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @throws InvalidRequestException
      */
-    protected function assertInlineFragmentSpreadTypesInFieldsOrFragmentsExistInSchema(array $fieldsOrFragmentBonds) : void
+    protected function assertInlineFragmentSpreadTypesInFieldsOrFragmentsExistInSchema(array $fieldsOrFragmentBonds): void
     {
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
             if ($fieldOrFragmentBond instanceof FragmentReference) {
@@ -164,11 +212,12 @@ class ExecutableDocument extends AbstractExecutableDocument
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      * @see https://spec.graphql.org/draft/#sec-Variables-Are-Input-Types
      */
-    protected function assertVariablesAreInputTypes() : void
+    protected function assertVariablesAreInputTypes(): void
     {
         foreach ($this->document->getOperations() as $operation) {
             foreach ($operation->getVariables() as $variable) {
@@ -176,26 +225,40 @@ class ExecutableDocument extends AbstractExecutableDocument
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertVariableIsInputType(Variable $variable) : void
+    protected function assertVariableIsInputType(Variable $variable): void
     {
         foreach ($this->compositeUnionTypeResolvers as $typeResolver) {
             if ($this->isTypeResolverForType($variable->getTypeName(), $typeResolver)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_2, [$variable->getName(), $variable->getTypeName()]), $variable);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_8_2,
+                        [
+                            $variable->getName(),
+                            $variable->getTypeName(),
+                        ]
+                    ),
+                    $variable
+                );
             }
         }
     }
-    protected function isOperationDependencyDefinerDirective(Directive $directive) : bool
+
+    protected function isOperationDependencyDefinerDirective(Directive $directive): bool
     {
         return $this->getOperationDependencyDefinerFieldDirectiveResolver($directive) !== null;
     }
-    protected function getOperationDependencyDefinerFieldDirectiveResolver(Directive $directive) : ?OperationDependencyDefinerFieldDirectiveResolverInterface
+
+    protected function getOperationDependencyDefinerFieldDirectiveResolver(Directive $directive): ?OperationDependencyDefinerFieldDirectiveResolverInterface
     {
         return $this->getOperationDependencyDefinerDirectiveRegistry()->getOperationDependencyDefinerFieldDirectiveResolver($directive->getName());
     }
-    protected function getProvideDependedUponOperationNamesArgument(Directive $directive) : ?Argument
+
+    protected function getProvideDependedUponOperationNamesArgument(Directive $directive): ?Argument
     {
         $operationDependencyDefinerFieldDirectiveResolver = $this->getOperationDependencyDefinerFieldDirectiveResolver($directive);
         if ($operationDependencyDefinerFieldDirectiveResolver === null) {

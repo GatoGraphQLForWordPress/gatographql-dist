@@ -14,16 +14,15 @@ class BlockHelpers
      *
      * @var array<int,array<string,mixed>>
      */
-    protected $blockCache = [];
+    protected array $blockCache = [];
 
     /**
      * Extract the blocks from the post
      *
      * @return array<string,mixed> The block stores its data as property => value
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getBlocksFromCustomPost(
-        $configurationPostOrID
+        WP_Post|int $configurationPostOrID
     ): array {
         if (\is_object($configurationPostOrID)) {
             $configurationPost = $configurationPostOrID;
@@ -59,10 +58,9 @@ class BlockHelpers
      * Read the configuration post, and extract the configuration, contained through the specified block
      *
      * @return array<array<string,mixed>> A list of block data, each as an array
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getBlocksOfTypeFromCustomPost(
-        $configurationPostOrID,
+        WP_Post|int $configurationPostOrID,
         BlockInterface $block
     ): array {
         $blocks = $this->getBlocksFromCustomPost($configurationPostOrID);
@@ -71,9 +69,7 @@ class BlockHelpers
         $blockFullName = $block->getBlockFullName();
         return array_values(array_filter(
             $blocks,
-            function ($block) use ($blockFullName) {
-                return $block['blockName'] === $blockFullName;
-            }
+            fn ($block) => $block['blockName'] === $blockFullName
         ));
     }
 
@@ -82,10 +78,9 @@ class BlockHelpers
      * If there are more than 1, or none, return null
      *
      * @return array<string,mixed>|null Data inside the block is saved as key (string) => value
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getSingleBlockOfTypeFromCustomPost(
-        $configurationPostOrID,
+        WP_Post|int $configurationPostOrID,
         BlockInterface $block
     ): ?array {
         $blocks = $this->getBlocksOfTypeFromCustomPost($configurationPostOrID, $block);

@@ -1,24 +1,27 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\Registries;
 
 use PoPCMSSchema\Categories\ObjectTypeResolverPickers\CategoryObjectTypeResolverPickerInterface;
-/** @internal */
-class CategoryObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Categories\Registries\CategoryObjectTypeResolverPickerRegistryInterface
+
+class CategoryObjectTypeResolverPickerRegistry implements CategoryObjectTypeResolverPickerRegistryInterface
 {
     /**
      * @var CategoryObjectTypeResolverPickerInterface[]
      */
-    protected $categoryObjectTypeResolverPickers = [];
-    public function addCategoryObjectTypeResolverPicker(CategoryObjectTypeResolverPickerInterface $categoryObjectTypeResolverPicker) : void
+    protected array $categoryObjectTypeResolverPickers = [];
+
+    public function addCategoryObjectTypeResolverPicker(CategoryObjectTypeResolverPickerInterface $categoryObjectTypeResolverPicker): void
     {
         $this->categoryObjectTypeResolverPickers[] = $categoryObjectTypeResolverPicker;
     }
+
     /**
      * @return CategoryObjectTypeResolverPickerInterface[]
      */
-    public function getCategoryObjectTypeResolverPickers() : array
+    public function getCategoryObjectTypeResolverPickers(): array
     {
         return $this->categoryObjectTypeResolverPickers;
     }

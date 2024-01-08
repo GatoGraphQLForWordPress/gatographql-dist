@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostCategoryMutations\Module;
@@ -14,84 +15,100 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
-abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements \PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType\SetCategoriesOnCustomPostObjectTypeFieldResolverInterface
+
+abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements SetCategoriesOnCustomPostObjectTypeFieldResolverInterface
 {
-    use \PoPCMSSchema\CustomPostCategoryMutations\FieldResolvers\ObjectType\SetCategoriesOnCustomPostObjectTypeFieldResolverTrait;
+    use SetCategoriesOnCustomPostObjectTypeFieldResolverTrait;
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [\get_class($this->getCustomPostObjectTypeResolver())];
+        return [
+            get_class($this->getCustomPostObjectTypeResolver()),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['setCategories'];
+        return [
+            'setCategories',
+        ];
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'setCategories':
-                return \sprintf($this->__('Set categories on the %s', 'custompost-category-mutations'), $this->getEntityName());
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => sprintf(
+                $this->__('Set categories on the %s', 'custompost-category-mutations'),
+                $this->getEntityName()
+            ),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'setCategories':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
+    public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
-        switch ($fieldName) {
-            case 'setCategories':
-                return [MutationInputProperties::INPUT => $this->getCustomPostSetCategoriesInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => [
+                MutationInputProperties::INPUT => $this->getCustomPostSetCategoriesInputObjectTypeResolver(),
+            ],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName): int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['setCategories' => MutationInputProperties::INPUT]:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['setCategories' => MutationInputProperties::INPUT] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
+
     /**
      * Validated the mutation on the object because the ID
      * is obtained from the same object, so it's not originally
      * present in the field argument in the query
      */
-    public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
+    public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): bool
     {
-        switch ($fieldName) {
-            case 'setCategories':
-                return \true;
-            default:
-                return parent::validateMutationOnObject($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => true,
+            default => parent::validateMutationOnObject($objectTypeResolver, $fieldName),
+        };
     }
+
     /**
      * @param array<string,mixed> $fieldArgsForMutationForObject
      * @return array<string,mixed>
      */
-    public function prepareFieldArgsForMutationForObject(array $fieldArgsForMutationForObject, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, object $object) : array
-    {
-        $fieldArgsForMutationForObject = parent::prepareFieldArgsForMutationForObject($fieldArgsForMutationForObject, $objectTypeResolver, $field, $object);
+    public function prepareFieldArgsForMutationForObject(
+        array $fieldArgsForMutationForObject,
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+        object $object,
+    ): array {
+        $fieldArgsForMutationForObject = parent::prepareFieldArgsForMutationForObject(
+            $fieldArgsForMutationForObject,
+            $objectTypeResolver,
+            $field,
+            $object,
+        );
         $customPost = $object;
         switch ($field->getName()) {
             case 'setCategories':
@@ -100,37 +117,36 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         }
         return $fieldArgsForMutationForObject;
     }
-    public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
+
+    public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?MutationResolverInterface
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostCategoryMutations = $moduleConfiguration->usePayloadableCustomPostCategoryMutations();
-        switch ($fieldName) {
-            case 'setCategories':
-                return $usePayloadableCustomPostCategoryMutations ? $this->getPayloadableSetCategoriesMutationResolver() : $this->getSetCategoriesMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => $usePayloadableCustomPostCategoryMutations
+                ? $this->getPayloadableSetCategoriesMutationResolver()
+                : $this->getSetCategoriesMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostCategoryMutations = $moduleConfiguration->usePayloadableCustomPostCategoryMutations();
         if ($usePayloadableCustomPostCategoryMutations) {
-            switch ($fieldName) {
-                case 'setCategories':
-                    return $this->getCustomPostSetCategoriesMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'setCategories' => $this->getCustomPostSetCategoriesMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'setCategories':
-                return $this->getCustomPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setCategories' => $this->getCustomPostObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    protected abstract function getCustomPostSetCategoriesMutationPayloadObjectTypeResolver() : ConcreteTypeResolverInterface;
+
+    abstract protected function getCustomPostSetCategoriesMutationPayloadObjectTypeResolver(): ConcreteTypeResolverInterface;
 }

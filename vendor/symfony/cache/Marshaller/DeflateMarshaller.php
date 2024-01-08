@@ -8,40 +8,40 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Marshaller;
 
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
+namespace Symfony\Component\Cache\Marshaller;
+
+use Symfony\Component\Cache\Exception\CacheException;
+
 /**
  * Compresses values using gzdeflate().
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class DeflateMarshaller implements MarshallerInterface
 {
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
+    private MarshallerInterface $marshaller;
+
     public function __construct(MarshallerInterface $marshaller)
     {
         if (!\function_exists('gzdeflate')) {
             throw new CacheException('The "zlib" PHP extension is not loaded.');
         }
+
         $this->marshaller = $marshaller;
     }
-    public function marshall(array $values, ?array &$failed) : array
+
+    public function marshall(array $values, ?array &$failed): array
     {
-        return \array_map('gzdeflate', $this->marshaller->marshall($values, $failed));
+        return array_map('gzdeflate', $this->marshaller->marshall($values, $failed));
     }
-    /**
-     * @return mixed
-     */
-    public function unmarshall(string $value)
+
+    public function unmarshall(string $value): mixed
     {
-        if (\false !== ($inflatedValue = @\gzinflate($value))) {
+        if (false !== $inflatedValue = @gzinflate($value)) {
             $value = $inflatedValue;
         }
+
         return $this->marshaller->unmarshall($value);
     }
 }

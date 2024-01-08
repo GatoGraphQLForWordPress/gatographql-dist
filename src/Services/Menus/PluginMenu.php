@@ -11,10 +11,7 @@ use GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface;
  */
 class PluginMenu extends AbstractMenu
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
+    private ?UserAuthorizationInterface $userAuthorization = null;
 
     final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
     {

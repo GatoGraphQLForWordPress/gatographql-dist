@@ -1,23 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPosts\TypeAPIs;
 
 use PoP\Root\Services\BasicServiceTrait;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
-/** @internal */
-abstract class AbstractCustomPostTypeAPI implements \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface
+
+abstract class AbstractCustomPostTypeAPI implements CustomPostTypeAPIInterface
 {
     use BasicServiceTrait;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
-    public final function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService) : void
+
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
+
+    final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
     {
         $this->cmsHelperService = $cmsHelperService;
     }
-    protected final function getCMSHelperService() : CMSHelperServiceInterface
+    final protected function getCMSHelperService(): CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {
             /** @var CMSHelperServiceInterface */
@@ -26,10 +26,8 @@ abstract class AbstractCustomPostTypeAPI implements \PoPCMSSchema\CustomPosts\Ty
         }
         return $this->cmsHelperService;
     }
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPermalinkPath($customPostObjectOrID) : ?string
+
+    public function getPermalinkPath(string|int|object $customPostObjectOrID): ?string
     {
         $permalink = $this->getPermalink($customPostObjectOrID);
         if ($permalink === null) {

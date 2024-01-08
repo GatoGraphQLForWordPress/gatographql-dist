@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Categories\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\Categories\FieldResolvers\InterfaceType\CategoryInterfaceTypeFieldResolver;
@@ -15,30 +16,19 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-/** @internal */
+
 abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements CategoryAPIRequestedContractObjectTypeFieldResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\FieldResolvers\InterfaceType\CategoryInterfaceTypeFieldResolver|null
-     */
-    private $categoryInterfaceTypeFieldResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
+    private ?CategoryInterfaceTypeFieldResolver $categoryInterfaceTypeFieldResolver = null;
+
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -47,11 +37,11 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
+    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
-    protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
+    final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
             /** @var IntScalarTypeResolver */
@@ -60,11 +50,11 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
+    final public function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver): void
     {
         $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
     }
-    protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
+    final protected function getQueryableInterfaceTypeFieldResolver(): QueryableInterfaceTypeFieldResolver
     {
         if ($this->queryableInterfaceTypeFieldResolver === null) {
             /** @var QueryableInterfaceTypeFieldResolver */
@@ -73,11 +63,11 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
         }
         return $this->queryableInterfaceTypeFieldResolver;
     }
-    public final function setCategoryInterfaceTypeFieldResolver(CategoryInterfaceTypeFieldResolver $categoryInterfaceTypeFieldResolver) : void
+    final public function setCategoryInterfaceTypeFieldResolver(CategoryInterfaceTypeFieldResolver $categoryInterfaceTypeFieldResolver): void
     {
         $this->categoryInterfaceTypeFieldResolver = $categoryInterfaceTypeFieldResolver;
     }
-    protected final function getCategoryInterfaceTypeFieldResolver() : CategoryInterfaceTypeFieldResolver
+    final protected function getCategoryInterfaceTypeFieldResolver(): CategoryInterfaceTypeFieldResolver
     {
         if ($this->categoryInterfaceTypeFieldResolver === null) {
             /** @var CategoryInterfaceTypeFieldResolver */
@@ -86,96 +76,111 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
         }
         return $this->categoryInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getQueryableInterfaceTypeFieldResolver(), $this->getCategoryInterfaceTypeFieldResolver()];
+        return [
+            $this->getQueryableInterfaceTypeFieldResolver(),
+            $this->getCategoryInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
         return [
             // Queryable interface
             'url',
             'urlPath',
             'slug',
+
             // Category interface
             'name',
             'description',
             'count',
             'slugPath',
+
             // Own
             'parent',
         ];
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'parent':
-                return $this->getCategoryTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'parent' => $this->getCategoryTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('Category URL', 'pop-categories');
-            case 'urlPath':
-                return $this->__('Category URL path', 'pop-categories');
-            case 'slug':
-                return $this->__('Category slug', 'pop-categories');
-            case 'parent':
-                return $this->__('Parent category (if this category is a child of another one)', 'pop-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('Category URL', 'pop-categories'),
+            'urlPath' => $this->__('Category URL path', 'pop-categories'),
+            'slug' => $this->__('Category slug', 'pop-categories'),
+            'parent' => $this->__('Parent category (if this category is a child of another one)', 'pop-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $categoryTypeAPI = $this->getCategoryTypeAPI();
         $category = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'url':
                 /** @var string */
                 return $categoryTypeAPI->getCategoryURL($category);
+
             case 'urlPath':
                 /** @var string */
                 return $categoryTypeAPI->getCategoryURLPath($category);
+
             case 'name':
                 /** @var string */
                 return $categoryTypeAPI->getCategoryName($category);
+
             case 'slug':
                 /** @var string */
                 return $categoryTypeAPI->getCategorySlug($category);
+
             case 'slugPath':
                 /** @var string */
                 return $categoryTypeAPI->getCategorySlugPath($category);
+
             case 'description':
                 /** @var string */
                 return $categoryTypeAPI->getCategoryDescription($category);
+
             case 'parent':
                 return $categoryTypeAPI->getCategoryParentID($category);
+
             case 'count':
                 /** @var int */
                 return $categoryTypeAPI->getCategoryItemCount($category);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

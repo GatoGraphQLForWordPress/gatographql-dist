@@ -8,28 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+
+namespace Symfony\Component\DependencyInjection;
 
 /**
  * Represents a PHP type-hinted service reference.
  *
  * @author Nicolas Grekas <p@tchwork.com>
- * @internal
  */
 class TypedReference extends Reference
 {
-    /**
-     * @var string
-     */
-    private $type;
-    /**
-     * @var string|null
-     */
-    private $name;
-    /**
-     * @var mixed[]
-     */
-    private $attributes;
+    private string $type;
+    private ?string $name;
+    private array $attributes;
+
     /**
      * @param string      $id              The service identifier
      * @param string      $type            The PHP type of the identified service
@@ -44,6 +36,7 @@ class TypedReference extends Reference
         $this->type = $type;
         $this->attributes = $attributes;
     }
+
     /**
      * @return string
      */
@@ -51,11 +44,13 @@ class TypedReference extends Reference
     {
         return $this->type;
     }
-    public function getName() : ?string
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    public function getAttributes() : array
+
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use PoP\ComponentModel\Schema\SchemaDefinition;
-/** @internal */
-class EnumValueExtensions extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
+
+class EnumValueExtensions extends AbstractSchemaDefinitionReferenceObject
 {
-    public function isSensitiveDataElement() : bool
+    public function isSensitiveDataElement(): bool
     {
         return $this->schemaDefinition[SchemaDefinition::IS_SENSITIVE_DATA_ELEMENT];
     }

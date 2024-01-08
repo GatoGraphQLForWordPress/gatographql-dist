@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeSerialization;
 
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
@@ -12,7 +13,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
 use stdClass;
-/** @internal */
+
 interface TypeSerializationServiceInterface
 {
     /**
@@ -21,13 +22,25 @@ interface TypeSerializationServiceInterface
      * @return array<string|int,SplObjectStorage<FieldInterface,mixed>>
      * @param array<string|int,object> $idObjects
      */
-    public function serializeOutputTypeIDFieldValues(RelationalTypeResolverInterface $relationalTypeResolver, array $idFieldValues, array $idFieldSet, array $idObjects, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array;
+    public function serializeOutputTypeIDFieldValues(
+        RelationalTypeResolverInterface $relationalTypeResolver,
+        array $idFieldValues,
+        array $idFieldSet,
+        array $idObjects,
+        Directive $directive,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): array;
+
     /**
      * The response for Scalar Types and Enum types must be serialized.
      * The response type is the same as in the type's `serialize` method.
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param mixed $value
      */
-    public function serializeLeafOutputTypeValue($value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field);
+    public function serializeLeafOutputTypeValue(
+        mixed $value,
+        LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver,
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): string|int|float|bool|array|stdClass;
 }

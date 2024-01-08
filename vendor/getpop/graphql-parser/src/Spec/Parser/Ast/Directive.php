@@ -1,28 +1,28 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\Spec\Parser\Location;
-/** @internal */
-class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\WithNameInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface
+
+class Directive extends AbstractAst implements WithNameInterface, WithArgumentsInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    use \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsTrait;
+    use WithArgumentsTrait;
+
     /**
      * @param Argument[] $arguments
      */
-    public function __construct(string $name, array $arguments, Location $location)
-    {
-        $this->name = $name;
+    public function __construct(
+        protected readonly string $name,
+        array $arguments,
+        Location $location,
+    ) {
         parent::__construct($location);
         $this->setArguments($arguments);
     }
-    protected function doAsQueryString() : string
+
+    protected function doAsQueryString(): string
     {
         $strDirectiveArguments = '';
         if ($this->arguments !== []) {
@@ -30,11 +30,19 @@ class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implement
             foreach ($this->arguments as $argument) {
                 $strArguments[] = $argument->asQueryString();
             }
-            $strDirectiveArguments = \sprintf('(%s)', \implode(', ', $strArguments));
+            $strDirectiveArguments = sprintf(
+                '(%s)',
+                implode(', ', $strArguments)
+            );
         }
-        return \sprintf('@%s%s', $this->name, $strDirectiveArguments);
+        return sprintf(
+            '@%s%s',
+            $this->name,
+            $strDirectiveArguments
+        );
     }
-    protected function doAsASTNodeString() : string
+
+    protected function doAsASTNodeString(): string
     {
         $strDirectiveArguments = '';
         if ($this->arguments !== []) {
@@ -42,32 +50,43 @@ class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implement
             foreach ($this->arguments as $argument) {
                 $strArguments[] = $argument->asQueryString();
             }
-            $strDirectiveArguments = \sprintf('(%s)', \implode(', ', $strArguments));
+            $strDirectiveArguments = sprintf(
+                '(%s)',
+                implode(', ', $strArguments)
+            );
         }
-        return \sprintf('@%s%s', $this->name, $strDirectiveArguments);
+        return sprintf(
+            '@%s%s',
+            $this->name,
+            $strDirectiveArguments
+        );
     }
-    public function getName() : string
+
+    public function getName(): string
     {
         return $this->name;
     }
+
     /**
      * Indicate if a field equals another one based on its properties,
      * not on its object hash ID.
      */
-    public function isEquivalentTo(\PoP\GraphQLParser\Spec\Parser\Ast\Directive $directive) : bool
+    public function isEquivalentTo(Directive $directive): bool
     {
         if ($this->getName() !== $directive->getName()) {
-            return \false;
+            return false;
         }
+
         /**
          * Compare arguments
          */
         $thisArguments = $this->getArguments();
         $againstArguments = $directive->getArguments();
-        $argumentCount = \count($thisArguments);
-        if ($argumentCount !== \count($againstArguments)) {
-            return \false;
+        $argumentCount = count($thisArguments);
+        if ($argumentCount !== count($againstArguments)) {
+            return false;
         }
+
         /**
          * The order of the arguments does not matter.
          * These 2 fields are equivalent:
@@ -81,19 +100,16 @@ class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implement
          *
          * So first sort them as to compare apples to apples.
          */
-        \usort($thisArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
-        \usort($againstArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
+        usort($thisArguments, fn (Argument $argument1, Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
+        usort($againstArguments, fn (Argument $argument1, Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
         for ($i = 0; $i < $argumentCount; $i++) {
             $thisArgument = $thisArguments[$i];
             $againstArgument = $againstArguments[$i];
             if (!$thisArgument->isEquivalentTo($againstArgument)) {
-                return \false;
+                return false;
             }
         }
-        return \true;
+
+        return true;
     }
 }

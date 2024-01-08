@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
@@ -17,40 +18,35 @@ use PoP\GraphQLParser\Spec\Parser\Ast\SubscriptionOperation;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\StandaloneServiceTrait;
 use SplObjectStorage;
-/** @internal */
-class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
+
+class Document implements DocumentInterface
 {
-    /**
-     * @var OperationInterface[]
-     * @readonly
-     */
-    protected $operations;
-    /**
-     * @var Fragment[]
-     */
-    protected $fragments = [];
     use StandaloneServiceTrait;
+
     /**
      * Keep a reference to the dictionary of all ancestors
      * for each AST node.
      *
      * @var SplObjectStorage<AstInterface,AstInterface>|null
      */
-    protected $astNodeAncestors;
+    protected ?SplObjectStorage $astNodeAncestors = null;
+
     /**
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      */
-    public function __construct(array $operations, array $fragments = [])
-    {
-        $this->operations = $operations;
-        $this->fragments = $fragments;
+    public function __construct(
+        protected readonly array $operations,
+        protected array $fragments = [],
+    ) {
     }
-    public final function __toString() : string
+
+    final public function __toString(): string
     {
         return $this->asDocumentString();
     }
-    public function asDocumentString() : string
+
+    public function asDocumentString(): string
     {
         $strOperationAndFragments = [];
         foreach ($this->operations as $operation) {
@@ -59,36 +55,41 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         foreach ($this->fragments as $fragment) {
             $strOperationAndFragments[] = $fragment->asQueryString();
         }
-        return \implode(\PHP_EOL . \PHP_EOL, $strOperationAndFragments);
+        return implode(PHP_EOL . PHP_EOL, $strOperationAndFragments);
     }
+
     /**
      * @return OperationInterface[]
      */
-    public function getOperations() : array
+    public function getOperations(): array
     {
         return $this->operations;
     }
+
     /**
      * @return Fragment[]
      */
-    public function getFragments() : array
+    public function getFragments(): array
     {
         return $this->fragments;
     }
-    public function getFragment(string $name) : ?\PoP\GraphQLParser\Spec\Parser\Ast\Fragment
+
+    public function getFragment(string $name): ?Fragment
     {
         foreach ($this->fragments as $fragment) {
             if ($fragment->getName() === $name) {
                 return $fragment;
             }
         }
+
         return null;
     }
+
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException
      */
-    public function validate() : void
+    public function validate(): void
     {
         $this->assertNoUnsupportedFeatures();
         $this->assertQueryNotEmpty();
@@ -104,151 +105,217 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         $this->assertAllVariablesAreUsed();
         $this->assertArgumentsUnique();
     }
+
     /**
      * @throws FeatureNotSupportedException
      */
-    protected function assertNoUnsupportedFeatures() : void
+    protected function assertNoUnsupportedFeatures(): void
     {
         $this->assertNoSubscriptionOperation();
         $this->assertNoUnsupportedLocationDirectives();
     }
+
     /**
      * @throws FeatureNotSupportedException
      */
-    protected function assertNoSubscriptionOperation() : void
+    protected function assertNoSubscriptionOperation(): void
     {
         foreach ($this->getOperations() as $operation) {
             if ($operation instanceof SubscriptionOperation) {
-                throw new FeatureNotSupportedException(new FeedbackItemResolution(GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class, GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_1), $operation);
+                throw new FeatureNotSupportedException(
+                    new FeedbackItemResolution(
+                        GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class,
+                        GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_1
+                    ),
+                    $operation
+                );
             }
         }
     }
+
     /**
      * @throws FeatureNotSupportedException
      */
-    protected function assertNoUnsupportedLocationDirectives() : void
+    protected function assertNoUnsupportedLocationDirectives(): void
     {
         $this->assertNoFragmentDefinitionDirectives();
         $this->assertNoVariableDefinitionDirectives();
     }
+
     /**
      * @throws FeatureNotSupportedException
      */
-    protected function assertNoFragmentDefinitionDirectives() : void
+    protected function assertNoFragmentDefinitionDirectives(): void
     {
         foreach ($this->getFragments() as $fragment) {
             if ($fragment->getDirectives() !== []) {
                 $directive = $fragment->getDirectives()[0];
-                throw new FeatureNotSupportedException(new FeedbackItemResolution(GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class, GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_2), $directive);
+                throw new FeatureNotSupportedException(
+                    new FeedbackItemResolution(
+                        GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class,
+                        GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_2
+                    ),
+                    $directive
+                );
             }
         }
     }
+
     /**
      * @throws FeatureNotSupportedException
      */
-    protected function assertNoVariableDefinitionDirectives() : void
+    protected function assertNoVariableDefinitionDirectives(): void
     {
         foreach ($this->getOperations() as $operation) {
             foreach ($operation->getVariables() as $variable) {
                 if ($variable->getDirectives() !== []) {
                     $directive = $variable->getDirectives()[0];
-                    throw new FeatureNotSupportedException(new FeedbackItemResolution(GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class, GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_3), $directive);
+                    throw new FeatureNotSupportedException(
+                        new FeedbackItemResolution(
+                            GraphQLUnsupportedFeatureErrorFeedbackItemProvider::class,
+                            GraphQLUnsupportedFeatureErrorFeedbackItemProvider::E_3
+                        ),
+                        $directive
+                    );
                 }
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertQueryNotEmpty() : void
+    protected function assertQueryNotEmpty(): void
     {
         if ($this->getOperations() === [] && $this->getFragments() === []) {
             throw new InvalidRequestException(
-                new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_6_1_C),
+                new FeedbackItemResolution(
+                    GraphQLSpecErrorFeedbackItemProvider::class,
+                    GraphQLSpecErrorFeedbackItemProvider::E_6_1_C,
+                ),
                 // Create a new Object as to pass the Location
-                new \PoP\GraphQLParser\Spec\Parser\Ast\QueryOperation('', [], [], [], ASTNodesFactory::getNonSpecificLocation())
+                new QueryOperation('', [], [], [], ASTNodesFactory::getNonSpecificLocation())
             );
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertOperationsDefined() : void
+    protected function assertOperationsDefined(): void
     {
         if ($this->getOperations() === []) {
             throw new InvalidRequestException(
-                new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_6_1_D),
+                new FeedbackItemResolution(
+                    GraphQLSpecErrorFeedbackItemProvider::class,
+                    GraphQLSpecErrorFeedbackItemProvider::E_6_1_D,
+                ),
                 // Create a new Object as to pass the Location
-                new \PoP\GraphQLParser\Spec\Parser\Ast\QueryOperation('', [], [], [], ASTNodesFactory::getNonSpecificLocation())
+                new QueryOperation('', [], [], [], ASTNodesFactory::getNonSpecificLocation())
             );
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertOperationNamesUnique() : void
+    protected function assertOperationNamesUnique(): void
     {
         $operationNames = [];
         foreach ($this->getOperations() as $operation) {
             $operationName = $operation->getName();
-            if (\in_array($operationName, $operationNames)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_2_1_1, [$operationName]), $operation);
+            if (in_array($operationName, $operationNames)) {
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_2_1_1,
+                        [
+                            $operationName,
+                        ]
+                    ),
+                    $operation
+                );
             }
             $operationNames[] = $operationName;
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertNonEmptyOperationName() : void
+    protected function assertNonEmptyOperationName(): void
     {
-        if (\count($this->getOperations()) === 1) {
+        if (count($this->getOperations()) === 1) {
             return;
         }
         foreach ($this->getOperations() as $operation) {
             if (empty($operation->getName())) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_2_2_1), $operation);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_2_2_1,
+                    ),
+                    $operation
+                );
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertFragmentReferencesAreValid() : void
+    protected function assertFragmentReferencesAreValid(): void
     {
         foreach ($this->getOperations() as $operation) {
             foreach ($this->getFragmentReferencesInOperation($operation) as $fragmentReference) {
                 if ($this->getFragment($fragmentReference->getName()) !== null) {
                     continue;
                 }
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_2_1, [$fragmentReference->getName()]), $fragmentReference);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_5_2_1,
+                        [
+                            $fragmentReference->getName(),
+                        ]
+                    ),
+                    $fragmentReference
+                );
             }
         }
     }
+
     /**
      * Gather all the FragmentReference within the Operation.
      *
      * @return FragmentReference[]
      */
-    protected function getFragmentReferencesInOperation(\PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface $operation) : array
+    protected function getFragmentReferencesInOperation(OperationInterface $operation): array
     {
         $referencedFragmentNames = [];
         return $this->getFragmentReferencesInFieldsOrFragmentBonds($operation->getFieldsOrFragmentBonds(), $referencedFragmentNames);
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param string[] $referencedFragmentNames To stop cyclical fragments
      * @return FragmentReference[]
      */
-    protected function getFragmentReferencesInFieldsOrFragmentBonds(array $fieldsOrFragmentBonds, array &$referencedFragmentNames) : array
+    protected function getFragmentReferencesInFieldsOrFragmentBonds(array $fieldsOrFragmentBonds, array &$referencedFragmentNames): array
     {
         $fragmentReferences = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\LeafField) {
+            if ($fieldOrFragmentBond instanceof LeafField) {
                 continue;
             }
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment || $fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\RelationalField) {
-                $fragmentReferences = \array_merge($fragmentReferences, $this->getFragmentReferencesInFieldsOrFragmentBonds($fieldOrFragmentBond->getFieldsOrFragmentBonds(), $referencedFragmentNames));
+            if (
+                $fieldOrFragmentBond instanceof InlineFragment
+                || $fieldOrFragmentBond instanceof RelationalField
+            ) {
+                $fragmentReferences = array_merge(
+                    $fragmentReferences,
+                    $this->getFragmentReferencesInFieldsOrFragmentBonds($fieldOrFragmentBond->getFieldsOrFragmentBonds(), $referencedFragmentNames)
+                );
                 continue;
             }
             /** @var FragmentReference */
@@ -256,7 +323,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             /**
              * Avoid cyclical references
              */
-            if (\in_array($fragmentReference->getName(), $referencedFragmentNames)) {
+            if (in_array($fragmentReference->getName(), $referencedFragmentNames)) {
                 continue;
             }
             $fragmentReferences[] = $fragmentReference;
@@ -265,28 +332,42 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             if ($fragment === null) {
                 continue;
             }
-            $fragmentReferences = \array_merge($fragmentReferences, $this->getFragmentReferencesInFieldsOrFragmentBonds($fragment->getFieldsOrFragmentBonds(), $referencedFragmentNames));
+            $fragmentReferences = array_merge(
+                $fragmentReferences,
+                $this->getFragmentReferencesInFieldsOrFragmentBonds($fragment->getFieldsOrFragmentBonds(), $referencedFragmentNames)
+            );
         }
         return $fragmentReferences;
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertFragmentNamesUnique() : void
+    protected function assertFragmentNamesUnique(): void
     {
         $fragmentNames = [];
         foreach ($this->getFragments() as $fragment) {
             $fragmentName = $fragment->getName();
-            if (\in_array($fragmentName, $fragmentNames)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_1, [$fragmentName]), $fragment);
+            if (in_array($fragmentName, $fragmentNames)) {
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_1,
+                        [
+                            $fragmentName,
+                        ]
+                    ),
+                    $fragment
+                );
             }
             $fragmentNames[] = $fragmentName;
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertNoCyclicalFragments() : void
+    protected function assertNoCyclicalFragments(): void
     {
         foreach ($this->getFragments() as $fragment) {
             $fragmentReferences = $this->getFragmentReferencesInFragment($fragment);
@@ -294,36 +375,49 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
                 if ($fragmentReference->getName() !== $fragment->getName()) {
                     continue;
                 }
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_2_2, [$fragmentReference->getName()]), $fragmentReference);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_5_2_2,
+                        [
+                            $fragmentReference->getName(),
+                        ]
+                    ),
+                    $fragmentReference
+                );
             }
         }
     }
+
     /**
      * Gather all the FragmentReference within the Operation.
      *
      * @return FragmentReference[]
      */
-    protected function getFragmentReferencesInFragment(\PoP\GraphQLParser\Spec\Parser\Ast\Fragment $fragment) : array
+    protected function getFragmentReferencesInFragment(Fragment $fragment): array
     {
         $referencedFragmentNames = [];
         return $this->getFragmentReferencesInFieldsOrFragmentBonds($fragment->getFieldsOrFragmentBonds(), $referencedFragmentNames);
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertFragmentsAreUsed() : void
+    protected function assertFragmentsAreUsed(): void
     {
         $referencedFragmentNames = [];
+
         // Collect fragment references in all operations
         foreach ($this->getOperations() as $operation) {
             foreach ($this->getFragmentReferencesInOperation($operation) as $fragmentReference) {
                 $referencedFragmentNames[] = $fragmentReference->getName();
             }
         }
+
         // Collect fragment references in all fragments
         foreach ($this->getFragments() as $fragment) {
             foreach ($fragment->getFieldsOrFragmentBonds() as $fieldsOrFragmentBond) {
-                if (!$fieldsOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\FragmentReference) {
+                if (!($fieldsOrFragmentBond instanceof FragmentReference)) {
                     continue;
                 }
                 /** @var FragmentReference */
@@ -331,130 +425,190 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
                 $referencedFragmentNames[] = $fragmentReference->getName();
             }
         }
-        $referencedFragmentNames = \array_values(\array_unique($referencedFragmentNames));
+
+        $referencedFragmentNames = array_values(array_unique($referencedFragmentNames));
+
         foreach ($this->getFragments() as $fragment) {
-            if (\in_array($fragment->getName(), $referencedFragmentNames)) {
+            if (in_array($fragment->getName(), $referencedFragmentNames)) {
                 continue;
             }
-            throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_4, [$fragment->getName()]), $fragment);
+            throw new InvalidRequestException(
+                new FeedbackItemResolution(
+                    GraphQLSpecErrorFeedbackItemProvider::class,
+                    GraphQLSpecErrorFeedbackItemProvider::E_5_5_1_4,
+                    [
+                        $fragment->getName(),
+                    ]
+                ),
+                $fragment
+            );
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertVariableNamesUnique() : void
+    protected function assertVariableNamesUnique(): void
     {
         foreach ($this->getOperations() as $operation) {
             $variableNames = [];
             foreach ($operation->getVariables() as $variable) {
                 $variableName = $variable->getName();
-                if (\in_array($variableName, $variableNames)) {
-                    throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_1, [$variableName]), $variable);
+                if (in_array($variableName, $variableNames)) {
+                    throw new InvalidRequestException(
+                        new FeedbackItemResolution(
+                            GraphQLSpecErrorFeedbackItemProvider::class,
+                            GraphQLSpecErrorFeedbackItemProvider::E_5_8_1,
+                            [
+                                $variableName,
+                            ]
+                        ),
+                        $variable
+                    );
                 }
                 $variableNames[] = $variableName;
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertAllVariablesExist() : void
+    protected function assertAllVariablesExist(): void
     {
         foreach ($this->getOperations() as $operation) {
             foreach ($this->getVariableReferencesInOperation($operation) as $variableReference) {
                 if ($this->isVariableDefined($variableReference)) {
                     continue;
                 }
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_3, [$variableReference->getName()]), $variableReference);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_8_3,
+                        [
+                            $variableReference->getName(),
+                        ]
+                    ),
+                    $variableReference
+                );
             }
         }
     }
+
     /**
      * Can override for the Extended Spec
      */
-    protected function isVariableDefined(VariableReference $variableReference) : bool
-    {
+    protected function isVariableDefined(
+        VariableReference $variableReference,
+    ): bool {
         return $variableReference->getVariable() !== null;
     }
+
     /**
      * Gather all the VariableReference within the Operation.
      *
      * @return VariableReference[]
      */
-    public function getVariableReferencesInOperation(\PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface $operation) : array
+    public function getVariableReferencesInOperation(OperationInterface $operation): array
     {
-        return \array_merge($this->getVariableReferencesInFieldsOrFragments($operation->getFieldsOrFragmentBonds()), $this->getVariableReferencesInDirectives($operation->getDirectives()));
+        return array_merge(
+            $this->getVariableReferencesInFieldsOrFragments($operation->getFieldsOrFragmentBonds()),
+            $this->getVariableReferencesInDirectives($operation->getDirectives())
+        );
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInFieldsOrFragments(array $fieldsOrFragmentBonds) : array
+    protected function getVariableReferencesInFieldsOrFragments(array $fieldsOrFragmentBonds): array
     {
         $variableReferences = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\FragmentReference) {
+            if ($fieldOrFragmentBond instanceof FragmentReference) {
                 /** @var FragmentReference */
                 $fragmentReference = $fieldOrFragmentBond;
                 $fragment = $this->getFragment($fragmentReference->getName());
                 if ($fragment === null) {
                     continue;
                 }
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($fragment->getFieldsOrFragmentBonds()));
+                $variableReferences = array_merge(
+                    $variableReferences,
+                    $this->getVariableReferencesInFieldsOrFragments($fragment->getFieldsOrFragmentBonds())
+                );
                 continue;
             }
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment) {
+            if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($inlineFragment->getFieldsOrFragmentBonds()));
+                $variableReferences = array_merge(
+                    $variableReferences,
+                    $this->getVariableReferencesInFieldsOrFragments($inlineFragment->getFieldsOrFragmentBonds())
+                );
                 continue;
             }
             /** @var FieldInterface */
             $field = $fieldOrFragmentBond;
-            $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInArguments($field->getArguments()), $this->getVariableReferencesInDirectives($field->getDirectives()));
-            if ($field instanceof \PoP\GraphQLParser\Spec\Parser\Ast\RelationalField) {
+            $variableReferences = array_merge(
+                $variableReferences,
+                $this->getVariableReferencesInArguments($field->getArguments()),
+                $this->getVariableReferencesInDirectives($field->getDirectives())
+            );
+            if ($field instanceof RelationalField) {
                 /** @var RelationalField */
                 $relationalField = $field;
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($relationalField->getFieldsOrFragmentBonds()));
+                $variableReferences = array_merge(
+                    $variableReferences,
+                    $this->getVariableReferencesInFieldsOrFragments($relationalField->getFieldsOrFragmentBonds())
+                );
                 continue;
             }
         }
         return $variableReferences;
     }
+
     /**
      * @param Directive[] $directives
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInDirectives(array $directives) : array
+    protected function getVariableReferencesInDirectives(array $directives): array
     {
         $variableReferences = [];
         foreach ($directives as $directive) {
-            $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInArguments($directive->getArguments()));
+            $variableReferences = array_merge(
+                $variableReferences,
+                $this->getVariableReferencesInArguments($directive->getArguments())
+            );
         }
         return $variableReferences;
     }
+
     /**
      * @param Argument[] $arguments
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInArguments(array $arguments) : array
+    protected function getVariableReferencesInArguments(array $arguments): array
     {
         $variableReferences = [];
         foreach ($arguments as $argument) {
-            $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInArgumentValue($argument->getValueAST()));
+            $variableReferences = array_merge(
+                $variableReferences,
+                $this->getVariableReferencesInArgumentValue($argument->getValueAST())
+            );
         }
         return $variableReferences;
     }
+
     /**
      * @param WithValueInterface|array<WithValueInterface|array<mixed>> $argumentValue
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInArgumentValue($argumentValue) : array
+    protected function getVariableReferencesInArgumentValue(WithValueInterface|array $argumentValue): array
     {
         if ($argumentValue instanceof VariableReference) {
             return [$argumentValue];
         }
-        if (!(\is_array($argumentValue) || $argumentValue instanceof InputObject || $argumentValue instanceof InputList)) {
+        if (!(is_array($argumentValue) || $argumentValue instanceof InputObject || $argumentValue instanceof InputList)) {
             return [];
         }
         // Get references within InputObjects and Lists
@@ -468,20 +622,23 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
          * }
          * ```
          */
-        if (\is_array($argumentValue)) {
+        if (is_array($argumentValue)) {
             foreach ($argumentValue as $listValue) {
-                if (!(\is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface)) {
+                if (!(is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof WithValueInterface)) {
                     continue;
                 }
                 /** @var WithValueInterface|mixed[] $listValue */
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInArgumentValue($listValue));
+                $variableReferences = array_merge(
+                    $variableReferences,
+                    $this->getVariableReferencesInArgumentValue($listValue)
+                );
             }
             return $variableReferences;
         }
         /** @var WithAstValueInterface $argumentValue */
-        $listValues = (array) $argumentValue->getAstValue();
+        $listValues = (array)$argumentValue->getAstValue();
         foreach ($listValues as $listValue) {
-            if (!(\is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface)) {
+            if (!(is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof WithValueInterface)) {
                 continue;
             }
             if ($listValue instanceof VariableReference) {
@@ -489,33 +646,48 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
                 continue;
             }
             /** @var WithValueInterface|mixed[] $listValue */
-            $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInArgumentValue($listValue));
+            $variableReferences = array_merge(
+                $variableReferences,
+                $this->getVariableReferencesInArgumentValue($listValue)
+            );
         }
         return $variableReferences;
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertAllVariablesAreUsed() : void
+    protected function assertAllVariablesAreUsed(): void
     {
         foreach ($this->getOperations() as $operation) {
             $referencedVariableNames = [];
             foreach ($this->getVariableReferencesInOperation($operation) as $variableReference) {
                 $referencedVariableNames[] = $variableReference->getName();
             }
-            $referencedVariableNames = \array_values(\array_unique($referencedVariableNames));
+            $referencedVariableNames = array_values(array_unique($referencedVariableNames));
+
             foreach ($operation->getVariables() as $variable) {
-                if (\in_array($variable->getName(), $referencedVariableNames)) {
+                if (in_array($variable->getName(), $referencedVariableNames)) {
                     continue;
                 }
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_4, [$variable->getName()]), $variable);
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_8_4,
+                        [
+                            $variable->getName(),
+                        ]
+                    ),
+                    $variable
+                );
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUnique() : void
+    protected function assertArgumentsUnique(): void
     {
         foreach ($this->getOperations() as $operation) {
             $this->assertArgumentsUniqueInOperation($operation);
@@ -524,33 +696,36 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             $this->assertArgumentsUniqueInFragment($fragment);
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUniqueInOperation(\PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface $operation) : void
+    protected function assertArgumentsUniqueInOperation(OperationInterface $operation): void
     {
         $this->assertArgumentsUniqueInFieldsOrInlineFragments($operation->getFieldsOrFragmentBonds());
         $this->assertArgumentsUniqueInDirectives($operation->getDirectives());
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUniqueInFragment(\PoP\GraphQLParser\Spec\Parser\Ast\Fragment $fragment) : void
+    protected function assertArgumentsUniqueInFragment(Fragment $fragment): void
     {
         $this->assertArgumentsUniqueInFieldsOrInlineFragments($fragment->getFieldsOrFragmentBonds());
         $this->assertArgumentsUniqueInDirectives($fragment->getDirectives());
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUniqueInFieldsOrInlineFragments(array $fieldsOrFragmentBonds) : void
+    protected function assertArgumentsUniqueInFieldsOrInlineFragments(array $fieldsOrFragmentBonds): void
     {
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\FragmentReference) {
+            if ($fieldOrFragmentBond instanceof FragmentReference) {
                 continue;
             }
-            if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment) {
+            if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
                 $this->assertArgumentsUniqueInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds());
@@ -560,38 +735,50 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             $field = $fieldOrFragmentBond;
             $this->assertArgumentNamesUnique($field->getArguments());
             $this->assertArgumentsUniqueInDirectives($field->getDirectives());
-            if ($field instanceof \PoP\GraphQLParser\Spec\Parser\Ast\RelationalField) {
+            if ($field instanceof RelationalField) {
                 /** @var RelationalField */
                 $relationalField = $field;
                 $this->assertArgumentsUniqueInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds());
             }
         }
     }
+
     /**
      * @param Directive[] $directives
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUniqueInDirectives(array $directives) : void
+    protected function assertArgumentsUniqueInDirectives(array $directives): void
     {
         foreach ($directives as $directive) {
             $this->assertArgumentNamesUnique($directive->getArguments());
         }
     }
+
     /**
      * @param Argument[] $arguments
      * @throws InvalidRequestException
      */
-    protected function assertArgumentNamesUnique(array $arguments) : void
+    protected function assertArgumentNamesUnique(array $arguments): void
     {
         $argumentNames = [];
         foreach ($arguments as $argument) {
             $argumentName = $argument->getName();
-            if (\in_array($argumentName, $argumentNames)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_4_2, [$argumentName]), $argument);
+            if (in_array($argumentName, $argumentNames)) {
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLSpecErrorFeedbackItemProvider::class,
+                        GraphQLSpecErrorFeedbackItemProvider::E_5_4_2,
+                        [
+                            $argumentName,
+                        ]
+                    ),
+                    $argument
+                );
             }
             $argumentNames[] = $argumentName;
         }
     }
+
     /**
      * Create a dictionary mapping every element of the AST
      * to their parent. This is useful to report the full
@@ -599,7 +786,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
      *
      * @return SplObjectStorage<AstInterface,AstInterface>
      */
-    public function getASTNodeAncestors() : SplObjectStorage
+    public function getASTNodeAncestors(): SplObjectStorage
     {
         if ($this->astNodeAncestors === null) {
             /** @var SplObjectStorage<AstInterface,AstInterface> */
@@ -615,10 +802,11 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         /** @var SplObjectStorage<AstInterface,AstInterface> */
         return $this->astNodeAncestors;
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderOperation(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface $operation) : void
+    protected function setASTNodeAncestorsUnderOperation(SplObjectStorage $astNodeAncestors, OperationInterface $operation): void
     {
         foreach ($operation->getVariables() as $variable) {
             $astNodeAncestors[$variable] = $operation;
@@ -633,41 +821,45 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             $this->setASTNodeAncestorsUnderFieldOrFragmentBond($astNodeAncestors, $fieldOrFragmentBond);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderVariable(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\Variable $variable) : void
+    protected function setASTNodeAncestorsUnderVariable(SplObjectStorage $astNodeAncestors, Variable $variable): void
     {
         foreach ($variable->getDirectives() as $directive) {
             $astNodeAncestors[$directive] = $variable;
             $this->setASTNodeAncestorsUnderDirective($astNodeAncestors, $directive);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderDirective(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\Directive $directive) : void
+    protected function setASTNodeAncestorsUnderDirective(SplObjectStorage $astNodeAncestors, Directive $directive): void
     {
         foreach ($directive->getArguments() as $argument) {
             $astNodeAncestors[$argument] = $directive;
             $this->setASTNodeAncestorsUnderArgument($astNodeAncestors, $argument);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderArgument(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument) : void
+    protected function setASTNodeAncestorsUnderArgument(SplObjectStorage $astNodeAncestors, Argument $argument): void
     {
         /** @var Enum|InputList|InputObject|Literal|VariableReference */
         $argumentValueAST = $argument->getValueAST();
         $astNodeAncestors[$argumentValueAST] = $argument;
+
         $this->setASTNodeAncestorsUnderArgumentValueAst($astNodeAncestors, $argumentValueAST);
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReference $argumentValueAST
      */
-    protected function setASTNodeAncestorsUnderArgumentValueAst(SplObjectStorage $astNodeAncestors, $argumentValueAST) : void
+    protected function setASTNodeAncestorsUnderArgumentValueAst(SplObjectStorage $astNodeAncestors, Enum|InputList|InputObject|Literal|VariableReference $argumentValueAST): void
     {
         if ($argumentValueAST instanceof InputList) {
             /** @var InputList */
@@ -680,39 +872,57 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             $this->setASTNodeAncestorsUnderInputObject($astNodeAncestors, $inputObject);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderInputList(SplObjectStorage $astNodeAncestors, InputList $inputList) : void
+    protected function setASTNodeAncestorsUnderInputList(SplObjectStorage $astNodeAncestors, InputList $inputList): void
     {
         foreach ($inputList->getAstValue() as $astValue) {
-            if (!($astValue instanceof Enum || $astValue instanceof InputList || $astValue instanceof InputObject || $astValue instanceof Literal || $astValue instanceof VariableReference)) {
+            if (
+                !(
+                $astValue instanceof Enum
+                || $astValue instanceof InputList
+                || $astValue instanceof InputObject
+                || $astValue instanceof Literal
+                || $astValue instanceof VariableReference
+                )
+            ) {
                 continue;
             }
             $astNodeAncestors[$astValue] = $inputList;
             $this->setASTNodeAncestorsUnderArgumentValueAst($astNodeAncestors, $astValue);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderInputObject(SplObjectStorage $astNodeAncestors, InputObject $inputObject) : void
+    protected function setASTNodeAncestorsUnderInputObject(SplObjectStorage $astNodeAncestors, InputObject $inputObject): void
     {
         foreach ((array) $inputObject->getAstValue() as $astValue) {
-            if (!($astValue instanceof Enum || $astValue instanceof InputList || $astValue instanceof InputObject || $astValue instanceof Literal || $astValue instanceof VariableReference)) {
+            if (
+                !(
+                $astValue instanceof Enum
+                || $astValue instanceof InputList
+                || $astValue instanceof InputObject
+                || $astValue instanceof Literal
+                || $astValue instanceof VariableReference
+                )
+            ) {
                 continue;
             }
             $astNodeAncestors[$astValue] = $inputObject;
             $this->setASTNodeAncestorsUnderArgumentValueAst($astNodeAncestors, $astValue);
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface $fieldOrFragmentBond
      */
-    protected function setASTNodeAncestorsUnderFieldOrFragmentBond(SplObjectStorage $astNodeAncestors, $fieldOrFragmentBond) : void
+    protected function setASTNodeAncestorsUnderFieldOrFragmentBond(SplObjectStorage $astNodeAncestors, FieldInterface|FragmentBondInterface $fieldOrFragmentBond): void
     {
-        if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\LeafField) {
+        if ($fieldOrFragmentBond instanceof LeafField) {
             /** @var LeafField */
             $leafField = $fieldOrFragmentBond;
             foreach ($leafField->getArguments() as $argument) {
@@ -725,7 +935,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             }
             return;
         }
-        if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\RelationalField) {
+        if ($fieldOrFragmentBond instanceof RelationalField) {
             /** @var RelationalField */
             $relationalField = $fieldOrFragmentBond;
             foreach ($relationalField->getArguments() as $argument) {
@@ -742,7 +952,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             }
             return;
         }
-        if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment) {
+        if ($fieldOrFragmentBond instanceof InlineFragment) {
             /** @var InlineFragment */
             $inlineFragment = $fieldOrFragmentBond;
             foreach ($inlineFragment->getDirectives() as $directive) {
@@ -759,10 +969,11 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         $fragmentReference = $fieldOrFragmentBond;
         // Nothing to set here
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderFragment(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\Fragment $fragment) : void
+    protected function setASTNodeAncestorsUnderFragment(SplObjectStorage $astNodeAncestors, Fragment $fragment): void
     {
         foreach ($fragment->getDirectives() as $directive) {
             $astNodeAncestors[$directive] = $fragment;

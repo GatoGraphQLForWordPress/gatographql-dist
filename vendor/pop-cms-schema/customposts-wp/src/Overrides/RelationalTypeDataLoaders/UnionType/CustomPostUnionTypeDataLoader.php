@@ -19,14 +19,8 @@ use SplObjectStorage;
  */
 class CustomPostUnionTypeDataLoader extends UpstreamCustomPostUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader|null
-     */
-    private $customPostObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
+    private ?CustomPostObjectTypeDataLoader $customPostObjectTypeDataLoader = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
 
     final public function setCustomPostObjectTypeDataLoader(CustomPostObjectTypeDataLoader $customPostObjectTypeDataLoader): void
     {

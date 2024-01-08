@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserState\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface;
-/** @internal */
+
 class UserStateTypeAPIFacade
 {
-    public static function getInstance() : UserStateTypeAPIInterface
+    public static function getInstance(): UserStateTypeAPIInterface
     {
         /**
          * @var UserStateTypeAPIInterface

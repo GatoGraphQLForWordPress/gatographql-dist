@@ -8,28 +8,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Argument;
+
+namespace Symfony\Component\DependencyInjection\Argument;
 
 /**
  * Represents a collection of values to lazily iterate over.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
- * @internal
  */
 class IteratorArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
+    private array $values;
+
     public function __construct(array $values)
     {
         $this->setValues($values);
     }
-    public function getValues() : array
+
+    public function getValues(): array
     {
         return $this->values;
     }
+
     /**
      * @return void
      */

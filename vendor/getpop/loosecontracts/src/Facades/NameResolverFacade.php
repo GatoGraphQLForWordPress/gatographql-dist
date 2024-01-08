@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\LooseContracts\Facades;
 
 use PoP\Root\App;
 use PoP\LooseContracts\NameResolverInterface;
-/** @internal */
+
 class NameResolverFacade
 {
-    public static function getInstance() : NameResolverInterface
+    public static function getInstance(): NameResolverInterface
     {
         /**
          * @var NameResolverInterface

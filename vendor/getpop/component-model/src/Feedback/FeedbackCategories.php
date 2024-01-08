@@ -1,13 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Feedback;
 
 use PoP\Root\Feedback\FeedbackCategories as UpstreamFeedbackCategories;
-/** @internal */
+
 class FeedbackCategories extends UpstreamFeedbackCategories
 {
-    public const NOTICE = 'notice';
-    public const WARNING = 'warning';
-    public const SUGGESTION = 'suggestion';
+    public final const NOTICE = 'notice';
+    public final const WARNING = 'warning';
+    public final const SUGGESTION = 'suggestion';
 }

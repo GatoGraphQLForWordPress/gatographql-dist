@@ -1,10 +1,11 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\Registries;
 
 use GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface;
-/** @internal */
+
 interface SchemaDefinitionReferenceRegistryInterface
 {
     /**
@@ -12,7 +13,11 @@ interface SchemaDefinitionReferenceRegistryInterface
      *
      * @return array<string,mixed>
      */
-    public function &getFullSchemaDefinitionForGraphQL() : array;
-    public function registerSchemaDefinitionReferenceObject(SchemaDefinitionReferenceObjectInterface $referenceObject) : string;
-    public function getSchemaDefinitionReferenceObject(string $referenceObjectID) : ?SchemaDefinitionReferenceObjectInterface;
+    public function &getFullSchemaDefinitionForGraphQL(): array;
+    public function registerSchemaDefinitionReferenceObject(
+        SchemaDefinitionReferenceObjectInterface $referenceObject
+    ): string;
+    public function getSchemaDefinitionReferenceObject(
+        string $referenceObjectID
+    ): ?SchemaDefinitionReferenceObjectInterface;
 }

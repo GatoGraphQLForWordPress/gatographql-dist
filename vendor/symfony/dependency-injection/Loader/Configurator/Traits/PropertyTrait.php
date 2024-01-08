@@ -8,20 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
 trait PropertyTrait
 {
     /**
      * Sets a specific property.
      *
      * @return $this
-     * @param mixed $value
      */
-    public final function property(string $name, $value)
+    final public function property(string $name, mixed $value): static
     {
-        $this->definition->setProperty($name, static::processValue($value, \true));
+        $this->definition->setProperty($name, static::processValue($value, true));
+
         return $this;
     }
 }

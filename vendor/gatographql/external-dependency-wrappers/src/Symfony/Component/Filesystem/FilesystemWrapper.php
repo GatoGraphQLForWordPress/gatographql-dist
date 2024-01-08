@@ -1,27 +1,26 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Filesystem;
 
 use Exception;
 use GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Exception\IOException;
 use PoP\ComponentModel\Misc\GeneralUtils;
-use PrefixedByPoP\Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Wrapper for Symfony\Component\Filesystem\Filesystem
- * @internal
  */
 class FilesystemWrapper
 {
-    /**
-     * @readonly
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $fileSystem;
+    private readonly Filesystem $fileSystem;
+
     public function __construct()
     {
         $this->fileSystem = new Filesystem();
     }
+
     /**
      * Removes files or directories.
      *
@@ -29,18 +28,25 @@ class FilesystemWrapper
      *
      * @throws IOException When removal fails
      */
-    public function remove($files) : void
+    public function remove(string|iterable $files): void
     {
         try {
             $this->fileSystem->remove($files);
         } catch (Exception $e) {
-            if (\is_string($files)) {
+            if (is_string($files)) {
                 $fileItems = $files;
             } else {
-                $fileItems = \implode(', ', GeneralUtils::iterableToArray($files));
+                $fileItems = implode(', ', GeneralUtils::iterableToArray($files));
             }
             // Throw own exception
-            throw new IOException(\sprintf('Could not remove file(s) or folder(s): %s', $fileItems), 0, $e);
+            throw new IOException(
+                \sprintf(
+                    'Could not remove file(s) or folder(s): %s',
+                    $fileItems
+                ),
+                0,
+                $e
+            );
         }
     }
 }

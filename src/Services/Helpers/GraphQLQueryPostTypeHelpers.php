@@ -14,14 +14,8 @@ class GraphQLQueryPostTypeHelpers
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockAccessors\PersistedQueryEndpointGraphiQLBlockAccessor|null
-     */
-    private $persistedQueryEndpointGraphiQLBlockAccessor;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\BlockAccessors\PersistedQueryEndpointAPIHierarchyBlockAccessor|null
-     */
-    private $persistedQueryEndpointAPIHierarchyBlockAccessor;
+    private ?PersistedQueryEndpointGraphiQLBlockAccessor $persistedQueryEndpointGraphiQLBlockAccessor = null;
+    private ?PersistedQueryEndpointAPIHierarchyBlockAccessor $persistedQueryEndpointAPIHierarchyBlockAccessor = null;
 
     final public function setPersistedQueryEndpointGraphiQLBlockAccessor(PersistedQueryEndpointGraphiQLBlockAccessor $persistedQueryEndpointGraphiQLBlockAccessor): void
     {
@@ -115,6 +109,9 @@ class GraphQLQueryPostTypeHelpers
                 $graphQLQueryPost = null;
             }
         }
-        return new GraphQLQueryPostAttributesEntry($graphQLQuery, $graphQLVariables);
+        return new GraphQLQueryPostAttributesEntry(
+            $graphQLQuery,
+            $graphQLVariables,
+        );
     }
 }

@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\TaxonomyMeta\Facades;
 
 use PoP\Root\App;
 use PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface;
-/** @internal */
+
 class TaxonomyMetaTypeAPIFacade
 {
-    public static function getInstance() : TaxonomyMetaTypeAPIInterface
+    public static function getInstance(): TaxonomyMetaTypeAPIInterface
     {
         /**
          * @var TaxonomyMetaTypeAPIInterface

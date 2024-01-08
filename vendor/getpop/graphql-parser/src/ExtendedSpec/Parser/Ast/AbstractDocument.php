@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\GraphQLParser\ExtendedSpec\Parser\Ast;
 
 use PoP\GraphQLParser\Exception\InvalidRequestException;
@@ -31,58 +32,69 @@ use PoP\Root\App;
 use PoP\Root\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 use stdClass;
-/** @internal */
+
 abstract class AbstractDocument extends UpstreamDocument
 {
     /**
      * Do not validate if dynamic variables have been
      * defined in the Operation
      */
-    protected function isVariableDefined(VariableReference $variableReference) : bool
-    {
+    protected function isVariableDefined(
+        VariableReference $variableReference,
+    ): bool {
         if ($variableReference instanceof RuntimeVariableReferenceInterface) {
-            return \true;
+            return true;
         }
         return parent::isVariableDefined($variableReference);
     }
+
     /**
      * @param Directive[] $directives
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInDirectives(array $directives) : array
+    protected function getVariableReferencesInDirectives(array $directives): array
     {
         $variableReferences = parent::getVariableReferencesInDirectives($directives);
         /** @var MetaDirective[] */
-        $metaDirectives = \array_filter($directives, function (Directive $directive) {
-            return $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective;
-        });
+        $metaDirectives = array_filter(
+            $directives,
+            fn (Directive $directive) => $directive instanceof MetaDirective
+        );
         foreach ($metaDirectives as $metaDirective) {
-            $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInDirectives($metaDirective->getNestedDirectives()));
+            $variableReferences = array_merge(
+                $variableReferences,
+                $this->getVariableReferencesInDirectives($metaDirective->getNestedDirectives())
+            );
         }
         return $variableReferences;
     }
+
     /**
      * @param Directive[] $directives
      * @throws InvalidRequestException
      */
-    protected function assertArgumentsUniqueInDirectives(array $directives) : void
+    protected function assertArgumentsUniqueInDirectives(array $directives): void
     {
         parent::assertArgumentsUniqueInDirectives($directives);
+
         /** @var MetaDirective[] */
-        $metaDirectives = \array_filter($directives, function (Directive $directive) {
-            return $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective;
-        });
+        $metaDirectives = array_filter(
+            $directives,
+            fn (Directive $directive) => $directive instanceof MetaDirective
+        );
         foreach ($metaDirectives as $metaDirective) {
             $this->assertArgumentsUniqueInDirectives($metaDirective->getNestedDirectives());
         }
     }
+
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
      */
-    protected function setASTNodeAncestorsUnderDirective(SplObjectStorage $astNodeAncestors, Directive $directive) : void
+    protected function setASTNodeAncestorsUnderDirective(SplObjectStorage $astNodeAncestors, Directive $directive): void
     {
         parent::setASTNodeAncestorsUnderDirective($astNodeAncestors, $directive);
-        if ($directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective) {
+
+        if ($directive instanceof MetaDirective) {
             /** @var MetaDirective */
             $metaDirective = $directive;
             foreach ($metaDirective->getNestedDirectives() as $nestedDirective) {
@@ -91,26 +103,31 @@ abstract class AbstractDocument extends UpstreamDocument
             }
         }
     }
+
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException
      */
-    public function validate() : void
+    public function validate(): void
     {
         parent::validate();
+
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $enableDynamicVariables = $moduleConfiguration->enableDynamicVariables();
         if ($enableDynamicVariables) {
             $this->assertNonSharedVariableAndDynamicVariableNames();
         }
+
         $enableObjectResolvedFieldValueReferences = $moduleConfiguration->enableObjectResolvedFieldValueReferences();
         if ($enableObjectResolvedFieldValueReferences) {
             $this->assertNonSharedVariableAndResolvedFieldValueReferenceNames();
         }
+
         if ($enableDynamicVariables && $enableObjectResolvedFieldValueReferences) {
             $this->assertNonSharedDynamicVariableAndResolvedFieldValueReferenceNames();
         }
+
         /**
          * Validate that @depends(on:...) doesn't form loops,
          * and all operations exist
@@ -120,6 +137,7 @@ abstract class AbstractDocument extends UpstreamDocument
             $this->assertDependedUponOperationsDoNotFormLoop();
         }
     }
+
     /**
      * Validate that all throughout the GraphQL query,
      * no Dynamic Variable has the same name as a normal
@@ -127,13 +145,18 @@ abstract class AbstractDocument extends UpstreamDocument
      *
      * @throws InvalidRequestException
      */
-    protected function assertNonSharedVariableAndDynamicVariableNames() : void
+    protected function assertNonSharedVariableAndDynamicVariableNames(): void
     {
         $variables = [];
         foreach ($this->getOperations() as $operation) {
-            $variables = \array_merge($variables, $operation->getVariables());
+            $variables = array_merge(
+                $variables,
+                $operation->getVariables()
+            );
         }
+
         $dynamicVariableDefinitionArguments = $this->getDynamicVariableDefinitionArguments();
+
         /**
          * Organize by name and astNode, as to give the Location of the error.
          * Notice that only 1 Location is raised, even if the error happens
@@ -145,55 +168,85 @@ abstract class AbstractDocument extends UpstreamDocument
         }
         $dynamicVariableNames = [];
         foreach ($dynamicVariableDefinitionArguments as $dynamicVariableDefinitionArgument) {
-            $dynamicVariableName = (string) $dynamicVariableDefinitionArgument->getValue();
+            $dynamicVariableName = (string)$dynamicVariableDefinitionArgument->getValue();
             // If many AST nodes fail, and they have the same name, show the 1st one
             if (isset($dynamicVariableNames[$dynamicVariableName])) {
                 continue;
             }
             $dynamicVariableNames[$dynamicVariableName] = $dynamicVariableDefinitionArgument;
         }
+
         /** @var array<string,Argument> */
-        $sharedVariableNames = \array_intersect_key($dynamicVariableNames, $variableNames);
+        $sharedVariableNames = array_intersect_key(
+            $dynamicVariableNames,
+            $variableNames
+        );
         if ($sharedVariableNames === []) {
             return;
         }
-        $dynamicVariableName = \key($sharedVariableNames);
+
+        $dynamicVariableName = key($sharedVariableNames);
         $dynamicVariableDefinitionArgument = $sharedVariableNames[$dynamicVariableName];
-        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E7, [$dynamicVariableName]), $dynamicVariableDefinitionArgument->getValueAST());
+        throw new InvalidRequestException(
+            new FeedbackItemResolution(
+                GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                GraphQLExtendedSpecErrorFeedbackItemProvider::E7,
+                [
+                    $dynamicVariableName,
+                ]
+            ),
+            $dynamicVariableDefinitionArgument->getValueAST()
+        );
     }
+
     /**
      * @return Argument[]
      */
-    protected function getDynamicVariableDefinitionArguments() : array
+    protected function getDynamicVariableDefinitionArguments(): array
     {
         $dynamicVariableDefinitionArguments = [];
         foreach ($this->getOperations() as $operation) {
-            $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $this->getDynamicVariableDefinitionArgumentsInOperation($operation));
+            $dynamicVariableDefinitionArguments = array_merge(
+                $dynamicVariableDefinitionArguments,
+                $this->getDynamicVariableDefinitionArgumentsInOperation($operation),
+            );
         }
         foreach ($this->getFragments() as $fragment) {
-            $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $this->getDynamicVariableDefinitionArgumentsInFragment($fragment));
+            $dynamicVariableDefinitionArguments = array_merge(
+                $dynamicVariableDefinitionArguments,
+                $this->getDynamicVariableDefinitionArgumentsInFragment($fragment),
+            );
         }
         return $dynamicVariableDefinitionArguments;
     }
+
     /**
      * @return Argument[]
      */
-    protected function getDynamicVariableDefinitionArgumentsInOperation(OperationInterface $operation) : array
+    protected function getDynamicVariableDefinitionArgumentsInOperation(OperationInterface $operation): array
     {
-        return \array_merge($this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($operation->getFieldsOrFragmentBonds()), $this->getDynamicVariableDefinitionArgumentsInDirectives($operation->getDirectives()));
+        return array_merge(
+            $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($operation->getFieldsOrFragmentBonds()),
+            $this->getDynamicVariableDefinitionArgumentsInDirectives($operation->getDirectives()),
+        );
     }
+
     /**
      * @return Argument[]
      */
-    protected function getDynamicVariableDefinitionArgumentsInFragment(Fragment $fragment) : array
+    protected function getDynamicVariableDefinitionArgumentsInFragment(Fragment $fragment): array
     {
-        return \array_merge($this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($fragment->getFieldsOrFragmentBonds()), $this->getDynamicVariableDefinitionArgumentsInDirectives($fragment->getDirectives()));
+        return array_merge(
+            $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($fragment->getFieldsOrFragmentBonds()),
+            $this->getDynamicVariableDefinitionArgumentsInDirectives($fragment->getDirectives()),
+        );
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @return Argument[]
      */
-    protected function getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments(array $fieldsOrFragmentBonds) : array
+    protected function getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments(array $fieldsOrFragmentBonds): array
     {
         $dynamicVariableDefinitionArguments = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
@@ -203,25 +256,35 @@ abstract class AbstractDocument extends UpstreamDocument
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds()));
+                $dynamicVariableDefinitionArguments = array_merge(
+                    $dynamicVariableDefinitionArguments,
+                    $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds())
+                );
                 continue;
             }
             /** @var FieldInterface */
             $field = $fieldOrFragmentBond;
-            $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $this->getDynamicVariableDefinitionArgumentsInDirectives($field->getDirectives()));
+            $dynamicVariableDefinitionArguments = array_merge(
+                $dynamicVariableDefinitionArguments,
+                $this->getDynamicVariableDefinitionArgumentsInDirectives($field->getDirectives())
+            );
             if ($field instanceof RelationalField) {
                 /** @var RelationalField */
                 $relationalField = $field;
-                $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds()));
+                $dynamicVariableDefinitionArguments = array_merge(
+                    $dynamicVariableDefinitionArguments,
+                    $this->getDynamicVariableDefinitionArgumentsInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds())
+                );
             }
         }
         return $dynamicVariableDefinitionArguments;
     }
+
     /**
      * @param Directive[] $directives
      * @return Argument[]
      */
-    protected function getDynamicVariableDefinitionArgumentsInDirectives(array $directives) : array
+    protected function getDynamicVariableDefinitionArgumentsInDirectives(array $directives): array
     {
         $dynamicVariableDefinitionArguments = [];
         foreach ($directives as $directive) {
@@ -235,37 +298,44 @@ abstract class AbstractDocument extends UpstreamDocument
              * Get the Argument(s) under which the Dynamic Variable(s) is defined
              */
             $exportUnderVariableNameArguments = $this->getExportUnderVariableNameArguments($directive);
-            if ($exportUnderVariableNameArguments === null) {
+            if ($exportUnderVariableNameArguments ===  null) {
                 continue;
             }
-            $dynamicVariableDefinitionArguments = \array_merge($dynamicVariableDefinitionArguments, $exportUnderVariableNameArguments);
+            $dynamicVariableDefinitionArguments = array_merge(
+                $dynamicVariableDefinitionArguments,
+                $exportUnderVariableNameArguments
+            );
         }
         return $dynamicVariableDefinitionArguments;
     }
-    protected abstract function isDynamicVariableDefinerDirective(Directive $directive) : bool;
+
+    abstract protected function isDynamicVariableDefinerDirective(Directive $directive): bool;
     /**
      * @return Argument[]|null
      */
-    protected abstract function getExportUnderVariableNameArguments(Directive $directive) : ?array;
+    abstract protected function getExportUnderVariableNameArguments(Directive $directive): ?array;
+
     /**
      * Validate that all Resolved Field Value References
      * do not share the same name with a Variable
      *
      * @throws InvalidRequestException
      */
-    protected function assertNonSharedVariableAndResolvedFieldValueReferenceNames() : void
+    protected function assertNonSharedVariableAndResolvedFieldValueReferenceNames(): void
     {
         foreach ($this->getOperations() as $operation) {
             $this->assertNonSharedVariableAndResolvedFieldValueReferenceNamesInOperation($operation);
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertNonSharedVariableAndResolvedFieldValueReferenceNamesInOperation(OperationInterface $operation) : void
+    protected function assertNonSharedVariableAndResolvedFieldValueReferenceNamesInOperation(OperationInterface $operation): void
     {
         $variables = $operation->getVariables();
         $resolvedFieldValueReferences = $this->getObjectResolvedFieldValueReferencesInOperation($operation);
+
         /**
          * Organize by name and astNode, as to give the Location of the error.
          * Notice that only 1 Location is raised, even if the error happens
@@ -284,27 +354,43 @@ abstract class AbstractDocument extends UpstreamDocument
             }
             $resolvedFieldValueReferenceNames[$resolvedFieldValueReferenceName] = $resolvedFieldValueReference;
         }
+
         /** @var array<string,Argument> */
-        $sharedVariableNames = \array_intersect_key($resolvedFieldValueReferenceNames, $variableNames);
+        $sharedVariableNames = array_intersect_key(
+            $resolvedFieldValueReferenceNames,
+            $variableNames
+        );
         if ($sharedVariableNames === []) {
             return;
         }
-        $resolvedFieldValueReferenceName = \key($sharedVariableNames);
+
+        $resolvedFieldValueReferenceName = key($sharedVariableNames);
         $resolvedFieldValueReference = $sharedVariableNames[$resolvedFieldValueReferenceName];
-        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E8, ['$' . $resolvedFieldValueReferenceName]), $resolvedFieldValueReference);
+        throw new InvalidRequestException(
+            new FeedbackItemResolution(
+                GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                GraphQLExtendedSpecErrorFeedbackItemProvider::E8,
+                [
+                    '$' . $resolvedFieldValueReferenceName,
+                ]
+            ),
+            $resolvedFieldValueReference
+        );
     }
+
     /**
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInOperation(OperationInterface $operation) : array
+    protected function getObjectResolvedFieldValueReferencesInOperation(OperationInterface $operation): array
     {
         return $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($operation->getFieldsOrFragmentBonds());
     }
+
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments(array $fieldsOrFragmentBonds) : array
+    protected function getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments(array $fieldsOrFragmentBonds): array
     {
         $objectResolvedFieldValueReferences = [];
         foreach ($fieldsOrFragmentBonds as $fieldOrFragmentBond) {
@@ -314,44 +400,59 @@ abstract class AbstractDocument extends UpstreamDocument
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds()));
+                $objectResolvedFieldValueReferences = array_merge(
+                    $objectResolvedFieldValueReferences,
+                    $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($inlineFragment->getFieldsOrFragmentBonds())
+                );
                 continue;
             }
             /** @var FieldInterface */
             $field = $fieldOrFragmentBond;
-            $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInArguments($field->getArguments()));
+            $objectResolvedFieldValueReferences = array_merge(
+                $objectResolvedFieldValueReferences,
+                $this->getObjectResolvedFieldValueReferencesInArguments($field->getArguments())
+            );
             if ($field instanceof RelationalField) {
                 /** @var RelationalField */
                 $relationalField = $field;
-                $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds()));
+                $objectResolvedFieldValueReferences = array_merge(
+                    $objectResolvedFieldValueReferences,
+                    $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($relationalField->getFieldsOrFragmentBonds())
+                );
             }
         }
         return $objectResolvedFieldValueReferences;
     }
+
     /**
      * @param Argument[] $arguments
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInArguments(array $arguments) : array
+    protected function getObjectResolvedFieldValueReferencesInArguments(array $arguments): array
     {
         $objectResolvedFieldValueReferences = [];
         foreach ($arguments as $argument) {
-            $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInArgumentValue($argument->getValueAST()));
+            $objectResolvedFieldValueReferences = array_merge(
+                $objectResolvedFieldValueReferences,
+                $this->getObjectResolvedFieldValueReferencesInArgumentValue($argument->getValueAST())
+            );
         }
         return $objectResolvedFieldValueReferences;
     }
+
     /**
      * @param WithValueInterface|array<WithValueInterface|array<mixed>> $argumentValue
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInArgumentValue($argumentValue) : array
+    protected function getObjectResolvedFieldValueReferencesInArgumentValue(WithValueInterface|array $argumentValue): array
     {
         if ($argumentValue instanceof ObjectResolvedFieldValueReference) {
             return [$argumentValue];
         }
-        if (!(\is_array($argumentValue) || $argumentValue instanceof InputObject || $argumentValue instanceof InputList)) {
+        if (!(is_array($argumentValue) || $argumentValue instanceof InputObject || $argumentValue instanceof InputList)) {
             return [];
         }
+
         // Get references within InputObjects and Lists
         $objectResolvedFieldValueReferences = [];
         /**
@@ -363,20 +464,23 @@ abstract class AbstractDocument extends UpstreamDocument
          * }
          * ```
          */
-        if (\is_array($argumentValue)) {
+        if (is_array($argumentValue)) {
             foreach ($argumentValue as $listValue) {
-                if (!(\is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
+                if (!(is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
                     continue;
                 }
                 /** @var WithValueInterface|mixed[] $listValue */
-                $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInArgumentValue($listValue));
+                $objectResolvedFieldValueReferences = array_merge(
+                    $objectResolvedFieldValueReferences,
+                    $this->getObjectResolvedFieldValueReferencesInArgumentValue($listValue)
+                );
             }
             return $objectResolvedFieldValueReferences;
         }
         /** @var WithAstValueInterface $argumentValue */
-        $listValues = (array) $argumentValue->getAstValue();
+        $listValues = (array)$argumentValue->getAstValue();
         foreach ($listValues as $listValue) {
-            if (!(\is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
+            if (!(is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
                 continue;
             }
             if ($listValue instanceof ObjectResolvedFieldValueReference) {
@@ -384,20 +488,25 @@ abstract class AbstractDocument extends UpstreamDocument
                 continue;
             }
             /** @var WithValueInterface|mixed[] $listValue */
-            $objectResolvedFieldValueReferences = \array_merge($objectResolvedFieldValueReferences, $this->getObjectResolvedFieldValueReferencesInArgumentValue($listValue));
+            $objectResolvedFieldValueReferences = array_merge(
+                $objectResolvedFieldValueReferences,
+                $this->getObjectResolvedFieldValueReferencesInArgumentValue($listValue)
+            );
         }
         return $objectResolvedFieldValueReferences;
     }
+
     /**
      * Validate that all Resolved Field Value References
      * do not share the same name with a Dynamic Variable
      *
      * @throws InvalidRequestException
      */
-    protected function assertNonSharedDynamicVariableAndResolvedFieldValueReferenceNames() : void
+    protected function assertNonSharedDynamicVariableAndResolvedFieldValueReferenceNames(): void
     {
         $dynamicVariableDefinitionArguments = $this->getDynamicVariableDefinitionArguments();
         $objectResolvedFieldValueReferences = $this->getObjectResolvedFieldValueReferences();
+
         /**
          * Organize by name and astNode, as to give the Location of the error.
          * Notice that only 1 Location is raised, even if the error happens
@@ -405,7 +514,7 @@ abstract class AbstractDocument extends UpstreamDocument
          */
         $dynamicVariableNames = [];
         foreach ($dynamicVariableDefinitionArguments as $dynamicVariableDefinitionArgument) {
-            $dynamicVariableName = (string) $dynamicVariableDefinitionArgument->getValue();
+            $dynamicVariableName = (string)$dynamicVariableDefinitionArgument->getValue();
             // If many AST nodes fail, and they have the same name, show the 1st one
             if (isset($dynamicVariableNames[$dynamicVariableName])) {
                 continue;
@@ -421,92 +530,152 @@ abstract class AbstractDocument extends UpstreamDocument
             }
             $objectResolvedFieldValueReferenceNames[$objectResolvedFieldValueReferenceName] = $objectResolvedFieldValueReference;
         }
+
         /** @var array<string,Argument> */
-        $sharedVariableNames = \array_intersect_key($dynamicVariableNames, $objectResolvedFieldValueReferenceNames);
+        $sharedVariableNames = array_intersect_key(
+            $dynamicVariableNames,
+            $objectResolvedFieldValueReferenceNames
+        );
         if ($sharedVariableNames === []) {
             return;
         }
-        $dynamicVariableName = \key($sharedVariableNames);
+
+        $dynamicVariableName = key($sharedVariableNames);
         $dynamicVariableDefinitionArgument = $sharedVariableNames[$dynamicVariableName];
-        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E9, [$dynamicVariableName, '$' . $dynamicVariableName]), $dynamicVariableDefinitionArgument->getValueAST());
+        throw new InvalidRequestException(
+            new FeedbackItemResolution(
+                GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                GraphQLExtendedSpecErrorFeedbackItemProvider::E9,
+                [
+                    $dynamicVariableName,
+                    '$' . $dynamicVariableName,
+                ]
+            ),
+            $dynamicVariableDefinitionArgument->getValueAST()
+        );
     }
+
     /**
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferences() : array
+    protected function getObjectResolvedFieldValueReferences(): array
     {
         $objectResolvedFieldValueReference = [];
         foreach ($this->getOperations() as $operation) {
-            $objectResolvedFieldValueReference = \array_merge($objectResolvedFieldValueReference, $this->getObjectResolvedFieldValueReferencesInOperation($operation));
+            $objectResolvedFieldValueReference = array_merge(
+                $objectResolvedFieldValueReference,
+                $this->getObjectResolvedFieldValueReferencesInOperation($operation),
+            );
         }
         foreach ($this->getFragments() as $fragment) {
-            $objectResolvedFieldValueReference = \array_merge($objectResolvedFieldValueReference, $this->getObjectResolvedFieldValueReferencesInFragment($fragment));
+            $objectResolvedFieldValueReference = array_merge(
+                $objectResolvedFieldValueReference,
+                $this->getObjectResolvedFieldValueReferencesInFragment($fragment),
+            );
         }
         return $objectResolvedFieldValueReference;
     }
+
     /**
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInFragment(Fragment $fragment) : array
+    protected function getObjectResolvedFieldValueReferencesInFragment(Fragment $fragment): array
     {
         return $this->getObjectResolvedFieldValueReferencesInFieldsOrInlineFragments($fragment->getFieldsOrFragmentBonds());
     }
+
     /**
      * Validate that all Operations declared under
      * @depends(on:...) all exist
      *
      * @throws InvalidRequestException
      */
-    protected function assertDependedUponOperationsExist() : void
+    protected function assertDependedUponOperationsExist(): void
     {
         $operationNames = $this->getAllOperationNames();
+
         $operationDependencyDefinitionArguments = $this->getOperationDependencyDefinitionArguments();
         foreach ($operationDependencyDefinitionArguments as $operationDependencyDefinitionArgument) {
             $dependendUponOperationNames = $this->getDependedUponOperationNamesInArgument($operationDependencyDefinitionArgument);
             foreach ($dependendUponOperationNames as $dependendUponOperationName) {
-                if (!\in_array($dependendUponOperationName, $operationNames)) {
-                    throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E14, [$dependendUponOperationName]), $operationDependencyDefinitionArgument->getValueAST());
+                if (!in_array($dependendUponOperationName, $operationNames)) {
+                    throw new InvalidRequestException(
+                        new FeedbackItemResolution(
+                            GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                            GraphQLExtendedSpecErrorFeedbackItemProvider::E14,
+                            [
+                                $dependendUponOperationName,
+                            ]
+                        ),
+                        $operationDependencyDefinitionArgument->getValueAST()
+                    );
                 }
             }
         }
     }
+
     /**
      * @return string[]
      * @throws InvalidRequestException
      */
-    protected function getDependedUponOperationNamesInArgument(Argument $argument) : array
+    protected function getDependedUponOperationNamesInArgument(Argument $argument): array
     {
         $argumentValueAST = $argument->getValueAST();
+
         /**
          * Passing a Variable will throw an Exception.
          * Only String and [String] are allowed
          */
-        if (!($argumentValueAST instanceof Literal || $argumentValueAST instanceof InputList)) {
-            throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E12), $argumentValueAST);
+        if (
+            !($argumentValueAST instanceof Literal
+            || $argumentValueAST instanceof InputList
+            )
+        ) {
+            throw new InvalidRequestException(
+                new FeedbackItemResolution(
+                    GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                    GraphQLExtendedSpecErrorFeedbackItemProvider::E12,
+                ),
+                $argumentValueAST
+            );
         }
+
         /**
          * A list is expected, but a single Operation name can also be provided.
          */
         $dependendUponOperationNameOrNames = $argument->getValue();
-        if (!\is_array($dependendUponOperationNameOrNames)) {
+        if (!is_array($dependendUponOperationNameOrNames)) {
             $dependendUponOperationNames = [$dependendUponOperationNameOrNames];
         } else {
             $dependendUponOperationNames = $dependendUponOperationNameOrNames;
         }
+
         /**
          * Make sure each of the elements is a String.
          */
         foreach ($dependendUponOperationNames as $dependendUponOperationName) {
-            if (!\is_string($dependendUponOperationName)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E13, [\is_array($dependendUponOperationName) || $dependendUponOperationName instanceof stdClass ? \json_encode((array) $dependendUponOperationName) : $dependendUponOperationName]), $argumentValueAST);
+            if (!is_string($dependendUponOperationName)) {
+                throw new InvalidRequestException(
+                    new FeedbackItemResolution(
+                        GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                        GraphQLExtendedSpecErrorFeedbackItemProvider::E13,
+                        [
+                            is_array($dependendUponOperationName) || $dependendUponOperationName instanceof stdClass
+                                ? json_encode((array)$dependendUponOperationName)
+                                : $dependendUponOperationName,
+                        ]
+                    ),
+                    $argumentValueAST
+                );
             }
         }
         return $dependendUponOperationNames;
     }
+
     /**
      * @return string[]
      */
-    protected function getAllOperationNames() : array
+    protected function getAllOperationNames(): array
     {
         $operationNames = [];
         foreach ($this->getOperations() as $operation) {
@@ -514,29 +683,35 @@ abstract class AbstractDocument extends UpstreamDocument
         }
         return $operationNames;
     }
+
     /**
      * @return Argument[]
      */
-    protected function getOperationDependencyDefinitionArguments() : array
+    protected function getOperationDependencyDefinitionArguments(): array
     {
         $operationDependencyDefinitionArguments = [];
         foreach ($this->getOperations() as $operation) {
-            $operationDependencyDefinitionArguments = \array_merge($operationDependencyDefinitionArguments, $this->getOperationDependencyDefinitionArgumentsInOperation($operation));
+            $operationDependencyDefinitionArguments = array_merge(
+                $operationDependencyDefinitionArguments,
+                $this->getOperationDependencyDefinitionArgumentsInOperation($operation),
+            );
         }
         return $operationDependencyDefinitionArguments;
     }
+
     /**
      * @return Argument[]
      */
-    protected function getOperationDependencyDefinitionArgumentsInOperation(OperationInterface $operation) : array
+    protected function getOperationDependencyDefinitionArgumentsInOperation(OperationInterface $operation): array
     {
         return $this->getOperationDependencyDefinitionArgumentsInDirectives($operation->getDirectives());
     }
+
     /**
      * @param Directive[] $directives
      * @return Argument[]
      */
-    protected function getOperationDependencyDefinitionArgumentsInDirectives(array $directives) : array
+    protected function getOperationDependencyDefinitionArgumentsInDirectives(array $directives): array
     {
         $operationDependencyDefinitionArguments = [];
         foreach ($directives as $directive) {
@@ -560,12 +735,14 @@ abstract class AbstractDocument extends UpstreamDocument
         }
         return $operationDependencyDefinitionArguments;
     }
-    protected abstract function isOperationDependencyDefinerDirective(Directive $directive) : bool;
-    protected abstract function getProvideDependedUponOperationNamesArgument(Directive $directive) : ?Argument;
+
+    abstract protected function isOperationDependencyDefinerDirective(Directive $directive): bool;
+    abstract protected function getProvideDependedUponOperationNamesArgument(Directive $directive): ?Argument;
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertDependedUponOperationsDoNotFormLoop() : void
+    protected function assertDependedUponOperationsDoNotFormLoop(): void
     {
         /**
          * For each operation, iterate all the way down collecting
@@ -576,15 +753,17 @@ abstract class AbstractDocument extends UpstreamDocument
             $this->assertOperationDoesNotFormLoop($operation);
         }
     }
+
     /**
      * @throws InvalidRequestException
      */
-    protected function assertOperationDoesNotFormLoop(OperationInterface $operation) : void
-    {
+    protected function assertOperationDoesNotFormLoop(
+        OperationInterface $operation,
+    ): void {
         $dependedUponOperations = [];
         $operationsToProcess = $this->getDependedUponOperations($operation);
         while ($operationsToProcess !== []) {
-            $operationToProcess = \array_shift($operationsToProcess);
+            $operationToProcess = array_shift($operationsToProcess);
             $dependedUponOperations[] = $operationToProcess;
             $operationDependencyDefinitionArguments = $this->getOperationDependencyDefinitionArgumentsInOperation($operationToProcess);
             foreach ($operationDependencyDefinitionArguments as $operationDependencyDefinitionArgument) {
@@ -594,14 +773,23 @@ abstract class AbstractDocument extends UpstreamDocument
                      * Check there is no loop
                      */
                     if ($dependedUponOperation === $operation) {
-                        throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E15, [$operation->getName()]), $operation);
+                        throw new InvalidRequestException(
+                            new FeedbackItemResolution(
+                                GraphQLExtendedSpecErrorFeedbackItemProvider::class,
+                                GraphQLExtendedSpecErrorFeedbackItemProvider::E15,
+                                [
+                                    $operation->getName(),
+                                ]
+                            ),
+                            $operation
+                        );
                     }
                     /**
                      * Two operation can have the same dependency, yet that alone
                      * will not form a loop. In that case, just avoid processing
                      * it again.
                      */
-                    if (\in_array($dependedUponOperation, $dependedUponOperations)) {
+                    if (in_array($dependedUponOperation, $dependedUponOperations)) {
                         continue;
                     }
                     $operationsToProcess[] = $dependedUponOperation;
@@ -609,35 +797,45 @@ abstract class AbstractDocument extends UpstreamDocument
             }
         }
     }
+
     /**
      * @return OperationInterface[]
      * @throws InvalidRequestException
      */
-    protected function getDependedUponOperations(OperationInterface $operation) : array
+    protected function getDependedUponOperations(OperationInterface $operation): array
     {
         $dependedUponOperations = [];
         $operationDependencyDefinitionArguments = $this->getOperationDependencyDefinitionArgumentsInOperation($operation);
         foreach ($operationDependencyDefinitionArguments as $operationDependencyDefinitionArgument) {
-            $dependedUponOperations = \array_merge($dependedUponOperations, $this->getDependedUponOperationsInArgument($operationDependencyDefinitionArgument));
+            $dependedUponOperations = [
+                ...$dependedUponOperations,
+                ...$this->getDependedUponOperationsInArgument($operationDependencyDefinitionArgument)
+            ];
         }
         return $dependedUponOperations;
     }
+
     /**
      * @return OperationInterface[]
      * @throws InvalidRequestException
      */
-    protected function getDependedUponOperationsInArgument(Argument $argument) : array
+    protected function getDependedUponOperationsInArgument(Argument $argument): array
     {
         /** @var OperationInterface[] */
-        return \array_map(\Closure::fromCallable([$this, 'getOperation']), $this->getDependedUponOperationNamesInArgument($argument));
+        return array_map(
+            $this->getOperation(...),
+            $this->getDependedUponOperationNamesInArgument($argument)
+        );
     }
-    public function getOperation(string $name) : ?OperationInterface
+
+    public function getOperation(string $name): ?OperationInterface
     {
         foreach ($this->getOperations() as $operation) {
             if ($operation->getName() === $name) {
                 return $operation;
             }
         }
+
         return null;
     }
 }

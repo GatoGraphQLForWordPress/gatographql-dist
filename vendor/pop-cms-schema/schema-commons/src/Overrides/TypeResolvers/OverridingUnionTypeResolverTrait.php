@@ -1,14 +1,16 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 trait OverridingUnionTypeResolverTrait
 {
-    use \PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers\OverridingTypeResolverTrait;
+    use OverridingTypeResolverTrait;
+
     /**
      * Overriding function to provide optimization:
      * instead of calling ->isIDOfType on each object (as in parent function),
@@ -18,7 +20,7 @@ trait OverridingUnionTypeResolverTrait
      * @param array<string|int> $ids
      * @return array<string|int,ObjectTypeResolverInterface|null>
      */
-    public function getObjectIDTargetTypeResolvers(array $ids) : array
+    public function getObjectIDTargetTypeResolvers(array $ids): array
     {
         $objectIDTargetTypeResolvers = [];
         /**
@@ -27,7 +29,7 @@ trait OverridingUnionTypeResolverTrait
          */
         $unionTypeDataLoader = $this->getRelationalTypeDataLoader();
         $resolvedObjectIDs = [];
-        $objects = \array_filter($unionTypeDataLoader->getObjects($ids));
+        $objects = array_filter($unionTypeDataLoader->getObjects($ids));
         // If any ID cannot be resolved, the object will be null
         foreach ($objects as $object) {
             $targetObjectTypeResolver = $this->getTargetObjectTypeResolver($object);
@@ -41,11 +43,13 @@ trait OverridingUnionTypeResolverTrait
         /**
          * Set all the unresolved IDs to null
          */
-        foreach (\array_diff($ids, $resolvedObjectIDs) as $unresolvedObjectID) {
+        foreach (array_diff($ids, $resolvedObjectIDs) as $unresolvedObjectID) {
             $objectIDTargetTypeResolvers[$unresolvedObjectID] = null;
         }
         return $objectIDTargetTypeResolvers;
     }
-    public abstract function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface;
-    public abstract function getTargetObjectTypeResolver(object $object) : ?ObjectTypeResolverInterface;
+
+    abstract public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface;
+
+    abstract public function getTargetObjectTypeResolver(object $object): ?ObjectTypeResolverInterface;
 }

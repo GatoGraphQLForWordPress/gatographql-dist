@@ -1,23 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Services;
 
 use PoP\Root\Services\WithInstanceManagerServiceTrait;
 use PoP\Root\Translation\TranslationAPIInterface;
-/** @internal */
+
 trait BasicServiceTrait
 {
     use WithInstanceManagerServiceTrait;
-    /**
-     * @var \PoP\Root\Translation\TranslationAPIInterface|null
-     */
-    private $translationAPI;
-    public final function setTranslationAPI(TranslationAPIInterface $translationAPI) : void
+
+    private ?TranslationAPIInterface $translationAPI = null;
+
+    final public function setTranslationAPI(TranslationAPIInterface $translationAPI): void
     {
         $this->translationAPI = $translationAPI;
     }
-    protected final function getTranslationAPI() : TranslationAPIInterface
+    final protected function getTranslationAPI(): TranslationAPIInterface
     {
         if ($this->translationAPI === null) {
             /** @var TranslationAPIInterface */
@@ -26,10 +26,11 @@ trait BasicServiceTrait
         }
         return $this->translationAPI;
     }
+
     /**
      * Shortcut function
      */
-    protected final function __(string $text, string $domain = 'default') : string
+    final protected function __(string $text, string $domain = 'default'): string
     {
         return $this->getTranslationAPI()->__($text, $domain);
     }

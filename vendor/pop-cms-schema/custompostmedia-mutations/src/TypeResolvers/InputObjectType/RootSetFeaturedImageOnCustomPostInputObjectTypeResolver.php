@@ -1,17 +1,18 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType;
 
-/** @internal */
-class RootSetFeaturedImageOnCustomPostInputObjectTypeResolver extends \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver
+class RootSetFeaturedImageOnCustomPostInputObjectTypeResolver extends AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'RootSetFeaturedImageOnCustomPostInput';
     }
-    protected function addCustomPostInputField() : bool
+
+    protected function addCustomPostInputField(): bool
     {
-        return \true;
+        return true;
     }
 }

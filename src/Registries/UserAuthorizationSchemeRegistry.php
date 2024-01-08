@@ -12,11 +12,8 @@ class UserAuthorizationSchemeRegistry implements UserAuthorizationSchemeRegistry
     /**
      * @var array<string,UserAuthorizationSchemeInterface>
      */
-    protected $userAuthorizationSchemes = [];
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationSchemes\UserAuthorizationSchemeInterface|null
-     */
-    private $defaultUserAuthorizationScheme;
+    protected array $userAuthorizationSchemes = [];
+    private ?UserAuthorizationSchemeInterface $defaultUserAuthorizationScheme = null;
 
     public function addUserAuthorizationScheme(
         UserAuthorizationSchemeInterface $userAuthorizationScheme
@@ -34,9 +31,7 @@ class UserAuthorizationSchemeRegistry implements UserAuthorizationSchemeRegistry
         $userAuthorizationSchemes = array_values($this->userAuthorizationSchemes);
         usort(
             $userAuthorizationSchemes,
-            function (UserAuthorizationSchemeInterface $a, UserAuthorizationSchemeInterface $b) {
-                return $a->getPriority() <=> $b->getPriority();
-            }
+            fn (UserAuthorizationSchemeInterface $a, UserAuthorizationSchemeInterface $b) => $a->getPriority() <=> $b->getPriority()
         );
         return $userAuthorizationSchemes;
     }

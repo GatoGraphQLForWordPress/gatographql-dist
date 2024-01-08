@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTags\ConditionalOnModule\RESTAPI\ComponentRoutingProcessors;
 
 use PoP\ComponentModel\Component\Component;
@@ -16,15 +17,16 @@ use PoPCMSSchema\PostTags\Module;
 use PoPCMSSchema\PostTags\ModuleConfiguration;
 use PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface;
 use PoPCMSSchema\Tags\Routing\RequestNature as TagRequestNature;
-/** @internal */
+
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
-    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
+
+    final public function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI): void
     {
         $this->postTagTypeAPI = $postTagTypeAPI;
     }
-    protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
+    final protected function getPostTagTypeAPI(): PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
             /** @var PostTagTypeAPIInterface */
@@ -33,45 +35,102 @@ class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingPr
         }
         return $this->postTagTypeAPI;
     }
-    protected function doGetGraphQLQueryToResolveRESTEndpoint() : string
+
+    protected function doGetGraphQLQueryToResolveRESTEndpoint(): string
     {
         return <<<GRAPHQL
-    query {
-        id
-        name
-        count
-        url
+            query {
+                id
+                name
+                count
+                url
+            }
+        GRAPHQL;
     }
-GRAPHQL;
-    }
+
     /**
      * @return array<string,array<array<string,mixed>>>
      */
-    public function getStatePropertiesToSelectComponentByNature() : array
+    public function getStatePropertiesToSelectComponentByNature(): array
     {
         $ret = array();
-        $ret[TagRequestNature::TAG][] = ['component' => new Component(PostTagFieldDataloadComponentProcessor::class, PostTagFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAG, ['query' => !empty(App::getState('query')) ? App::getState('query') : $this->getGraphQLQueryToResolveRESTEndpoint()]), 'conditions' => ['scheme' => APISchemes::API, 'datastructure' => $this->getRestDataStructureFormatter()->getName(), 'routing' => ['taxonomy-name' => $this->getPostTagTypeAPI()->getPostTagTaxonomyName()]]];
+        $ret[TagRequestNature::TAG][] = [
+            'component' => new Component(
+                PostTagFieldDataloadComponentProcessor::class,
+                PostTagFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAG,
+                [
+                    'query' => !empty(App::getState('query'))
+                        ? App::getState('query')
+                        : $this->getGraphQLQueryToResolveRESTEndpoint()
+                ]
+            ),
+            'conditions' => [
+                'scheme' => APISchemes::API,
+                'datastructure' => $this->getRestDataStructureFormatter()->getName(),
+                'routing' => [
+                    'taxonomy-name' => $this->getPostTagTypeAPI()->getPostTagTaxonomyName(),
+                ],
+            ],
+        ];
+
         return $ret;
     }
+
     /**
      * @return array<string,array<string,array<array<string,mixed>>>>
      */
-    public function getStatePropertiesToSelectComponentByNatureAndRoute() : array
+    public function getStatePropertiesToSelectComponentByNatureAndRoute(): array
     {
         $postTagTypeAPI = $this->getPostTagTypeAPI();
         $restDataStructureFormatter = $this->getRestDataStructureFormatter();
+
         $ret = array();
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        $routeComponents = array($moduleConfiguration->getPostTagsRoute() => new Component(PostTagFieldDataloadComponentProcessor::class, PostTagFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAGLIST, ['query' => !empty(App::getState('query')) ? App::getState('query') : $this->getGraphQLQueryToResolveRESTEndpoint()]));
+        $routeComponents = array(
+            $moduleConfiguration->getPostTagsRoute() => new Component(
+                PostTagFieldDataloadComponentProcessor::class,
+                PostTagFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAGLIST,
+                [
+                    'query' => !empty(App::getState('query'))
+                        ? App::getState('query')
+                        : $this->getGraphQLQueryToResolveRESTEndpoint()
+                ]
+            ),
+        );
         foreach ($routeComponents as $route => $component) {
-            $ret[RequestNature::GENERIC][$route][] = ['component' => $component, 'conditions' => ['scheme' => APISchemes::API, 'datastructure' => $restDataStructureFormatter->getName()]];
+            $ret[RequestNature::GENERIC][$route][] = [
+                'component' => $component,
+                'conditions' => [
+                    'scheme' => APISchemes::API,
+                    'datastructure' => $restDataStructureFormatter->getName(),
+                ],
+            ];
         }
         /** @var PostsModuleConfiguration */
         $moduleConfiguration = App::getModule(PostsModule::class)->getConfiguration();
-        $routeComponents = array($moduleConfiguration->getPostsRoute() => new Component(TagPostFieldDataloadComponentProcessor::class, TagPostFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAGPOSTLIST, ['query' => !empty(App::getState('query')) ? App::getState('query') : $this->getGraphQLQueryToResolveRESTEndpoint()]));
+        $routeComponents = array(
+            $moduleConfiguration->getPostsRoute() => new Component(
+                TagPostFieldDataloadComponentProcessor::class,
+                TagPostFieldDataloadComponentProcessor::COMPONENT_DATALOAD_RELATIONALFIELDS_TAGPOSTLIST,
+                [
+                    'query' => !empty(App::getState('query'))
+                        ? App::getState('query')
+                        : $this->getGraphQLQueryToResolveRESTEndpoint()
+                ]
+            ),
+        );
         foreach ($routeComponents as $route => $component) {
-            $ret[TagRequestNature::TAG][$route][] = ['component' => $component, 'conditions' => ['scheme' => APISchemes::API, 'datastructure' => $restDataStructureFormatter->getName(), 'routing' => ['taxonomy-name' => $postTagTypeAPI->getPostTagTaxonomyName()]]];
+            $ret[TagRequestNature::TAG][$route][] = [
+                'component' => $component,
+                'conditions' => [
+                    'scheme' => APISchemes::API,
+                    'datastructure' => $restDataStructureFormatter->getName(),
+                    'routing' => [
+                        'taxonomy-name' => $postTagTypeAPI->getPostTagTaxonomyName(),
+                    ],
+                ],
+            ];
         }
         return $ret;
     }

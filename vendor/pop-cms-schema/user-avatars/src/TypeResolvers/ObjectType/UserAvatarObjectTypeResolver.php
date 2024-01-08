@@ -1,24 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\UserAvatars\TypeResolvers\ObjectType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\UserAvatars\ObjectModels\UserAvatar;
 use PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObjectTypeDataLoader;
-/** @internal */
+
 class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObjectTypeDataLoader|null
-     */
-    private $userAvatarObjectTypeDataLoader;
-    public final function setUserAvatarObjectTypeDataLoader(UserAvatarObjectTypeDataLoader $userAvatarObjectTypeDataLoader) : void
+    private ?UserAvatarObjectTypeDataLoader $userAvatarObjectTypeDataLoader = null;
+
+    final public function setUserAvatarObjectTypeDataLoader(UserAvatarObjectTypeDataLoader $userAvatarObjectTypeDataLoader): void
     {
         $this->userAvatarObjectTypeDataLoader = $userAvatarObjectTypeDataLoader;
     }
-    protected final function getUserAvatarObjectTypeDataLoader() : UserAvatarObjectTypeDataLoader
+    final protected function getUserAvatarObjectTypeDataLoader(): UserAvatarObjectTypeDataLoader
     {
         if ($this->userAvatarObjectTypeDataLoader === null) {
             /** @var UserAvatarObjectTypeDataLoader */
@@ -27,24 +26,25 @@ class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
         }
         return $this->userAvatarObjectTypeDataLoader;
     }
-    public function getTypeName() : string
+
+    public function getTypeName(): string
     {
         return 'UserAvatar';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('User avatar', 'user-avatars');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+
+    public function getID(object $object): string|int|null
     {
         /** @var UserAvatar */
         $userAvatar = $object;
         return $userAvatar->id;
     }
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
+
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface
     {
         return $this->getUserAvatarObjectTypeDataLoader();
     }

@@ -18,33 +18,33 @@ use GatoGraphQL\GatoGraphQL\StaticHelpers\SettingsHelpers;
 class ExtensionManager extends AbstractPluginManager
 {
     /** @var string[] */
-    private $inactiveExtensionDependedUponPluginFiles = [];
+    private array $inactiveExtensionDependedUponPluginFiles = [];
 
     /** @var array<string,BundleExtensionInterface> */
-    private $bundledExtensionClassBundlingExtensionClasses = [];
+    private array $bundledExtensionClassBundlingExtensionClasses = [];
 
     /** @var array<string,string> Extension Slug => Extension Product Name */
-    private $nonActivatedLicenseCommercialExtensionSlugProductNames = [];
+    private array $nonActivatedLicenseCommercialExtensionSlugProductNames = [];
 
     /** @var array<string,string> Extension Slug => Extension Product Name */
-    private $activatedLicenseCommercialExtensionSlugProductNames = [];
+    private array $activatedLicenseCommercialExtensionSlugProductNames = [];
 
     /** @var array<string,string>|null Extension Slug => Extension Product Name */
-    private $commercialExtensionSlugProductNames;
+    private ?array $commercialExtensionSlugProductNames = null;
 
     /**
      * Have the extensions organized by their class
      *
      * @var array<class-string<ExtensionInterface>,ExtensionInterface>
      */
-    private $extensionClassInstances = [];
+    private array $extensionClassInstances = [];
 
     /**
      * Have the extensions organized by their baseName
      *
      * @var array<string,ExtensionInterface>
      */
-    private $extensionBaseNameInstances = [];
+    private array $extensionBaseNameInstances = [];
 
     /**
      * Extensions, organized under their name.
@@ -113,8 +113,12 @@ class ExtensionManager extends AbstractPluginManager
      *
      * @see https://getcomposer.org/doc/articles/versions.md#versions-and-constraints
      */
-    public function assertIsValid(string $extensionClass, string $extensionVersion, ?string $extensionName = null, ?string $mainPluginVersionConstraint = null): bool
-    {
+    public function assertIsValid(
+        string $extensionClass,
+        string $extensionVersion,
+        ?string $extensionName = null,
+        ?string $mainPluginVersionConstraint = null,
+    ): bool {
         // Validate that the extension is not registered yet.
         if (isset($this->extensionClassInstances[$extensionClass])) {
             /**
@@ -125,11 +129,21 @@ class ExtensionManager extends AbstractPluginManager
              */
             $installedExtensionVersion = $this->extensionClassInstances[$extensionClass]->getPluginVersion();
             $errorMessage = $installedExtensionVersion === $extensionVersion && $this->isExtensionBundled($extensionClass)
-                ? sprintf(__('Extension <strong>%s</strong> with version <code>%s</code> is already installed. Are both the extension and a bundle containing the extension being installed? If so, please keep the bundle only.', 'gatographql'), $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(), $extensionVersion)
-                : sprintf(__('Extension <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'), $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(), $installedExtensionVersion, $extensionVersion);
+                ? sprintf(
+                    __('Extension <strong>%s</strong> with version <code>%s</code> is already installed. Are both the extension and a bundle containing the extension being installed? If so, please keep the bundle only.', 'gatographql'),
+                    $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(),
+                    $extensionVersion,
+                )
+                : sprintf(
+                    __('Extension <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'),
+                    $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(),
+                    $installedExtensionVersion,
+                    $extensionVersion,
+                );
             $this->printAdminNoticeErrorMessage($errorMessage);
             return false;
         }
+
         /**
          * Validate that the required version of the Gato GraphQL for WP plugin is installed.
          */
@@ -142,10 +156,17 @@ class ExtensionManager extends AbstractPluginManager
             )
         ) {
             $this->printAdminNoticeErrorMessage(
-                sprintf(__('Extension <strong>%s</strong> requires plugin <strong>%s</strong> to satisfy version constraint <code>%s</code>, but the current version <code>%s</code> does not. The extension has not been loaded.', 'gatographql'), $extensionName ?? $extensionClass, $mainPlugin->getPluginName(), $mainPluginVersionConstraint, $mainPlugin->getPluginVersion())
+                sprintf(
+                    __('Extension <strong>%s</strong> requires plugin <strong>%s</strong> to satisfy version constraint <code>%s</code>, but the current version <code>%s</code> does not. The extension has not been loaded.', 'gatographql'),
+                    $extensionName ?? $extensionClass,
+                    $mainPlugin->getPluginName(),
+                    $mainPluginVersionConstraint,
+                    $mainPlugin->getPluginVersion(),
+                )
             );
             return false;
         }
+
         return true;
     }
 
@@ -154,26 +175,43 @@ class ExtensionManager extends AbstractPluginManager
      * This is useful to issue licenses for the Marketplace by testing/production,
      * and validate that the corresponding extension is installed.
      */
-    public function assertIsSameEnvironmentAsMainPlugin(string $extensionClass, string $extensionVersion, ?string $extensionName = null): bool
-    {
+    public function assertIsSameEnvironmentAsMainPlugin(
+        string $extensionClass,
+        string $extensionVersion,
+        ?string $extensionName = null,
+    ): bool {
         /**
          * Validate that the required version of the Gato GraphQL for WP plugin is installed.
          */
         $mainPlugin = PluginApp::getMainPluginManager()->getPlugin();
         $mainPluginVersion = $mainPlugin->getPluginVersion();
+
         $errorMessagePlaceholder = __('Plugin <strong>%s</strong> is on "%s" mode, but Extension <strong>%s</strong> is on "%s" mode. They must both be the same. The extension has not been loaded.', 'gatographql');
         if (PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion) && !PluginVersionHelpers::isDevelopmentVersion($extensionVersion)) {
             $this->printAdminNoticeErrorMessage(
-                sprintf($errorMessagePlaceholder, $mainPlugin->getPluginName(), 'development', $extensionName ?? $extensionClass, 'production')
+                sprintf(
+                    $errorMessagePlaceholder,
+                    $mainPlugin->getPluginName(),
+                    'development',
+                    $extensionName ?? $extensionClass,
+                    'production',
+                )
             );
             return false;
         }
         if (!PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion) && PluginVersionHelpers::isDevelopmentVersion($extensionVersion)) {
             $this->printAdminNoticeErrorMessage(
-                sprintf($errorMessagePlaceholder, $mainPlugin->getPluginName(), 'production', $extensionName ?? $extensionClass, 'development')
+                sprintf(
+                    $errorMessagePlaceholder,
+                    $mainPlugin->getPluginName(),
+                    'production',
+                    $extensionName ?? $extensionClass,
+                    'development',
+                )
             );
             return false;
         }
+
         return true;
     }
 
@@ -226,8 +264,10 @@ class ExtensionManager extends AbstractPluginManager
      *
      * @param string $extensionProductName The EXACT name as the product is stored in the Gato GraphQL Shop (i.e. in the Marketplace Provider's system)
      */
-    public function assertCommercialLicenseHasBeenActivated(string $extensionSlug, string $extensionProductName): bool
-    {
+    public function assertCommercialLicenseHasBeenActivated(
+        string $extensionSlug,
+        string $extensionProductName,
+    ): bool {
         /**
          * Retrieve from the DB which licenses have been activated,
          * and check if this extension is in it
@@ -238,7 +278,9 @@ class ExtensionManager extends AbstractPluginManager
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
             return false;
         }
+
         $extensionCommercialExtensionActivatedLicenseObjectProperties = $commercialExtensionActivatedLicenseObjectProperties[$extensionSlug];
+
         /**
          * Check that the license status is valid to use the plugin:
          *
@@ -264,6 +306,7 @@ class ExtensionManager extends AbstractPluginManager
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
             return false;
         }
+
         /**
          * Make sure the activated plugin is the corresponding one to the license.
          */
@@ -275,6 +318,7 @@ class ExtensionManager extends AbstractPluginManager
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
             return false;
         }
+
         // Everything is good!
         $this->activatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
         return true;
@@ -283,9 +327,11 @@ class ExtensionManager extends AbstractPluginManager
     /**
      * Unless we are in the Settings page, show a warning about activating the extension
      */
-    protected function showAdminWarningNotice(string $extensionProductName, ?string $messagePlaceholder = null): void
-    {
-        $messagePlaceholder = $messagePlaceholder ?? __('Please <a href="%s">enter the license key in %s</a> to enable it', 'gatographql');
+    protected function showAdminWarningNotice(
+        string $extensionProductName,
+        ?string $messagePlaceholder = null,
+    ): void {
+        $messagePlaceholder ??= __('Please <a href="%s">enter the license key in %s</a> to enable it', 'gatographql');
         \add_action('admin_notices', function () use ($extensionProductName, $messagePlaceholder) {
             // /**
             //  * Do not print the warnings in the Settings page
@@ -305,7 +351,12 @@ class ExtensionManager extends AbstractPluginManager
                     sprintf(
                         $messagePlaceholder,
                         $activateExtensionsSettingsURL,
-                        sprintf('<code>%s > %s > %s</code>', \__('Settings', 'gatographql'), \__('Plugin Management', 'gatographql'), \__('Activate Extensions', 'gatographql'))
+                        sprintf(
+                            '<code>%s > %s > %s</code>',
+                            \__('Settings', 'gatographql'),
+                            \__('Plugin Management', 'gatographql'),
+                            \__('Activate Extensions', 'gatographql'),
+                        )
                     )
                 )
             );
@@ -335,7 +386,10 @@ class ExtensionManager extends AbstractPluginManager
     public function getCommercialExtensionSlugProductNames(): array
     {
         if ($this->commercialExtensionSlugProductNames === null) {
-            $this->commercialExtensionSlugProductNames = array_merge($this->getNonActivatedLicenseCommercialExtensionSlugProductNames(), $this->getActivatedLicenseCommercialExtensionSlugProductNames());
+            $this->commercialExtensionSlugProductNames = array_merge(
+                $this->getNonActivatedLicenseCommercialExtensionSlugProductNames(),
+                $this->getActivatedLicenseCommercialExtensionSlugProductNames(),
+            );
             ksort($this->commercialExtensionSlugProductNames);
         }
         return $this->commercialExtensionSlugProductNames;

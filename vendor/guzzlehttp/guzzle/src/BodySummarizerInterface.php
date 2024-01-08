@@ -1,13 +1,13 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GuzzleHttp;
 
-use PrefixedByPoP\Psr\Http\Message\MessageInterface;
-/** @internal */
+use Psr\Http\Message\MessageInterface;
+
 interface BodySummarizerInterface
 {
     /**
      * Returns a summarized message body.
      */
-    public function summarize(MessageInterface $message) : ?string;
+    public function summarize(MessageInterface $message): ?string;
 }

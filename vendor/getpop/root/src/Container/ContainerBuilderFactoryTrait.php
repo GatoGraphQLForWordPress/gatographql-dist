@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\Root\Container;
 
 use InvalidArgumentException;
@@ -8,28 +9,17 @@ use PoP\Root\AppArchitecture;
 use PoP\Root\Container\Dumper\DowngradingPhpDumper;
 use PoP\Root\Environment;
 use RuntimeException;
-use PrefixedByPoP\Symfony\Component\Config\ConfigCache;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Dumper\PhpDumper;
-/** @internal */
+use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+
 trait ContainerBuilderFactoryTrait
 {
-    /**
-     * @var \PoP\Root\Container\ContainerInterface
-     */
-    protected $instance;
-    /**
-     * @var bool
-     */
-    protected $cacheContainerConfiguration;
-    /**
-     * @var bool
-     */
-    protected $cached;
-    /**
-     * @var string
-     */
-    protected $cacheFile;
+    protected ContainerInterface $instance;
+    protected bool $cacheContainerConfiguration;
+    protected bool $cached;
+    protected string $cacheFile;
+
     /**
      * Initialize the Container Builder.
      * If the directory is not provided, store the cache in a system temp dir
@@ -38,37 +28,49 @@ trait ContainerBuilderFactoryTrait
      * @param string|null $namespace subdirectory under which to store the cache. If null, it will use a system temp folder
      * @param string|null $directory directory where to store the cache. If null, the default value is used
      */
-    public function init(?bool $cacheContainerConfiguration = null, ?string $namespace = null, ?string $directory = null) : void
-    {
+    public function init(
+        ?bool $cacheContainerConfiguration = null,
+        ?string $namespace = null,
+        ?string $directory = null
+    ): void {
         $this->cacheContainerConfiguration = $cacheContainerConfiguration ?? Environment::cacheContainerConfiguration();
-        $namespace = $namespace ?? Environment::getCacheContainerConfigurationNamespace();
-        $directory = $directory ?? Environment::getCacheContainerConfigurationDirectory();
+        $namespace ??= Environment::getCacheContainerConfigurationNamespace();
+        $directory ??= Environment::getCacheContainerConfigurationDirectory();
         $throwExceptionIfCacheSetupError = Environment::throwExceptionIfCacheSetupError();
-        $cacheSetupSuccess = \true;
+        $cacheSetupSuccess = true;
         $containerClassName = $containerNamespace = null;
+
         if ($this->cacheContainerConfiguration) {
             /**
              * Code copied from Symfony FilesystemAdapter
              * @see https://github.com/symfony/cache/blob/master/Traits/FilesystemCommonTrait.php
              */
             if (!$directory) {
-                $directory = \sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'pop' . \DIRECTORY_SEPARATOR . 'container-cache';
+                $directory = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . 'pop' . \DIRECTORY_SEPARATOR . 'container-cache';
             }
             if ($namespace) {
-                if (\preg_match('#[^-+_.A-Za-z0-9]#', $namespace, $match)) {
+                if (preg_match('#[^-+_.A-Za-z0-9]#', $namespace, $match)) {
                     if ($throwExceptionIfCacheSetupError) {
-                        throw new InvalidArgumentException(\sprintf('Namespace contains "%s" but only characters in [-+_.A-Za-z0-9] are allowed.', $match[0]));
+                        throw new InvalidArgumentException(
+                            sprintf(
+                                'Namespace contains "%s" but only characters in [-+_.A-Za-z0-9] are allowed.',
+                                $match[0]
+                            )
+                        );
                     }
-                    $cacheSetupSuccess = \false;
+                    $cacheSetupSuccess = false;
                 }
                 $directory .= \DIRECTORY_SEPARATOR . $namespace;
             }
-            if ($cacheSetupSuccess && !\is_dir($directory)) {
-                if (@\mkdir($directory, 0777, \true) === \false) {
+            if ($cacheSetupSuccess && !is_dir($directory)) {
+                if (@mkdir($directory, 0777, true) === false) {
                     if ($throwExceptionIfCacheSetupError) {
-                        throw new RuntimeException(\sprintf('The directory %s could not be created.', $directory));
+                        throw new RuntimeException(sprintf(
+                            'The directory %s could not be created.',
+                            $directory
+                        ));
                     }
-                    $cacheSetupSuccess = \false;
+                    $cacheSetupSuccess = false;
                 }
             }
             $directory .= \DIRECTORY_SEPARATOR;
@@ -80,25 +82,33 @@ trait ContainerBuilderFactoryTrait
             // On Windows the whole path is limited to 258 chars
             if ($cacheSetupSuccess && '\\' === \DIRECTORY_SEPARATOR && \strlen($directory) > 234) {
                 if ($throwExceptionIfCacheSetupError) {
-                    throw new InvalidArgumentException(\sprintf('Cache directory too long (%s).', $directory));
+                    throw new InvalidArgumentException(
+                        sprintf(
+                            'Cache directory too long (%s).',
+                            $directory
+                        )
+                    );
                 }
-                $cacheSetupSuccess = \false;
+                $cacheSetupSuccess = false;
             }
         }
+
         if ($this->cacheContainerConfiguration && $cacheSetupSuccess) {
             // Store the cache under this file
             $this->cacheFile = $directory . 'container.php';
+
             // If not caching the container, then it's for development
             $isDebug = !$this->cacheContainerConfiguration;
             $containerConfigCache = new ConfigCache($this->cacheFile, $isDebug);
             $this->cached = $containerConfigCache->isFresh();
         } else {
-            $this->cached = \false;
-            $this->cacheContainerConfiguration = \false;
+            $this->cached = false;
+            $this->cacheContainerConfiguration = false;
         }
+
         // If not cached, then create the new instance
         if (!$this->cached) {
-            $this->instance = new \PoP\Root\Container\ContainerBuilder();
+            $this->instance = new ContainerBuilder();
         } else {
             require_once $this->cacheFile;
             /** @var class-string<ContainerBuilder> */
@@ -106,26 +116,31 @@ trait ContainerBuilderFactoryTrait
             $this->instance = new $containerFullyQuantifiedClass();
         }
     }
-    public function getInstance() : \PoP\Root\Container\ContainerInterface
+    public function getInstance(): ContainerInterface
     {
         return $this->instance;
     }
-    public function isCached() : bool
+
+    public function isCached(): bool
     {
         return $this->cached;
     }
-    public function getContainerNamespace() : string
+
+    public function getContainerNamespace(): string
     {
         return 'PoPContainer';
     }
-    public abstract function getContainerClassName() : string;
+
+    abstract public function getContainerClassName(): string;
+
     /**
      * If the container is not cached, then compile it and cache it
      *
      * @param CompilerPassInterface[] $compilerPasses Compiler Pass objects to register on the container
      */
-    public function maybeCompileAndCacheContainer(array $compilerPasses = []) : void
-    {
+    public function maybeCompileAndCacheContainer(
+        array $compilerPasses = []
+    ): void {
         /**
          * Compile Symfony's DependencyInjection Container Builder.
          *
@@ -137,6 +152,7 @@ trait ContainerBuilderFactoryTrait
         if ($this->cached) {
             return;
         }
+
         /** @var ContainerBuilder */
         $containerBuilder = $this->getInstance();
         // Inject all the compiler passes
@@ -145,42 +161,53 @@ trait ContainerBuilderFactoryTrait
         }
         // Compile the container
         $containerBuilder->compile();
+
         // Cache the container
         if (!$this->cacheContainerConfiguration) {
             return;
         }
         // Create the folder if it doesn't exist, and check it was successful
-        $dir = \dirname($this->cacheFile);
-        $folderExists = \file_exists($dir);
+        $dir = dirname($this->cacheFile);
+        $folderExists = file_exists($dir);
         if (!$folderExists) {
-            $folderExists = @\mkdir($dir, 0777, \true);
+            $folderExists = @mkdir($dir, 0777, true);
             if (!$folderExists) {
                 // @todo Throw an error!?
                 return;
             }
         }
+
         // Save the container to disk
         $dumper = $this->createPHPDumper($containerBuilder);
-        \file_put_contents($this->cacheFile, $dumper->dump([
-            'class' => $this->getContainerClassName(),
-            // Save under own namespace to avoid conflicts
-            'namespace' => $this->getContainerNamespace(),
-            /**
-             * Extend from own Container since it must implement ContainerInterface.
-             * It must start with "\", or PhpDumper will also prepend "PoPContainer\\"
-             */
-            'base_class' => '\\' . \PoP\Root\Container\Container::class,
-        ]));
+        file_put_contents(
+            $this->cacheFile,
+            $dumper->dump(
+                [
+                    'class' => $this->getContainerClassName(),
+                    // Save under own namespace to avoid conflicts
+                    'namespace' => $this->getContainerNamespace(),
+                    /**
+                     * Extend from own Container since it must implement ContainerInterface.
+                     * It must start with "\", or PhpDumper will also prepend "PoPContainer\\"
+                     */
+                    'base_class' => '\\' . Container::class,
+                ]
+            )
+        );
+
         // Change the permissions so it can be modified by external processes (eg: deployment)
-        \chmod($this->cacheFile, 0777);
+        chmod($this->cacheFile, 0777);
     }
+
     /**
      * If downgrading the PHP Code, then use the adapted
      * DowngradingPhpDumper class, as to also downgrade
      * the code generated for the container
      */
-    protected function createPHPDumper(\PoP\Root\Container\ContainerBuilder $containerBuilder) : PhpDumper
+    protected function createPHPDumper(ContainerBuilder $containerBuilder): PhpDumper
     {
-        return AppArchitecture::isDowngraded() ? new DowngradingPhpDumper($containerBuilder) : new PhpDumper($containerBuilder);
+        return AppArchitecture::isDowngraded()
+            ? new DowngradingPhpDumper($containerBuilder)
+            : new PhpDumper($containerBuilder);
     }
 }

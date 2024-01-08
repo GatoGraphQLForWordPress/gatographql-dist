@@ -1,21 +1,23 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Pages\TypeResolvers\InputObjectType;
 
-/** @internal */
-class PageChildrenFilterInputObjectTypeResolver extends \PoPCMSSchema\Pages\TypeResolvers\InputObjectType\AbstractPagesFilterInputObjectTypeResolver
+class PageChildrenFilterInputObjectTypeResolver extends AbstractPagesFilterInputObjectTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'PageChildrenFilterInput';
     }
-    public function getTypeDescription() : ?string
+
+    public function getTypeDescription(): ?string
     {
         return $this->__('Input to filter the page children', 'pages');
     }
-    protected function addParentInputFields() : bool
+
+    protected function addParentInputFields(): bool
     {
-        return \false;
+        return false;
     }
 }

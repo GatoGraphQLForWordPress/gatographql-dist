@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Media;
 
 use PoPCMSSchema\Users\Module as UsersModule;
@@ -8,41 +9,56 @@ use PoP\Root\App;
 use PoP\Root\Exception\ComponentNotExistsException;
 use PoP\Root\Module\AbstractModule;
 use PoP\Root\Module\ModuleInterface;
-/** @internal */
+
 class Module extends AbstractModule
 {
-    protected function requiresSatisfyingModule() : bool
+    protected function requiresSatisfyingModule(): bool
     {
-        return \true;
+        return true;
     }
+
     /**
      * @return array<class-string<ModuleInterface>>
      */
-    public function getDependedModuleClasses() : array
+    public function getDependedModuleClasses(): array
     {
-        return [\PoP\Engine\Module::class, \PoPSchema\SchemaCommons\Module::class];
+        return [
+            \PoP\Engine\Module::class,
+            \PoPSchema\SchemaCommons\Module::class,
+        ];
     }
+
     /**
      * @return array<class-string<ModuleInterface>>
      */
-    public function getDependedConditionalModuleClasses() : array
+    public function getDependedConditionalModuleClasses(): array
     {
-        return [UsersModule::class];
+        return [
+            UsersModule::class,
+        ];
     }
+
     /**
      * Initialize services
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses) : void
-    {
-        $this->initServices(\dirname(__DIR__));
-        $this->initSchemaServices(\dirname(__DIR__), $skipSchema);
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
+        $this->initServices(dirname(__DIR__));
+        $this->initSchemaServices(dirname(__DIR__), $skipSchema);
+
         try {
-            if (\class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
-                $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(UsersModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/Users');
+            if (class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
+                $this->initSchemaServices(
+                    dirname(__DIR__),
+                    $skipSchema || in_array(UsersModule::class, $skipSchemaModuleClasses),
+                    '/ConditionalOnModule/Users'
+                );
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

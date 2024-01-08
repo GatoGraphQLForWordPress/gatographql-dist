@@ -1,39 +1,42 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
 use PoPCMSSchema\Users\Constants\UserOrderBy;
-/** @internal */
+
 class UserOrderByEnumTypeResolver extends AbstractEnumTypeResolver
 {
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return 'UserOrderByEnum';
     }
+
     /**
      * @return string[]
      */
-    public function getEnumValues() : array
+    public function getEnumValues(): array
     {
-        return [UserOrderBy::ID, UserOrderBy::NAME, UserOrderBy::USERNAME, UserOrderBy::DISPLAY_NAME, UserOrderBy::REGISTRATION_DATE];
+        return [
+            UserOrderBy::ID,
+            UserOrderBy::NAME,
+            UserOrderBy::USERNAME,
+            UserOrderBy::DISPLAY_NAME,
+            UserOrderBy::REGISTRATION_DATE,
+        ];
     }
-    public function getEnumValueDescription(string $enumValue) : ?string
+
+    public function getEnumValueDescription(string $enumValue): ?string
     {
-        switch ($enumValue) {
-            case UserOrderBy::ID:
-                return $this->__('Order by ID', 'users');
-            case UserOrderBy::NAME:
-                return $this->__('Order by name', 'users');
-            case UserOrderBy::USERNAME:
-                return $this->__('Order by username (login name)', 'users');
-            case UserOrderBy::DISPLAY_NAME:
-                return $this->__('Order by the user display name', 'users');
-            case UserOrderBy::REGISTRATION_DATE:
-                return $this->__('Order by registration date', 'users');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            UserOrderBy::ID => $this->__('Order by ID', 'users'),
+            UserOrderBy::NAME => $this->__('Order by name', 'users'),
+            UserOrderBy::USERNAME => $this->__('Order by username (login name)', 'users'),
+            UserOrderBy::DISPLAY_NAME => $this->__('Order by the user display name', 'users'),
+            UserOrderBy::REGISTRATION_DATE => $this->__('Order by registration date', 'users'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

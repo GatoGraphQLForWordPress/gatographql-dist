@@ -15,10 +15,7 @@ use PoPAPI\API\Schema\QueryInputs;
  */
 class GraphiQLMenuPage extends UpstreamGraphiQLMenuPage
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ConditionalOnContext\Admin\Services\Clients\AdminGraphiQLWithExplorerClient|null
-     */
-    private $adminGraphiQLWithExplorerClient;
+    private ?AdminGraphiQLWithExplorerClient $adminGraphiQLWithExplorerClient = null;
 
     final public function setAdminGraphiQLWithExplorerClient(AdminGraphiQLWithExplorerClient $adminGraphiQLWithExplorerClient): void
     {

@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\PostTagMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\PostSetTagsMutationPayloadObjectTypeResolver;
@@ -8,18 +9,16 @@ use PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostSetTagsMutationErr
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-/** @internal */
+
 class PostSetTagsMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostSetTagsMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $postSetTagsMutationErrorPayloadUnionTypeResolver;
-    public final function setPostSetTagsMutationErrorPayloadUnionTypeResolver(PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver) : void
+    private ?PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver = null;
+
+    final public function setPostSetTagsMutationErrorPayloadUnionTypeResolver(PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver): void
     {
         $this->postSetTagsMutationErrorPayloadUnionTypeResolver = $postSetTagsMutationErrorPayloadUnionTypeResolver;
     }
-    protected final function getPostSetTagsMutationErrorPayloadUnionTypeResolver() : PostSetTagsMutationErrorPayloadUnionTypeResolver
+    final protected function getPostSetTagsMutationErrorPayloadUnionTypeResolver(): PostSetTagsMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postSetTagsMutationErrorPayloadUnionTypeResolver === null) {
             /** @var PostSetTagsMutationErrorPayloadUnionTypeResolver */
@@ -28,14 +27,18 @@ class PostSetTagsMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFi
         }
         return $this->postSetTagsMutationErrorPayloadUnionTypeResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [PostSetTagsMutationPayloadObjectTypeResolver::class];
+        return [
+            PostSetTagsMutationPayloadObjectTypeResolver::class,
+        ];
     }
-    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         return $this->getPostSetTagsMutationErrorPayloadUnionTypeResolver();
     }

@@ -1,21 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostMediaMutations\TypeAPIs;
 
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
- * @internal
  */
 interface CustomPostMediaTypeMutationAPIInterface
 {
-    /**
-     * @param int|string $customPostID
-     * @param string|int $mediaItemID
-     */
-    public function setFeaturedImage($customPostID, $mediaItemID) : void;
-    /**
-     * @param int|string $customPostID
-     */
-    public function removeFeaturedImage($customPostID) : void;
+    public function setFeaturedImage(int|string $customPostID, string|int $mediaItemID): void;
+    public function removeFeaturedImage(int|string $customPostID): void;
 }

@@ -1,14 +1,14 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\SchemaCommons\Overrides\TypeResolvers;
 
-/** @internal */
 trait OverridingTypeResolverTrait
 {
-    protected function getClassToNamespace() : string
+    protected function getClassToNamespace(): string
     {
         /** @var string */
-        return \get_parent_class();
+        return get_parent_class();
     }
 }

@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config;
+
+namespace Symfony\Component\Config;
 
 /**
  * Basic implementation of ConfigCacheFactoryInterface that
@@ -18,14 +19,11 @@ namespace PrefixedByPoP\Symfony\Component\Config;
  * by means of ResourceChecker instances (that is, service-based).
  *
  * @author Matthias Pigulla <mp@webfactory.de>
- * @internal
  */
 class ConfigCacheFactory implements ConfigCacheFactoryInterface
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    private bool $debug;
+
     /**
      * @param bool $debug The debug flag to pass to ConfigCache
      */
@@ -33,12 +31,14 @@ class ConfigCacheFactory implements ConfigCacheFactoryInterface
     {
         $this->debug = $debug;
     }
-    public function cache(string $file, callable $callback) : ConfigCacheInterface
+
+    public function cache(string $file, callable $callback): ConfigCacheInterface
     {
         $cache = new ConfigCache($file, $this->debug);
         if (!$cache->isFresh()) {
             $callback($cache);
         }
+
         return $cache;
     }
 }

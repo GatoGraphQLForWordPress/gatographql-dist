@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-/** @internal */
+namespace Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+
 trait ConstructorTrait
 {
     /**
@@ -18,9 +18,10 @@ trait ConstructorTrait
      *
      * @return $this
      */
-    public final function constructor(string $constructor)
+    final public function constructor(string $constructor): static
     {
         $this->definition->setFactory([null, $constructor]);
+
         return $this;
     }
 }

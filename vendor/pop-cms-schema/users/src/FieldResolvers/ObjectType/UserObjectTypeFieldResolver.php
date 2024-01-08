@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Users\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver;
@@ -20,34 +21,20 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\App;
-/** @internal */
+
 class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
-     */
-    private $emailScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
+
+    final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
     {
         $this->userTypeAPI = $userTypeAPI;
     }
-    protected final function getUserTypeAPI() : UserTypeAPIInterface
+    final protected function getUserTypeAPI(): UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
             /** @var UserTypeAPIInterface */
@@ -56,11 +43,11 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->userTypeAPI;
     }
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
+    final public function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver): void
     {
         $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
-    protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
+    final protected function getEmailScalarTypeResolver(): EmailScalarTypeResolver
     {
         if ($this->emailScalarTypeResolver === null) {
             /** @var EmailScalarTypeResolver */
@@ -69,11 +56,11 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->emailScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
+    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
         $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
-    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
+    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -82,11 +69,11 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
+    final public function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver): void
     {
         $this->urlScalarTypeResolver = $urlScalarTypeResolver;
     }
-    protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
+    final protected function getURLScalarTypeResolver(): URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
             /** @var URLScalarTypeResolver */
@@ -95,11 +82,11 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->urlScalarTypeResolver;
     }
-    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
+    final public function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver): void
     {
         $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
     }
-    protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
+    final protected function getQueryableInterfaceTypeFieldResolver(): QueryableInterfaceTypeFieldResolver
     {
         if ($this->queryableInterfaceTypeFieldResolver === null) {
             /** @var QueryableInterfaceTypeFieldResolver */
@@ -108,31 +95,51 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->queryableInterfaceTypeFieldResolver;
     }
+
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
-    public function getObjectTypeResolverClassesToAttachTo() : array
+    public function getObjectTypeResolverClassesToAttachTo(): array
     {
-        return [UserObjectTypeResolver::class];
+        return [
+            UserObjectTypeResolver::class,
+        ];
     }
+
     /**
      * @return array<InterfaceTypeFieldResolverInterface>
      */
-    public function getImplementedInterfaceTypeFieldResolvers() : array
+    public function getImplementedInterfaceTypeFieldResolvers(): array
     {
-        return [$this->getQueryableInterfaceTypeFieldResolver()];
+        return [
+            $this->getQueryableInterfaceTypeFieldResolver(),
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getFieldNamesToResolve() : array
+    public function getFieldNamesToResolve(): array
     {
-        return ['url', 'urlPath', 'slug', 'username', 'name', 'displayName', 'firstName', 'lastName', 'email', 'description', 'websiteURL'];
+        return [
+            'url',
+            'urlPath',
+            'slug',
+            'username',
+            'name',
+            'displayName',
+            'firstName',
+            'lastName',
+            'email',
+            'description',
+            'websiteURL',
+        ];
     }
+
     /**
      * @return string[]
      */
-    public function getSensitiveFieldNames() : array
+    public function getSensitiveFieldNames(): array
     {
         $sensitiveFieldNames = parent::getSensitiveFieldNames();
         /** @var ModuleConfiguration */
@@ -142,107 +149,104 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $sensitiveFieldNames;
     }
-    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+
+    public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'username':
-                return $this->getStringScalarTypeResolver();
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'displayName':
-                return $this->getStringScalarTypeResolver();
-            case 'firstName':
-                return $this->getStringScalarTypeResolver();
-            case 'lastName':
-                return $this->getStringScalarTypeResolver();
-            case 'email':
-                return $this->getEmailScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'websiteURL':
-                return $this->getURLScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'username' => $this->getStringScalarTypeResolver(),
+            'name' => $this->getStringScalarTypeResolver(),
+            'displayName' => $this->getStringScalarTypeResolver(),
+            'firstName' => $this->getStringScalarTypeResolver(),
+            'lastName' => $this->getStringScalarTypeResolver(),
+            'email' => $this->getEmailScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'websiteURL' => $this->getURLScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
+
+    public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'username':
-            case 'name':
-            case 'displayName':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'username',
+            'name',
+            'displayName'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
+
+    public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('URL of the user\'s profile in the website', 'pop-users');
-            case 'urlPath':
-                return $this->__('URL path of the user\'s profile in the website', 'pop-users');
-            case 'slug':
-                return $this->__('Slug of the URL of the user\'s profile in the website', 'pop-users');
-            case 'username':
-                return $this->__('User\'s username handle', 'pop-users');
-            case 'name':
-                return $this->__('Name of the user', 'pop-users');
-            case 'displayName':
-                return $this->__('Name of the user as displayed on the website', 'pop-users');
-            case 'firstName':
-                return $this->__('User\'s first name', 'pop-users');
-            case 'lastName':
-                return $this->__('User\'s last name', 'pop-users');
-            case 'email':
-                return $this->__('User\'s email', 'pop-users');
-            case 'description':
-                return $this->__('Description of the user', 'pop-users');
-            case 'websiteURL':
-                return $this->__('User\'s own website\'s URL', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('URL of the user\'s profile in the website', 'pop-users'),
+            'urlPath' => $this->__('URL path of the user\'s profile in the website', 'pop-users'),
+            'slug' => $this->__('Slug of the URL of the user\'s profile in the website', 'pop-users'),
+            'username' => $this->__('User\'s username handle', 'pop-users'),
+            'name' => $this->__('Name of the user', 'pop-users'),
+            'displayName' => $this->__('Name of the user as displayed on the website', 'pop-users'),
+            'firstName' => $this->__('User\'s first name', 'pop-users'),
+            'lastName' => $this->__('User\'s last name', 'pop-users'),
+            'email' => $this->__('User\'s email', 'pop-users'),
+            'description' => $this->__('Description of the user', 'pop-users'),
+            'websiteURL' => $this->__('User\'s own website\'s URL', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {
             case 'username':
                 return $this->getUserTypeAPI()->getUserLogin($user);
+
             case 'name':
             case 'displayName':
                 return $this->getUserTypeAPI()->getUserDisplayName($user);
+
             case 'firstName':
                 return $this->getUserTypeAPI()->getUserFirstname($user);
+
             case 'lastName':
                 return $this->getUserTypeAPI()->getUserLastname($user);
+
             case 'email':
                 return $this->getUserTypeAPI()->getUserEmail($user);
+
             case 'url':
                 return $this->getUserTypeAPI()->getUserURL($user);
+
             case 'urlPath':
                 /** @var string */
                 return $this->getUserTypeAPI()->getUserURLPath($user);
+
             case 'slug':
                 return $this->getUserTypeAPI()->getUserSlug($user);
+
             case 'description':
                 return $this->getUserTypeAPI()->getUserDescription($user);
+
             case 'websiteURL':
                 return $this->getUserTypeAPI()->getUserWebsiteURL($user);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+
     /**
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
-    {
-        return \false;
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
+        return false;
     }
 }

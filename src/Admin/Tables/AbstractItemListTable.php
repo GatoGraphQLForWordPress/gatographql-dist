@@ -35,11 +35,11 @@ abstract class AbstractItemListTable extends WP_List_Table implements ItemListTa
 
         \add_action(
             'admin_enqueue_scripts',
-            \Closure::fromCallable([$this, 'enqueueAssets'])
+            $this->enqueueAssets(...)
         );
         \add_action(
             'admin_head',
-            \Closure::fromCallable([$this, 'printStyles'])
+            $this->printStyles(...)
         );
     }
 

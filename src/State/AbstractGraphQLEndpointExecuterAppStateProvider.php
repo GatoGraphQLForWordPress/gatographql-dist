@@ -14,10 +14,7 @@ abstract class AbstractGraphQLEndpointExecuterAppStateProvider extends AbstractA
 {
     use ExecutingGraphQLRequestAppStateProviderTrait;
 
-    /**
-     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
-     */
-    private $graphQLDataStructureFormatter;
+    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
 
     final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
     {

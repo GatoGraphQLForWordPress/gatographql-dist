@@ -16,22 +16,10 @@ use WP_Post;
 
 class AdminEndpointExecuter extends AbstractEndpointExecuter implements AdminEndpointExecuterServiceTagInterface, GraphQLEndpointExecuterInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface|null
-     */
-    private $queryRetriever;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
-    /**
-     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
-     */
-    private $templateHelpers;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?QueryRetrieverInterface $queryRetriever = null;
+    private ?EndpointHelpers $endpointHelpers = null;
+    private ?TemplateHelpersInterface $templateHelpers = null;
 
     final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
     {
@@ -95,7 +83,10 @@ class AdminEndpointExecuter extends AbstractEndpointExecuter implements AdminEnd
          * Extract the query from the BODY through standard GraphQL endpoint execution
          */
         $graphQLQueryPayload = $this->getQueryRetriever()->extractRequestedGraphQLQueryPayload();
-        return new NullableGraphQLQueryVariablesEntry($graphQLQueryPayload->query, $graphQLQueryPayload->variables);
+        return new NullableGraphQLQueryVariablesEntry(
+            $graphQLQueryPayload->query,
+            $graphQLQueryPayload->variables,
+        );
     }
 
     public function doURLParamsOverrideGraphQLVariables(?WP_Post $customPost): bool
@@ -119,7 +110,7 @@ class AdminEndpointExecuter extends AbstractEndpointExecuter implements AdminEnd
     {
         \add_action(
             'admin_init',
-            \Closure::fromCallable([$this, 'includeJSONOutputTemplateAndExit'])
+            $this->includeJSONOutputTemplateAndExit(...)
         );
     }
 

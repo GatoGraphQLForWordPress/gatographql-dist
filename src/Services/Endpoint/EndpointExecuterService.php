@@ -14,10 +14,7 @@ class EndpointExecuterService extends AbstractAutomaticallyInstantiatedService
 {
     use BasicServiceTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\EndpointExecuterRegistryInterface|null
-     */
-    private $customEndpointExecuterRegistry;
+    private ?EndpointExecuterRegistryInterface $customEndpointExecuterRegistry = null;
 
     final public function setEndpointExecuterRegistry(EndpointExecuterRegistryInterface $customEndpointExecuterRegistry): void
     {
@@ -41,7 +38,7 @@ class EndpointExecuterService extends AbstractAutomaticallyInstantiatedService
          */
         App::addAction(
             HookNames::AFTER_BOOT_APPLICATION,
-            \Closure::fromCallable([$this, 'executeRequestedEndpoint'])
+            $this->executeRequestedEndpoint(...)
         );
     }
 

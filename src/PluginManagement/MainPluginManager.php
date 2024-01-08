@@ -9,10 +9,7 @@ use GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface;
 
 class MainPluginManager extends AbstractPluginManager
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface|null
-     */
-    private $mainPlugin;
+    private ?MainPluginInterface $mainPlugin = null;
 
     public function register(MainPluginInterface $mainPlugin): MainPluginInterface
     {
@@ -29,7 +26,12 @@ class MainPluginManager extends AbstractPluginManager
     ): bool {
         if ($this->mainPlugin !== null) {
             $this->printAdminNoticeErrorMessage(
-                sprintf(__('Plugin <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'), $this->mainPlugin->getPluginName(), $this->mainPlugin->getPluginVersion(), $pluginVersion)
+                sprintf(
+                    __('Plugin <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'),
+                    $this->mainPlugin->getPluginName(),
+                    $this->mainPlugin->getPluginVersion(),
+                    $pluginVersion,
+                )
             );
             return false;
         }

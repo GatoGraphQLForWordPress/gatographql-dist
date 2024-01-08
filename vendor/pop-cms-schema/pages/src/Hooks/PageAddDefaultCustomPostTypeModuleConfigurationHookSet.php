@@ -1,22 +1,21 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\Pages\Hooks;
 
 use PoPCMSSchema\CustomPosts\Hooks\AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet;
 use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
-/** @internal */
+
 class PageAddDefaultCustomPostTypeModuleConfigurationHookSet extends AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
+
+    final public function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI): void
     {
         $this->pageTypeAPI = $pageTypeAPI;
     }
-    protected final function getPageTypeAPI() : PageTypeAPIInterface
+    final protected function getPageTypeAPI(): PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
             /** @var PageTypeAPIInterface */
@@ -25,7 +24,8 @@ class PageAddDefaultCustomPostTypeModuleConfigurationHookSet extends AbstractAdd
         }
         return $this->pageTypeAPI;
     }
-    protected function getCustomPostType() : string
+
+    protected function getCustomPostType(): string
     {
         return $this->getPageTypeAPI()->getPageCustomPostType();
     }

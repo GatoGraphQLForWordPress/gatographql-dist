@@ -8,33 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+namespace Symfony\Component\DependencyInjection\ParameterBag;
+
+use Symfony\Component\DependencyInjection\Exception\LogicException;
+
 /**
  * Holds read-only parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- * @internal
  */
 class FrozenParameterBag extends ParameterBag
 {
-    /**
-     * @var mixed[]
-     */
-    protected $deprecatedParameters = [];
     /**
      * For performance reasons, the constructor assumes that
      * all keys are already lowercased.
      *
      * This is always the case when used internally.
      */
-    public function __construct(array $parameters = [], array $deprecatedParameters = [])
-    {
-        $this->deprecatedParameters = $deprecatedParameters;
+    public function __construct(
+        array $parameters = [],
+        protected array $deprecatedParameters = [],
+    ) {
         $this->parameters = $parameters;
-        $this->resolved = \true;
+        $this->resolved = true;
     }
+
     /**
      * @return never
      */
@@ -42,6 +41,7 @@ class FrozenParameterBag extends ParameterBag
     {
         throw new LogicException('Impossible to call clear() on a frozen ParameterBag.');
     }
+
     /**
      * @return never
      */
@@ -49,14 +49,15 @@ class FrozenParameterBag extends ParameterBag
     {
         throw new LogicException('Impossible to call add() on a frozen ParameterBag.');
     }
+
     /**
      * @return never
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function set(string $name, $value)
+    public function set(string $name, array|bool|string|int|float|\UnitEnum|null $value)
     {
         throw new LogicException('Impossible to call set() on a frozen ParameterBag.');
     }
+
     /**
      * @return never
      */
@@ -64,6 +65,7 @@ class FrozenParameterBag extends ParameterBag
     {
         throw new LogicException('Impossible to call deprecate() on a frozen ParameterBag.');
     }
+
     /**
      * @return never
      */

@@ -8,18 +8,19 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver\Constraint;
+
+namespace Composer\Semver\Constraint;
 
 /**
  * Defines the absence of a constraint.
  *
  * This constraint matches everything.
- * @internal
  */
 class MatchAllConstraint implements ConstraintInterface
 {
     /** @var string|null */
     protected $prettyString;
+
     /**
      * @param ConstraintInterface $provider
      *
@@ -27,8 +28,9 @@ class MatchAllConstraint implements ConstraintInterface
      */
     public function matches(ConstraintInterface $provider)
     {
-        return \true;
+        return true;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -36,6 +38,7 @@ class MatchAllConstraint implements ConstraintInterface
     {
         return 'true';
     }
+
     /**
      * {@inheritDoc}
      */
@@ -43,6 +46,7 @@ class MatchAllConstraint implements ConstraintInterface
     {
         $this->prettyString = $prettyString;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -51,8 +55,10 @@ class MatchAllConstraint implements ConstraintInterface
         if ($this->prettyString) {
             return $this->prettyString;
         }
+
         return (string) $this;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -60,6 +66,7 @@ class MatchAllConstraint implements ConstraintInterface
     {
         return '*';
     }
+
     /**
      * {@inheritDoc}
      */
@@ -67,6 +74,7 @@ class MatchAllConstraint implements ConstraintInterface
     {
         return Bound::positiveInfinity();
     }
+
     /**
      * {@inheritDoc}
      */

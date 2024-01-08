@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+
+namespace Symfony\Component\DependencyInjection;
 
 /**
  * Represents a variable.
@@ -22,19 +23,17 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
  * by the PHP dumper.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
- * @internal
  */
 class Variable
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+
     public function __construct(string $name)
     {
         $this->name = $name;
     }
-    public function __toString() : string
+
+    public function __toString(): string
     {
         return $this->name;
     }

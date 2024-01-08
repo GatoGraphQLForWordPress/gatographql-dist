@@ -35,14 +35,8 @@ interface UserSettingsManagerInterface
      */
     public function removeTimestamps(): void;
     public function hasSetting(string $module, string $option): bool;
-    /**
-     * @return mixed
-     */
-    public function getSetting(string $module, string $option);
-    /**
-     * @param mixed $value
-     */
-    public function setSetting(string $module, string $option, $value): void;
+    public function getSetting(string $module, string $option): mixed;
+    public function setSetting(string $module, string $option, mixed $value): void;
     /**
      * @param array<string,mixed> $optionValues
      */

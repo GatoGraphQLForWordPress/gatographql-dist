@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\MandatoryFieldDirectiveResolverRegistryInterface;
-/** @internal */
+
 class MandatoryFieldDirectiveResolverRegistryFacade
 {
-    public static function getInstance() : MandatoryFieldDirectiveResolverRegistryInterface
+    public static function getInstance(): MandatoryFieldDirectiveResolverRegistryInterface
     {
         /**
          * @var MandatoryFieldDirectiveResolverRegistryInterface

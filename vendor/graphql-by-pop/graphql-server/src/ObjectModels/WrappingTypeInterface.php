@@ -1,11 +1,11 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-/** @internal */
-interface WrappingTypeInterface extends \GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface
+interface WrappingTypeInterface extends TypeInterface
 {
-    public function getWrappedType() : \GraphQLByPoP\GraphQLServer\ObjectModels\TypeInterface;
-    public function getWrappedTypeID() : string;
+    public function getWrappedType(): TypeInterface;
+    public function getWrappedTypeID(): string;
 }

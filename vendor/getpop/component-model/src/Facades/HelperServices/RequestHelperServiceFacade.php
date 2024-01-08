@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\HelperServices;
 
 use PoP\Root\App;
 use PoP\ComponentModel\HelperServices\RequestHelperServiceInterface;
-/** @internal */
+
 class RequestHelperServiceFacade
 {
-    public static function getInstance() : RequestHelperServiceInterface
+    public static function getInstance(): RequestHelperServiceInterface
     {
         /**
          * @var RequestHelperServiceInterface

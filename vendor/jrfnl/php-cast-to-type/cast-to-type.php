@@ -1,7 +1,4 @@
 <?php
-
-namespace PrefixedByPoP;
-
 /**
  * CastToType - a class to consistently cast variables to a specific type.
  *
@@ -20,8 +17,10 @@ namespace PrefixedByPoP;
  * @license   http://www.opensource.org/licenses/lgpl-license.php GNU Lesser General Public License.
  * @since     1.0
  */
-if (\version_compare(\phpversion(), '5.0.0', '>=')) {
-    include \dirname(__FILE__) . '/class.cast-to-type.php';
-} else {
-    include \dirname(__FILE__) . '/class.cast-to-type-php4.php';
+
+if ( version_compare( phpversion(), '5.0.0', '>=' ) ) {
+	include dirname( __FILE__ ) . '/class.cast-to-type.php';
+}
+else {
+	include dirname( __FILE__ ) . '/class.cast-to-type-php4.php';
 }

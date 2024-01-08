@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Dictionaries;
 
 /**
@@ -9,35 +10,24 @@ namespace PoP\ComponentModel\Dictionaries;
  * This class is (among others) used by Transient Objects,
  * which are created on runtime and need to be stored as
  * to be accessed through their ID in the GraphQL query.
- * @internal
  */
-class ObjectDictionary implements \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface
+class ObjectDictionary implements ObjectDictionaryInterface
 {
     /**
      * @var array<string,array<string|int,mixed>>
      */
-    protected $dictionary = [];
-    /**
-     * @param string|int $id
-     * @return mixed
-     */
-    public function get(string $class, $id)
+    protected array $dictionary = [];
+
+    public function get(string $class, string|int $id): mixed
     {
         return $this->dictionary[$class][$id] ?? null;
     }
-    /**
-     * @param string|int $id
-     */
-    public function has(string $class, $id) : bool
+    public function has(string $class, string|int $id): bool
     {
         // The stored item can also be null!
-        return \array_key_exists($id, $this->dictionary[$class] ?? []);
+        return array_key_exists($id, $this->dictionary[$class] ?? []);
     }
-    /**
-     * @param string|int $id
-     * @param mixed $instance
-     */
-    public function set(string $class, $id, $instance) : void
+    public function set(string $class, string|int $id, mixed $instance): void
     {
         $this->dictionary[$class][$id] = $instance;
     }

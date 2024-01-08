@@ -8,9 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
+namespace Symfony\Component\CssSelector\Parser;
+
+use Symfony\Component\CssSelector\Node\SelectorNode;
+
 /**
  * CSS selector parser interface.
  *
@@ -28,5 +30,5 @@ interface ParserInterface
      *
      * @return SelectorNode[]
      */
-    public function parse(string $source) : array;
+    public function parse(string $source): array;
 }

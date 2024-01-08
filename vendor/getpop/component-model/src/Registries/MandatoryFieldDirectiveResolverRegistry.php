@@ -1,24 +1,26 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Registries;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
-/** @internal */
-class MandatoryFieldDirectiveResolverRegistry implements \PoP\ComponentModel\Registries\MandatoryFieldDirectiveResolverRegistryInterface
+
+class MandatoryFieldDirectiveResolverRegistry implements MandatoryFieldDirectiveResolverRegistryInterface
 {
     /**
      * @var FieldDirectiveResolverInterface[]
      */
-    protected $mandatoryFieldDirectiveResolvers = [];
-    public function addMandatoryFieldDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver) : void
+    protected array $mandatoryFieldDirectiveResolvers = [];
+
+    public function addMandatoryFieldDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver): void
     {
         $this->mandatoryFieldDirectiveResolvers[] = $directiveResolver;
     }
     /**
      * @return FieldDirectiveResolverInterface[]
      */
-    public function getMandatoryFieldDirectiveResolvers() : array
+    public function getMandatoryFieldDirectiveResolvers(): array
     {
         return $this->mandatoryFieldDirectiveResolvers;
     }

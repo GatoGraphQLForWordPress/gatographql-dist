@@ -1,24 +1,29 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPAPI\API\Hooks;
 
 use PoP\ComponentModel\ModelInstance\ModelInstance;
 use PoP\Root\App;
 use PoP\Root\Hooks\AbstractHookSet;
 use PoPAPI\API\Response\Schemes as APISchemes;
-/** @internal */
+
 class VarsHookSet extends AbstractHookSet
 {
-    protected function init() : void
+    protected function init(): void
     {
-        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
+        App::addFilter(
+            ModelInstance::HOOK_ELEMENTS_RESULT,
+            $this->getModelInstanceElementsFromAppState(...)
+        );
     }
+
     /**
      * @return string[]
      * @param string[] $elements
      */
-    public function getModelInstanceElementsFromAppState(array $elements) : array
+    public function getModelInstanceElementsFromAppState(array $elements): array
     {
         // Allow WP API to set the "routing-state" first
         // Each page is an independent configuration
@@ -28,8 +33,10 @@ class VarsHookSet extends AbstractHookSet
                 $elements[] = $this->__('query:', 'pop-engine') . $query;
             }
         }
+
         // Namespaces change the configuration
-        $elements[] = $this->__('namespaced:', 'pop-engine') . (App::getState('namespace-types-and-interfaces') ?? \false);
+        $elements[] = $this->__('namespaced:', 'pop-engine') . (App::getState('namespace-types-and-interfaces') ?? false);
+
         return $elements;
     }
 }

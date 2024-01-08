@@ -1,22 +1,25 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
 use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaHelpers;
-/** @internal */
-class NonNullWrappingType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractWrappingType
+
+class NonNullWrappingType extends AbstractWrappingType
 {
-    public function getName() : string
+    public function getName(): string
     {
         return GraphQLSchemaHelpers::getNonNullTypeName($this->wrappedType->getName());
     }
-    public function getID() : string
+
+    public function getID(): string
     {
         return GraphQLSchemaHelpers::getNonNullTypeName($this->wrappedType->getID());
     }
-    public function getKind() : string
+
+    public function getKind(): string
     {
-        return \GraphQLByPoP\GraphQLServer\ObjectModels\TypeKinds::NON_NULL;
+        return TypeKinds::NON_NULL;
     }
 }

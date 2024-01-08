@@ -16,7 +16,7 @@ abstract class AbstractCustomPostTagQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             AbstractCustomPostTypeAPI::HOOK_QUERY,
-            \Closure::fromCallable([$this, 'convertCustomPostsQuery']),
+            $this->convertCustomPostsQuery(...),
             10,
             2
         );
@@ -130,7 +130,10 @@ abstract class AbstractCustomPostTagQueryHookSet extends AbstractHookSet
                 'fields' => 'ids',
                 'slug' => $query['tag']
             ]);
-            $tagIDs = array_merge($tagIDs, $slugTagIDs);
+            $tagIDs = [
+                ...$tagIDs,
+                ...$slugTagIDs
+            ];
         }
         if ($tagIDs === []) {
             return $query;

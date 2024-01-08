@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
 
-/** @internal */
+namespace Symfony\Component\VarExporter;
+
 interface LazyObjectInterface
 {
     /**
@@ -18,13 +18,15 @@ interface LazyObjectInterface
      *
      * @param $partial Whether partially initialized objects should be considered as initialized
      */
-    public function isLazyObjectInitialized(bool $partial = \false) : bool;
+    public function isLazyObjectInitialized(bool $partial = false): bool;
+
     /**
      * Forces initialization of a lazy object and returns it.
      */
-    public function initializeLazyObject() : object;
+    public function initializeLazyObject(): object;
+
     /**
      * @return bool Returns false when the object cannot be reset, ie when it's not a lazy object
      */
-    public function resetLazyObject() : bool;
+    public function resetLazyObject(): bool;
 }

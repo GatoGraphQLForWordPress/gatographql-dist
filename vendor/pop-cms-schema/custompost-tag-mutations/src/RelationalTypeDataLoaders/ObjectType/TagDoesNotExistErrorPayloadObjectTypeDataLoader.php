@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryObjectTypeDataLoader;
-/** @internal */
+
 class TagDoesNotExistErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return TagDoesNotExistErrorPayload::class;
     }

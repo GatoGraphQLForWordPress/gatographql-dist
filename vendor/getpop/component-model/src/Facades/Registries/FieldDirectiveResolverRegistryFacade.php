@@ -1,14 +1,15 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\Facades\Registries;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface;
-/** @internal */
+
 class FieldDirectiveResolverRegistryFacade
 {
-    public static function getInstance() : FieldDirectiveResolverRegistryInterface
+    public static function getInstance(): FieldDirectiveResolverRegistryInterface
     {
         /**
          * @var FieldDirectiveResolverRegistryInterface

@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
+
+namespace Symfony\Contracts\Service\Attribute;
 
 /**
  * A required dependency.
@@ -17,7 +18,6 @@ namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
  * considered during the instantiation process of the containing class.
  *
  * @author Alexander M. Turek <me@derrabus.de>
- * @internal
  */
 #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
 final class Required

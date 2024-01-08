@@ -1,6 +1,7 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace PoP\ComponentModel\TypeResolvers;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
@@ -13,8 +14,8 @@ use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterfac
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use SplObjectStorage;
-/** @internal */
-interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface
+
+interface RelationalTypeResolverInterface extends ConcreteTypeResolverInterface
 {
     /**
      * All objects MUST have an ID. `null` is supported for the UnionTypeResolver,
@@ -22,21 +23,21 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      *
      * @return string|int|null the ID of the passed object, or `null` if there is no resolver to handle it (for the UnionTypeResolver)
      */
-    public function getID(object $object);
-    public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface;
+    public function getID(object $object): string|int|null;
+    public function getRelationalTypeDataLoader(): RelationalTypeDataLoaderInterface;
     /**
      * @return InterfaceTypeResolverInterface[]
      */
-    public function getImplementedInterfaceTypeResolvers() : array;
+    public function getImplementedInterfaceTypeResolvers(): array;
     /**
      * @param string|int|array<string|int> $objectIDOrIDs
      * @return string|int|array<string|int>
      */
-    public function getQualifiedDBObjectIDOrIDs($objectIDOrIDs);
+    public function getQualifiedDBObjectIDOrIDs(string|int|array $objectIDOrIDs): string|int|array;
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      */
-    public function enqueueFillingObjectsFromIDs(array $idFieldSet) : void;
+    public function enqueueFillingObjectsFromIDs(array $idFieldSet): void;
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,mixed>>> $previouslyResolvedIDFieldValues
@@ -45,12 +46,21 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,array<string|int>>>> $unionTypeOutputKeyIDs
      * @param array<string,mixed> $messages
      */
-    public function fillObjects(array $idFieldSet, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array;
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface $fieldOrFieldDataAccessor
-     * @return mixed
-     */
-    public function resolveValue(object $object, $fieldOrFieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    public function fillObjects(
+        array $idFieldSet,
+        array $unionTypeOutputKeyIDs,
+        array $previouslyResolvedIDFieldValues,
+        array &$resolvedIDFieldValues,
+        array &$messages,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): array;
+
+    public function resolveValue(
+        object $object,
+        FieldInterface|FieldDataAccessorInterface $fieldOrFieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed;
+
     /**
      * Validate and resolve the directives into an array, each item containing:
      *
@@ -62,11 +72,16 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      * @param SplObjectStorage<Directive,FieldInterface[]> $directiveFields
      * @return SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]>
      */
-    public function resolveDirectivesIntoPipelineData(array $directives, SplObjectStorage $directiveFields, EngineIterationFeedbackStore $engineIterationFeedbackStore) : SplObjectStorage;
+    public function resolveDirectivesIntoPipelineData(
+        array $directives,
+        SplObjectStorage $directiveFields,
+        EngineIterationFeedbackStore $engineIterationFeedbackStore,
+    ): SplObjectStorage;
+
     /**
      * Array of directive name => resolver
      *
      * @return array<string,FieldDirectiveResolverInterface>
      */
-    public function getSchemaFieldDirectiveResolvers(bool $global) : array;
+    public function getSchemaFieldDirectiveResolvers(bool $global): array;
 }

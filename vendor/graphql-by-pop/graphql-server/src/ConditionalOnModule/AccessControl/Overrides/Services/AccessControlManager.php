@@ -1,28 +1,29 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
+
 namespace GraphQLByPoP\GraphQLServer\ConditionalOnModule\AccessControl\Overrides\Services;
 
 use GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface;
 use PoP\AccessControl\Services\AccessControlManager as UpstreamAccessControlManager;
 use PoP\Root\Services\BasicServiceTrait;
-/** @internal */
+
 class AccessControlManager extends UpstreamAccessControlManager
 {
     use BasicServiceTrait;
+
     /**
      * @var array<string,array<mixed[]>>
      */
-    protected $overriddenFieldEntries = [];
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface|null
-     */
-    private $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
-    public final function setMandatoryDirectivesForFieldsRootTypeEntryDuplicator(MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator) : void
+    protected array $overriddenFieldEntries = [];
+
+    private ?MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator = null;
+
+    final public function setMandatoryDirectivesForFieldsRootTypeEntryDuplicator(MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator): void
     {
         $this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator = $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
     }
-    protected final function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator() : MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
+    final protected function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator(): MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
     {
         if ($this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator === null) {
             /** @var MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface */
@@ -31,15 +32,18 @@ class AccessControlManager extends UpstreamAccessControlManager
         }
         return $this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
     }
+
     /**
      * @param array<mixed[]> $fieldEntries
      */
-    public function addEntriesForFields(string $group, array $fieldEntries) : void
+    public function addEntriesForFields(string $group, array $fieldEntries): void
     {
         parent::addEntriesForFields($group, $fieldEntries);
+
         // Make sure to reset getting the entries
         unset($this->overriddenFieldEntries[$group]);
     }
+
     /**
      * Add additional entries: whenever Root is used,
      * duplicate it also for both QueryRoot and MutationRoot,
@@ -52,12 +56,16 @@ class AccessControlManager extends UpstreamAccessControlManager
      *
      * @return array<mixed[]>
      */
-    public function getEntriesForFields(string $group) : array
+    public function getEntriesForFields(string $group): array
     {
         if (isset($this->overriddenFieldEntries[$group])) {
             return $this->overriddenFieldEntries[$group];
         }
-        $this->overriddenFieldEntries[$group] = $this->getMandatoryDirectivesForFieldsRootTypeEntryDuplicator()->maybeAppendAdditionalRootEntriesForFields(parent::getEntriesForFields($group));
+
+        $this->overriddenFieldEntries[$group] = $this->getMandatoryDirectivesForFieldsRootTypeEntryDuplicator()->maybeAppendAdditionalRootEntriesForFields(
+            parent::getEntriesForFields($group)
+        );
+
         return $this->overriddenFieldEntries[$group];
     }
 }
