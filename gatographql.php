@@ -71,7 +71,7 @@ if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsV
  *
  * @gatographql-readonly-code
  */
-$commitHash = 'a178ae4c151ae528760cf94d5eea4e2394a5cc24';
+$commitHash = 'fccc36996036700ffe3981e2b3d32bf412f2afb3';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/autoload.php');
