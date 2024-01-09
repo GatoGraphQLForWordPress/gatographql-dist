@@ -111,10 +111,18 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
 
+    public function getGatoGraphQLBundlesPageURL(): string
+    {
+        $envVariable = Environment::GATOGRAPHQL_BUNDLES_PAGE_URL;
+        $defaultValue = 'https://gatographql.com/bundles/';
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+    }
+
     public function getGatoGraphQLExtensionsPageURL(): string
     {
         $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
-        $defaultValue = 'https://gatographql.com/extensions';
+        $defaultValue = 'https://gatographql.com/extensions/';
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
@@ -122,7 +130,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     public function getGatoGraphQLRequestExtensionPageURL(): string
     {
         $envVariable = Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL;
-        $defaultValue = 'https://github.com/GatoGraphQL/GatoGraphQLExtensions/discussions';
+        $defaultValue = 'https://gatographql.com/contact/';
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }

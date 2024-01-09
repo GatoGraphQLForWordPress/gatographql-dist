@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, notifications, import, export, headless, webhook, rest api, search replace, wp-cli, wget, translation
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -44,7 +44,7 @@ Among others, you can use it to:
 - Validate that a new post contains a mandatory block
 - And much more...
 
-Gato GraphQL supports Persisted Queries out of the box. Persisted queries are similar to WP REST API endpoints, however they created and published directly within the wp-admin, using the GraphQL language (and no PHP code at all).
+Gato GraphQL supports Persisted Queries out of the box. Persisted queries are similar to WP REST API endpoints, however they are created and published directly within the wp-admin, using the GraphQL language (and no PHP code at all).
 
 With persisted queries, you can have the great user experience of GraphQL, while having the security from a REST API, limiting clients and visitors to only query the data that you have defined in advance.
 
@@ -168,6 +168,11 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 1.5.3 =
+* Point the "Missing an extension?" link to the Contact us page
+* Add link to bundles on the Extensions page
+* Fixed typo in readme.txt
 
 = 1.5.2 =
 * Active bundle or extension, with different version than main plugin, did not show "Active" button in Extensions page
