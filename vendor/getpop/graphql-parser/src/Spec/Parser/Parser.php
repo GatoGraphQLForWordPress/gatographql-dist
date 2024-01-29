@@ -202,8 +202,12 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
         $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_LPAREN);
         while (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RPAREN) && !$this->end()) {
             $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_COMMA);
-            /** @var Token */
+            /** @var Token|null */
             $variableToken = $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_VARIABLE);
+            if ($variableToken === null) {
+                // If the variable doesn't start with "$" => syntax error
+                throw $this->createUnexpectedException($this->peek());
+            }
             $nameToken = $this->eatIdentifierToken();
             $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_COLON);
             $isArray = \false;

@@ -124,10 +124,11 @@ class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaD
     }
     /**
      * Validate the constraints for a field argument
+     * @param array<string,mixed> $fieldArgs
      * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
-        $this->interfaceTypeFieldSchemaDefinitionResolver->validateFieldArgValue($fieldName, $fieldArgName, $fieldArgValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
+        $this->interfaceTypeFieldSchemaDefinitionResolver->validateFieldArgValue($fieldName, $fieldArgName, $fieldArgValue, $astNode, $fieldArgs, $objectTypeFieldResolutionFeedbackStore);
     }
 }

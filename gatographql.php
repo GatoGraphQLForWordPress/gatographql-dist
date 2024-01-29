@@ -3,7 +3,7 @@
 Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 Description: Interact with all your data in WordPress.
-Version: 1.5.4
+Version: 1.6.0
 Requires at least: 5.4
 Requires PHP: 7.2
 Author: Gato GraphQL
@@ -46,7 +46,7 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '1.5.4';
+$pluginVersion = '1.6.0';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
@@ -54,6 +54,35 @@ $pluginName = __('Gato GraphQL', 'gatographql');
  */
 if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsValid($pluginVersion)) {
     return;
+}
+
+/**
+ * Validate that there is enough memory to run the plugin.
+ *
+ * > Note that to have no memory limit, set this directive to -1.
+ *
+ * @see https://www.php.net/manual/en/ini.core.php#ini.sect.resource-limits
+ */
+$phpMemoryLimit = \ini_get('memory_limit');
+$phpMemoryLimitInBytes = \wp_convert_hr_to_bytes($phpMemoryLimit);
+if ($phpMemoryLimitInBytes !== -1) {
+    // Minimum: 64MB
+    $minRequiredPHPMemoryLimit = '64M';
+    $minRequiredPHPMemoryLimitInBytes = \wp_convert_hr_to_bytes($minRequiredPHPMemoryLimit);
+    if ($phpMemoryLimitInBytes < $minRequiredPHPMemoryLimitInBytes) {
+        \add_action('admin_notices', function () use ($minRequiredPHPMemoryLimit, $phpMemoryLimit) {
+            printf(
+                '<div class="notice notice-error"><p>%s</p></div>',
+                sprintf(
+                    __('Plugin <strong>%1$s</strong> requires at least <strong>%2$s</strong> of memory, however the server\'s PHP memory limit is set to <strong>%3$s</strong>. Please increase the memory limit to load %1$s.', 'gatographql'),
+                    __('Gato GraphQL', 'gatographql'),
+                    $minRequiredPHPMemoryLimit,
+                    $phpMemoryLimit
+                )
+            );
+        });
+        return;
+    }
 }
 
 /**
@@ -71,7 +100,7 @@ if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsV
  *
  * @gatographql-readonly-code
  */
-$commitHash = '562771a7bd8198c0ac5d6a3eee7a7561f29c5120';
+$commitHash = '3250618bce54f758f72baad97f4c368dfab67039';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

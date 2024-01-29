@@ -7,10 +7,7 @@ namespace GatoGraphQL\GatoGraphQL\ModuleResolvers;
 use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptionValues;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptions;
-use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface;
-use GatoGraphQL\GatoGraphQL\Module;
-use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\ModuleSettings\Properties;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType;
@@ -327,18 +324,6 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
                 self::PERSISTED_QUERIES,
             ]) && $this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)
         ) {
-            /** @var ModuleConfiguration */
-            $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-            if ($moduleConfiguration->hideTutorialPage()) {
-                $feedDataToBlocksInTheEditorURL = 'https://gatographql.com/tutorial/feeding-data-to-blocks-in-the-editor/';
-            } else {
-                $feedDataToBlocksInTheEditorURL = \admin_url(sprintf(
-                    'admin.php?page=%s&%s=%s',
-                    $this->getTutorialMenuPage()->getScreenID(),
-                    RequestParams::TAB,
-                    'feeding-data-to-blocks-in-the-editor'
-                ));
-            }
             $defaultDescriptionPlaceholder = \__('Schema Configuration to use in %s which have option <code>"Default"</code> selected', 'gatographql');
             switch ($module) {
                 case self::PRIVATE_ENDPOINT:
@@ -351,7 +336,7 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
                     )), \admin_url(sprintf(
                         'admin.php?page=%s',
                         $this->getGraphQLVoyagerMenuPage()->getScreenID()
-                    )), $feedDataToBlocksInTheEditorURL, HTMLCodes::OPEN_IN_NEW_WINDOW);
+                    )), 'https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/', HTMLCodes::OPEN_IN_NEW_WINDOW);
                     break;
                 case self::SINGLE_ENDPOINT:
                     $description = \__('Schema Configuration to use in the Single Endpoint', 'gatographql');

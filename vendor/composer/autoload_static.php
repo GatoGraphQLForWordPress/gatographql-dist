@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
+class ComposerStaticInitd15a48d7d648c2dc7f2ce59748dab4e4
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -136,6 +136,8 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
             'PoPCMSSchema\\MenusWP\\' => 21,
             'PoPCMSSchema\\Media\\' => 19,
             'PoPCMSSchema\\MediaWP\\' => 21,
+            'PoPCMSSchema\\MediaMutations\\' => 28,
+            'PoPCMSSchema\\MediaMutationsWP\\' => 30,
             'PoPCMSSchema\\CustomPosts\\' => 25,
             'PoPCMSSchema\\CustomPostsWP\\' => 27,
             'PoPCMSSchema\\CustomPostUserMutations\\' => 37,
@@ -634,6 +636,14 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/media-wp/src',
         ),
+        'PoPCMSSchema\\MediaMutations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src',
+        ),
+        'PoPCMSSchema\\MediaMutationsWP\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-cms-schema/media-mutations-wp/src',
+        ),
         'PoPCMSSchema\\CustomPosts\\' => 
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/customposts/src',
@@ -870,6 +880,8 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterSchemaConfigBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterSchemaConfigBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterTaxonomyCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterTaxonomyCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterUserAuthorizationSchemeCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterUserAuthorizationSchemeCompilerPass.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\ContainerManager' => __DIR__ . '/../..' . '/src/Container/ContainerManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\ContainerManagerInterface' => __DIR__ . '/../..' . '/src/Container/ContainerManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\HybridCompilerPasses\\RegisterModuleResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/HybridCompilerPasses/RegisterModuleResolverCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\HybridCompilerPasses\\RegisterSettingsCategoryResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/HybridCompilerPasses/RegisterSettingsCategoryResolverCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\InternalGraphQLServerContainerBuilderFactory' => __DIR__ . '/../..' . '/src/Container/InternalGraphQLServerContainerBuilderFactory.php',
@@ -927,6 +939,8 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\HTTPRequestNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/HTTPRequestNotSuccessfulException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\LicenseOperationNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/LicenseOperationNotSuccessfulException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LemonSqueezyCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/Marketplace/LemonSqueezyCommercialExtensionActivationService.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationService' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationService.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialExtensionActivationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialExtensionActivationServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialExtensionActivatedLicenseObjectProperties' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialExtensionActivatedLicenseObjectProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Module' => __DIR__ . '/../..' . '/src/Module.php',
@@ -1251,6 +1265,7 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaCustomPostMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaCustomPostMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaCustomPostTagMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaCustomPostTagMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaCustomPostsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaCustomPostsBlockSchemaConfigurationExecuter.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaMediaMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaMediaMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaSettingsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaSettingsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaTagsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaTagsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaTaxonomyMetaBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaTaxonomyMetaBlockSchemaConfigurationExecuter.php',
@@ -2063,6 +2078,61 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\ObjectType\\CustomPostObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/ObjectType/CustomPostObjectTypeResolverInterface.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\ObjectType\\GenericCustomPostObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/ObjectType/GenericCustomPostObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPosts\\TypeResolvers\\UnionType\\CustomPostUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/customposts/src/TypeResolvers/UnionType/CustomPostUnionTypeResolver.php',
+        'PoPCMSSchema\\MediaMutationsWP\\LooseContracts\\LooseContractResolutionSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations-wp/src/LooseContracts/LooseContractResolutionSet.php',
+        'PoPCMSSchema\\MediaMutationsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations-wp/src/Module.php',
+        'PoPCMSSchema\\MediaMutationsWP\\TypeAPIs\\MediaTypeMutationAPI' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations-wp/src/TypeAPIs/MediaTypeMutationAPI.php',
+        'PoPCMSSchema\\MediaMutations\\ComponentProcessors\\MyMediaFilterInputContainerComponentProcessor' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ComponentProcessors/MyMediaFilterInputContainerComponentProcessor.php',
+        'PoPCMSSchema\\MediaMutations\\ConditionalOnModule\\CustomPostMutations\\Constants\\MutationInputProperties' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ConditionalOnModule/CustomPostMutations/Constants/MutationInputProperties.php',
+        'PoPCMSSchema\\MediaMutations\\ConditionalOnModule\\CustomPostMutations\\Hooks\\MutationResolverHookSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ConditionalOnModule/CustomPostMutations/Hooks/MutationResolverHookSet.php',
+        'PoPCMSSchema\\MediaMutations\\ConditionalOnModule\\CustomPostMutations\\ObjectTypeResolverPickers\\CustomPostDoesNotExistMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ConditionalOnModule/CustomPostMutations/ObjectTypeResolverPickers/CustomPostDoesNotExistMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ConditionalOnModule\\CustomPostMutations\\SchemaHooks\\AbstractAddCustomPostInputFieldsInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ConditionalOnModule/CustomPostMutations/SchemaHooks/AbstractAddCustomPostInputFieldsInputObjectTypeHookSet.php',
+        'PoPCMSSchema\\MediaMutations\\ConditionalOnModule\\CustomPostMutations\\SchemaHooks\\AddCustomPostInputFieldsInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ConditionalOnModule/CustomPostMutations/SchemaHooks/AddCustomPostInputFieldsInputObjectTypeHookSet.php',
+        'PoPCMSSchema\\MediaMutations\\Constants\\HookNames' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Constants/HookNames.php',
+        'PoPCMSSchema\\MediaMutations\\Constants\\MutationInputProperties' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Constants/MutationInputProperties.php',
+        'PoPCMSSchema\\MediaMutations\\Environment' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Environment.php',
+        'PoPCMSSchema\\MediaMutations\\Exception\\MediaItemCRUDMutationException' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Exception/MediaItemCRUDMutationException.php',
+        'PoPCMSSchema\\MediaMutations\\Facades\\MediaTypeMutationAPIFacade' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Facades/MediaTypeMutationAPIFacade.php',
+        'PoPCMSSchema\\MediaMutations\\FeedbackItemProviders\\MutationErrorFeedbackItemProvider' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FeedbackItemProviders/MutationErrorFeedbackItemProvider.php',
+        'PoPCMSSchema\\MediaMutations\\FieldResolvers\\ObjectType\\MediaItemMutationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FieldResolvers/ObjectType/MediaItemMutationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MediaMutations\\FieldResolvers\\ObjectType\\MediaItemMutationTransientEntityOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FieldResolvers/ObjectType/MediaItemMutationTransientEntityOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MediaMutations\\FieldResolvers\\ObjectType\\RootCreateMediaItemMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FieldResolvers/ObjectType/RootCreateMediaItemMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MediaMutations\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MediaMutations\\FieldResolvers\\ObjectType\\UserStateRootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/FieldResolvers/ObjectType/UserStateRootObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MediaMutations\\LooseContracts\\LooseContractSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/LooseContracts/LooseContractSet.php',
+        'PoPCMSSchema\\MediaMutations\\Module' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/Module.php',
+        'PoPCMSSchema\\MediaMutations\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ModuleConfiguration.php',
+        'PoPCMSSchema\\MediaMutations\\MutationResolvers\\CreateMediaItemMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/MutationResolvers/CreateMediaItemMutationResolver.php',
+        'PoPCMSSchema\\MediaMutations\\MutationResolvers\\PayloadableCreateMediaItemMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/MutationResolvers/PayloadableCreateMediaItemMutationResolver.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectModels\\UserDoesNotExistErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectModels/UserDoesNotExistErrorPayload.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectModels\\UserHasNoPermissionToUploadFilesErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectModels/UserHasNoPermissionToUploadFilesErrorPayload.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectModels\\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectModels/UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\AbstractUserDoesNotExistMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/AbstractUserDoesNotExistMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\AbstractUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/AbstractUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\AbstractUserHasNoPermissionToUploadFilesForOtherUsersMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/AbstractUserHasNoPermissionToUploadFilesForOtherUsersMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\GenericErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/GenericErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\UserDoesNotExistMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/UserDoesNotExistMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\UserHasNoPermissionToUploadFilesForOtherUsersMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/UserHasNoPermissionToUploadFilesForOtherUsersMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\UserHasNoPermissionToUploadFilesMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/UserHasNoPermissionToUploadFilesMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\ObjectTypeResolverPickers\\UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/ObjectTypeResolverPickers/UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MediaMutations\\RelationalTypeDataLoaders\\ObjectType\\UserDoesNotExistErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/RelationalTypeDataLoaders/ObjectType/UserDoesNotExistErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MediaMutations\\RelationalTypeDataLoaders\\ObjectType\\UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/RelationalTypeDataLoaders/ObjectType/UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MediaMutations\\RelationalTypeDataLoaders\\ObjectType\\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/RelationalTypeDataLoaders/ObjectType/UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MediaMutations\\RelationalTypeDataLoaders\\UnionType\\RootCreateMediaItemMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/RelationalTypeDataLoaders/UnionType/RootCreateMediaItemMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\MediaMutations\\SchemaHooks\\RemoveAuthorFilterInputHookSet' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/SchemaHooks/RemoveAuthorFilterInputHookSet.php',
+        'PoPCMSSchema\\MediaMutations\\TypeAPIs\\MediaTypeMutationAPIInterface' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeAPIs/MediaTypeMutationAPIInterface.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\AbstractCreateMediaItemInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/AbstractCreateMediaItemInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\CreateMediaItemFromContentInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/CreateMediaItemFromContentInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\CreateMediaItemFromOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/CreateMediaItemFromOneofInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\CreateMediaItemFromURLInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/CreateMediaItemFromURLInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\RootCreateMediaItemInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/RootCreateMediaItemInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\InputObjectType\\RootMyMediaItemsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/InputObjectType/RootMyMediaItemsFilterInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\ObjectType\\AbstractMediaItemMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/ObjectType/AbstractMediaItemMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\ObjectType\\RootCreateMediaItemMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/ObjectType/RootCreateMediaItemMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\ObjectType\\UserDoesNotExistErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/ObjectType/UserDoesNotExistErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\ObjectType\\UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/ObjectType/UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\ObjectType\\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/ObjectType/UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\UnionType\\AbstractCreateMediaItemMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/UnionType/AbstractCreateMediaItemMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MediaMutations\\TypeResolvers\\UnionType\\RootCreateMediaItemMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src/TypeResolvers/UnionType/RootCreateMediaItemMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\MediaWP\\ConditionalOnModule\\Users\\TypeAPIs\\UserMediaTypeAPI' => __DIR__ . '/..' . '/pop-cms-schema/media-wp/src/ConditionalOnModule/Users/TypeAPIs/UserMediaTypeAPI.php',
         'PoPCMSSchema\\MediaWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/media-wp/src/Module.php',
         'PoPCMSSchema\\MediaWP\\TypeAPIs\\MediaTypeAPI' => __DIR__ . '/..' . '/pop-cms-schema/media-wp/src/TypeAPIs/MediaTypeAPI.php',
@@ -4473,9 +4543,9 @@ class ComposerStaticInit9d384e672fc6135fb71229b76f11c681
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9d384e672fc6135fb71229b76f11c681::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9d384e672fc6135fb71229b76f11c681::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9d384e672fc6135fb71229b76f11c681::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd15a48d7d648c2dc7f2ce59748dab4e4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd15a48d7d648c2dc7f2ce59748dab4e4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitd15a48d7d648c2dc7f2ce59748dab4e4::$classMap;
 
         }, null, ClassLoader::class);
     }

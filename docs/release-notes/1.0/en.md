@@ -260,10 +260,10 @@ This query:
                                 {
                                   "name": "core/image",
                                   "attributes": {
-                                    "id": 361,
+                                    "id": 1361,
                                     "sizeSlug": "large",
                                     "linkDestination": "none",
-                                    "url": "https://gatographql.lndo.site/wp-content/uploads/2022/05/GatoGraphQL-logo-1024x622.jpg",
+                                    "url": "https://gatographql.lndo.site/wp-content/uploads/GatoGraphQL-logo-1024x622.jpg",
                                     "alt": ""
                                   },
                                   "innerBlocks": null
@@ -282,10 +282,10 @@ This query:
                                 {
                                   "name": "core/image",
                                   "attributes": {
-                                    "id": 362,
+                                    "id": 1362,
                                     "sizeSlug": "large",
                                     "linkDestination": "none",
-                                    "url": "https://gatographql.lndo.site/wp-content/uploads/2022/05/GatoGraphQL-logo-suki-1024x598.png",
+                                    "url": "https://gatographql.lndo.site/wp-content/uploads/GatoGraphQL-logo-suki-1024x598.png",
                                     "alt": ""
                                   },
                                   "innerBlocks": null
@@ -504,10 +504,10 @@ For instance, the following query:
                                 {
                                   "name": "core/image",
                                   "attributes": {
-                                    "id": 361,
+                                    "id": 1361,
                                     "sizeSlug": "large",
                                     "linkDestination": "none",
-                                    "url": "https://gatographql.lndo.site/wp-content/uploads/2022/05/GatoGraphQL-logo-1024x622.jpg",
+                                    "url": "https://gatographql.lndo.site/wp-content/uploads/GatoGraphQL-logo-1024x622.jpg",
                                     "alt": ""
                                   }
                                 }
@@ -524,10 +524,10 @@ For instance, the following query:
                                 {
                                   "name": "core/image",
                                   "attributes": {
-                                    "id": 362,
+                                    "id": 1362,
                                     "sizeSlug": "large",
                                     "linkDestination": "none",
-                                    "url": "https://gatographql.lndo.site/wp-content/uploads/2022/05/GatoGraphQL-logo-suki-1024x598.png",
+                                    "url": "https://gatographql.lndo.site/wp-content/uploads/GatoGraphQL-logo-suki-1024x598.png",
                                     "alt": ""
                                   }
                                 }

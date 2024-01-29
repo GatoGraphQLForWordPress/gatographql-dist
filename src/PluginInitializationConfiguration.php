@@ -643,6 +643,13 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'option' => SchemaConfigurationFunctionalityModuleResolver::OPTION_USE_PAYLOADABLE_MUTATIONS_DEFAULT_VALUE,
             ],
             [
+                'class' => \PoPCMSSchema\MediaMutations\Module::class,
+                'envVariable' => \PoPCMSSchema\MediaMutations\Environment::USE_PAYLOADABLE_MEDIA_MUTATIONS,
+                'module' => SchemaConfigurationFunctionalityModuleResolver::MUTATIONS,
+                'option' => SchemaConfigurationFunctionalityModuleResolver::OPTION_USE_PAYLOADABLE_MUTATIONS_DEFAULT_VALUE,
+            ],
+            // Sensitive data
+            [
                 'class' => \PoPCMSSchema\CustomPostUserMutations\Module::class,
                 'envVariable' => \PoPCMSSchema\CustomPostUserMutations\Environment::TREAT_AUTHOR_INPUT_IN_CUSTOMPOST_MUTATION_AS_SENSITIVE_DATA,
                 'module' => MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_USER_MUTATIONS,
@@ -823,6 +830,9 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                     ],
                     \PoPCMSSchema\UserStateMutations\Module::class => [
                         \PoPCMSSchema\UserStateMutations\Environment::USE_PAYLOADABLE_USERSTATE_MUTATIONS => false,
+                    ],
+                    \PoPCMSSchema\MediaMutations\Module::class => [
+                        \PoPCMSSchema\MediaMutations\Environment::USE_PAYLOADABLE_MEDIA_MUTATIONS => false,
                     ],
                 ]
             );
@@ -1076,6 +1086,10 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_POST_MUTATIONS => [
                 \PoPCMSSchema\PostMutations\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_MEDIA_MUTATIONS => [
+                \PoPCMSSchema\MediaMutations\Module::class,
+                \PoPCMSSchema\MediaMutationsWP\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS => [
                 \PoPCMSSchema\CustomPostMediaMutations\Module::class,

@@ -554,13 +554,14 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     }
     /**
      * Validate the constraints for a field argument
+     * @param array<string,mixed> $fieldArgs
      * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($objectTypeResolver, $fieldName);
         if ($schemaDefinitionResolver !== $this) {
-            $schemaDefinitionResolver->validateFieldArgValue($objectTypeResolver, $fieldName, $fieldArgName, $fieldArgValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
+            $schemaDefinitionResolver->validateFieldArgValue($objectTypeResolver, $fieldName, $fieldArgName, $fieldArgValue, $astNode, $fieldArgs, $objectTypeFieldResolutionFeedbackStore);
         }
     }
     public function isGlobal(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool

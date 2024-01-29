@@ -177,7 +177,7 @@ Executing the query (passing the `$postId` variable), the response may be:
       "rawContent": "<!-- wp:heading -->\n<h2>Verse Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:verse -->\n<pre class=\"wp-block-verse\">Write poetry and other literary expressions honoring all spaces and line-breaks.</pre>\n<!-- /wp:verse -->\n\n<!-- wp:heading -->\n<h2>Table Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:table {\"className\":\"is-style-stripes\"} -->\n<figure class=\"wp-block-table is-style-stripes\"><table><tbody><tr><td>Row 1 Column 1</td><td>Row 1 Column 2</td></tr><tr><td>Row 2 Column 1</td><td>Row 2 Column 2</td></tr><tr><td>Row 3 Column 1</td><td>Row 3 Column 2</td></tr></tbody></table></figure>\n<!-- /wp:table -->\n\n<!-- wp:heading -->\n<h2>Separator Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:separator -->\n<hr class=\"wp-block-separator\"/>\n<!-- /wp:separator -->\n\n<!-- wp:heading {\"className\":\"has-top-margin\"} -->\n<h2 class=\"has-top-margin\">Spacer Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:spacer -->\n<div style=\"height:100px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->",
       "excerpt": "Verse Block Write poetry and other literary expressions honoring all spaces and line-breaks. Table Block Row 1 Column 1 Row 1 Column 2 Row 2 Column 1 Row 2 Column 2 Row 3 Column 1 Row 3 Column 2 Separator Block Spacer Block",
       "featuredImage": {
-        "id": 362
+        "id": 1362
       },
       "tags": [
         {
@@ -198,6 +198,73 @@ Notice that some fields are meant to be duplicated (including the author, title,
 ### Duplicating the post: First approach
 
 With the [**Multiple Query Execution**](https://gatographql.com/extensions/multiple-query-execution/) extension, we are able to export the post's data items, and inject them again into another `query` or `mutation` in the same GraphQL document.
+
+<div class="doc-highlight" markdown=1>
+
+🔥 **Tips:**
+
+[**Multiple Query Execution**](https://gatographql.com/extensions/multiple-query-execution/) allows us to [execute complex functionality within a single request](https://gatographql.com/guides/schema/executing-multiple-queries-concurrently/), and better organize the logic by splitting the GraphQL document into a series a logical/atomic units:
+
+- There is no limit in how many operations can be added to the pipeline
+- Any operation can declare more than one dependency:
+
+```graphql
+query SomeQuery @depends(on: ["SomePreviousOp", "AnotherPreviousOp"]) {
+  # ...
+}
+```
+
+- Any operation can depend on another operation, which itself depends on another operation, and so on:
+
+```graphql
+query ExecuteFirst
+  # ...
+}
+query ExecuteSecond @depends(on: ["ExecuteFirst"]) {
+  # ...
+}
+query ExecuteThird @depends(on: ["ExecuteSecond"]) {
+  # ...
+}
+```
+
+- We can execute any of the operations in the document:
+  - `?operationName=ExecuteThird` executes `ExecuteFirst` > `ExecuteSecond` > `ExecuteThird`
+  - `?operationName=ExecuteSecond` executes `ExecuteFirst` > `ExecuteSecond`
+  - `?operationName=ExecuteFirst` executes `ExecuteFirst`
+
+- When `@depends` receives only one operation, it can receive a `String` (instead of `[String]`):
+
+```graphql
+query ExecuteFirst
+  # ...
+}
+query ExecuteSecond @depends(on: "ExecuteFirst") {
+  # ...
+}
+```
+
+- Both `query` and `mutation` operations can depend on each other:
+
+```graphql
+query GetAndExportData
+  # ...
+}
+mutation MutateData @depends(on: "GetAndExportData") {
+  # ...
+}
+query CountMutatedResults @depends(on: "MutateData") {
+  # ...
+}
+```
+
+- [Dynamic variables](https://gatographql.com/guides/augment/dynamic-variables/) do not need to be declared in the operation
+- Via input `@export(type:)` we can select the output of the data exported into the dynamic variable:
+  - `SINGLE` (default): A single field value
+  - `LIST`: An array containing the field value of multiple resources
+  - `DICTIONARY`: A dictionary containing the field value of multiple resources, with key: `${resource ID}` and value: `${field value}`
+
+</div>
 
 The following query creates a pipeline of two operations in the GraphQL document (`GetPostAndExportData` and `DuplicatePost`), which can share data with each other:
 
@@ -318,7 +385,7 @@ In the response, we can visualize that the fields of the new post are indeed the
       "rawContent": "<!-- wp:heading -->\n<h2>Verse Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:verse -->\n<pre class=\"wp-block-verse\">Write poetry and other literary expressions honoring all spaces and line-breaks.</pre>\n<!-- /wp:verse -->\n\n<!-- wp:heading -->\n<h2>Table Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:table {\"className\":\"is-style-stripes\"} -->\n<figure class=\"wp-block-table is-style-stripes\"><table><tbody><tr><td>Row 1 Column 1</td><td>Row 1 Column 2</td></tr><tr><td>Row 2 Column 1</td><td>Row 2 Column 2</td></tr><tr><td>Row 3 Column 1</td><td>Row 3 Column 2</td></tr></tbody></table></figure>\n<!-- /wp:table -->\n\n<!-- wp:heading -->\n<h2>Separator Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:separator -->\n<hr class=\"wp-block-separator\"/>\n<!-- /wp:separator -->\n\n<!-- wp:heading {\"className\":\"has-top-margin\"} -->\n<h2 class=\"has-top-margin\">Spacer Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:spacer -->\n<div style=\"height:100px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->",
       "excerpt": "Verse Block Write poetry and other literary expressions honoring all spaces and line-breaks. Table Block Row 1 Column 1 Row 1 Column 2 Row 2 Column 1 Row 2 Column 2 Row 3 Column 1 Row 3 Column 2 Separator Block Spacer Block",
       "featuredImage": {
-        "id": 362
+        "id": 1362
       },
       "tags": [
         {
@@ -355,7 +422,7 @@ In the response, we can visualize that the fields of the new post are indeed the
         "rawContent": "<!-- wp:heading -->\n<h2>Verse Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:verse -->\n<pre class=\"wp-block-verse\">Write poetry and other literary expressions honoring all spaces and line-breaks.</pre>\n<!-- /wp:verse -->\n\n<!-- wp:heading -->\n<h2>Table Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:table {\"className\":\"is-style-stripes\"} -->\n<figure class=\"wp-block-table is-style-stripes\"><table><tbody><tr><td>Row 1 Column 1</td><td>Row 1 Column 2</td></tr><tr><td>Row 2 Column 1</td><td>Row 2 Column 2</td></tr><tr><td>Row 3 Column 1</td><td>Row 3 Column 2</td></tr></tbody></table></figure>\n<!-- /wp:table -->\n\n<!-- wp:heading -->\n<h2>Separator Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:separator -->\n<hr class=\"wp-block-separator\"/>\n<!-- /wp:separator -->\n\n<!-- wp:heading {\"className\":\"has-top-margin\"} -->\n<h2 class=\"has-top-margin\">Spacer Block</h2>\n<!-- /wp:heading -->\n\n<!-- wp:spacer -->\n<div style=\"height:100px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->",
         "excerpt": "Verse Block Write poetry and other literary expressions honoring all spaces and line-breaks. Table Block Row 1 Column 1 Row 1 Column 2 Row 2 Column 1 Row 2 Column 2 Row 3 Column 1 Row 3 Column 2 Separator Block Spacer Block",
         "featuredImage": {
-          "id": 362
+          "id": 1362
         },
         "tags": [
           {
@@ -430,7 +497,7 @@ For instance, in the following query:
 }
 ```
 
-...field `featuredImage` will initially contain `362` (that's the featured image's ID), and field `tags` will contain array `[12, 7]` (those are the tag IDs).
+...field `featuredImage` will initially contain `1362` (that's the featured image's ID), and field `tags` will contain array `[12, 7]` (those are the tag IDs).
 
 When the value to export is an ID (such as `$featuredImageID`) or array of IDs (such as `$tagIDs`), we can benefit from this characteristic and already export the ID(s) in the connection field.
 

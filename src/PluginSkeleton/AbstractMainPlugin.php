@@ -17,7 +17,9 @@ use GatoGraphQL\GatoGraphQL\Constants\VirtualTutorialLessons;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerSystemContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
+use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseProperties;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseStatus;
+use GatoGraphQL\GatoGraphQL\Marketplace\LicenseValidationServiceInterface;
 use GatoGraphQL\GatoGraphQL\Module;
 use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\Extensions\ExtensionModuleResolver;
@@ -438,7 +440,6 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 foreach (array_merge($justFirstTimeActivatedExtensions, $justUpdatedExtensions) as $extensionBaseName => $extensionInstance) {
                     $storedPluginVersions[$extensionBaseName] = $extensionInstance->getPluginVersionWithCommitHash();
                 }
-                update_option(PluginOptions::PLUGIN_VERSIONS, $storedPluginVersions);
 
                 // Regenerate the timestamp, to generate the service container
                 $this->purgeContainer();
@@ -451,6 +452,18 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 add_action(
                     PluginAppHooks::INITIALIZE_APP,
                     function () use ($isMainPluginJustFirstTimeActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justFirstTimeActivatedExtensions, $justUpdatedExtensions) : void {
+                        /**
+                         * Update the versions only now, as to be sure that
+                         * compiling the container has ended successfully.
+                         *
+                         * Otherwise, if it produces a fatal error (because the
+                         * script takes too long to execute), we don't want
+                         * to reference the cached container (which may contain
+                         * garbage)
+                         *
+                         * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/2631
+                         */
+                        update_option(PluginOptions::PLUGIN_VERSIONS, $storedPluginVersions);
                         if ($isMainPluginJustFirstTimeActivated) {
                             $this->pluginJustFirstTimeActivated();
                         } elseif ($isMainPluginJustUpdated) {
@@ -531,6 +544,46 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             },
             PHP_INT_MAX
         );
+
+        $this->revalidateCommercialExtensionActivatedLicenses();
+    }
+
+    /**
+     * Execute a /validate operation for all existing
+     * licenses on the site. If any license has been
+     * disabled, the corresponding extension will also
+     * be disabled.
+     */
+    protected function revalidateCommercialExtensionActivatedLicenses(): void
+    {
+        $commercialExtensionActivatedLicenseKeys = $this->getCommercialExtensionActivatedLicenseKeys();
+        if ($commercialExtensionActivatedLicenseKeys === []) {
+            return;
+        }
+
+        $instanceManager = InstanceManagerFacade::getInstance();
+        /** @var LicenseValidationServiceInterface */
+        $licenseValidationService = $instanceManager->getInstance(LicenseValidationServiceInterface::class);
+
+        $licenseValidationService->validateGatoGraphQLCommercialExtensions(
+            $commercialExtensionActivatedLicenseKeys
+        );
+    }
+
+    /**
+     * @return array<string,string> Key: extension slug, Value: License key
+     */
+    protected function getCommercialExtensionActivatedLicenseKeys(): array
+    {
+        $commercialExtensionActivatedLicenseKeys = [];
+
+        /** @var array<string,mixed> */
+        $commercialExtensionActivatedLicenseEntries = get_option(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES, []);
+        foreach ($commercialExtensionActivatedLicenseEntries as $extensionSlug => $extensionLicenseProperties) {
+            $commercialExtensionActivatedLicenseKeys[$extensionSlug] = $extensionLicenseProperties[LicenseProperties::LICENSE_KEY];
+        }
+
+        return $commercialExtensionActivatedLicenseKeys;
     }
 
     /**
@@ -579,6 +632,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             '1.2' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot2']),
             '1.4' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot4']),
             '1.5' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot5']),
+            '1.6' => \Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot6']),
         ];
         foreach ($versionCallbacks as $version => $callback) {
             if ($previousVersion !== null && SemverWrapper::satisfies($previousVersion, '>= ' . $version)) {
@@ -1862,6 +1916,29 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                         AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/add-comments-block-to-post', VirtualTutorialLessons::ADD_COMMENTS_BLOCK_TO_POST),
                     ],
                 ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+            ]
+        ));
+    }
+
+    protected function installPluginSetupDataForVersion1Dot6(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var PersistedQueryEndpointGraphiQLBlock */
+        $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
+
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
+        \wp_insert_post(array_merge(
+            $adminPersistedQueryOptions,
+            [
+                'post_title' => \__('Generate a post\'s featured image using AI and optimize it', 'gatographql'),
+                'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                    'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                    'attrs' => [
+                        AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/generate/generate-a-post-featured-image-using-ai-and-optimize-it', VirtualTutorialLessons::GENERATE_A_POST_FEATURED_IMAGE_USING_AI_AND_OPTIMIZE_IT),
+                    ],
+                ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
             ]
         ));
     }

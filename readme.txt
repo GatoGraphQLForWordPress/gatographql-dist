@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, automation, notifications, import, export, headless, webhook, rest api, search replace, wp-cli, wget, translation
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 1.5.4
+Stable tag: 1.6.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,7 +102,7 @@ Yes you can. Use the GitHub template [GatoGraphQL/ExtensionStarter](https://gith
 
 With Gato GraphQL you can query data from the WordPress database, and then inject the results into a WP-CLI command (either to select a specific resource, or update an option with some value, or other).
 
-Check out tutorial lesson [Complementing WP-CLI](https://gatographql.com/tutorial/complementing-wp-cli/) for a thorough description on how to do it.
+Check out tutorial lesson [Complementing WP-CLI](https://gatographql.com/guides/code/complementing-wp-cli/) for a thorough description on how to do it.
 
 = How do I use Gato GraphQL to build headless sites? =
 
@@ -110,11 +110,11 @@ With Gato GraphQL you can create an endpoint that exposes the data from your Wor
 
 = How do I fetch Gutenberg block data with Gato GraphQL? =
 
-Check guide [Working with (Gutenberg) blocks](https://gatographql.com/guides/interact/working-with-gutenberg-blocks/) for the different ways in which we can query block data, and tutorial lesson [Mapping JS components to (Gutenberg) blocks](https://gatographql.com/tutorial/mapping-js-components-to-gutenberg-blocks/) for an example.
+Check guide [Working with (Gutenberg) blocks](https://gatographql.com/guides/interact/working-with-gutenberg-blocks/) for the different ways in which we can query block data, and guide [Mapping JS components to (Gutenberg) blocks](https://gatographql.com/guides/code/mapping-js-components-to-gutenberg-blocks/) for an example.
 
-= How do I use Gato GraphQL to feed data to my Gutenberg Blocks? =
+= How do I use Gato GraphQL to feed data to my Gutenberg blocks? =
 
-Check tutorial lesson [Feeding data to blocks in the editor](https://gatographql.com/tutorial/feeding-data-to-blocks-in-the-editor/) to learn how to create a private endpoint and have the block connect to it via JavaScript.
+Check tutorial lesson [Feeding data to blocks in the editor](https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/) to learn how to create a private endpoint and have the block connect to it via JavaScript.
 
 = How is Gato GraphQL different than the WP REST API? =
 
@@ -168,6 +168,17 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 1.6.0 =
+* Added new module Media Mutations
+* Added mutation `createMediaItem`
+* Added fields `myMediaItemCount`, `myMediaItems` and `myMediaItem`
+* Added predefined persisted query "Generate a post's featured image using AI and optimize it"
+* Added documentation for new field `_dataMatrixOutputAsCSV` from the Helper Function Collection extension
+* Validate the license keys when updating the plugin
+* Simplified the Tutorial section
+* Prevent max execution time issues when installing plugin on (cheap) shared hosting (#2631)
+* Fixed bug where a syntax error on a variable definition in the GraphQL query was not validated
 
 = 1.5.4 =
 * Fixed bug in resolver where innerBlocks is not set

@@ -12,19 +12,19 @@ class CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver extends Abst
     /**
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader|null
      */
-    private $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader(CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader) : void
+    private $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader;
+    public final function setCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader(CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader) : void
     {
-        $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
+        $this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader = $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader;
     }
     protected final function getCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader() : CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader
     {
-        if ($this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader === null) {
+        if ($this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader === null) {
             /** @var CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader */
-            $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = $this->instanceManager->getInstance(CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader::class);
-            $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
+            $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader = $this->instanceManager->getInstance(CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader::class);
+            $this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader = $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader;
         }
-        return $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
+        return $this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader;
     }
     public function getTypeName() : string
     {
