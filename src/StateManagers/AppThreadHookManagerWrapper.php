@@ -42,25 +42,24 @@ class AppThreadHookManagerWrapper implements HookManagerInterface
     /**
      * @var string
      */
-    private $appThreadName;
+    private $appThreadUniqueID;
 
     public function __construct(HookManagerInterface $hookManager)
     {
         $this->hookManager = $hookManager;
-        $currentAppThreadName = App::getAppThread()->getName();
-        if ($currentAppThreadName === null) {
+        if (App::getAppThread()->getName() === null) {
             throw new ShouldNotHappenException(
                 \__('AppThread has no name', 'gatographql')
             );
         }
-        $this->appThreadName = $currentAppThreadName;
+        $this->appThreadUniqueID = App::getAppThread()->getUniqueID();
     }
 
     private function getAppThreadTag(string $tag): string
     {
         return sprintf(
             'AppThread:%s-%s',
-            $this->appThreadName,
+            $this->appThreadUniqueID,
             $tag
         );
     }

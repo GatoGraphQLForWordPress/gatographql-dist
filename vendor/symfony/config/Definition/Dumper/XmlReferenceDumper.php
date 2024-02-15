@@ -35,14 +35,14 @@ class XmlReferenceDumper
     /**
      * @return string
      */
-    public function dump(ConfigurationInterface $configuration, string $namespace = null)
+    public function dump(ConfigurationInterface $configuration, ?string $namespace = null)
     {
         return $this->dumpNode($configuration->getConfigTreeBuilder()->buildTree(), $namespace);
     }
     /**
      * @return string
      */
-    public function dumpNode(NodeInterface $node, string $namespace = null)
+    public function dumpNode(NodeInterface $node, ?string $namespace = null)
     {
         $this->reference = '';
         $this->writeNode($node, 0, \true, $namespace);
@@ -50,7 +50,7 @@ class XmlReferenceDumper
         $this->reference = null;
         return $ref;
     }
-    private function writeNode(NodeInterface $node, int $depth = 0, bool $root = \false, string $namespace = null) : void
+    private function writeNode(NodeInterface $node, int $depth = 0, bool $root = \false, ?string $namespace = null) : void
     {
         $rootName = $root ? 'config' : $node->getName();
         $rootNamespace = $namespace ?: ($root ? 'http://example.org/schema/dic/' . $node->getName() : null);

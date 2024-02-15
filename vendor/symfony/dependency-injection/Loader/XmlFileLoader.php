@@ -42,7 +42,7 @@ class XmlFileLoader extends FileLoader
      * @param mixed $resource
      * @return mixed
      */
-    public function load($resource, string $type = null)
+    public function load($resource, ?string $type = null)
     {
         $path = $this->locator->locate($resource);
         $xml = $this->parseFileToDOM($path);
@@ -63,7 +63,7 @@ class XmlFileLoader extends FileLoader
         }
         return null;
     }
-    private function loadXml(\DOMDocument $xml, string $path, \DOMNode $root = null) : void
+    private function loadXml(\DOMDocument $xml, string $path, ?\DOMNode $root = null) : void
     {
         $defaults = $this->getServiceDefaults($xml, $path, $root);
         // anonymous services
@@ -85,7 +85,7 @@ class XmlFileLoader extends FileLoader
     /**
      * @param mixed $resource
      */
-    public function supports($resource, string $type = null) : bool
+    public function supports($resource, ?string $type = null) : bool
     {
         if (!\is_string($resource)) {
             return \false;
@@ -95,13 +95,13 @@ class XmlFileLoader extends FileLoader
         }
         return 'xml' === $type;
     }
-    private function parseParameters(\DOMDocument $xml, string $file, \DOMNode $root = null) : void
+    private function parseParameters(\DOMDocument $xml, string $file, ?\DOMNode $root = null) : void
     {
         if ($parameters = $this->getChildren($root ?? $xml->documentElement, 'parameters')) {
             $this->container->getParameterBag()->add($this->getArgumentsAsPhp($parameters[0], 'parameter', $file));
         }
     }
-    private function parseImports(\DOMDocument $xml, string $file, \DOMNode $root = null) : void
+    private function parseImports(\DOMDocument $xml, string $file, ?\DOMNode $root = null) : void
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
@@ -114,7 +114,7 @@ class XmlFileLoader extends FileLoader
             $this->import($import->getAttribute('resource'), XmlUtils::phpize($import->getAttribute('type')) ?: null, XmlUtils::phpize($import->getAttribute('ignore-errors')) ?: \false, $file);
         }
     }
-    private function parseDefinitions(\DOMDocument $xml, string $file, Definition $defaults, \DOMNode $root = null) : void
+    private function parseDefinitions(\DOMDocument $xml, string $file, Definition $defaults, ?\DOMNode $root = null) : void
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
@@ -162,7 +162,7 @@ class XmlFileLoader extends FileLoader
             }
         }
     }
-    private function getServiceDefaults(\DOMDocument $xml, string $file, \DOMNode $root = null) : Definition
+    private function getServiceDefaults(\DOMDocument $xml, string $file, ?\DOMNode $root = null) : Definition
     {
         $xpath = new \DOMXPath($xml);
         $xpath->registerNamespace('container', self::NS);
@@ -384,7 +384,7 @@ class XmlFileLoader extends FileLoader
     /**
      * Processes anonymous services.
      */
-    private function processAnonymousServices(\DOMDocument $xml, string $file, \DOMNode $root = null) : void
+    private function processAnonymousServices(\DOMDocument $xml, string $file, ?\DOMNode $root = null) : void
     {
         $definitions = [];
         $count = 0;

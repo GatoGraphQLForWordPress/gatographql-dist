@@ -10,6 +10,8 @@ interface MainPluginInitializationConfigurationInterface extends PluginInitializ
 {
     /**
      * Provide the configuration to cache the container
+     *
+     * @param array<string,mixed> $pluginAppGraphQLServerContext
      */
-    public function getContainerCacheConfiguration(string $pluginAppGraphQLServerName): ContainerCacheConfiguration;
+    public function getContainerCacheConfiguration(string $pluginAppGraphQLServerName, array $pluginAppGraphQLServerContext): ContainerCacheConfiguration;
 }

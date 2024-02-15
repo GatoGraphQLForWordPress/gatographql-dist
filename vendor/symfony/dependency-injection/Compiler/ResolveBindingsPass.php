@@ -13,6 +13,7 @@ namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\Autowire;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\Target;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
@@ -169,6 +170,9 @@ class ResolveBindingsPass extends AbstractRecursivePass
                     continue;
                 }
                 if (\array_key_exists($parameter->name, $arguments) && '' !== $arguments[$parameter->name]) {
+                    continue;
+                }
+                if ($value->isAutowired() && !$value->hasTag('container.ignore_attributes') && (\method_exists($parameter, 'getAttributes') ? $parameter->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF) : [])) {
                     continue;
                 }
                 $typeHint = \ltrim(ProxyHelper::exportType($parameter) ?? '', '?');

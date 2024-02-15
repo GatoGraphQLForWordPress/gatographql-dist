@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
+class ComposerStaticInite93e4d392bcdf248b756b7865d69741c
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -858,6 +858,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptionValues' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptionValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptions' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptions.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\PluginSetupDataEntrySlugs' => __DIR__ . '/../..' . '/src/Constants/PluginSetupDataEntrySlugs.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\RequestParams' => __DIR__ . '/../..' . '/src/Constants/RequestParams.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\TutorialLessons' => __DIR__ . '/../..' . '/src/Constants/TutorialLessons.php',
@@ -885,6 +886,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'GatoGraphQL\\GatoGraphQL\\Container\\HybridCompilerPasses\\RegisterModuleResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/HybridCompilerPasses/RegisterModuleResolverCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\HybridCompilerPasses\\RegisterSettingsCategoryResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/HybridCompilerPasses/RegisterSettingsCategoryResolverCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\InternalGraphQLServerContainerBuilderFactory' => __DIR__ . '/../..' . '/src/Container/InternalGraphQLServerContainerBuilderFactory.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\InternalGraphQLServerContainerBuilderFactoryTrait' => __DIR__ . '/../..' . '/src/Container/InternalGraphQLServerContainerBuilderFactoryTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\InternalGraphQLServerSystemContainerBuilderFactory' => __DIR__ . '/../..' . '/src/Container/InternalGraphQLServerSystemContainerBuilderFactory.php',
         'GatoGraphQL\\GatoGraphQL\\ContentPrinters\\CollapsibleContentPrinterTrait' => __DIR__ . '/../..' . '/src/ContentPrinters/CollapsibleContentPrinterTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ContentProcessors\\AbstractContentParser' => __DIR__ . '/../..' . '/src/ContentProcessors/AbstractContentParser.php',
@@ -907,6 +909,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'GatoGraphQL\\GatoGraphQL\\Exception\\ModuleNotExistsException' => __DIR__ . '/../..' . '/src/Exception/ModuleNotExistsException.php',
         'GatoGraphQL\\GatoGraphQL\\Exception\\ModuleTypeNotExistsException' => __DIR__ . '/../..' . '/src/Exception/ModuleTypeNotExistsException.php',
         'GatoGraphQL\\GatoGraphQL\\Exception\\PersistedQueryNotFoundException' => __DIR__ . '/../..' . '/src/Exception/PersistedQueryNotFoundException.php',
+        'GatoGraphQL\\GatoGraphQL\\Exception\\SchemaConfigurationNotFoundException' => __DIR__ . '/../..' . '/src/Exception/SchemaConfigurationNotFoundException.php',
         'GatoGraphQL\\GatoGraphQL\\Exception\\SettingsCategoryNotExistsException' => __DIR__ . '/../..' . '/src/Exception/SettingsCategoryNotExistsException.php',
         'GatoGraphQL\\GatoGraphQL\\Exception\\UserAuthorizationException' => __DIR__ . '/../..' . '/src/Exception/UserAuthorizationException.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\AbstractContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/AbstractContainerCacheConfigurationManagerFacade.php',
@@ -1304,6 +1307,8 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'GatoGraphQL\\GatoGraphQL\\Settings\\SettingsNormalizerInterface' => __DIR__ . '/../..' . '/src/Settings/SettingsNormalizerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\UserSettingsManager' => __DIR__ . '/../..' . '/src/Settings/UserSettingsManager.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\UserSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/UserSettingsManagerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\StateManagers\\AppThreadContext' => __DIR__ . '/../..' . '/src/StateManagers/AppThreadContext.php',
+        'GatoGraphQL\\GatoGraphQL\\StateManagers\\AppThreadHelper' => __DIR__ . '/../..' . '/src/StateManagers/AppThreadHelper.php',
         'GatoGraphQL\\GatoGraphQL\\StateManagers\\AppThreadHookManagerWrapper' => __DIR__ . '/../..' . '/src/StateManagers/AppThreadHookManagerWrapper.php',
         'GatoGraphQL\\GatoGraphQL\\State\\AbstractGraphQLEndpointExecuterAppStateProvider' => __DIR__ . '/../..' . '/src/State/AbstractGraphQLEndpointExecuterAppStateProvider.php',
         'GatoGraphQL\\GatoGraphQL\\State\\AbstractGraphQLQueryResolutionEndpointExecuterAppStateProvider' => __DIR__ . '/../..' . '/src/State/AbstractGraphQLQueryResolutionEndpointExecuterAppStateProvider.php',
@@ -1316,6 +1321,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\BehaviorHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/BehaviorHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\LocaleUtils' => __DIR__ . '/../..' . '/src/StaticHelpers/LocaleUtils.php',
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\PluginEnvironmentHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/PluginEnvironmentHelpers.php',
+        'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\PluginSetupDataHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/PluginSetupDataHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\PluginVersionHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/PluginVersionHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\SettingsHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/SettingsHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\StaticHelpers\\WordPressHelpers' => __DIR__ . '/../..' . '/src/StaticHelpers/WordPressHelpers.php',
@@ -3736,6 +3742,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'PoP\\Root\\Feedback\\FeedbackCategories' => __DIR__ . '/..' . '/getpop/root/src/Feedback/FeedbackCategories.php',
         'PoP\\Root\\Feedback\\FeedbackItemEntryKeys' => __DIR__ . '/..' . '/getpop/root/src/Feedback/FeedbackItemEntryKeys.php',
         'PoP\\Root\\Feedback\\FeedbackItemResolution' => __DIR__ . '/..' . '/getpop/root/src/Feedback/FeedbackItemResolution.php',
+        'PoP\\Root\\Helpers\\AppThreadHelpers' => __DIR__ . '/..' . '/getpop/root/src/Helpers/AppThreadHelpers.php',
         'PoP\\Root\\Helpers\\ClassHelpers' => __DIR__ . '/..' . '/getpop/root/src/Helpers/ClassHelpers.php',
         'PoP\\Root\\Helpers\\Methods' => __DIR__ . '/..' . '/getpop/root/src/Helpers/Methods.php',
         'PoP\\Root\\Hooks\\AbstractAfterAppBootHookSet' => __DIR__ . '/..' . '/getpop/root/src/Hooks/AbstractAfterAppBootHookSet.php',
@@ -4535,6 +4542,7 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
         'PrefixedByPoP\\Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
         'PrefixedByPoP\\Symfony\\Polyfill\\Php83\\Php83' => __DIR__ . '/..' . '/symfony/polyfill-php83/Php83.php',
         'PrefixedByPoP\\©' => __DIR__ . '/..' . '/symfony/cache/Traits/ValueWrapper.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
@@ -4543,9 +4551,9 @@ class ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf4734b83af8f46156cf18f5d7d5d5438::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite93e4d392bcdf248b756b7865d69741c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite93e4d392bcdf248b756b7865d69741c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite93e4d392bcdf248b756b7865d69741c::$classMap;
 
         }, null, ClassLoader::class);
     }

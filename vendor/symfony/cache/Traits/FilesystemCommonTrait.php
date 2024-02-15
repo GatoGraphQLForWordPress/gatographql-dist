@@ -78,7 +78,7 @@ trait FilesystemCommonTrait
     {
         return @\unlink($file);
     }
-    private function write(string $file, string $data, int $expiresAt = null) : bool
+    private function write(string $file, string $data, ?int $expiresAt = null) : bool
     {
         $unlink = \false;
         \set_error_handler(static function ($type, $message, $file, $line) {
@@ -112,7 +112,7 @@ trait FilesystemCommonTrait
             }
         }
     }
-    private function getFile(string $id, bool $mkdir = \false, string $directory = null) : string
+    private function getFile(string $id, bool $mkdir = \false, ?string $directory = null) : string
     {
         // Use xxh128 to favor speed over security, which is not an issue here
         $hash = \str_replace('/', '-', \base64_encode(\hash('md5', static::class . $id, \true)));

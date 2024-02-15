@@ -33,9 +33,9 @@ class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
      */
     private $secure;
     /**
-     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface $handler
+     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null $handler
      */
-    public function __construct($handler = null, MetadataBag $metaBag = null, bool $secure = \false)
+    public function __construct($handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
     {
         $this->handler = $handler;
         $this->metaBag = $metaBag;

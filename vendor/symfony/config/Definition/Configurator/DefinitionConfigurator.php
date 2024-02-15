@@ -43,7 +43,7 @@ class DefinitionConfigurator
         $this->path = $path;
         $this->file = $file;
     }
-    public function import(string $resource, string $type = null, bool $ignoreErrors = \false) : void
+    public function import(string $resource, ?string $type = null, bool $ignoreErrors = \false) : void
     {
         $this->loader->setCurrentDir(\dirname($this->path));
         $this->loader->import($resource, $type, $ignoreErrors, $this->file);

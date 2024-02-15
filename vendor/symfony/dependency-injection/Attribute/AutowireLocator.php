@@ -30,7 +30,7 @@ class AutowireLocator extends Autowire
      * @param string|array<string|SubscribedService> $services An explicit list of services or a tag name
      * @param string|string[]                        $exclude  A service or a list of services to exclude
      */
-    public function __construct($services, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true)
+    public function __construct($services, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true)
     {
         if (\is_string($services)) {
             parent::__construct(new ServiceLocatorArgument(new TaggedIteratorArgument($services, $indexAttribute, $defaultIndexMethod, \true, $defaultPriorityMethod, (array) $exclude, $excludeSelf)));

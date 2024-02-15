@@ -1,9 +1,9 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
-Tags: graphql, automation, notifications, import, export, headless, webhook, rest api, search replace, wp-cli, wget, translation
+Tags: graphql, headless, webhook, api, automator, import export, search replace, update urls, wpcli, wget, translation, notifications
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -168,6 +168,19 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.1.0 =
+* Support providing the Schema Configuration to apply when invoking the Internal GraphQL Server
+* Added predefined persisted query "Insert block in post"
+* If initializing the service container from the cache fails, fallback to initializing PHP object from memory (#2638)
+* Give unique operationName to all predefined persisted queries (#2644)
+* Improved error message when fetching blocks from a post, and the block content has errors
+* Completed documentation for the Automation extension (#2651)
+* On the "Generate a post's featured image using AI and optimize it" predefined persisted query, execute logic only if the post title is not empty (#ec931dd)
+* Fixed bug in multi-control JS component used by extensions (Access Control, Cache Control, and Field Deprecation) showing "undefined" on the block on the Schema Configuration (#2639)
+* Fixed bug in regex replacements in predefined persisted queries (#2649)
+* Avoid reinstalling plugin setup data if deactivating/reactivating the plugin (#2641)
+* Handle error from passing WP_Post as GraphQL variable to the Internal GraphQL Server (#2652)
 
 = 2.0.0 =
 * Added new module Media Mutations

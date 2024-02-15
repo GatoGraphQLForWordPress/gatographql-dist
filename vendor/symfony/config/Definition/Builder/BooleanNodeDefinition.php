@@ -20,7 +20,7 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidDefinitio
  */
 class BooleanNodeDefinition extends ScalarNodeDefinition
 {
-    public function __construct(?string $name, NodeParentInterface $parent = null)
+    public function __construct(?string $name, ?NodeParentInterface $parent = null)
     {
         parent::__construct($name, $parent);
         $this->nullEquivalent = \true;

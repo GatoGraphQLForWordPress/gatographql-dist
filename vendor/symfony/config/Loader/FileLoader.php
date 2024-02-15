@@ -30,7 +30,7 @@ abstract class FileLoader extends Loader
      * @var string|null
      */
     private $currentDir;
-    public function __construct(FileLocatorInterface $locator, string $env = null)
+    public function __construct(FileLocatorInterface $locator, ?string $env = null)
     {
         $this->locator = $locator;
         parent::__construct($env);
@@ -66,7 +66,7 @@ abstract class FileLoader extends Loader
      * @throws FileLoaderImportCircularReferenceException
      * @throws FileLocatorFileNotFoundException
      */
-    public function import($resource, string $type = null, bool $ignoreErrors = \false, string $sourceResource = null, $exclude = null)
+    public function import($resource, ?string $type = null, bool $ignoreErrors = \false, ?string $sourceResource = null, $exclude = null)
     {
         if (\is_string($resource) && \strlen($resource) !== ($i = \strcspn($resource, '*?{[')) && \strpos($resource, "\n") === \false) {
             $excluded = [];
@@ -92,7 +92,7 @@ abstract class FileLoader extends Loader
     }
     /**
      * @internal
-     * @param mixed[]|\Symfony\Component\Config\Resource\GlobResource $resource
+     * @param mixed[]|\Symfony\Component\Config\Resource\GlobResource|null $resource
      */
     protected function glob(string $pattern, bool $recursive, &$resource = null, bool $ignoreErrors = \false, bool $forExclusion = \false, array $excluded = []) : iterable
     {
@@ -125,7 +125,7 @@ abstract class FileLoader extends Loader
      * @param mixed $resource
      * @return mixed
      */
-    private function doImport($resource, string $type = null, bool $ignoreErrors = \false, string $sourceResource = null)
+    private function doImport($resource, ?string $type = null, bool $ignoreErrors = \false, ?string $sourceResource = null)
     {
         try {
             $loader = $this->resolve($resource, $type);

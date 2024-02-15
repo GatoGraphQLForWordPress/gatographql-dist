@@ -25,5 +25,5 @@ interface LoaderResolverInterface
      * @return \Symfony\Component\Config\Loader\LoaderInterface|false
      * @param mixed $resource
      */
-    public function resolve($resource, string $type = null);
+    public function resolve($resource, ?string $type = null);
 }

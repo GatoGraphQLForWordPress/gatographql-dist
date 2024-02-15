@@ -138,8 +138,4 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
     {
         return new HookManager();
     }
-    protected function areFeedbackAndTracingStoresAlreadyCreated() : bool
-    {
-        return \true;
-    }
 }

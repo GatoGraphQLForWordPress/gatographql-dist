@@ -32,7 +32,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     /**
      * @param \Traversable<EnvVarLoaderInterface>|null $loaders
      */
-    public function __construct(ContainerInterface $container, \Traversable $loaders = null)
+    public function __construct(ContainerInterface $container, ?\Traversable $loaders = null)
     {
         $this->container = $container;
         $this->loaders = $loaders ?? new \ArrayIterator();
@@ -130,8 +130,14 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         if (\false !== $i || 'string' !== $prefix) {
             $env = $getEnv($name);
         } elseif ('' === ($env = $_ENV[$name] ?? (\strncmp($name, 'HTTP_', \strlen('HTTP_')) === 0 ? null : $_SERVER[$name] ?? null)) || \false !== $env && \false === ($env = $env ?? \getenv($name) ?? \false)) {
-            foreach ($this->loadedVars as $vars) {
-                if (\false !== ($env = $vars[$name] ?? $env) && '' !== $env) {
+            foreach ($this->loadedVars as $i => $vars) {
+                if (\false === ($env = $vars[$name] ?? $env)) {
+                    continue;
+                }
+                if ($env instanceof \Stringable) {
+                    $this->loadedVars[$i][$name] = $env = (string) $env;
+                }
+                if ('' !== ($env ?? '')) {
                     break;
                 }
             }
@@ -147,7 +153,14 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                             continue;
                         }
                         $this->loadedVars[] = $vars = $loader->loadEnvVars();
-                        if (\false !== ($env = $vars[$name] ?? $env) && '' !== $env) {
+                        if (\false === ($env = $vars[$name] ?? $env)) {
+                            continue;
+                        }
+                        if ($env instanceof \Stringable) {
+                            \end($this->loadedVars);
+                            $this->loadedVars[\key($this->loadedVars)][$name] = $env = (string) $env;
+                        }
+                        if ('' !== ($env ?? '')) {
                             $ended = \false;
                             break;
                         }
@@ -227,17 +240,19 @@ class EnvVarProcessor implements EnvVarProcessorInterface
             return $env;
         }
         if ('url' === $prefix) {
-            $parsedEnv = \parse_url($env);
-            if (\false === $parsedEnv) {
+            $params = \parse_url($env);
+            if (\false === $params) {
                 throw new RuntimeException(\sprintf('Invalid URL in env var "%s".', $name));
             }
-            if (!isset($parsedEnv['scheme'], $parsedEnv['host'])) {
+            if (!isset($params['scheme'], $params['host'])) {
                 throw new RuntimeException(\sprintf('Invalid URL env var "%s": schema and host expected, "%s" given.', $name, $env));
             }
-            $parsedEnv += ['port' => null, 'user' => null, 'pass' => null, 'path' => null, 'query' => null, 'fragment' => null];
+            $params += ['port' => null, 'user' => null, 'pass' => null, 'path' => null, 'query' => null, 'fragment' => null];
+            $params['user'] = null !== $params['user'] ? \rawurldecode($params['user']) : null;
+            $params['pass'] = null !== $params['pass'] ? \rawurldecode($params['pass']) : null;
             // remove the '/' separator
-            $parsedEnv['path'] = '/' === ($parsedEnv['path'] ?? '/') ? '' : \substr($parsedEnv['path'], 1);
-            return $parsedEnv;
+            $params['path'] = '/' === ($params['path'] ?? '/') ? '' : \substr($params['path'], 1);
+            return $params;
         }
         if ('query_string' === $prefix) {
             $queryString = \parse_url($env, \PHP_URL_QUERY) ?: $env;

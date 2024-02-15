@@ -8,8 +8,25 @@ use PoP\Root\Container\ContainerBuilderFactory;
 
 class InternalGraphQLServerContainerBuilderFactory extends ContainerBuilderFactory
 {
+    /**
+     * @var array<string, mixed>
+     */
+    private $pluginAppGraphQLServerContext;
+    use InternalGraphQLServerContainerBuilderFactoryTrait;
+
+    /**
+     * @param array<string,mixed> $pluginAppGraphQLServerContext
+     */
+    public function __construct(array $pluginAppGraphQLServerContext)
+    {
+        $this->pluginAppGraphQLServerContext = $pluginAppGraphQLServerContext;
+    }
+
     public function getContainerClassName(): string
     {
-        return 'InternalGraphQLServer' . parent::getContainerClassName();
+        return $this->getInternalGraphQLServerContainerClassName(
+            $this->pluginAppGraphQLServerContext,
+            parent::getContainerClassName()
+        );
     }
 }

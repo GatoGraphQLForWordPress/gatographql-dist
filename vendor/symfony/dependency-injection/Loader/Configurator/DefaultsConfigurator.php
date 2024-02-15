@@ -27,7 +27,7 @@ class DefaultsConfigurator extends AbstractServiceConfigurator
      * @var string|null
      */
     private $path;
-    public function __construct(ServicesConfigurator $parent, Definition $definition, string $path = null)
+    public function __construct(ServicesConfigurator $parent, Definition $definition, ?string $path = null)
     {
         parent::__construct($parent, $definition, null, []);
         $this->path = $path;

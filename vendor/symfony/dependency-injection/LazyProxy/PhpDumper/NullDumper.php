@@ -21,7 +21,7 @@ use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
  */
 class NullDumper implements DumperInterface
 {
-    public function isProxyCandidate(Definition $definition, bool &$asGhostObject = null, string $id = null) : bool
+    public function isProxyCandidate(Definition $definition, ?bool &$asGhostObject = null, ?string $id = null) : bool
     {
         return $asGhostObject = \false;
     }
@@ -29,7 +29,7 @@ class NullDumper implements DumperInterface
     {
         return '';
     }
-    public function getProxyCode(Definition $definition, string $id = null) : string
+    public function getProxyCode(Definition $definition, ?string $id = null) : string
     {
         return '';
     }

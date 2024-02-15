@@ -128,7 +128,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
          */
         \add_action(
             PluginAppHooks::INITIALIZE_APP,
-            function (string $pluginAppGraphQLServerName): void {
+            function (): void {
                 /**
                  * Initialize/configure/boot this extension plugin
                  */
@@ -142,8 +142,8 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION,
-                    function () use ($pluginAppGraphQLServerName) {
-                        return $this->configure($pluginAppGraphQLServerName);
+                    function () {
+                        return $this->configure();
                     }
                 );
                 \add_action(

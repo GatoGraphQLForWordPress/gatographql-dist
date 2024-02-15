@@ -43,7 +43,7 @@ class Autowire
      * @param string|null                         $param      Parameter name (ie 'some.parameter.name')
      * @param bool|class-string|class-string[]    $lazy       Whether to use lazy-loading for this argument
      */
-    public function __construct($value = null, string $service = null, string $expression = null, string $env = null, string $param = null, $lazy = \false)
+    public function __construct($value = null, ?string $service = null, ?string $expression = null, ?string $env = null, ?string $param = null, $lazy = \false)
     {
         if ($this->lazy = \is_string($lazy) ? [$lazy] : $lazy) {
             if (null !== ($expression ?? $env ?? $param)) {

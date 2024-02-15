@@ -30,7 +30,7 @@ class ServiceLocator extends BaseServiceLocator
      * @var mixed[]|null
      */
     private $serviceTypes;
-    public function __construct(\Closure $factory, array $serviceMap, array $serviceTypes = null)
+    public function __construct(\Closure $factory, array $serviceMap, ?array $serviceTypes = null)
     {
         $this->factory = $factory;
         $this->serviceMap = $serviceMap;

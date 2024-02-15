@@ -1,16 +1,18 @@
 ########################################################################
-#
-# This Persisted GraphQL query retrieves a post, replaces all
-# occurrences of a list of strings with another list of strings
-# in the post's content and title, and stores the post again.
-#
-# *********************************************************************
 # 
 # Variables:
 #   - postId: The ID of the post to do the search and replace
 #   - replaceFrom: The list of strings to search
 #   - replaceTo: The list of strings to replace with
 # 
+# *********************************************************************
+#
+# === Description ===
+#
+# This Persisted GraphQL query retrieves a post, replaces all
+# occurrences of a list of strings with another list of strings
+# in the post's content and title, and stores the post again.
+#
 # *********************************************************************
 #
 # More info:
@@ -23,7 +25,7 @@ query GetPostData(
   $replaceFrom: [String!]!,
   $replaceTo: [String!]!
 ) {
-  post(by: { id: $postId }) {
+  post(by: { id: $postId }, status: any) {
     title
     adaptedPostTitle: _strReplaceMultiple(
       search: $replaceFrom
@@ -42,7 +44,7 @@ query GetPostData(
   }
 }
 
-mutation UpdatePost($postId: ID!)
+mutation ReplaceStringsInPost($postId: ID!)
   @depends(on: "GetPostData")
 {
   updatePost(input: {

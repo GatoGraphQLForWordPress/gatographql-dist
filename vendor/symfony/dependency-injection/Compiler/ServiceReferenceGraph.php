@@ -69,7 +69,7 @@ class ServiceReferenceGraph
      * @param mixed $sourceValue
      * @param mixed $destValue
      */
-    public function connect(?string $sourceId, $sourceValue, ?string $destId, $destValue = null, Reference $reference = null, bool $lazy = \false, bool $weak = \false, bool $byConstructor = \false) : void
+    public function connect(?string $sourceId, $sourceValue, ?string $destId, $destValue = null, ?Reference $reference = null, bool $lazy = \false, bool $weak = \false, bool $byConstructor = \false) : void
     {
         if (null === $sourceId || null === $destId) {
             return;

@@ -1,12 +1,14 @@
 ########################################################################
-#
-# This Persisted GraphQL query duplicates a post.
-#
-# *********************************************************************
 # 
 # Variables:
 #   - postId: ID of the post to duplicate
 # 
+# *********************************************************************
+#
+# === Description ===
+#
+# This Persisted GraphQL query duplicates a post.
+#
 # *********************************************************************
 #
 # More info:
@@ -37,7 +39,7 @@ query InitializeDynamicVariables
 query GetPostAndExportData($postId: ID!)
   @depends(on: "InitializeDynamicVariables")
 {
-  post(by: { id : $postId }) {
+  post(by: { id: $postId }, status: any) {
     # Fields not to be duplicated
     id
     slug

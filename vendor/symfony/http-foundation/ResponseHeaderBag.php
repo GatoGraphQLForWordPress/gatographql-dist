@@ -72,7 +72,7 @@ class ResponseHeaderBag extends HeaderBag
             $this->initDate();
         }
     }
-    public function all(string $key = null) : array
+    public function all(?string $key = null) : array
     {
         $headers = parent::all();
         if (null !== $key) {
@@ -153,7 +153,7 @@ class ResponseHeaderBag extends HeaderBag
      *
      * @return void
      */
-    public function removeCookie(string $name, ?string $path = '/', string $domain = null)
+    public function removeCookie(string $name, ?string $path = '/', ?string $domain = null)
     {
         $path = $path ?? '/';
         unset($this->cookies[$domain][$path][$name]);
@@ -197,7 +197,7 @@ class ResponseHeaderBag extends HeaderBag
      *
      * @return void
      */
-    public function clearCookie(string $name, ?string $path = '/', string $domain = null, bool $secure = \false, bool $httpOnly = \true, string $sameSite = null)
+    public function clearCookie(string $name, ?string $path = '/', ?string $domain = null, bool $secure = \false, bool $httpOnly = \true, ?string $sameSite = null)
     {
         $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly, \false, $sameSite));
     }

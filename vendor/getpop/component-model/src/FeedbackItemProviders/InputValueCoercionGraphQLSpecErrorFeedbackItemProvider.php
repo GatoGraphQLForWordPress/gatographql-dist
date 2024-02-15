@@ -26,6 +26,7 @@ class InputValueCoercionGraphQLSpecErrorFeedbackItemProvider extends AbstractFee
     public const E_5_6_1_17 = '5.6.1[17]';
     public const E_5_6_1_18 = '5.6.1[18]';
     public const E_5_6_1_19 = '5.6.1[19]';
+    public const E_5_6_1_20 = '5.6.1[20]';
     protected function getNamespace() : string
     {
         return 'gql';
@@ -35,7 +36,7 @@ class InputValueCoercionGraphQLSpecErrorFeedbackItemProvider extends AbstractFee
      */
     public function getCodes() : array
     {
-        return [self::E_5_6_1_1, self::E_5_6_1_2, self::E_5_6_1_3, self::E_5_6_1_4, self::E_5_6_1_6, self::E_5_6_1_7, self::E_5_6_1_8, self::E_5_6_1_9, self::E_5_6_1_10, self::E_5_6_1_11, self::E_5_6_1_12, self::E_5_6_1_13, self::E_5_6_1_14, self::E_5_6_1_15, self::E_5_6_1_16, self::E_5_6_1_17, self::E_5_6_1_18, self::E_5_6_1_19];
+        return [self::E_5_6_1_1, self::E_5_6_1_2, self::E_5_6_1_3, self::E_5_6_1_4, self::E_5_6_1_6, self::E_5_6_1_7, self::E_5_6_1_8, self::E_5_6_1_9, self::E_5_6_1_10, self::E_5_6_1_11, self::E_5_6_1_12, self::E_5_6_1_13, self::E_5_6_1_14, self::E_5_6_1_15, self::E_5_6_1_16, self::E_5_6_1_17, self::E_5_6_1_18, self::E_5_6_1_19, self::E_5_6_1_20];
     }
     public function getMessagePlaceholder(string $code) : string
     {
@@ -76,6 +77,8 @@ class InputValueCoercionGraphQLSpecErrorFeedbackItemProvider extends AbstractFee
                 return $this->__('Enum values can only be strings, value \'%s\' for type \'%s\' is not allowed', 'component-model');
             case self::E_5_6_1_19:
                 return $this->__('Property \'%s\' in oneof input object \'%s\' cannot receive `null`', 'component-model');
+            case self::E_5_6_1_20:
+                return $this->__('Argument \'%s\' of type \'%s\' cannot be an object', 'component-model');
             default:
                 return parent::getMessagePlaceholder($code);
         }

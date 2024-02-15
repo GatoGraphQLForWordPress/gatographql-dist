@@ -1,4 +1,11 @@
 ########################################################################
+# 
+# Variables:
+#   - postId: ID of the post to modify
+# 
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query does a regex search and replace to add
 # missing links in the post's HTML content.
@@ -14,11 +21,6 @@
 #  <p>Visit my website: <a href="https://mysite.com" target="_blank">mysite.com</a>.</p>
 #
 # *********************************************************************
-# 
-# Variables:
-#   - postId: ID of the post to modify
-# 
-# *********************************************************************
 #
 # More info:
 #   - https://gatographql.com/tutorial/search-replace-and-store-again/#heading-adding-missing-links
@@ -26,7 +28,7 @@
 ########################################################################
 
 query GetPostData($postId: ID!) {
-  post(by: { id: $postId }) {
+  post(by: { id: $postId }, status: any) {
     id
     rawContent
     adaptedRawContent: _strRegexReplace(
@@ -38,7 +40,7 @@ query GetPostData($postId: ID!) {
   }
 }
 
-mutation UpdatePost($postId: ID!)
+mutation AddMissingLinksInPost($postId: ID!)
   @depends(on: "GetPostData")
 {
   updatePost(input: {

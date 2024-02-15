@@ -26,7 +26,7 @@ trait LazyProxyTrait
      * @param static|null       $instance
      * @return static
      */
-    public static function createLazyProxy(\Closure $initializer, object $instance = null)
+    public static function createLazyProxy(\Closure $initializer, ?object $instance = null)
     {
         if (self::class !== ($class = $instance ? \get_class($instance) : static::class)) {
             $skippedProperties = ["\x00" . self::class . "\x00lazyObjectState" => \true];

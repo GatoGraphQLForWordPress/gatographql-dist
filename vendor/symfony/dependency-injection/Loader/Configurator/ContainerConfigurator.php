@@ -56,7 +56,7 @@ class ContainerConfigurator extends AbstractConfigurator
      * @var string|null
      */
     private $env;
-    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, string $path, string $file, string $env = null)
+    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, string $path, string $file, ?string $env = null)
     {
         $this->container = $container;
         $this->loader = $loader;
@@ -78,7 +78,7 @@ class ContainerConfigurator extends AbstractConfigurator
     /**
      * @param bool|string $ignoreErrors
      */
-    public final function import(string $resource, string $type = null, $ignoreErrors = \false) : void
+    public final function import(string $resource, ?string $type = null, $ignoreErrors = \false) : void
     {
         $this->loader->setCurrentDir(\dirname($this->path));
         $this->loader->import($resource, $type, $ignoreErrors, $this->file);
@@ -129,7 +129,7 @@ function service(string $serviceId) : ReferenceConfigurator
  * Creates an inline service.
  * @internal
  */
-function inline_service(string $class = null) : InlineServiceConfigurator
+function inline_service(?string $class = null) : InlineServiceConfigurator
 {
     return new InlineServiceConfigurator(new Definition($class));
 }
@@ -162,7 +162,7 @@ function iterator(array $values) : IteratorArgument
  * @param string|mixed[] $exclude
  * @internal
  */
-function tagged_iterator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : TaggedIteratorArgument
+function tagged_iterator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : TaggedIteratorArgument
 {
     return new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, \false, $defaultPriorityMethod, (array) $exclude, $excludeSelf);
 }
@@ -171,7 +171,7 @@ function tagged_iterator(string $tag, string $indexAttribute = null, string $def
  * @param string|mixed[] $exclude
  * @internal
  */
-function tagged_locator(string $tag, string $indexAttribute = null, string $defaultIndexMethod = null, string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : ServiceLocatorArgument
+function tagged_locator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : ServiceLocatorArgument
 {
     return new ServiceLocatorArgument(new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, \true, $defaultPriorityMethod, (array) $exclude, $excludeSelf));
 }

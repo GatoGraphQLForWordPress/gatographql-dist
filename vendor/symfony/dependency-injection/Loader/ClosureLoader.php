@@ -26,7 +26,7 @@ class ClosureLoader extends Loader
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     private $container;
-    public function __construct(ContainerBuilder $container, string $env = null)
+    public function __construct(ContainerBuilder $container, ?string $env = null)
     {
         $this->container = $container;
         parent::__construct($env);
@@ -35,14 +35,14 @@ class ClosureLoader extends Loader
      * @param mixed $resource
      * @return mixed
      */
-    public function load($resource, string $type = null)
+    public function load($resource, ?string $type = null)
     {
         return $resource($this->container, $this->env);
     }
     /**
      * @param mixed $resource
      */
-    public function supports($resource, string $type = null) : bool
+    public function supports($resource, ?string $type = null) : bool
     {
         return $resource instanceof \Closure;
     }

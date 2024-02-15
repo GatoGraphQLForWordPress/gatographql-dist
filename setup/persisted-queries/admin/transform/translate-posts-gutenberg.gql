@@ -1,4 +1,12 @@
 ########################################################################
+# 
+# Variables:
+#   - postIds: List of IDs of the posts to translate
+#   - toLang: The language code to translate to, from Google Translate (https://cloud.google.com/translate/docs/languages)
+#
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query translates multiple posts at once
 # (in bulk), while executing a single call to the Google Translate
@@ -11,19 +19,13 @@
 #
 # *********************************************************************
 # 
-# Variables:
-#   - postIds: List of IDs of the posts to translate
-#   - toLang: The language code to translate to, from Google Translate (https://cloud.google.com/translate/docs/languages)
-#
-# *********************************************************************
-# 
 # More info:
 #   - https://gatographql.com/tutorial/bulk-translating-block-content-in-multiple-posts-to-a-different-language/
 #
 ########################################################################
 
 query InitializeEmptyVariables($postIds: [ID!]!) {
-  emptyVars: posts(filter: { ids: $postIds } ) {
+  emptyVars: posts(filter: { ids: $postIds, status: any } ) {
     emptyArray: _echo(value: [])
       @export(
         as: "coreHeadingContentItems"
@@ -265,7 +267,7 @@ query FetchData($postIds: [ID!]!)
   @configureWarningsOnExportingDuplicateVariable(enabled: false)
   @depends(on: "InitializeEmptyVariables")
 {
-  posts(filter: { ids: $postIds } ) {
+  posts(filter: { ids: $postIds, status: any } ) {
     id
     title
       @export(as: "title", type: DICTIONARY)
@@ -723,7 +725,7 @@ query EscapeRegexStrings
             @applyField(
               name: "_sprintf",
               arguments: {
-                string: "$1%s$2",
+                string: "${1}%s${2}",
                 values: [$value]
               },
               setResultInResponse: true
@@ -2061,12 +2063,12 @@ query PrepareMetaReplacements
     )
 }
 
-mutation TranslatePosts($postIds: [ID!]!)
+mutation TranslateGutenbergPosts($postIds: [ID!]!)
   @depends(on: [
     "ExecuteRegexReplacements",
     "PrepareMetaReplacements"
 ]) {
-  updatePosts: posts(filter: { ids: $postIds } ) {
+  updatePosts: posts(filter: { ids: $postIds, status: any } ) {
     id
     transformedRawContent: _objectProperty(
       object: $transformedRawContent,

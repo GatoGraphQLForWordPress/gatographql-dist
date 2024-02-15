@@ -253,14 +253,14 @@ class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, L
     /**
      * @return \Relay\Relay|bool
      */
-    public function flushdb($async = \false)
+    public function flushdb($sync = null)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->flushdb(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|bool
      */
-    public function flushall($async = \false)
+    public function flushall($sync = null)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->flushall(...\func_get_args());
     }
@@ -375,6 +375,13 @@ class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, L
     public function lastsave()
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lastsave(...\func_get_args());
+    }
+    /**
+     * @return mixed
+     */
+    public function lcs($key1, $key2, $options = null)
+    {
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lcs(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|bool

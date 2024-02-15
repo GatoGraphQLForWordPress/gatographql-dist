@@ -12,14 +12,19 @@ use PoP\Root\HttpFoundation\Response;
 abstract class AbstractAttachedGraphQLServer extends AbstractGraphQLServer
 {
     /**
+     * @var int|null
+     */
+    protected $schemaConfigurationID;
+    /**
      * @var \PoP\Root\AppThreadInterface
      */
     private $appThread;
     /**
      * Initialize the App with a new AppThread
      */
-    public function __construct()
+    public function __construct(?int $schemaConfigurationID)
     {
+        $this->schemaConfigurationID = $schemaConfigurationID;
         /**
          * Steps:
          *
@@ -61,9 +66,5 @@ abstract class AbstractAttachedGraphQLServer extends AbstractGraphQLServer
         // Restore the original AppThread
         App::setAppThread($currentAppThread);
         return $response;
-    }
-    protected function areFeedbackAndTracingStoresAlreadyCreated() : bool
-    {
-        return \false;
     }
 }

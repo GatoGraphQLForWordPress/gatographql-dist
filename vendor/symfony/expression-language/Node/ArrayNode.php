@@ -26,7 +26,7 @@ class ArrayNode extends Node
     {
         $this->index = -1;
     }
-    public function addElement(Node $value, Node $key = null) : void
+    public function addElement(Node $value, ?Node $key = null) : void
     {
         $key = $key ?? new ConstantNode(++$this->index);
         \array_push($this->nodes, $key, $value);

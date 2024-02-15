@@ -1,5 +1,7 @@
 ########################################################################
 #
+# === Description ===
+#
 # This Persisted GraphQL query displays all links added to all posts.
 #
 # It finds all `<a href="(...)">(...)</a>` strings in all posts, and
@@ -7,7 +9,7 @@
 #
 ########################################################################
 
-query GetPostLinks {
+query ExtractLinksInContentFromAllPosts {
   posts(pagination: { limit: -1 }) {
     id
     title

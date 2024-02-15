@@ -1,14 +1,16 @@
 ########################################################################
-#
-# This Persisted GraphQL query duplicates the posts retrieved via the
-# provided `$limit` and `$offset` variables (sorted by ascending ID).
-#
-# *********************************************************************
 # 
 # Variables:
 #   - limit: Number of posts to duplicate
 #   - offset: Position of the first post to duplicate
 # 
+# *********************************************************************
+#
+# === Description ===
+#
+# This Persisted GraphQL query duplicates the posts retrieved via the
+# provided `$limit` and `$offset` variables (sorted by ascending ID).
+#
 # *********************************************************************
 #
 # More info:
@@ -86,7 +88,7 @@ query GetPostsAndExportData($limit: Int! = 5, $offset: Int! = 0)
   }
 }
 
-mutation DuplicatePosts
+mutation CreatePosts
   @depends(on: "GetPostsAndExportData")
 {
   createdPostIDs: _echo(value: $postInput)
@@ -103,8 +105,8 @@ mutation DuplicatePosts
     @export(as: "createdPostIDs")
 }
 
-query RetrieveCreatedPosts
-  @depends(on: "DuplicatePosts")
+query DuplicatePosts
+  @depends(on: "CreatePosts")
 {
   createdPosts: posts(
     filter: {

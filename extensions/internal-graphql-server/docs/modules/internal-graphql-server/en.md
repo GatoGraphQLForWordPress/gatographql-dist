@@ -24,9 +24,10 @@ class GraphQLServer {
    * Execute a GraphQL query
    */
   public static function executeQuery(
-      string $query,
-      array $variables = [],
-      ?string $operationName = null
+    string $query,
+    array $variables = [],
+    ?string $operationName = null,
+    int|string|null $schemaConfigurationIDOrSlug = null,
   ): Response {
     // ...
   }
@@ -36,9 +37,10 @@ class GraphQLServer {
    * Execute a GraphQL query contained in a (`.gql`) file
    */
   public static function executeQueryInFile(
-      string $file,
-      array $variables = [],
-      ?string $operationName = null
+    string $file,
+    array $variables = [],
+    ?string $operationName = null,
+    int|string|null $schemaConfigurationIDOrSlug = null,
   ): Response {
     // ...
   }
@@ -48,9 +50,9 @@ class GraphQLServer {
    * Execute a persisted GraphQL query (providing its ID as an int, or slug as a string)
    */
   public static function executePersistedQuery(
-      string|int $persistedQueryIDOrSlug,
-      array $variables = [],
-      ?string $operationName = null
+    string|int $persistedQueryIDOrSlug,
+    array $variables = [],
+    ?string $operationName = null
   ): Response {
     // ...
   }
@@ -87,11 +89,9 @@ Please notice that class `GraphQLServer` is not ready before the WordPress core 
 
 <!-- ## Schema Configuration
 
-The internal GraphQL Server applies the Schema Configuration selected in the Settings page, under tab "Server Configuration > Internal GraphQL Server".
+By default, the internal GraphQL Server applies the Schema Configuration selected in the Settings page, under tab "Server Configuration > Internal GraphQL Server".
 
 ![Configuring the Internal GraphQL Server in the Settings](../../images/settings-schema-configuration-for-internal-graphql-server.png "Configuring the Internal GraphQL Server in the Settings")
-
-This is the case even when executing `GraphQLServer::executePersistedQuery` (i.e. if the Persisted Query defines a Schema Configuration, this one is ignored).
 
 This configuration also applies whenever the query executed against the internal GraphQL server was triggered by some other GraphQL query while being resolved in an endpoint with a different configuration (such as the public endpoint `graphql/`).
 
@@ -107,11 +107,11 @@ mutation {
 
 As such, only visitors from that IP will be able to execute this mutation.
 
-Then there is a hook on `wp_insert_post` that executes some query against the internal GraphQL server (eg: to send a notification to the site admin):
+Then there is a hook on `new_to_publish` that executes some query against the internal GraphQL server (eg: to send a notification to the site admin):
 
 ```php
 add_action(
-  "wp_insert_post",
+  "new_to_publish",
   fn (int $post_id) => GraphQLServer::executeQuery("...", ["postID" => $post_id])
 );
 ```
@@ -124,13 +124,13 @@ As a result, the validation by user IP will not take place (that is, unless that
 
 In this example workflow (which also uses **Multiple Query Execution**, **Helper Function Collection** and **Field to Input** modules), when a new post is created in the site, we send a notification to the admin user.
 
-We hook into the WordPress core action `wp_insert_post`, retrieve the data from the newly-created post, and call `GraphQLServer::executeQuery`:
+We hook into the WordPress core action `new_to_publish`, retrieve the data from the newly-created post, and call `GraphQLServer::executeQuery`:
 
 ```php
 add_action(
-  'wp_insert_post',
-  function (int $postID, WP_Post $post) {
-    if ($post->post_type !== 'post' || $post->post_status !== 'publish') {
+  'new_to_publish',
+  function (WP_Post $post) {
+    if ($post->post_type !== 'post') {
       return;
     }
     // Check the contents of the query below
@@ -140,9 +140,7 @@ add_action(
       'postContent' => $post->post_content,
     ];
     GraphQLServer::executeQuery($query, $variables, 'SendEmail');
-  },
-  10,
-  2
+  }
 );
 ```
 

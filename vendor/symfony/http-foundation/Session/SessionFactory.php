@@ -32,7 +32,7 @@ class SessionFactory implements SessionFactoryInterface
      * @var \Closure|null
      */
     private $usageReporter;
-    public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, callable $usageReporter = null)
+    public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, ?callable $usageReporter = null)
     {
         $this->requestStack = $requestStack;
         $this->storageFactory = $storageFactory;

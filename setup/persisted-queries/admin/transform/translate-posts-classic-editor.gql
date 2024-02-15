@@ -1,4 +1,12 @@
 ########################################################################
+# 
+# Variables:
+#   - postIds: List of IDs of the posts to translate
+#   - toLang: The language code to translate to, from Google Translate (https://cloud.google.com/translate/docs/languages)
+#
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query translates multiple "Classic editor"
 # posts at once (in bulk), while executing a single call to the Google
@@ -9,17 +17,11 @@
 # See Persisted Query "Translate post (Classic editor)" for additional
 # documentation.
 #
-# *********************************************************************
-# 
-# Variables:
-#   - postIds: List of IDs of the posts to translate
-#   - toLang: The language code to translate to, from Google Translate (https://cloud.google.com/translate/docs/languages)
-#
 ########################################################################
 
 query FetchData($postIds: [ID!]!)
 {
-  posts(filter: { ids: $postIds } ) {
+  posts(filter: { ids: $postIds, status: any } ) {
     title
     rawContent
     rawExcerpt
@@ -97,10 +99,10 @@ query GenerateMutationInputs
     @export(as: "postInputs")
 }
 
-mutation TranslateDataInPosts($postIds: [ID!]!)
+mutation TranslateClassicEditorPosts($postIds: [ID!]!)
   @depends(on: "GenerateMutationInputs")
 {
-  updatePosts: posts(filter: { ids: $postIds } ) {
+  updatePosts: posts(filter: { ids: $postIds, status: any } ) {
     id
     postInput: _objectProperty(
       object: $postInputs,

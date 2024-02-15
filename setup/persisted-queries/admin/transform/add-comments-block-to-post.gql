@@ -1,14 +1,16 @@
 ########################################################################
+# 
+# Variables:
+#   - postId: ID of the post to modify
+# 
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query checks if block `wp:comments` has been
 # added to the post indicated by variable `$postId`.
 # If the block is missing, it then adds it at the bottom of the post.
 #
-# *********************************************************************
-# 
-# Variables:
-#   - postId: ID of the post to modify
-# 
 # *********************************************************************
 #
 # More info:
@@ -20,6 +22,7 @@ query CheckIfCommentsBlockExists($postId: ID!) {
   posts(
     filter: {
       ids: [$postId]
+      status: any
       search: "\"<!-- /wp:comments -->\""
     }
   ) {
@@ -34,7 +37,7 @@ mutation InsertCommentsBlockIfMissingInPost($postId: ID!)
   @depends(on: "CheckIfCommentsBlockExists")
   @skip(if: $blockExists)
 {
-  post(by: { id: $postId }) {
+  post(by: { id: $postId }, status: any) {
     id
     rawContent
     adaptedRawContent: _strAppend(

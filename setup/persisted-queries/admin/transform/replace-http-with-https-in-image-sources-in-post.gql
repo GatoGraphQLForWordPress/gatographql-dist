@@ -1,13 +1,15 @@
 ########################################################################
-#
-# This Persisted GraphQL query replaces all `http` URLs with `https`
-# in the image sources from the post's HTML
-#
-# *********************************************************************
 # 
 # Variables:
 #   - postId: ID of the post to modify
 # 
+# *********************************************************************
+#
+# === Description ===
+#
+# This Persisted GraphQL query replaces all `http` URLs with `https`
+# in the image sources from the post's HTML
+#
 # *********************************************************************
 #
 # More info:
@@ -16,7 +18,7 @@
 ########################################################################
 
 query GetPostData($postId: ID!) {
-  post(by: {id: $postId}) {
+  post(by: { id: $postId }, status: any) {
     id
     rawContent
     adaptedRawContent: _strRegexReplace(
@@ -28,7 +30,7 @@ query GetPostData($postId: ID!) {
   }
 }
 
-mutation UpdatePost($postId: ID!)
+mutation ReplaceHttpWithHttpsInImageSourcesInPost($postId: ID!)
   @depends(on: "GetPostData")
 {
   updatePost(input: {

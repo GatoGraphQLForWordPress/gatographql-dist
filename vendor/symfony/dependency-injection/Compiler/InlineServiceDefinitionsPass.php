@@ -55,7 +55,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass
      * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph|null
      */
     private $graph;
-    public function __construct(AnalyzeServiceReferencesPass $analyzingPass = null)
+    public function __construct(?AnalyzeServiceReferencesPass $analyzingPass = null)
     {
         $this->analyzingPass = $analyzingPass;
     }

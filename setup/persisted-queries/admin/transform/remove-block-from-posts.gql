@@ -1,13 +1,15 @@
 ########################################################################
-#
-# This Persisted GraphQL query removes a block of a given type
-# from all posts
-#
-# *********************************************************************
 # 
 # Variables:
 #   - removeBlockType: The HTML for the block to insert
 #       eg: mycompany:black-friday-campaign-video
+#
+# *********************************************************************
+#
+# === Description ===
+#
+# This Persisted GraphQL query removes a block of a given type
+# from all posts
 #
 # *********************************************************************
 # 
@@ -34,7 +36,7 @@ query CreateVars(
     @remove
 }
 
-mutation RemoveBlock
+mutation RemoveBlockFromPosts
   @depends(on: "CreateVars")
 {
   posts(filter: { search: $search } ) {

@@ -7,6 +7,7 @@ use PoP\Root\Container\ContainerBuilderFactory;
 use PoP\Root\Container\ContainerInterface;
 use PoP\Root\Container\SystemContainerBuilderFactory;
 use PoP\Root\Exception\ComponentNotExistsException;
+use PoP\Root\Helpers\AppThreadHelpers;
 use PoP\Root\HttpFoundation\Request;
 use PoP\Root\HttpFoundation\Response;
 use PoP\Root\Module\ModuleInterface;
@@ -38,6 +39,10 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * @var string|null
      */
     private $name;
+    /**
+     * @var array<string, mixed>
+     */
+    private $context = [];
     /**
      * @var \PoP\Root\AppLoaderInterface
      */
@@ -76,9 +81,17 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * @var bool
      */
     protected $isHTTPRequest;
-    public function __construct(?string $name = null)
+    /**
+     * @var string|null
+     */
+    protected $uniqueID;
+    /**
+     * @param array<string,mixed> $context
+     */
+    public function __construct(?string $name = null, array $context = [])
     {
         $this->name = $name;
+        $this->context = $context;
     }
     /**
      * This function must be invoked at the very beginning,
@@ -110,6 +123,28 @@ class AppThread implements \PoP\Root\AppThreadInterface
     public function getName() : ?string
     {
         return $this->name;
+    }
+    /**
+     * Store properties for identifying across different
+     * INTERNAL GraphQL servers, by storing the
+     * persisted query for each in the context.
+     *
+     * @return array<string,mixed>
+     */
+    public function getContext() : array
+    {
+        return $this->context;
+    }
+    /**
+     * Combination of the Name and Context
+     * to uniquely identify the AppThread
+     */
+    public function getUniqueID() : string
+    {
+        if ($this->uniqueID === null) {
+            $this->uniqueID = AppThreadHelpers::getUniqueID($this->getName(), $this->getContext());
+        }
+        return $this->uniqueID;
     }
     protected function createAppLoader() : \PoP\Root\AppLoaderInterface
     {

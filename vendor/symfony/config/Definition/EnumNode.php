@@ -23,7 +23,7 @@ class EnumNode extends ScalarNode
      * @var mixed[]
      */
     private $values;
-    public function __construct(?string $name, NodeInterface $parent = null, array $values = [], string $pathSeparator = BaseNode::DEFAULT_PATH_SEPARATOR)
+    public function __construct(?string $name, ?NodeInterface $parent = null, array $values = [], string $pathSeparator = BaseNode::DEFAULT_PATH_SEPARATOR)
     {
         if (!$values) {
             throw new \InvalidArgumentException('$values must contain at least one element.');

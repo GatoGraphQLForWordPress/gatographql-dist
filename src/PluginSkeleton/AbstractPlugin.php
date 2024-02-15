@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
 
+use GatoGraphQL\ExternalDependencyWrappers\Composer\Semver\SemverWrapper;
 use GatoGraphQL\GatoGraphQL\Facades\Registries\CustomPostTypeRegistryFacade;
+use GatoGraphQL\GatoGraphQL\Module;
+use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInfoInterface;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\CustomPostTypeInterface;
 use PoP\Root\App;
@@ -241,7 +244,7 @@ abstract class AbstractPlugin implements PluginInterface
     /**
      * Plugin configuration
      */
-    public function configure(string $pluginAppGraphQLServerName): void
+    public function configure(): void
     {
         /**
          * Configure the plugin. This defines hooks to set
@@ -389,11 +392,39 @@ abstract class AbstractPlugin implements PluginInterface
     }
 
     /**
-     * Execute logic after the plugin/extension has just been activated
-     * (for first time)
+     * Execute logic after the plugin/extension has just been activated.
+     *
+     * Notice that this will be executed when first time activated, or
+     * reactivated (i.e. activated => deactivated => activated).
+     *
+     * Then, when installing setup data, we must first check that the entry
+     * does not already exist. This will also avoid duplicating setup data
+     * when downgrading the plugin to a lower version, and then upgrading
+     * again.
      */
-    public function pluginJustFirstTimeActivated(): void
+    public function pluginJustActivated(): void
     {
+        /**
+         * Taxonomies are registered on "init", hence must insert
+         * data only after that.
+         *
+         * @see layers/GatoGraphQLForWP/plugins/gatographql/src/Services/Taxonomies/AbstractTaxonomy.php
+         */
+        \add_action(
+            'init',
+            function (): void {
+                $this->maybeInstallPluginSetupData();
+            },
+            $this->getInstallPluginSetupDataInitHookPriority()
+        );
+    }
+
+    /**
+     * Allow functionality to be executed after
+     */
+    protected function getInstallPluginSetupDataInitHookPriority(): int
+    {
+        return PHP_INT_MAX - 10;
     }
 
     /**
@@ -401,5 +432,105 @@ abstract class AbstractPlugin implements PluginInterface
      */
     public function pluginJustUpdated(string $newVersion, string $previousVersion): void
     {
+
+        /**
+         * Taxonomies are registered on "init", hence must insert
+         * data only after that.
+         *
+         * @see layers/GatoGraphQLForWP/plugins/gatographql/src/Services/Taxonomies/AbstractTaxonomy.php
+         */
+        \add_action(
+            'init',
+            function () use ($previousVersion): void {
+                // The version could contain the hash commit. Remove it!
+                $commitHashPos = strpos($previousVersion, self::PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER);
+                if ($commitHashPos !== false) {
+                    $previousVersion = substr($previousVersion, 0, $commitHashPos);
+                }
+                $this->maybeInstallPluginSetupData($previousVersion);
+            },
+            $this->getInstallPluginSetupDataInitHookPriority()
+        );
+    }
+
+    /**
+     * Install the initial plugin data
+     */
+    protected function maybeInstallPluginSetupData(?string $previousVersion = null): void
+    {
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        if (!$moduleConfiguration->installPluginSetupData()) {
+            return;
+        }
+
+        /**
+         * Use a transient to make sure that only one instance
+         * will install the data. Otherwise, two WP REST API
+         * requests happening simultaneously might both execute
+         * this logic
+         */
+        $transientName = 'gatographql-installing-plugin-setup-data';
+        $transient = \get_transient($transientName);
+        if ($transient !== false) {
+            // Another instance is executing this code right now
+            return;
+        }
+
+        \set_transient($transientName, true, 30);
+        $this->installPluginSetupData($previousVersion);
+        \delete_transient($transientName);
+    }
+
+    /**
+     * Method to override.
+     *
+     * Provide the installation in stages, version by version, to
+     * be able to execute it both when installing/activating the plugin,
+     * or updating it to a new version with setup data.
+     *
+     * The plugin's setup data will be installed if:
+     *
+     * - $previousVersion = null => Activating the plugin
+     * - $previousVersion < someVersion => Updating to a new version that has data to install
+     */
+    protected function installPluginSetupData(?string $previousVersion = null): void
+    {
+        $versionCallbacks = $this->getPluginSetupDataVersionCallbacks();
+        foreach ($versionCallbacks as $version => $callbacks) {
+            if ($previousVersion !== null && SemverWrapper::satisfies($previousVersion, '>= ' . $version)) {
+                continue;
+            }
+            foreach ($callbacks as $callback) {
+                $callback();
+            }
+        }
+    }
+
+    /**
+     * Method to override.
+     *
+     * Retrieve the callback functions to execute for every version
+     * of the main plugin, to install setup data.
+     *
+     * @return array<string,callable[]>
+     */
+    protected function getPluginSetupDataVersionCallbacks(): array
+    {
+        return [];
+    }
+
+    /**
+     * @param array<array<string,mixed>> $blockDataItems
+     * @return array<array<string,mixed>>
+     */
+    protected function addInnerContentToBlockAtts(array $blockDataItems): array
+    {
+        return array_map(
+            function (array $blockDataItem) {
+                return array_merge($blockDataItem, ['innerContent' => []]);
+            },
+            $blockDataItems
+        );
     }
 }

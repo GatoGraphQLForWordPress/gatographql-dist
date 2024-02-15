@@ -28,7 +28,7 @@ final class LazyServiceDumper implements DumperInterface
     {
         $this->salt = $salt;
     }
-    public function isProxyCandidate(Definition $definition, bool &$asGhostObject = null, string $id = null) : bool
+    public function isProxyCandidate(Definition $definition, ?bool &$asGhostObject = null, ?string $id = null) : bool
     {
         $asGhostObject = \false;
         if ($definition->hasTag('proxy')) {
@@ -83,7 +83,7 @@ EOF;
 
 EOF;
     }
-    public function getProxyCode(Definition $definition, string $id = null) : string
+    public function getProxyCode(Definition $definition, ?string $id = null) : string
     {
         if (!$this->isProxyCandidate($definition, $asGhostObject, $id)) {
             throw new InvalidArgumentException(\sprintf('Cannot instantiate lazy proxy for service "%s".', $id ?? $definition->getClass()));
@@ -121,7 +121,7 @@ EOF;
             throw new InvalidArgumentException(\sprintf('Cannot generate lazy proxy for service "%s".', $id ?? $definition->getClass()), 0, $e);
         }
     }
-    public function getProxyClass(Definition $definition, bool $asGhostObject, \ReflectionClass &$class = null) : string
+    public function getProxyClass(Definition $definition, bool $asGhostObject, ?\ReflectionClass &$class = null) : string
     {
         $class = 'object' !== $definition->getClass() ? $definition->getClass() : 'stdClass';
         $class = new \ReflectionClass($class);

@@ -22,7 +22,7 @@ class DirectoryLoader extends FileLoader
      * @param mixed $file
      * @return mixed
      */
-    public function load($file, string $type = null)
+    public function load($file, ?string $type = null)
     {
         $file = \rtrim($file, '/');
         $path = $this->locator->locate($file);
@@ -42,7 +42,7 @@ class DirectoryLoader extends FileLoader
     /**
      * @param mixed $resource
      */
-    public function supports($resource, string $type = null) : bool
+    public function supports($resource, ?string $type = null) : bool
     {
         if ('directory' === $type) {
             return \true;

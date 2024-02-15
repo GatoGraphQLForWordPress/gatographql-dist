@@ -980,7 +980,7 @@ EOTXT
 , $this->container->getDefinition($id)->isPublic() ? 'services' : 'privates', $this->doExport($id));
         return $code;
     }
-    private function addInlineService(string $id, Definition $definition, Definition $inlineDef = null, bool $forConstructor = \true) : string
+    private function addInlineService(string $id, Definition $definition, ?Definition $inlineDef = null, bool $forConstructor = \true) : string
     {
         $code = '';
         if ($isSimpleInstance = $isRootInstance = null === $inlineDef) {
@@ -1027,7 +1027,7 @@ EOTXT
         }
         return $code . "\n        return \$instance;\n";
     }
-    private function addServices(array &$services = null) : string
+    private function addServices(?array &$services = null) : string
     {
         $publicServices = $privateServices = '';
         $definitions = $this->container->getDefinitions();
@@ -1064,7 +1064,7 @@ EOTXT
             }
         }
     }
-    private function addNewInstance(Definition $definition, string $return = '', string $id = null, bool $asGhostObject = \false) : string
+    private function addNewInstance(Definition $definition, string $return = '', ?string $id = null, bool $asGhostObject = \false) : string
     {
         $tail = $return ? \str_repeat(')', \substr_count($return, '(') - \substr_count($return, ')')) . ";\n" : '';
         if (BaseServiceLocator::class === $definition->getClass() && $definition->hasTag($this->serviceLocatorTag)) {
@@ -1606,7 +1606,7 @@ EOF;
         }
         return \implode(' && ', $conditions);
     }
-    private function getDefinitionsFromArguments(array $arguments, \SplObjectStorage $definitions = null, array &$calls = [], bool $byConstructor = null) : \SplObjectStorage
+    private function getDefinitionsFromArguments(array $arguments, ?\SplObjectStorage $definitions = null, array &$calls = [], ?bool $byConstructor = null) : \SplObjectStorage
     {
         $definitions = $definitions ?? new \SplObjectStorage();
         foreach ($arguments as $argument) {
@@ -1815,7 +1815,7 @@ EOF;
         }
         return \sprintf('$container->parameters[%s]', $this->doExport($name));
     }
-    private function getServiceCall(string $id, Reference $reference = null) : string
+    private function getServiceCall(string $id, ?Reference $reference = null) : string
     {
         while ($this->container->hasAlias($id)) {
             $id = (string) $this->container->getAlias($id);

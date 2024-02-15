@@ -386,7 +386,7 @@ class Request
      * @param array|null $server     The SERVER parameters
      * @return static
      */
-    public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null)
+    public function duplicate(?array $query = null, ?array $request = null, ?array $attributes = null, ?array $cookies = null, ?array $files = null, ?array $server = null)
     {
         $dup = clone $this;
         if (null !== $query) {
@@ -1385,7 +1385,7 @@ class Request
      *
      * @param string[] $locales An array of ordered available locales
      */
-    public function getPreferredLanguage(array $locales = null) : ?string
+    public function getPreferredLanguage(?array $locales = null) : ?string
     {
         $preferredLanguages = $this->getLanguages();
         if (empty($locales)) {
@@ -1721,7 +1721,7 @@ class Request
      * getPort(), isSecure(), getHost(), getClientIps(), getBaseUrl() etc. Thus, we try to cache the results for
      * best performance.
      */
-    private function getTrustedValues(int $type, string $ip = null) : array
+    private function getTrustedValues(int $type, ?string $ip = null) : array
     {
         $cacheKey = $type . "\x00" . (self::$trustedHeaderSet & $type ? $this->headers->get(self::TRUSTED_HEADERS[$type]) : '');
         $cacheKey .= "\x00" . $ip . "\x00" . $this->headers->get(self::TRUSTED_HEADERS[self::HEADER_FORWARDED]);

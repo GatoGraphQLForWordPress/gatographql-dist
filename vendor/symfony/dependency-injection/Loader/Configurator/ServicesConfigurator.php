@@ -52,7 +52,7 @@ class ServicesConfigurator extends AbstractConfigurator
      * @var int
      */
     private $anonymousCount;
-    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, string $path = null, int &$anonymousCount = 0)
+    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, ?string $path = null, int &$anonymousCount = 0)
     {
         $this->defaults = new Definition();
         $this->container = $container;
@@ -84,7 +84,7 @@ class ServicesConfigurator extends AbstractConfigurator
      * @param string|null $id    The service id, or null to create an anonymous service
      * @param string|null $class The class of the service, or null when $id is also the class name
      */
-    public final function set(?string $id, string $class = null) : ServiceConfigurator
+    public final function set(?string $id, ?string $class = null) : ServiceConfigurator
     {
         $defaults = $this->defaults;
         $definition = new Definition();
@@ -172,7 +172,7 @@ class ServicesConfigurator extends AbstractConfigurator
     /**
      * Registers a service.
      */
-    public final function __invoke(string $id, string $class = null) : ServiceConfigurator
+    public final function __invoke(string $id, ?string $class = null) : ServiceConfigurator
     {
         return $this->set($id, $class);
     }

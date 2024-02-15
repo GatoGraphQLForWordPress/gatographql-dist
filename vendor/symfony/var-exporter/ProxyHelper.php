@@ -193,7 +193,7 @@ class_exists(\\Symfony\\Component\\VarExporter\\Internal\\LazyObjectState::class
 
 EOPHP;
     }
-    public static function exportSignature(\ReflectionFunctionAbstract $function, bool $withParameterTypes = \true, string &$args = null) : string
+    public static function exportSignature(\ReflectionFunctionAbstract $function, bool $withParameterTypes = \true, ?string &$args = null) : string
     {
         $byRefIndex = 0;
         $args = '';
@@ -239,7 +239,7 @@ EOPHP;
     /**
      * @param \ReflectionFunctionAbstract|\ReflectionProperty|\ReflectionParameter $owner
      */
-    public static function exportType($owner, bool $noBuiltin = \false, \ReflectionType $type = null) : ?string
+    public static function exportType($owner, bool $noBuiltin = \false, ?\ReflectionType $type = null) : ?string
     {
         if (!($type = $type ?? ($owner instanceof \ReflectionFunctionAbstract ? $owner->getReturnType() : $owner->getType()))) {
             return null;

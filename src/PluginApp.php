@@ -33,7 +33,8 @@ class PluginApp implements PluginAppInterface
             function () {
                 return do_action(
                     PluginAppHooks::INITIALIZE_APP,
-                    PluginAppGraphQLServerNames::EXTERNAL
+                    PluginAppGraphQLServerNames::EXTERNAL,
+                    []
                 );
             },
             /**

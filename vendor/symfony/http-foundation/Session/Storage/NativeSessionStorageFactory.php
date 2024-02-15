@@ -38,9 +38,9 @@ class NativeSessionStorageFactory implements SessionStorageFactoryInterface
     private $secure;
     /**
      * @see NativeSessionStorage constructor.
-     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface $handler
+     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null $handler
      */
-    public function __construct(array $options = [], $handler = null, MetadataBag $metaBag = null, bool $secure = \false)
+    public function __construct(array $options = [], $handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
     {
         $this->options = $options;
         $this->handler = $handler;

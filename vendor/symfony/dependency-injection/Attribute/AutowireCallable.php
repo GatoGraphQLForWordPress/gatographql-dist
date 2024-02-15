@@ -22,9 +22,9 @@ class AutowireCallable extends Autowire
 {
     /**
      * @param bool|class-string $lazy Whether to use lazy-loading for this argument
-     * @param string|mixed[] $callable
+     * @param string|mixed[]|null $callable
      */
-    public function __construct($callable = null, string $service = null, string $method = null, $lazy = \false)
+    public function __construct($callable = null, ?string $service = null, ?string $method = null, $lazy = \false)
     {
         if (!(null !== $callable xor null !== $service)) {
             throw new LogicException('#[AutowireCallable] attribute must declare exactly one of $callable or $service.');

@@ -142,7 +142,7 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
      * @var string
      */
     private $extensionClass;
-    public function __construct(ExtensionInterface $extension, ParameterBagInterface $parameterBag = null)
+    public function __construct(ExtensionInterface $extension, ?ParameterBagInterface $parameterBag = null)
     {
         parent::__construct($parameterBag);
         $this->extensionClass = \get_class($extension);
@@ -163,11 +163,11 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
         throw new LogicException(\sprintf('Cannot compile the container in extension "%s".', $this->extensionClass));
     }
     /**
-     * @param string|bool $format
+     * @param string|bool|null $format
      * @param mixed $value
      * @return mixed
      */
-    public function resolveEnvPlaceholders($value, $format = null, array &$usedEnvs = null)
+    public function resolveEnvPlaceholders($value, $format = null, ?array &$usedEnvs = null)
     {
         if (\true !== $format || !\is_string($value)) {
             return parent::resolveEnvPlaceholders($value, $format, $usedEnvs);

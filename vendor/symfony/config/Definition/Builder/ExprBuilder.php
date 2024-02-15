@@ -37,7 +37,7 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function always(\Closure $then = null)
+    public function always(?\Closure $then = null)
     {
         $this->ifPart = static function () {
             return \true;
@@ -55,7 +55,7 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifTrue(\Closure $closure = null)
+    public function ifTrue(?\Closure $closure = null)
     {
         $this->ifPart = $closure ?? static function ($v) {
             return \true === $v;

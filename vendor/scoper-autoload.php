@@ -29,25 +29,26 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('ComposerAutoloaderInitf4734b83af8f46156cf18f5d7d5d5438', 'PrefixedByPoP\ComposerAutoloaderInitf4734b83af8f46156cf18f5d7d5d5438');
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
+humbug_phpscoper_expose_class('ComposerAutoloaderInite93e4d392bcdf248b756b7865d69741c', 'PrefixedByPoP\ComposerAutoloaderInite93e4d392bcdf248b756b7865d69741c');
+humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
+humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
+humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
 humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
-humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
 humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
-humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
-humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
+humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
+humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
+humbug_phpscoper_expose_class('SQLite3Exception', 'PrefixedByPoP\SQLite3Exception');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
 humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
 humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
-humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
-humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
+humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
 humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
-humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
@@ -121,7 +122,9 @@ if (!function_exists('preg_last_error_msg')) { function preg_last_error_msg() { 
 if (!function_exists('sapi_windows_vt100_support')) { function sapi_windows_vt100_support() { return \PrefixedByPoP\sapi_windows_vt100_support(...func_get_args()); } }
 if (!function_exists('spl_object_id')) { function spl_object_id() { return \PrefixedByPoP\spl_object_id(...func_get_args()); } }
 if (!function_exists('str_contains')) { function str_contains() { return \PrefixedByPoP\str_contains(...func_get_args()); } }
+if (!function_exists('str_decrement')) { function str_decrement() { return \PrefixedByPoP\str_decrement(...func_get_args()); } }
 if (!function_exists('str_ends_with')) { function str_ends_with() { return \PrefixedByPoP\str_ends_with(...func_get_args()); } }
+if (!function_exists('str_increment')) { function str_increment() { return \PrefixedByPoP\str_increment(...func_get_args()); } }
 if (!function_exists('str_starts_with')) { function str_starts_with() { return \PrefixedByPoP\str_starts_with(...func_get_args()); } }
 if (!function_exists('stream_context_set_options')) { function stream_context_set_options() { return \PrefixedByPoP\stream_context_set_options(...func_get_args()); } }
 if (!function_exists('stream_isatty')) { function stream_isatty() { return \PrefixedByPoP\stream_isatty(...func_get_args()); } }

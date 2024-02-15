@@ -47,7 +47,7 @@ class Inline
      * @var bool
      */
     private static $constantSupport = \false;
-    public static function initialize(int $flags, int $parsedLineNumber = null, string $parsedFilename = null) : void
+    public static function initialize(int $flags, ?int $parsedLineNumber = null, ?string $parsedFilename = null) : void
     {
         self::$exceptionOnInvalidType = (bool) (Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE & $flags);
         self::$objectSupport = (bool) (Yaml::PARSE_OBJECT & $flags);
@@ -257,7 +257,7 @@ class Inline
      * @throws ParseException When malformed inline YAML string is parsed
      * @return mixed
      */
-    public static function parseScalar(string $scalar, int $flags = 0, array $delimiters = null, int &$i = 0, bool $evaluate = \true, array &$references = [], bool &$isQuoted = null)
+    public static function parseScalar(string $scalar, int $flags = 0, ?array $delimiters = null, int &$i = 0, bool $evaluate = \true, array &$references = [], ?bool &$isQuoted = null)
     {
         if (\in_array($scalar[$i], ['"', "'"], \true)) {
             // quoted scalar
@@ -508,7 +508,7 @@ class Inline
      * @throws ParseException when object parsing support was disabled and the parser detected a PHP object or when a reference could not be resolved
      * @return mixed
      */
-    private static function evaluateScalar(string $scalar, int $flags, array &$references = [], bool &$isQuotedString = null)
+    private static function evaluateScalar(string $scalar, int $flags, array &$references = [], ?bool &$isQuotedString = null)
     {
         $isQuotedString = \false;
         $scalar = \trim($scalar);

@@ -22,7 +22,7 @@ class TagAwareMarshaller implements MarshallerInterface
      * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
      */
     private $marshaller;
-    public function __construct(MarshallerInterface $marshaller = null)
+    public function __construct(?MarshallerInterface $marshaller = null)
     {
         $this->marshaller = $marshaller ?? new DefaultMarshaller();
     }

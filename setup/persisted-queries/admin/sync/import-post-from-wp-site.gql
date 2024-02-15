@@ -1,4 +1,12 @@
 ########################################################################
+# 
+# Variables:
+#   - upstreamServerGraphQLEndpointURL: The GraphQL endpoint on the upstream WordPress site
+#   - postSlug: The slug of the post to import
+# 
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query imports a post from some upstream
 # WordPress site into our local WordPress site.
@@ -20,12 +28,6 @@
 #
 # If any of the resources does not exist in the local site, the GraphQL query prints an error and halts the import.
 #
-# *********************************************************************
-# 
-# Variables:
-#   - upstreamServerGraphQLEndpointURL: The GraphQL endpoint on the upstream WordPress site
-#   - postSlug: The slug of the post to import
-# 
 # *********************************************************************
 #
 # More info:
@@ -103,7 +105,7 @@ query ConnectToGraphQLAPI(
     query: """
     
 query GetPost($postSlug: String!) {
-  post(by: { slug: $postSlug }) {
+  post(by: { slug: $postSlug }, status: any) {
     id
     slug
     rawTitle
@@ -502,7 +504,7 @@ query ExportMutationInputs
     @remove
 }
 
-mutation ImportPost(
+mutation ImportPostFromWordPressSite(
   $postSlug: String!
 )
   @depends(on: "ExportMutationInputs")

@@ -30,7 +30,7 @@ trait LazyGhostTrait
      * @param static|null              $instance
      * @return static
      */
-    public static function createLazyGhost($initializer, array $skippedProperties = null, object $instance = null)
+    public static function createLazyGhost($initializer, ?array $skippedProperties = null, ?object $instance = null)
     {
         if (\is_array($initializer)) {
             trigger_deprecation('symfony/var-exporter', '6.4', 'Per-property lazy-initializers are deprecated and won\'t be supported anymore in 7.0, use an object initializer instead.');

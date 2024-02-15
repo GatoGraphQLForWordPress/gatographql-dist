@@ -1,4 +1,17 @@
 ########################################################################
+# 
+# Variables:
+#   - postId: ID of the post
+#   - openAIAPIKey: API key for OpenAI (https://platform.openai.com/api-keys)
+#   - stableDiffusionAPIKey: API key for Stable Diffusion (https://stablediffusionapi.com/dashboard/apikeys)
+#   - tinyPngAPIKey: API key for TinyPNG (https://tinify.com/dashboard/api)
+#   - imageSize: Size for OpenAI's generated image, among "256x256", "512x512", or "1024x1024" pixels
+#   - width: Width for Stable Diffusion's generated image
+#   - height: Height for Stable Diffusion's generated image
+#
+# *********************************************************************
+#
+# === Description ===
 #
 # This Persisted GraphQL query uses generative AI to produce
 # images for posts without a featured image.
@@ -26,17 +39,6 @@
 # sets it as the post's featured image.
 #
 # *********************************************************************
-# 
-# Variables:
-#   - postId: ID of the post
-#   - openAIAPIKey: API key for OpenAI (https://platform.openai.com/api-keys)
-#   - stableDiffusionAPIKey: API key for Stable Diffusion (https://stablediffusionapi.com/dashboard/apikeys)
-#   - tinyPngAPIKey: API key for TinyPNG (https://tinify.com/dashboard/api)
-#   - imageSize: Size for OpenAI's generated image, among "256x256", "512x512", or "1024x1024" pixels
-#   - width: Width for Stable Diffusion's generated image
-#   - height: Height for Stable Diffusion's generated image
-#
-# *********************************************************************
 #
 # More info:
 #   - https://gatographql.com/library/generate-an-optimized-post-featured-image-using-openai-dall-e-and-tinypng/
@@ -53,6 +55,10 @@ query InitializeVariables(
 {
   isFeaturedImageMissing: _echo(value: false)
     @export(as: "isFeaturedImageMissing")
+    @remove
+
+  isPostTitleNotEmpty: _echo(value: false)
+    @export(as: "isPostTitleNotEmpty")
     @remove
 
   generatedImageURL: _echo(value: null)
@@ -89,13 +95,17 @@ query ExportPostData(
 )
   @depends(on: "InitializeVariables")
 {
-  post(by: { id: $postId }) {
+  post(by: { id: $postId }, status: any) {
     hasFeaturedImage
     isFeaturedImageMissing: hasFeaturedImage
       @boolOpposite
       @export(as: "isFeaturedImageMissing")
     title
       @export(as: "postTitle")
+    rawTitle
+      @remove
+    isPostTitleNotEmpty: _notEmpty(value: $__rawTitle)
+      @export(as: "isPostTitleNotEmpty")
     mediaItemFilename: rawTitle
       @default(value: "untitled", condition: IS_EMPTY)
       @strLowerCase
@@ -111,6 +121,7 @@ query MaybeGenerateImageUsingOpenAI(
 )
   @depends(on: "ExportPostData")
   @include(if: $isFeaturedImageMissing)
+  @include(if: $isPostTitleNotEmpty)
   @include(if: $useOpenAI)
 {
   openAIResponse: _sendJSONObjectItemHTTPRequest(input: {
@@ -153,6 +164,7 @@ query MaybeGenerateImageUsingStableDiffusion(
 )
   @depends(on: "ExportPostData")
   @include(if: $isFeaturedImageMissing)
+  @include(if: $isPostTitleNotEmpty)
   @include(if: $useStableDiffusion)
 {
   stableDiffusionResponse: _sendJSONObjectItemHTTPRequest(input: {
@@ -191,6 +203,7 @@ query CheckIsImageGenerated
     "MaybeGenerateImageUsingStableDiffusion"
   ])
   @include(if: $isFeaturedImageMissing)
+  @include(if: $isPostTitleNotEmpty)
 {
   isImageGenerated: _notEmpty(value: $generatedImageURL)
     @export(as: "isImageGenerated")
@@ -278,7 +291,7 @@ mutation CreateMediaItemFromGeneratedImage
   }
 }
 
-mutation SetMediaItemAsPostFeaturedImage(
+mutation GenerateAPostFeaturedImageUsingAIAndOptimizeIt(
   $postId: ID!
 )
   @depends(on: "CreateMediaItemFromGeneratedImage")

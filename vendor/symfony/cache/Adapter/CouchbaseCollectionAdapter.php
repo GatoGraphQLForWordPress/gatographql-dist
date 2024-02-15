@@ -35,7 +35,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
      * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
      */
     private $marshaller;
-    public function __construct(Collection $connection, string $namespace = '', int $defaultLifetime = 0, MarshallerInterface $marshaller = null)
+    public function __construct(Collection $connection, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         if (!static::isSupported()) {
             throw new CacheException('Couchbase >= 3.0.5 < 4.0.0 is required.');
@@ -161,7 +161,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
             return $failed;
         }
         $upsertOptions = new UpsertOptions();
-        $upsertOptions->expiry(\DateTimeImmutable::createFromFormat('U', \time() + $lifetime));
+        $upsertOptions->expiry($lifetime);
         $ko = [];
         foreach ($values as $key => $value) {
             try {
