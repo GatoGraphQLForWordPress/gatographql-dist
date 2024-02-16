@@ -33,7 +33,7 @@ class GraphQLServer {
     // ...
   }
 
-+ // Schema Configuration is taken from the Persisted Query
++ // Schema Configuration is taken directly from the Persisted Query
   public static function executePersistedQuery(
     string|int $persistedQueryIDOrSlug,
     array $variables = [],
@@ -45,7 +45,7 @@ class GraphQLServer {
 
 The [Automation](https://gatographql.com/extensions/automation/) extension also benefits from this new feature.
 
-It now provides a user interface for its "automator" functionality (directly via the WordPress editor), called [Automation Configurator](https://gatographql.com/extensions/automation/#heading-automation-configurator). The automation trigger is any WordPress action hook, and the action is the execution of a GraphQL persisted query.
+It now provides an "automator" user interface (directly via the WordPress editor) called [Automation Configurator](https://gatographql.com/extensions/automation/#heading-automation-configurator). The automation trigger is any WordPress action hook, and the action is the execution of a GraphQL persisted query.
 
 <div class="img-width-1024" markdown=1>
 
@@ -74,6 +74,8 @@ Used with the [Automation](https://gatographql.com/extensions/automation/) exten
 - Improved error message when fetching blocks from a post, and the block content has errors
 - Completed documentation for the Automation extension (#2651)
 - On the "Generate a post's featured image using AI and optimize it" predefined persisted query, execute logic only if the post title is not empty (#ec931dd)
+- Added documentation for fields `_arrayFlipToObject` and `_objectIntersectKey` from the PHP Functions via Schema extension
+- Added documentation for field `_arrayOfJSONObjectsExtractProperty` from the Helper Function Collection extension
 
 ## Fixed
 

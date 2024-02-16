@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, update urls, wpcli, wget, translation, notifications
 Requires at least: 5.4
 Tested up to: 6.4
-Stable tag: 2.1.0
+Stable tag: 2.1.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -168,6 +168,10 @@ You can even synchronize content across a network of sites, such as from an upst
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.1.3 =
+* Added documentation for fields `_arrayFlipToObject` and `_objectIntersectKey` from the PHP Functions via Schema extension
+* Added documentation for field `_arrayOfJSONObjectsExtractProperty` from the Helper Function Collection extension
 
 = 2.1.0 =
 * Support providing the Schema Configuration to apply when invoking the Internal GraphQL Server
