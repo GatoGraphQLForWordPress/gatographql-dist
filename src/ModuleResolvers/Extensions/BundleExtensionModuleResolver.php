@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\ModuleResolvers\Extensions;
 
+use GatoGraphQL\GatoGraphQL\App;
+use GatoGraphQL\GatoGraphQL\Module;
+use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\PluginApp;
+use GatoGraphQL\GatoGraphQL\PluginStaticModuleConfiguration;
 
 class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolver
 {
+    public const PRO = Plugin::NAMESPACE . '\\bundle-extensions\\pro';
     public const ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS = Plugin::NAMESPACE . '\\bundle-extensions\\all-in-one-toolbox-for-wordpress';
     public const AUTOMATED_CONTENT_TRANSLATION_AND_SYNC_FOR_WORDPRESS_MULTISITE = Plugin::NAMESPACE . '\\bundle-extensions\\automated-content-translation-and-sync-for-wordpress-multisite';
     public const BETTER_WORDPRESS_WEBHOOKS = Plugin::NAMESPACE . '\\bundle-extensions\\better-wordpress-webhooks';
@@ -26,7 +31,9 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
      */
     public function getModulesToResolve(): array
     {
-        return [
+        return array_merge([
+            self::PRO,
+        ], PluginStaticModuleConfiguration::offerSinglePROCommercialProduct() ? [] : [
             self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS,
             self::AUTOMATED_CONTENT_TRANSLATION_AND_SYNC_FOR_WORDPRESS_MULTISITE,
             self::BETTER_WORDPRESS_WEBHOOKS,
@@ -38,13 +45,15 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
             self::TAILORED_WORDPRESS_AUTOMATOR,
             self::UNHINDERED_WORDPRESS_EMAIL_NOTIFICATIONS,
             self::VERSATILE_WORDPRESS_REQUEST_API,
-        ];
+        ]);
     }
 
     public function getName(string $module): string
     {
         $placeholder = \__('“%s” Bundle', 'gatographql');
         switch ($module) {
+            case self::PRO:
+                return \__('Gato GraphQL PRO', 'gatographql');
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return sprintf($placeholder, \__('All in One Toolbox for WordPress', 'gatographql'));
             case self::AUTOMATED_CONTENT_TRANSLATION_AND_SYNC_FOR_WORDPRESS_MULTISITE:
@@ -75,6 +84,8 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     public function getDescription(string $module): string
     {
         switch ($module) {
+            case self::PRO:
+                return \__('All the PRO extensions for Gato GraphQL, the most powerful GraphQL server for WordPress', 'gatographql');
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return \__('Achieve all superpowers: All of Gato GraphQL extensions, in a single plugin', 'gatographql');
             case self::AUTOMATED_CONTENT_TRANSLATION_AND_SYNC_FOR_WORDPRESS_MULTISITE:
@@ -107,9 +118,22 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
         return 20;
     }
 
+    public function getWebsiteURL(string $module): string
+    {
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        switch ($module) {
+            case self::PRO:
+                return $moduleConfiguration->getGatoGraphQLWebsiteURL();
+            default:
+                return parent::getWebsiteURL($module);
+        }
+    }
+
     public function getLogoURL(string $module): string
     {
         switch ($module) {
+            case self::PRO:
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return PluginApp::getMainPlugin()->getPluginURL() . 'assets/img/logos/GatoGraphQL-logo-face.png';
             default:
@@ -123,6 +147,7 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     public function getBundledExtensionModules(string $module): array
     {
         switch ($module) {
+            case self::PRO:
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return [
                     ExtensionModuleResolver::ACCESS_CONTROL,
@@ -320,6 +345,7 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     public function getBundledBundleExtensionModules(string $module): array
     {
         switch ($module) {
+            case self::PRO:
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return array_diff(
                     $this->getModulesToResolve(),

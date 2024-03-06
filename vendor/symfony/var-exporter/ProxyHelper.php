@@ -27,7 +27,7 @@ final class ProxyHelper
     public static function generateLazyGhost(\ReflectionClass $class) : string
     {
         if (\PHP_VERSION_ID >= 80200 && \PHP_VERSION_ID < 80300 && $class->isReadOnly()) {
-            throw new LogicException(\sprintf('Cannot generate lazy ghost: class "%s" is readonly.', $class->name));
+            throw new LogicException(\sprintf('Cannot generate lazy ghost with PHP < 8.3: class "%s" is readonly.', $class->name));
         }
         if ($class->isFinal()) {
             throw new LogicException(\sprintf('Cannot generate lazy ghost: class "%s" is final.', $class->name));
@@ -86,7 +86,7 @@ EOPHP;
             throw new LogicException(\sprintf('Cannot generate lazy proxy: class "%s" is final.', $class->name));
         }
         if (\PHP_VERSION_ID >= 80200 && \PHP_VERSION_ID < 80300 && (($nullsafeVariable3 = $class) ? $nullsafeVariable3->isReadOnly() : null)) {
-            throw new LogicException(\sprintf('Cannot generate lazy proxy: class "%s" is readonly.', $class->name));
+            throw new LogicException(\sprintf('Cannot generate lazy proxy with PHP < 8.3: class "%s" is readonly.', $class->name));
         }
         $methodReflectors = [(($nullsafeVariable4 = $class) ? $nullsafeVariable4->getMethods(\ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_PROTECTED) : null) ?? []];
         foreach ($interfaces as $interface) {

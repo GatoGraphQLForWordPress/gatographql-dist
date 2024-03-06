@@ -91,7 +91,7 @@ EOF;
         $proxyClass = $this->getProxyClass($definition, $asGhostObject, $class);
         if ($asGhostObject) {
             try {
-                return 'class ' . $proxyClass . ProxyHelper::generateLazyGhost($class);
+                return (\PHP_VERSION_ID >= 80200 && (($nullsafeVariable1 = $class) ? $nullsafeVariable1->isReadOnly() : null) ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyGhost($class);
             } catch (LogicException $e) {
                 throw new InvalidArgumentException(\sprintf('Cannot generate lazy ghost for service "%s".', $id ?? $definition->getClass()), 0, $e);
             }
@@ -116,7 +116,7 @@ EOF;
             $class = null;
         }
         try {
-            return (\PHP_VERSION_ID >= 80200 && (($nullsafeVariable1 = $class) ? $nullsafeVariable1->isReadOnly() : null) ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyProxy($class, $interfaces);
+            return (\PHP_VERSION_ID >= 80200 && (($nullsafeVariable2 = $class) ? $nullsafeVariable2->isReadOnly() : null) ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyProxy($class, $interfaces);
         } catch (LogicException $e) {
             throw new InvalidArgumentException(\sprintf('Cannot generate lazy proxy for service "%s".', $id ?? $definition->getClass()), 0, $e);
         }

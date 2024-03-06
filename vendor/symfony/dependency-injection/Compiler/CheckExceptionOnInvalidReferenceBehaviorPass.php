@@ -63,14 +63,7 @@ class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
         if (isset($this->serviceLocatorContextIds[$currentId])) {
             $currentId = $this->serviceLocatorContextIds[$currentId];
             $locator = $this->container->getDefinition($this->currentId)->getFactory()[0];
-            foreach ($locator->getArgument(0) as $k => $v) {
-                if ($v->getValues()[0] === $value) {
-                    if ($k !== $id) {
-                        $currentId = $k . '" in the container provided to "' . $currentId;
-                    }
-                    throw new ServiceNotFoundException($id, $currentId, null, $this->getAlternatives($id));
-                }
-            }
+            $this->throwServiceNotFoundException($value, $currentId, $locator->getArgument(0));
         }
         if ('.' === $currentId[0] && $graph->hasNode($currentId)) {
             foreach ($graph->getNode($currentId)->getInEdges() as $edge) {
@@ -82,12 +75,18 @@ class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
                     $currentId = $sourceId;
                     break;
                 }
+                if (isset($this->serviceLocatorContextIds[$sourceId])) {
+                    $currentId = $this->serviceLocatorContextIds[$sourceId];
+                    $locator = $this->container->getDefinition($this->currentId);
+                    $this->throwServiceNotFoundException($value, $currentId, $locator->getArgument(0));
+                }
             }
         }
-        throw new ServiceNotFoundException($id, $currentId, null, $this->getAlternatives($id));
+        $this->throwServiceNotFoundException($value, $currentId, $value);
     }
-    private function getAlternatives(string $id) : array
+    private function throwServiceNotFoundException(Reference $ref, string $sourceId, $value) : void
     {
+        $id = (string) $ref;
         $alternatives = [];
         foreach ($this->container->getServiceIds() as $knownId) {
             if ('' === $knownId || '.' === $knownId[0] || $knownId === $this->currentId) {
@@ -98,6 +97,39 @@ class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
                 $alternatives[] = $knownId;
             }
         }
-        return $alternatives;
+        $pass = new class extends AbstractRecursivePass
+        {
+            /**
+             * @var \Symfony\Component\DependencyInjection\Reference
+             */
+            public $ref;
+            /**
+             * @var string
+             */
+            public $sourceId;
+            /**
+             * @var mixed[]
+             */
+            public $alternatives;
+            /**
+             * @param mixed $value
+             * @return mixed
+             */
+            public function processValue($value, bool $isRoot = \false)
+            {
+                if ($this->ref !== $value) {
+                    return parent::processValue($value, $isRoot);
+                }
+                $sourceId = $this->sourceId;
+                if (null !== $this->currentId && $this->currentId !== (string) $value) {
+                    $sourceId = $this->currentId . '" in the container provided to "' . $sourceId;
+                }
+                throw new ServiceNotFoundException((string) $value, $sourceId, null, $this->alternatives);
+            }
+        };
+        $pass->ref = $ref;
+        $pass->sourceId = $sourceId;
+        $pass->alternatives = $alternatives;
+        $pass->processValue($value, \true);
     }
 }

@@ -77,9 +77,9 @@ EOF;
     }
     private function loadEnv(string $dotenvPath, string $env, array $config) : array
     {
-        $dotenv = new Dotenv();
         $envKey = $config['env_var_name'] ?? 'APP_ENV';
         $testEnvs = $config['test_envs'] ?? ['test'];
+        $dotenv = new Dotenv($envKey);
         $globalsBackup = [$_SERVER, $_ENV];
         unset($_SERVER[$envKey]);
         $_ENV = [$envKey => $env];

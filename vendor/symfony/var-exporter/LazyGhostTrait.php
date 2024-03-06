@@ -187,6 +187,9 @@ trait LazyGhostTrait
                 $accessor['set']($this, $name, []);
                 return $accessor['get']($this, $name, null !== $readonlyScope);
             } catch (\Error $exception) {
+                if (\preg_match('/^Cannot access uninitialized non-nullable property ([^ ]++) by reference$/', $e->getMessage(), $matches)) {
+                    throw new \Error('Typed property ' . $matches[1] . ' must not be accessed before initialization', $e->getCode(), $e->getPrevious());
+                }
                 throw $e;
             }
         }
