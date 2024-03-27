@@ -30,7 +30,7 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
     }
 }
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit4e1fc3a3c7d72e1c663d55081cf9559a', 'PrefixedByPoP\ComposerAutoloaderInit4e1fc3a3c7d72e1c663d55081cf9559a');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitada36b650d33ca96a3275f34b0784f7c', 'PrefixedByPoP\ComposerAutoloaderInitada36b650d33ca96a3275f34b0784f7c');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
 humbug_phpscoper_expose_class('SQLite3Exception', 'PrefixedByPoP\SQLite3Exception');
 humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
