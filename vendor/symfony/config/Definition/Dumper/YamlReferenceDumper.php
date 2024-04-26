@@ -17,7 +17,6 @@ use PrefixedByPoP\Symfony\Component\Config\Definition\EnumNode;
 use PrefixedByPoP\Symfony\Component\Config\Definition\NodeInterface;
 use PrefixedByPoP\Symfony\Component\Config\Definition\PrototypedArrayNode;
 use PrefixedByPoP\Symfony\Component\Config\Definition\ScalarNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\VariableNode;
 use PrefixedByPoP\Symfony\Component\Yaml\Inline;
 /**
  * Dumps a Yaml reference configuration for the given configuration/node instance.
@@ -87,19 +86,12 @@ class YamlReferenceDumper
             if ($node instanceof PrototypedArrayNode) {
                 $children = $this->getPrototypeChildren($node);
             }
-            if (!$children) {
-                if ($node->hasDefaultValue() && \count($defaultArray = $node->getDefaultValue())) {
-                    $default = '';
-                } elseif (!\is_array($example)) {
-                    $default = '[]';
-                }
+            if (!$children && !($node->hasDefaultValue() && \count($defaultArray = $node->getDefaultValue()))) {
+                $default = '[]';
             }
         } elseif ($node instanceof EnumNode) {
             $comments[] = 'One of ' . $node->getPermissibleValues('; ');
             $default = $node->hasDefaultValue() ? Inline::dump($node->getDefaultValue()) : '~';
-        } elseif (VariableNode::class === \get_class($node) && \is_array($example)) {
-            // If there is an array example, we are sure we dont need to print a default value
-            $default = '';
         } else {
             $default = '~';
             if ($node->hasDefaultValue()) {
@@ -150,7 +142,7 @@ class YamlReferenceDumper
             $this->writeLine('');
             $message = \count($example) > 1 ? 'Examples' : 'Example';
             $this->writeLine('# ' . $message . ':', $depth * 4 + 4);
-            $this->writeArray(\array_map(\Closure::fromCallable([Inline::class, 'dump']), $example), $depth + 1);
+            $this->writeArray(\array_map(\Closure::fromCallable([Inline::class, 'dump']), $example), $depth + 1, \true);
         }
         if ($children) {
             foreach ($children as $childNode) {
@@ -167,7 +159,7 @@ class YamlReferenceDumper
         $format = '%' . $indent . 's';
         $this->reference .= \sprintf($format, $text) . "\n";
     }
-    private function writeArray(array $array, int $depth) : void
+    private function writeArray(array $array, int $depth, bool $asComment = \false) : void
     {
         $arrayIsListFunction = function (array $array) : bool {
             if (\function_exists('array_is_list')) {
@@ -192,13 +184,14 @@ class YamlReferenceDumper
             } else {
                 $val = $value;
             }
+            $prefix = $asComment ? '# ' : '';
             if ($isIndexed) {
-                $this->writeLine('- ' . $val, $depth * 4);
+                $this->writeLine($prefix . '- ' . $val, $depth * 4);
             } else {
-                $this->writeLine(\sprintf('%-20s %s', $key . ':', $val), $depth * 4);
+                $this->writeLine(\sprintf('%s%-20s %s', $prefix, $key . ':', $val), $depth * 4);
             }
             if (\is_array($value)) {
-                $this->writeArray($value, $depth + 1);
+                $this->writeArray($value, $depth + 1, $asComment);
             }
         }
     }

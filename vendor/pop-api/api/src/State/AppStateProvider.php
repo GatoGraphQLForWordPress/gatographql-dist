@@ -141,10 +141,9 @@ class AppStateProvider extends AbstractAppStateProvider
             $graphQLQueryParsingPayload = $this->getGraphQLParserHelperService()->parseGraphQLQuery($query, $variableValues, $operationName);
             $executableDocument = $graphQLQueryParsingPayload->executableDocument;
             $state['document-object-resolved-field-value-referenced-fields'] = $graphQLQueryParsingPayload->objectResolvedFieldValueReferencedFields;
-        } catch (AbstractASTNodeException $astNodeException) {
-            App::getFeedbackStore()->documentFeedbackStore->addError(new QueryFeedback(FeedbackItemResolution::fromUpstreamFeedbackItemResolution($astNodeException->getFeedbackItemResolution()), $astNodeException->getAstNode()));
-        } catch (AbstractASTNodeParserException $astNodeParserException) {
-            App::getFeedbackStore()->documentFeedbackStore->addError(new QueryFeedback(FeedbackItemResolution::fromUpstreamFeedbackItemResolution($astNodeParserException->getFeedbackItemResolution()), $astNodeParserException->getAstNode()));
+        } catch (AbstractASTNodeException|AbstractASTNodeParserException|AbstractQueryException $exception) {
+            // AbstractQueryException is needed to avoid `@export(as: $someVar)`
+            App::getFeedbackStore()->documentFeedbackStore->addError(new QueryFeedback(FeedbackItemResolution::fromUpstreamFeedbackItemResolution($exception->getFeedbackItemResolution()), $exception->getAstNode()));
         } catch (AbstractParserException $parserException) {
             App::getFeedbackStore()->documentFeedbackStore->addError(new DocumentFeedback(FeedbackItemResolution::fromUpstreamFeedbackItemResolution($parserException->getFeedbackItemResolution()), $parserException->getLocation()));
         }

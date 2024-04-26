@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitada36b650d33ca96a3275f34b0784f7c
+class ComposerStaticInite670917ff81df40e36f61c60ded8467f
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -4016,8 +4016,10 @@ class ComposerStaticInitada36b650d33ca96a3275f34b0784f7c
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis5Proxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6Proxy.php',
+        'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster5Proxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6Proxy.php',
+        'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisClusterNodeProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterNodeProxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisClusterProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterProxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisProxy.php',
@@ -4551,9 +4553,9 @@ class ComposerStaticInitada36b650d33ca96a3275f34b0784f7c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitada36b650d33ca96a3275f34b0784f7c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitada36b650d33ca96a3275f34b0784f7c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitada36b650d33ca96a3275f34b0784f7c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$classMap;
 
         }, null, ClassLoader::class);
     }

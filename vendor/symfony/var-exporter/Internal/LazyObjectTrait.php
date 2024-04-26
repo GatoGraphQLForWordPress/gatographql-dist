@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\VarExporter\Internal;
 
+use PrefixedByPoP\Symfony\Component\Serializer\Attribute\Ignore;
 if (\PHP_VERSION_ID >= 80300) {
     /**
      * @internal

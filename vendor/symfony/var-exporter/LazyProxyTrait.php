@@ -10,6 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\VarExporter;
 
+use PrefixedByPoP\Symfony\Component\Serializer\Attribute\Ignore;
 use PrefixedByPoP\Symfony\Component\VarExporter\Hydrator as PublicHydrator;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
 use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
