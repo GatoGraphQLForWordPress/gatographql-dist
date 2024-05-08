@@ -11,11 +11,8 @@ use PoPCMSSchema\PostMutations\MutationResolvers\UpdatePostMutationResolver;
 use PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostUpdateInputObjectTypeResolver;
 use PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\PostUpdateMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
-use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 use PoP\ComponentModel\App;
-use PoP\ComponentModel\Checkpoints\CheckpointInterface;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
-use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
@@ -42,10 +39,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
      * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostUpdateInputObjectTypeResolver|null
      */
     private $postUpdateInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
     public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
     {
         $this->postObjectTypeResolver = $postObjectTypeResolver;
@@ -111,19 +104,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         }
         return $this->postUpdateInputObjectTypeResolver;
     }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
-    }
-    protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
-    {
-        if ($this->userLoggedInCheckpoint === null) {
-            /** @var UserLoggedInCheckpoint */
-            $userLoggedInCheckpoint = $this->instanceManager->getInstance(UserLoggedInCheckpoint::class);
-            $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
-        }
-        return $this->userLoggedInCheckpoint;
-    }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
@@ -175,30 +155,5 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             default:
                 return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
         }
-    }
-    /**
-     * @return CheckpointInterface[]
-     */
-    public function getValidationCheckpoints(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor, object $object) : array
-    {
-        $validationCheckpoints = parent::getValidationCheckpoints($objectTypeResolver, $fieldDataAccessor, $object);
-        /**
-         * For Payloadable: The "User Logged-in" checkpoint validation is not added,
-         * instead this validation is executed inside the mutation, so the error
-         * shows up in the Payload
-         *
-         * @var CustomPostMutationsModuleConfiguration
-         */
-        $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
-        $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
-        if ($usePayloadableCustomPostMutations) {
-            return $validationCheckpoints;
-        }
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'update':
-                $validationCheckpoints[] = $this->getUserLoggedInCheckpoint();
-                break;
-        }
-        return $validationCheckpoints;
     }
 }

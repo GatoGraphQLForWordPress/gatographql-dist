@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite670917ff81df40e36f61c60ded8467f
+class ComposerStaticInit6c1c37db23d4627cc83e51394bdcd0c7
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -34,6 +34,7 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
             'PrefixedByPoP\\Symfony\\Contracts\\Cache\\' => 38,
             'PrefixedByPoP\\Symfony\\Component\\Yaml\\' => 37,
             'PrefixedByPoP\\Symfony\\Component\\VarExporter\\' => 44,
+            'PrefixedByPoP\\Symfony\\Component\\Process\\' => 40,
             'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\' => 47,
             'PrefixedByPoP\\Symfony\\Component\\Filesystem\\' => 43,
             'PrefixedByPoP\\Symfony\\Component\\ExpressionLanguage\\' => 51,
@@ -226,6 +227,10 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-exporter',
+        ),
+        'PrefixedByPoP\\Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
         ),
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\' => 
         array (
@@ -915,6 +920,7 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'GatoGraphQL\\GatoGraphQL\\Facades\\AbstractContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/AbstractContainerCacheConfigurationManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\ContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/ContainerCacheConfigurationManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\ContainerCacheConfigurationManagerFacadeTrait' => __DIR__ . '/../..' . '/src/Facades/ContainerCacheConfigurationManagerFacadeTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\Facades\\Container\\ContainerManagerFacade' => __DIR__ . '/../..' . '/src/Facades/Container/ContainerManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\ContentProcessors\\MarkdownContentParserFacade' => __DIR__ . '/../..' . '/src/Facades/ContentProcessors/MarkdownContentParserFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\InternalGraphQLServerContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/InternalGraphQLServerContainerCacheConfigurationManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\CustomEndpointAnnotatorRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/CustomEndpointAnnotatorRegistryFacade.php',
@@ -968,6 +974,7 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\ExtensionModuleResolverInterface' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/ExtensionModuleResolverInterface.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\ExtensionModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/ExtensionModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\HasMarkdownDocumentationModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/HasMarkdownDocumentationModuleResolverTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\IntegrationsModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/IntegrationsModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\MetaSchemaTypeModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/MetaSchemaTypeModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ModuleResolverInterface' => __DIR__ . '/../..' . '/src/ModuleResolvers/ModuleResolverInterface.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ModuleResolverTrait.php',
@@ -1927,18 +1934,30 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PoPCMSSchema\\CustomPostMutations\\Facades\\CustomPostTypeMutationAPIFacade' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/Facades/CustomPostTypeMutationAPIFacade.php',
         'PoPCMSSchema\\CustomPostMutations\\FeedbackItemProviders\\MutationErrorFeedbackItemProvider' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FeedbackItemProviders/MutationErrorFeedbackItemProvider.php',
         'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\AbstractCustomPostObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/AbstractCustomPostObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\GenericCustomPostMutationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/GenericCustomPostMutationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\GenericCustomPostMutationTransientEntityOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/GenericCustomPostMutationTransientEntityOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\GenericCustomPostObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/GenericCustomPostObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\GenericCustomPostUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/GenericCustomPostUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\RootCreateGenericCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/RootCreateGenericCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\RootQueryableObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/RootQueryableObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\FieldResolvers\\ObjectType\\RootUpdateGenericCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/FieldResolvers/ObjectType/RootUpdateGenericCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\LooseContracts\\LooseContractSet' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/LooseContracts/LooseContractSet.php',
         'PoPCMSSchema\\CustomPostMutations\\Module' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/Module.php',
         'PoPCMSSchema\\CustomPostMutations\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/ModuleConfiguration.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\AbstractCreateOrUpdateCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/AbstractCreateOrUpdateCustomPostMutationResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\AbstractCreateUpdateGenericCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/AbstractCreateUpdateGenericCustomPostMutationResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\CreateCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/CreateCustomPostMutationResolverTrait.php',
+        'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\CreateGenericCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/CreateGenericCustomPostMutationResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\CreateOrUpdateCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/CreateOrUpdateCustomPostMutationResolverTrait.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\CustomPostMutationResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/CustomPostMutationResolverInterface.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\PayloadableCreateCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/PayloadableCreateCustomPostMutationResolverTrait.php',
+        'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\PayloadableCreateGenericCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/PayloadableCreateGenericCustomPostMutationResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\PayloadableCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/PayloadableCustomPostMutationResolverTrait.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\PayloadableUpdateCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/PayloadableUpdateCustomPostMutationResolverTrait.php',
+        'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\PayloadableUpdateGenericCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/PayloadableUpdateGenericCustomPostMutationResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\UpdateCustomPostMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/UpdateCustomPostMutationResolverTrait.php',
+        'PoPCMSSchema\\CustomPostMutations\\MutationResolvers\\UpdateGenericCustomPostMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/MutationResolvers/UpdateGenericCustomPostMutationResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\ObjectModels\\CustomPostDoesNotExistErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/ObjectModels/CustomPostDoesNotExistErrorPayload.php',
         'PoPCMSSchema\\CustomPostMutations\\ObjectModels\\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/ObjectModels/LoggedInUserHasNoEditingCustomPostCapabilityErrorPayload.php',
         'PoPCMSSchema\\CustomPostMutations\\ObjectModels\\LoggedInUserHasNoPermissionToEditCustomPostErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/ObjectModels/LoggedInUserHasNoPermissionToEditCustomPostErrorPayload.php',
@@ -1957,25 +1976,38 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\ObjectType\\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/ObjectType/LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader.php',
         'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\ObjectType\\LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/ObjectType/LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader.php',
         'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\ObjectType\\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/ObjectType/LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\UnionType\\GenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/UnionType/GenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\UnionType\\RootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/UnionType/RootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\CustomPostMutations\\RelationalTypeDataLoaders\\UnionType\\RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/RelationalTypeDataLoaders/UnionType/RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeAPIs\\CustomPostTypeMutationAPIInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeAPIs/CustomPostTypeMutationAPIInterface.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractCreateOrUpdateCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractCreateOrUpdateCustomPostInputObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractCustomPostContentAsOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractCustomPostContentAsOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractMyCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractMyCustomPostsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CreateCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CreateCustomPostInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CustomPostContentAsOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CustomPostContentAsOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CustomPostUpdateInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CustomPostUpdateInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootCreateCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootCreateCustomPostInputObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootCreateGenericCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootCreateGenericCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootMyCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootMyCustomPostsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootUpdateCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootUpdateCustomPostInputObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootUpdateGenericCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootUpdateGenericCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\UpdateCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/UpdateCustomPostInputObjectTypeResolverInterface.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\AbstractGenericCustomPostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/AbstractGenericCustomPostMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\CustomPostDoesNotExistErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/CustomPostDoesNotExistErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\GenericCustomPostUpdateMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/GenericCustomPostUpdateMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\RootCreateGenericCustomPostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/RootCreateGenericCustomPostMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\AbstractCustomPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/AbstractCustomPostMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\AbstractCustomPostUpdateMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/AbstractCustomPostUpdateMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\AbstractRootCreateCustomPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/AbstractRootCreateCustomPostMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/AbstractRootUpdateCustomPostMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\GenericCustomPostUpdateMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/GenericCustomPostUpdateMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\RootCreateGenericCustomPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/RootCreateGenericCustomPostMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\UnionType\\RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/UnionType/RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\CustomPostTagMutations\\Constants\\MutationInputProperties' => __DIR__ . '/..' . '/pop-cms-schema/custompost-tag-mutations/src/Constants/MutationInputProperties.php',
         'PoPCMSSchema\\CustomPostTagMutations\\Environment' => __DIR__ . '/..' . '/pop-cms-schema/custompost-tag-mutations/src/Environment.php',
         'PoPCMSSchema\\CustomPostTagMutations\\FeedbackItemProviders\\MutationErrorFeedbackItemProvider' => __DIR__ . '/..' . '/pop-cms-schema/custompost-tag-mutations/src/FeedbackItemProviders/MutationErrorFeedbackItemProvider.php',
@@ -2341,7 +2373,6 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\ObjectType\\PostUpdateMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/ObjectType/PostUpdateMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\ObjectType\\RootCreatePostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/ObjectType/RootCreatePostMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\ObjectType\\RootUpdatePostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/ObjectType/RootUpdatePostMutationPayloadObjectTypeResolver.php',
-        'PoPCMSSchema\\PostMutations\\TypeResolvers\\UnionType\\AbstractPostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/UnionType/AbstractPostMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\UnionType\\PostUpdateMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/UnionType/PostUpdateMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\UnionType\\RootCreatePostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/UnionType/RootCreatePostMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\PostMutations\\TypeResolvers\\UnionType\\RootUpdatePostMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src/TypeResolvers/UnionType/RootUpdatePostMutationErrorPayloadUnionTypeResolver.php',
@@ -4016,10 +4047,8 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis5Proxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6Proxy.php',
-        'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\Redis6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster5Proxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6Proxy.php',
-        'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisCluster6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6ProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisClusterNodeProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterNodeProxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisClusterProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterProxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisProxy.php',
@@ -4492,6 +4521,28 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\StreamedResponse' => __DIR__ . '/..' . '/symfony/http-foundation/StreamedResponse.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UriSigner' => __DIR__ . '/..' . '/symfony/http-foundation/UriSigner.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UrlHelper' => __DIR__ . '/..' . '/symfony/http-foundation/UrlHelper.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/process/Exception/ExceptionInterface.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/symfony/process/Exception/InvalidArgumentException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/process/Exception/LogicException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessFailedException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessFailedException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessSignaledException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessSignaledException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessTimedOutException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessTimedOutException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\RunProcessFailedException' => __DIR__ . '/..' . '/symfony/process/Exception/RunProcessFailedException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/process/Exception/RuntimeException.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\ExecutableFinder' => __DIR__ . '/..' . '/symfony/process/ExecutableFinder.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\InputStream' => __DIR__ . '/..' . '/symfony/process/InputStream.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessContext' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessContext.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessMessage' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessMessage.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessMessageHandler' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessMessageHandler.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpExecutableFinder' => __DIR__ . '/..' . '/symfony/process/PhpExecutableFinder.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpProcess' => __DIR__ . '/..' . '/symfony/process/PhpProcess.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpSubprocess' => __DIR__ . '/..' . '/symfony/process/PhpSubprocess.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\AbstractPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/AbstractPipes.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\PipesInterface' => __DIR__ . '/..' . '/symfony/process/Pipes/PipesInterface.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\UnixPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/UnixPipes.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\WindowsPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/WindowsPipes.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\Process' => __DIR__ . '/..' . '/symfony/process/Process.php',
+        'PrefixedByPoP\\Symfony\\Component\\Process\\ProcessUtils' => __DIR__ . '/..' . '/symfony/process/ProcessUtils.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ClassNotFoundException' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ClassNotFoundException.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ExceptionInterface.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/LogicException.php',
@@ -4531,7 +4582,9 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
+        'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
+        'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceMethodsSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceMethodsSubscriberTrait.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceProviderInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceProviderInterface.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceSubscriberInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberInterface.php',
         'PrefixedByPoP\\Symfony\\Contracts\\Service\\ServiceSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberTrait.php',
@@ -4553,9 +4606,9 @@ class ComposerStaticInite670917ff81df40e36f61c60ded8467f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite670917ff81df40e36f61c60ded8467f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6c1c37db23d4627cc83e51394bdcd0c7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6c1c37db23d4627cc83e51394bdcd0c7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6c1c37db23d4627cc83e51394bdcd0c7::$classMap;
 
         }, null, ClassLoader::class);
     }

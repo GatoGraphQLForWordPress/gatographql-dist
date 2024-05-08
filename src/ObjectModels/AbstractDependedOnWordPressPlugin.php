@@ -17,6 +17,11 @@ abstract class AbstractDependedOnWordPressPlugin
      */
     public $file;
     /**
+     * @var string[]
+     * @readonly
+     */
+    public $alternativeFiles = [];
+    /**
      * @readonly
      * @var string
      */
@@ -27,10 +32,14 @@ abstract class AbstractDependedOnWordPressPlugin
      */
     public $url;
 
-    public function __construct(string $name, string $file, ?string $url = null)
+    /**
+     * @param string[] $alternativeFiles
+     */
+    public function __construct(string $name, string $file, array $alternativeFiles = [], ?string $url = null)
     {
         $this->name = $name;
         $this->file = $file;
+        $this->alternativeFiles = $alternativeFiles;
         $this->slug = $this->extractSlugFromPluginFile($file);
         $this->url = $this->calculateURL($url, $this->slug);
     }

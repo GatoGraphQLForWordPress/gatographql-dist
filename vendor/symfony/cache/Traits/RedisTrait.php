@@ -255,7 +255,7 @@ trait RedisTrait
                         $error = \preg_match('/^Redis::p?connect\\(\\): (.*)/', $error ?? $redis->getLastError() ?? '', $error) ? \sprintf(' (%s)', $error[1]) : '';
                         throw new InvalidArgumentException('Redis connection failed: ' . $error . '.');
                     }
-                    if (null !== $auth && !$redis->auth($auth) || $params['dbindex'] && !$redis->select($params['dbindex'])) {
+                    if (null !== $auth && !$redis->auth($auth) || ($params['dbindex'] || 'pconnect' === $connect && '0' !== \ini_get('redis.pconnect.pooling_enabled')) && !$redis->select($params['dbindex'])) {
                         $e = \preg_replace('/^ERR /', '', $redis->getLastError());
                         throw new InvalidArgumentException('Redis connection failed: ' . $e . '.');
                     }

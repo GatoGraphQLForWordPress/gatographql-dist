@@ -48,7 +48,7 @@ humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInite670917ff81df40e36f61c60ded8467f', 'PrefixedByPoP\ComposerAutoloaderInite670917ff81df40e36f61c60ded8467f');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit6c1c37db23d4627cc83e51394bdcd0c7', 'PrefixedByPoP\ComposerAutoloaderInit6c1c37db23d4627cc83e51394bdcd0c7');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

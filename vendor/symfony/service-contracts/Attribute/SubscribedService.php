@@ -10,14 +10,14 @@
  */
 namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
 
+use PrefixedByPoP\Symfony\Contracts\Service\ServiceMethodsSubscriberTrait;
 use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberTrait;
 /**
  * For use as the return value for {@see ServiceSubscriberInterface}.
  *
  * @example new SubscribedService('http_client', HttpClientInterface::class, false, new Target('githubApi'))
  *
- * Use with {@see ServiceSubscriberTrait} to mark a method's return type
+ * Use with {@see ServiceMethodsSubscriberTrait} to mark a method's return type
  * as a subscribed service.
  *
  * @author Kevin Bond <kevinbond@gmail.com>

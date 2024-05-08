@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 5.4
 Tested up to: 6.5
-Stable tag: 2.2.3
+Stable tag: 2.3.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -70,7 +70,7 @@ Use Gato GraphQL PRO to:
 - Insert or remove Gutenberg blocks in bulk
 - Automatically insert a mandatory block when creating a new post
 - Translate content in the site using the Google Translate API
-- Automatically translate new posts to all different languages in a multisite
+- Automatically translate new posts to all different languages for Polylang
 - Generate an image using OpenAI's DALL-E or Stable Diffusion, and set it as featured image
 - Send new posts to Facebook, Instagram, LinkedIn, or other social media platforms
 - Import a post from another WordPress site
@@ -165,6 +165,18 @@ The Gato GraphQL plugin maps the WordPress schema, and is enough to use GraphQL 
 
 Gato GraphQL PRO is needed for enhanced security for public APIs, adding HTTP caching, sending emails, executing updates in bulk, connecting to external services, and automating tasks (among others).
 
+= How to use Gato GraphQL with Polylang? =
+
+Gato GraphQL PRO provides an integration with Polylang, allowing you to automatically translate a post's content using the Google Translate API, and store it on all translation posts, as defined and managed via Polylang.
+
+You can also synchronize the tags, categories, and featured image, querying the values from the origin post, and setting the corresponding translated values on all the translation posts.
+
+And you can set it all up via automation, so that whenever a post in the default language is published, it is automatically translated to all languages, and stored in the corresponding translation post by Polylang.
+
+Both Polylang and Polylang PRO are supported.
+
+Check out the [Gato GraphQL with Polylang demos](https://gatographql.com/demos?tag=polylang) to learn more.
+
 = How is Gato GraphQL different than WPGraphQL? =
 
 If you just need to build a headless WordPress site and deploy it as static, and you're currently using WPGraphQL, switching to Gato GraphQL will not make any difference.
@@ -255,6 +267,17 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.3.0 =
+* Added fields `GenericCustomPost.update`, `Root.updateCustomPost` and `Root.createCustomPost` (#2663)
+* Added documentation for integration with Polylang (#2664)
+* Added module type "Integrations" (#2665)
+* Return an EnumString type on `GenericCategory.taxonomy` and `GenericTag.taxonomy` (#2666)
+* Fix bug: Updated the Support form's action URL (#2662)
+* Added predefined persisted queries: "[PRO] Translate posts for Polylang (Gutenberg)" (#2667), "[PRO] Translate posts for Polylang (Classic editor)" (#2667), "[PRO] Sync featured image for Polylang" (#2669) and "[PRO] Sync tags and categories for Polylang" (#2670)
+* Support alternative filenames from 3rd-party plugins for extensions (#2671)
+* [PRO] Added integration with Polylang
+* [PRO] Added automation rules: "Polylang: When publishing a post, translate it to all languages (Gutenberg)", "Polylang: When publishing a post, translate it to all languages (Classic editor)", "Polylang: When publishing a post, set the featured image for each language on all translation posts" and "Polylang: When publishing a post, set the tags and categories for each language on all translation posts"
 
 = 2.2.3 =
 * Bug parsing `@export(as: $someVar)` (#2661)

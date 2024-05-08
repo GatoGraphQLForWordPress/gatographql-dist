@@ -32,6 +32,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const MULTIPLE_QUERY_EXECUTION = Plugin::NAMESPACE . '\\extensions\\multiple-query-execution';
     public const PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-constants-and-environment-variables-via-schema';
     public const PHP_FUNCTIONS_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-functions-via-schema';
+    public const POLYLANG = Plugin::NAMESPACE . '\\extensions\\polylang';
     public const RESPONSE_ERROR_TRIGGER = Plugin::NAMESPACE . '\\extensions\\response-error-trigger';
     public const SCHEMA_EDITING_ACCESS = Plugin::NAMESPACE . '\\extensions\\schema-editing-access';
 
@@ -65,6 +66,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::MULTIPLE_QUERY_EXECUTION,
             self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
             self::PHP_FUNCTIONS_VIA_SCHEMA,
+            self::POLYLANG,
             self::RESPONSE_ERROR_TRIGGER,
             self::SCHEMA_EDITING_ACCESS,
         ];
@@ -121,6 +123,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('PHP Constants and Environment Variables via Schema', 'gatographql');
             case self::PHP_FUNCTIONS_VIA_SCHEMA:
                 return \__('PHP Functions via Schema', 'gatographql');
+            case self::POLYLANG:
+                return \__('Polylang', 'gatographql');
             case self::RESPONSE_ERROR_TRIGGER:
                 return \__('Response Error Trigger', 'gatographql');
             case self::SCHEMA_EDITING_ACCESS:
@@ -181,6 +185,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Query the value from an environment variable or PHP constant.', 'gatographql');
             case self::PHP_FUNCTIONS_VIA_SCHEMA:
                 return \__('Manipulate the field output using standard programming language functions available in PHP.', 'gatographql');
+            case self::POLYLANG:
+                return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::RESPONSE_ERROR_TRIGGER:
                 return \__('Explicitly add an error entry to the response to trigger the failure of the GraphQL request (whenever a field does not meet the expected conditions).', 'gatographql');
             case self::SCHEMA_EDITING_ACCESS:

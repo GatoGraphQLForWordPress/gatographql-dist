@@ -148,6 +148,35 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
     {
         switch ($module) {
             case self::PRO:
+                return [
+                    ExtensionModuleResolver::ACCESS_CONTROL,
+                    ExtensionModuleResolver::ACCESS_CONTROL_VISITOR_IP,
+                    ExtensionModuleResolver::AUTOMATION,
+                    ExtensionModuleResolver::CACHE_CONTROL,
+                    ExtensionModuleResolver::CONDITIONAL_FIELD_MANIPULATION,
+                    ExtensionModuleResolver::DEPRECATION_NOTIFIER,
+                    ExtensionModuleResolver::EMAIL_SENDER,
+                    ExtensionModuleResolver::EVENTS_MANAGER,
+                    ExtensionModuleResolver::FIELD_DEFAULT_VALUE,
+                    ExtensionModuleResolver::FIELD_DEPRECATION,
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESOLUTION_CACHING,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HELPER_FUNCTION_COLLECTION,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::HTTP_REQUEST_VIA_SCHEMA,
+                    ExtensionModuleResolver::INTERNAL_GRAPHQL_SERVER,
+                    ExtensionModuleResolver::LOW_LEVEL_PERSISTED_QUERY_EDITING,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                    ExtensionModuleResolver::POLYLANG,
+                    ExtensionModuleResolver::RESPONSE_ERROR_TRIGGER,
+                    ExtensionModuleResolver::SCHEMA_EDITING_ACCESS,
+                ];
             case self::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS:
                 return [
                     ExtensionModuleResolver::ACCESS_CONTROL,

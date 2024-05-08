@@ -17,6 +17,7 @@ return array(
     'PrefixedByPoP\\Symfony\\Contracts\\Cache\\' => array($vendorDir . '/symfony/cache-contracts'),
     'PrefixedByPoP\\Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'PrefixedByPoP\\Symfony\\Component\\VarExporter\\' => array($vendorDir . '/symfony/var-exporter'),
+    'PrefixedByPoP\\Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'PrefixedByPoP\\Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'PrefixedByPoP\\Symfony\\Component\\ExpressionLanguage\\' => array($vendorDir . '/symfony/expression-language'),

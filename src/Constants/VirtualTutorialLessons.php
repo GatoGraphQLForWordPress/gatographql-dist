@@ -10,12 +10,16 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
  */
 class VirtualTutorialLessons
 {
-    public const IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED = 'importing-a-post-from-wordpress-rss-feed';
-    public const IMPORTING_POSTS_FROM_A_CSV = 'importing-posts-from-a-csv';
-    public const TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE = 'translating-classic-editor-post-to-a-different-language';
+    public const ADD_COMMENTS_BLOCK_TO_POST = 'add-comments-block-to-post';
     public const BULK_TRANSLATING_CLASSIC_EDITOR_POSTS_TO_A_DIFFERENT_LANGUAGE = 'bulk-translating-classic-editor-posts-to-a-different-language';
     public const FETCH_POST_LINKS = 'fetch-post-links';
-    public const SEND_EMAIL_TO_ADMIN_ABOUT_POST = 'send-email-to-admin-about-post';
-    public const ADD_COMMENTS_BLOCK_TO_POST = 'add-comments-block-to-post';
     public const GENERATE_A_POST_FEATURED_IMAGE_USING_AI_AND_OPTIMIZE_IT = 'generate-a-post-featured-image-using-ai-and-optimize-it';
+    public const IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED = 'importing-a-post-from-wordpress-rss-feed';
+    public const IMPORTING_POSTS_FROM_A_CSV = 'importing-posts-from-a-csv';
+    public const SEND_EMAIL_TO_ADMIN_ABOUT_POST = 'send-email-to-admin-about-post';
+    public const SYNCHRONIZING_FEATUREDIMAGE_FOR_POLYLANG = 'synchronizing-featured-image-for-polylang';
+    public const SYNCHRONIZING_TAGS_AND_CATEGORIES_FOR_POLYLANG = 'synchronizing-tags-and-categories-for-polylang';
+    public const TRANSLATING_CLASSIC_EDITOR_POST_TO_A_DIFFERENT_LANGUAGE = 'translating-classic-editor-post-to-a-different-language';
+    public const TRANSLATING_POSTS_FOR_POLYLANG_AND_GUTENBERG = 'translating-posts-for-polylang-and-gutenberg';
+    public const TRANSLATING_POSTS_FOR_POLYLANG_AND_CLASSIC_EDITOR = 'translating-posts-for-polylang-and-classic-editor';
 }
