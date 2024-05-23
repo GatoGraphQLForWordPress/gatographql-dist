@@ -8,14 +8,11 @@ use PoP\Root\App;
 use GraphQLByPoP\GraphQLEndpointForWP\Module;
 use GraphQLByPoP\GraphQLEndpointForWP\ModuleConfiguration;
 use PoPAPI\APIEndpointsForWP\EndpointHandlers\AbstractEndpointHandler;
-use PoP\Root\Services\BasicServiceTrait;
-use PoPAPI\GraphQLAPI\Module as GatoGraphQLModule;
+use PoPAPI\GraphQLAPI\Module as GraphQLAPIModule;
 use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 
 class GraphQLEndpointHandler extends AbstractEndpointHandler
 {
-    use BasicServiceTrait;
-
     /**
      * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
      */
@@ -39,7 +36,7 @@ class GraphQLEndpointHandler extends AbstractEndpointHandler
      */
     public function initialize(): void
     {
-        if ($this->isGatoGraphQLEnabled()) {
+        if ($this->isGraphQLAPIEnabled()) {
             parent::initialize();
         }
     }
@@ -51,19 +48,19 @@ class GraphQLEndpointHandler extends AbstractEndpointHandler
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return $moduleConfiguration->getGatoGraphQLEndpoint();
+        return $moduleConfiguration->getGraphQLAPIEndpoint();
     }
 
     /**
-     * Check if GrahQL has been enabled
+     * Check if the GrahQL API has been enabled
      */
-    protected function isGatoGraphQLEnabled(): bool
+    protected function isGraphQLAPIEnabled(): bool
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return
-            class_exists(GatoGraphQLModule::class)
-            && App::getModule(GatoGraphQLModule::class)->isEnabled()
-            && !$moduleConfiguration->isGatoGraphQLEndpointDisabled();
+            class_exists(GraphQLAPIModule::class)
+            && App::getModule(GraphQLAPIModule::class)->isEnabled()
+            && !$moduleConfiguration->isGraphQLAPIEndpointDisabled();
     }
 }

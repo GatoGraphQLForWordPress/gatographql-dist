@@ -15,6 +15,7 @@ class PluginSetupDataEntrySlugs
      */
     public const SCHEMA_CONFIGURATION_NESTED_MUTATIONS_ENTITY_AS_MUTATION_PAYLOAD_TYPE = 'nested-mutations-entity-as-mutation-payload-type';
 
+    public const CUSTOM_ENDPOINT_INTERNAL = 'internal';
     public const CUSTOM_ENDPOINT_NESTED_MUTATIONS = 'nested-mutations';
     public const CUSTOM_ENDPOINT_NESTED_MUTATIONS_ENTITY_AS_MUTATION_PAYLOAD_TYPE = 'nested-mutations-entity-as-mutation-payload-type';
 
@@ -46,6 +47,8 @@ class PluginSetupDataEntrySlugs
     public const PERSISTED_QUERY_SEND_EMAIL_TO_ADMIN_ABOUT_POST = 'send-email-to-admin-about-post';
     public const PERSISTED_QUERY_SYNC_FEATUREDIMAGE_FOR_POLYLANG = 'sync-featuredimage-for-polylang';
     public const PERSISTED_QUERY_SYNC_TAGS_AND_CATEGORIES_FOR_POLYLANG = 'sync-tags-and-categories-for-polylang';
+    public const PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR = 'translate-and-create-all-pages-for-multilingual-wordpress-site-classic-editor';
+    public const PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_GUTENBERG = 'translate-and-create-all-pages-for-multilingual-wordpress-site-gutenberg';
     public const PERSISTED_QUERY_TRANSLATE_CONTENT_FROM_URL = 'translate-content-from-url';
     public const PERSISTED_QUERY_TRANSLATE_POST_CLASSIC_EDITOR = 'translate-post-classic-editor';
     public const PERSISTED_QUERY_TRANSLATE_POST_GUTENBERG = 'translate-post-gutenberg';

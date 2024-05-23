@@ -679,6 +679,17 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                     return \get_option('require_name_email') === '1';
                 },
             ],
+            /**
+             * For a Multisite network based on subfolders,
+             * remove the subfolder path from the REQUEST_URI
+             */
+            [
+                'class' => \PoPCMSSchema\SchemaCommons\Module::class,
+                'envVariable' => \PoPCMSSchema\SchemaCommons\Environment::OVERRIDE_REQUEST_URI,
+                'callback' => function () {
+                    return \is_multisite() && !\is_subdomain_install();
+                },
+            ],
         ];
     }
 
@@ -1048,6 +1059,9 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 MediaModule::class,
                 \PoPWPSchema\Media\Module::class,
             ],
+            SchemaTypeModuleResolver::SCHEMA_SITE => [
+                \PoPWPSchema\Site\Module::class,
+            ],
             SchemaTypeModuleResolver::SCHEMA_TAGS => [
                 TagsModule::class,
                 \PoPCMSSchema\TagsWP\Module::class,
@@ -1083,6 +1097,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_PAGE_MUTATIONS => [
                 \PoPCMSSchema\PageMutations\Module::class,
+                \PoPCMSSchema\PageMutationsWP\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_POST_MUTATIONS => [
                 \PoPCMSSchema\PostMutations\Module::class,

@@ -201,7 +201,7 @@ class EndpointFunctionalityModuleResolver extends AbstractFunctionalityModuleRes
             case self::SINGLE_ENDPOINT:
                 return \sprintf(
                     \__('Expose the single GraphQL endpoint under <code>%s</code>', 'gatographql'),
-                    $moduleConfiguration->getGatoGraphQLEndpoint()
+                    $moduleConfiguration->getGraphQLAPIEndpoint()
                 );
             case self::CUSTOM_ENDPOINTS:
                 return \__('Expose different subsets of the schema for different targets, such as users (clients, employees, etc), applications (website, mobile app, etc), context (weekday, weekend, etc), and others', 'gatographql');

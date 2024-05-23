@@ -10,7 +10,7 @@ use PoP\Root\Module\EnvironmentValueHelpers;
 
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    public function isGatoGraphQLEndpointDisabled(): bool
+    public function isGraphQLAPIEndpointDisabled(): bool
     {
         $envVariable = Environment::DISABLE_GRAPHQL_API_ENDPOINT;
         $defaultValue = false;
@@ -19,7 +19,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 
-    public function getGatoGraphQLEndpoint(): string
+    public function getGraphQLAPIEndpoint(): string
     {
         $envVariable = Environment::GRAPHQL_API_ENDPOINT;
         $defaultValue = '/api/graphql/';

@@ -48,6 +48,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_USER_AVATARS = Plugin::NAMESPACE . '\schema-user-avatars';
     public const SCHEMA_PAGES = Plugin::NAMESPACE . '\schema-pages';
     public const SCHEMA_MEDIA = Plugin::NAMESPACE . '\schema-media';
+    public const SCHEMA_SITE = Plugin::NAMESPACE . '\schema-site';
     public const SCHEMA_TAGS = Plugin::NAMESPACE . '\schema-tags';
     public const SCHEMA_POST_TAGS = Plugin::NAMESPACE . '\schema-post-tags';
     public const SCHEMA_CATEGORIES = Plugin::NAMESPACE . '\schema-categories';
@@ -438,6 +439,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_USER_ROLES,
             self::SCHEMA_USER_AVATARS,
             self::SCHEMA_COMMENTS,
+            self::SCHEMA_SITE,
             self::SCHEMA_TAGS,
             self::SCHEMA_POST_TAGS,
             self::SCHEMA_CATEGORIES,
@@ -513,6 +515,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Pages', 'gatographql');
             case self::SCHEMA_MEDIA:
                 return \__('Media', 'gatographql');
+            case self::SCHEMA_SITE:
+                return \__('Site', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Tags', 'gatographql');
             case self::SCHEMA_POST_TAGS:
@@ -601,6 +605,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Fetch settings from the site', 'gatographql');
             case self::SCHEMA_CUSTOMPOSTS:
                 return \__('Base functionality for all custom posts', 'gatographql');
+            case self::SCHEMA_SITE:
+                return \__('Fetch site information', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Base functionality for all tags', 'gatographql');
             case self::SCHEMA_CATEGORIES:
@@ -643,6 +649,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_POST_CATEGORIES:
             case self::SCHEMA_MENUS:
             case self::SCHEMA_MEDIA:
+            case self::SCHEMA_SITE:
                 return false;
         }
         return $this->upstreamHasDocumentation($module);

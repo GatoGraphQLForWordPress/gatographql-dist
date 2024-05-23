@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 5.4
 Tested up to: 6.5
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,6 +21,8 @@ Gato GraphQL supports Persisted Queries out of the box. Persisted queries are si
 With persisted queries, you can have the great user experience of GraphQL, while having the security from a REST API, limiting clients and visitors to only query the data that you have defined in advance.
 
 You can also create public and private custom endpoints, exposing each of them for some specific target (whether different applications, clients, teams, or other), and have a private endpoint feed data to your custom Gutenberg blocks.
+
+[youtube https://www.youtube.com/watch?v=uabFL_CoEWo]
 
 === Architectural foundation ===
 
@@ -175,7 +177,7 @@ And you can set it all up via automation, so that whenever a post in the default
 
 Both Polylang and Polylang PRO are supported.
 
-Check out the [Gato GraphQL with Polylang demos](https://gatographql.com/demos?tag=polylang) to learn more.
+Check out the [Gato GraphQL with Polylang demos](https://gatographql.com/demos?tag=Polylang) to learn more.
 
 = How is Gato GraphQL different than WPGraphQL? =
 
@@ -267,6 +269,22 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.4.0 =
+* Added page mutations to the GraphQL schema (#2682)
+* Added fields to fetch the logged-in user's pages (#2682)
+* Added fields to fetch the site's locale and language (#2685)
+* Install "internal" private custom endpoint (#2684)
+* Support Application Passwords (#2672)
+* Added documentation for new PRO field `_strBase64Encode` (#2673)
+* Link extensions to the Extensions Reference in gatographql.com (#2675)
+* Added YouTube channel link to About page (#2676)
+* Added predefined persisted queries:
+  * [PRO] Translate and create all pages for a multilingual site (Multisite / Gutenberg) (#2688)
+  * [PRO] Translate and create all pages for a multilingual site (Multisite / Classic editor) (#2688)
+* Fixed: Open GraphiQL/Voyager clients in subfolder-based Multisite network (#2677)
+* Fixed: Highlight extensions and enable link to visit in website (#2674)
+* Fixed: GraphiQL client (for LocalWP) now uses site URL as endpoint (#2686)
 
 = 2.3.0 =
 * Added fields `GenericCustomPost.update`, `Root.updateCustomPost` and `Root.createCustomPost` (#2663)

@@ -258,6 +258,7 @@ class Plugin extends AbstractMainPlugin
             '1.6' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion1Dot6'])],
             '2.1' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot1'])],
             '2.3' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot3'])],
+            '2.4' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot4'])],
         ];
     }
 
@@ -1368,6 +1369,79 @@ class Plugin extends AbstractMainPlugin
                         'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
                         'attrs' => [
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/sync-tags-and-categories-for-polylang', VirtualTutorialLessons::SYNCHRONIZING_TAGS_AND_CATEGORIES_FOR_POLYLANG),
+                        ],
+                    ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+    }
+
+    protected function installPluginSetupDataForVersion2Dot4(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /**
+         * Create custom endpoint
+         */
+        /** @var EndpointSchemaConfigurationBlock */
+        $endpointSchemaConfigurationBlock = $instanceManager->getInstance(EndpointSchemaConfigurationBlock::class);
+
+        $defaultCustomEndpointBlocks = $this->getDefaultCustomEndpointBlocks();
+        $adminCustomEndpointOptions = $this->getAdminCustomEndpointOptions();
+
+        $slug = PluginSetupDataEntrySlugs::CUSTOM_ENDPOINT_INTERNAL;
+        if (PluginSetupDataHelpers::getCustomEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminCustomEndpointOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('Internal', 'gatographql'),
+                    'post_excerpt' => \__('Private client with default configuration', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $endpointSchemaConfigurationBlock->getBlockFullName(),
+                        'attrs' => [
+                            EndpointSchemaConfigurationBlock::ATTRIBUTE_NAME_SCHEMA_CONFIGURATION => EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_DEFAULT,
+                        ],
+                    ]], $defaultCustomEndpointBlocks))),
+                ]
+            ));
+        }
+
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        /** @var PersistedQueryEndpointGraphiQLBlock */
+        $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
+        $nestedMutationsSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsSchemaConfigurationPersistedQueryBlocks();
+
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_GUTENBERG;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Translate and create all pages for a multilingual site (Multisite / Gutenberg)', 'gatographql'),
+                    'post_excerpt' => \__('Create a multilingual site (eg: based on a WordPress multisite network): Fetch all block-based pages from the source content site, and re-create them on the given translation site with the page\'s translated content', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-and-create-all-pages-for-multilingual-wordpress-site-gutenberg', VirtualTutorialLessons::TRANSLATING_AND_CREATING_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_GUTENBERG),
+                        ],
+                    ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Translate and create all pages for a multilingual site (Multisite / Classic editor)', 'gatographql'),
+                    'post_excerpt' => \__('Create a multilingual site (eg: based on a WordPress multisite network): Fetch all Classic editor pages from the source content site, and re-create them on the given translation site with the page\'s translated content', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-and-create-all-pages-for-multilingual-wordpress-site-classic-editor', VirtualTutorialLessons::TRANSLATING_AND_CREATING_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR),
                         ],
                     ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
                 ]

@@ -4,23 +4,35 @@ The most powerful GraphQL server for WordPress.
 
 ## Home Links
 
-<div style="display: flex; gap: 10px; margin-top: 10px;">
+<div style="display: flex; gap: 20px; margin-top: 10px;">
 
-<img src="../../../assets/img/logos/GatoGraphQL-logo-suki.png" style="height: 80px;">
+<img src="../../../assets/img/logos/GatoGraphQL-logo-suki.png" style="height: 175px;">
 
-<p markdown=1>
+<div>
 
-**Website:** [gatographql.com](https://gatographql.com)
+  <p markdown=1>
 
-<br/>
+  **Website:** [gatographql.com](https://gatographql.com)
 
-**GitHub:** [github.com/GatoGraphQL/GatoGraphQL](https://github.com/GatoGraphQL/GatoGraphQL)
+  </p><p markdown=1>
 
-<br/>
+  **Plugin in WordPress.org:** [wordpress.org/plugins/gatographql/](https://wordpress.org/plugins/gatographql/)
 
-**Extension Starter:** [github.com/GatoGraphQL/ExtensionStarter](https://github.com/GatoGraphQL/ExtensionStarter)
+  </p><p markdown=1>
 
-</p>
+  **GitHub:** [github.com/GatoGraphQL/GatoGraphQL](https://github.com/GatoGraphQL/GatoGraphQL)
+
+  </p><p markdown=1>
+
+  **Extension Starter:** [github.com/GatoGraphQL/ExtensionStarter](https://github.com/GatoGraphQL/ExtensionStarter)
+
+  </p><p markdown=1>
+
+  **YouTube channel:** [youtube.com/@GatoGraphQL](https://www.youtube.com/@GatoGraphQL)
+
+  </p>
+
+</div>
 
 </div>
 
@@ -28,7 +40,7 @@ The most powerful GraphQL server for WordPress.
 
 <div class="hide-for-customers" markdown=1>
 
-_Support is provided to customers of any Gato GraphQL product (bundles or extensions) with an active license._
+_Support is provided to customers of any Gato GraphQL product with an active license._
 
 </div>
 
@@ -142,7 +154,8 @@ Subscribe to our newsletter and receive timely updates concerning:
 
 New features released on each version:
 
-- **[2.3](../../release-notes/2.3/en.md)** (current)
+- **[2.4](../../release-notes/2.4/en.md)** (current)
+- [2.3](../../release-notes/2.3/en.md)
 - [2.2](../../release-notes/2.2/en.md)
 - [2.1](../../release-notes/2.1/en.md)
 - [2.0](../../release-notes/2.0/en.md)

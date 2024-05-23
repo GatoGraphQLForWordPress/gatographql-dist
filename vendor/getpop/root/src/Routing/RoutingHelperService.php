@@ -9,19 +9,33 @@ use PoP\Root\Services\BasicServiceTrait;
 class RoutingHelperService implements \PoP\Root\Routing\RoutingHelperServiceInterface
 {
     use BasicServiceTrait;
+    /**
+     * @var bool
+     */
+    private $requestURIInitialized = \false;
+    /**
+     * @var string|null
+     */
+    private $requestURI;
     public function getRequestURI() : ?string
     {
-        if (!App::isHTTPRequest()) {
-            return null;
+        if ($this->requestURIInitialized) {
+            return $this->requestURI;
         }
-        // Allow to remove the language information from qTranslate (https://domain.com/en/...)
-        return App::applyFilters(\PoP\Root\Routing\HookNames::REQUEST_URI, App::server('REQUEST_URI'));
+        $this->requestURIInitialized = \true;
+        if (!App::isHTTPRequest()) {
+            $this->requestURI = null;
+            return $this->requestURI;
+        }
+        /**
+         * Allow to remove the language information from Multisite network
+         * based on subfolders (https://domain.com/en/...)
+         */
+        $this->requestURI = App::applyFilters(\PoP\Root\Routing\HookNames::REQUEST_URI, App::server('REQUEST_URI'));
+        return $this->requestURI;
     }
     public function getRequestURIPath() : ?string
     {
-        if (!App::isHTTPRequest()) {
-            return null;
-        }
         $route = $this->getRequestURI();
         if ($route === null) {
             return null;

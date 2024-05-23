@@ -27,7 +27,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
     use ItemListTableTrait;
 
     /**
-     * Keep a copy of the $action_links for each plugin,
+     * Keep a copy of the $actionLinks for each plugin,
      * so that their corresponding HTML can be modified
      * based on that state.
      *
@@ -171,27 +171,30 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
     }
 
     /**
-     * @param string[] $action_links
+     * @param string[] $actionLinks
      * @param array<string,mixed> $plugin
      * @return string[]
      */
-    public function overridePluginInstallActionLinks(array $action_links, array $plugin): array
+    public function overridePluginInstallActionLinks(array $actionLinks, array $plugin): array
     {
         /**
-         * Keep a copy of the $action_links for each plugin,
+         * Keep a copy of the $actionLinks for each plugin,
          * so that their corresponding HTML can be modified
          * based on that state.
          *
          * @var string
          */
         $pluginName = $plugin['name'];
-        $this->pluginActionLinks[$pluginName] = $action_links;
-
-        if (strncmp($action_links[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0) {
-            /**
-             * Replace the "Install Now" action message
-             */
-            $action_links[0] = sprintf(
+        $this->pluginActionLinks[$pluginName] = $actionLinks;
+        /**
+         * Replace the "Install Now" action message
+         */
+        if (
+            strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0
+            // Starting from WordPress 6.5
+            || strncmp($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"', strlen('<button type="button" class="install-now button button-disabled" disabled="disabled"')) === 0
+        ) {
+            $actionLinks[0] = sprintf(
                 '<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s" target="%s">%s</a>',
                 esc_attr($plugin['slug']),
                 esc_url($plugin['homepage']),
@@ -202,7 +205,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
                 $this->getPluginInstallActionLabel($plugin)
             );
         }
-        return $action_links;
+        return $actionLinks;
     }
 
     /**
@@ -303,7 +306,11 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
              * being replaced in "access-control-visitor-ip"
              */
             $actionLinks = $this->pluginActionLinks[$pluginName] ?? [];
-            if (strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0) {
+            if (
+                strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0
+                // Starting from WordPress 6.5
+                || strncmp($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"', strlen('<button type="button" class="install-now button button-disabled" disabled="disabled"')) === 0
+            ) {
                 $html = substr_replace($html, $pluginCardClassname . ' plugin-card-non-installed', $pos, strlen($pluginCardClassname));
             }
         }
