@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit27b184de25916218b5e69abcf4d90a7c
+class ComposerStaticInitb5bb0c78460cc8b87ffdb15abc1a3e37
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -34,7 +34,6 @@ class ComposerStaticInit27b184de25916218b5e69abcf4d90a7c
             'PrefixedByPoP\\Symfony\\Contracts\\Cache\\' => 38,
             'PrefixedByPoP\\Symfony\\Component\\Yaml\\' => 37,
             'PrefixedByPoP\\Symfony\\Component\\VarExporter\\' => 44,
-            'PrefixedByPoP\\Symfony\\Component\\Process\\' => 40,
             'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\' => 47,
             'PrefixedByPoP\\Symfony\\Component\\Filesystem\\' => 43,
             'PrefixedByPoP\\Symfony\\Component\\ExpressionLanguage\\' => 51,
@@ -229,10 +228,6 @@ class ComposerStaticInit27b184de25916218b5e69abcf4d90a7c
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-exporter',
-        ),
-        'PrefixedByPoP\\Symfony\\Component\\Process\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/process',
         ),
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\' => 
         array (
@@ -4589,28 +4584,6 @@ class ComposerStaticInit27b184de25916218b5e69abcf4d90a7c
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\StreamedResponse' => __DIR__ . '/..' . '/symfony/http-foundation/StreamedResponse.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UriSigner' => __DIR__ . '/..' . '/symfony/http-foundation/UriSigner.php',
         'PrefixedByPoP\\Symfony\\Component\\HttpFoundation\\UrlHelper' => __DIR__ . '/..' . '/symfony/http-foundation/UrlHelper.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/process/Exception/ExceptionInterface.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/symfony/process/Exception/InvalidArgumentException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/process/Exception/LogicException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessFailedException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessFailedException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessSignaledException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessSignaledException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\ProcessTimedOutException' => __DIR__ . '/..' . '/symfony/process/Exception/ProcessTimedOutException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\RunProcessFailedException' => __DIR__ . '/..' . '/symfony/process/Exception/RunProcessFailedException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/process/Exception/RuntimeException.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\ExecutableFinder' => __DIR__ . '/..' . '/symfony/process/ExecutableFinder.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\InputStream' => __DIR__ . '/..' . '/symfony/process/InputStream.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessContext' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessContext.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessMessage' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessMessage.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Messenger\\RunProcessMessageHandler' => __DIR__ . '/..' . '/symfony/process/Messenger/RunProcessMessageHandler.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpExecutableFinder' => __DIR__ . '/..' . '/symfony/process/PhpExecutableFinder.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpProcess' => __DIR__ . '/..' . '/symfony/process/PhpProcess.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\PhpSubprocess' => __DIR__ . '/..' . '/symfony/process/PhpSubprocess.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\AbstractPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/AbstractPipes.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\PipesInterface' => __DIR__ . '/..' . '/symfony/process/Pipes/PipesInterface.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\UnixPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/UnixPipes.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Pipes\\WindowsPipes' => __DIR__ . '/..' . '/symfony/process/Pipes/WindowsPipes.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\Process' => __DIR__ . '/..' . '/symfony/process/Process.php',
-        'PrefixedByPoP\\Symfony\\Component\\Process\\ProcessUtils' => __DIR__ . '/..' . '/symfony/process/ProcessUtils.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ClassNotFoundException' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ClassNotFoundException.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/ExceptionInterface.php',
         'PrefixedByPoP\\Symfony\\Component\\VarExporter\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/var-exporter/Exception/LogicException.php',
@@ -4674,9 +4647,9 @@ class ComposerStaticInit27b184de25916218b5e69abcf4d90a7c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit27b184de25916218b5e69abcf4d90a7c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit27b184de25916218b5e69abcf4d90a7c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit27b184de25916218b5e69abcf4d90a7c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb5bb0c78460cc8b87ffdb15abc1a3e37::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb5bb0c78460cc8b87ffdb15abc1a3e37::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb5bb0c78460cc8b87ffdb15abc1a3e37::$classMap;
 
         }, null, ClassLoader::class);
     }

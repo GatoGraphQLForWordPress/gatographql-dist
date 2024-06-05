@@ -199,8 +199,10 @@ EOPHP;
         $args = '';
         $param = null;
         $parameters = [];
+        $namespace = $function instanceof \ReflectionMethod ? $function->class : $function->getNamespaceName() . '\\';
+        $namespace = \substr($namespace, 0, \strrpos($namespace, '\\') ?: 0);
         foreach ($function->getParameters() as $param) {
-            $parameters[] = ((\method_exists($param, 'getAttributes') ? $param->getAttributes(\SensitiveParameter::class) : []) ? '#[\\SensitiveParameter] ' : '') . ($withParameterTypes && $param->hasType() ? self::exportType($param) . ' ' : '') . ($param->isPassedByReference() ? '&' : '') . ($param->isVariadic() ? '...' : '') . '$' . $param->name . ($param->isOptional() && !$param->isVariadic() ? ' = ' . self::exportDefault($param) : '');
+            $parameters[] = ((\method_exists($param, 'getAttributes') ? $param->getAttributes(\SensitiveParameter::class) : []) ? '#[\\SensitiveParameter] ' : '') . ($withParameterTypes && $param->hasType() ? self::exportType($param) . ' ' : '') . ($param->isPassedByReference() ? '&' : '') . ($param->isVariadic() ? '...' : '') . '$' . $param->name . ($param->isOptional() && !$param->isVariadic() ? ' = ' . self::exportDefault($param, $namespace) : '');
             if ($param->isPassedByReference()) {
                 $byRefIndex = 1 + $param->getPosition();
             }
@@ -276,7 +278,7 @@ EOPHP;
             return '';
         }
         if (null === $glue) {
-            return (!$noBuiltin && $type->allowsNull() && 'mixed' !== $name ? '?' : '') . $types[0];
+            return (!$noBuiltin && $type->allowsNull() && !\in_array($name, ['mixed', 'null'], \true) ? '?' : '') . $types[0];
         }
         \sort($types);
         return \implode($glue, $types);
@@ -294,7 +296,7 @@ EOPHP;
         $propertyScopes = \str_replace("\n", "\n    ", $propertyScopes);
         return $propertyScopes;
     }
-    private static function exportDefault(\ReflectionParameter $param) : string
+    private static function exportDefault(\ReflectionParameter $param, $namespace) : string
     {
         $default = \rtrim(\substr(\explode('$' . $param->name . ' = ', (string) $param, 2)[1] ?? '', 0, -2));
         if (\in_array($default, ['<default>', 'NULL'], \true)) {
@@ -305,7 +307,7 @@ EOPHP;
         }
         $regexp = "/(\"(?:[^\"\\\\]*+(?:\\\\.)*+)*+\"|'(?:[^'\\\\]*+(?:\\\\.)*+)*+')/";
         $parts = \preg_split($regexp, $default, -1, \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_NO_EMPTY);
-        $regexp = '/([\\[\\( ]|^)([a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*+(?:\\\\[a-zA-Z0-9_\\x7f-\\xff]++)*+)(?!: )/';
+        $regexp = '/([\\[\\( ]|^)([a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*+(?:\\\\[a-zA-Z0-9_\\x7f-\\xff]++)*+)(\\(?)(?!: )/';
         switch ($m[2]) {
             case 'new':
             case 'false':
@@ -324,7 +326,7 @@ EOPHP;
                 $callback = ($parent = $class->getParentClass()) ? '\\' . $parent->name : 'parent';
                 break;
             default:
-                $callback = '\\' . $m[2];
+                $callback = self::exportSymbol($m[2], '(' !== $m[3], $namespace);
                 break;
         }
         return \implode('', \array_map(function ($part) use($regexp, $callback) {
@@ -337,5 +339,12 @@ EOPHP;
                     return \preg_replace_callback($regexp, $callback, $part);
             }
         }, $parts));
+    }
+    private static function exportSymbol(string $symbol, bool $mightBeRootConst, string $namespace) : string
+    {
+        if (!$mightBeRootConst || \false === ($ns = \strrpos($symbol, '\\')) || \substr($symbol, 0, $ns) !== $namespace || \defined($symbol) || !\defined(\substr($symbol, $ns + 1))) {
+            return '\\' . $symbol;
+        }
+        return '\\' . \substr($symbol, $ns + 1);
     }
 }

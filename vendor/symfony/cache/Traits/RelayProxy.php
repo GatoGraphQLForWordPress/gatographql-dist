@@ -307,6 +307,13 @@ class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, L
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->replicaof(...\func_get_args());
     }
     /**
+     * @return \Relay\Relay|mixed[]|false
+     */
+    public function waitaof($numlocal, $numremote, $timeout)
+    {
+        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->waitaof(...\func_get_args());
+    }
+    /**
      * @return \Relay\Relay|bool
      */
     public function restore($key, $ttl, $value, $options = null)

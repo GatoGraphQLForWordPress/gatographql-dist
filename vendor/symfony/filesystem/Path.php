@@ -315,7 +315,7 @@ final class Path
             return \false;
         }
         // Strip scheme
-        if (\false !== ($schemeSeparatorPosition = \strpos($path, '://'))) {
+        if (\false !== ($schemeSeparatorPosition = \strpos($path, '://')) && 1 !== $schemeSeparatorPosition) {
             $path = \substr($path, $schemeSeparatorPosition + 3);
         }
         $firstCharacter = $path[0];

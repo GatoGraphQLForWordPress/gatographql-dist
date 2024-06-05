@@ -17,6 +17,7 @@ class VirtualTutorialLessons
     public const IMPORTING_A_POST_FROM_WORDPRESS_RSS_FEED = 'importing-a-post-from-wordpress-rss-feed';
     public const IMPORTING_POSTS_FROM_A_CSV = 'importing-posts-from-a-csv';
     public const SEND_EMAIL_TO_ADMIN_ABOUT_POST = 'send-email-to-admin-about-post';
+    public const SEND_EMAIL_TO_USERS_ABOUT_POST = 'send-email-to-users-about-post';
     public const SYNCHRONIZING_FEATUREDIMAGE_FOR_POLYLANG = 'synchronizing-featured-image-for-polylang';
     public const SYNCHRONIZING_TAGS_AND_CATEGORIES_FOR_POLYLANG = 'synchronizing-tags-and-categories-for-polylang';
     public const TRANSLATING_AND_CREATING_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR = 'translating_and-creating-all-pages-for-multilingual-wordpress-site-classic-editor';
