@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 5.4
 Tested up to: 6.5
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -269,6 +269,12 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.5.2 =
+* Fixed bug: Initialize blocks only after their corresponding CPTs (#2693)
+
+= 2.5.1 =
+* Fixed tabs in Markdown in new persisted query **[PRO] Send email to users about post**
 
 = 2.5.0 =
 * Added predefined persisted queries
