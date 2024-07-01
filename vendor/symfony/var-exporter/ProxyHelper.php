@@ -178,10 +178,30 @@ EOPHP;
         }
         $body = $methods ? "\n" . \implode("\n\n", $methods) . "\n" : '';
         $propertyScopes = $class ? self::exportPropertyScopes($class->name) : '[]';
+        if ((($nullsafeVariable5 = $class) ? $nullsafeVariable5->hasMethod('__unserialize') : null) && !$class->getMethod('__unserialize')->getParameters()[0]->getType()) {
+            // fix contravariance type problem when $class declares a `__unserialize()` method without typehint.
+            $lazyProxyTraitStatement = <<<EOPHP
+use \\Symfony\\Component\\VarExporter\\LazyProxyTrait {
+        __unserialize as private __doUnserialize;
+    }
+EOPHP;
+            $body .= <<<EOPHP
+
+    public function __unserialize(\$data): void
+    {
+        \$this->__doUnserialize(\$data);
+    }
+
+EOPHP;
+        } else {
+            $lazyProxyTraitStatement = <<<EOPHP
+use \\Symfony\\Component\\VarExporter\\LazyProxyTrait;
+EOPHP;
+        }
         return <<<EOPHP
 {$parent} implements \\{$interfaces}
 {
-    use \\Symfony\\Component\\VarExporter\\LazyProxyTrait;
+    {$lazyProxyTraitStatement}
 
     private const LAZY_OBJECT_PROPERTY_SCOPES = {$propertyScopes};
 {$body}}
@@ -270,7 +290,7 @@ EOPHP;
                 continue;
             }
             if (\in_array($name, ['parent', 'self'], \true) && ($class = $class ?? $owner->getDeclaringClass())) {
-                $name = 'parent' === $name ? (($nullsafeVariable5 = $class->getParentClass() ?: null) ? $nullsafeVariable5->name : null) ?? 'parent' : $class->name;
+                $name = 'parent' === $name ? (($nullsafeVariable6 = $class->getParentClass() ?: null) ? $nullsafeVariable6->name : null) ?? 'parent' : $class->name;
             }
             $types[] = ($noBuiltin || $type->isBuiltin() || 'static' === $name ? '' : '\\') . $name;
         }

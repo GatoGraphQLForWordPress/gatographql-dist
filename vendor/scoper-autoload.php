@@ -29,26 +29,26 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
-humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
-humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
+humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
+humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
+humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
+humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
+humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
+humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
-humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
+humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
 humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
 humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
 humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
 humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
+humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
 humbug_phpscoper_expose_class('SQLite3Exception', 'PrefixedByPoP\SQLite3Exception');
 humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
-humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
-humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
-humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
-humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
-humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
+humbug_phpscoper_expose_class('ComposerAutoloaderInita0c71325db899fa999d900527e6c006d', 'PrefixedByPoP\ComposerAutoloaderInita0c71325db899fa999d900527e6c006d');
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit8f689555c0edaf3f2d82e3a42799abeb', 'PrefixedByPoP\ComposerAutoloaderInit8f689555c0edaf3f2d82e3a42799abeb');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
@@ -95,6 +95,7 @@ if (!function_exists('mb_http_input')) { function mb_http_input() { return \Pref
 if (!function_exists('mb_http_output')) { function mb_http_output() { return \PrefixedByPoP\mb_http_output(...func_get_args()); } }
 if (!function_exists('mb_internal_encoding')) { function mb_internal_encoding() { return \PrefixedByPoP\mb_internal_encoding(...func_get_args()); } }
 if (!function_exists('mb_language')) { function mb_language() { return \PrefixedByPoP\mb_language(...func_get_args()); } }
+if (!function_exists('mb_lcfirst')) { function mb_lcfirst() { return \PrefixedByPoP\mb_lcfirst(...func_get_args()); } }
 if (!function_exists('mb_list_encodings')) { function mb_list_encodings() { return \PrefixedByPoP\mb_list_encodings(...func_get_args()); } }
 if (!function_exists('mb_ord')) { function mb_ord() { return \PrefixedByPoP\mb_ord(...func_get_args()); } }
 if (!function_exists('mb_output_handler')) { function mb_output_handler() { return \PrefixedByPoP\mb_output_handler(...func_get_args()); } }
@@ -117,6 +118,7 @@ if (!function_exists('mb_strwidth')) { function mb_strwidth() { return \Prefixed
 if (!function_exists('mb_substitute_character')) { function mb_substitute_character() { return \PrefixedByPoP\mb_substitute_character(...func_get_args()); } }
 if (!function_exists('mb_substr')) { function mb_substr() { return \PrefixedByPoP\mb_substr(...func_get_args()); } }
 if (!function_exists('mb_substr_count')) { function mb_substr_count() { return \PrefixedByPoP\mb_substr_count(...func_get_args()); } }
+if (!function_exists('mb_ucfirst')) { function mb_ucfirst() { return \PrefixedByPoP\mb_ucfirst(...func_get_args()); } }
 if (!function_exists('password_algos')) { function password_algos() { return \PrefixedByPoP\password_algos(...func_get_args()); } }
 if (!function_exists('preg_last_error_msg')) { function preg_last_error_msg() { return \PrefixedByPoP\preg_last_error_msg(...func_get_args()); } }
 if (!function_exists('sapi_windows_vt100_support')) { function sapi_windows_vt100_support() { return \PrefixedByPoP\sapi_windows_vt100_support(...func_get_args()); } }

@@ -5,6 +5,10 @@
 #   - statusToUpdate: The status the translation posts must have to be updated. It is `draft` by default. Pass `any` for any status.
 #   - updateSlug: Indicate if to update the post slug, using the translated title. It is `true` by default.
 #   - translateDefaultLanguageOnly: Indicate if only execute the translation when the origin post has the default language of the site. It is `true` by default.
+#   - translateFromLanguage: Only execute the translation when the origin post has some provided language. It applies only when `translateDefaultLanguageOnly` is `false`
+#   - includeLanguagesToTranslate: Limit languages to execute the translation for. If empty, all languages are included
+#   - excludeLanguagesToTranslate: Exclude languages from executing the translation
+#   - languageMapping: JSON object to convert languages codes to work with Google Translate. For instance, WordPress uses "nb" as the code for Norwegian, but Google Translate uses "no" instead; to translate to Norwegian, then pass value `{"nb": "no"}`
 #
 # *********************************************************************
 #
@@ -29,16 +33,32 @@
 # To translate from any language, pass variable
 # `$translateDefaultLanguageOnly` with `false`.
 #
+# Additionally, translate only from a specific language by
+# providing `$translateFromLanguage` with the language code
+# (for instance, `"en"`). It applies only when
+# `$translateDefaultLanguageOnly` is `false`.
+#
+# To limit for what languages to execute the translation, pass
+# variables `$includeLanguagesToTranslate` (if empty, all languages
+# will be included) and `$excludeLanguagesToTranslate`.
+#
 # By default it also translates the post slug. To disable, pass
 # variable `updateSlug` with `false`.
 #
+# For some languages, the code used by WordPress and Google Translate
+# are different. For instance, Norwegian is represented as "nb" by
+# WordPress, and as "no" by Google Translate. To support translating
+# to these languages, provide the language code mapping via the
+# `$languageMapping` GraphQL variable, such as:
+#
+#   {
+#     "languageMapping": {
+#       "nb": "no"
+#     }
+#   }
+#
 # See Persisted Query "Translate post (Gutenberg)" for additional
 # documentation.
-#
-# *********************************************************************
-# 
-# More info:
-#   - https://gatographql.com/tutorial/bulk-translating-block-content-in-multiple-posts-to-a-different-language/
 #
 ########################################################################
 query InitializeVariables
@@ -46,6 +66,11 @@ query InitializeVariables
 {
   emptyString: _echo(value: null)
     @export(as: "fromLanguage")
+    @remove
+
+  emptyBool: _echo(value: false)
+    @export(as: "hasTranslationPosts")
+    @export(as: "executeTranslation")
     @remove
   
   emptyArray: _echo(value: [])
@@ -126,7 +151,11 @@ query InitializeVariables
     @remove
 }
 
-query ExportOriginPost($postId: ID!)
+query ExportOriginPost(
+  $postId: ID!
+  $includeLanguagesToTranslate: [String!]
+  $excludeLanguagesToTranslate: [String!]
+)
   @depends(on: "InitializeVariables")
 {
   defaultLanguage: polylangDefaultLanguage
@@ -140,13 +169,19 @@ query ExportOriginPost($postId: ID!)
       @export(as: "fromLanguage")
     
 
-    polylangTranslationLanguageIDs
+    polylangTranslationLanguageIDs(filter: {
+      includeLanguages: $includeLanguagesToTranslate
+      excludeLanguages: $excludeLanguagesToTranslate
+    })
     translationPostIds: _objectValues(object: $__polylangTranslationLanguageIDs)
       @export(as: "translationPostIds")
 
+    hasTranslationPosts: _notEmpty(value: $__translationPostIds)
+      @export(as: "hasTranslationPosts")
 
-    title
-      @export(as: "originTitle")
+
+    rawTitle
+      @export(as: "originRawTitle")
     rawContent
       @export(as: "originRawContent")
     rawExcerpt
@@ -399,14 +434,16 @@ query ExportOriginPost($postId: ID!)
 query InitializeTranslationVariables(
   $statusToUpdate: CustomPostStatusEnum! = draft,
   $translateDefaultLanguageOnly: Boolean! = true
+  $translateFromLanguage: String
 )
   @depends(on: "ExportOriginPost")
   @include(if: $hasOriginPost)
+  @include(if: $hasTranslationPosts)
 {
   emptyTranslationPostVars: posts(filter: { ids: $translationPostIds, status: $statusToUpdate } ) {
     emptyArray: _echo(value: [])
       @export(
-        as: "title"
+        as: "rawTitle"
         type: DICTIONARY
       )
       @export(
@@ -665,10 +702,23 @@ query InitializeTranslationVariables(
     value2: $fromLanguage
   )
 
+  isTranslateFromLanguageProvided: _notEmpty(value: $translateFromLanguage)
+
+  originPostHasSpecificLanguage: _equals(
+    value1: $translateFromLanguage,
+    value2: $fromLanguage
+  )
+
+  canTranslateOriginPostFromSpecificLanguage: _if(
+    condition: $__isTranslateFromLanguageProvided,
+    then: $__originPostHasSpecificLanguage,
+    else: true
+  )
+
   canTranslateOriginPost: _if(
     condition: $translateDefaultLanguageOnly,
     then: $__originPostHasDefaultLanguage,
-    else: true
+    else: $__canTranslateOriginPostFromSpecificLanguage
   )
 
   executeTranslation: _and(values: [
@@ -686,9 +736,9 @@ query FetchData($statusToUpdate: CustomPostStatusEnum! = draft)
     id
 
 
-    title: _echo(value: $originTitle)
+    rawTitle: _echo(value: $originRawTitle)
       @export(
-        as: "title",
+        as: "rawTitle",
         type: DICTIONARY
       )
       @remove
@@ -1116,7 +1166,7 @@ query AdaptData
   @depends(on: "FetchData")
   @include(if: $executeTranslation)
 {
-  adaptedToTitle: _echo(value: $title)
+  adaptedToTitle: _echo(value: $rawTitle)
     @underEachJSONObjectProperty(
       passValueOnwardsAs: "value"
     )
@@ -1128,7 +1178,7 @@ query AdaptData
         setResultInResponse: true
       )
     @export(as: "adaptedToTitle")
-  adaptedFromTitle: _echo(value: $title)
+  adaptedFromTitle: _echo(value: $rawTitle)
     @underEachJSONObjectProperty
       @applyField(
         name: "_echo"
@@ -1163,12 +1213,14 @@ query AdaptData
     @export(as: "adaptedFromRawExcerpt")
 }
 
-query TransformData
+query TransformData(
+  $languageMapping: JSONObject! = {}
+)
   @depends(on: "AdaptData")
   @include(if: $executeTranslation)
 {
   transformations: _echo(value: {
-    metaTitle: {
+    metaRawTitle: {
       from: $adaptedFromTitle,
       to: $adaptedToTitle,
     },
@@ -1253,13 +1305,23 @@ query TransformData
       @underJSONObjectProperty(by: { key: "to" })
         @underEachJSONObjectProperty(
           passKeyOnwardsAs: "postId"
-          affectDirectivesUnderPos: [1, 2]
+          affectDirectivesUnderPos: [1, 2, 3]
         )
           @applyField(
             name: "_objectProperty",
             arguments: {
               object: $translationPostLanguages,
               by: { key: $postId }
+            },
+            passOnwardsAs: "toLanguage"
+          )
+          @applyField(
+            name: "_objectProperty",
+            arguments: {
+              object: $languageMapping,
+              by: { key: $toLanguage }
+              failIfNonExistingKeyOrPath: false
+              valueWhenNonExistingKeyOrPath: $toLanguage
             },
             passOnwardsAs: "toLanguage"
           )
@@ -1280,7 +1342,7 @@ query EscapeRegexStrings
       filter: {
         by: {
           excludeKeys: [
-            "metaTitle",
+            "metaRawTitle",
             "metaRawExcerpt"
           ]
         }
@@ -1335,7 +1397,7 @@ query EscapeRegexStrings
       filter: {
         by: {
           excludeKeys: [
-            "metaTitle",
+            "metaRawTitle",
             "metaRawExcerpt"
           ]
         }
@@ -2665,7 +2727,7 @@ query PrepareMetaReplacements
   @depends(on: "TransformData")
   @include(if: $executeTranslation)
 {
-  transformedMetaTitle: _echo(value: $title)
+  transformedMetaTitle: _echo(value: $rawTitle)
     @underEachJSONObjectProperty(
       passKeyOnwardsAs: "postID"
       affectDirectivesUnderPos: [1, 2, 3]
@@ -2673,7 +2735,7 @@ query PrepareMetaReplacements
       @applyField(
         name: "_sprintf",
         arguments: {
-          string: "metaTitle.to.%s",
+          string: "metaRawTitle.to.%s",
           values: [$postID]
         }
         passOnwardsAs: "titlePath"
@@ -2695,7 +2757,7 @@ query PrepareMetaReplacements
         setResultInResponse: true
       )
     @export(
-      as: "transformedTitle"
+      as: "transformedRawTitle"
     )
 
   transformedMetaRawExcerpt: _echo(value: $rawExcerpt)
@@ -2750,15 +2812,15 @@ mutation TranslateGutenbergPosts(
         key: $__id
       }
     )
-    transformedTitle: _objectProperty(
-      object: $transformedTitle,
+    transformedRawTitle: _objectProperty(
+      object: $transformedRawTitle,
       by: {
         key: $__id
       }
     )
     transformedSlug: _if(
       condition: $updateSlug,
-      then: $__transformedTitle,
+      then: $__transformedRawTitle,
       else: null
     )
     transformedRawExcerpt: _objectProperty(
@@ -2768,7 +2830,7 @@ mutation TranslateGutenbergPosts(
       }
     )
     update(input: {
-      title: $__transformedTitle,
+      title: $__transformedRawTitle,
       slug: $__transformedSlug,
       excerpt: $__transformedRawExcerpt,
       contentAs: {

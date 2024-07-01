@@ -4,17 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
+class ComposerStaticInita0c71325db899fa999d900527e6c006d
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'b686b8e46447868025a15ce5d0cb2634' => __DIR__ . '/..' . '/symfony/polyfill-php74/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0dcd945be12852345e1baa7d5341bf0e' => __DIR__ . '/..' . '/jrfnl/php-cast-to-type/class.cast-to-type.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -76,6 +76,7 @@ class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
             'PoPWPSchema\\SchemaCommons\\' => 26,
             'PoPWPSchema\\Posts\\' => 18,
             'PoPWPSchema\\Pages\\' => 18,
+            'PoPWPSchema\\Multisite\\' => 22,
             'PoPWPSchema\\Meta\\' => 17,
             'PoPWPSchema\\Menus\\' => 18,
             'PoPWPSchema\\Media\\' => 18,
@@ -397,6 +398,10 @@ class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
         'PoPWPSchema\\Pages\\' => 
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/pages/src',
+        ),
+        'PoPWPSchema\\Multisite\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-wp-schema/multisite/src',
         ),
         'PoPWPSchema\\Meta\\' => 
         array (
@@ -2926,11 +2931,14 @@ class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
         'PoPSchema\\ExtendedSchemaCommons\\Module' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/Module.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\EnumType\\ConditionEnumTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/EnumType/ConditionEnumTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\InputObjectType\\JSONObjectPropertyByInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/InputObjectType/JSONObjectPropertyByInputObjectTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AbstractScalarValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AbstractScalarValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AlwaysNullScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AlwaysNullScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\DomainScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/DomainScalarTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IDValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IDValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IPScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IPScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IPv4ScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IPv4ScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IPv6ScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IPv6ScalarTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IntValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IntValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\MACAddressScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/MACAddressScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\PhoneNumberScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/PhoneNumberScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\PositiveFloatScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/PositiveFloatScalarTypeResolver.php',
@@ -3096,6 +3104,13 @@ class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
         'PoPWPSchema\\Meta\\TypeResolvers\\InputObjectType\\MetaQueryCompareByNumericValueInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/meta/src/TypeResolvers/InputObjectType/MetaQueryCompareByNumericValueInputObjectTypeResolver.php',
         'PoPWPSchema\\Meta\\TypeResolvers\\InputObjectType\\MetaQueryCompareByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/meta/src/TypeResolvers/InputObjectType/MetaQueryCompareByOneofInputObjectTypeResolver.php',
         'PoPWPSchema\\Meta\\TypeResolvers\\InputObjectType\\MetaQueryCompareByStringValueInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/meta/src/TypeResolvers/InputObjectType/MetaQueryCompareByStringValueInputObjectTypeResolver.php',
+        'PoPWPSchema\\Multisite\\FieldResolvers\\ObjectType\\NetworkSiteObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/FieldResolvers/ObjectType/NetworkSiteObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Multisite\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Multisite\\Module' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/Module.php',
+        'PoPWPSchema\\Multisite\\RelationalTypeDataLoaders\\ObjectType\\NetworkSiteObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/RelationalTypeDataLoaders/ObjectType/NetworkSiteObjectTypeDataLoader.php',
+        'PoPWPSchema\\Multisite\\TypeAPIs\\MultisiteTypeAPI' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeAPIs/MultisiteTypeAPI.php',
+        'PoPWPSchema\\Multisite\\TypeAPIs\\MultisiteTypeAPIInterface' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeAPIs/MultisiteTypeAPIInterface.php',
+        'PoPWPSchema\\Multisite\\TypeResolvers\\ObjectType\\NetworkSiteObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeResolvers/ObjectType/NetworkSiteObjectTypeResolver.php',
         'PoPWPSchema\\Pages\\FieldResolvers\\ObjectType\\PageObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/FieldResolvers/ObjectType/PageObjectTypeFieldResolver.php',
         'PoPWPSchema\\Pages\\Hooks\\AddPagePasswordToFilterInputQueryHookSet' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/Hooks/AddPagePasswordToFilterInputQueryHookSet.php',
         'PoPWPSchema\\Pages\\Module' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/Module.php',
@@ -4647,9 +4662,9 @@ class ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit8f689555c0edaf3f2d82e3a42799abeb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita0c71325db899fa999d900527e6c006d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita0c71325db899fa999d900527e6c006d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita0c71325db899fa999d900527e6c006d::$classMap;
 
         }, null, ClassLoader::class);
     }

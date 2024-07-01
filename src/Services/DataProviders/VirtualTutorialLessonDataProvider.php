@@ -109,6 +109,18 @@ class VirtualTutorialLessonDataProvider
                     ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
                 ]
             ],
+            VirtualTutorialLessons::TRANSLATING_POEDIT_FILE_CONTENT => [
+                \__('Translating empty strings in a Poedit file, and storing it as a new Poedit file on Filestack', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
             VirtualTutorialLessons::TRANSLATING_POSTS_FOR_POLYLANG_AND_GUTENBERG => [
                 \__('Translating block content in a post to a different language, with integration for Polylang', 'gatographql'),
                 [
@@ -161,6 +173,29 @@ class VirtualTutorialLessonDataProvider
             ],
             VirtualTutorialLessons::TRANSLATING_AND_CREATING_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR => [
                 \__('Grabbing all classic editor pages from the main site in the Multisite network, and translating them and creating them on a given translation site', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_POSTS_FOR_MULTILINGUALPRESS_AND_GUTENBERG => [
+                \__('Translating block content in a post to a different language, with integration for MultilingualPress', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_POSTS_FOR_MULTILINGUALPRESS_AND_CLASSIC_EDITOR => [
+                \__('Translating "Classic editor" post to a different language, with integration for MultilingualPress', 'gatographql'),
                 [
                     ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
                     ExtensionModuleResolver::GOOGLE_TRANSLATE,

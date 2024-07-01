@@ -102,7 +102,7 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
         if ($explicitMimeType === null || $explicitMimeType === '') {
             return $filename;
         }
-        if (strpos($filename, '.') !== false) {
+        if (strrpos($filename, '.') !== false) {
             return $filename;
         }
         $extension = \wp_get_default_extension_for_mime_type($explicitMimeType);

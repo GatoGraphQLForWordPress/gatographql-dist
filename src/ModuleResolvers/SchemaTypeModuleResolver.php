@@ -32,6 +32,8 @@ use PoPSchema\SchemaCommons\Constants\Behaviors;
 use PoPWPSchema\Blocks\TypeResolvers\ObjectType\GeneralBlockObjectTypeResolver;
 use PoPWPSchema\Blocks\TypeResolvers\UnionType\BlockUnionTypeResolver;
 
+use function is_multisite;
+
 class SchemaTypeModuleResolver extends AbstractModuleResolver
 {
     use ModuleResolverTrait {
@@ -49,6 +51,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_PAGES = Plugin::NAMESPACE . '\schema-pages';
     public const SCHEMA_MEDIA = Plugin::NAMESPACE . '\schema-media';
     public const SCHEMA_SITE = Plugin::NAMESPACE . '\schema-site';
+    public const SCHEMA_MULTISITE = Plugin::NAMESPACE . '\schema-multisite';
     public const SCHEMA_TAGS = Plugin::NAMESPACE . '\schema-tags';
     public const SCHEMA_POST_TAGS = Plugin::NAMESPACE . '\schema-post-tags';
     public const SCHEMA_CATEGORIES = Plugin::NAMESPACE . '\schema-categories';
@@ -440,6 +443,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_USER_AVATARS,
             self::SCHEMA_COMMENTS,
             self::SCHEMA_SITE,
+            self::SCHEMA_MULTISITE,
             self::SCHEMA_TAGS,
             self::SCHEMA_POST_TAGS,
             self::SCHEMA_CATEGORIES,
@@ -517,6 +521,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Media', 'gatographql');
             case self::SCHEMA_SITE:
                 return \__('Site', 'gatographql');
+            case self::SCHEMA_MULTISITE:
+                return \__('Multisite', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Tags', 'gatographql');
             case self::SCHEMA_POST_TAGS:
@@ -607,6 +613,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Base functionality for all custom posts', 'gatographql');
             case self::SCHEMA_SITE:
                 return \__('Fetch site information', 'gatographql');
+            case self::SCHEMA_MULTISITE:
+                return \__('Fetch site information in a WordPress multisite network', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Base functionality for all tags', 'gatographql');
             case self::SCHEMA_CATEGORIES:
@@ -633,6 +641,15 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
     }
 
+    public function areRequirementsSatisfied(string $module): bool
+    {
+        switch ($module) {
+            case self::SCHEMA_MULTISITE:
+                return is_multisite();
+        }
+        return parent::areRequirementsSatisfied($module);
+    }
+
     /**
      * Does the module have HTML Documentation?
      */
@@ -650,6 +667,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_MENUS:
             case self::SCHEMA_MEDIA:
             case self::SCHEMA_SITE:
+            case self::SCHEMA_MULTISITE:
                 return false;
         }
         return $this->upstreamHasDocumentation($module);

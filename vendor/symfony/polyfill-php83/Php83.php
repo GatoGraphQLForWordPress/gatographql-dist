@@ -34,7 +34,7 @@ final class Php83
         \json_decode($json, null, $depth, $flags);
         return \JSON_ERROR_NONE === \json_last_error();
     }
-    public static function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, string $encoding = null) : string
+    public static function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, ?string $encoding = null) : string
     {
         if (!\in_array($pad_type, [\STR_PAD_RIGHT, \STR_PAD_LEFT, \STR_PAD_BOTH], \true)) {
             throw new \ValueError('mb_str_pad(): Argument #4 ($pad_type) must be STR_PAD_LEFT, STR_PAD_RIGHT, or STR_PAD_BOTH');
@@ -74,16 +74,16 @@ final class Php83
         if ('' === $string) {
             throw new \ValueError('str_increment(): Argument #1 ($string) cannot be empty');
         }
-        if (!\preg_match("/^[a-zA-Z0-9]+\$/", $string)) {
+        if (!\preg_match('/^[a-zA-Z0-9]+$/', $string)) {
             throw new \ValueError('str_increment(): Argument #1 ($string) must be composed only of alphanumeric ASCII characters');
         }
         if (\is_numeric($string)) {
             $offset = \stripos($string, 'e');
-            if ($offset !== \false) {
+            if (\false !== $offset) {
                 $char = $string[$offset];
-                $char++;
+                ++$char;
                 $string[$offset] = $char;
-                $string++;
+                ++$string;
                 switch ($string[$offset]) {
                     case 'f':
                         $string[$offset] = 'e';
@@ -108,18 +108,18 @@ final class Php83
         if ('' === $string) {
             throw new \ValueError('str_decrement(): Argument #1 ($string) cannot be empty');
         }
-        if (!\preg_match("/^[a-zA-Z0-9]+\$/", $string)) {
+        if (!\preg_match('/^[a-zA-Z0-9]+$/', $string)) {
             throw new \ValueError('str_decrement(): Argument #1 ($string) must be composed only of alphanumeric ASCII characters');
         }
         if (\preg_match('/\\A(?:0[aA0]?|[aA])\\z/', $string)) {
             throw new \ValueError(\sprintf('str_decrement(): Argument #1 ($string) "%s" is out of decrement range', $string));
         }
         if (!\in_array(\substr($string, -1), ['A', 'a', '0'], \true)) {
-            return \join('', \array_slice(\str_split($string), 0, -1)) . \chr(\ord(\substr($string, -1)) - 1);
+            return \implode('', \array_slice(\str_split($string), 0, -1)) . \chr(\ord(\substr($string, -1)) - 1);
         }
         $carry = '';
         $decremented = '';
-        for ($i = \strlen($string) - 1; $i >= 0; $i--) {
+        for ($i = \strlen($string) - 1; $i >= 0; --$i) {
             $char = $string[$i];
             switch ($char) {
                 case 'A':

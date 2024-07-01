@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PoPWPSchema\Site\FieldResolvers\ObjectType;
 
+use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -15,6 +16,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 
 use function get_locale;
+use function get_site_url;
 
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
@@ -22,6 +24,10 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
      */
     private $stringScalarTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
+     */
+    private $urlScalarTypeResolver;
 
     final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
     {
@@ -35,6 +41,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
+    }
+    final public function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver): void
+    {
+        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
+    }
+    final protected function getURLScalarTypeResolver(): URLScalarTypeResolver
+    {
+        if ($this->urlScalarTypeResolver === null) {
+            /** @var URLScalarTypeResolver */
+            $urlScalarTypeResolver = $this->instanceManager->getInstance(URLScalarTypeResolver::class);
+            $this->urlScalarTypeResolver = $urlScalarTypeResolver;
+        }
+        return $this->urlScalarTypeResolver;
     }
 
     /**
@@ -53,6 +72,7 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldNamesToResolve(): array
     {
         return [
+            'siteURL',
             'siteLocale',
             'siteLanguage',
         ];
@@ -61,6 +81,8 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
         switch ($fieldName) {
+            case 'siteURL':
+                return $this->__('Site\'s URL', 'site');
             case 'siteLocale':
                 return $this->__('Site\'s locale', 'site');
             case 'siteLanguage':
@@ -73,6 +95,8 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
         switch ($fieldName) {
+            case 'siteURL':
+                return $this->getURLScalarTypeResolver();
             case 'siteLocale':
             case 'siteLanguage':
                 return $this->getStringScalarTypeResolver();
@@ -84,6 +108,7 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
         switch ($fieldName) {
+            case 'siteURL':
             case 'siteLocale':
             case 'siteLanguage':
                 return SchemaTypeModifiers::NON_NULLABLE;
@@ -98,6 +123,9 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
         switch ($fieldDataAccessor->getFieldName()) {
+            case 'siteURL':
+                return get_site_url();
+
             case 'siteLocale':
                 return get_locale();
 

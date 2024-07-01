@@ -286,6 +286,20 @@ if (!\function_exists('mb_str_pad')) {
         return p\Mbstring::mb_str_pad($string, $length, $pad_string, $pad_type, $encoding);
     }
 }
+if (!\function_exists('mb_ucfirst')) {
+    /** @internal */
+    function mb_ucfirst($string, ?string $encoding = null) : string
+    {
+        return p\Mbstring::mb_ucfirst($string, $encoding);
+    }
+}
+if (!\function_exists('mb_lcfirst')) {
+    /** @internal */
+    function mb_lcfirst($string, ?string $encoding = null) : string
+    {
+        return p\Mbstring::mb_lcfirst($string, $encoding);
+    }
+}
 if (\extension_loaded('mbstring')) {
     return;
 }

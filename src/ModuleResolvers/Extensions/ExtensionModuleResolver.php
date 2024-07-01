@@ -29,6 +29,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const HTTP_REQUEST_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\http-request-via-schema';
     public const INTERNAL_GRAPHQL_SERVER = Plugin::NAMESPACE . '\\extensions\\internal-graphql-server';
     public const LOW_LEVEL_PERSISTED_QUERY_EDITING = Plugin::NAMESPACE . '\\extensions\\low-level-persisted-query-editing';
+    public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\extensions\\multilingualpress';
     public const MULTIPLE_QUERY_EXECUTION = Plugin::NAMESPACE . '\\extensions\\multiple-query-execution';
     public const PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-constants-and-environment-variables-via-schema';
     public const PHP_FUNCTIONS_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-functions-via-schema';
@@ -63,6 +64,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::HTTP_REQUEST_VIA_SCHEMA,
             self::INTERNAL_GRAPHQL_SERVER,
             self::LOW_LEVEL_PERSISTED_QUERY_EDITING,
+            self::MULTILINGUALPRESS,
             self::MULTIPLE_QUERY_EXECUTION,
             self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
             self::PHP_FUNCTIONS_VIA_SCHEMA,
@@ -117,6 +119,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Internal GraphQL Server', 'gatographql');
             case self::LOW_LEVEL_PERSISTED_QUERY_EDITING:
                 return \__('Low-Level Persisted Query Editing', 'gatographql');
+            case self::MULTILINGUALPRESS:
+                return \__('MultilingualPress', 'gatographql');
             case self::MULTIPLE_QUERY_EXECUTION:
                 return \__('Multiple Query Execution', 'gatographql');
             case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:
@@ -179,6 +183,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Execute GraphQL queries directly within your application, using PHP code.', 'gatographql');
             case self::LOW_LEVEL_PERSISTED_QUERY_EDITING:
                 return \__('Make normally-hidden directives (which inject some functionality into the GraphQL server) visible when editing a persisted query.', 'gatographql');
+            case self::MULTILINGUALPRESS:
+                return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::MULTIPLE_QUERY_EXECUTION:
                 return \__('Combine multiple queries into a single query, sharing state across them and executing them in the requested order.', 'gatographql');
             case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:

@@ -51,10 +51,13 @@ class PluginSetupDataEntrySlugs
     public const PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_CLASSIC_EDITOR = 'translate-and-create-all-pages-for-multilingual-wordpress-site-classic-editor';
     public const PERSISTED_QUERY_TRANSLATE_AND_CREATE_ALL_PAGES_FOR_MULTILINGUAL_WORDPRESS_SITE_GUTENBERG = 'translate-and-create-all-pages-for-multilingual-wordpress-site-gutenberg';
     public const PERSISTED_QUERY_TRANSLATE_CONTENT_FROM_URL = 'translate-content-from-url';
+    public const PERSISTED_QUERY_TRANSLATE_POEDIT_FILE_CONTENT = 'translate-poedit-file-content';
     public const PERSISTED_QUERY_TRANSLATE_POST_CLASSIC_EDITOR = 'translate-post-classic-editor';
     public const PERSISTED_QUERY_TRANSLATE_POST_GUTENBERG = 'translate-post-gutenberg';
     public const PERSISTED_QUERY_TRANSLATE_POSTS_CLASSIC_EDITOR = 'translate-posts-classic-editor';
     public const PERSISTED_QUERY_TRANSLATE_POSTS_GUTENBERG = 'translate-posts-gutenberg';
     public const PERSISTED_QUERY_TRANSLATE_POSTS_FOR_POLYLANG_CLASSIC_EDITOR = 'translate-posts-for-polylang-classic-editor';
     public const PERSISTED_QUERY_TRANSLATE_POSTS_FOR_POLYLANG_GUTENBERG = 'translate-posts-for-polylang-gutenberg';
+    public const PERSISTED_QUERY_TRANSLATE_POSTS_FOR_MULTILINGUALPRESS_CLASSIC_EDITOR = 'translate-posts-for-multilingualpress-classic-editor';
+    public const PERSISTED_QUERY_TRANSLATE_POSTS_FOR_MULTILINGUALPRESS_GUTENBERG = 'translate-posts-for-multilingualpress-gutenberg';
 }

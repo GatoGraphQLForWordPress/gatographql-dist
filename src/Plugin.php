@@ -260,6 +260,7 @@ class Plugin extends AbstractMainPlugin
             '2.3' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot3'])],
             '2.4' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot4'])],
             '2.5' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot5'])],
+            '2.6' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot6'])],
         ];
     }
 
@@ -1472,6 +1473,72 @@ class Plugin extends AbstractMainPlugin
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/notify/send-email-to-users-about-post', VirtualTutorialLessons::SEND_EMAIL_TO_USERS_ABOUT_POST),
                         ],
                     ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+    }
+
+    protected function installPluginSetupDataForVersion2Dot6(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var PersistedQueryEndpointGraphiQLBlock */
+        $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
+
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
+        $nestedMutationsSchemaConfigurationPersistedQueryBlocks = $this->getNestedMutationsSchemaConfigurationPersistedQueryBlocks();
+
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_TRANSLATE_POSTS_FOR_MULTILINGUALPRESS_GUTENBERG;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Translate posts for MultilingualPress (Gutenberg)', 'gatographql'),
+                    'post_excerpt' => \__('Translate a block-based post to all languages defined in the MultilingualPress settings, and store those translations in the corresponding sites in the network', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-for-multilingualpress-gutenberg', VirtualTutorialLessons::TRANSLATING_POSTS_FOR_MULTILINGUALPRESS_AND_GUTENBERG),
+                        ],
+                    ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_TRANSLATE_POSTS_FOR_MULTILINGUALPRESS_CLASSIC_EDITOR;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Translate posts for MultilingualPress (Classic editor)', 'gatographql'),
+                    'post_excerpt' => \__('Translate a Classic editor post to all languages defined in the MultilingualPress settings, and store those translations in the corresponding sites in the network', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/translate-posts-for-multilingualpress-classic-editor', VirtualTutorialLessons::TRANSLATING_POSTS_FOR_MULTILINGUALPRESS_AND_CLASSIC_EDITOR),
+                        ],
+                    ]], $nestedMutationsSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_TRANSLATE_POEDIT_FILE_CONTENT;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Translate Poedit file content', 'gatographql'),
+                    'post_excerpt' => \__('Translate the empty strings from a Poedit file, then create a new translation Poedit file for that language, and upload it to Filestack', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/generate/translate-poedit-file-content', VirtualTutorialLessons::TRANSLATING_POEDIT_FILE_CONTENT),
+                        ],
+                    ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
                 ]
             ));
         }

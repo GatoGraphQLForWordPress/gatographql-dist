@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 5.4
 Tested up to: 6.5
-Stable tag: 2.5.2
+Stable tag: 2.6.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -105,6 +105,8 @@ As new extensions are created, they are added to Gato GraphQL PRO.
 
 Gato GraphQL PRO clients have access to all **product updates** and **premium support**, and can ask the Gato GraphQL team to work on integrations with popular WordPress plugins.
 
+Check out the [demos section on Gato GraphQL](https://gatographql.com/demos) to watch videos demonstrating the multiple use cases for this plugin.
+
 === Features ===
 
 Gato GraphQL PRO provides [all these features](https://gatographql.com/features#pro):
@@ -167,6 +169,12 @@ The Gato GraphQL plugin maps the WordPress schema, and is enough to use GraphQL 
 
 Gato GraphQL PRO is needed for enhanced security for public APIs, adding HTTP caching, sending emails, executing updates in bulk, connecting to external services, and automating tasks (among others).
 
+= Does Gato GraphQL support WordPress Multisite? =
+
+Yes, it does. Gato GraphQL can be installed on a multisite network.
+
+In addition, Gato GraphQL provides fields on the GraphQL schema to retrieve multisite network data, allowing to use GraphQL to sync content across the multisite (for instance, to translate posts when using MultilingualPress, as described below).
+
 = How to use Gato GraphQL with Polylang? =
 
 Gato GraphQL PRO provides an integration with Polylang, allowing you to automatically translate a post's content using the Google Translate API, and store it on all translation posts, as defined and managed via Polylang.
@@ -178,6 +186,14 @@ And you can set it all up via automation, so that whenever a post in the default
 Both Polylang and Polylang PRO are supported.
 
 Check out the [Gato GraphQL with Polylang demos](https://gatographql.com/demos?tag=Polylang) to learn more.
+
+= How to use Gato GraphQL with MultilingualPress? =
+
+Gato GraphQL PRO provides an integration with MultilingualPress, allowing you to translate a post's content to all languages defined in a multisite network, and store the translated content (from Google Translate) on the corresponding translation sites.
+
+And you can set it all up via automation, so that whenever a post is published, it is automatically translated to all languages, and stored in the corresponding sites in the network.
+
+Check out the [Gato GraphQL with MultilingualPress demos](https://gatographql.com/demos?tag=MultilingualPress) to learn more.
 
 = How is Gato GraphQL different than WPGraphQL? =
 
@@ -269,6 +285,29 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 2.6.0 =
+* Added `siteURL` field (#2697)
+* Added fields to fetch multisite data (#2698)
+* Added documentation for PRO integration with MultilingualPress (#2699)
+* Added documentation for new PRO field `_strRegexFindMatches` (#2708)
+* Added GraphQL variables `$translateFromLanguage`, `$includeLanguagesToTranslate` and `$excludeLanguagesToTranslate` to persisted queries (#2694 / #2700):
+  * [PRO] Translate posts for Polylang (Gutenberg)
+  * [PRO] Translate posts for Polylang (Classic editor)
+* Added scalar types to the GraphQL schema:
+  * `IntValueJSONObject` (#2703)
+  * `IDValueJSONObject` (#2704)
+* Added predefined persisted queries:
+  * [PRO] Translate posts for MultilingualPress (Gutenberg) (#2706)
+  * [PRO] Translate posts for MultilingualPress (Classic editor) (#2706)
+  * [PRO] Translate Poedit file content (#2709)
+* [PRO] Added integration with MultilingualPress
+* [PRO] Added input `valueWhenNonExistingKeyOrPath` to field `_objectProperty`
+* [PRO] Added automation rules:
+  * MultilingualPress: When publishing a post, translate it to all languages (Gutenberg)
+  * MultilingualPress: When publishing a post, translate it to all languages (Classic editor)
+* Added Gato GraphQL intro video to documentation (#2707)
+* Fixed identifying extension in `createMediaItem` when filename has more then one dot
 
 = 2.5.2 =
 * Fixed bug: Initialize blocks only after their corresponding CPTs (#2693)
