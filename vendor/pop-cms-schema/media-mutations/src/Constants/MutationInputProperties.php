@@ -6,7 +6,6 @@ namespace PoPCMSSchema\MediaMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const INPUT = 'input';
     public const FROM = 'from';
     public const AUTHOR_ID = 'authorID';
     public const TITLE = 'title';

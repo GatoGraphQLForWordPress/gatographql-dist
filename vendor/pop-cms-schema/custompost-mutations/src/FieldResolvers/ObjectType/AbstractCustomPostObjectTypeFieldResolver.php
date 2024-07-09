@@ -75,7 +75,12 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if (!$usePayloadableCustomPostMutations) {
-            return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            switch ($fieldName) {
+                case 'update':
+                    return SchemaTypeModifiers::NONE;
+                default:
+                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            }
         }
         switch ($fieldName) {
             case 'update':
@@ -91,7 +96,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     {
         switch ($fieldName) {
             case 'update':
-                return [MutationInputProperties::INPUT => $this->getCustomPostUpdateInputObjectTypeResolver()];
+                return ['input' => $this->getCustomPostUpdateInputObjectTypeResolver()];
             default:
                 return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         }
@@ -99,7 +104,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
         switch ([$fieldName => $fieldArgName]) {
-            case ['update' => MutationInputProperties::INPUT]:
+            case ['update' => 'input']:
                 return SchemaTypeModifiers::MANDATORY;
             default:
                 return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
@@ -128,7 +133,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         $post = $object;
         switch ($field->getName()) {
             case 'update':
-                $fieldArgsForMutationForObject[MutationInputProperties::INPUT]->{MutationInputProperties::ID} = $objectTypeResolver->getID($post);
+                $fieldArgsForMutationForObject['input']->{MutationInputProperties::ID} = $objectTypeResolver->getID($post);
                 break;
         }
         return $fieldArgsForMutationForObject;

@@ -57,7 +57,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     {
         switch ($fieldName) {
             case 'setCategories':
-                return [MutationInputProperties::INPUT => $this->getCustomPostSetCategoriesInputObjectTypeResolver()];
+                return ['input' => $this->getCustomPostSetCategoriesInputObjectTypeResolver()];
             default:
                 return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         }
@@ -65,7 +65,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
         switch ([$fieldName => $fieldArgName]) {
-            case ['setCategories' => MutationInputProperties::INPUT]:
+            case ['setCategories' => 'input']:
                 return SchemaTypeModifiers::MANDATORY;
             default:
                 return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
@@ -95,7 +95,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         $customPost = $object;
         switch ($field->getName()) {
             case 'setCategories':
-                $fieldArgsForMutationForObject[MutationInputProperties::INPUT]->{MutationInputProperties::CUSTOMPOST_ID} = $objectTypeResolver->getID($customPost);
+                $fieldArgsForMutationForObject['input']->{MutationInputProperties::CUSTOMPOST_ID} = $objectTypeResolver->getID($customPost);
                 break;
         }
         return $fieldArgsForMutationForObject;

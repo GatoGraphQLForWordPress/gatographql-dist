@@ -19,4 +19,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
+    public function addFieldsToQueryPayloadableUserStateMutations() : bool
+    {
+        if (!$this->usePayloadableUserStateMutations()) {
+            return \false;
+        }
+        $envVariable = \PoPCMSSchema\UserStateMutations\Environment::ADD_FIELDS_TO_QUERY_PAYLOADABLE_USERSTATE_MUTATIONS;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
 }

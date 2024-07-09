@@ -19,4 +19,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
+    public function addFieldsToQueryPayloadableCustomPostMutations() : bool
+    {
+        if (!$this->usePayloadableCustomPostMutations()) {
+            return \false;
+        }
+        $envVariable = \PoPCMSSchema\CustomPostMutations\Environment::ADD_FIELDS_TO_QUERY_PAYLOADABLE_CUSTOMPOST_MUTATIONS;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
 }

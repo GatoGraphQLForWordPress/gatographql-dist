@@ -6,7 +6,6 @@ namespace PoPCMSSchema\CustomPostTagMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const INPUT = 'input';
     /**
      * Call it "id" instead of "customPostID" because this input
      * will be exposed in the GraphQL schema, for any CPT

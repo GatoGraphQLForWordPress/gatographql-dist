@@ -6,7 +6,9 @@ namespace PoPCMSSchema\PostTagMutations\FieldResolvers\ObjectType;
 use PoPCMSSchema\CustomPostTagMutations\FieldResolvers\ObjectType\AbstractRootObjectTypeFieldResolver;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\AbstractSetTagsOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface;
+use PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostBulkOperationMutationResolver;
 use PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver;
+use PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostBulkOperationMutationResolver;
 use PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver;
 use PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\RootSetTagsOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnPostMutationPayloadObjectTypeResolver;
@@ -25,6 +27,10 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
      */
     private $setTagsOnPostMutationResolver;
     /**
+     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostBulkOperationMutationResolver|null
+     */
+    private $setTagsOnPostBulkOperationMutationResolver;
+    /**
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\RootSetTagsOnCustomPostInputObjectTypeResolver|null
      */
     private $rootSetTagsOnCustomPostInputObjectTypeResolver;
@@ -32,6 +38,10 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver|null
      */
     private $payloadableSetTagsOnPostMutationResolver;
+    /**
+     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostBulkOperationMutationResolver|null
+     */
+    private $payloadableSetTagsOnPostBulkOperationMutationResolver;
     /**
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnPostMutationPayloadObjectTypeResolver|null
      */
@@ -62,6 +72,19 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->setTagsOnPostMutationResolver;
     }
+    public final function setSetTagsOnPostBulkOperationMutationResolver(SetTagsOnPostBulkOperationMutationResolver $setTagsOnPostBulkOperationMutationResolver) : void
+    {
+        $this->setTagsOnPostBulkOperationMutationResolver = $setTagsOnPostBulkOperationMutationResolver;
+    }
+    protected final function getSetTagsOnPostBulkOperationMutationResolver() : SetTagsOnPostBulkOperationMutationResolver
+    {
+        if ($this->setTagsOnPostBulkOperationMutationResolver === null) {
+            /** @var SetTagsOnPostBulkOperationMutationResolver */
+            $setTagsOnPostBulkOperationMutationResolver = $this->instanceManager->getInstance(SetTagsOnPostBulkOperationMutationResolver::class);
+            $this->setTagsOnPostBulkOperationMutationResolver = $setTagsOnPostBulkOperationMutationResolver;
+        }
+        return $this->setTagsOnPostBulkOperationMutationResolver;
+    }
     public final function setRootSetTagsOnCustomPostInputObjectTypeResolver(RootSetTagsOnCustomPostInputObjectTypeResolver $rootSetTagsOnCustomPostInputObjectTypeResolver) : void
     {
         $this->rootSetTagsOnCustomPostInputObjectTypeResolver = $rootSetTagsOnCustomPostInputObjectTypeResolver;
@@ -74,6 +97,19 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
             $this->rootSetTagsOnCustomPostInputObjectTypeResolver = $rootSetTagsOnCustomPostInputObjectTypeResolver;
         }
         return $this->rootSetTagsOnCustomPostInputObjectTypeResolver;
+    }
+    public final function setPayloadableSetTagsOnPostBulkOperationMutationResolver(PayloadableSetTagsOnPostBulkOperationMutationResolver $payloadableSetTagsOnPostBulkOperationMutationResolver) : void
+    {
+        $this->payloadableSetTagsOnPostBulkOperationMutationResolver = $payloadableSetTagsOnPostBulkOperationMutationResolver;
+    }
+    protected final function getPayloadableSetTagsOnPostBulkOperationMutationResolver() : PayloadableSetTagsOnPostBulkOperationMutationResolver
+    {
+        if ($this->payloadableSetTagsOnPostBulkOperationMutationResolver === null) {
+            /** @var PayloadableSetTagsOnPostBulkOperationMutationResolver */
+            $payloadableSetTagsOnPostBulkOperationMutationResolver = $this->instanceManager->getInstance(PayloadableSetTagsOnPostBulkOperationMutationResolver::class);
+            $this->payloadableSetTagsOnPostBulkOperationMutationResolver = $payloadableSetTagsOnPostBulkOperationMutationResolver;
+        }
+        return $this->payloadableSetTagsOnPostBulkOperationMutationResolver;
     }
     public final function setPayloadableSetTagsOnPostMutationResolver(PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver) : void
     {
@@ -109,9 +145,17 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
     {
         return $this->getSetTagsOnPostMutationResolver();
     }
+    public function getSetTagsBulkOperationMutationResolver() : MutationResolverInterface
+    {
+        return $this->getSetTagsOnPostBulkOperationMutationResolver();
+    }
     public function getPayloadableSetTagsMutationResolver() : MutationResolverInterface
     {
         return $this->getPayloadableSetTagsOnPostMutationResolver();
+    }
+    public function getPayloadableSetTagsBulkOperationMutationResolver() : MutationResolverInterface
+    {
+        return $this->getPayloadableSetTagsOnPostBulkOperationMutationResolver();
     }
     protected function getRootSetTagsMutationPayloadObjectTypeResolver() : ConcreteTypeResolverInterface
     {
@@ -128,5 +172,9 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
     protected function getSetTagsFieldName() : string
     {
         return 'setTagsOnPost';
+    }
+    protected function getBulkOperationSetTagsFieldName() : string
+    {
+        return 'setTagsOnPosts';
     }
 }

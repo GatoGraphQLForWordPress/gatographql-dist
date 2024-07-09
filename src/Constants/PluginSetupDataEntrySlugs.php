@@ -13,11 +13,11 @@ class PluginSetupDataEntrySlugs
     /**
      * @gatographql-note: Do not rename this slug, as it's referenced when installing the testing webservers
      */
-    public const SCHEMA_CONFIGURATION_NESTED_MUTATIONS_ENTITY_AS_MUTATION_PAYLOAD_TYPE = 'nested-mutations-entity-as-mutation-payload-type';
+    public const SCHEMA_CONFIGURATION_BULK_MUTATIONS = 'bulk-mutations';
 
     public const CUSTOM_ENDPOINT_INTERNAL = 'internal';
     public const CUSTOM_ENDPOINT_NESTED_MUTATIONS = 'nested-mutations';
-    public const CUSTOM_ENDPOINT_NESTED_MUTATIONS_ENTITY_AS_MUTATION_PAYLOAD_TYPE = 'nested-mutations-entity-as-mutation-payload-type';
+    public const CUSTOM_ENDPOINT_BULK_MUTATIONS = 'bulk-mutations';
 
     public const PERSISTED_QUERY_ADD_COMMENTS_BLOCK_TO_POST = 'add-comments-block-to-post';
     public const PERSISTED_QUERY_ADD_MISSING_LINKS_IN_POST = 'add-missing-links-in-post';

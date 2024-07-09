@@ -5,17 +5,25 @@ namespace PoPCMSSchema\CustomPostMediaMutations\FieldResolvers\ObjectType;
 
 use PoPCMSSchema\CustomPostMediaMutations\Module;
 use PoPCMSSchema\CustomPostMediaMutations\ModuleConfiguration;
+use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableRemoveFeaturedImageFromCustomPostMutationResolver;
+use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostMutationResolver;
+use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver;
+use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolver;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\RootRemoveFeaturedImageFromCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\RootSetFeaturedImageOnCustomPostInputObjectTypeResolver;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\RootRemoveFeaturedImageFromCustomPostMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\RootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver;
+use PoPCMSSchema\SchemaCommons\FieldResolvers\ObjectType\BulkOperationDecoratorObjectTypeFieldResolverTrait;
+use PoPCMSSchema\SchemaCommons\FieldResolvers\ObjectType\MutationPayloadObjectsObjectTypeFieldResolverTrait;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -27,6 +35,8 @@ use PoP\Root\App;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
+    use MutationPayloadObjectsObjectTypeFieldResolverTrait;
+    use BulkOperationDecoratorObjectTypeFieldResolverTrait;
     /**
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
      */
@@ -36,9 +46,17 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      */
     private $setFeaturedImageOnCustomPostMutationResolver;
     /**
+     * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostBulkOperationMutationResolver|null
+     */
+    private $setFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver|null
      */
     private $removeFeaturedImageFromCustomPostMutationResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver|null
+     */
+    private $removeFeaturedImageFromCustomPostBulkOperationMutationResolver;
     /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\RootSetFeaturedImageOnCustomPostInputObjectTypeResolver|null
      */
@@ -52,9 +70,17 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      */
     private $payloadableSetFeaturedImageOnCustomPostMutationResolver;
     /**
+     * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver|null
+     */
+    private $payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableRemoveFeaturedImageFromCustomPostMutationResolver|null
      */
     private $payloadableRemoveFeaturedImageFromCustomPostMutationResolver;
+    /**
+     * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver|null
+     */
+    private $payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
     /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\RootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver|null
      */
@@ -89,6 +115,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->setFeaturedImageOnCustomPostMutationResolver;
     }
+    public final function setSetFeaturedImageOnCustomPostBulkOperationMutationResolver(SetFeaturedImageOnCustomPostBulkOperationMutationResolver $setFeaturedImageOnCustomPostBulkOperationMutationResolver) : void
+    {
+        $this->setFeaturedImageOnCustomPostBulkOperationMutationResolver = $setFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    }
+    protected final function getSetFeaturedImageOnCustomPostBulkOperationMutationResolver() : SetFeaturedImageOnCustomPostBulkOperationMutationResolver
+    {
+        if ($this->setFeaturedImageOnCustomPostBulkOperationMutationResolver === null) {
+            /** @var SetFeaturedImageOnCustomPostBulkOperationMutationResolver */
+            $setFeaturedImageOnCustomPostBulkOperationMutationResolver = $this->instanceManager->getInstance(SetFeaturedImageOnCustomPostBulkOperationMutationResolver::class);
+            $this->setFeaturedImageOnCustomPostBulkOperationMutationResolver = $setFeaturedImageOnCustomPostBulkOperationMutationResolver;
+        }
+        return $this->setFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    }
     public final function setRemoveFeaturedImageFromCustomPostMutationResolver(RemoveFeaturedImageFromCustomPostMutationResolver $removeFeaturedImageFromCustomPostMutationResolver) : void
     {
         $this->removeFeaturedImageFromCustomPostMutationResolver = $removeFeaturedImageFromCustomPostMutationResolver;
@@ -101,6 +140,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->removeFeaturedImageFromCustomPostMutationResolver = $removeFeaturedImageFromCustomPostMutationResolver;
         }
         return $this->removeFeaturedImageFromCustomPostMutationResolver;
+    }
+    public final function setRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver(RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver $removeFeaturedImageFromCustomPostBulkOperationMutationResolver) : void
+    {
+        $this->removeFeaturedImageFromCustomPostBulkOperationMutationResolver = $removeFeaturedImageFromCustomPostBulkOperationMutationResolver;
+    }
+    protected final function getRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver() : RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver
+    {
+        if ($this->removeFeaturedImageFromCustomPostBulkOperationMutationResolver === null) {
+            /** @var RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver */
+            $removeFeaturedImageFromCustomPostBulkOperationMutationResolver = $this->instanceManager->getInstance(RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver::class);
+            $this->removeFeaturedImageFromCustomPostBulkOperationMutationResolver = $removeFeaturedImageFromCustomPostBulkOperationMutationResolver;
+        }
+        return $this->removeFeaturedImageFromCustomPostBulkOperationMutationResolver;
     }
     public final function setRootSetFeaturedImageOnCustomPostInputObjectTypeResolver(RootSetFeaturedImageOnCustomPostInputObjectTypeResolver $rootSetFeaturedImageOnCustomPostInputObjectTypeResolver) : void
     {
@@ -141,6 +193,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->payloadableSetFeaturedImageOnCustomPostMutationResolver;
     }
+    public final function setPayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver(PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver $payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver) : void
+    {
+        $this->payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver = $payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    }
+    protected final function getPayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver() : PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver
+    {
+        if ($this->payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver === null) {
+            /** @var PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver */
+            $payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver = $this->instanceManager->getInstance(PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver::class);
+            $this->payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver = $payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver;
+        }
+        return $this->payloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver;
+    }
     public final function setPayloadableRemoveFeaturedImageFromCustomPostMutationResolver(PayloadableRemoveFeaturedImageFromCustomPostMutationResolver $payloadableRemoveFeaturedImageFromCustomPostMutationResolver) : void
     {
         $this->payloadableRemoveFeaturedImageFromCustomPostMutationResolver = $payloadableRemoveFeaturedImageFromCustomPostMutationResolver;
@@ -153,6 +218,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->payloadableRemoveFeaturedImageFromCustomPostMutationResolver = $payloadableRemoveFeaturedImageFromCustomPostMutationResolver;
         }
         return $this->payloadableRemoveFeaturedImageFromCustomPostMutationResolver;
+    }
+    public final function setPayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver(PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver $payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver) : void
+    {
+        $this->payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver = $payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
+    }
+    protected final function getPayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver() : PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver
+    {
+        if ($this->payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver === null) {
+            /** @var PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver */
+            $payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver = $this->instanceManager->getInstance(PayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver::class);
+            $this->payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver = $payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
+        }
+        return $this->payloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver;
     }
     public final function setRootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver(RootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver $rootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver) : void
     {
@@ -193,19 +271,30 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldNamesToResolve() : array
     {
         /** @var EngineModuleConfiguration */
-        $moduleConfiguration = App::getModule(EngineModule::class)->getConfiguration();
-        if ($moduleConfiguration->disableRedundantRootTypeMutationFields()) {
+        $engineModuleConfiguration = App::getModule(EngineModule::class)->getConfiguration();
+        if ($engineModuleConfiguration->disableRedundantRootTypeMutationFields()) {
             return [];
         }
-        return ['setFeaturedImageOnCustomPost', 'removeFeaturedImageFromCustomPost'];
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        $addFieldsToQueryPayloadableCustomPostMediaMutations = $moduleConfiguration->addFieldsToQueryPayloadableCustomPostMediaMutations();
+        return \array_merge(['setFeaturedImageOnCustomPost', 'setFeaturedImageOnCustomPosts', 'removeFeaturedImageFromCustomPost', 'removeFeaturedImageFromCustomPosts'], $addFieldsToQueryPayloadableCustomPostMediaMutations ? ['setFeaturedImageOnCustomPostMutationPayloadObjects', 'removeFeaturedImageFromCustomPostMutationPayloadObjects'] : []);
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         switch ($fieldName) {
             case 'setFeaturedImageOnCustomPost':
                 return $this->__('Set the featured image on a custom post', 'custompostmedia-mutations');
+            case 'setFeaturedImageOnCustomPosts':
+                return $this->__('Set the featured image on custom posts', 'custompostmedia-mutations');
             case 'removeFeaturedImageFromCustomPost':
                 return $this->__('Remove the featured image from a custom post', 'custompostmedia-mutations');
+            case 'removeFeaturedImageFromCustomPosts':
+                return $this->__('Remove the featured image from custom posts', 'custompostmedia-mutations');
+            case 'setFeaturedImageOnCustomPostMutationPayloadObjects':
+                return $this->__('Retrieve the payload objects from a recently-executed `setFeaturedImageOnCustomPost` mutation', 'custompostmedia-mutations');
+            case 'removeFeaturedImageFromCustomPostMutationPayloadObjects':
+                return $this->__('Retrieve the payload objects from a recently-executed `removeFeaturedImageFromCustomPost` mutation', 'custompostmedia-mutations');
             default:
                 return parent::getFieldDescription($objectTypeResolver, $fieldName);
         }
@@ -216,12 +305,27 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMediaMutations = $moduleConfiguration->usePayloadableCustomPostMediaMutations();
         if (!$usePayloadableCustomPostMediaMutations) {
-            return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            switch ($fieldName) {
+                case 'setFeaturedImageOnCustomPost':
+                case 'removeFeaturedImageFromCustomPost':
+                    return SchemaTypeModifiers::NONE;
+                case 'setFeaturedImageOnCustomPosts':
+                case 'removeFeaturedImageFromCustomPosts':
+                    return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
+                default:
+                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            }
+        }
+        if (\in_array($fieldName, ['setFeaturedImageOnCustomPostMutationPayloadObjects', 'removeFeaturedImageFromCustomPostMutationPayloadObjects'])) {
+            return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
         switch ($fieldName) {
             case 'setFeaturedImageOnCustomPost':
             case 'removeFeaturedImageFromCustomPost':
                 return SchemaTypeModifiers::NON_NULLABLE;
+            case 'setFeaturedImageOnCustomPosts':
+            case 'removeFeaturedImageFromCustomPosts':
+                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
             default:
                 return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
         }
@@ -234,20 +338,44 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         switch ($fieldName) {
             case 'setFeaturedImageOnCustomPost':
                 return ['input' => $this->getRootSetFeaturedImageOnCustomPostInputObjectTypeResolver()];
+            case 'setFeaturedImageOnCustomPosts':
+                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetFeaturedImageOnCustomPostInputObjectTypeResolver());
             case 'removeFeaturedImageFromCustomPost':
                 return ['input' => $this->getRootRemoveFeaturedImageFromCustomPostInputObjectTypeResolver()];
+            case 'removeFeaturedImageFromCustomPosts':
+                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootRemoveFeaturedImageFromCustomPostInputObjectTypeResolver());
+            case 'setFeaturedImageOnCustomPostMutationPayloadObjects':
+            case 'removeFeaturedImageFromCustomPostMutationPayloadObjects':
+                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
             default:
                 return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         }
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ($fieldArgName) {
-            case 'input':
+        if (\in_array($fieldName, ['setFeaturedImageOnCustomPostMutationPayloadObjects', 'removeFeaturedImageFromCustomPostMutationPayloadObjects'])) {
+            return $this->getMutationPayloadObjectsFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        if (\in_array($fieldName, ['setFeaturedImageOnCustomPosts', 'removeFeaturedImageFromCustomPosts'])) {
+            return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        switch ([$fieldName => $fieldArgName]) {
+            case ['setFeaturedImageOnCustomPost' => 'input']:
+            case ['removeFeaturedImageFromCustomPost' => 'input']:
                 return SchemaTypeModifiers::MANDATORY;
             default:
                 return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
+    }
+    /**
+     * @return mixed
+     */
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    {
+        if (\in_array($fieldName, ['setFeaturedImageOnCustomPosts', 'removeFeaturedImageFromCustomPosts'])) {
+            return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
     }
     public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
     {
@@ -257,8 +385,12 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         switch ($fieldName) {
             case 'setFeaturedImageOnCustomPost':
                 return $usePayloadableCustomPostMediaMutations ? $this->getPayloadableSetFeaturedImageOnCustomPostMutationResolver() : $this->getSetFeaturedImageOnCustomPostMutationResolver();
+            case 'setFeaturedImageOnCustomPosts':
+                return $usePayloadableCustomPostMediaMutations ? $this->getPayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver() : $this->getSetFeaturedImageOnCustomPostBulkOperationMutationResolver();
             case 'removeFeaturedImageFromCustomPost':
                 return $usePayloadableCustomPostMediaMutations ? $this->getPayloadableRemoveFeaturedImageFromCustomPostMutationResolver() : $this->getRemoveFeaturedImageFromCustomPostMutationResolver();
+            case 'removeFeaturedImageFromCustomPosts':
+                return $usePayloadableCustomPostMediaMutations ? $this->getPayloadableRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver() : $this->getRemoveFeaturedImageFromCustomPostBulkOperationMutationResolver();
             default:
                 return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
         }
@@ -271,8 +403,12 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         if ($usePayloadableCustomPostMediaMutations) {
             switch ($fieldName) {
                 case 'setFeaturedImageOnCustomPost':
+                case 'setFeaturedImageOnCustomPosts':
+                case 'setFeaturedImageOnCustomPostMutationPayloadObjects':
                     return $this->getRootSetFeaturedImageOnCustomPostMutationPayloadObjectTypeResolver();
                 case 'removeFeaturedImageFromCustomPost':
+                case 'removeFeaturedImageFromCustomPosts':
+                case 'removeFeaturedImageFromCustomPostMutationPayloadObjects':
                     return $this->getRootRemoveFeaturedImageFromCustomPostMutationPayloadObjectTypeResolver();
                 default:
                     return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
@@ -280,10 +416,25 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         switch ($fieldName) {
             case 'setFeaturedImageOnCustomPost':
+            case 'setFeaturedImageOnCustomPosts':
             case 'removeFeaturedImageFromCustomPost':
+            case 'removeFeaturedImageFromCustomPosts':
                 return $this->getCustomPostUnionTypeResolver();
             default:
                 return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
         }
+    }
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
+        $fieldName = $fieldDataAccessor->getFieldName();
+        switch ($fieldName) {
+            case 'setFeaturedImageOnCustomPostMutationPayloadObjects':
+            case 'removeFeaturedImageFromCustomPostMutationPayloadObjects':
+                return $this->resolveMutationPayloadObjectsValue($objectTypeResolver, $fieldDataAccessor);
+        }
+        return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

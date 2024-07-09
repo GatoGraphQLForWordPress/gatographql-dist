@@ -3,16 +3,21 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\FieldResolvers\ObjectType;
 
-use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\MediaMutations\Module;
 use PoPCMSSchema\MediaMutations\ModuleConfiguration;
+use PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemBulkOperationMutationResolver;
 use PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemMutationResolver;
+use PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemBulkOperationMutationResolver;
 use PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemMutationResolver;
 use PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\RootCreateMediaItemInputObjectTypeResolver;
 use PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\RootCreateMediaItemMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
+use PoPCMSSchema\SchemaCommons\FieldResolvers\ObjectType\BulkOperationDecoratorObjectTypeFieldResolverTrait;
+use PoPCMSSchema\SchemaCommons\FieldResolvers\ObjectType\MutationPayloadObjectsObjectTypeFieldResolverTrait;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -24,6 +29,8 @@ use PoP\Root\App;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
+    use MutationPayloadObjectsObjectTypeFieldResolverTrait;
+    use BulkOperationDecoratorObjectTypeFieldResolverTrait;
     /**
      * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
      */
@@ -32,6 +39,10 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemMutationResolver|null
      */
     private $createMediaItemMutationResolver;
+    /**
+     * @var \PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemBulkOperationMutationResolver|null
+     */
+    private $createMediaItemBulkOperationMutationResolver;
     /**
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\RootCreateMediaItemInputObjectTypeResolver|null
      */
@@ -44,6 +55,10 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemMutationResolver|null
      */
     private $payloadableCreateMediaItemMutationResolver;
+    /**
+     * @var \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemBulkOperationMutationResolver|null
+     */
+    private $payloadableCreateMediaItemBulkOperationMutationResolver;
     public final function setMediaObjectTypeResolver(MediaObjectTypeResolver $mediaObjectTypeResolver) : void
     {
         $this->mediaObjectTypeResolver = $mediaObjectTypeResolver;
@@ -69,6 +84,19 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->createMediaItemMutationResolver = $createMediaItemMutationResolver;
         }
         return $this->createMediaItemMutationResolver;
+    }
+    public final function setCreateMediaItemBulkOperationMutationResolver(CreateMediaItemBulkOperationMutationResolver $createMediaItemBulkOperationMutationResolver) : void
+    {
+        $this->createMediaItemBulkOperationMutationResolver = $createMediaItemBulkOperationMutationResolver;
+    }
+    protected final function getCreateMediaItemBulkOperationMutationResolver() : CreateMediaItemBulkOperationMutationResolver
+    {
+        if ($this->createMediaItemBulkOperationMutationResolver === null) {
+            /** @var CreateMediaItemBulkOperationMutationResolver */
+            $createMediaItemBulkOperationMutationResolver = $this->instanceManager->getInstance(CreateMediaItemBulkOperationMutationResolver::class);
+            $this->createMediaItemBulkOperationMutationResolver = $createMediaItemBulkOperationMutationResolver;
+        }
+        return $this->createMediaItemBulkOperationMutationResolver;
     }
     public final function setRootCreateMediaItemInputObjectTypeResolver(RootCreateMediaItemInputObjectTypeResolver $rootCreateMediaItemInputObjectTypeResolver) : void
     {
@@ -109,6 +137,19 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableCreateMediaItemMutationResolver;
     }
+    public final function setPayloadableCreateMediaItemBulkOperationMutationResolver(PayloadableCreateMediaItemBulkOperationMutationResolver $payloadableCreateMediaItemBulkOperationMutationResolver) : void
+    {
+        $this->payloadableCreateMediaItemBulkOperationMutationResolver = $payloadableCreateMediaItemBulkOperationMutationResolver;
+    }
+    protected final function getPayloadableCreateMediaItemBulkOperationMutationResolver() : PayloadableCreateMediaItemBulkOperationMutationResolver
+    {
+        if ($this->payloadableCreateMediaItemBulkOperationMutationResolver === null) {
+            /** @var PayloadableCreateMediaItemBulkOperationMutationResolver */
+            $payloadableCreateMediaItemBulkOperationMutationResolver = $this->instanceManager->getInstance(PayloadableCreateMediaItemBulkOperationMutationResolver::class);
+            $this->payloadableCreateMediaItemBulkOperationMutationResolver = $payloadableCreateMediaItemBulkOperationMutationResolver;
+        }
+        return $this->payloadableCreateMediaItemBulkOperationMutationResolver;
+    }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
@@ -122,17 +163,24 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     public function getFieldNamesToResolve() : array
     {
         /** @var EngineModuleConfiguration */
-        $moduleConfiguration = App::getModule(EngineModule::class)->getConfiguration();
-        if ($moduleConfiguration->disableRedundantRootTypeMutationFields()) {
+        $engineModuleConfiguration = App::getModule(EngineModule::class)->getConfiguration();
+        if ($engineModuleConfiguration->disableRedundantRootTypeMutationFields()) {
             return [];
         }
-        return ['createMediaItem'];
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        $addFieldsToQueryPayloadableMediaMutations = $moduleConfiguration->addFieldsToQueryPayloadableMediaMutations();
+        return \array_merge(['createMediaItem', 'createMediaItems'], $addFieldsToQueryPayloadableMediaMutations ? ['createMediaItemMutationPayloadObjects'] : []);
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         switch ($fieldName) {
             case 'createMediaItem':
                 return $this->__('Upload an attachment', 'media-mutations');
+            case 'createMediaItems':
+                return $this->__('Upload attachments', 'media-mutations');
+            case 'createMediaItemMutationPayloadObjects':
+                return $this->__('Retrieve the payload objects from a recently-executed `createMediaItem` mutation', 'media-mutations');
             default:
                 return parent::getFieldDescription($objectTypeResolver, $fieldName);
         }
@@ -143,11 +191,23 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
         if (!$usePayloadableMediaMutations) {
-            return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            switch ($fieldName) {
+                case 'createMediaItem':
+                    return SchemaTypeModifiers::NONE;
+                case 'createMediaItems':
+                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
+                default:
+                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
+            }
+        }
+        if (\in_array($fieldName, ['createMediaItemMutationPayloadObjects'])) {
+            return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
         switch ($fieldName) {
             case 'createMediaItem':
                 return SchemaTypeModifiers::NON_NULLABLE;
+            case 'createMediaItems':
+                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
             default:
                 return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
         }
@@ -159,19 +219,39 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     {
         switch ($fieldName) {
             case 'createMediaItem':
-                return [MutationInputProperties::INPUT => $this->getRootCreateMediaItemInputObjectTypeResolver()];
+                return ['input' => $this->getRootCreateMediaItemInputObjectTypeResolver()];
+            case 'createMediaItems':
+                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreateMediaItemInputObjectTypeResolver());
+            case 'createMediaItemMutationPayloadObjects':
+                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
             default:
                 return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         }
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ($fieldArgName) {
-            case MutationInputProperties::INPUT:
+        if (\in_array($fieldName, ['createMediaItemMutationPayloadObjects'])) {
+            return $this->getMutationPayloadObjectsFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        if (\in_array($fieldName, ['createMediaItems'])) {
+            return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        switch ([$fieldName => $fieldArgName]) {
+            case ['createMediaItem' => 'input']:
                 return SchemaTypeModifiers::MANDATORY;
             default:
                 return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
+    }
+    /**
+     * @return mixed
+     */
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    {
+        if (\in_array($fieldName, ['createMediaItems'])) {
+            return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
+        }
+        return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
     }
     public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
     {
@@ -181,6 +261,8 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         switch ($fieldName) {
             case 'createMediaItem':
                 return $usePayloadableMediaMutations ? $this->getPayloadableCreateMediaItemMutationResolver() : $this->getCreateMediaItemMutationResolver();
+            case 'createMediaItems':
+                return $usePayloadableMediaMutations ? $this->getPayloadableCreateMediaItemBulkOperationMutationResolver() : $this->getCreateMediaItemBulkOperationMutationResolver();
             default:
                 return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
         }
@@ -193,6 +275,8 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         if ($usePayloadableMediaMutations) {
             switch ($fieldName) {
                 case 'createMediaItem':
+                case 'createMediaItems':
+                case 'createMediaItemMutationPayloadObjects':
                     return $this->getRootCreateMediaItemMutationPayloadObjectTypeResolver();
                 default:
                     return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
@@ -200,9 +284,22 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         switch ($fieldName) {
             case 'createMediaItem':
+            case 'createMediaItems':
                 return $this->getMediaObjectTypeResolver();
             default:
                 return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
         }
+    }
+    /**
+     * @return mixed
+     */
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    {
+        $fieldName = $fieldDataAccessor->getFieldName();
+        switch ($fieldName) {
+            case 'createMediaItemMutationPayloadObjects':
+                return $this->resolveMutationPayloadObjectsValue($objectTypeResolver, $fieldDataAccessor);
+        }
+        return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 }

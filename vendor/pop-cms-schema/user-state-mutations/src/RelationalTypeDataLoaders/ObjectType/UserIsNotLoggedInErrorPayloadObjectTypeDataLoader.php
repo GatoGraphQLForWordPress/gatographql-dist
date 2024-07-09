@@ -8,7 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractDictionaryOb
 /** @internal */
 class UserIsNotLoggedInErrorPayloadObjectTypeDataLoader extends AbstractDictionaryObjectTypeDataLoader
 {
-    protected function getObjectClass() : string
+    public function getObjectClass() : string
     {
         return UserIsNotLoggedInErrorPayload::class;
     }

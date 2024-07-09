@@ -141,35 +141,48 @@ For instance, you can now run this query:
 {
   posts {
     __typename
-    id
-    title
-    multilingualpressTranslationConnections
-    multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+    multilingualpressTranslationConnections {
+      ...MultilingualPressConnectionData
+    }
+    multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+      ...MultilingualPressConnectionData
+    }
 
     categories {
       __typename
-      id
-      name
-      multilingualpressTranslationConnections
-      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+      multilingualpressTranslationConnections {
+        ...MultilingualPressConnectionData
+      }
+      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+        ...MultilingualPressConnectionData
+      }
     }
     
     tags {
       __typename
-      id
-      name
-      multilingualpressTranslationConnections
-      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+      multilingualpressTranslationConnections {
+        ...MultilingualPressConnectionData
+      }
+      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+        ...MultilingualPressConnectionData
+      }
     }
   }
 
   pages {
     __typename
-    id
-    title
-    multilingualpressTranslationConnections
-    multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+    multilingualpressTranslationConnections {
+      ...MultilingualPressConnectionData
+    }
+    multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+      ...MultilingualPressConnectionData
+    }
   }
+}
+
+fragment MultilingualPressConnectionData {
+  siteID
+  entityID
 }
 ```
 
@@ -195,42 +208,52 @@ For instance, you can now run this query:
   customPosts(filter: { customPostTypes: ["some-cpt", "another-cpt"] }) {
     __typename
     ...on GenericCustomPost {
-      id
-      title
-      customPostType
       multilingualpressIsTranslatable
-      multilingualpressTranslationConnections
-      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+      multilingualpressTranslationConnections {
+        ...MultilingualPressConnectionData
+      }
+      multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+        ...MultilingualPressConnectionData
+      }
       
       categories(taxonomy: "some-category") {
         __typename
         ...on GenericCategory {
-          id
-          name
           multilingualpressIsTranslatable
-          multilingualpressTranslationConnections
-          multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+          multilingualpressTranslationConnections {
+            ...MultilingualPressConnectionData
+          }
+          multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+            ...MultilingualPressConnectionData
+          }
         }
       }
       
       tags(taxonomy: "some-tag") {
         __typename
         ...on GenericTag {
-          id
-          name
           multilingualpressIsTranslatable
-          multilingualpressTranslationConnections
-          multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true })
+          multilingualpressTranslationConnections {
+            ...MultilingualPressConnectionData
+          }
+          multilingualpressTranslationConnectionsWithSelf: multilingualpressTranslationConnections(filter: { includeSelf: true }) {
+            ...MultilingualPressConnectionData
+          }
         }
       }
     }
   }
 }
+
+fragment MultilingualPressConnectionData {
+  siteID
+  entityID
+}
 ```
 
 ### Added field `_strRegexFindMatches`
 
-Field `_strRegexFindMatches` has been added to the **Helper Function Collection** module. This field executes a regular expression to extract all matches from a string.
+Field `_strRegexFindMatches` has been added to the **PHP Functions via Schema** module. This field executes a regular expression to extract all matches from a string.
 
 For instance, running this query:
 

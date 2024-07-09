@@ -827,6 +827,13 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
         if (!$fieldArgTypeResolver instanceof InputObjectTypeResolverInterface) {
             return null;
         }
+        // Check it's not a List of values
+        $inputFieldTypeModifiers = $this->getFieldArgTypeModifiers($objectTypeResolver, $field->getName(), $fieldArgName);
+        $inputFieldIsArrayOfArraysType = ($inputFieldTypeModifiers & SchemaTypeModifiers::IS_ARRAY_OF_ARRAYS) === SchemaTypeModifiers::IS_ARRAY_OF_ARRAYS;
+        $inputFieldIsArrayType = $inputFieldIsArrayOfArraysType || ($inputFieldTypeModifiers & SchemaTypeModifiers::IS_ARRAY) === SchemaTypeModifiers::IS_ARRAY;
+        if ($inputFieldIsArrayType) {
+            return null;
+        }
         return $fieldArgName;
     }
     /**

@@ -1,9 +1,9 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
-Requires at least: 5.4
-Tested up to: 6.5
-Stable tag: 2.6.0
+Requires at least: 6.0
+Tested up to: 6.6
+Stable tag: 3.0.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -285,6 +285,18 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 3.0.0 =
+* Breaking change: Require at least WordPress v6.0 (#2719)
+* Breaking change: Option "Do not use payload types for mutations (i.e. return the mutated entity)" in schema configuration block "Payload Types for Mutations" must be re-selected (#2720)
+* Added compatibility with WordPress 6.6 (#2717)
+* Added bulk mutation fields (for all mutations in the schema) (#2721)
+* Added fields to query the mutation payload objects (#2720)
+* Added option to schema configuration block "Payload Types for Mutations" (#2720)
+* Added predefined custom endpoint "Bulk mutations" (#2720)
+* Removed predefined custom endpoint "Nested mutations + Entity as mutation payload type" (#2720)
+* Fixed bug: Catch exception if dependency version is not semver (#2712)
+* Fixed bug: Convert entries in JSON dictionary of variables in persisted query from array to object (#2715)
 
 = 2.6.0 =
 * Added `siteURL` field (#2697)
