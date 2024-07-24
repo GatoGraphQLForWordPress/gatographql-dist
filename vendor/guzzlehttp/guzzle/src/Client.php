@@ -50,7 +50,7 @@ class Client implements ClientInterface, \PrefixedByPoP\Psr\Http\Client\ClientIn
      *
      * @param array $config Client configuration settings.
      *
-     * @see \GuzzleHttp\RequestOptions for a list of available request options.
+     * @see RequestOptions for a list of available request options.
      */
     public function __construct(array $config = [])
     {
@@ -179,7 +179,7 @@ class Client implements ClientInterface, \PrefixedByPoP\Psr\Http\Client\ClientIn
      *
      * @deprecated Client::getConfig will be removed in guzzlehttp/guzzle:8.0.
      */
-    public function getConfig(string $option = null)
+    public function getConfig(?string $option = null)
     {
         return $option === null ? $this->config : $this->config[$option] ?? null;
     }

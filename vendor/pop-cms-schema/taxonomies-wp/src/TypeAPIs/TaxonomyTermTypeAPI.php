@@ -20,4 +20,12 @@ class TaxonomyTermTypeAPI implements TaxonomyTermTypeAPIInterface
         /** @var WP_Term $taxonomyTerm */
         return $taxonomyTerm->taxonomy;
     }
+    /**
+     * @param int|string $id
+     */
+    public function taxonomyTermExists($id): bool
+    {
+        $taxonomyTermExists = term_exists($id);
+        return $taxonomyTermExists !==  null;
+    }
 }

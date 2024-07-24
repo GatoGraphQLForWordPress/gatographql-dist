@@ -102,7 +102,7 @@ class SuperRootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         switch ($fieldName) {
             case '_rootForQueryRoot':
                 return $this->__('Get the Root type (as requested by a query operation)', 'engine');
-            case '_rootFoMutationRoot':
+            case '_rootForMutationRoot':
                 return $this->__('Get the Root type (as requested by a mutation operation)', 'engine');
             case '_queryRoot':
                 return $this->__('Get the Query Root type', 'engine');

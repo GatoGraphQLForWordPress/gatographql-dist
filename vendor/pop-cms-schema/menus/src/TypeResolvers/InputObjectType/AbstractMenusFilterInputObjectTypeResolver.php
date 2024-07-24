@@ -20,7 +20,7 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
     /**
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
      */
-    private $seachFilterInput;
+    private $searchFilterInput;
     /**
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
      */
@@ -38,18 +38,18 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setSearchFilterInput(SearchFilterInput $seachFilterInput) : void
+    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
     {
-        $this->seachFilterInput = $seachFilterInput;
+        $this->searchFilterInput = $searchFilterInput;
     }
     protected final function getSearchFilterInput() : SearchFilterInput
     {
-        if ($this->seachFilterInput === null) {
+        if ($this->searchFilterInput === null) {
             /** @var SearchFilterInput */
-            $seachFilterInput = $this->instanceManager->getInstance(SearchFilterInput::class);
-            $this->seachFilterInput = $seachFilterInput;
+            $searchFilterInput = $this->instanceManager->getInstance(SearchFilterInput::class);
+            $this->searchFilterInput = $searchFilterInput;
         }
-        return $this->seachFilterInput;
+        return $this->searchFilterInput;
     }
     public final function setSlugsFilterInput(SlugsFilterInput $slugsFilterInput) : void
     {

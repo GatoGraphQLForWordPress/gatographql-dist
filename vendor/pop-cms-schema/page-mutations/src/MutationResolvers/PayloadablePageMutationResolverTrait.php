@@ -26,7 +26,7 @@ trait PayloadablePageMutationResolverTrait
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
                 return new LoggedInUserHasNoPublishingPageCapabilityErrorPayload($feedbackItemResolution->getMessage());
             default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $feedbackItemResolution);
+                return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
         }
     }
 }

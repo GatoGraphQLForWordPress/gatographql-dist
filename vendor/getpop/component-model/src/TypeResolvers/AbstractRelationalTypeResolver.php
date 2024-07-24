@@ -179,7 +179,7 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
     }
     /**
      * By default, handle mandatory directives for Fields.
-     * This method will be overriden by SuperRoot, to handle
+     * This method will be overridden by SuperRoot, to handle
      * mandatory directives for Operations.
      *
      * @return FieldDirectiveResolverInterface[]

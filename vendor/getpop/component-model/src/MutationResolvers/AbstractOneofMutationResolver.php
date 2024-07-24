@@ -69,7 +69,7 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
     /**
      * Assume there's only one argument in the field,
      * for this OneofMutationResolver.
-     * If that's not the case, this function must be overriden,
+     * If that's not the case, this function must be overridden,
      * to avoid throwing an Exception
      *
      * @throws QueryResolutionException If more than 1 argument is passed to the field executing the OneofMutation

@@ -12,7 +12,7 @@ use PoPCMSSchema\MediaMutations\ConditionalOnModule\CustomPostMutations\Constant
 use PoPCMSSchema\MediaMutations\Constants\HookNames;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
@@ -163,8 +163,9 @@ class MutationResolverHookSet extends AbstractHookSet
                 return $inputFieldDescription;
         }
     }
-    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, FeedbackItemResolution $feedbackItemResolution) : ErrorPayloadInterface
+    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
+        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
                 return new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage());

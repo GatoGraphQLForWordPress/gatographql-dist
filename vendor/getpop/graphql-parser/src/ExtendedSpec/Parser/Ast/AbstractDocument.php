@@ -462,10 +462,10 @@ abstract class AbstractDocument extends UpstreamDocument
         $operationNames = $this->getAllOperationNames();
         $operationDependencyDefinitionArguments = $this->getOperationDependencyDefinitionArguments();
         foreach ($operationDependencyDefinitionArguments as $operationDependencyDefinitionArgument) {
-            $dependendUponOperationNames = $this->getDependedUponOperationNamesInArgument($operationDependencyDefinitionArgument);
-            foreach ($dependendUponOperationNames as $dependendUponOperationName) {
-                if (!\in_array($dependendUponOperationName, $operationNames)) {
-                    throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E14, [$dependendUponOperationName]), $operationDependencyDefinitionArgument->getValueAST());
+            $dependedUponOperationNames = $this->getDependedUponOperationNamesInArgument($operationDependencyDefinitionArgument);
+            foreach ($dependedUponOperationNames as $dependedUponOperationName) {
+                if (!\in_array($dependedUponOperationName, $operationNames)) {
+                    throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E14, [$dependedUponOperationName]), $operationDependencyDefinitionArgument->getValueAST());
                 }
             }
         }
@@ -487,21 +487,21 @@ abstract class AbstractDocument extends UpstreamDocument
         /**
          * A list is expected, but a single Operation name can also be provided.
          */
-        $dependendUponOperationNameOrNames = $argument->getValue();
-        if (!\is_array($dependendUponOperationNameOrNames)) {
-            $dependendUponOperationNames = [$dependendUponOperationNameOrNames];
+        $dependedUponOperationNameOrNames = $argument->getValue();
+        if (!\is_array($dependedUponOperationNameOrNames)) {
+            $dependedUponOperationNames = [$dependedUponOperationNameOrNames];
         } else {
-            $dependendUponOperationNames = $dependendUponOperationNameOrNames;
+            $dependedUponOperationNames = $dependedUponOperationNameOrNames;
         }
         /**
          * Make sure each of the elements is a String.
          */
-        foreach ($dependendUponOperationNames as $dependendUponOperationName) {
-            if (!\is_string($dependendUponOperationName)) {
-                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E13, [\is_array($dependendUponOperationName) || $dependendUponOperationName instanceof stdClass ? \json_encode((array) $dependendUponOperationName) : $dependendUponOperationName]), $argumentValueAST);
+        foreach ($dependedUponOperationNames as $dependedUponOperationName) {
+            if (!\is_string($dependedUponOperationName)) {
+                throw new InvalidRequestException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E13, [\is_array($dependedUponOperationName) || $dependedUponOperationName instanceof stdClass ? \json_encode((array) $dependedUponOperationName) : $dependedUponOperationName]), $argumentValueAST);
             }
         }
-        return $dependendUponOperationNames;
+        return $dependedUponOperationNames;
     }
     /**
      * @return string[]

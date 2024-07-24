@@ -429,7 +429,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
         $moduleManager->boot();
         /**
          * After the services have been initialized, we can then parse the GraphQL query.
-         * This way, the SchemaConfigutationExecuter can inject its hooks
+         * This way, the SchemaConfigurationExecuter can inject its hooks
          * (eg: Composable Directives enabled?) before the env var is read for
          * first time and, then, initialized.
          */

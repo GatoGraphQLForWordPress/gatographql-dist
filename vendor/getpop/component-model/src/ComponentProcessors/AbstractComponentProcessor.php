@@ -206,9 +206,9 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
     /**
      * @param array<string,mixed> $props
      * @param array<string,mixed> $wildcard_props_to_propagate
-     * @param array<string,mixed> $targetted_props_to_propagate
+     * @param array<string,mixed> $targeted_props_to_propagate
      */
-    public function executeInitPropsComponentTree(callable $eval_self_fn, callable $get_props_for_descendant_components_fn, callable $get_props_for_descendant_datasetcomponents_fn, string $propagate_fn, Component $component, array &$props, array $wildcard_props_to_propagate, array $targetted_props_to_propagate) : void
+    public function executeInitPropsComponentTree(callable $eval_self_fn, callable $get_props_for_descendant_components_fn, callable $get_props_for_descendant_datasetcomponents_fn, string $propagate_fn, Component $component, array &$props, array $wildcard_props_to_propagate, array $targeted_props_to_propagate) : void
     {
         // Convert the component to its string representation to access it in the array
         $componentFullName = $this->getComponentHelpers()->getComponentFullName($component);
@@ -216,22 +216,22 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         // 1st element to merge: the general props for this component passed down the line
         // 2nd element to merge: the props set exactly to the path. They have more priority, that's why they are 2nd
         // It may contain more than one group (\PoP\ComponentModel\Constants\Props::ATTRIBUTES). Eg: maybe also POP_PROPS_JSMETHODS
-        $props[$componentFullName] = \array_merge_recursive($targetted_props_to_propagate[$componentFullName] ?? array(), $props[$componentFullName] ?? array());
+        $props[$componentFullName] = \array_merge_recursive($targeted_props_to_propagate[$componentFullName] ?? array(), $props[$componentFullName] ?? array());
         // The component must be at the head of the $props array passed to all `initModelProps`, so that function `getPathHeadComponent` can work
         $component_props = array($componentFullName => &$props[$componentFullName]);
-        // If ancestor components set general props, or props targetted at this current component, then add them to the current component props
+        // If ancestor components set general props, or props targeted at this current component, then add them to the current component props
         foreach ($wildcard_props_to_propagate as $key => $value) {
             $this->setProp($component, $component_props, $key, $value);
         }
         // Before initiating the current level, set the children attributes on the array, so that doing ->setProp, ->appendProp, etc, keeps working
-        $component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES] = \array_merge($component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES] ?? array(), $targetted_props_to_propagate);
+        $component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES] = \array_merge($component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES] ?? array(), $targeted_props_to_propagate);
         // Initiate the current level.
         $eval_self_fn($component, $component_props);
         // Immediately after initiating the current level, extract all child attributes out from the $props, and place it on the other variable
-        $targetted_props_to_propagate = $component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES];
+        $targeted_props_to_propagate = $component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES];
         unset($component_props[$componentFullName][Props::DESCENDANT_ATTRIBUTES]);
         // But because components can't repeat themselves down the line (or it would generate an infinite loop), then can remove the current component from the targeted props
-        unset($targetted_props_to_propagate[$componentFullName]);
+        unset($targeted_props_to_propagate[$componentFullName]);
         // Allow the $component to add general props for all its descendant components
         $wildcard_props_to_propagate = \array_merge($wildcard_props_to_propagate, $get_props_for_descendant_components_fn($component, $component_props));
         // Propagate
@@ -248,7 +248,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
                 if (!$subcomponent_processor->startDataloadingSection($subcomponent)) {
                     $subcomponent_wildcard_props_to_propagate = \array_merge($subcomponent_wildcard_props_to_propagate, $get_props_for_descendant_datasetcomponents_fn($component, $component_props));
                 }
-                $subcomponent_processor->{$propagate_fn}($subcomponent, $props[$componentFullName][Props::SUBCOMPONENTS], $subcomponent_wildcard_props_to_propagate, $targetted_props_to_propagate);
+                $subcomponent_processor->{$propagate_fn}($subcomponent, $props[$componentFullName][Props::SUBCOMPONENTS], $subcomponent_wildcard_props_to_propagate, $targeted_props_to_propagate);
             }
         }
         $this->getComponentFilterManager()->restoreFromPropagation($component, $props);
@@ -256,11 +256,11 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
     /**
      * @param array<string,mixed> $props
      * @param array<string,mixed> $wildcard_props_to_propagate
-     * @param array<string,mixed> $targetted_props_to_propagate
+     * @param array<string,mixed> $targeted_props_to_propagate
      */
-    public function initModelPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targetted_props_to_propagate) : void
+    public function initModelPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targeted_props_to_propagate) : void
     {
-        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initModelProps']), \Closure::fromCallable([$this, 'getModelPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getModelPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targetted_props_to_propagate);
+        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initModelProps']), \Closure::fromCallable([$this, 'getModelPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getModelPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
     }
     /**
      * @return array<string,mixed>
@@ -346,11 +346,11 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
     /**
      * @param array<string,mixed> $props
      * @param array<string,mixed> $wildcard_props_to_propagate
-     * @param array<string,mixed> $targetted_props_to_propagate
+     * @param array<string,mixed> $targeted_props_to_propagate
      */
-    public function initRequestPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targetted_props_to_propagate) : void
+    public function initRequestPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targeted_props_to_propagate) : void
     {
-        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initRequestProps']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targetted_props_to_propagate);
+        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initRequestProps']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
     }
     /**
      * @return array<string,mixed>
@@ -392,7 +392,7 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
     }
     /**
      * $component_or_componentPath can be either a single component
-     * (the current one, or its descendant), or a targetted path
+     * (the current one, or its descendant), or a targeted path
      * of components
      *
      * @param Component[]|Component $component_or_componentPath

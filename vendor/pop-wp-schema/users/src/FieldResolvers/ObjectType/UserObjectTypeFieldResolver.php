@@ -141,9 +141,9 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             case 'locale':
                 return $this->__('Retrieves the locale of a user', 'pop-users');
             case 'registeredDate':
-                return $this->__('The date the user registerd on the site', 'pop-users');
+                return $this->__('The date the user registered on the site', 'pop-users');
             case 'registeredDateStr':
-                return $this->__('The date the user registerd on the site, in String format', 'pop-users');
+                return $this->__('The date the user registered on the site, in String format', 'pop-users');
             default:
                 return parent::getFieldDescription($objectTypeResolver, $fieldName);
         }

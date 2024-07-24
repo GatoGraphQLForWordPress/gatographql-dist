@@ -18,7 +18,7 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
     /**
      * @var array<string,InterfaceTypeFieldResolverInterface>|null
      */
-    protected $excutableInterfaceTypeFieldResolversByField;
+    protected $executableInterfaceTypeFieldResolversByField;
     /**
      * @var string[]|null
      */
@@ -64,14 +64,14 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
     {
         $implementedInterfaceTypeFieldResolvers = [];
         foreach ($this->getInterfaceTypeFieldResolvers() as $interfaceTypeFieldResolver) {
-            // Add under class as to mimick `array_unique` for object
+            // Add under class as to mimic `array_unique` for object
             foreach ($interfaceTypeFieldResolver->getImplementedInterfaceTypeFieldResolvers() as $implementedInterfaceTypeFieldResolver) {
                 $implementedInterfaceTypeFieldResolvers[\get_class($implementedInterfaceTypeFieldResolver)] = $implementedInterfaceTypeFieldResolver;
             }
         }
         $implementedInterfaceTypeResolvers = [];
         foreach ($implementedInterfaceTypeFieldResolvers as $implementedInterfaceTypeFieldResolver) {
-            // Add under class as to mimick `array_unique` for object
+            // Add under class as to mimic `array_unique` for object
             foreach ($implementedInterfaceTypeFieldResolver->getPartiallyImplementedInterfaceTypeResolvers() as $partiallyImplementedInterfaceTypeResolver) {
                 $implementedInterfaceTypeResolvers[\get_class($partiallyImplementedInterfaceTypeResolver)] = $partiallyImplementedInterfaceTypeResolver;
             }
@@ -88,7 +88,7 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
         if ($this->interfaceTypeFieldResolvers === null) {
             $interfaceTypeFieldResolvers = [];
             foreach ($this->getInterfaceTypeFieldResolversByField() as $fieldName => $interfaceTypeFieldResolversByField) {
-                // Add under class as to mimick `array_unique` for object
+                // Add under class as to mimic `array_unique` for object
                 foreach ($interfaceTypeFieldResolversByField as $interfaceTypeFieldResolver) {
                     $interfaceTypeFieldResolvers[\get_class($interfaceTypeFieldResolver)] = $interfaceTypeFieldResolver;
                 }
@@ -106,10 +106,10 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
      */
     public final function getExecutableInterfaceTypeFieldResolversByField() : array
     {
-        if ($this->excutableInterfaceTypeFieldResolversByField === null) {
-            $this->excutableInterfaceTypeFieldResolversByField = $this->doGetExecutableInterfaceTypeFieldResolversByField();
+        if ($this->executableInterfaceTypeFieldResolversByField === null) {
+            $this->executableInterfaceTypeFieldResolversByField = $this->doGetExecutableInterfaceTypeFieldResolversByField();
         }
-        return $this->excutableInterfaceTypeFieldResolversByField;
+        return $this->executableInterfaceTypeFieldResolversByField;
     }
     /**
      * @return array<string,InterfaceTypeFieldResolverInterface>

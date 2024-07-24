@@ -12,7 +12,7 @@ use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload
 use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
@@ -87,8 +87,9 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         $customPostTagSlugOrIDs = isset($tagsBy->{MutationInputProperties::IDS}) ? $tagsBy->{MutationInputProperties::IDS} : $tagsBy->{MutationInputProperties::SLUGS};
         $this->getCustomPostTagTypeMutationAPI()->setTags($customPostID, $customPostTagSlugOrIDs, \false);
     }
-    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, FeedbackItemResolution $feedbackItemResolution) : ErrorPayloadInterface
+    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
+        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
                 return new TagDoesNotExistErrorPayload($feedbackItemResolution->getMessage());

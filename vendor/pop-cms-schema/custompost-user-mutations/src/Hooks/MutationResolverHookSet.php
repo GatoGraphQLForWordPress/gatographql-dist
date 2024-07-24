@@ -12,6 +12,7 @@ use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
@@ -109,8 +110,9 @@ class MutationResolverHookSet extends AbstractHookSet
         $customPostData['author-id'] = $authorID;
         return $customPostData;
     }
-    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, FeedbackItemResolution $feedbackItemResolution) : ErrorPayloadInterface
+    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
+        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
                 return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());

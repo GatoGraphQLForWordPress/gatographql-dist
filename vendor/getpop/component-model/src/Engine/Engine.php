@@ -360,7 +360,7 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         $engineState = App::getEngineState();
         /**
-         * The same page will have different hashs only because
+         * The same page will have different hashes only because
          * of those random elements added each time, such as the unique_id
          * and the current_time.
          *

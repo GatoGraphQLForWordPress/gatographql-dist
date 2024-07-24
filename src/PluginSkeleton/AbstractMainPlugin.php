@@ -52,7 +52,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
      * set this var to `true` to stop loading it and show an error message.
      * @var \Exception|null
      */
-    private $inititalizationException;
+    private $initializationException;
 
     /**
      * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInitializationConfigurationInterface
@@ -396,7 +396,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 if (
                     $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
                     || !is_admin()
-                    || $this->inititalizationException !== null
+                    || $this->initializationException !== null
                 ) {
                     return;
                 }
@@ -449,7 +449,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                     function (string $pluginAppGraphQLServerName) use ($isMainPluginJustActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justActivatedExtensions, $justUpdatedExtensions) : void {
                         if (
                             $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
-                            || $this->inititalizationException !== null
+                            || $this->initializationException !== null
                         ) {
                             return;
                         }
@@ -577,7 +577,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                  */
                 if (
                     $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
-                    && $this->inititalizationException !== null
+                    && $this->initializationException !== null
                 ) {
                     return;
                 }
@@ -613,7 +613,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->initialize();
@@ -623,7 +623,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 do_action(PluginLifecycleHooks::INITIALIZE_EXTENSION);
@@ -633,7 +633,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->initializeModules();
@@ -646,7 +646,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
              * @var array<string,mixed> $pluginAppGraphQLServerContext
              */
             function (string $pluginAppGraphQLServerName, array $pluginAppGraphQLServerContext): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->bootSystem($pluginAppGraphQLServerName, $pluginAppGraphQLServerContext);
@@ -657,7 +657,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->configure();
@@ -667,7 +667,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 do_action(PluginLifecycleHooks::CONFIGURE_EXTENSION);
@@ -677,7 +677,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (string $pluginAppGraphQLServerName): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->bootApplication($pluginAppGraphQLServerName);
@@ -687,7 +687,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 $this->boot();
@@ -697,7 +697,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             PluginAppHooks::INITIALIZE_APP,
             function (): void {
-                if ($this->inititalizationException !== null) {
+                if ($this->initializationException !== null) {
                     return;
                 }
                 do_action(PluginLifecycleHooks::BOOT_EXTENSION);
@@ -752,7 +752,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             // Custom logic
             $this->doBootSystem();
         } catch (Exception $e) {
-            $this->inititalizationException = $e;
+            $this->initializationException = $e;
         }
     }
 
@@ -806,7 +806,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             // Custom logic
             $this->doBootApplication();
         } catch (Exception $e) {
-            $this->inititalizationException = $e;
+            $this->initializationException = $e;
         }
     }
 
@@ -830,10 +830,10 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     protected function handleInitializationException(string $pluginAppGraphQLServerName): void
     {
         if (
-            $this->inititalizationException !== null
+            $this->initializationException !== null
             && RootEnvironment::isApplicationEnvironmentDev()
         ) {
-            throw $this->inititalizationException;
+            throw $this->initializationException;
         }
 
         /**
@@ -846,12 +846,12 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         add_action(
             'admin_notices',
             function (): void {
-                if ($this->inititalizationException === null) {
+                if ($this->initializationException === null) {
                     return;
                 }
 
                 /** @var Exception */
-                $inititalizationException = $this->inititalizationException;
+                $initializationException = $this->initializationException;
 
                 $errorMessage = sprintf(
                     '%s%s',
@@ -859,8 +859,8 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                     sprintf(
                         __('<p>Something went wrong initializing plugin <strong>%s</strong> (so it has not been loaded):</p><code>%s</code><p>Stack trace:</p><pre>%s</pre>', 'gatographql'),
                         $this->pluginName,
-                        $inititalizationException->getMessage(),
-                        $inititalizationException->getTraceAsString()
+                        $initializationException->getMessage(),
+                        $initializationException->getTraceAsString()
                     )
                 );
                 $adminNotice_safe = sprintf(

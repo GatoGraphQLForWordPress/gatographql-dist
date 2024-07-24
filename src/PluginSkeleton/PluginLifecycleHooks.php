@@ -7,7 +7,7 @@ namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
 class PluginLifecycleHooks
 {
     /**
-     * Hook to initalize extensions
+     * Hook to initialize extensions
      */
     public const INITIALIZE_EXTENSION = __CLASS__ . ':initializeExtension';
     /**

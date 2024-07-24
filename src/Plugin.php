@@ -260,6 +260,7 @@ class Plugin extends AbstractMainPlugin
             '2.5' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot5'])],
             '2.6' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion2Dot6'])],
             '3.0' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion3Dot0'])],
+            '4.0' => [\Closure::fromCallable([$this, 'installPluginSetupDataForVersion4Dot0'])],
         ];
     }
 
@@ -1511,7 +1512,7 @@ class Plugin extends AbstractMainPlugin
         $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
 
         $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
-        $bulkMutationsSchemaConfigurationPersistedQueryBlocks = $this->getBulkMutationsSchemaConfigurationPersistedQueryBlocks();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
 
         /**
          * Create the Persisted Queries
@@ -1529,7 +1530,7 @@ class Plugin extends AbstractMainPlugin
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/duplicate-posts', TutorialLessons::DUPLICATING_MULTIPLE_BLOG_POSTS_AT_ONCE),
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/transform/duplicate-posts'),
                         ],
-                    ]], $bulkMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
                 ]
             ));
         }
@@ -1547,7 +1548,38 @@ class Plugin extends AbstractMainPlugin
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/sync/import-posts-from-csv', VirtualTutorialLessons::IMPORTING_POSTS_FROM_A_CSV),
                             AbstractGraphiQLBlock::ATTRIBUTE_NAME_VARIABLES => $this->readSetupGraphQLVariablesJSONAndEncodeForOutput('admin/sync/import-posts-from-csv'),
                         ],
-                    ]], $bulkMutationsSchemaConfigurationPersistedQueryBlocks))),
+                    ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
+                ]
+            ));
+        }
+    }
+
+    protected function installPluginSetupDataForVersion4Dot0(): void
+    {
+        $instanceManager = InstanceManagerFacade::getInstance();
+
+        /** @var PersistedQueryEndpointGraphiQLBlock */
+        $persistedQueryEndpointGraphiQLBlock = $instanceManager->getInstance(PersistedQueryEndpointGraphiQLBlock::class);
+        $adminPersistedQueryOptions = $this->getAdminPersistedQueryOptions();
+        $defaultSchemaConfigurationPersistedQueryBlocks = $this->getDefaultSchemaConfigurationPersistedQueryBlocks();
+
+        /**
+         * Create the Persisted Queries
+         */
+        $slug = PluginSetupDataEntrySlugs::PERSISTED_QUERY_CREATE_MISSING_TRANSLATION_POSTS_FOR_POLYLANG;
+        if (PluginSetupDataHelpers::getPersistedQueryEndpointID($slug, 'any') === null) {
+            \wp_insert_post(array_merge(
+                $adminPersistedQueryOptions,
+                [
+                    'post_name' => $slug,
+                    'post_title' => \__('[PRO] Create missing translation posts for Polylang', 'gatographql'),
+                    'post_excerpt' => \__('Given a post, duplicate it into all the other languages defined in Polylang for which there is no translation post yet', 'gatographql'),
+                    'post_content' => serialize_blocks($this->addInnerContentToBlockAtts(array_merge([[
+                        'blockName' => $persistedQueryEndpointGraphiQLBlock->getBlockFullName(),
+                        'attrs' => [
+                            AbstractGraphiQLBlock::ATTRIBUTE_NAME_QUERY => $this->readSetupGraphQLPersistedQueryAndEncodeForOutput('admin/transform/create-missing-translation-posts-for-polylang', VirtualTutorialLessons::CREATING_MISSING_TRANSLATION_POSTS_FOR_POLYLANG),
+                        ],
+                    ]], $defaultSchemaConfigurationPersistedQueryBlocks))),
                 ]
             ));
         }

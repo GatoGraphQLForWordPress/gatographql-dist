@@ -36,7 +36,7 @@ class GeneralUtils
         }, []);
     }
     /**
-     * Add paramters "key" => "value" to the URL
+     * Add parameters "key" => "value" to the URL
      *
      * @param array<string,mixed> $keyValues
      * @see https://stackoverflow.com/a/5809881
@@ -57,7 +57,7 @@ class GeneralUtils
         $params = \array_merge($params, $keyValues);
         // Note that this will url_encode all values
         $query = \http_build_query($params);
-        // Check if schema/host are present, becase the URL can also be a relative path: /some-path/
+        // Check if schema/host are present, because the URL can also be a relative path: /some-path/
         $scheme = isset($url_parts['scheme']) ? $url_parts['scheme'] . '://' : '';
         $host = $url_parts['host'] ?? '';
         $port = isset($url_parts['port']) && $url_parts['port'] ? $url_parts['port'] == "80" ? "" : ":" . $url_parts['port'] : '';
@@ -90,7 +90,7 @@ class GeneralUtils
         }, \ARRAY_FILTER_USE_KEY);
         // Note that this will url_encode all values
         $query = \http_build_query($params);
-        // Check if schema/host are present, becase the URL can also be a relative path: /some-path/
+        // Check if schema/host are present, because the URL can also be a relative path: /some-path/
         $scheme = isset($url_parts['scheme']) ? $url_parts['scheme'] . '://' : '';
         $host = $url_parts['host'] ?? '';
         $port = isset($url_parts['port']) && $url_parts['port'] ? $url_parts['port'] == "80" ? "" : ":" . $url_parts['port'] : '';
@@ -164,7 +164,7 @@ class GeneralUtils
         /** @var array<string,mixed> */
         return $queryParams;
     }
-    public static function getURLWithouQueryParams(string $url) : string
+    public static function getURLWithoutQueryParams(string $url) : string
     {
         $paramsPos = \strpos($url, '?');
         if ($paramsPos === \false) {

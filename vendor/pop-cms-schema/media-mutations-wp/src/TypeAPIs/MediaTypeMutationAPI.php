@@ -42,7 +42,7 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
          * Remove the URL params to expose the extension, or
          * `wp_check_filetype` won't figure out the mime type
          */
-        $filename = $filename ?? basename(GeneralUtils::getURLWithouQueryParams($url));
+        $filename = $filename ?? basename(GeneralUtils::getURLWithoutQueryParams($url));
         /**
          * The mime type is retrieved from the filename extension
          * always, because that's what `wp_handle_sideload` does.

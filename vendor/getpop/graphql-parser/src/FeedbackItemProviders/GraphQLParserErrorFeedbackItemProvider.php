@@ -33,7 +33,7 @@ class GraphQLParserErrorFeedbackItemProvider extends AbstractFeedbackItemProvide
             case self::E_2:
                 return $this->__('Can\'t parse argument', 'graphql-parser');
             case self::E_3:
-                return $this->__('Invalid string unicode escape sequece \'%s\'', 'graphql-server');
+                return $this->__('Invalid string unicode escape sequence \'%s\'', 'graphql-server');
             case self::E_4:
                 return $this->__('Unexpected string escaped character \'%s\'', 'graphql-server');
             case self::E_5:

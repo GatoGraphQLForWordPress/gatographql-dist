@@ -29,7 +29,7 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
     /**
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
      */
-    private $seachFilterInput;
+    private $searchFilterInput;
     public final function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver) : void
     {
         $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
@@ -69,18 +69,18 @@ abstract class AbstractMediaItemsFilterInputObjectTypeResolver extends AbstractO
         }
         return $this->mimeTypesFilterInput;
     }
-    public final function setSearchFilterInput(SearchFilterInput $seachFilterInput) : void
+    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
     {
-        $this->seachFilterInput = $seachFilterInput;
+        $this->searchFilterInput = $searchFilterInput;
     }
     protected final function getSearchFilterInput() : SearchFilterInput
     {
-        if ($this->seachFilterInput === null) {
+        if ($this->searchFilterInput === null) {
             /** @var SearchFilterInput */
-            $seachFilterInput = $this->instanceManager->getInstance(SearchFilterInput::class);
-            $this->seachFilterInput = $seachFilterInput;
+            $searchFilterInput = $this->instanceManager->getInstance(SearchFilterInput::class);
+            $this->searchFilterInput = $searchFilterInput;
         }
-        return $this->seachFilterInput;
+        return $this->searchFilterInput;
     }
     /**
      * @return array<string,InputTypeResolverInterface>

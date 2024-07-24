@@ -32,7 +32,7 @@ trait PayloadableCustomPostMutationResolverTrait
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
                 return new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $feedbackItemResolution);
+                return App::applyFilters(HookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
         }
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string

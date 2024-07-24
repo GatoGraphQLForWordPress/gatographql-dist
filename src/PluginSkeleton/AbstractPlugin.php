@@ -321,7 +321,7 @@ abstract class AbstractPlugin implements PluginInterface
     {
         $customPostTypeRegistry = CustomPostTypeRegistryFacade::getInstance();
         // Filter the ones that belong to this plugin
-        // Use $serviceDefinitionID for if the class is overriden
+        // Use $serviceDefinitionID for if the class is overridden
         return array_values(array_filter(
             $customPostTypeRegistry->getCustomPostTypes(),
             function (string $serviceDefinitionID) {

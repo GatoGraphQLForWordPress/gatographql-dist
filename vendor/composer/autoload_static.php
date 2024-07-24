@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
+class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -951,6 +951,7 @@ class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
         'GatoGraphQL\\GatoGraphQL\\Facades\\WPDataModel\\WPDataModelProviderFacade' => __DIR__ . '/../..' . '/src/Facades/WPDataModel/WPDataModelProviderFacade.php',
         'GatoGraphQL\\GatoGraphQL\\GatoGraphQL' => __DIR__ . '/../..' . '/src/GatoGraphQL.php',
         'GatoGraphQL\\GatoGraphQL\\Hooks\\AbstractModuleEnabledHookSet' => __DIR__ . '/../..' . '/src/Hooks/AbstractModuleEnabledHookSet.php',
+        'GatoGraphQL\\GatoGraphQL\\Hooks\\ApplicationPasswordAuthorizationHookSet' => __DIR__ . '/../..' . '/src/Hooks/ApplicationPasswordAuthorizationHookSet.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\Logger' => __DIR__ . '/../..' . '/src/Log/Logger.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\LoggerInterface' => __DIR__ . '/../..' . '/src/Log/LoggerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseProperties' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseProperties.php',
@@ -1094,12 +1095,14 @@ class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
         'GatoGraphQL\\GatoGraphQL\\Registries\\TaxonomyRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/TaxonomyRegistryInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\UserAuthorizationSchemeRegistry' => __DIR__ . '/../..' . '/src/Registries/UserAuthorizationSchemeRegistry.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\UserAuthorizationSchemeRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/UserAuthorizationSchemeRegistryInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Request\\PrematureRequestService' => __DIR__ . '/../..' . '/src/Request/PrematureRequestService.php',
+        'GatoGraphQL\\GatoGraphQL\\Request\\PrematureRequestServiceInterface' => __DIR__ . '/../..' . '/src/Request/PrematureRequestServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorization' => __DIR__ . '/../..' . '/src/Security/UserAuthorization.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationInterface' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AbstractByCapabilityUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AbstractByCapabilityUserAuthorizationScheme.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AbstractByRoleUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AbstractByRoleUserAuthorizationScheme.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AbstractUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AbstractUserAuthorizationScheme.php',
-        'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AdmininstratorRoleUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AdmininstratorRoleUserAuthorizationScheme.php',
+        'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\AdministratorRoleUserAuthorizationScheme' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/AdministratorRoleUserAuthorizationScheme.php',
         'GatoGraphQL\\GatoGraphQL\\Security\\UserAuthorizationSchemes\\UserAuthorizationSchemeInterface' => __DIR__ . '/../..' . '/src/Security/UserAuthorizationSchemes/UserAuthorizationSchemeInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\Aggregators\\BundleExtensionAggregator' => __DIR__ . '/../..' . '/src/Services/Aggregators/BundleExtensionAggregator.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\Aggregators\\ModuleAggregator' => __DIR__ . '/../..' . '/src/Services/Aggregators/ModuleAggregator.php',
@@ -2006,14 +2009,17 @@ class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractCustomPostContentAsOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractCustomPostContentAsOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\AbstractMyCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/AbstractMyCustomPostsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CreateCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CreateCustomPostInputObjectTypeResolverInterface.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CreateGenericCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CreateGenericCustomPostInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CustomPostContentAsOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CustomPostContentAsOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\CustomPostUpdateInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/CustomPostUpdateInputObjectTypeResolver.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\GenericCustomPostUpdateInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/GenericCustomPostUpdateInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootCreateCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootCreateCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootCreateGenericCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootCreateGenericCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootMyCustomPostsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootMyCustomPostsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootUpdateCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootUpdateCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\RootUpdateGenericCustomPostInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/RootUpdateGenericCustomPostInputObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\UpdateCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/UpdateCustomPostInputObjectTypeResolverInterface.php',
+        'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\InputObjectType\\UpdateGenericCustomPostInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/InputObjectType/UpdateGenericCustomPostInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\AbstractGenericCustomPostMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/AbstractGenericCustomPostMutationPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\CustomPostDoesNotExistErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/CustomPostDoesNotExistErrorPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\CustomPostMutations\\TypeResolvers\\ObjectType\\GenericCustomPostUpdateMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src/TypeResolvers/ObjectType/GenericCustomPostUpdateMutationPayloadObjectTypeResolver.php',
@@ -3633,7 +3639,6 @@ class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
         'PoP\\EngineWP\\Facades\\HelperServices\\TemplateHelpersFacade' => __DIR__ . '/..' . '/getpop/engine-wp/src/Facades/HelperServices/TemplateHelpersFacade.php',
         'PoP\\EngineWP\\HelperServices\\TemplateHelpers' => __DIR__ . '/..' . '/getpop/engine-wp/src/HelperServices/TemplateHelpers.php',
         'PoP\\EngineWP\\HelperServices\\TemplateHelpersInterface' => __DIR__ . '/..' . '/getpop/engine-wp/src/HelperServices/TemplateHelpersInterface.php',
-        'PoP\\EngineWP\\Hooks\\ApplicationPasswordAuthorizationHookSet' => __DIR__ . '/..' . '/getpop/engine-wp/src/Hooks/ApplicationPasswordAuthorizationHookSet.php',
         'PoP\\EngineWP\\Hooks\\TemplateHookSet' => __DIR__ . '/..' . '/getpop/engine-wp/src/Hooks/TemplateHookSet.php',
         'PoP\\EngineWP\\Module' => __DIR__ . '/..' . '/getpop/engine-wp/src/Module.php',
         'PoP\\EngineWP\\ModuleInfo' => __DIR__ . '/..' . '/getpop/engine-wp/src/ModuleInfo.php',
@@ -4695,9 +4700,9 @@ class ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0f8ee3fcad77a8a179f934e161b548d8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$classMap;
 
         }, null, ClassLoader::class);
     }

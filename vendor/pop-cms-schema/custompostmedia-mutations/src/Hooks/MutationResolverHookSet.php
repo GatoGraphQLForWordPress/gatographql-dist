@@ -12,7 +12,7 @@ use PoPCMSSchema\CustomPostMutations\Constants\HookNames;
 use PoPCMSSchema\Media\Constants\InputProperties;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
@@ -138,8 +138,9 @@ class MutationResolverHookSet extends AbstractHookSet
         /** @var string|int $featuredImageID */
         $this->getCustomPostMediaTypeMutationAPI()->setFeaturedImage($customPostID, $featuredImageID);
     }
-    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, FeedbackItemResolution $feedbackItemResolution) : ErrorPayloadInterface
+    public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
+        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
                 return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());

@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 3.0.0
+Stable tag: 4.0.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -285,6 +285,23 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 4.0.0 =
+* Breaking change: Updated internal PHP hook structure for error payloads (#2739)
+* Use bulk mutations in predefined persisted queries (#2728)
+* Added documentation for new PRO module **Polylang Mutations** (#2733)
+* Added documentation for new PRO field `_arrayIntersect` (#2735)
+* Added predefined persisted query:
+  * [PRO] Create missing translation posts for Polylang (#2740)
+* Fixed: Don't replace chars in translation persisted queries (#2731)
+* Fixed: "Call to protected method" exception in PHP 8.2 (#2741)
+* [PRO] Breaking change: Rename field `_intSubstract` to `_intSubtract`
+* [PRO] Breaking change: Rename directive `@intSubstract` to `@intSubtract`
+* [PRO] Breaking change: Renamed field `polylangEnabledLanguages` to `polylangLanguages`
+* [PRO] Breaking change: Fields `polylangLanguage`, `polylangDefaultLanguage` and `polylangLanguages` return type `PolylangLanguage` instead of `String`
+* [PRO] Breaking change: Renamed inputs `language` to `languageBy` and `polylangLanguage` to `polylangLanguageBy`
+* [PRO] Added **Polylang Mutations**
+* [PRO] Added field `_arrayIntersect`
 
 = 3.0.0 =
 * Breaking change: Require at least WordPress v6.0 (#2719)

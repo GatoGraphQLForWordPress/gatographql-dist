@@ -9,7 +9,7 @@ use PoPCMSSchema\CustomPostMutations\ModuleConfiguration as CustomPostMutationsM
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver;
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver;
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\UpdateGenericCustomPostMutationResolver;
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\GenericCustomPostUpdateInputObjectTypeResolver;
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\GenericCustomPostUpdateMutationPayloadObjectTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
@@ -36,9 +36,9 @@ class GenericCustomPostObjectTypeFieldResolver extends AbstractCustomPostObjectT
      */
     private $payloadableUpdateGenericCustomPostMutationResolver;
     /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver|null
+     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\GenericCustomPostUpdateInputObjectTypeResolver|null
      */
-    private $customPostUpdateInputObjectTypeResolver;
+    private $genericCustomPostUpdateInputObjectTypeResolver;
     public final function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver) : void
     {
         $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
@@ -91,18 +91,18 @@ class GenericCustomPostObjectTypeFieldResolver extends AbstractCustomPostObjectT
         }
         return $this->payloadableUpdateGenericCustomPostMutationResolver;
     }
-    public final function setGenericCustomPostUpdateInputObjectTypeResolver(CustomPostUpdateInputObjectTypeResolver $customPostUpdateInputObjectTypeResolver) : void
+    public final function setGenericCustomPostUpdateInputObjectTypeResolver(GenericCustomPostUpdateInputObjectTypeResolver $genericCustomPostUpdateInputObjectTypeResolver) : void
     {
-        $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
+        $this->genericCustomPostUpdateInputObjectTypeResolver = $genericCustomPostUpdateInputObjectTypeResolver;
     }
-    protected final function getGenericCustomPostUpdateInputObjectTypeResolver() : CustomPostUpdateInputObjectTypeResolver
+    protected final function getGenericCustomPostUpdateInputObjectTypeResolver() : GenericCustomPostUpdateInputObjectTypeResolver
     {
-        if ($this->customPostUpdateInputObjectTypeResolver === null) {
-            /** @var CustomPostUpdateInputObjectTypeResolver */
-            $customPostUpdateInputObjectTypeResolver = $this->instanceManager->getInstance(CustomPostUpdateInputObjectTypeResolver::class);
-            $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
+        if ($this->genericCustomPostUpdateInputObjectTypeResolver === null) {
+            /** @var GenericCustomPostUpdateInputObjectTypeResolver */
+            $genericCustomPostUpdateInputObjectTypeResolver = $this->instanceManager->getInstance(GenericCustomPostUpdateInputObjectTypeResolver::class);
+            $this->genericCustomPostUpdateInputObjectTypeResolver = $genericCustomPostUpdateInputObjectTypeResolver;
         }
-        return $this->customPostUpdateInputObjectTypeResolver;
+        return $this->genericCustomPostUpdateInputObjectTypeResolver;
     }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
