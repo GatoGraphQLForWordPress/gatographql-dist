@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
+class ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1660,6 +1660,7 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\AbstractCategoryByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/AbstractCategoryByOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver.php',
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver.php',
+        'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\CategoriesFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/CategoriesFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\CategoryByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/CategoryByOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\CategoryPaginationInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/CategoryPaginationInputObjectTypeResolver.php',
         'PoPCMSSchema\\Categories\\TypeResolvers\\InputObjectType\\CustomPostCategoriesFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/categories/src/TypeResolvers/InputObjectType/CustomPostCategoriesFilterInputObjectTypeResolver.php',
@@ -2227,6 +2228,7 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\AbstractMediaItemsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/AbstractMediaItemsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\MediaItemByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/MediaItemByOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\MediaItemSortInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/MediaItemSortInputObjectTypeResolver.php',
+        'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\MediaItemsFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/MediaItemsFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\RootMediaItemPaginationInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/RootMediaItemPaginationInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\RootMediaItemsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/RootMediaItemsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\ObjectType\\MediaObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/ObjectType/MediaObjectTypeResolver.php',
@@ -2390,8 +2392,10 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPCMSSchema\\PostCategories\\SchemaHooks\\AddCategoryFilterInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/SchemaHooks/AddCategoryFilterInputObjectTypeHookSet.php',
         'PoPCMSSchema\\PostCategories\\SchemaHooks\\FilterInputHookSet' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/SchemaHooks/FilterInputHookSet.php',
         'PoPCMSSchema\\PostCategories\\TypeAPIs\\PostCategoryTypeAPIInterface' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeAPIs/PostCategoryTypeAPIInterface.php',
+        'PoPCMSSchema\\PostCategories\\TypeResolvers\\InputObjectType\\PostCategoriesFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeResolvers/InputObjectType/PostCategoriesFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\PostCategories\\TypeResolvers\\InputObjectType\\PostCategoryByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeResolvers/InputObjectType/PostCategoryByOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\PostCategories\\TypeResolvers\\InputObjectType\\PostsFilterCustomPostsByCategoriesInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeResolvers/InputObjectType/PostsFilterCustomPostsByCategoriesInputObjectTypeResolver.php',
+        'PoPCMSSchema\\PostCategories\\TypeResolvers\\InputObjectType\\RootPostCategoriesFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeResolvers/InputObjectType/RootPostCategoriesFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\PostCategories\\TypeResolvers\\ObjectType\\PostCategoryObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src/TypeResolvers/ObjectType/PostCategoryObjectTypeResolver.php',
         'PoPCMSSchema\\PostCategoryMutationsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/post-category-mutations-wp/src/Module.php',
         'PoPCMSSchema\\PostCategoryMutationsWP\\TypeAPIs\\PostCategoryTypeMutationAPI' => __DIR__ . '/..' . '/pop-cms-schema/post-category-mutations-wp/src/TypeAPIs/PostCategoryTypeMutationAPI.php',
@@ -2531,7 +2535,9 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPCMSSchema\\PostTags\\SchemaHooks\\FilterInputHookSet' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/SchemaHooks/FilterInputHookSet.php',
         'PoPCMSSchema\\PostTags\\TypeAPIs\\PostTagTypeAPIInterface' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeAPIs/PostTagTypeAPIInterface.php',
         'PoPCMSSchema\\PostTags\\TypeResolvers\\InputObjectType\\PostTagByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeResolvers/InputObjectType/PostTagByOneofInputObjectTypeResolver.php',
+        'PoPCMSSchema\\PostTags\\TypeResolvers\\InputObjectType\\PostTagsFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeResolvers/InputObjectType/PostTagsFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\PostTags\\TypeResolvers\\InputObjectType\\PostsFilterCustomPostsByTagsInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeResolvers/InputObjectType/PostsFilterCustomPostsByTagsInputObjectTypeResolver.php',
+        'PoPCMSSchema\\PostTags\\TypeResolvers\\InputObjectType\\RootPostTagsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeResolvers/InputObjectType/RootPostTagsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\PostTags\\TypeResolvers\\ObjectType\\PostTagObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src/TypeResolvers/ObjectType/PostTagObjectTypeResolver.php',
         'PoPCMSSchema\\PostsWP\\Hooks\\RoutingHookSet' => __DIR__ . '/..' . '/pop-cms-schema/posts-wp/src/Hooks/RoutingHookSet.php',
         'PoPCMSSchema\\PostsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/posts-wp/src/Module.php',
@@ -2703,6 +2709,7 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPCMSSchema\\Tags\\TypeResolvers\\InputObjectType\\RootTagsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/InputObjectType/RootTagsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\Tags\\TypeResolvers\\InputObjectType\\TagByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/InputObjectType/TagByOneofInputObjectTypeResolver.php',
         'PoPCMSSchema\\Tags\\TypeResolvers\\InputObjectType\\TagPaginationInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/InputObjectType/TagPaginationInputObjectTypeResolver.php',
+        'PoPCMSSchema\\Tags\\TypeResolvers\\InputObjectType\\TagsFilterInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/InputObjectType/TagsFilterInputObjectTypeResolverInterface.php',
         'PoPCMSSchema\\Tags\\TypeResolvers\\InterfaceType\\TagInterfaceTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/InterfaceType/TagInterfaceTypeResolver.php',
         'PoPCMSSchema\\Tags\\TypeResolvers\\ObjectType\\AbstractTagObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/ObjectType/AbstractTagObjectTypeResolver.php',
         'PoPCMSSchema\\Tags\\TypeResolvers\\ObjectType\\GenericTagObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/tags/src/TypeResolvers/ObjectType/GenericTagObjectTypeResolver.php',
@@ -2964,6 +2971,8 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoPSchema\\ExtendedSchemaCommons\\FeedbackItemProviders\\InputValueCoercionErrorFeedbackItemProvider' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/FeedbackItemProviders/InputValueCoercionErrorFeedbackItemProvider.php',
         'PoPSchema\\ExtendedSchemaCommons\\HelperServices\\ArrayOrJSONObjectTraversionHelperService' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/HelperServices/ArrayOrJSONObjectTraversionHelperService.php',
         'PoPSchema\\ExtendedSchemaCommons\\HelperServices\\ArrayOrJSONObjectTraversionHelperServiceInterface' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/HelperServices/ArrayOrJSONObjectTraversionHelperServiceInterface.php',
+        'PoPSchema\\ExtendedSchemaCommons\\HelperServices\\StringFunctionHelperService' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/HelperServices/StringFunctionHelperService.php',
+        'PoPSchema\\ExtendedSchemaCommons\\HelperServices\\StringFunctionHelperServiceInterface' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/HelperServices/StringFunctionHelperServiceInterface.php',
         'PoPSchema\\ExtendedSchemaCommons\\Module' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/Module.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\EnumType\\ConditionEnumTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/EnumType/ConditionEnumTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\InputObjectType\\JSONObjectPropertyByInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/InputObjectType/JSONObjectPropertyByInputObjectTypeResolver.php',
@@ -3781,10 +3790,12 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
         'PoP\\GraphQLParser\\Spec\\Parser\\Token' => __DIR__ . '/..' . '/getpop/graphql-parser/src/Spec/Parser/Token.php',
         'PoP\\GraphQLParser\\Spec\\Parser\\Tokenizer' => __DIR__ . '/..' . '/getpop/graphql-parser/src/Spec/Parser/Tokenizer.php',
         'PoP\\GraphQLParser\\State\\AppStateProvider' => __DIR__ . '/..' . '/getpop/graphql-parser/src/State/AppStateProvider.php',
+        'PoP\\GuzzleHTTP\\Environment' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Environment.php',
         'PoP\\GuzzleHTTP\\Exception\\AbstractGuzzleHTTPException' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Exception/AbstractGuzzleHTTPException.php',
         'PoP\\GuzzleHTTP\\Exception\\GuzzleHTTPInvalidResponseException' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Exception/GuzzleHTTPInvalidResponseException.php',
         'PoP\\GuzzleHTTP\\Exception\\GuzzleHTTPRequestException' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Exception/GuzzleHTTPRequestException.php',
         'PoP\\GuzzleHTTP\\Module' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Module.php',
+        'PoP\\GuzzleHTTP\\ModuleConfiguration' => __DIR__ . '/..' . '/getpop/guzzle-http/src/ModuleConfiguration.php',
         'PoP\\GuzzleHTTP\\ObjectModels\\RequestInput' => __DIR__ . '/..' . '/getpop/guzzle-http/src/ObjectModels/RequestInput.php',
         'PoP\\GuzzleHTTP\\Services\\GuzzleService' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Services/GuzzleService.php',
         'PoP\\GuzzleHTTP\\Services\\GuzzleServiceInterface' => __DIR__ . '/..' . '/getpop/guzzle-http/src/Services/GuzzleServiceInterface.php',
@@ -4700,9 +4711,9 @@ class ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb761e8d6b6439c3e1e1d76ddda764b45::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$classMap;
 
         }, null, ClassLoader::class);
     }

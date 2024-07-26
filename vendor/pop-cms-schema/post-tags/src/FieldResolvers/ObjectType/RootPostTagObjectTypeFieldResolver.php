@@ -8,7 +8,7 @@ use PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\PostTagByOneofInputObjec
 use PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
-use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\RootTagsFilterInputObjectTypeResolver;
+use PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\RootPostTagsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\TagPaginationInputObjectTypeResolver;
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
@@ -56,9 +56,9 @@ class RootPostTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
      */
     private $taxonomySortInputObjectTypeResolver;
     /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\RootTagsFilterInputObjectTypeResolver|null
+     * @var \PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\RootPostTagsFilterInputObjectTypeResolver|null
      */
-    private $rootTagsFilterInputObjectTypeResolver;
+    private $rootPostTagsFilterInputObjectTypeResolver;
     public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
@@ -150,18 +150,18 @@ class RootPostTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
         }
         return $this->taxonomySortInputObjectTypeResolver;
     }
-    public final function setRootTagsFilterInputObjectTypeResolver(RootTagsFilterInputObjectTypeResolver $rootTagsFilterInputObjectTypeResolver) : void
+    public final function setRootPostTagsFilterInputObjectTypeResolver(RootPostTagsFilterInputObjectTypeResolver $rootPostTagsFilterInputObjectTypeResolver) : void
     {
-        $this->rootTagsFilterInputObjectTypeResolver = $rootTagsFilterInputObjectTypeResolver;
+        $this->rootPostTagsFilterInputObjectTypeResolver = $rootPostTagsFilterInputObjectTypeResolver;
     }
-    protected final function getRootTagsFilterInputObjectTypeResolver() : RootTagsFilterInputObjectTypeResolver
+    protected final function getRootPostTagsFilterInputObjectTypeResolver() : RootPostTagsFilterInputObjectTypeResolver
     {
-        if ($this->rootTagsFilterInputObjectTypeResolver === null) {
-            /** @var RootTagsFilterInputObjectTypeResolver */
-            $rootTagsFilterInputObjectTypeResolver = $this->instanceManager->getInstance(RootTagsFilterInputObjectTypeResolver::class);
-            $this->rootTagsFilterInputObjectTypeResolver = $rootTagsFilterInputObjectTypeResolver;
+        if ($this->rootPostTagsFilterInputObjectTypeResolver === null) {
+            /** @var RootPostTagsFilterInputObjectTypeResolver */
+            $rootPostTagsFilterInputObjectTypeResolver = $this->instanceManager->getInstance(RootPostTagsFilterInputObjectTypeResolver::class);
+            $this->rootPostTagsFilterInputObjectTypeResolver = $rootPostTagsFilterInputObjectTypeResolver;
         }
-        return $this->rootTagsFilterInputObjectTypeResolver;
+        return $this->rootPostTagsFilterInputObjectTypeResolver;
     }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
@@ -229,9 +229,9 @@ class RootPostTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
                 return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getPostTagByOneofInputObjectTypeResolver()]);
             case 'postTags':
             case 'postTagNames':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver(), 'pagination' => $this->getTagPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
+                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootPostTagsFilterInputObjectTypeResolver(), 'pagination' => $this->getTagPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
             case 'postTagCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver()]);
+                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootPostTagsFilterInputObjectTypeResolver()]);
             default:
                 return $fieldArgNameTypeResolvers;
         }

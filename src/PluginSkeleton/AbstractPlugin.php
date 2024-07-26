@@ -527,8 +527,10 @@ abstract class AbstractPlugin implements PluginInterface
     protected function addInnerContentToBlockAtts(array $blockDataItems): array
     {
         return array_map(
-            function (array $blockDataItem) {
-                return array_merge($blockDataItem, ['innerContent' => []]);
+            function (array $blockDataItem): array {
+                // Must add an empty array for each of the innerBlocks
+                $innerContentItems = array_pad([], count($blockDataItem['innerBlocks'] ?? []), []);
+                return array_merge($blockDataItem, ['innerContent' => $innerContentItems]);
             },
             $blockDataItems
         );

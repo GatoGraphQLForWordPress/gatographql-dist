@@ -5,7 +5,7 @@ namespace PoPCMSSchema\Categories\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\AbstractTaxonomiesFilterInputObjectTypeResolver;
 /** @internal */
-abstract class AbstractCategoriesFilterInputObjectTypeResolver extends AbstractTaxonomiesFilterInputObjectTypeResolver
+abstract class AbstractCategoriesFilterInputObjectTypeResolver extends AbstractTaxonomiesFilterInputObjectTypeResolver implements \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoriesFilterInputObjectTypeResolverInterface
 {
     public function getTypeDescription() : ?string
     {
