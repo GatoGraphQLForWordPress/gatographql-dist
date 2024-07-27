@@ -3373,6 +3373,7 @@ return array(
     'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisProxy' => $vendorDir . '/symfony/cache/Traits/RedisProxy.php',
     'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisTrait' => $vendorDir . '/symfony/cache/Traits/RedisTrait.php',
     'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RelayProxy' => $vendorDir . '/symfony/cache/Traits/RelayProxy.php',
+    'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RelayProxyTrait' => $vendorDir . '/symfony/cache/Traits/RelayProxyTrait.php',
     'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => $vendorDir . '/symfony/config/Builder/ClassBuilder.php',
     'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => $vendorDir . '/symfony/config/Builder/ConfigBuilderGenerator.php',
     'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGeneratorInterface' => $vendorDir . '/symfony/config/Builder/ConfigBuilderGeneratorInterface.php',

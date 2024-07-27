@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -288,7 +288,6 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 
 = 4.1.0 =
 * Send the referer on Guzzle requests (#2754)
-* Use `@strQuoteRegex` in predefined persisted queries (#2758)
 * [PRO] Polylang: Filter data by language
 * [PRO] Use enums types to return Polylang language codes, locales and names
 * [PRO] Automation: Handle `new` and `auto-draft` old status in `{$old_status}_to_{$new_status}` hook (#1376)

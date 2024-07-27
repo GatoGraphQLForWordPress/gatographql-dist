@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264
+class ComposerStaticInit05faf9428cd9217f0ee9b114626b96a3
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -4181,6 +4181,7 @@ class ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisProxy.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RedisTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RelayProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxy.php',
+        'PrefixedByPoP\\Symfony\\Component\\Cache\\Traits\\RelayProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxyTrait.php',
         'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
         'PrefixedByPoP\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGeneratorInterface' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGeneratorInterface.php',
@@ -4711,9 +4712,9 @@ class ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit58b367a9c8bb5163d5395e5d3eebb264::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit05faf9428cd9217f0ee9b114626b96a3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit05faf9428cd9217f0ee9b114626b96a3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit05faf9428cd9217f0ee9b114626b96a3::$classMap;
 
         }, null, ClassLoader::class);
     }

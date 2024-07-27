@@ -48,7 +48,7 @@ humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
 humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
 humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
 humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit58b367a9c8bb5163d5395e5d3eebb264', 'PrefixedByPoP\ComposerAutoloaderInit58b367a9c8bb5163d5395e5d3eebb264');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit05faf9428cd9217f0ee9b114626b96a3', 'PrefixedByPoP\ComposerAutoloaderInit05faf9428cd9217f0ee9b114626b96a3');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

@@ -25,6 +25,7 @@ class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, L
     use LazyProxyTrait {
         resetLazyObject as reset;
     }
+    use RelayProxyTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($host = null, $port = 6379, $connect_timeout = 0.0, $command_timeout = 0.0, $context = [], $database = 0)
     {
@@ -326,13 +327,6 @@ class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, L
     public function migrate($host, $port, $key, $dstdb, $timeout, $copy = \false, $replace = \false, $credentials = null)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->migrate(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|int
-     */
-    public function copy($src, $dst, $options = null)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|bool|string
