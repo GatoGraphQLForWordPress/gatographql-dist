@@ -150,8 +150,16 @@ class VirtualTutorialLessonDataProvider
                     ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
                 ]
             ],
-            VirtualTutorialLessons::SYNCHRONIZING_TAGS_AND_CATEGORIES_FOR_POLYLANG => [
-                \__('Synchronizing the tags and categories to the different language one defined via Polylang', 'gatographql'),
+            VirtualTutorialLessons::SYNCHRONIZING_CATEGORIES_FOR_POLYLANG => [
+                \__('Synchronizing the categories to the different language one defined via Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::SYNCHRONIZING_TAGS_FOR_POLYLANG => [
+                \__('Synchronizing the tags to the different language one defined via Polylang', 'gatographql'),
                 [
                     ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
                     ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
@@ -211,6 +219,86 @@ class VirtualTutorialLessonDataProvider
                     ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
                     ExtensionModuleResolver::FIELD_TO_INPUT,
                     ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_CATEGORIES_FOR_POLYLANG => [
+                \__('Translating a category to a different language, with integration for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::CREATING_MISSING_TRANSLATION_CATEGORIES_FOR_POLYLANG => [
+                \__('Creating missing translation categories for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_TAGS_FOR_POLYLANG => [
+                \__('Translating a tag to a different language, with integration for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::CREATING_MISSING_TRANSLATION_TAGS_FOR_POLYLANG => [
+                \__('Creating missing translation tags for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_MEDIA_FOR_POLYLANG => [
+                \__('Translating a media item to a different language, with integration for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::CREATING_MISSING_TRANSLATION_MEDIA_FOR_POLYLANG => [
+                \__('Creating missing translation media items for Polylang', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_ON_FIELD,
+                    ExtensionModuleResolver::FIELD_RESPONSE_REMOVAL,
+                    ExtensionModuleResolver::FIELD_TO_INPUT,
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_CATEGORIES_FOR_MULTILINGUALPRESS => [
+                \__('Translating a category to a different language, with integration for MultilingualPress', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HTTP_CLIENT,
+                    ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
+                    ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
+                ]
+            ],
+            VirtualTutorialLessons::TRANSLATING_TAGS_FOR_MULTILINGUALPRESS => [
+                \__('Translating a tag to a different language, with integration for MultilingualPress', 'gatographql'),
+                [
+                    ExtensionModuleResolver::FIELD_VALUE_ITERATION_AND_MANIPULATION,
+                    ExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    ExtensionModuleResolver::HTTP_CLIENT,
                     ExtensionModuleResolver::MULTIPLE_QUERY_EXECUTION,
                     ExtensionModuleResolver::PHP_FUNCTIONS_VIA_SCHEMA,
                 ]

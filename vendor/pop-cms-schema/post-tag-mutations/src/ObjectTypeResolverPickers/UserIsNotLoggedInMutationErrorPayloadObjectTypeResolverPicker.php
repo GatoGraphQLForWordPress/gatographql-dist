@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractPostTagsMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractPostTagMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers\AbstractUserIsNotLoggedInErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
@@ -14,6 +15,6 @@ class UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker extends Abst
      */
     public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [AbstractPostTagsMutationErrorPayloadUnionTypeResolver::class];
+        return [AbstractPostTagsMutationErrorPayloadUnionTypeResolver::class, AbstractPostTagMutationErrorPayloadUnionTypeResolver::class];
     }
 }

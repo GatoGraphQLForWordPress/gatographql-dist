@@ -124,6 +124,8 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
     {
         // Allow components (eg: CustomPostCategoryMutations) to inject their own validations
         App::doAction(HookNames::VALIDATE_CREATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        $customPostType = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_TYPE) ?? $this->getCustomPostType();
+        $this->validateCanLoggedInUserEditCustomPostType($customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     protected function validateUpdate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {

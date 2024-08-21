@@ -17,7 +17,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\CustomPostTagMutations\Module::class, \PoPCMSSchema\PostMutations\Module::class, \PoPCMSSchema\PostTags\Module::class];
+        return [\PoPCMSSchema\CustomPostTagMutations\Module::class, \PoPCMSSchema\PostMutations\Module::class, \PoPCMSSchema\PostTags\Module::class, \PoPCMSSchema\TagMutations\Module::class];
     }
     /**
      * Initialize services

@@ -1,0 +1,10 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType;
+
+use PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\AbstractCreateOrUpdateTagTermInputObjectTypeResolver;
+/** @internal */
+abstract class AbstractCreateOrUpdatePostTagTermInputObjectTypeResolver extends AbstractCreateOrUpdateTagTermInputObjectTypeResolver implements \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\UpdatePostTagTermInputObjectTypeResolverInterface, \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\CreatePostTagTermInputObjectTypeResolverInterface
+{
+}

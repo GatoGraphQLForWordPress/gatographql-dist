@@ -5,11 +5,6 @@ namespace PoPCMSSchema\MediaMutations\MutationResolvers;
 
 use PoPCMSSchema\MediaMutations\Constants\HookNames;
 use PoPCMSSchema\MediaMutations\Exception\MediaItemCRUDMutationException;
-use PoPCMSSchema\MediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
-use PoPCMSSchema\MediaMutations\ObjectModels\UserDoesNotExistErrorPayload;
-use PoPCMSSchema\MediaMutations\ObjectModels\UserHasNoPermissionToUploadFilesErrorPayload;
-use PoPCMSSchema\MediaMutations\ObjectModels\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload;
-use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsNotLoggedInErrorPayload;
 use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
@@ -52,17 +47,7 @@ class PayloadableCreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMuta
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
-                return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new UserHasNoPermissionToUploadFilesErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
-        }
+        // Allow components to inject their own validations
+        return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
     }
 }

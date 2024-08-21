@@ -1,0 +1,10 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType;
+
+use PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver;
+/** @internal */
+abstract class AbstractCreateOrUpdatePostCategoryTermInputObjectTypeResolver extends AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver implements \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\UpdatePostCategoryTermInputObjectTypeResolverInterface, \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\CreatePostCategoryTermInputObjectTypeResolverInterface
+{
+}

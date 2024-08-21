@@ -9,6 +9,6 @@ class TagByOneofInputObjectTypeResolver extends AbstractTagByOneofInputObjectTyp
 {
     public function getTypeName() : string
     {
-        return 'TagByInput';
+        return 'TagByFilterInput';
     }
 }

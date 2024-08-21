@@ -78,4 +78,12 @@ trait CreateOrUpdateCustomPostMutationResolverTrait
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8, [$customPostID]), $fieldDataAccessor->getField()));
         }
     }
+    protected function validateCanLoggedInUserEditCustomPostType(string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        // Check that the user has access to the edited custom post
+        $userID = App::getState('current-user-id');
+        if (!$this->getCustomPostTypeMutationAPI()->canUserEditCustomPostType($userID, $customPostType)) {
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9, [$customPostType]), $fieldDataAccessor->getField()));
+        }
+    }
 }

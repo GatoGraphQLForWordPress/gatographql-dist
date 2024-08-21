@@ -15,7 +15,7 @@
 # === Description ===
 #
 # This Persisted GraphQL query is an integration for MultilingualPress,
-# to translate posts based on the Classic editor, where very site in a
+# to translate posts based on the Classic editor, where every site in a
 # WordPress multisite network is a translation site.
 # 
 # It must be executed on the master site, which must have the PRO plugin.
@@ -170,14 +170,16 @@ query InitializeTranslationVariables
   @include(if: $executeTranslation)
 {
   arrayItems: _arrayLength(array: $networkSiteTranslationConnectionDataItems)
+    @remove
 
   rawTitle: _arrayPad(array: [], length: $__arrayItems, value: $originRawTitle)
     @export(as: "rawTitle")
+    @remove
   rawContent: _arrayPad(array: [], length: $__arrayItems, value: $originRawContent)
     @export(as: "rawContent")
+    @remove
   rawExcerpt: _arrayPad(array: [], length: $__arrayItems, value: $originRawExcerpt)
     @export(as: "rawExcerpt")
-
     @remove
 }
 

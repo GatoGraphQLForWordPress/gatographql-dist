@@ -14,12 +14,13 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     public const E6 = 'e6';
     public const E7 = 'e7';
     public const E8 = 'e8';
+    public const E9 = 'e9';
     /**
      * @return string[]
      */
     public function getCodes() : array
     {
-        return [self::E1, self::E2, self::E3, self::E6, self::E7, self::E8];
+        return [self::E1, self::E2, self::E3, self::E6, self::E7, self::E8, self::E9];
     }
     public function getMessagePlaceholder(string $code) : string
     {
@@ -36,6 +37,8 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
                 return $this->__('There is no custom post with ID \'%s\'', 'custompost-mutations');
             case self::E8:
                 return $this->__('You don\'t have permission to edit custom post with ID \'%s\'', 'custompost-mutations');
+            case self::E9:
+                return $this->__('You don\'t have permission to edit custom post type \'%s\'', 'custompost-mutations');
             default:
                 return parent::getMessagePlaceholder($code);
         }

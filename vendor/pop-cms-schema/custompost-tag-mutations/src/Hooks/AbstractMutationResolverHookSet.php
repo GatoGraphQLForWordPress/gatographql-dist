@@ -11,6 +11,8 @@ use PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMut
 use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload;
 use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
+use PoPCMSSchema\TaxonomyMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider as TaxonomyMutationErrorFeedbackItemProvider;
+use PoPCMSSchema\TaxonomyMutations\ObjectModels\LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
@@ -93,6 +95,8 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
                 return new TagDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            case [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E10]:
+                return new LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload($feedbackItemResolution->getMessage());
             default:
                 return $errorPayload;
         }

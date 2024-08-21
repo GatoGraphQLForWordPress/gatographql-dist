@@ -130,10 +130,10 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     public function prepareFieldArgsForMutationForObject(array $fieldArgsForMutationForObject, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, object $object) : array
     {
         $fieldArgsForMutationForObject = parent::prepareFieldArgsForMutationForObject($fieldArgsForMutationForObject, $objectTypeResolver, $field, $object);
-        $post = $object;
+        $customPost = $object;
         switch ($field->getName()) {
             case 'update':
-                $fieldArgsForMutationForObject['input']->{MutationInputProperties::ID} = $objectTypeResolver->getID($post);
+                $fieldArgsForMutationForObject['input']->{MutationInputProperties::ID} = $objectTypeResolver->getID($customPost);
                 break;
         }
         return $fieldArgsForMutationForObject;

@@ -22,9 +22,9 @@
 # and stores those translations in the corresponding posts,
 # as set-up via Polylang.
 #
-# All translation posts must already exist, created using the
-# Polylang UI. These posts must also have the  `draft` status
-# to be updated. To update posts with any other status, use
+# All translation posts must already exist. These posts
+# must also have the `draft` status to be updated.
+# To update posts with any other status, use
 # variable `$statusToUpdate` (for instance, passing value
 # `publish`, `pending` or `any`)
 #
@@ -74,8 +74,6 @@ query InitializeVariables
     @remove
   
   emptyArray: _echo(value: [])
-    @export(as: "translationPostIds")
-
     @export(as: "originCoreHeadingContentItems")
     @export(as: "originCoreHeadingContentReplacementsFrom")
     @export(as: "originCoreHeadingContentReplacementsTo")
@@ -182,10 +180,12 @@ query ExportOriginPost(
       includeLanguages: $includeLanguagesToTranslate
       excludeLanguages: $excludeLanguagesToTranslate
     })
-    translationPostIds: _objectValues(object: $__polylangTranslationLanguageIDs)
-      @export(as: "translationPostIds")
+      @remove
+    postIDTranslationLanguageIDs: _echo(value: $__polylangTranslationLanguageIDs)
+      @default(value: {})
+      @export(as: "postIDTranslationLanguageIDs")
 
-    hasTranslationPosts: _notEmpty(value: $__translationPostIds)
+    hasTranslationPosts: _notEmpty(value: $__postIDTranslationLanguageIDs)
       @export(as: "hasTranslationPosts")
 
 
@@ -449,7 +449,9 @@ query InitializeTranslationVariables(
   @include(if: $hasOriginPost)
   @include(if: $hasTranslationPosts)
 {
-  emptyTranslationPostVars: posts(filter: { ids: $translationPostIds, status: $statusToUpdate } ) {
+  translationPostIds: _objectValues(object: $postIDTranslationLanguageIDs)
+    @export(as: "translationPostIds")
+  emptyTranslationPostVars: posts(filter: { ids: $__translationPostIds, status: $statusToUpdate } ) {
     id
     emptyArray: _echo(value: [])
       @export(
@@ -1371,42 +1373,7 @@ query EscapeRegexStrings
       @underJSONObjectProperty(by: { key: "from" })
         @underEachJSONObjectProperty
           @underEachArrayItem
-            @strReplaceMultiple(
-              search: [
-                "\\",
-                "^",
-                "$",
-                "|",
-                "[",
-                "]",
-                "(",
-                ")",
-                "{",
-                "{",
-                "#",
-                "?",
-                ".",
-                "*",
-                "+"
-              ],
-              replaceWith: [
-                "\\\\",
-                "\\^",
-                "\\$",
-                "\\|",
-                "\\[",
-                "\\]",
-                "\\(",
-                "\\)",
-                "\\{",
-                "\\}",
-                "\\#",
-                "\\?",
-                "\\.",
-                "\\*",
-                "\\+"
-              ]
-            )
+            @strQuoteRegex
     @underEachJSONObjectProperty(
       filter: {
         by: {

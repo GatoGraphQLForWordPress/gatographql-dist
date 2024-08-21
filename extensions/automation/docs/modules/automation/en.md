@@ -101,6 +101,20 @@ The following table lists down the mapped WordPress hooks:
 | --- | --- |
 | [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/) (passing `WP_Post $post`) | `gatographql:{$old_status}_to_{$new_status}` (passing `int $postId`) |
 
+In addition, Gato GraphQL re-triggers several WordPress hooks with some extra information on the hook name, to make it easier to capture and automate specific events.
+
+For instance, hooks that create, update and delete meta values are triggered containing the meta key as part of the hook name. Then, an automation can be triggered when a featured image is assigned to a post, on hook `gatographql:added_post_meta:_thumbnail_id`.
+
+These are the additional Gato GraphQL hooks:
+
+| Source WordPress hook | Triggered Gato GraphQL hook |
+| --- | --- |
+| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/)<br/><em>(Passing `WP_Post $post`)</em> | `gatographql:any_to_{$new_status}`<br/>`gatographql:{$old_status}_to_any`<br/>`gatographql:{$old_status}_to_{$new_status}:{$post_type}`<br/>`gatographql:any_to_{$new_status}:{$post_type}`<br/>`gatographql:{$old_status}_to_any:{$post_type}`<br/><em>(All passing `int $postId`)</em> |
+| [`added_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/added_meta_type_meta/) | `gatographql:added_{$meta_type}_meta:{$meta_key}` |
+| [`updated_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/updated_meta_type_meta/) | `gatographql:updated_{$meta_type}_meta:{$meta_key}` |
+| [`deleted_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/deleted_meta_type_meta/) | `gatographql:deleted_{$meta_type}_meta:{$meta_key}` |
+| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/)<br/><em>(Passing `WP_Post $post`)</em> | `gatographql:any_to_{$new_status}`<br/>`gatographql:{$old_status}_to_any`<br/>`gatographql:{$old_status}_to_{$new_status}:{$post_type}`<br/>`gatographql:any_to_{$new_status}:{$post_type}`<br/>`gatographql:{$old_status}_to_any:{$post_type}`<br/><em>(All passing `int $postId`)</em> |
+
 ### Debugging issues
 
 If the automation hasn't been executed, there could be an error with the configuration of the automation, or execution of the persisted query.
@@ -108,6 +122,8 @@ If the automation hasn't been executed, there could be an error with the configu
 All configuration problems (such as a malformed JSON string for the GraphQL variables, or pointing to a persisted query that has been deleted) and execution errors (such as thrown exceptions, or `errors` entries in the GraphQL query) are sent to PHP function's `error_log`, so these are printed in the [WordPress error log](https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/).
 
 These error logs are prepended with string `[Gato GraphQL]`.
+
+In addition, the complete GraphQL response for the automation (whether successful or not) is logged under file `wp-content/gatographql/logs/info.log`.
 
 ## Query Resolution Action
 

@@ -16,5 +16,33 @@ interface TaxonomyTermTypeAPIInterface
     /**
      * @param int|string $id
      */
-    public function taxonomyTermExists($id) : bool;
+    public function taxonomyTermExists($id, string $taxonomy = '') : bool;
+    /**
+     * @param int|string $taxonomyTermIDOrSlug
+     * @return string|int|null
+     */
+    public function getTaxonomyTermID($taxonomyTermIDOrSlug, string $taxonomy = '');
+    /**
+     * @param int|string $taxonomyTermID
+     */
+    public function getTaxonomyTermTaxonomy($taxonomyTermID) : ?string;
+    /**
+     * @param int|string $taxonomyTermID
+     */
+    public function getTaxonomyTerm($taxonomyTermID, string $taxonomy = '') : ?object;
+    /**
+     * @param string|int $userID
+     */
+    public function canUserEditTaxonomy($userID, string $taxonomyName) : bool;
+    /**
+     * @param string|int $userID
+     */
+    public function canUserAssignTermsToTaxonomy($userID, string $taxonomyName) : bool;
+    /**
+     * @param string|int $userID
+     * @param string|int $taxonomyTermID
+     */
+    public function canUserDeleteTaxonomyTerm($userID, $taxonomyTermID) : bool;
+    public function getTaxonomy(string $taxonomyName) : ?object;
+    public function taxonomyExists(string $taxonomyName) : bool;
 }

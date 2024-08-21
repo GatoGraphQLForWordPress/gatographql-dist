@@ -10,6 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput;
+use PoPCMSSchema\Taxonomies\Constants\InputProperties;
 /** @internal */
 abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
@@ -94,14 +95,14 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return ['id' => $this->getIDScalarTypeResolver(), 'slug' => $this->getStringScalarTypeResolver()];
+        return [InputProperties::ID => $this->getIDScalarTypeResolver(), InputProperties::SLUG => $this->getStringScalarTypeResolver()];
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
-            case 'id':
+            case InputProperties::ID:
                 return $this->__('Query by taxonomy ID', 'taxonomies');
-            case 'slug':
+            case InputProperties::SLUG:
                 return $this->__('Query by taxonomy slug', 'taxonomies');
             default:
                 return parent::getInputFieldDescription($inputFieldName);
@@ -110,9 +111,9 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
         switch ($inputFieldName) {
-            case 'id':
+            case InputProperties::ID:
                 return $this->getIncludeFilterInput();
-            case 'slug':
+            case InputProperties::SLUG:
                 return $this->getSlugFilterInput();
             default:
                 return parent::getInputFieldFilterInput($inputFieldName);

@@ -15,6 +15,8 @@ class MutationInputProperties
     public const ALT_TEXT = 'altText';
     public const MIME_TYPE = 'mimeType';
     public const FILENAME = 'filename';
+    public const ID = 'id';
+    public const MEDIAITEM_BY = 'mediaItemBy';
     public const URL = 'url';
     public const CONTENTS = 'contents';
     public const BODY = 'body';

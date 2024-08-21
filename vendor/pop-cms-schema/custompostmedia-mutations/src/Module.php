@@ -17,7 +17,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\CustomPostMutations\Module::class, \PoPCMSSchema\CustomPostMedia\Module::class];
+        return [\PoPCMSSchema\CustomPostMutations\Module::class, \PoPCMSSchema\CustomPostMedia\Module::class, \PoPCMSSchema\MediaMutations\Module::class];
     }
     /**
      * Initialize services

@@ -12,6 +12,7 @@ use PoP\Root\App;
 /** @internal */
 abstract class AbstractObjectTypeQueryableDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableDataLoaderInterface
 {
+    public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
     /**
      * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
      */
@@ -107,7 +108,7 @@ abstract class AbstractObjectTypeQueryableDataLoader extends \PoP\ComponentModel
      */
     public function getObjects(array $ids) : array
     {
-        $query = $this->getQueryToRetrieveObjectsForIDs($ids);
+        $query = App::applyFilters(self::HOOK_ALL_OBJECTS_BY_IDS_QUERY, $this->getQueryToRetrieveObjectsForIDs($ids), $ids);
         return $this->executeQuery($query);
     }
     protected function getOrderbyDefault() : string

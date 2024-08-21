@@ -8,6 +8,7 @@ use PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\AbstractSetCatego
 use PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMutationAPIInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\PostCategoryMutations\TypeAPIs\PostCategoryTypeMutationAPIInterface;
+use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
 /** @internal */
 class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomPostMutationResolver
 {
@@ -19,6 +20,10 @@ class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomP
      * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
      */
     private $postCategoryTypeAPI;
+    /**
+     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
+     */
+    private $taxonomyTermTypeAPI;
     public final function setPostCategoryTypeMutationAPI(PostCategoryTypeMutationAPIInterface $postCategoryTypeMutationAPI) : void
     {
         $this->postCategoryTypeMutationAPI = $postCategoryTypeMutationAPI;
@@ -45,6 +50,19 @@ class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomP
         }
         return $this->postCategoryTypeAPI;
     }
+    public final function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI) : void
+    {
+        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
+    }
+    protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
+    {
+        if ($this->taxonomyTermTypeAPI === null) {
+            /** @var TaxonomyTermTypeAPIInterface */
+            $taxonomyTermTypeAPI = $this->instanceManager->getInstance(TaxonomyTermTypeAPIInterface::class);
+            $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
+        }
+        return $this->taxonomyTermTypeAPI;
+    }
     protected function getCustomPostCategoryTypeMutationAPI() : CustomPostCategoryTypeMutationAPIInterface
     {
         return $this->getPostCategoryTypeMutationAPI();
@@ -56,5 +74,9 @@ class SetCategoriesOnPostMutationResolver extends AbstractSetCategoriesOnCustomP
     protected function getEntityName() : string
     {
         return $this->__('post', 'post-category-mutations');
+    }
+    protected function getCategoryTaxonomyName() : string
+    {
+        return $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
     }
 }

@@ -26,7 +26,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_PAGEMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-pagemedia-mutations';
     public const SCHEMA_POSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-postmedia-mutations';
     public const SCHEMA_CUSTOMPOST_USER_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-user-mutations';
+    public const SCHEMA_TAG_MUTATIONS = Plugin::NAMESPACE . '\schema-tag-mutations';
     public const SCHEMA_POST_TAG_MUTATIONS = Plugin::NAMESPACE . '\schema-post-tag-mutations';
+    public const SCHEMA_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-category-mutations';
     public const SCHEMA_POST_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-post-category-mutations';
     public const SCHEMA_COMMENT_MUTATIONS = Plugin::NAMESPACE . '\schema-comment-mutations';
 
@@ -69,7 +71,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_PAGEMEDIA_MUTATIONS,
             self::SCHEMA_POSTMEDIA_MUTATIONS,
             self::SCHEMA_CUSTOMPOST_USER_MUTATIONS,
+            self::SCHEMA_TAG_MUTATIONS,
             self::SCHEMA_POST_TAG_MUTATIONS,
+            self::SCHEMA_CATEGORY_MUTATIONS,
             self::SCHEMA_POST_CATEGORY_MUTATIONS,
             self::SCHEMA_COMMENT_MUTATIONS,
         ];
@@ -169,6 +173,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     [
                         self::SCHEMA_POST_MUTATIONS,
                     ],
+                    [
+                        self::SCHEMA_TAG_MUTATIONS,
+                    ],
                 ];
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
                 return [
@@ -177,6 +184,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     ],
                     [
                         self::SCHEMA_POST_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_CATEGORY_MUTATIONS,
                     ],
                 ];
             case self::SCHEMA_COMMENT_MUTATIONS:
@@ -213,8 +223,12 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Post Media Mutations', 'gatographql');
             case self::SCHEMA_CUSTOMPOST_USER_MUTATIONS:
                 return \__('Custom Post User Mutations', 'gatographql');
+            case self::SCHEMA_TAG_MUTATIONS:
+                return \__('Tag Mutations', 'gatographql');
             case self::SCHEMA_POST_TAG_MUTATIONS:
                 return \__('Post Tag Mutations', 'gatographql');
+            case self::SCHEMA_CATEGORY_MUTATIONS:
+                return \__('Category Mutations', 'gatographql');
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
                 return \__('Post Category Mutations', 'gatographql');
             case self::SCHEMA_COMMENT_MUTATIONS:
@@ -245,8 +259,12 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Execute mutations concerning media items on posts', 'gatographql');
             case self::SCHEMA_CUSTOMPOST_USER_MUTATIONS:
                 return \__('Input user data when creating/updating custom posts', 'gatographql');
+            case self::SCHEMA_TAG_MUTATIONS:
+                return \__('Add tags', 'gatographql');
             case self::SCHEMA_POST_TAG_MUTATIONS:
                 return \__('Add tags to posts', 'gatographql');
+            case self::SCHEMA_CATEGORY_MUTATIONS:
+                return \__('Add categories', 'gatographql');
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
                 return \__('Add categories to posts', 'gatographql');
             case self::SCHEMA_COMMENT_MUTATIONS:
@@ -270,7 +288,9 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_PAGEMEDIA_MUTATIONS:
             case self::SCHEMA_POSTMEDIA_MUTATIONS:
             case self::SCHEMA_CUSTOMPOST_USER_MUTATIONS:
+            case self::SCHEMA_TAG_MUTATIONS:
             case self::SCHEMA_POST_TAG_MUTATIONS:
+            case self::SCHEMA_CATEGORY_MUTATIONS:
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
             case self::SCHEMA_COMMENT_MUTATIONS:
                 return false;

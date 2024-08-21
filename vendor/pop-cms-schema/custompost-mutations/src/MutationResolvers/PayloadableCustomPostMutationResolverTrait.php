@@ -29,6 +29,8 @@ trait PayloadableCustomPostMutationResolverTrait
                 return new LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8]:
                 return new LoggedInUserHasNoPermissionToEditCustomPostErrorPayload($feedbackItemResolution->getMessage());
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
+                return new LoggedInUserHasNoPermissionToEditCustomPostErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
                 return new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             default:

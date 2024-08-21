@@ -102,8 +102,9 @@ class UserRoleTypeAPI extends AbstractUserRoleTypeAPI
 
     /**
      * @param string|int|object $userObjectOrID
+     * @param mixed ...$args
      */
-    public function userCan($userObjectOrID, string $capability): bool
+    public function userCan($userObjectOrID, string $capability, ...$args): bool
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */
@@ -112,6 +113,6 @@ class UserRoleTypeAPI extends AbstractUserRoleTypeAPI
         } else {
             $userID = (int) $userObjectOrID;
         }
-        return user_can($userID, $capability);
+        return user_can($userID, $capability, ...$args);
     }
 }

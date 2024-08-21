@@ -398,15 +398,17 @@ Running this query:
 
 The GraphQL schema is provided with mutations to:
 
-- Establish the language for custom posts, tags and categories, and
-- Define associations among them (i.e. indicate that a set of custom posts, tags or categories is a translation for each other).
+- Establish the language for custom posts, tags, categories, and media items, and
+- Define associations among them (i.e. indicate that a set of custom posts, tags, categories, or media items is a translation for each other).
 
 | Mutation | Description |
 | --- | --- |
 | `polylangSetCustomPostLanguage` | Set the language of the custom post. |
 | `polylangSetTaxonomyTermLanguage` | Set the language of the taxonomy term. |
+| `polylangSetMediaItemLanguage` | Set the language of the media item. |
 | `polylangSaveCustomPostTranslationAssociation` | Set the translation association for the custom post. |
 | `polylangSaveTaxonomyTermTranslationAssociation` | Set the translation association for the taxonomy term. |
+| `polylangSaveMediaItemTranslationAssociation` | Set the translation association for the media item. |
 
 For instance, the following query defines the language for 3 posts (to English, Spanish and French), and then defines that these 3 posts are a translation of each other:
 
@@ -464,7 +466,7 @@ We can provide the language to filter by when fetching data for:
 - Tags
 - Media items
 
-The corresponding fields receive input `polylangLanguage`, and we can filter by code or locale, and by 1 or more than 1 language.
+The corresponding fields receive input `polylangLanguageBy`, and we can filter by code or locale, and by 1 or more than 1 language.
 
 For instance, passing `$languageCodes: ["es"]` will fetch data in Spanish:
 
@@ -472,14 +474,14 @@ For instance, passing `$languageCodes: ["es"]` will fetch data in Spanish:
 query FilterByLanguage($languageCodes: [String!])
 {
   posts(filter: {
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     title
   }
 
   pages(filter: {
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     title
@@ -487,21 +489,21 @@ query FilterByLanguage($languageCodes: [String!])
 
   customPosts(filter: {
     customPostTypes: ["some-cpt"]
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     title
   }
 
   postCategories(filter: {
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     name
   }
 
   postTags(filter: {
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     name
@@ -509,7 +511,7 @@ query FilterByLanguage($languageCodes: [String!])
 
   categories(
     taxonomy: "some-category"
-    filter: { polylangLanguages: { codes: $languageCodes } }
+    filter: { polylangLanguagesBy: { codes: $languageCodes } }
   ) {
     id
     name
@@ -517,14 +519,14 @@ query FilterByLanguage($languageCodes: [String!])
 
   tags(
     taxonomy: "some-tag"
-    filter: { polylangLanguages: { codes: $languageCodes } }
+    filter: { polylangLanguagesBy: { codes: $languageCodes } }
   ) {
     id
     name
   }
 
   mediaItems(filter: {
-    polylangLanguages: { codes: $languageCodes }
+    polylangLanguagesBy: { codes: $languageCodes }
   }) {
     id
     title

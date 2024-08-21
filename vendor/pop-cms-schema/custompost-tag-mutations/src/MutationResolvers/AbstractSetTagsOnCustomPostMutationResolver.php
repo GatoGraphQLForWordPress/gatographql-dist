@@ -9,18 +9,23 @@ use PoPCMSSchema\CustomPostTagMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostTagMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
+use PoPCMSSchema\TaxonomyMutations\MutationResolvers\MutateTaxonomyTermMutationResolverTrait;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\LooseContracts\NameResolverInterface;
 use PoP\Root\Exception\AbstractException;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
 /** @internal */
 abstract class AbstractSetTagsOnCustomPostMutationResolver extends AbstractMutationResolver
 {
-    use CreateOrUpdateCustomPostMutationResolverTrait;
+    use CreateOrUpdateCustomPostMutationResolverTrait, MutateTaxonomyTermMutationResolverTrait {
+        CreateOrUpdateCustomPostMutationResolverTrait::validateUserIsLoggedIn insteadof MutateTaxonomyTermMutationResolverTrait;
+        CreateOrUpdateCustomPostMutationResolverTrait::getUserNotLoggedInError insteadof MutateTaxonomyTermMutationResolverTrait;
+        CreateOrUpdateCustomPostMutationResolverTrait::validateIsUserLoggedIn insteadof MutateTaxonomyTermMutationResolverTrait;
+    }
     use \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolverTrait;
     /**
      * @var \PoP\LooseContracts\NameResolverInterface|null
@@ -115,24 +120,24 @@ abstract class AbstractSetTagsOnCustomPostMutationResolver extends AbstractMutat
         $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
         $this->validateCustomPostExists($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
-            return;
-        }
         /** @var stdClass */
         $tagsBy = $fieldDataAccessor->getValue(MutationInputProperties::TAGS_BY);
         if (isset($tagsBy->{MutationInputProperties::IDS})) {
             $customPostTagIDs = $tagsBy->{MutationInputProperties::IDS};
             $this->validateTagsExist($customPostTagIDs, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-            if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
-                return;
-            }
+        }
+        if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
+            return;
         }
         $this->validateCanLoggedInUserEditCustomPosts($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        $taxonomyName = $this->getTagTaxonomyName();
+        $this->validateCanLoggedInUserAssignTermsToTaxonomy($taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
         $this->validateCanLoggedInUserEditCustomPost($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+    protected abstract function getTagTaxonomyName() : string;
     protected function getUserNotLoggedInError() : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);

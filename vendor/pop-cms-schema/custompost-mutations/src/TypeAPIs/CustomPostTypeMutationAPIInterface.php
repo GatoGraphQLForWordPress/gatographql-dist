@@ -27,4 +27,8 @@ interface CustomPostTypeMutationAPIInterface
      * @param string|int $customPostID
      */
     public function canUserEditCustomPost($userID, $customPostID) : bool;
+    /**
+     * @param string|int $userID
+     */
+    public function canUserEditCustomPostType($userID, string $customPostType) : bool;
 }

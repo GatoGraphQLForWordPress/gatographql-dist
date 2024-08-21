@@ -4,11 +4,10 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMediaMutations\Hooks;
 
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
-use PoPCMSSchema\CustomPostMediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
-use PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolverTrait;
-use PoPCMSSchema\CustomPostMediaMutations\ObjectModels\MediaItemDoesNotExistErrorPayload;
 use PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPostMutations\Constants\HookNames;
+use PoPCMSSchema\MediaMutations\MutationResolvers\MediaItemCRUDMutationResolverTrait;
+use PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface;
 use PoPCMSSchema\Media\Constants\InputProperties;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
@@ -21,7 +20,7 @@ use stdClass;
 /** @internal */
 class MutationResolverHookSet extends AbstractHookSet
 {
-    use SetFeaturedImageOnCustomPostMutationResolverTrait;
+    use MediaItemCRUDMutationResolverTrait;
     /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
      */
@@ -30,6 +29,10 @@ class MutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
      */
     private $mediaTypeAPI;
+    /**
+     * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
+     */
+    private $mediaTypeMutationAPI;
     public final function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI) : void
     {
         $this->customPostMediaTypeMutationAPI = $customPostMediaTypeMutationAPI;
@@ -56,6 +59,19 @@ class MutationResolverHookSet extends AbstractHookSet
         }
         return $this->mediaTypeAPI;
     }
+    public final function setMediaTypeMutationAPI(MediaTypeMutationAPIInterface $mediaTypeMutationAPI) : void
+    {
+        $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
+    }
+    protected final function getMediaTypeMutationAPI() : MediaTypeMutationAPIInterface
+    {
+        if ($this->mediaTypeMutationAPI === null) {
+            /** @var MediaTypeMutationAPIInterface */
+            $mediaTypeMutationAPI = $this->instanceManager->getInstance(MediaTypeMutationAPIInterface::class);
+            $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
+        }
+        return $this->mediaTypeMutationAPI;
+    }
     protected function init() : void
     {
         App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateFeaturedImage']), 10, 2);
@@ -75,11 +91,11 @@ class MutationResolverHookSet extends AbstractHookSet
         if (isset($featuredImageBy->{InputProperties::ID})) {
             /** @var string|int */
             $featuredImageID = $featuredImageBy->{InputProperties::ID};
-            $this->validateMediaItemByIDExists($featuredImageID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemByIDExists($featuredImageID, MutationInputProperties::FEATUREDIMAGE_BY, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         } elseif (isset($featuredImageBy->{InputProperties::SLUG})) {
             /** @var string */
             $featuredImageSlug = $featuredImageBy->{InputProperties::SLUG};
-            $this->validateMediaItemBySlugExists($featuredImageSlug, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemBySlugExists($featuredImageSlug, MutationInputProperties::FEATUREDIMAGE_BY, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
     }
     /**
@@ -140,14 +156,6 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
-        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $errorPayload;
-        }
+        return $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? $errorPayload;
     }
 }

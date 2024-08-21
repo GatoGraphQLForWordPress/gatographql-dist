@@ -11,7 +11,11 @@ use PoP\ComponentModel\App;
 use PoP\Root\Services\BasicServiceTrait;
 use WP_Error;
 
+use function get_post_type_object;
 use function user_can;
+use function wp_insert_post;
+use function wp_slash;
+use function wp_update_post;
 
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
@@ -73,7 +77,7 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
     {
         // Convert the parameters
         $data = $this->convertCustomPostsMutationQuery($data);
-        $postIDOrError = \wp_insert_post($data, true);
+        $postIDOrError = wp_insert_post(wp_slash($data), true);
         if ($postIDOrError instanceof WP_Error) {
             /** @var WP_Error */
             $wpError = $postIDOrError;
@@ -98,7 +102,7 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
     {
         // Convert the parameters
         $data = $this->convertCustomPostsMutationQuery($data);
-        $postIDOrError = \wp_update_post($data, true);
+        $postIDOrError = wp_update_post(wp_slash($data), true);
         if ($postIDOrError instanceof WP_Error) {
             /** @var WP_Error */
             $wpError = $postIDOrError;
@@ -116,5 +120,18 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
     public function canUserEditCustomPost($userID, $customPostID): bool
     {
         return user_can((int)$userID, 'edit_post', $customPostID);
+    }
+
+    /**
+     * @param string|int $userID
+     */
+    public function canUserEditCustomPostType($userID, string $customPostType): bool
+    {
+        $customPostTypeObject = get_post_type_object($customPostType);
+        if ($customPostTypeObject === null) {
+            return false;
+        }
+
+        return isset($customPostTypeObject->cap->edit_posts) && user_can((int)$userID, $customPostTypeObject->cap->edit_posts);
     }
 }

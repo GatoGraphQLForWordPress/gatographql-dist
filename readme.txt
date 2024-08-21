@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 4.1.1
+Stable tag: 4.2.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -286,8 +286,33 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 
 == Changelog ==
 
+= 4.2.0 =
+* Added mutations for categories (#2764)
+* Added mutations for tags (#2765)
+* Validate `assign_terms` capability on `setCategory` and `setTag` mutations (#2772)
+* Create a media item using the attachment from an existing media item (#2787)
+* Added field `Media.parentCustomPost` (#2788)
+* Added mutation `Root.updateMediaItem` (#2790)
+* Added predefined persisted queries:
+  * Create missing translation categories for Polylang (#2774)
+  * Create missing translation tags for Polylang (#2774)
+  * Translate categories for Polylang (#2774)
+  * Translate tags for Polylang (#2774)
+  * Translate categories for MultilingualPress (#2774)
+  * Translate tags for MultilingualPress (#2774)
+  * Create missing translation media for Polylang (#2789)
+  * Translate media for Polylang (#2789)
+* Added translation language mapping to persisted queries (#2775)
+* Fixed exception when initializing the GraphQL Internal Server query on `add_attachment` (#2796)
+* [PRO] Define the Polylang language on tag and category mutations
+* [PRO] Automation: Store the GraphQL response in the info logs
+* [PRO] Added Polylang Mutations for Media Items
+* [PRO] Map additional WordPress hooks for Automation
+* [PRO] Filter entities by Polylang's DEFAULT language
+
 = 4.1.0 =
 * Send the referer on Guzzle requests (#2754)
+* Use `@strQuoteRegex` in predefined persisted queries (#2758)
 * [PRO] Polylang: Filter data by language
 * [PRO] Use enums types to return Polylang language codes, locales and names
 * [PRO] Automation: Handle `new` and `auto-draft` old status in `{$old_status}_to_{$new_status}` hook (#1376)

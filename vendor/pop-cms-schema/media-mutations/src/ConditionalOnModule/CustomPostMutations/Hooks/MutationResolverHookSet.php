@@ -111,10 +111,10 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(HookNames::VALIDATE_CREATE_MEDIA_ITEM, \Closure::fromCallable([$this, 'maybeValidateCustomPost']), 10, 2);
-        App::addFilter(HookNames::GET_CREATE_MEDIA_ITEM_DATA, \Closure::fromCallable([$this, 'addCreateMediaItemData']), 10, 2);
-        App::addFilter(HookNames::CREATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']));
-        App::addFilter(HookNames::CREATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 2);
+        App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, \Closure::fromCallable([$this, 'maybeValidateCustomPost']), 10, 2);
+        App::addFilter(HookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateMediaItemData']), 10, 2);
+        App::addFilter(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']));
+        App::addFilter(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 2);
         App::addFilter(HookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
     }
     public function maybeValidateCustomPost(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
@@ -136,13 +136,13 @@ class MutationResolverHookSet extends AbstractHookSet
      * @param array<string,mixed> $mediaItemData
      * @return array<string,mixed>
      */
-    public function addCreateMediaItemData(array $mediaItemData, FieldDataAccessorInterface $fieldDataAccessor) : array
+    public function addCreateOrUpdateMediaItemData(array $mediaItemData, FieldDataAccessorInterface $fieldDataAccessor) : array
     {
-        $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
-        if ($customPostID === null) {
-            return $mediaItemData;
+        // customPostID can be `null`
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::CUSTOMPOST_ID)) {
+            $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
+            $mediaItemData['customPostID'] = $customPostID;
         }
-        $mediaItemData['customPostID'] = $customPostID;
         return $mediaItemData;
     }
     /**

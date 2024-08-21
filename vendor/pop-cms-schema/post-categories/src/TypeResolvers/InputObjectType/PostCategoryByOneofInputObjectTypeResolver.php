@@ -9,6 +9,6 @@ class PostCategoryByOneofInputObjectTypeResolver extends AbstractCategoryByOneof
 {
     public function getTypeName() : string
     {
-        return 'PostCategoryByInput';
+        return 'PostCategoryByFilterInput';
     }
 }

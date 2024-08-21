@@ -1,0 +1,10 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType;
+
+use PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\AbstractDeleteCategoryTermInputObjectTypeResolver;
+/** @internal */
+abstract class AbstractDeletePostCategoryTermInputObjectTypeResolver extends AbstractDeleteCategoryTermInputObjectTypeResolver implements \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\DeletePostCategoryTermInputObjectTypeResolverInterface
+{
+}

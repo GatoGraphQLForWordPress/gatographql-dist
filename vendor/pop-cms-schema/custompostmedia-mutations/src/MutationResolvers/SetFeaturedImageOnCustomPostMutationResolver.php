@@ -6,6 +6,8 @@ namespace PoPCMSSchema\CustomPostMediaMutations\MutationResolvers;
 use PoPCMSSchema\CustomPostMediaMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostMediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface;
+use PoPCMSSchema\MediaMutations\MutationResolvers\MediaItemCRUDMutationResolverTrait;
+use PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface;
 use PoPCMSSchema\Media\Constants\InputProperties;
 use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
@@ -16,7 +18,7 @@ use PoP\Root\Exception\AbstractException;
 /** @internal */
 class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
 {
-    use \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\SetFeaturedImageOnCustomPostMutationResolverTrait;
+    use MediaItemCRUDMutationResolverTrait;
     /**
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
      */
@@ -25,6 +27,10 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
      * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
      */
     private $mediaTypeAPI;
+    /**
+     * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
+     */
+    private $mediaTypeMutationAPI;
     public final function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI) : void
     {
         $this->customPostMediaTypeMutationAPI = $customPostMediaTypeMutationAPI;
@@ -50,6 +56,19 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
             $this->mediaTypeAPI = $mediaTypeAPI;
         }
         return $this->mediaTypeAPI;
+    }
+    public final function setMediaTypeMutationAPI(MediaTypeMutationAPIInterface $mediaTypeMutationAPI) : void
+    {
+        $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
+    }
+    protected final function getMediaTypeMutationAPI() : MediaTypeMutationAPIInterface
+    {
+        if ($this->mediaTypeMutationAPI === null) {
+            /** @var MediaTypeMutationAPIInterface */
+            $mediaTypeMutationAPI = $this->instanceManager->getInstance(MediaTypeMutationAPIInterface::class);
+            $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
+        }
+        return $this->mediaTypeMutationAPI;
     }
     /**
      * @throws AbstractException In case of error
@@ -86,11 +105,11 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
         if (isset($mediaItemBy->{InputProperties::ID})) {
             /** @var string|int */
             $mediaItemID = $mediaItemBy->{InputProperties::ID};
-            $this->validateMediaItemByIDExists($mediaItemID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemByIDExists($mediaItemID, MutationInputProperties::MEDIAITEM_BY, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         } elseif (isset($mediaItemBy->{InputProperties::SLUG})) {
             /** @var string */
             $mediaItemSlug = $mediaItemBy->{InputProperties::SLUG};
-            $this->validateMediaItemBySlugExists($mediaItemSlug, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateMediaItemBySlugExists($mediaItemSlug, MutationInputProperties::MEDIAITEM_BY, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
     }
 }

@@ -13,7 +13,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\CustomPostMutations\Module::class, \PoPCMSSchema\Tags\Module::class];
+        return [\PoPCMSSchema\CustomPostMutations\Module::class, \PoPCMSSchema\Tags\Module::class, \PoPCMSSchema\TaxonomyMutations\Module::class];
     }
     /**
      * Initialize services

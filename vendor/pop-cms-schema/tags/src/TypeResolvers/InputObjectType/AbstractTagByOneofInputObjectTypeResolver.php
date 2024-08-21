@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
+use PoPCMSSchema\Taxonomies\Constants\InputProperties;
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\AbstractTaxonomyByInputObjectTypeResolver;
 /** @internal */
 abstract class AbstractTagByOneofInputObjectTypeResolver extends AbstractTaxonomyByInputObjectTypeResolver
@@ -10,9 +11,9 @@ abstract class AbstractTagByOneofInputObjectTypeResolver extends AbstractTaxonom
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
-            case 'id':
+            case InputProperties::ID:
                 return $this->__('Query by tag ID', 'tags');
-            case 'slug':
+            case InputProperties::SLUG:
                 return $this->__('Query by tag slug', 'tags');
             default:
                 return parent::getInputFieldDescription($inputFieldName);

@@ -37,8 +37,9 @@ interface UserRoleTypeAPIInterface
     public function getTheUserRole($userObjectOrID) : ?string;
     /**
      * @param string|int|object $userObjectOrID
+     * @param mixed ...$args
      */
-    public function userCan($userObjectOrID, string $capability) : bool;
+    public function userCan($userObjectOrID, string $capability, ...$args) : bool;
     /**
      * @param string|int|object $userObjectOrID
      */
