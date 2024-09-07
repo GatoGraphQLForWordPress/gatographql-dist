@@ -7,8 +7,13 @@ namespace PoPCMSSchema\CustomPostTagMutations\TypeAPIs;
 interface CustomPostTagTypeMutationAPIInterface
 {
     /**
-     * @param array<string|int> $tags List of tags by ID, slug, or a combination of them
-     * @param int|string $postID
+     * @param array<string|int> $tagIDs
+     * @param int|string $customPostID
      */
-    public function setTags($postID, array $tags, bool $append = \false) : void;
+    public function setTagsByID(string $taxonomyName, $customPostID, array $tagIDs, bool $append = \false) : void;
+    /**
+     * @param array<string|int> $tagSlugs
+     * @param int|string $customPostID
+     */
+    public function setTagsBySlug(string $taxonomyName, $customPostID, array $tagSlugs, bool $append = \false) : void;
 }

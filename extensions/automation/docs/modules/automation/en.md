@@ -99,7 +99,7 @@ The following table lists down the mapped WordPress hooks:
 
 | WordPress hook | Mapped hook by Gato GraphQL |
 | --- | --- |
-| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/) (passing `WP_Post $post`) | `gatographql:{$old_status}_to_{$new_status}` (passing `int $postId`) |
+| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/) (passing `WP_Post $post`) | `gatographql:{$old_status}_to_{$new_status}` (passing `int $postId, string $postType`) |
 
 In addition, Gato GraphQL re-triggers several WordPress hooks with some extra information on the hook name, to make it easier to capture and automate specific events.
 
@@ -109,21 +109,37 @@ These are the additional Gato GraphQL hooks:
 
 | Source WordPress hook | Triggered Gato GraphQL hook |
 | --- | --- |
-| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/)<br/><em>(Passing `WP_Post $post`)</em> | `gatographql:any_to_{$new_status}`<br/>`gatographql:{$old_status}_to_any`<br/>`gatographql:{$old_status}_to_{$new_status}:{$post_type}`<br/>`gatographql:any_to_{$new_status}:{$post_type}`<br/>`gatographql:{$old_status}_to_any:{$post_type}`<br/><em>(All passing `int $postId`)</em> |
-| [`added_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/added_meta_type_meta/) | `gatographql:added_{$meta_type}_meta:{$meta_key}` |
-| [`updated_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/updated_meta_type_meta/) | `gatographql:updated_{$meta_type}_meta:{$meta_key}` |
-| [`deleted_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/deleted_meta_type_meta/) | `gatographql:deleted_{$meta_type}_meta:{$meta_key}` |
-| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/)<br/><em>(Passing `WP_Post $post`)</em> | `gatographql:any_to_{$new_status}`<br/>`gatographql:{$old_status}_to_any`<br/>`gatographql:{$old_status}_to_{$new_status}:{$post_type}`<br/>`gatographql:any_to_{$new_status}:{$post_type}`<br/>`gatographql:{$old_status}_to_any:{$post_type}`<br/><em>(All passing `int $postId`)</em> |
+| [`{$old_status}_to_{$new_status}`](https://developer.wordpress.org/reference/hooks/old_status_to_new_status/)<br/><em>(Passing `WP_Post $post`)</em> | `gatographql:any_to_{$new_status}`<br/>`gatographql:{$old_status}_to_any`<br/>`gatographql:{$old_status}_to_{$new_status}:{$post_type}`<br/>`gatographql:any_to_{$new_status}:{$post_type}`<br/>`gatographql:{$old_status}_to_any:{$post_type}`<br/><em>(All passing `int $postId, string $postType`)</em> |
+| [`created_term`](https://developer.wordpress.org/reference/hooks/created_term/) | `gatographql:created_term:{$taxonomy}` |
+| [`set_object_terms`](https://developer.wordpress.org/reference/hooks/set_object_terms/) | `gatographql:set_object_terms:{$taxonomy}`<br/>`gatographql:updated_object_terms:{$taxonomy}` <em>(When there is a delta between old and new terms)</em> |
+| [`added_post_meta`](https://developer.wordpress.org/reference/hooks/added_meta_type_meta/) | `gatographql:added_post_meta:{$meta_key}`<br/>`gatographql:added_post_meta:{$post_type}:{$meta_key}` <em>(Also passing `string $post_type` as 5th param)</em> |
+| [`updated_post_meta`](https://developer.wordpress.org/reference/hooks/updated_meta_type_meta/) | `gatographql:updated_post_meta:{$meta_key}`<br/>`gatographql:updated_post_meta:{$post_type}:{$meta_key}` <em>(Also passing `string $post_type` as 5th param)</em> |
+| [`deleted_post_meta`](https://developer.wordpress.org/reference/hooks/deleted_meta_type_meta/) | `gatographql:deleted_post_meta:{$meta_key}`<br/>`gatographql:deleted_post_meta:{$post_type}:{$meta_key}` <em>(Also passing `string $post_type` as 5th param)</em> |
+| [`added_term_meta`](https://developer.wordpress.org/reference/hooks/added_meta_type_meta/) | `gatographql:added_term_meta:{$meta_key}`<br/>`gatographql:added_term_meta:{$taxonomy}:{$meta_key}` <em>(Also passing `string $taxonomy` as 5th param)</em> |
+| [`updated_term_meta`](https://developer.wordpress.org/reference/hooks/updated_meta_type_meta/) | `gatographql:updated_term_meta:{$meta_key}`<br/>`gatographql:updated_term_meta:{$taxonomy}:{$meta_key}` <em>(Also passing `string $taxonomy` as 5th param)</em> |
+| [`deleted_term_meta`](https://developer.wordpress.org/reference/hooks/deleted_meta_type_meta/) | `gatographql:deleted_term_meta:{$meta_key}`<br/>`gatographql:deleted_term_meta:{$taxonomy}:{$meta_key}` <em>(Also passing `string $taxonomy` as 5th param)</em> |
 
 ### Debugging issues
 
 If the automation hasn't been executed, there could be an error with the configuration of the automation, or execution of the persisted query.
 
+#### Error logs
+
 All configuration problems (such as a malformed JSON string for the GraphQL variables, or pointing to a persisted query that has been deleted) and execution errors (such as thrown exceptions, or `errors` entries in the GraphQL query) are sent to PHP function's `error_log`, so these are printed in the [WordPress error log](https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/).
 
 These error logs are prepended with string `[Gato GraphQL]`.
 
-In addition, the complete GraphQL response for the automation (whether successful or not) is logged under file `wp-content/gatographql/logs/info.log`.
+#### Info logs
+
+The complete GraphQL response for the automation (whether successful or not) is logged under file `wp-content/gatographql/logs/info.log`.
+
+To print these logs, option **Enable Logs?** in **Settings > Plugin Configuration > General** must be selected:
+
+<div class="img-width-1024" markdown=1>
+
+![Enable Logs? option in Settings](../../images/settings-enable-logs.png "Enable Logs? option in Settings")
+
+</div>
 
 ## Query Resolution Action
 

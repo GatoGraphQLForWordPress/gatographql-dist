@@ -12,4 +12,8 @@ class RootUpdatePostCategoryTermInputObjectTypeResolver extends \PoPCMSSchema\Po
     {
         return 'RootUpdatePostCategoryInput';
     }
+    protected function isTaxonomyInputFieldMandatory() : bool
+    {
+        return \false;
+    }
 }

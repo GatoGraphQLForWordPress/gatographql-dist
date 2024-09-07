@@ -5,6 +5,7 @@ namespace PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPostTagMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\TagsByOneofInputObjectTypeResolver;
+use PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
@@ -26,6 +27,10 @@ abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends Abstra
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\TagsByOneofInputObjectTypeResolver|null
      */
     private $tagsByOneofInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
+     */
+    private $tagTaxonomyEnumStringScalarTypeResolver;
     public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
     {
         $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
@@ -65,6 +70,19 @@ abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends Abstra
         }
         return $this->tagsByOneofInputObjectTypeResolver;
     }
+    public final function setTagTaxonomyEnumStringScalarTypeResolver(TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver) : void
+    {
+        $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
+    }
+    protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
+    {
+        if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {
+            /** @var TagTaxonomyEnumStringScalarTypeResolver */
+            $tagTaxonomyEnumStringScalarTypeResolver = $this->instanceManager->getInstance(TagTaxonomyEnumStringScalarTypeResolver::class);
+            $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
+        }
+        return $this->tagTaxonomyEnumStringScalarTypeResolver;
+    }
     public function getTypeDescription() : ?string
     {
         return $this->__('Input to set tags on a custom post', 'comment-mutations');
@@ -74,14 +92,17 @@ abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends Abstra
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge($this->addCustomPostInputField() ? [MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver()] : [], [MutationInputProperties::TAGS_BY => $this->getTagsByOneofInputObjectTypeResolver(), MutationInputProperties::APPEND => $this->getBooleanScalarTypeResolver()]);
+        return \array_merge($this->addTaxonomyInputField() ? [MutationInputProperties::TAXONOMY => $this->getTagTaxonomyEnumStringScalarTypeResolver()] : [], $this->addCustomPostInputField() ? [MutationInputProperties::CUSTOMPOST_ID => $this->getIDScalarTypeResolver()] : [], [MutationInputProperties::TAGS_BY => $this->getTagsByOneofInputObjectTypeResolver(), MutationInputProperties::APPEND => $this->getBooleanScalarTypeResolver()]);
     }
+    protected abstract function addTaxonomyInputField() : bool;
     protected abstract function addCustomPostInputField() : bool;
     protected abstract function getEntityName() : string;
     protected abstract function getTagTypeResolver() : TagObjectTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
+            case MutationInputProperties::TAXONOMY:
+                return $this->__('The tag taxonomy', 'custompost-tag-mutations');
             case MutationInputProperties::CUSTOMPOST_ID:
                 return \sprintf($this->__('The ID of the %s', 'custompost-tag-mutations'), $this->getEntityName());
             case MutationInputProperties::TAGS_BY:

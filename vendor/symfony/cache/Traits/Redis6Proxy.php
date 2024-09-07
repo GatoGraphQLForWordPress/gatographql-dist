@@ -22,6 +22,7 @@ use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
  */
 class Redis6Proxy extends \Redis implements ResetInterface, LazyObjectInterface
 {
+    use Redis6ProxyTrait;
     use LazyProxyTrait {
         resetLazyObject as reset;
     }
@@ -181,10 +182,6 @@ class Redis6Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     public function discard() : \Redis|bool
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->discard(...\func_get_args());
-    }
-    public function dump($key) : \Redis|string
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
     }
     public function echo($str) : \Redis|false|string
     {
@@ -410,14 +407,6 @@ class Redis6Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hMset(...\func_get_args());
     }
-    public function hRandField($key, $options = null) : \Redis|array|string
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hRandField(...\func_get_args());
-    }
-    public function hSet($key, $member, $value) : \Redis|false|int
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
-    }
     public function hSetNx($key, $field, $value) : \Redis|bool
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hSetNx(...\func_get_args());
@@ -521,10 +510,6 @@ class Redis6Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     public function ltrim($key, $start, $end) : \Redis|bool
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->ltrim(...\func_get_args());
-    }
-    public function mget($keys) : \Redis|array
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->mget(...\func_get_args());
     }
     public function migrate($host, $port, $key, $dstdb, $timeout, $copy = \false, $replace = \false, #[\SensitiveParameter] $credentials = null) : \Redis|bool
     {
@@ -693,10 +678,6 @@ class Redis6Proxy extends \Redis implements ResetInterface, LazyObjectInterface
     public function sPop($key, $count = 0) : \Redis|array|false|string
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->sPop(...\func_get_args());
-    }
-    public function sRandMember($key, $count = 0) : \Redis|array|false|string
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->sRandMember(...\func_get_args());
     }
     public function sUnion($key, ...$other_keys) : \Redis|array|false
     {

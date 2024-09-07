@@ -5,7 +5,7 @@ namespace PoPCMSSchema\TaxonomyMutations\MutationResolvers;
 
 use PoPCMSSchema\Taxonomies\Constants\InputProperties;
 use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
-use PoPCMSSchema\TaxonomyMutations\Constants\HookNames;
+use PoPCMSSchema\TaxonomyMutations\Constants\TaxonomyCRUDHookNames;
 use PoPCMSSchema\TaxonomyMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\TaxonomyMutations\Exception\TaxonomyTermCRUDMutationException;
 use PoPCMSSchema\TaxonomyMutations\TypeAPIs\TaxonomyTypeMutationAPIInterface;
@@ -55,31 +55,54 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     }
     protected function validateCreateErrors(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
-        App::doAction(HookNames::VALIDATE_CREATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        App::doAction(HookNames::VALIDATE_CREATE_OR_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(TaxonomyCRUDHookNames::VALIDATE_CREATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(TaxonomyCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        /** @var string|null */
-        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY);
-        if ($taxonomyName !== null) {
-            /**
-             * Validate the taxonomy exists, even though in practice
-             * it will always exist (since the input is an Enum)
-             */
-            $this->validateTaxonomyExists($taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        // /** @var string|null */
+        // $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY);
+        // if ($taxonomyName !== null) {
+        //     /**
+        //      * Validate the taxonomy exists, even though in practice
+        //      * it will always exist (since the input is an Enum)
+        //      */
+        //     $this->validateTaxonomyExists(
+        //         $taxonomyName,
+        //         $fieldDataAccessor,
+        //         $objectTypeFieldResolutionFeedbackStore,
+        //     );
+        // }
         $this->maybeValidateTaxonomyParent($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-        $taxonomyName = $taxonomyName ?? $this->getTaxonomyName();
+        /** @var string */
+        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY);
         $this->validateCanLoggedInUserEditTaxonomy($taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     protected abstract function isHierarchical() : bool;
+    /**
+     * For the `create` mutation, the taxonomy input is mandatory.
+     * For the `updated` and `delete` mutations, the taxonomy input is optional.
+     * If not provided, take it from the mutated entity.
+     */
+    protected function getTaxonomyName(FieldDataAccessorInterface $fieldDataAccessor) : string
+    {
+        /** @var string|null */
+        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY);
+        if ($taxonomyName !== null) {
+            return $taxonomyName;
+        }
+        // If the taxonomy is null, then the ID must've been provided
+        /** @var string|int */
+        $taxonomyTermID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
+        /** @var string */
+        return $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID);
+    }
     protected function validateUpdateErrors(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
-        App::doAction(HookNames::VALIDATE_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        App::doAction(HookNames::VALIDATE_CREATE_OR_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(TaxonomyCRUDHookNames::VALIDATE_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(TaxonomyCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $taxonomyTermID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
         /**
@@ -98,19 +121,12 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
+        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
         /**
-         * Notice that the GenericCategory and GenericTag will not
-         * provide a taxonomy name in the Resolver.
-         *
-         * @var string
+         * If explicitly providing the taxonomy, make sure it
+         * exists for that ID.
          */
-        $taxonomyName = $this->getTaxonomyName();
-        if ($taxonomyName === '') {
-            $taxonomyName = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID) ?? '';
-        } else {
-            /**
-             * Make sure the provided ID corresponds to the expected taxonomy
-             */
+        if ($fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) !== null) {
             $this->validateTaxonomyTermByIDExists($taxonomyTermID, $taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
@@ -133,13 +149,14 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
             return;
         }
         $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        /** @var string|int $taxonomyTermID */
-        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
-        if ($taxonomyName === '') {
-            $taxonomyName = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID) ?? '';
+        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
+        /**
+         * If explicitly providing the taxonomy, make sure it
+         * exists for that ID.
+         */
+        if ($fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) !== null) {
+            $this->validateTaxonomyTermByIDExists($taxonomyTermID, $taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
-        /** @var string $taxonomyName */
-        $this->validateTaxonomyTermByIDExists($taxonomyTermID, $taxonomyName, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
@@ -150,11 +167,11 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
         if (!$this->isHierarchical()) {
             return;
         }
+        /** @var string */
+        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY);
         /** @var stdClass|null */
         $taxonomyParentBy = $fieldDataAccessor->getValue(MutationInputProperties::PARENT_BY);
         if ($taxonomyParentBy !== null) {
-            /** @var string */
-            $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
             if (isset($taxonomyParentBy->{InputProperties::ID})) {
                 /** @var string|int */
                 $taxonomyParentID = $taxonomyParentBy->{InputProperties::ID};
@@ -198,8 +215,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
                     if ($taxonomyParentSlug === null) {
                         $taxonomyData['parent-id'] = null;
                     } else {
-                        /** @var string */
-                        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
+                        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
                         $taxonomyData['parent-id'] = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermID($taxonomyParentSlug, $taxonomyName);
                     }
                 }
@@ -208,7 +224,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
         if ($fieldDataAccessor->hasValue(MutationInputProperties::DESCRIPTION)) {
             $taxonomyData['description'] = $fieldDataAccessor->getValue(MutationInputProperties::DESCRIPTION);
         }
-        $taxonomyData = App::applyFilters(HookNames::GET_CREATE_OR_UPDATE_DATA, $taxonomyData, $fieldDataAccessor);
+        $taxonomyData = App::applyFilters(TaxonomyCRUDHookNames::GET_CREATE_OR_UPDATE_DATA, $taxonomyData, $fieldDataAccessor);
         return $taxonomyData;
     }
     /**
@@ -217,7 +233,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     protected function getUpdateTaxonomyTermData(FieldDataAccessorInterface $fieldDataAccessor) : array
     {
         $taxonomyData = $this->getCreateOrUpdateTaxonomyTermData($fieldDataAccessor);
-        $taxonomyData = App::applyFilters(HookNames::GET_UPDATE_DATA, $taxonomyData, $fieldDataAccessor);
+        $taxonomyData = App::applyFilters(TaxonomyCRUDHookNames::GET_UPDATE_DATA, $taxonomyData, $fieldDataAccessor);
         return $taxonomyData;
     }
     /**
@@ -226,7 +242,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     protected function getCreateTaxonomyTermData(FieldDataAccessorInterface $fieldDataAccessor) : array
     {
         $taxonomyData = $this->getCreateOrUpdateTaxonomyTermData($fieldDataAccessor);
-        $taxonomyData = App::applyFilters(HookNames::GET_CREATE_DATA, $taxonomyData, $fieldDataAccessor);
+        $taxonomyData = App::applyFilters(TaxonomyCRUDHookNames::GET_CREATE_DATA, $taxonomyData, $fieldDataAccessor);
         return $taxonomyData;
     }
     /**
@@ -253,16 +269,12 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     {
         /** @var string|int */
         $taxonomyTermID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
-        /** @var string */
-        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
-        if ($taxonomyName === '') {
-            $taxonomyName = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID) ?? '';
-        }
+        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
         $taxonomyData = $this->getUpdateTaxonomyTermData($fieldDataAccessor);
         $taxonomyTermID = $this->executeUpdateTaxonomyTerm($taxonomyTermID, $taxonomyName, $taxonomyData);
         $this->createUpdateTaxonomy($fieldDataAccessor, $taxonomyTermID);
-        App::doAction(HookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor);
-        App::doAction(HookNames::EXECUTE_UPDATE, $taxonomyTermID, $fieldDataAccessor);
+        App::doAction(TaxonomyCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(TaxonomyCRUDHookNames::EXECUTE_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         return $taxonomyTermID;
     }
     /**
@@ -278,15 +290,15 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
         /** @var string */
-        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
+        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
         $taxonomyData = $this->getCreateTaxonomyTermData($fieldDataAccessor);
         $taxonomyTermID = $this->executeCreateTaxonomyTerm($taxonomyName, $taxonomyData);
         $this->createUpdateTaxonomy($fieldDataAccessor, $taxonomyTermID);
-        App::doAction(HookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor);
-        App::doAction(HookNames::EXECUTE_CREATE, $taxonomyTermID, $fieldDataAccessor);
+        App::doAction(TaxonomyCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor);
+        App::doAction(TaxonomyCRUDHookNames::EXECUTE_CREATE, $taxonomyTermID, $fieldDataAccessor);
         return $taxonomyTermID;
     }
     /**
@@ -297,11 +309,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     {
         /** @var string|int */
         $taxonomyTermID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
-        /** @var string */
-        $taxonomyName = $fieldDataAccessor->getValue(MutationInputProperties::TAXONOMY) ?? $this->getTaxonomyName();
-        if ($taxonomyName === '') {
-            $taxonomyName = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID) ?? '';
-        }
+        $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
         $result = $this->executeDeleteTaxonomyTerm($taxonomyTermID, $taxonomyName);
         if ($result === \false) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getTaxonomyTermDoesNotExistError($taxonomyName, $taxonomyTermID), $fieldDataAccessor->getField()));

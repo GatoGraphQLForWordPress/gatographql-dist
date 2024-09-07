@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Categories\FieldResolvers\ObjectType;
 
-use PoPCMSSchema\Categories\TypeAPIs\QueryableTaxonomyCategoryListTypeAPIInterface;
+use PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver;
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver;
 use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryPaginationInputObjectTypeResolver;
@@ -41,10 +41,6 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
      */
     private $categoryUnionTypeResolver;
     /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableTaxonomyCategoryListTypeAPIInterface|null
-     */
-    private $queryableTaxonomyCategoryListTypeAPI;
-    /**
      * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver|null
      */
     private $categoryByOneofInputObjectTypeResolver;
@@ -64,6 +60,10 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
      * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver|null
      */
     private $taxonomySortInputObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
+     */
+    private $queryableCategoryTypeAPI;
     public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
     {
         $this->intScalarTypeResolver = $intScalarTypeResolver;
@@ -102,19 +102,6 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
             $this->categoryUnionTypeResolver = $categoryUnionTypeResolver;
         }
         return $this->categoryUnionTypeResolver;
-    }
-    public final function setQueryableTaxonomyCategoryListTypeAPI(QueryableTaxonomyCategoryListTypeAPIInterface $queryableTaxonomyCategoryListTypeAPI) : void
-    {
-        $this->queryableTaxonomyCategoryListTypeAPI = $queryableTaxonomyCategoryListTypeAPI;
-    }
-    protected final function getQueryableTaxonomyCategoryListTypeAPI() : QueryableTaxonomyCategoryListTypeAPIInterface
-    {
-        if ($this->queryableTaxonomyCategoryListTypeAPI === null) {
-            /** @var QueryableTaxonomyCategoryListTypeAPIInterface */
-            $queryableTaxonomyCategoryListTypeAPI = $this->instanceManager->getInstance(QueryableTaxonomyCategoryListTypeAPIInterface::class);
-            $this->queryableTaxonomyCategoryListTypeAPI = $queryableTaxonomyCategoryListTypeAPI;
-        }
-        return $this->queryableTaxonomyCategoryListTypeAPI;
     }
     public final function setCategoryByOneofInputObjectTypeResolver(CategoryByOneofInputObjectTypeResolver $categoryByOneofInputObjectTypeResolver) : void
     {
@@ -180,6 +167,19 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
             $this->taxonomySortInputObjectTypeResolver = $taxonomySortInputObjectTypeResolver;
         }
         return $this->taxonomySortInputObjectTypeResolver;
+    }
+    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI) : void
+    {
+        $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
+    }
+    protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
+    {
+        if ($this->queryableCategoryTypeAPI === null) {
+            /** @var QueryableCategoryTypeAPIInterface */
+            $queryableCategoryTypeAPI = $this->instanceManager->getInstance(QueryableCategoryTypeAPIInterface::class);
+            $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
+        }
+        return $this->queryableCategoryTypeAPI;
     }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
@@ -257,9 +257,6 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        if ($fieldArgName === 'taxonomy') {
-            return SchemaTypeModifiers::MANDATORY;
-        }
         switch ([$fieldName => $fieldArgName]) {
             case ['category' => 'by']:
                 return SchemaTypeModifiers::MANDATORY;
@@ -280,25 +277,36 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
         }
     }
     /**
+     * @return array<string,mixed>
+     */
+    protected function getQuery(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor) : array
+    {
+        $query = [];
+        /** @var string|null */
+        $categoryTaxonomy = $fieldDataAccessor->getValue('taxonomy');
+        if ($categoryTaxonomy !== null) {
+            $query['taxonomy'] = $categoryTaxonomy;
+        }
+        return $query;
+    }
+    /**
      * @return mixed
      */
     public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
-        $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
-        /** @var string */
-        $catTaxonomy = $fieldDataAccessor->getValue('taxonomy');
+        $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor));
         switch ($fieldDataAccessor->getFieldName()) {
             case 'category':
-                if ($categories = $this->getQueryableTaxonomyCategoryListTypeAPI()->getTaxonomyCategories($catTaxonomy, $query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS])) {
+                if ($categories = $this->getQueryableCategoryTypeAPI()->getCategories($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS])) {
                     return $categories[0];
                 }
                 return null;
             case 'categories':
-                return $this->getQueryableTaxonomyCategoryListTypeAPI()->getTaxonomyCategories($catTaxonomy, $query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
+                return $this->getQueryableCategoryTypeAPI()->getCategories($query, [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
             case 'categoryNames':
-                return $this->getQueryableTaxonomyCategoryListTypeAPI()->getTaxonomyCategories($catTaxonomy, $query, [QueryOptions::RETURN_TYPE => ReturnTypes::NAMES]);
+                return $this->getQueryableCategoryTypeAPI()->getCategories($query, [QueryOptions::RETURN_TYPE => ReturnTypes::NAMES]);
             case 'categoryCount':
-                return $this->getQueryableTaxonomyCategoryListTypeAPI()->getTaxonomyCategoryCount($catTaxonomy, $query);
+                return $this->getQueryableCategoryTypeAPI()->getCategoryCount($query);
         }
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }

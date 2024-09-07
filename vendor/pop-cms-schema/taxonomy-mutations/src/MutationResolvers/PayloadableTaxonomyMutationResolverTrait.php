@@ -3,11 +3,11 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\TaxonomyMutations\MutationResolvers;
 
-use PoPCMSSchema\TaxonomyMutations\Constants\HookNames;
+use PoPCMSSchema\TaxonomyMutations\Constants\TaxonomyCRUDHookNames;
 use PoPCMSSchema\TaxonomyMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
-use PoPCMSSchema\TaxonomyMutations\ObjectModels\TaxonomyDoesNotExistErrorPayload;
-use PoPCMSSchema\TaxonomyMutations\ObjectModels\TaxonomyTermDoesNotExistErrorPayload;
+use PoPCMSSchema\TaxonomyMutations\ObjectModels\LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayload;
 use PoPCMSSchema\TaxonomyMutations\ObjectModels\LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayload;
+use PoPCMSSchema\TaxonomyMutations\ObjectModels\TaxonomyTermDoesNotExistErrorPayload;
 use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsNotLoggedInErrorPayload;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
@@ -24,8 +24,8 @@ trait PayloadableTaxonomyMutationResolverTrait
                 return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
                 return new LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new TaxonomyDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
+                return new LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
                 return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
@@ -35,7 +35,7 @@ trait PayloadableTaxonomyMutationResolverTrait
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
                 return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
+                return App::applyFilters(TaxonomyCRUDHookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
         }
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string

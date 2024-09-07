@@ -37,9 +37,10 @@ abstract class AbstractDeleteTaxonomyTermInputObjectTypeResolver extends Abstrac
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge($this->addTaxonomyInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : []);
+        return \array_merge($this->addIDInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], [MutationInputProperties::TAXONOMY => $this->getTaxonomyInputObjectTypeResolver()]);
     }
-    protected abstract function addTaxonomyInputField() : bool;
+    protected abstract function addIDInputField() : bool;
+    protected abstract function getTaxonomyInputObjectTypeResolver() : InputTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {

@@ -146,7 +146,7 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
             if ($categoryObjectTypeResolverPicker === $this) {
                 continue;
             }
-            $nonGenericCategoryTaxonomies[] = $categoryObjectTypeResolverPicker->getCategoryTaxonomy();
+            $nonGenericCategoryTaxonomies = \array_merge($nonGenericCategoryTaxonomies, $categoryObjectTypeResolverPicker->getCategoryTaxonomies());
         }
         return $nonGenericCategoryTaxonomies;
     }
@@ -155,9 +155,11 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
      * never be called on this class.
      *
      * @see `isServiceEnabled`
+     *
+     * @return string[]
      */
-    public function getCategoryTaxonomy() : string
+    public function getCategoryTaxonomies() : array
     {
-        return '';
+        return [];
     }
 }

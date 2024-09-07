@@ -4,8 +4,8 @@ Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 GitHub Plugin URI: https://github.com/GatoGraphQL/GatoGraphQL
 Description: The most powerful GraphQL server for WordPress.
-Version: 4.2.0
-Requires at least: 6.0
+Version: 5.0.0
+Requires at least: 6.1
 Requires PHP: 7.2
 Author: Gato GraphQL
 Author URI: https://gatographql.com
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '4.2.0';
+$pluginVersion = '5.0.0';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
@@ -102,7 +102,7 @@ if ($phpMemoryLimitInBytes !== -1) {
  *
  * @gatographql-readonly-code
  */
-$commitHash = '48d72804ee83ff74006c1053ae9fbef64b4c6718';
+$commitHash = '31ef0bd99edb5a4b01103e97540e352b4e8e392d';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

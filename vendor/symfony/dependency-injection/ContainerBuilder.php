@@ -116,7 +116,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     private $vendors;
     /**
-     * @var string[] the list of paths in vendor directories
+     * @var array<string, bool> the cache for paths being in vendor directories
      */
     private $pathsInVendor = [];
     /**

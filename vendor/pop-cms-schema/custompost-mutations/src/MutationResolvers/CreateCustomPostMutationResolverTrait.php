@@ -16,13 +16,13 @@ trait CreateCustomPostMutationResolverTrait
      */
     public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
-        return $this->create($fieldDataAccessor);
+        return $this->create($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     /**
      * @return string|int The ID of the created entity
      * @throws CustomPostCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    protected abstract function create(FieldDataAccessorInterface $fieldDataAccessor);
+    protected abstract function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
     public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->validateCreateErrors($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

@@ -17,11 +17,11 @@ class PostCategoryMutationPayloadObjectTypeFieldResolver extends AbstractObjectM
      * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
      */
     private $postCategoryObjectTypeResolver;
-    public final function setPostObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
+    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
     {
         $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
-    protected final function getPostObjectTypeResolver() : PostCategoryObjectTypeResolver
+    protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
             /** @var PostCategoryObjectTypeResolver */
@@ -45,7 +45,7 @@ class PostCategoryMutationPayloadObjectTypeFieldResolver extends AbstractObjectM
     {
         switch ($fieldName) {
             case $this->getObjectFieldName():
-                return $this->getPostObjectTypeResolver();
+                return $this->getPostCategoryObjectTypeResolver();
             default:
                 return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
         }

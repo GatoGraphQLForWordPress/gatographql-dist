@@ -3,12 +3,13 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories\Hooks;
 
-use PoP\Root\App;
-use PoP\ComponentModel\ModelInstance\ModelInstance;
-use PoP\Root\Hooks\AbstractHookSet;
+use PoPCMSSchema\Categories\TypeAPIs\UniversalCategoryTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\Routing\RequestNature;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
+use PoP\ComponentModel\ModelInstance\ModelInstance;
+use PoP\Root\App;
+use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 class ModelInstanceHookSet extends AbstractHookSet
 {
@@ -21,6 +22,10 @@ class ModelInstanceHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
      */
     private $postCategoryTypeAPI;
+    /**
+     * @var \PoPCMSSchema\Categories\TypeAPIs\UniversalCategoryTypeAPIInterface|null
+     */
+    private $universalCategoryTypeAPI;
     public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
     {
         $this->postTypeAPI = $postTypeAPI;
@@ -47,6 +52,19 @@ class ModelInstanceHookSet extends AbstractHookSet
         }
         return $this->postCategoryTypeAPI;
     }
+    public final function setUniversalCategoryTypeAPI(UniversalCategoryTypeAPIInterface $universalCategoryTypeAPI) : void
+    {
+        $this->universalCategoryTypeAPI = $universalCategoryTypeAPI;
+    }
+    protected final function getUniversalCategoryTypeAPI() : UniversalCategoryTypeAPIInterface
+    {
+        if ($this->universalCategoryTypeAPI === null) {
+            /** @var UniversalCategoryTypeAPIInterface */
+            $universalCategoryTypeAPI = $this->instanceManager->getInstance(UniversalCategoryTypeAPIInterface::class);
+            $this->universalCategoryTypeAPI = $universalCategoryTypeAPI;
+        }
+        return $this->universalCategoryTypeAPI;
+    }
     protected function init() : void
     {
         App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
@@ -66,12 +84,13 @@ class ModelInstanceHookSet extends AbstractHookSet
             // By default, we check for post type but not for categories
             if (App::applyFilters(self::HOOK_VARY_MODEL_INSTANCE_BY_CATEGORY, \false)) {
                 $postCategoryTypeAPI = $this->getPostCategoryTypeAPI();
+                $universalCategoryTypeAPI = $this->getUniversalCategoryTypeAPI();
                 $postID = App::getState(['routing', 'queried-object-id']);
                 $categories = [];
                 foreach ($postCategoryTypeAPI->getCustomPostCategories($postID) as $cat) {
                     $categoryID = \is_object($cat) ? $postCategoryTypeAPI->getCategoryID($cat) : $cat;
                     /** @var string */
-                    $slug = $postCategoryTypeAPI->getCategorySlug($cat);
+                    $slug = $universalCategoryTypeAPI->getCategorySlug($cat);
                     $categories[] = $slug . $categoryID;
                 }
                 $elements[] = $this->__('categories:', 'post-categories') . \implode('.', $categories);

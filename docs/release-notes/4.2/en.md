@@ -181,7 +181,7 @@ And also custom tags, with the newly-added mutations:
 - `GenericTag.update`
 - `GenericTag.delete`
 
-This query creates, updates and deletes post category terms:
+This query creates, updates and deletes post tag terms:
 
 ```graphql
 mutation CreateUpdateDeletePostTags {
@@ -241,7 +241,7 @@ fragment PostTagData on PostTag {
 }
 ```
 
-This query creates, updates and deletes category terms for a custom `some-tag-taxonomy` category:
+This query creates, updates and deletes tag terms for a custom `some-tag-taxonomy` tag:
 
 ```graphql
 mutation CreateUpdateDeleteTags {
@@ -448,7 +448,7 @@ These are the added hook mappings:
 | [`updated_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/updated_meta_type_meta/) | `gatographql:updated_{$meta_type}_meta:{$meta_key}` |
 | [`deleted_{$meta_type}_meta`](https://developer.wordpress.org/reference/hooks/deleted_meta_type_meta/) | `gatographql:deleted_{$meta_type}_meta:{$meta_key}` |
 
-### [PRO] Filter entities by Polylang's DEFAULT language
+### [PRO] Filter entities by Polylang's default language
 
 It's now possible to filter entities by default language set on Polylang, by providing the `DEFAULT` enum value on the `polylangLanguagesBy` filter:
 

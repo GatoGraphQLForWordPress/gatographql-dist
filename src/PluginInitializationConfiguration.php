@@ -113,6 +113,13 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => PluginGeneralSettingsFunctionalityModuleResolver::GENERAL,
                 'option' => PluginGeneralSettingsFunctionalityModuleResolver::OPTION_HIDE_TUTORIAL_PAGE,
             ],
+            // Enable Logs?
+            [
+                'class' => Module::class,
+                'envVariable' => Environment::ENABLE_LOGS,
+                'module' => PluginGeneralSettingsFunctionalityModuleResolver::GENERAL,
+                'option' => PluginGeneralSettingsFunctionalityModuleResolver::OPTION_ENABLE_LOGS,
+            ],
             // Install Plugin Setup Data
             [
                 'class' => Module::class,
@@ -794,6 +801,10 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             ],
             [
                 'class' => Module::class,
+                'envVariable' => Environment::ENABLE_LOGS,
+            ],
+            [
+                'class' => Module::class,
                 'envVariable' => Environment::INSTALL_PLUGIN_SETUP_DATA,
             ],
             [
@@ -1187,6 +1198,7 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             SchemaTypeModuleResolver::SCHEMA_SETTINGS => [
                 SettingsModule::class,
                 \PoPCMSSchema\SettingsWP\Module::class,
+                \PoPWPSchema\Settings\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_USER_STATE_MUTATIONS => [
                 \PoPCMSSchema\UserStateMutations\Module::class,
@@ -1217,21 +1229,27 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             MutationSchemaTypeModuleResolver::SCHEMA_POSTMEDIA_MUTATIONS => [
                 \PoPCMSSchema\PostMediaMutations\Module::class,
             ],
-            MutationSchemaTypeModuleResolver::SCHEMA_POST_TAG_MUTATIONS => [
-                \PoPCMSSchema\PostTagMutations\Module::class,
-                \PoPCMSSchema\PostTagMutationsWP\Module::class,
-            ],
             MutationSchemaTypeModuleResolver::SCHEMA_TAG_MUTATIONS => [
                 \PoPCMSSchema\TagMutations\Module::class,
                 \PoPCMSSchema\TagMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_TAG_MUTATIONS => [
+                \PoPCMSSchema\CustomPostTagMutations\Module::class,
+                \PoPCMSSchema\CustomPostTagMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_POST_TAG_MUTATIONS => [
+                \PoPCMSSchema\PostTagMutations\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_CATEGORY_MUTATIONS => [
                 \PoPCMSSchema\CategoryMutations\Module::class,
                 \PoPCMSSchema\CategoryMutationsWP\Module::class,
             ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_CATEGORY_MUTATIONS => [
+                \PoPCMSSchema\CustomPostCategoryMutations\Module::class,
+                \PoPCMSSchema\CustomPostCategoryMutationsWP\Module::class,
+            ],
             MutationSchemaTypeModuleResolver::SCHEMA_POST_CATEGORY_MUTATIONS => [
                 \PoPCMSSchema\PostCategoryMutations\Module::class,
-                \PoPCMSSchema\PostCategoryMutationsWP\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_COMMENT_MUTATIONS => [
                 \PoPCMSSchema\CommentMutations\Module::class,

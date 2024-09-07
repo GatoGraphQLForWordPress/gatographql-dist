@@ -18,7 +18,7 @@ class WithFeaturedImageGenericCustomPostObjectTypeFieldResolver extends \PoPCMSS
     {
         return [GenericCustomPostObjectTypeResolver::class];
     }
-    protected function areCommentsEnabledForCustomPostType() : bool
+    protected function isFeaturedImageEnabledForCustomPostType() : bool
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();

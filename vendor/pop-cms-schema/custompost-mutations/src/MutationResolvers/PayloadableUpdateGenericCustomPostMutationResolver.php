@@ -5,7 +5,7 @@ namespace PoPCMSSchema\CustomPostMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateCustomPostMutationResolverTrait;
 /** @internal */
-class PayloadableUpdateGenericCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMutations\MutationResolvers\AbstractCreateUpdateGenericCustomPostMutationResolver
+class PayloadableUpdateGenericCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMutations\MutationResolvers\AbstractCreateOrUpdateGenericCustomPostMutationResolver
 {
     use PayloadableUpdateCustomPostMutationResolverTrait;
 }

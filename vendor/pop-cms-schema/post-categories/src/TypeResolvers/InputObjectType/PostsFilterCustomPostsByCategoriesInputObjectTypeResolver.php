@@ -3,15 +3,21 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType;
 
+use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
-use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver;
+use PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver;
+use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
-class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractFixedTaxonomyFilterCustomPostsByCategoriesInputObjectTypeResolver
+class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver
 {
     /**
      * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
      */
     private $postCategoryTypeAPI;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
+     */
+    private $postCategoryTaxonomyEnumStringScalarTypeResolver;
     public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
@@ -25,12 +31,36 @@ class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends Abstract
         }
         return $this->postCategoryTypeAPI;
     }
+    public final function setPostCategoryTaxonomyEnumStringScalarTypeResolver(PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver) : void
+    {
+        $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
+    }
+    protected final function getPostCategoryTaxonomyEnumStringScalarTypeResolver() : PostCategoryTaxonomyEnumStringScalarTypeResolver
+    {
+        if ($this->postCategoryTaxonomyEnumStringScalarTypeResolver === null) {
+            /** @var PostCategoryTaxonomyEnumStringScalarTypeResolver */
+            $postCategoryTaxonomyEnumStringScalarTypeResolver = $this->instanceManager->getInstance(PostCategoryTaxonomyEnumStringScalarTypeResolver::class);
+            $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
+        }
+        return $this->postCategoryTaxonomyEnumStringScalarTypeResolver;
+    }
     public function getTypeName() : string
     {
         return 'FilterPostsByCategoriesInput';
     }
-    protected function getCategoryTaxonomyName() : string
+    protected function getCategoryTaxonomyFilterInput() : InputTypeResolverInterface
     {
-        return $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
+        return $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver();
+    }
+    /**
+     * @return mixed
+     */
+    protected function getCategoryTaxonomyFilterDefaultValue()
+    {
+        $postCategoryTaxonomyName = $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
+        if (!\in_array($postCategoryTaxonomyName, $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver()->getConsolidatedPossibleValues())) {
+            return null;
+        }
+        return $postCategoryTaxonomyName;
     }
 }

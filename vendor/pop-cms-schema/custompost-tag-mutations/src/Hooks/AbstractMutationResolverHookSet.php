@@ -3,16 +3,12 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations\Hooks;
 
-use PoPCMSSchema\CustomPostMutations\Constants\HookNames;
-use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties as CustomPostMutationsMutationInputProperties;
+use PoPCMSSchema\CustomPostMutations\Constants\CustomPostCRUDHookNames;
 use PoPCMSSchema\CustomPostTagMutations\Constants\MutationInputProperties;
-use PoPCMSSchema\CustomPostTagMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolverTrait;
-use PoPCMSSchema\CustomPostTagMutations\ObjectModels\TagDoesNotExistErrorPayload;
 use PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
-use PoPCMSSchema\TaxonomyMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider as TaxonomyMutationErrorFeedbackItemProvider;
-use PoPCMSSchema\TaxonomyMutations\ObjectModels\LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload;
+use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
@@ -28,6 +24,14 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
      */
     private $customPostTypeAPI;
+    /**
+     * @var \PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface|null
+     */
+    private $customPostTagTypeMutationAPI;
+    /**
+     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
+     */
+    private $taxonomyTermTypeAPI;
     public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
     {
         $this->customPostTypeAPI = $customPostTypeAPI;
@@ -41,23 +45,57 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         }
         return $this->customPostTypeAPI;
     }
+    public final function setCustomPostTagTypeMutationAPI(CustomPostTagTypeMutationAPIInterface $customPostTagTypeMutationAPI) : void
+    {
+        $this->customPostTagTypeMutationAPI = $customPostTagTypeMutationAPI;
+    }
+    protected final function getCustomPostTagTypeMutationAPI() : CustomPostTagTypeMutationAPIInterface
+    {
+        if ($this->customPostTagTypeMutationAPI === null) {
+            /** @var CustomPostTagTypeMutationAPIInterface */
+            $customPostTagTypeMutationAPI = $this->instanceManager->getInstance(CustomPostTagTypeMutationAPIInterface::class);
+            $this->customPostTagTypeMutationAPI = $customPostTagTypeMutationAPI;
+        }
+        return $this->customPostTagTypeMutationAPI;
+    }
+    public final function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI) : void
+    {
+        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
+    }
+    protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
+    {
+        if ($this->taxonomyTermTypeAPI === null) {
+            /** @var TaxonomyTermTypeAPIInterface */
+            $taxonomyTermTypeAPI = $this->instanceManager->getInstance(TaxonomyTermTypeAPIInterface::class);
+            $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
+        }
+        return $this->taxonomyTermTypeAPI;
+    }
     protected function init() : void
     {
-        App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateTags']), 10, 2);
-        App::addAction(HookNames::EXECUTE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeSetTags']), 10, 2);
-        App::addFilter(HookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction($this->getValidateCreateHookName(), \Closure::fromCallable([$this, 'maybeValidateTags']), 10, 3);
+        App::addAction($this->getValidateUpdateHookName(), \Closure::fromCallable([$this, 'maybeValidateTags']), 10, 3);
+        App::addAction($this->getExecuteCreateOrUpdateHookName(), \Closure::fromCallable([$this, 'maybeSetTags']), 10, 3);
+        App::addFilter($this->getErrorPayloadHookName(), \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
     }
-    public function maybeValidateTags(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected abstract function getValidateCreateHookName() : string;
+    protected abstract function getValidateUpdateHookName() : string;
+    protected abstract function getExecuteCreateOrUpdateHookName() : string;
+    protected function getErrorPayloadHookName() : string
+    {
+        return CustomPostCRUDHookNames::ERROR_PAYLOAD;
+    }
+    public function maybeValidateTags(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore, string $customPostType) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;
         }
-        /** @var stdClass */
-        $tagsBy = $fieldDataAccessor->getValue(MutationInputProperties::TAGS_BY);
-        if (isset($tagsBy->{MutationInputProperties::IDS})) {
-            $customPostTagIDs = $tagsBy->{MutationInputProperties::IDS};
-            $this->validateTagsExist($customPostTagIDs, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
+        $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
+            return;
         }
+        $this->validateSetTagsOnCustomPost($customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     protected function canExecuteMutation(FieldDataAccessorInterface $fieldDataAccessor) : bool
     {
@@ -69,38 +107,20 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         if ((array) $tagsBy === []) {
             return \false;
         }
-        // Only for that specific CPT
-        $customPostID = $fieldDataAccessor->getValue(CustomPostMutationsMutationInputProperties::ID);
-        if ($customPostID !== null && $this->getCustomPostTypeAPI()->getCustomPostType($customPostID) !== $this->getCustomPostType()) {
-            return \false;
-        }
         return \true;
     }
     /**
      * @param int|string $customPostID
      */
-    public function maybeSetTags($customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    public function maybeSetTags($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;
         }
-        /** @var stdClass */
-        $tagsBy = $fieldDataAccessor->getValue(MutationInputProperties::TAGS_BY);
-        $customPostTagSlugOrIDs = isset($tagsBy->{MutationInputProperties::IDS}) ? $tagsBy->{MutationInputProperties::IDS} : $tagsBy->{MutationInputProperties::SLUGS};
-        $this->getCustomPostTagTypeMutationAPI()->setTags($customPostID, $customPostTagSlugOrIDs, \false);
+        $this->setTagsOnCustomPost($customPostID, \false, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
-        $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new TagDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E10]:
-                return new LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $errorPayload;
-        }
+        return $this->createSetTagsOnCustomPostErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? $errorPayload;
     }
-    protected abstract function getCustomPostType() : string;
-    protected abstract function getCustomPostTagTypeMutationAPI() : CustomPostTagTypeMutationAPIInterface;
 }

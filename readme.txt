@@ -1,9 +1,9 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
 Tags: graphql, headless, webhook, api, automator, import export, search replace, google translate, wp-cli, external api, wpgraphql, code snippets
-Requires at least: 6.0
+Requires at least: 6.1
 Tested up to: 6.6
-Stable tag: 4.2.0
+Stable tag: 5.0.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -286,6 +286,27 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 
 == Changelog ==
 
+= 5.0.0 =
+* Breaking change: Bumped minimum WordPress version to 6.1 (#2811)
+* Breaking change: Return no results when filtering data by an empty array (#2809)
+* Increase limit of chars in truncated response by Guzzle (#2800)
+* Added field `isGutenbergEditorEnabled` (#2801)
+* Use `isGutenbergEditorEnabled` in predefined persisted queries (#2802)
+* Added mutations to assign custom tags/categories to custom posts (#2803)
+* Added Settings option to enable/disable logs (#2813)
+* Application password failed authentication: Show error in GraphQL response (#2817)
+* Added predefined persisted queries:
+  * [PRO] Import post from WordPress RSS feed and rewrite its content with ChatGPT (#2818)
+  * [PRO] Import new posts from WordPress RSS feed (#2819)
+  * [PRO] Import HTML from URLs as new posts in WordPress (#2822)
+* Support additional taxonomies for mutations on post tags/categories (not only `post_tag` and `category`) (#2823)
+* Added taxonomy field also to `PostTag` and `PostCategory` types (#2824)
+* Made taxonomy input not mandatory on `Root.tags/categories` and `CustomPost.tags/categories` fields (#2827)
+* Fixed: Add `featuredImage` field on `GenericCustomPost` (#2806)
+* Fixed: On fields `blocks`, `blockDataItems`, and `blockFlattenedDataItems`, avoid error when post has no content (#2814)
+* Fixed: Pass mandatory `attrs` field when creating persisted query blocks (#3adde2e)
+* [PRO] Updated mapped WordPress hooks for automation
+
 = 4.2.0 =
 * Added mutations for categories (#2764)
 * Added mutations for tags (#2765)
@@ -308,7 +329,7 @@ The Gato GraphQL website contains extensive documentation, including [guides](ht
 * [PRO] Automation: Store the GraphQL response in the info logs
 * [PRO] Added Polylang Mutations for Media Items
 * [PRO] Map additional WordPress hooks for Automation
-* [PRO] Filter entities by Polylang's DEFAULT language
+* [PRO] Filter entities by Polylang's default language
 
 = 4.1.0 =
 * Send the referer on Guzzle requests (#2754)

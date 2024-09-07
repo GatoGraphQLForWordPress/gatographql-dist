@@ -6,7 +6,7 @@ namespace PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType;
 /** @internal */
 trait RootDeleteCategoryTermInputObjectTypeResolverTrait
 {
-    protected function addTaxonomyInputField() : bool
+    protected function addIDInputField() : bool
     {
         return \true;
     }

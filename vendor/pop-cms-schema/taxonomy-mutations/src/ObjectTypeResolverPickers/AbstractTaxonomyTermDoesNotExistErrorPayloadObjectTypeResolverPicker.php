@@ -13,19 +13,19 @@ abstract class AbstractTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolverPic
     /**
      * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver|null
      */
-    private $categoryDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver(TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver $categoryDoesNotExistErrorPayloadObjectTypeResolver) : void
+    private $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
+    public final function setTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver(TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver) : void
     {
-        $this->categoryDoesNotExistErrorPayloadObjectTypeResolver = $categoryDoesNotExistErrorPayloadObjectTypeResolver;
+        $this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver = $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
     }
     protected final function getTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver() : TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver
     {
-        if ($this->categoryDoesNotExistErrorPayloadObjectTypeResolver === null) {
+        if ($this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver === null) {
             /** @var TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver */
-            $categoryDoesNotExistErrorPayloadObjectTypeResolver = $this->instanceManager->getInstance(TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver::class);
-            $this->categoryDoesNotExistErrorPayloadObjectTypeResolver = $categoryDoesNotExistErrorPayloadObjectTypeResolver;
+            $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver = $this->instanceManager->getInstance(TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver::class);
+            $this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver = $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
         }
-        return $this->categoryDoesNotExistErrorPayloadObjectTypeResolver;
+        return $this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
     }
     public function getObjectTypeResolver() : ObjectTypeResolverInterface
     {

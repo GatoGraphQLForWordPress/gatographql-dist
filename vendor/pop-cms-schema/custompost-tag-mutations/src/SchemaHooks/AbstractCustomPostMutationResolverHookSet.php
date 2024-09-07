@@ -3,8 +3,6 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations\SchemaHooks;
 
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CreateCustomPostInputObjectTypeResolverInterface;
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\UpdateCustomPostInputObjectTypeResolverInterface;
 use PoPCMSSchema\CustomPostTagMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\TagsByOneofInputObjectTypeResolver;
 use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
@@ -51,10 +49,7 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
         $inputFieldNameTypeResolvers[MutationInputProperties::TAGS_BY] = $this->getTagsByOneofInputObjectTypeResolver();
         return $inputFieldNameTypeResolvers;
     }
-    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool
-    {
-        return $inputObjectTypeResolver instanceof CreateCustomPostInputObjectTypeResolverInterface || $inputObjectTypeResolver instanceof UpdateCustomPostInputObjectTypeResolverInterface;
-    }
+    protected abstract function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool;
     public function maybeAddInputFieldDescription(?string $inputFieldDescription, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : ?string
     {
         // Only for the newly added inputFieldName

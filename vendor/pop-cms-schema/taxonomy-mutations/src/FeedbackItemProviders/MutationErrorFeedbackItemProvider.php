@@ -18,12 +18,14 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     public const E8 = 'e8';
     public const E9 = 'e9';
     public const E10 = 'e10';
+    public const E11 = 'e11';
+    public const E12 = 'e12';
     /**
      * @return string[]
      */
     public function getCodes() : array
     {
-        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9, self::E10];
+        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9, self::E10, self::E11, self::E12];
     }
     public function getMessagePlaceholder(string $code) : string
     {
@@ -39,15 +41,19 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
             case self::E5:
                 return $this->__('There is no taxonomy with name \'%s\'', 'taxonomy-mutations');
             case self::E6:
-                return $this->__('There is no taxonomy term with ID \'%s\'', 'taxonomy-mutations');
+                return $this->__('There is no term with ID \'%s\'', 'taxonomy-mutations');
             case self::E7:
                 return $this->__('On taxonomy \'%s\', there is no term with ID \'%s\'', 'taxonomy-mutations');
             case self::E8:
-                return $this->__('There is no taxonomy term with slug \'%s\'', 'taxonomy-mutations');
+                return $this->__('There is no term with slug \'%s\'', 'taxonomy-mutations');
             case self::E9:
                 return $this->__('On taxonomy \'%s\', there is no term with slug \'%s\'', 'taxonomy-mutations');
             case self::E10:
                 return $this->__('Your user doesn\'t have permission to assign terms to taxonomy \'%s\'.', 'taxonomy-mutations');
+            case self::E11:
+                return $this->__('There is no custom post type registered for ID \'%s\'.', 'taxonomy-mutations');
+            case self::E12:
+                return $this->__('Taxonomy \'%s\' (for terms with ID(s) \'%s\') is not valid for custom post type \'%s\'', 'taxonomy-mutations');
             default:
                 return parent::getMessagePlaceholder($code);
         }

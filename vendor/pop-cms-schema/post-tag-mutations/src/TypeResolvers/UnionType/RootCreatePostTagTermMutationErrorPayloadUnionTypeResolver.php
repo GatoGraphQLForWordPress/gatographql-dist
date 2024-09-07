@@ -3,11 +3,11 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType;
 
-use PoPCMSSchema\TagMutations\TypeResolvers\UnionType\AbstractRootCreateTagMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\TagMutations\TypeResolvers\UnionType\AbstractRootCreateTagTermMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 /** @internal */
-class RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver extends AbstractRootCreateTagMutationErrorPayloadUnionTypeResolver
+class RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver extends AbstractRootCreateTagTermMutationErrorPayloadUnionTypeResolver
 {
     /**
      * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader|null

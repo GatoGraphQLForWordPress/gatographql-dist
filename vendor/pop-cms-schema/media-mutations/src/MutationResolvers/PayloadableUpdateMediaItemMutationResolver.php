@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\MutationResolvers;
 
-use PoPCMSSchema\MediaMutations\Constants\HookNames;
+use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Exception\MediaItemCRUDMutationException;
 use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
@@ -48,6 +48,6 @@ class PayloadableUpdateMediaItemMutationResolver extends \PoPCMSSchema\MediaMuta
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
         // Allow components to inject their own validations
-        return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
+        return App::applyFilters(MediaCRUDHookNames::ERROR_PAYLOAD, $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
     }
 }

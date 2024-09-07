@@ -31,7 +31,7 @@ class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends \PoPCMSSche
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when setting categories on a custom post (using nested mutations)', 'postcategory-mutations');
+        return $this->__('Union of \'Error Payload\' types when setting categories on a post (using nested mutations)', 'postcategory-mutations');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

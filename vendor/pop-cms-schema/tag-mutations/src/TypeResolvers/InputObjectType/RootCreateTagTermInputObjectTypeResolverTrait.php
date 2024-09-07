@@ -10,7 +10,7 @@ trait RootCreateTagTermInputObjectTypeResolverTrait
     {
         return $this->__('Input to create a tag term', 'tag-mutations');
     }
-    protected function addTaxonomyInputField() : bool
+    protected function addIDInputField() : bool
     {
         return \false;
     }

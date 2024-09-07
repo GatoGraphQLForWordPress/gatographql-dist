@@ -16,12 +16,11 @@ interface TaxonomyTermTypeAPIInterface
     /**
      * @param int|string $id
      */
-    public function taxonomyTermExists($id, string $taxonomy = '') : bool;
+    public function taxonomyTermExists($id, ?string $taxonomy = null) : bool;
     /**
-     * @param int|string $taxonomyTermIDOrSlug
      * @return string|int|null
      */
-    public function getTaxonomyTermID($taxonomyTermIDOrSlug, string $taxonomy = '');
+    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null);
     /**
      * @param int|string $taxonomyTermID
      */
@@ -29,7 +28,7 @@ interface TaxonomyTermTypeAPIInterface
     /**
      * @param int|string $taxonomyTermID
      */
-    public function getTaxonomyTerm($taxonomyTermID, string $taxonomy = '') : ?object;
+    public function getTaxonomyTerm($taxonomyTermID, ?string $taxonomy = null) : ?object;
     /**
      * @param string|int $userID
      */
@@ -45,4 +44,9 @@ interface TaxonomyTermTypeAPIInterface
     public function canUserDeleteTaxonomyTerm($userID, $taxonomyTermID) : bool;
     public function getTaxonomy(string $taxonomyName) : ?object;
     public function taxonomyExists(string $taxonomyName) : bool;
+    /**
+     * @return string[]
+     */
+    public function getCustomPostTypeTaxonomyNames(string $customPostType) : array;
+    public function isTaxonomyHierarchical(string $taxonomyName) : ?bool;
 }

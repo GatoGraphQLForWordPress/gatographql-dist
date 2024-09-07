@@ -5,7 +5,7 @@ namespace PoPCMSSchema\PageMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateCustomPostMutationResolverTrait;
 /** @internal */
-class CreatePageMutationResolver extends \PoPCMSSchema\PageMutations\MutationResolvers\AbstractCreateUpdatePageMutationResolver
+class CreatePageMutationResolver extends \PoPCMSSchema\PageMutations\MutationResolvers\AbstractCreateOrUpdatePageMutationResolver
 {
     use CreateCustomPostMutationResolverTrait;
 }

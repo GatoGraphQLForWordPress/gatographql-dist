@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\PageMutations\MutationResolvers;
 
 use PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateCustomPostMutationResolverTrait;
-use PoPCMSSchema\PageMutations\Constants\HookNames;
+use PoPCMSSchema\PageMutations\Constants\PageCRUDHookNames;
 use PoPCMSSchema\PageMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\PageMutations\ObjectModels\LoggedInUserHasNoEditingPageCapabilityErrorPayload;
 use PoPCMSSchema\PageMutations\ObjectModels\LoggedInUserHasNoPublishingPageCapabilityErrorPayload;
@@ -26,7 +26,7 @@ trait PayloadablePageMutationResolverTrait
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
                 return new LoggedInUserHasNoPublishingPageCapabilityErrorPayload($feedbackItemResolution->getMessage());
             default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
+                return App::applyFilters(PageCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
         }
     }
 }

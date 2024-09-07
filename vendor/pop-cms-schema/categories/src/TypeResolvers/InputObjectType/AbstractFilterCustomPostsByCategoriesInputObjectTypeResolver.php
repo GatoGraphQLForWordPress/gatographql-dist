@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Categories\TypeResolvers\InputObjectType;
 
-use PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver;
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjectTypeResolver;
@@ -16,10 +15,6 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
      * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver|null
      */
     private $filterByTaxonomyTermsInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
     public final function setFilterByTaxonomyTermsInputObjectTypeResolver(FilterByTaxonomyTermsInputObjectTypeResolver $filterByTaxonomyTermsInputObjectTypeResolver) : void
     {
         $this->filterByTaxonomyTermsInputObjectTypeResolver = $filterByTaxonomyTermsInputObjectTypeResolver;
@@ -33,19 +28,6 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
         }
         return $this->filterByTaxonomyTermsInputObjectTypeResolver;
     }
-    public final function setCategoryTaxonomyEnumStringScalarTypeResolver(CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->categoryTaxonomyEnumStringScalarTypeResolver = $categoryTaxonomyEnumStringScalarTypeResolver;
-    }
-    protected final function getCategoryTaxonomyEnumStringScalarTypeResolver() : CategoryTaxonomyEnumStringScalarTypeResolver
-    {
-        if ($this->categoryTaxonomyEnumStringScalarTypeResolver === null) {
-            /** @var CategoryTaxonomyEnumStringScalarTypeResolver */
-            $categoryTaxonomyEnumStringScalarTypeResolver = $this->instanceManager->getInstance(CategoryTaxonomyEnumStringScalarTypeResolver::class);
-            $this->categoryTaxonomyEnumStringScalarTypeResolver = $categoryTaxonomyEnumStringScalarTypeResolver;
-        }
-        return $this->categoryTaxonomyEnumStringScalarTypeResolver;
-    }
     public function getTypeDescription() : ?string
     {
         return $this->__('Input to filter custom posts by categories', 'categories');
@@ -55,9 +37,9 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge($this->addCategoryTaxonomyFilterInput() ? ['taxonomy' => $this->getCategoryTaxonomyEnumStringScalarTypeResolver()] : [], ['includeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver(), 'excludeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver()]);
+        return ['taxonomy' => $this->getCategoryTaxonomyFilterInput(), 'includeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver(), 'excludeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver()];
     }
-    protected abstract function addCategoryTaxonomyFilterInput() : bool;
+    protected abstract function getCategoryTaxonomyFilterInput() : InputTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
@@ -81,13 +63,29 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
         }
     }
     /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
+    {
+        switch ($inputFieldName) {
+            case 'taxonomy':
+                return $this->getCategoryTaxonomyFilterDefaultValue();
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
+    }
+    /**
+     * @return mixed
+     */
+    protected abstract function getCategoryTaxonomyFilterDefaultValue();
+    /**
      * @param array<string,mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
     public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
     {
         parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
-        if ($this->addCategoryTaxonomyFilterInput() && isset($inputValue->taxonomy)) {
+        if (isset($inputValue->taxonomy)) {
             $query['category-taxonomy'] = $inputValue->taxonomy;
         }
         if (isset($inputValue->includeBy)) {

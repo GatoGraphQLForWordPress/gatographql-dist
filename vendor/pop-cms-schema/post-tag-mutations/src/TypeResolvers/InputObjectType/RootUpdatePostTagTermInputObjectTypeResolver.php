@@ -12,4 +12,8 @@ class RootUpdatePostTagTermInputObjectTypeResolver extends \PoPCMSSchema\PostTag
     {
         return 'RootUpdatePostTagInput';
     }
+    protected function isTaxonomyInputFieldMandatory() : bool
+    {
+        return \false;
+    }
 }

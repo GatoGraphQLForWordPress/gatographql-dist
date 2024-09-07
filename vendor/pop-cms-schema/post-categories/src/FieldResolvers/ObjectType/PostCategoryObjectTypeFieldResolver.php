@@ -3,12 +3,14 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PostCategories\FieldResolvers\ObjectType;
 
-use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPCMSSchema\Categories\FieldResolvers\ObjectType\AbstractCategoryObjectTypeFieldResolver;
 use PoPCMSSchema\Categories\TypeAPIs\CategoryTypeAPIInterface;
 use PoPCMSSchema\Categories\TypeResolvers\ObjectType\CategoryObjectTypeResolverInterface;
 use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
+use PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
+use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFieldResolver
 {
@@ -20,6 +22,10 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
      * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
      */
     private $postCategoryObjectTypeResolver;
+    /**
+     * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
+     */
+    private $postCategoryTaxonomyEnumStringScalarTypeResolver;
     public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
     {
         $this->postCategoryTypeAPI = $postCategoryTypeAPI;
@@ -46,6 +52,19 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
         }
         return $this->postCategoryObjectTypeResolver;
     }
+    public final function setPostCategoryTaxonomyEnumStringScalarTypeResolver(PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver) : void
+    {
+        $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
+    }
+    protected final function getPostCategoryTaxonomyEnumStringScalarTypeResolver() : PostCategoryTaxonomyEnumStringScalarTypeResolver
+    {
+        if ($this->postCategoryTaxonomyEnumStringScalarTypeResolver === null) {
+            /** @var PostCategoryTaxonomyEnumStringScalarTypeResolver */
+            $postCategoryTaxonomyEnumStringScalarTypeResolver = $this->instanceManager->getInstance(PostCategoryTaxonomyEnumStringScalarTypeResolver::class);
+            $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
+        }
+        return $this->postCategoryTaxonomyEnumStringScalarTypeResolver;
+    }
     /**
      * @return array<class-string<ObjectTypeResolverInterface>>
      */
@@ -60,5 +79,9 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
     public function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface
     {
         return $this->getPostCategoryObjectTypeResolver();
+    }
+    protected function getTaxonomyFieldTypeResolver() : ConcreteTypeResolverInterface
+    {
+        return $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver();
     }
 }

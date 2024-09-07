@@ -9,7 +9,7 @@ use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotExistErrorPay
 use PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\MediaMutations\ConditionalOnModule\CustomPostMutations\Constants\MutationInputProperties;
-use PoPCMSSchema\MediaMutations\Constants\HookNames;
+use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface;
@@ -111,11 +111,11 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, \Closure::fromCallable([$this, 'maybeValidateCustomPost']), 10, 2);
-        App::addFilter(HookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateMediaItemData']), 10, 2);
-        App::addFilter(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']));
-        App::addFilter(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 2);
-        App::addFilter(HookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction(MediaCRUDHookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, \Closure::fromCallable([$this, 'maybeValidateCustomPost']), 10, 2);
+        App::addFilter(MediaCRUDHookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateMediaItemData']), 10, 2);
+        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']));
+        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 2);
+        App::addFilter(MediaCRUDHookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
     }
     public function maybeValidateCustomPost(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
@@ -123,10 +123,14 @@ class MutationResolverHookSet extends AbstractHookSet
         if ($customPostID === null) {
             return;
         }
-        $this->validateCanLoggedInUserEditCustomPosts($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
+        $this->validateIsUserLoggedIn($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         // Make sure the custom post exists
         $this->validateCustomPostExists($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
+            return;
+        }
+        $this->validateCanLoggedInUserEditCustomPosts($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }

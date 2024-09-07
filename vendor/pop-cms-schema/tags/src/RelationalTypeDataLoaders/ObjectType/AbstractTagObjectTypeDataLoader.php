@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\Tags\TypeAPIs\TagListTypeAPIInterface;
+use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
@@ -12,7 +12,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQu
 abstract class AbstractTagObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
-    public abstract function getTagListTypeAPI() : TagListTypeAPIInterface;
+    public abstract function getTagTypeAPI() : TagTypeAPIInterface;
     /**
      * @param array<string|int> $ids
      * @return array<string,mixed>
@@ -36,8 +36,7 @@ abstract class AbstractTagObjectTypeDataLoader extends AbstractObjectTypeQueryab
      */
     public function executeQuery(array $query, array $options = []) : array
     {
-        $tagTypeAPI = $this->getTagListTypeAPI();
-        return $tagTypeAPI->getTags($query, $options);
+        return $this->getTagTypeAPI()->getTags($query, $options);
     }
     /**
      * @param array<string,mixed> $query

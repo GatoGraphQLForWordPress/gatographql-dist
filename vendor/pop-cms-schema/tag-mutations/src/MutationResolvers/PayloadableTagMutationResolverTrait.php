@@ -3,9 +3,8 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\TagMutations\MutationResolvers;
 
-use PoPCMSSchema\TagMutations\Constants\HookNames;
+use PoPCMSSchema\TagMutations\Constants\TagCRUDHookNames;
 use PoPCMSSchema\TagMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
-use PoPCMSSchema\TagMutations\ObjectModels\TagDoesNotExistErrorPayload;
 use PoPCMSSchema\TagMutations\ObjectModels\TagTermDoesNotExistErrorPayload;
 use PoPCMSSchema\TaxonomyMutations\MutationResolvers\PayloadableTaxonomyMutationResolverTrait;
 use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsNotLoggedInErrorPayload;
@@ -24,8 +23,6 @@ trait PayloadableTagMutationResolverTrait
         switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
             case [$this->getUserNotLoggedInErrorFeedbackItemProviderClass(), $this->getUserNotLoggedInErrorFeedbackItemProviderCode()]:
                 return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new TagDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
                 return new TagTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
@@ -35,7 +32,7 @@ trait PayloadableTagMutationResolverTrait
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
                 return new TagTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
             default:
-                return App::applyFilters(HookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
+                return App::applyFilters(TagCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
         }
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string

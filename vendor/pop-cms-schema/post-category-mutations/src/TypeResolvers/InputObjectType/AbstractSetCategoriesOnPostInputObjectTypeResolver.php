@@ -34,4 +34,8 @@ abstract class AbstractSetCategoriesOnPostInputObjectTypeResolver extends Abstra
     {
         return $this->__('post', 'postcategory-mutations');
     }
+    protected function addTaxonomyInputField() : bool
+    {
+        return \false;
+    }
 }

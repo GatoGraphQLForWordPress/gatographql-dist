@@ -23,7 +23,6 @@ interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
      * @param int|string $id
      */
     public function tagExists($id) : bool;
-    public function getTagByName(string $tagName) : ?object;
     /**
      * @return array<string|int>|object[]
      * @param array<string,mixed> $query
@@ -35,30 +34,6 @@ interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
      * @param array<string,mixed> $options
      */
     public function getTagCount(array $query = [], array $options = []) : int;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURL($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURLPath($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagName($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagSlug($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagDescription($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagItemCount($tagObjectOrID) : ?int;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options

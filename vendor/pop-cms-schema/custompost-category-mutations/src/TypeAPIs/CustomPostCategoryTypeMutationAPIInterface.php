@@ -8,12 +8,12 @@ interface CustomPostCategoryTypeMutationAPIInterface
 {
     /**
      * @param array<string|int> $categoryIDs
-     * @param int|string $postID
+     * @param int|string $customPostID
      */
-    public function setCategoriesByID($postID, array $categoryIDs, bool $append = \false) : void;
+    public function setCategoriesByID(string $taxonomyName, $customPostID, array $categoryIDs, bool $append = \false) : void;
     /**
      * @param string[] $categorySlugs
-     * @param int|string $postID
+     * @param int|string $customPostID
      */
-    public function setCategoriesBySlug($postID, array $categorySlugs, bool $append = \false) : void;
+    public function setCategoriesBySlug(string $taxonomyName, $customPostID, array $categorySlugs, bool $append = \false) : void;
 }

@@ -31,7 +31,7 @@ class RootSetTagsOnPostMutationErrorPayloadUnionTypeResolver extends \PoPCMSSche
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when setting tags on a custom post', 'posttag-mutations');
+        return $this->__('Union of \'Error Payload\' types when setting tags on a post', 'posttag-mutations');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

@@ -146,7 +146,7 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
             if ($tagObjectTypeResolverPicker === $this) {
                 continue;
             }
-            $nonGenericTagTaxonomies[] = $tagObjectTypeResolverPicker->getTagTaxonomy();
+            $nonGenericTagTaxonomies = \array_merge($nonGenericTagTaxonomies, $tagObjectTypeResolverPicker->getTagTaxonomies());
         }
         return $nonGenericTagTaxonomies;
     }
@@ -155,9 +155,11 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
      * never be called on this class.
      *
      * @see `isServiceEnabled`
+     *
+     * @return string[]
      */
-    public function getTagTaxonomy() : string
+    public function getTagTaxonomies() : array
     {
-        return '';
+        return [];
     }
 }

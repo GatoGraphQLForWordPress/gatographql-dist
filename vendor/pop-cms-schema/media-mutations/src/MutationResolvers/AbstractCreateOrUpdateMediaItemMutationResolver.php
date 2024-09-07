@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\MutationResolvers;
 
-use PoPCMSSchema\MediaMutations\Constants\HookNames;
+use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\MediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\MediaMutations\LooseContracts\LooseContractSet;
@@ -179,7 +179,7 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
             }
         }
         // Allow components to inject their own validations
-        App::doAction(HookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+        App::doAction(MediaCRUDHookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     protected abstract function addMediaItemInputField() : bool;
     protected abstract function canUploadAttachment() : bool;
@@ -192,7 +192,7 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
      */
     protected function additionals($mediaItemID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
-        App::doAction(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM, $mediaItemID, $fieldDataAccessor);
+        App::doAction(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM, $mediaItemID, $fieldDataAccessor);
     }
     /**
      * @return array<string,mixed>
@@ -204,7 +204,7 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
             $mediaItemData['id'] = $fieldDataAccessor->getValue(MutationInputProperties::ID);
         }
         // Inject custom post ID, etc
-        $mediaItemData = App::applyFilters(HookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, $mediaItemData, $fieldDataAccessor);
+        $mediaItemData = App::applyFilters(MediaCRUDHookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, $mediaItemData, $fieldDataAccessor);
         return $mediaItemData;
     }
 }

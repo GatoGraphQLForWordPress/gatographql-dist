@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostUserMutations\Hooks;
 
-use PoPCMSSchema\CustomPostMutations\Constants\HookNames;
+use PoPCMSSchema\CustomPostMutations\Constants\CustomPostCRUDHookNames;
 use PoPCMSSchema\CustomPostUserMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostUserMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostUserMutations\ObjectModels\UserDoesNotExistErrorPayload;
@@ -40,9 +40,9 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(HookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateAuthor']), 10, 2);
-        App::addFilter(HookNames::GET_CREATE_OR_UPDATE_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateCustomPostData']), 10, 2);
-        App::addFilter(HookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateAuthor']), 10, 2);
+        App::addFilter(CustomPostCRUDHookNames::GET_CREATE_OR_UPDATE_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateCustomPostData']), 10, 2);
+        App::addFilter(CustomPostCRUDHookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
     }
     public function maybeValidateAuthor(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {

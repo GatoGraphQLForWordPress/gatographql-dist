@@ -140,8 +140,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         switch ($component->name) {
             case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
                 return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY:
-                return SchemaTypeModifiers::MANDATORY;
             default:
                 return SchemaTypeModifiers::NONE;
         }

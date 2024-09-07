@@ -7,5 +7,4 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 interface TaxonomyTermMutationResolverInterface extends MutationResolverInterface
 {
-    public function getTaxonomyName() : string;
 }

@@ -11,6 +11,8 @@ use WP_Taxonomy;
 use WP_Term;
 
 use function get_term;
+use function get_object_taxonomies;
+use function get_taxonomy;
 
 class TaxonomyTermTypeAPI implements TaxonomyTermTypeAPIInterface
 {
@@ -27,28 +29,30 @@ class TaxonomyTermTypeAPI implements TaxonomyTermTypeAPIInterface
     /**
      * @param int|string $taxonomyTermIDOrSlug
      */
-    public function taxonomyTermExists($taxonomyTermIDOrSlug, string $taxonomy = ''): bool
+    public function taxonomyTermExists($taxonomyTermIDOrSlug, ?string $taxonomy = null): bool
     {
-        $taxonomyTermExists = term_exists($taxonomyTermIDOrSlug, $taxonomy);
+        $taxonomyTermExists = term_exists($taxonomyTermIDOrSlug, $taxonomy ?? '');
         return $taxonomyTermExists !==  null;
     }
     /**
-     * @param int|string $taxonomyTermIDOrSlug
      * @return string|int|null
      */
-    public function getTaxonomyTermID($taxonomyTermIDOrSlug, string $taxonomy = '')
+    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null)
     {
         /** @var array<string,string|int>|string|int|null */
-        $taxonomyTerm = term_exists($taxonomyTermIDOrSlug, $taxonomy);
+        $taxonomyTerm = term_exists($taxonomyTermSlug, $taxonomy ?? '');
         if ($taxonomyTerm === null) {
             return null;
         }
+
+        /**
+         * Must cast the ID to integer, to avoid a string "34"
+         * from being inserted as a new term.
+         */
         if (is_array($taxonomyTerm)) {
-            /** @var string|int */
-            return $taxonomyTerm['term_id'];
+            return (int) $taxonomyTerm['term_id'];
         }
-        /** @var string|int */
-        return $taxonomyTerm;
+        return (int) $taxonomyTerm;
     }
 
     /**
@@ -67,10 +71,10 @@ class TaxonomyTermTypeAPI implements TaxonomyTermTypeAPIInterface
     /**
      * @param int|string $taxonomyTermID
      */
-    public function getTaxonomyTerm($taxonomyTermID, string $taxonomy = ''): ?object
+    public function getTaxonomyTerm($taxonomyTermID, ?string $taxonomy = null): ?object
     {
         /** @var WP_Term|WP_Error|null */
-        $taxonomyTerm = get_term((int) $taxonomyTermID, $taxonomy);
+        $taxonomyTerm = get_term((int) $taxonomyTermID, $taxonomy ?? '');
         if ($taxonomyTerm instanceof WP_Error) {
             return null;
         }
@@ -118,5 +122,21 @@ class TaxonomyTermTypeAPI implements TaxonomyTermTypeAPIInterface
     public function taxonomyExists(string $taxonomyName): bool
     {
         return $this->getTaxonomy($taxonomyName) !== null;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCustomPostTypeTaxonomyNames(string $customPostType): array
+    {
+        return get_object_taxonomies($customPostType);
+    }
+    public function isTaxonomyHierarchical(string $taxonomyName): ?bool
+    {
+        $taxonomy = get_taxonomy($taxonomyName);
+        if ($taxonomy === false) {
+            return null;
+        }
+        return $taxonomy->hierarchical;
     }
 }

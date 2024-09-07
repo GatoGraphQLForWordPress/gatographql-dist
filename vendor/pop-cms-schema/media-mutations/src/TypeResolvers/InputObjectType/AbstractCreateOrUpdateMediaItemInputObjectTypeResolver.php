@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType;
 
-use PoPCMSSchema\MediaMutations\Constants\HookNames;
+use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
@@ -72,7 +72,7 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
     {
         $inputFieldNameTypeResolvers = \array_merge($this->addMediaItemInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], $this->canUploadAttachment() ? [MutationInputProperties::FROM => $this->getCreateMediaItemFromOneofInputObjectTypeResolver()] : [], [MutationInputProperties::AUTHOR_ID => $this->getIDScalarTypeResolver(), MutationInputProperties::TITLE => $this->getStringScalarTypeResolver(), MutationInputProperties::SLUG => $this->getStringScalarTypeResolver(), MutationInputProperties::CAPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::DESCRIPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::ALT_TEXT => $this->getStringScalarTypeResolver(), MutationInputProperties::MIME_TYPE => $this->getStringScalarTypeResolver()]);
         // Inject custom post ID, etc
-        $inputFieldNameTypeResolvers = App::applyFilters(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, $inputFieldNameTypeResolvers, $this);
+        $inputFieldNameTypeResolvers = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, $inputFieldNameTypeResolvers, $this);
         return $inputFieldNameTypeResolvers;
     }
     protected abstract function addMediaItemInputField() : bool;
@@ -112,7 +112,7 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
                 break;
         }
         // Inject custom post ID, etc
-        $inputFieldDescription = App::applyFilters(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, $inputFieldDescription, $inputFieldName, $this);
+        $inputFieldDescription = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, $inputFieldDescription, $inputFieldName, $this);
         return $inputFieldDescription;
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
@@ -129,7 +129,7 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
                 break;
         }
         // Inject custom post ID, etc
-        $inputFieldTypeModifiers = App::applyFilters(HookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_TYPE_MODIFIERS, $inputFieldTypeModifiers, $inputFieldName, $this);
+        $inputFieldTypeModifiers = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_TYPE_MODIFIERS, $inputFieldTypeModifiers, $inputFieldName, $this);
         return $inputFieldTypeModifiers;
     }
 }

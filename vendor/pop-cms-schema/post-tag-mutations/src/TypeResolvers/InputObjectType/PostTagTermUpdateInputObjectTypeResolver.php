@@ -12,4 +12,8 @@ class PostTagTermUpdateInputObjectTypeResolver extends \PoPCMSSchema\PostTagMuta
     {
         return 'PostTagUpdateInput';
     }
+    protected function isTaxonomyInputFieldMandatory() : bool
+    {
+        return \false;
+    }
 }

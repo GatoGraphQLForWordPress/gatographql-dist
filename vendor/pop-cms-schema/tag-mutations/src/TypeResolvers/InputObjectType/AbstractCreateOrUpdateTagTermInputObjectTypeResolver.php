@@ -49,6 +49,8 @@ abstract class AbstractCreateOrUpdateTagTermInputObjectTypeResolver extends Abst
                 return $this->__('The description of the tag', 'tag-mutations');
             case MutationInputProperties::SLUG:
                 return $this->__('The slug of the tag', 'tag-mutations');
+            case MutationInputProperties::TAXONOMY:
+                return $this->__('The taxonomy of the tag', 'tag-mutations');
             default:
                 return parent::getInputFieldDescription($inputFieldName);
         }

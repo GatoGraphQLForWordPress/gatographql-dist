@@ -10,7 +10,7 @@ trait RootUpdateCategoryTermInputObjectTypeResolverTrait
     {
         return $this->__('Input to update a category term', 'category-mutations');
     }
-    protected function addTaxonomyInputField() : bool
+    protected function addIDInputField() : bool
     {
         return \true;
     }

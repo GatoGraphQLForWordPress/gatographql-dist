@@ -4,9 +4,10 @@ declare (strict_types=1);
 namespace PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType;
 
 use PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootDeletePostTagTermMutationErrorPayloadUnionTypeDataLoader;
+use PoPCMSSchema\TagMutations\TypeResolvers\UnionType\AbstractRootDeleteTagTermMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
 /** @internal */
-class RootDeletePostTagTermMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractRootDeletePostTagTermMutationErrorPayloadUnionTypeResolver
+class RootDeletePostTagTermMutationErrorPayloadUnionTypeResolver extends AbstractRootDeleteTagTermMutationErrorPayloadUnionTypeResolver
 {
     /**
      * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootDeletePostTagTermMutationErrorPayloadUnionTypeDataLoader|null

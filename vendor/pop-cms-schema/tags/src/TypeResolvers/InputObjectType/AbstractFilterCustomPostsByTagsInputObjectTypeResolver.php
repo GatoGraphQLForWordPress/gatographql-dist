@@ -3,7 +3,6 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Tags\TypeResolvers\InputObjectType;
 
-use PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver;
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractQueryableInputObjectTypeResolver;
@@ -16,10 +15,6 @@ abstract class AbstractFilterCustomPostsByTagsInputObjectTypeResolver extends Ab
      * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver|null
      */
     private $filterByTaxonomyTermsInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
     public final function setFilterByTaxonomyTermsInputObjectTypeResolver(FilterByTaxonomyTermsInputObjectTypeResolver $filterByTaxonomyTermsInputObjectTypeResolver) : void
     {
         $this->filterByTaxonomyTermsInputObjectTypeResolver = $filterByTaxonomyTermsInputObjectTypeResolver;
@@ -33,19 +28,6 @@ abstract class AbstractFilterCustomPostsByTagsInputObjectTypeResolver extends Ab
         }
         return $this->filterByTaxonomyTermsInputObjectTypeResolver;
     }
-    public final function setTagTaxonomyEnumStringScalarTypeResolver(TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
-    }
-    protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
-    {
-        if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {
-            /** @var TagTaxonomyEnumStringScalarTypeResolver */
-            $tagTaxonomyEnumStringScalarTypeResolver = $this->instanceManager->getInstance(TagTaxonomyEnumStringScalarTypeResolver::class);
-            $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
-        }
-        return $this->tagTaxonomyEnumStringScalarTypeResolver;
-    }
     public function getTypeDescription() : ?string
     {
         return $this->__('Input to filter custom posts by tags', 'tags');
@@ -55,9 +37,9 @@ abstract class AbstractFilterCustomPostsByTagsInputObjectTypeResolver extends Ab
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge($this->addTagTaxonomyFilterInput() ? ['taxonomy' => $this->getTagTaxonomyEnumStringScalarTypeResolver()] : [], ['includeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver(), 'excludeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver()]);
+        return ['taxonomy' => $this->getTagTaxonomyFilterInput(), 'includeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver(), 'excludeBy' => $this->getFilterByTaxonomyTermsInputObjectTypeResolver()];
     }
-    protected abstract function addTagTaxonomyFilterInput() : bool;
+    protected abstract function getTagTaxonomyFilterInput() : InputTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
@@ -81,13 +63,29 @@ abstract class AbstractFilterCustomPostsByTagsInputObjectTypeResolver extends Ab
         }
     }
     /**
+     * @return mixed
+     */
+    public function getInputFieldDefaultValue(string $inputFieldName)
+    {
+        switch ($inputFieldName) {
+            case 'taxonomy':
+                return $this->getTagTaxonomyFilterDefaultValue();
+            default:
+                return parent::getInputFieldDefaultValue($inputFieldName);
+        }
+    }
+    /**
+     * @return mixed
+     */
+    protected abstract function getTagTaxonomyFilterDefaultValue();
+    /**
      * @param array<string,mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
     public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
     {
         parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
-        if ($this->addTagTaxonomyFilterInput() && isset($inputValue->taxonomy)) {
+        if (isset($inputValue->taxonomy)) {
             $query['tag-taxonomy'] = $inputValue->taxonomy;
         }
         if (isset($inputValue->includeBy)) {

@@ -17,11 +17,11 @@ class PostTagMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutati
      * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
      */
     private $postTagObjectTypeResolver;
-    public final function setPostObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
+    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
     {
         $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
     }
-    protected final function getPostObjectTypeResolver() : PostTagObjectTypeResolver
+    protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
             /** @var PostTagObjectTypeResolver */
@@ -45,7 +45,7 @@ class PostTagMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutati
     {
         switch ($fieldName) {
             case $this->getObjectFieldName():
-                return $this->getPostObjectTypeResolver();
+                return $this->getPostTagObjectTypeResolver();
             default:
                 return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
         }
