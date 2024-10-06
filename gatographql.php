@@ -3,8 +3,8 @@
 Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 GitHub Plugin URI: https://github.com/GatoGraphQL/GatoGraphQL
-Description: The most powerful GraphQL server for WordPress.
-Version: 5.0.0
+Description: Powerful and flexible GraphQL server for WordPress.
+Version: 6.0.0
 Requires at least: 6.1
 Requires PHP: 7.2
 Author: Gato GraphQL
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '5.0.0';
+$pluginVersion = '6.0.0';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
@@ -88,6 +88,14 @@ if ($phpMemoryLimitInBytes !== -1) {
 }
 
 /**
+ * Can't use Composer to load this file, as "vendor/" is loaded only
+ * in the "plugins_loaded" hook, and that's too late to register
+ * the capabilities.
+ */
+require_once __DIR__ . '/includes/schema-editing-access-capabilities.php';
+registerGatoGraphQLSchemaEditingAccessCapabilities(__FILE__);
+
+/**
  * The commit hash is added to the plugin version 
  * through the CI when merging the PR.
  *
@@ -102,7 +110,7 @@ if ($phpMemoryLimitInBytes !== -1) {
  *
  * @gatographql-readonly-code
  */
-$commitHash = '31ef0bd99edb5a4b01103e97540e352b4e8e392d';
+$commitHash = 'a8beca21fff308fb76eaabd8a1057552fc725bc7';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

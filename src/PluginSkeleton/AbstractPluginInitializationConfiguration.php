@@ -389,7 +389,7 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $skipSchemaModuleClassesPerModule = array_filter(
             $this->getModuleClassesToSkipIfModuleDisabled(),
-            function ($module) use ($moduleRegistry) {
+            function (string $module) use ($moduleRegistry) {
                 return !$moduleRegistry->isModuleEnabled($module);
             },
             ARRAY_FILTER_USE_KEY

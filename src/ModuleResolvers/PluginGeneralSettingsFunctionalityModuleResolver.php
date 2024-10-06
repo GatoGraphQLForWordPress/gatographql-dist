@@ -11,6 +11,8 @@ use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\ModuleSettings\Properties;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\PluginEnvironment;
+use GatoGraphQL\GatoGraphQL\PluginStaticModuleConfiguration;
+use GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage;
 use PoP\ComponentModel\App;
 
@@ -21,16 +23,18 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
 
     public const GENERAL = Plugin::NAMESPACE . '\general';
     public const SERVER_IP_CONFIGURATION = Plugin::NAMESPACE . '\server-ip-configuration';
+    public const SCHEMA_EDITING_ACCESS = Plugin::NAMESPACE . '\schema-editing-access';
 
     /**
      * Setting options
      */
-    public const OPTION_HIDE_TUTORIAL_PAGE = 'hide-tutorial-page';
+    public const OPTION_ENABLE_SCHEMA_TUTORIAL = 'hide-tutorial-page';
     public const OPTION_ENABLE_LOGS = 'enable-logs';
     public const OPTION_INSTALL_PLUGIN_SETUP_DATA = 'install-plugin-setup-data';
     public const OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE = 'add-release-notes-admin-notice';
     public const OPTION_PRINT_SETTINGS_WITH_TABS = 'print-settings-with-tabs';
     public const OPTION_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME = 'client-ip-address-server-property-name';
+    public const OPTION_EDITING_ACCESS_SCHEME = 'editing-access-scheme';
 
     /**
      * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
@@ -40,6 +44,10 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
      * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage|null
      */
     private $modulesMenuPage;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface|null
+     */
+    private $userAuthorizationSchemeRegistry;
 
     final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
     {
@@ -67,6 +75,19 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
         }
         return $this->modulesMenuPage;
     }
+    final public function setUserAuthorizationSchemeRegistry(UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry): void
+    {
+        $this->userAuthorizationSchemeRegistry = $userAuthorizationSchemeRegistry;
+    }
+    final protected function getUserAuthorizationSchemeRegistry(): UserAuthorizationSchemeRegistryInterface
+    {
+        if ($this->userAuthorizationSchemeRegistry === null) {
+            /** @var UserAuthorizationSchemeRegistryInterface */
+            $userAuthorizationSchemeRegistry = $this->instanceManager->getInstance(UserAuthorizationSchemeRegistryInterface::class);
+            $this->userAuthorizationSchemeRegistry = $userAuthorizationSchemeRegistry;
+        }
+        return $this->userAuthorizationSchemeRegistry;
+    }
 
     /**
      * @return string[]
@@ -76,6 +97,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
         return [
             self::GENERAL,
             self::SERVER_IP_CONFIGURATION,
+            self::SCHEMA_EDITING_ACCESS,
         ];
     }
 
@@ -108,6 +130,8 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                 return \__('General', 'gatographql');
             case self::SERVER_IP_CONFIGURATION:
                 return \__('Server IP Configuration', 'gatographql');
+            case self::SCHEMA_EDITING_ACCESS:
+                return \__('Schema Editing Access', 'gatographql-schema-editing-access');
             default:
                 return $module;
         }
@@ -120,6 +144,8 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                 return \__('General options for the plugin', 'gatographql');
             case self::SERVER_IP_CONFIGURATION:
                 return \__('Configure retrieving the Client IP depending on the platform/environment', 'gatographql');
+            case self::SCHEMA_EDITING_ACCESS:
+                return \__('Grant access to users other than admins to edit the GraphQL schema', 'gatographql-schema-editing-access');
             default:
                 return parent::getDescription($module);
         }
@@ -131,9 +157,14 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
      */
     public function getSettingsDefaultValue(string $module, string $option)
     {
+        if ($module === self::SCHEMA_EDITING_ACCESS && $option === self::OPTION_EDITING_ACCESS_SCHEME) {
+            $defaultUserAuthorizationScheme = $this->getUserAuthorizationSchemeRegistry()->getDefaultUserAuthorizationScheme();
+            return $defaultUserAuthorizationScheme->getName();
+        }
+
         $defaultValues = [
             self::GENERAL => [
-                self::OPTION_HIDE_TUTORIAL_PAGE => false,
+                self::OPTION_ENABLE_SCHEMA_TUTORIAL => false,
                 self::OPTION_ENABLE_LOGS => false,
                 self::OPTION_INSTALL_PLUGIN_SETUP_DATA => true,
                 self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE => true,
@@ -153,80 +184,109 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
      */
     public function getSettings(string $module): array
     {
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+
         $moduleSettings = parent::getSettings($module);
         if ($module === self::GENERAL) {
-            $option = self::OPTION_HIDE_TUTORIAL_PAGE;
+            $option = self::OPTION_ENABLE_SCHEMA_TUTORIAL;
             $moduleSettings[] = [
-                Properties::INPUT => $option,
-                Properties::NAME => $this->getSettingOptionName(
-                    $module,
-                    $option
-                ),
-                Properties::TITLE => \__('Hide Schema tutorial page?', 'gatographql'),
-                Properties::DESCRIPTION => \__('Hide the Schema tutorial page from the menu navigation on the left?', 'gatographql'),
-                Properties::TYPE => Properties::TYPE_BOOL,
+            Properties::INPUT => $option,
+            Properties::NAME => $this->getSettingOptionName(
+                $module,
+                $option
+            ),
+            Properties::TITLE => \__('Enable the Schema tutorial?', 'gatographql'),
+            Properties::DESCRIPTION => sprintf(
+                \__('Add a tutorial page explaining all elements of the GraphQL schema offered by Gato GraphQL, accessible from the menu navigation on the left<br/><span class="more-info">%s</span>', 'gatographql'),
+                $this->getSettingsItemHelpLinkHTML(
+                    'https://gatographql.com/guides/config/enabling-the-schema-tutorial-page',
+                    \__('Enabling the Schema Tutorial page', 'gatographql')
+                )
+            ),
+            Properties::TYPE => Properties::TYPE_BOOL,
             ];
 
-            $logFile = PluginEnvironment::getLogsFilePath(LoggerFiles::INFO);
-            $relativeLogFile = str_replace(
-                constant('ABSPATH'),
-                '',
-                $logFile
-            );
-            $option = self::OPTION_ENABLE_LOGS;
-            $moduleSettings[] = [
-                Properties::INPUT => $option,
-                Properties::NAME => $this->getSettingOptionName(
-                    $module,
-                    $option
-                ),
-                Properties::TITLE => \__('Enable Logs?', 'gatographql'),
-                Properties::DESCRIPTION => sprintf(
-                    \__('Enable storing GraphQL execution logs, under file <code>%s</code>', 'gatographql'),
-                    $relativeLogFile
-                ),
-                Properties::TYPE => Properties::TYPE_BOOL,
-            ];
+            if ($moduleConfiguration->displayEnableLogsSettingsOption()) {
+                $logFile = PluginEnvironment::getLogsFilePath(LoggerFiles::INFO);
+                $relativeLogFile = str_replace(
+                    constant('ABSPATH'),
+                    '',
+                    $logFile
+                );
+                $option = self::OPTION_ENABLE_LOGS;
+                $moduleSettings[] = [
+                    Properties::INPUT => $option,
+                    Properties::NAME => $this->getSettingOptionName(
+                        $module,
+                        $option
+                    ),
+                    Properties::TITLE => \__('Enable Logs?', 'gatographql'),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('Enable storing GraphQL execution logs, under file <code>%s</code>', 'gatographql'),
+                        $relativeLogFile
+                    ),
+                    Properties::TYPE => Properties::TYPE_BOOL,
+                ];
+            }
 
-            $option = self::OPTION_INSTALL_PLUGIN_SETUP_DATA;
-            $moduleSettings[] = [
-                Properties::INPUT => $option,
-                Properties::NAME => $this->getSettingOptionName(
-                    $module,
-                    $option
-                ),
-                Properties::TITLE => \__('Plugin setup: Install Persisted Queries for common admin tasks?', 'gatographql'),
-                Properties::DESCRIPTION => \__('When installing or updating the plugin, enable the creation of Persisted Queries that tackle common admin tasks for WordPress?', 'gatographql'),
-                Properties::TYPE => Properties::TYPE_BOOL,
-            ];
+            if (PluginStaticModuleConfiguration::canManageInstallingPluginSetupData()) {
+                $option = self::OPTION_INSTALL_PLUGIN_SETUP_DATA;
+                $moduleSettings[] = [
+                    Properties::INPUT => $option,
+                    Properties::NAME => $this->getSettingOptionName(
+                        $module,
+                        $option
+                    ),
+                    Properties::TITLE => \__('Plugin setup: Install Persisted Queries for common admin tasks?', 'gatographql'),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('When installing or updating the plugin, enable the creation of Persisted Queries that tackle common admin tasks for WordPress?<br/><span class="more-info">%s</span>', 'gatographql'),
+                        $this->getSettingsItemHelpLinkHTML(
+                            'https://gatographql.com/guides/config/managing-plugin-setup-data',
+                            \__('Managing the plugin\'s setup data', 'gatographql')
+                        )
+                    ),
+                    Properties::TYPE => Properties::TYPE_BOOL,
+                ];
+            }
 
             $option = self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE;
             $moduleSettings[] = [
-                Properties::INPUT => $option,
-                Properties::NAME => $this->getSettingOptionName(
-                    $module,
-                    $option
-                ),
-                Properties::TITLE => \__('Display admin notice with release notes?', 'gatographql'),
-                Properties::DESCRIPTION => \__('Immediately after upgrading the plugin, show an admin notice with a link to the latest release notes?', 'gatographql'),
-                Properties::TYPE => Properties::TYPE_BOOL,
+            Properties::INPUT => $option,
+            Properties::NAME => $this->getSettingOptionName(
+                $module,
+                $option
+            ),
+            Properties::TITLE => \__('Display admin notice with release notes?', 'gatographql'),
+            Properties::DESCRIPTION => sprintf(
+                \__('Immediately after upgrading the plugin, show an admin notice with a link to the latest release notes?<br/><span class="more-info">%s</span>', 'gatographql'),
+                $this->getSettingsItemHelpLinkHTML(
+                    'https://gatographql.com/guides/config/displaying-the-plugins-new-features',
+                    \__('Displaying the plugin\'s new features', 'gatographql')
+                )
+            ),
+            Properties::TYPE => Properties::TYPE_BOOL,
             ];
 
             $option = self::OPTION_PRINT_SETTINGS_WITH_TABS;
             $moduleSettings[] = [
-                Properties::INPUT => $option,
-                Properties::NAME => $this->getSettingOptionName(
-                    $module,
-                    $option
-                ),
-                Properties::TITLE => \__('Organize these settings under tabs?', 'gatographql'),
-                Properties::DESCRIPTION => \__('Have all options in this Settings page be organized under tabs, one tab per module.<br/>After ticking the checkbox, must click on "Save Changes" to be applied.', 'gatographql'),
-                Properties::TYPE => Properties::TYPE_BOOL,
+            Properties::INPUT => $option,
+            Properties::NAME => $this->getSettingOptionName(
+                $module,
+                $option
+            ),
+            Properties::TITLE => \__('Organize these settings under tabs?', 'gatographql'),
+            Properties::DESCRIPTION => sprintf(
+                \__('Have all options in this Settings page be organized under tabs, one tab per module.<br/>After ticking the checkbox, must click on "Save Changes" to be applied<br/><span class="more-info">%s</span>', 'gatographql'),
+                $this->getSettingsItemHelpLinkHTML(
+                    'https://gatographql.com/guides/config/printing-the-settings-page-with-tabs-or-long-format',
+                    \__('Printing the Settings page with tabs or long format', 'gatographql')
+                )
+            ),
+            Properties::TYPE => Properties::TYPE_BOOL,
             ];
         } elseif ($module === self::SERVER_IP_CONFIGURATION) {
             // If any extension depends on this, it shall enable it
-            /** @var ModuleConfiguration */
-            $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
             if ($moduleConfiguration->enableSettingClientIPAddressServerPropertyName()) {
                 $option = self::OPTION_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME;
                 $moduleSettings[] = [
@@ -252,6 +312,35 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                     Properties::TYPE => Properties::TYPE_STRING,
                 ];
             }
+        } elseif ($module === self::SCHEMA_EDITING_ACCESS) {
+            $possibleValues = [];
+            foreach ($this->getUserAuthorizationSchemeRegistry()->getUserAuthorizationSchemes() as $userAuthorizationScheme) {
+                $possibleValues[$userAuthorizationScheme->getName()] = $userAuthorizationScheme->getDescription();
+            }
+            /**
+             * Write Access Scheme
+             * If `"admin"`, only the admin can compose a GraphQL query and endpoint
+             * If `"post"`, the workflow from creating posts is employed (i.e. Author role can create
+             * but not publish the query, Editor role can publish it, etc)
+             */
+            $option = self::OPTION_EDITING_ACCESS_SCHEME;
+            $moduleSettings[] = [
+            Properties::INPUT => $option,
+            Properties::NAME => $this->getSettingOptionName(
+                $module,
+                $option
+            ),
+            Properties::TITLE => \__('Which users can edit the schema?', 'gatographql-schema-editing-access'),
+            Properties::DESCRIPTION => sprintf(
+                \__('Indicate which users can edit the schema (i.e. creating and updating Persisted Queries, Custom Endpoints, and others)<br/><span class="more-info">%s</span>', 'gatographql-schema-editing-access'),
+                $this->getSettingsItemHelpLinkHTML(
+                    'https://gatographql.com/guides/config/managing-who-can-edit-the-schema',
+                    \__('Managing who can edit the schema', 'gatographql')
+                )
+            ),
+            Properties::TYPE => Properties::TYPE_STRING,
+            Properties::POSSIBLE_VALUES => $possibleValues,
+            ];
         }
         return $moduleSettings;
     }

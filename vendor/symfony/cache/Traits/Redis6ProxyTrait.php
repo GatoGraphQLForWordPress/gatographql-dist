@@ -10,7 +10,7 @@
  */
 namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
 
-if (\version_compare(\phpversion('redis'), '6.1.0', '>=')) {
+if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>=')) {
     /**
      * @internal
      */
@@ -33,7 +33,7 @@ if (\version_compare(\phpversion('redis'), '6.1.0', '>=')) {
         /**
          * @return \Redis|false|int
          */
-        public function hSet($key, $fields_and_vals)
+        public function hSet($key, ...$fields_and_vals)
         {
             return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
         }

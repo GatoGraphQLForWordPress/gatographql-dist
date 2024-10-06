@@ -13,6 +13,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const AUTOMATION = Plugin::NAMESPACE . '\\extensions\\automation';
     public const CACHE_CONTROL = Plugin::NAMESPACE . '\\extensions\\cache-control';
     public const CONDITIONAL_FIELD_MANIPULATION = Plugin::NAMESPACE . '\\extensions\\conditional-field-manipulation';
+    public const CUSTOM_ENDPOINTS = Plugin::NAMESPACE . '\\extensions\\custom-endpoints';
     public const DEPRECATION_NOTIFIER = Plugin::NAMESPACE . '\\extensions\\deprecation-notifier';
     public const EMAIL_SENDER = Plugin::NAMESPACE . '\\extensions\\email-sender';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\extensions\\events-manager';
@@ -31,6 +32,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const LOW_LEVEL_PERSISTED_QUERY_EDITING = Plugin::NAMESPACE . '\\extensions\\low-level-persisted-query-editing';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\extensions\\multilingualpress';
     public const MULTIPLE_QUERY_EXECUTION = Plugin::NAMESPACE . '\\extensions\\multiple-query-execution';
+    public const PERSISTED_QUERIES = Plugin::NAMESPACE . '\\extensions\\persisted-queries';
     public const PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-constants-and-environment-variables-via-schema';
     public const PHP_FUNCTIONS_VIA_SCHEMA = Plugin::NAMESPACE . '\\extensions\\php-functions-via-schema';
     public const POLYLANG = Plugin::NAMESPACE . '\\extensions\\polylang';
@@ -48,6 +50,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::AUTOMATION,
             self::CACHE_CONTROL,
             self::CONDITIONAL_FIELD_MANIPULATION,
+            self::CUSTOM_ENDPOINTS,
             self::DEPRECATION_NOTIFIER,
             self::EMAIL_SENDER,
             self::EVENTS_MANAGER,
@@ -66,6 +69,7 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::LOW_LEVEL_PERSISTED_QUERY_EDITING,
             self::MULTILINGUALPRESS,
             self::MULTIPLE_QUERY_EXECUTION,
+            self::PERSISTED_QUERIES,
             self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA,
             self::PHP_FUNCTIONS_VIA_SCHEMA,
             self::POLYLANG,
@@ -87,6 +91,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Cache Control', 'gatographql');
             case self::CONDITIONAL_FIELD_MANIPULATION:
                 return \__('Conditional Field Manipulation', 'gatographql');
+            case self::CUSTOM_ENDPOINTS:
+                return \__('Custom Endpoints', 'gatographql');
             case self::DEPRECATION_NOTIFIER:
                 return \__('Deprecation Notifier', 'gatographql');
             case self::EMAIL_SENDER:
@@ -123,6 +129,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('MultilingualPress', 'gatographql');
             case self::MULTIPLE_QUERY_EXECUTION:
                 return \__('Multiple Query Execution', 'gatographql');
+            case self::PERSISTED_QUERIES:
+                return \__('Persisted Queries', 'gatographql');
             case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:
                 return \__('PHP Constants and Environment Variables via Schema', 'gatographql');
             case self::PHP_FUNCTIONS_VIA_SCHEMA:
@@ -151,6 +159,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Provide HTTP Caching for endpoints accessed via GET, with the max-age value automatically calculated from the query.', 'gatographql');
             case self::CONDITIONAL_FIELD_MANIPULATION:
                 return \__('Apply a directive on a field only if some condition is met.', 'gatographql');
+            case self::CUSTOM_ENDPOINTS:
+                return \__('Provide multiple GraphQL endpoints to target different users and applications.', 'gatographql');
             case self::DEPRECATION_NOTIFIER:
                 return \__('Send deprecations in the response to the query (and not only when doing introspection).', 'gatographql');
             case self::EMAIL_SENDER:
@@ -187,6 +197,8 @@ class ExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::MULTIPLE_QUERY_EXECUTION:
                 return \__('Combine multiple queries into a single query, sharing state across them and executing them in the requested order.', 'gatographql');
+            case self::PERSISTED_QUERIES:
+                return \__('Use GraphQL queries to create pre-defined endpoints as in REST, obtaining the benefits from both APIs.', 'gatographql');
             case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:
                 return \__('Query the value from an environment variable or PHP constant.', 'gatographql');
             case self::PHP_FUNCTIONS_VIA_SCHEMA:

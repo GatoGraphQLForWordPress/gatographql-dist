@@ -209,7 +209,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
          * Add the excerpt, which is the description of the
          * different CPTs (GraphQL query/ACL/CCL)
          * */
-        if ($this->isExcerptAsDescriptionEnabled() && $this->usePostExcerptAsDescription()) {
+        if ($this->isExcerptAsDescriptionEnabled() && $this->useCustomPostExcerptAsDescription()) {
             // Execute last as to always add the description at the top
             \add_filter(
                 'the_content',
@@ -368,7 +368,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      */
     public function setTableColumns(array $columns): array
     {
-        if (!($this->isExcerptAsDescriptionEnabled() && $this->usePostExcerptAsDescription())) {
+        if (!($this->isExcerptAsDescriptionEnabled() && $this->useCustomPostExcerptAsDescription())) {
             return $columns;
         }
         // Add the description column after the title
@@ -531,7 +531,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
     /**
      * Indicate if the excerpt must be used as the CPT's description and rendered when rendering the post
      */
-    public function usePostExcerptAsDescription(): bool
+    public function useCustomPostExcerptAsDescription(): bool
     {
         return false;
     }
@@ -636,7 +636,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
     /**
      * Hierarchical
      */
-    protected function isHierarchical(): bool
+    public function isHierarchical(): bool
     {
         return false;
     }
@@ -736,7 +736,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         if ($this->isAPIHierarchyModuleEnabled() && $this->isHierarchical()) {
             $postTypeArgs['supports'][] = 'page-attributes';
         }
-        if ($this->isExcerptAsDescriptionEnabled() && $this->usePostExcerptAsDescription()) {
+        if ($this->isExcerptAsDescriptionEnabled() && $this->useCustomPostExcerptAsDescription()) {
             $postTypeArgs['supports'][] = 'excerpt';
         }
         if ($template = $this->getGutenbergTemplate()) {

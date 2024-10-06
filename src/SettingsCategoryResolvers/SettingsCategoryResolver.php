@@ -9,8 +9,9 @@ use GatoGraphQL\GatoGraphQL\Settings\Options;
 
 class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
 {
-    public const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
     public const ENDPOINT_CONFIGURATION = Plugin::NAMESPACE . '\endpoint-configuration';
+    public const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
+    public const SCHEMA_TYPE_CONFIGURATION = Plugin::NAMESPACE . '\schema-type-configuration';
     public const SERVER_CONFIGURATION = Plugin::NAMESPACE . '\server-configuration';
     public const PLUGIN_CONFIGURATION = Plugin::NAMESPACE . '\plugin-configuration';
     public const API_KEYS = Plugin::NAMESPACE . '\api-keys';
@@ -22,8 +23,9 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     public function getSettingsCategoriesToResolve(): array
     {
         return [
-            self::SCHEMA_CONFIGURATION,
             self::ENDPOINT_CONFIGURATION,
+            self::SCHEMA_CONFIGURATION,
+            self::SCHEMA_TYPE_CONFIGURATION,
             self::SERVER_CONFIGURATION,
             self::PLUGIN_CONFIGURATION,
             self::API_KEYS,
@@ -34,10 +36,12 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     public function getName(string $settingsCategory): string
     {
         switch ($settingsCategory) {
-            case self::SCHEMA_CONFIGURATION:
-                return $this->__('Schema Configuration', 'gatographql');
             case self::ENDPOINT_CONFIGURATION:
                 return $this->__('Endpoint Configuration', 'gatographql');
+            case self::SCHEMA_CONFIGURATION:
+                return $this->__('Schema Configuration', 'gatographql');
+            case self::SCHEMA_TYPE_CONFIGURATION:
+                return $this->__('Schema Elements Configuration', 'gatographql');
             case self::SERVER_CONFIGURATION:
                 return $this->__('Server Configuration', 'gatographql');
             case self::PLUGIN_CONFIGURATION:
@@ -54,10 +58,12 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     public function getDBOptionName(string $settingsCategory): string
     {
         switch ($settingsCategory) {
-            case self::SCHEMA_CONFIGURATION:
-                return Options::SCHEMA_CONFIGURATION;
             case self::ENDPOINT_CONFIGURATION:
                 return Options::ENDPOINT_CONFIGURATION;
+            case self::SCHEMA_CONFIGURATION:
+                return Options::SCHEMA_CONFIGURATION;
+            case self::SCHEMA_TYPE_CONFIGURATION:
+                return Options::SCHEMA_TYPE_CONFIGURATION;
             case self::SERVER_CONFIGURATION:
                 return Options::SERVER_CONFIGURATION;
             case self::PLUGIN_CONFIGURATION:

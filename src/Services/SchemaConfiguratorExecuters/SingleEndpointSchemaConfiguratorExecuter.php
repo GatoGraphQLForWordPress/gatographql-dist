@@ -7,7 +7,6 @@ namespace GatoGraphQL\GatoGraphQL\Services\SchemaConfiguratorExecuters;
 use GatoGraphQL\GatoGraphQL\AppHelpers;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
-use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers;
 use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SchemaConfiguratorInterface;
 use GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SingleEndpointSchemaConfigurator;
@@ -20,10 +19,6 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
      * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
      */
     private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
     /**
      * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SingleEndpointSchemaConfigurator|null
      */
@@ -44,19 +39,6 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
     protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
-    final protected function getModuleRegistry(): ModuleRegistryInterface
-    {
-        if ($this->moduleRegistry === null) {
-            /** @var ModuleRegistryInterface */
-            $moduleRegistry = $this->instanceManager->getInstance(ModuleRegistryInterface::class);
-            $this->moduleRegistry = $moduleRegistry;
-        }
-        return $this->moduleRegistry;
     }
     final public function setSingleEndpointSchemaConfigurator(SingleEndpointSchemaConfigurator $singleEndpointSchemaConfigurator): void
     {

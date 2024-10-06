@@ -215,7 +215,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
     {
         return sprintf(
             '%s%s',
-            \__('Get Extension', 'gatographql'),
+            \__('Website', 'gatographql'),
             HTMLCodes::OPEN_IN_NEW_WINDOW
         );
     }
@@ -328,7 +328,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
 
     protected function addArtificialRequestAnExtensionPluginItem(): bool
     {
-        return true;
+        return false;
     }
 
     /**

@@ -212,6 +212,9 @@ class Filesystem
     /**
      * Change the owner of an array of files or directories.
      *
+     * This method always throws on Windows, as the underlying PHP function is not supported.
+     * @see https://www.php.net/chown
+     *
      * @param string|int $user      A user name or number
      * @param bool       $recursive Whether change the owner recursively or not
      *
@@ -239,6 +242,9 @@ class Filesystem
     }
     /**
      * Change the group of an array of files or directories.
+     *
+     * This method always throws on Windows, as the underlying PHP function is not supported.
+     * @see https://www.php.net/chgrp
      *
      * @param string|int $group     A group name or number
      * @param bool       $recursive Whether change the group recursively or not
@@ -599,6 +605,9 @@ class Filesystem
             $this->rename($tmpFile, $filename, \true);
         } finally {
             if (\file_exists($tmpFile)) {
+                if ('\\' === \DIRECTORY_SEPARATOR && !\is_writable($tmpFile)) {
+                    self::box('chmod', $tmpFile, self::box('fileperms', $tmpFile) | 0200);
+                }
                 self::box('unlink', $tmpFile);
             }
         }

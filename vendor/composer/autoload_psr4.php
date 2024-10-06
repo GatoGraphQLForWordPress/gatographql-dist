@@ -10,7 +10,6 @@ return array(
     'PrefixedByPoP\\Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'PrefixedByPoP\\Symfony\\Polyfill\\Php74\\' => array($vendorDir . '/symfony/polyfill-php74'),
     'PrefixedByPoP\\Symfony\\Polyfill\\Php73\\' => array($vendorDir . '/symfony/polyfill-php73'),
-    'PrefixedByPoP\\Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'PrefixedByPoP\\Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'PrefixedByPoP\\Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'PrefixedByPoP\\Symfony\\Contracts\\Service\\' => array($vendorDir . '/symfony/service-contracts'),

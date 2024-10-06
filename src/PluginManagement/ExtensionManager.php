@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\PluginManagement;
 
 use GatoGraphQL\ExternalDependencyWrappers\Composer\Semver\SemverWrapper;
+use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
 use GatoGraphQL\GatoGraphQL\Exception\ExtensionNotRegisteredException;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseStatus;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginManagementFunctionalityModuleResolver;
@@ -143,7 +144,21 @@ class ExtensionManager extends AbstractPluginManager
             )
         ) {
             $this->printAdminNoticeErrorMessage(
-                sprintf(__('Plugin <strong>%1$s</strong> requires <strong>%2$s</strong> to satisfy version constraint <code>%3$s</code>, but the current version <code>%4$s</code> does not. The plugin has not been loaded.<br/>(If you have just updated <strong>%2$s</strong>, notice that the corresponding version for <strong>%1$s</strong> will be already available; please download it and install it.)', 'gatographql'), $extensionName ?? $extensionClass, $mainPlugin->getPluginName(), $mainPluginVersionConstraint, $mainPlugin->getPluginVersion())
+                sprintf(
+                    __('Plugin <strong>%1$s</strong> requires <strong>%2$s</strong> to satisfy version constraint <code>%3$s</code>, but the current version <code>%4$s</code> does not. The plugin has not been loaded.<br/>(If you have just updated <strong>%2$s</strong>, notice that the corresponding version for <strong>%1$s</strong> will be already available; please <a href="%5$s" target="_blank">download it%6$s</a> and install it.)', 'gatographql'),
+                    $extensionName ?? $extensionClass,
+                    $mainPlugin->getPluginName(),
+                    $mainPluginVersionConstraint,
+                    $mainPlugin->getPluginVersion(),
+                    /**
+                     * Watch out! Hardcoding the URL, instead of doing
+                     * `$moduleConfiguration->getGatoGraphQLShopMyOrdersURL()`,
+                     * because it otherwise throws "`App::$appThread`
+                     * no initialized" error
+                     */
+                    'https://gatographql.com/shop/my-orders',
+                    HTMLCodes::OPEN_IN_NEW_WINDOW
+                )
             );
             return false;
         }
@@ -227,7 +242,7 @@ class ExtensionManager extends AbstractPluginManager
      *
      * @param string $extensionProductName The EXACT name as the product is stored in the Gato GraphQL Shop (i.e. in the Marketplace Provider's system)
      */
-    public function assertCommercialLicenseHasBeenActivated(string $extensionSlug, string $extensionProductName): bool
+    public function assertCommercialLicenseHasBeenActivated(string $extensionSlug, string $extensionProductName, string $extensionName): bool
     {
         /**
          * Retrieve from the DB which licenses have been activated,
@@ -235,7 +250,7 @@ class ExtensionManager extends AbstractPluginManager
          */
         $commercialExtensionActivatedLicenseObjectProperties = SettingsHelpers::getCommercialExtensionActivatedLicenseObjectProperties();
         if (!isset($commercialExtensionActivatedLicenseObjectProperties[$extensionSlug])) {
-            $this->showAdminWarningNotice($extensionProductName);
+            $this->showAdminWarningNotice($extensionName);
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
             return false;
         }
@@ -259,7 +274,7 @@ class ExtensionManager extends AbstractPluginManager
             ])
         ) {
             $this->showAdminWarningNotice(
-                $extensionProductName,
+                $extensionName,
                 __('The license is invalid. Please <a href="%s">enter a new license key in %s</a> to enable it', 'gatographql')
             );
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
@@ -270,7 +285,7 @@ class ExtensionManager extends AbstractPluginManager
          */
         if ($extensionCommercialExtensionActivatedLicenseObjectProperties->productName !== $extensionProductName) {
             $this->showAdminWarningNotice(
-                $extensionProductName,
+                $extensionName,
                 __('The provided license key belongs to a different extension. Please <a href="%s">enter the right license key in %s</a> to enable it', 'gatographql')
             );
             $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
@@ -284,10 +299,10 @@ class ExtensionManager extends AbstractPluginManager
     /**
      * Unless we are in the Settings page, show a warning about activating the extension
      */
-    protected function showAdminWarningNotice(string $extensionProductName, ?string $messagePlaceholder = null): void
+    protected function showAdminWarningNotice(string $extensionName, ?string $messagePlaceholder = null): void
     {
         $messagePlaceholder = $messagePlaceholder ?? __('Please <a href="%s">enter the license key in %s</a> to enable it', 'gatographql');
-        \add_action('admin_notices', function () use ($extensionProductName, $messagePlaceholder) {
+        \add_action('admin_notices', function () use ($extensionName, $messagePlaceholder) {
             // /**
             //  * Do not print the warnings in the Settings page
             //  */
@@ -302,9 +317,9 @@ class ExtensionManager extends AbstractPluginManager
                 '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
                 sprintf(
                     __('<strong>%s</strong>: %s.', 'gatographql'),
-                    PluginStaticModuleConfiguration::offerSinglePROCommercialProduct()
+                    PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage() && !PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage()
                         ? __('Gato GraphQL PRO', 'gatographql')
-                        : sprintf(__('Gato GraphQL - %s', 'gatographql'), $extensionProductName),
+                        : $extensionName,
                     sprintf(
                         $messagePlaceholder,
                         $activateExtensionsSettingsURL,

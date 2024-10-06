@@ -432,7 +432,6 @@ abstract class AbstractPlugin implements PluginInterface
      */
     public function pluginJustUpdated(string $newVersion, string $previousVersion): void
     {
-
         /**
          * Taxonomies are registered on "init", hence must insert
          * data only after that.
@@ -518,21 +517,5 @@ abstract class AbstractPlugin implements PluginInterface
     protected function getPluginSetupDataVersionCallbacks(): array
     {
         return [];
-    }
-
-    /**
-     * @param array<array<string,mixed>> $blockDataItems
-     * @return array<array<string,mixed>>
-     */
-    protected function addInnerContentToBlockAttrs(array $blockDataItems): array
-    {
-        return array_map(
-            function (array $blockDataItem): array {
-                // Must add an empty array for each of the innerBlocks
-                $innerContentItems = array_pad([], count($blockDataItem['innerBlocks'] ?? []), []);
-                return array_merge($blockDataItem, ['innerContent' => $innerContentItems]);
-            },
-            $blockDataItems
-        );
     }
 }

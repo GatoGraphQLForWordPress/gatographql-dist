@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Services\BlockCategories;
 
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\SchemaConfigurationFunctionalityModuleResolver;
+use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType;
 
 class SchemaConfigurationBlockCategory extends AbstractBlockCategory
@@ -14,6 +16,10 @@ class SchemaConfigurationBlockCategory extends AbstractBlockCategory
      * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
      */
     private $graphQLSchemaConfigurationCustomPostType;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
 
     final public function setGraphQLSchemaConfigurationCustomPostType(GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType): void
     {
@@ -27,6 +33,27 @@ class SchemaConfigurationBlockCategory extends AbstractBlockCategory
             $this->graphQLSchemaConfigurationCustomPostType = $graphQLSchemaConfigurationCustomPostType;
         }
         return $this->graphQLSchemaConfigurationCustomPostType;
+    }
+    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
+    {
+        $this->moduleRegistry = $moduleRegistry;
+    }
+    final protected function getModuleRegistry(): ModuleRegistryInterface
+    {
+        if ($this->moduleRegistry === null) {
+            /** @var ModuleRegistryInterface */
+            $moduleRegistry = $this->instanceManager->getInstance(ModuleRegistryInterface::class);
+            $this->moduleRegistry = $moduleRegistry;
+        }
+        return $this->moduleRegistry;
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        if (!$this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)) {
+            return false;
+        }
+        return parent::isServiceEnabled();
     }
 
     /**

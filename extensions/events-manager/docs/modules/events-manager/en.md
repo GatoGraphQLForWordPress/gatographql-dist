@@ -21,7 +21,3 @@ query {
   }
 }
 ```
-<!-- 
-## Bundles including extension
-
-- [“All in One Toolbox for WordPress” Bundle](../../../../../bundle-extensions/all-in-one-toolbox-for-wordpress/docs/modules/all-in-one-toolbox-for-wordpress/en.md) -->

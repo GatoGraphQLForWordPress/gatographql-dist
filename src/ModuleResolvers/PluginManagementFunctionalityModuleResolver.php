@@ -258,7 +258,7 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
                 Properties::TITLE => \__('Reset the Gato GraphQL Settings?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
                     '<p>%s</p><p>%s</p>',
-                    sprintf(\__('Restore all settings (under tabs <code>%s</code>, <code>%s</code>, <code>%s</code> and <code>%s</code>) to their default values.', 'gatographql'), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::SCHEMA_CONFIGURATION)->getName(SettingsCategoryResolver::SCHEMA_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::ENDPOINT_CONFIGURATION)->getName(SettingsCategoryResolver::ENDPOINT_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::SERVER_CONFIGURATION)->getName(SettingsCategoryResolver::SERVER_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::PLUGIN_CONFIGURATION)->getName(SettingsCategoryResolver::PLUGIN_CONFIGURATION)),
+                    sprintf(\__('Restore all settings (under tabs <code>%s</code>, <code>%s</code>, <code>%s</code>, <code>%s</code> and <code>%s</code>) to their default values.', 'gatographql'), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::ENDPOINT_CONFIGURATION)->getName(SettingsCategoryResolver::ENDPOINT_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::SCHEMA_CONFIGURATION)->getName(SettingsCategoryResolver::SCHEMA_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::SCHEMA_TYPE_CONFIGURATION)->getName(SettingsCategoryResolver::SCHEMA_TYPE_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::SERVER_CONFIGURATION)->getName(SettingsCategoryResolver::SERVER_CONFIGURATION), $settingsCategoryRegistry->getSettingsCategoryResolver(SettingsCategoryResolver::PLUGIN_CONFIGURATION)->getName(SettingsCategoryResolver::PLUGIN_CONFIGURATION)),
                     $resetSettingsButtonsHTML
                 ),
                 Properties::TYPE => Properties::TYPE_NULL,
@@ -315,7 +315,7 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
                         '<td>' . implode(
                             '</td><td>',
                             [
-                                \__('Environment Fields', 'gatographql'),
+                                \__('Environment variables (extension)', 'gatographql'),
                                 \__('All environment variables and PHP constants are queryable', 'gatographql'),
                                 \__('No environment variables or PHP constants are queryable', 'gatographql'),
                             ]
@@ -323,7 +323,7 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
                         '<td>' . implode(
                             '</td><td>',
                             [
-                                \__('Send HTTP Request Fields', 'gatographql'),
+                                \__('HTTP Client requests (extension)', 'gatographql'),
                                 \__('All URLs can be requested', 'gatographql'),
                                 \__('No URL can be requested', 'gatographql'),
                             ]

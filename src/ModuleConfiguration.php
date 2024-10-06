@@ -60,28 +60,6 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     }
 
     /**
-     * The slug to use as base when accessing the custom endpoint
-     */
-    public function getCustomEndpointSlugBase(): string
-    {
-        $envVariable = Environment::ENDPOINT_SLUG_BASE;
-        $defaultValue = 'graphql';
-
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
-    }
-
-    /**
-     * The slug to use as base when accessing the persisted query
-     */
-    public function getPersistedQuerySlugBase(): string
-    {
-        $envVariable = Environment::PERSISTED_QUERY_SLUG_BASE;
-        $defaultValue = 'graphql-query';
-
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
-    }
-
-    /**
      * If `"admin"`, only the admin can compose a GraphQL query and endpoint
      * If `"post"`, the workflow from creating posts is employed (i.e. Author role can create
      * but not publish the query, Editor role can publish it, etc)
@@ -114,7 +92,9 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     public function getGatoGraphQLBundlesPageURL(): string
     {
         $envVariable = Environment::GATOGRAPHQL_BUNDLES_PAGE_URL;
-        $defaultValue = 'https://gatographql.com/bundles/';
+        $defaultValue = PluginStaticModuleConfiguration::displayGatoGraphQLPROExtensionsOnExtensionsPage()
+            ? 'https://gatographql.com/bundles'
+            : 'https://gatographql.com/extensions';
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
@@ -122,7 +102,15 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     public function getGatoGraphQLExtensionsPageURL(): string
     {
         $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
-        $defaultValue = 'https://gatographql.com/extensions/';
+        $defaultValue = 'https://gatographql.com/extensions';
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+    }
+
+    public function getGatoGraphQLExtensionsReferencePageURL(): string
+    {
+        $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
+        $defaultValue = 'https://gatographql.com/extensions-reference';
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
@@ -131,6 +119,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL;
         $defaultValue = 'https://gatographql.com/contact/';
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+    }
+
+    public function getGatoGraphQLShopMyOrdersURL(): string
+    {
+        $envVariable = Environment::GATOGRAPHQL_SHOP_MYORDERS_URL;
+        $defaultValue = 'https://gatographql.com/shop/my-orders';
 
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
@@ -149,9 +145,9 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 
-    public function hideTutorialPage(): bool
+    public function enableSchemaTutorialPage(): bool
     {
-        $envVariable = Environment::HIDE_TUTORIAL_PAGE;
+        $envVariable = Environment::ENABLE_SCHEMA_TUTORIAL_PAGE;
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
@@ -185,6 +181,24 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 
+    public function isSchemaConfigurationModuleEnabledByDefault(): bool
+    {
+        $envVariable = Environment::IS_SCHEMA_CONFIGURATION_ENABLED_BY_DEFAULT;
+        $defaultValue = false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+
+    public function displayEnableLogsSettingsOption(): bool
+    {
+        $envVariable = Environment::DISPLAY_ENABLE_LOGS_SETTINGS_OPTION;
+        $defaultValue = false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
+
     /**
      * These values are pre-defined.
      */
@@ -194,6 +208,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
             case Environment::GATOGRAPHQL_WEBSITE_URL:
             case Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL:
             case Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL:
+            case Environment::GATOGRAPHQL_SHOP_MYORDERS_URL:
             case Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER:
                 return false;
             default:

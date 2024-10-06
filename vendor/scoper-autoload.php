@@ -29,26 +29,26 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
-humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
-humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
-humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
-humbug_phpscoper_expose_class('SQLite3Exception', 'PrefixedByPoP\SQLite3Exception');
-humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
-humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
-humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
-humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
-humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
-humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
-humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
+humbug_phpscoper_expose_class('ComposerAutoloaderInite4e867c0a6865d2402947a5f8b4c06e4', 'PrefixedByPoP\ComposerAutoloaderInite4e867c0a6865d2402947a5f8b4c06e4');
+humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
+humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
+humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
 humbug_phpscoper_expose_class('PhpToken', 'PrefixedByPoP\PhpToken');
 humbug_phpscoper_expose_class('Attribute', 'PrefixedByPoP\Attribute');
-humbug_phpscoper_expose_class('ValueError', 'PrefixedByPoP\ValueError');
-humbug_phpscoper_expose_class('Stringable', 'PrefixedByPoP\Stringable');
-humbug_phpscoper_expose_class('UnhandledMatchError', 'PrefixedByPoP\UnhandledMatchError');
+humbug_phpscoper_expose_class('JsonException', 'PrefixedByPoP\JsonException');
+humbug_phpscoper_expose_class('DateInvalidOperationException', 'PrefixedByPoP\DateInvalidOperationException');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'PrefixedByPoP\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'PrefixedByPoP\DateMalformedPeriodStringException');
+humbug_phpscoper_expose_class('Override', 'PrefixedByPoP\Override');
+humbug_phpscoper_expose_class('SQLite3Exception', 'PrefixedByPoP\SQLite3Exception');
+humbug_phpscoper_expose_class('DateObjectError', 'PrefixedByPoP\DateObjectError');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'PrefixedByPoP\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateMalformedStringException', 'PrefixedByPoP\DateMalformedStringException');
+humbug_phpscoper_expose_class('DateException', 'PrefixedByPoP\DateException');
+humbug_phpscoper_expose_class('DateRangeError', 'PrefixedByPoP\DateRangeError');
+humbug_phpscoper_expose_class('DateError', 'PrefixedByPoP\DateError');
+humbug_phpscoper_expose_class('©', 'PrefixedByPoP\©');
 humbug_phpscoper_expose_class('CastToType', 'PrefixedByPoP\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit1bb09951736797ce720a491cdc464c5d', 'PrefixedByPoP\ComposerAutoloaderInit1bb09951736797ce720a491cdc464c5d');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
@@ -97,9 +97,11 @@ if (!function_exists('mb_internal_encoding')) { function mb_internal_encoding() 
 if (!function_exists('mb_language')) { function mb_language() { return \PrefixedByPoP\mb_language(...func_get_args()); } }
 if (!function_exists('mb_lcfirst')) { function mb_lcfirst() { return \PrefixedByPoP\mb_lcfirst(...func_get_args()); } }
 if (!function_exists('mb_list_encodings')) { function mb_list_encodings() { return \PrefixedByPoP\mb_list_encodings(...func_get_args()); } }
+if (!function_exists('mb_ltrim')) { function mb_ltrim() { return \PrefixedByPoP\mb_ltrim(...func_get_args()); } }
 if (!function_exists('mb_ord')) { function mb_ord() { return \PrefixedByPoP\mb_ord(...func_get_args()); } }
 if (!function_exists('mb_output_handler')) { function mb_output_handler() { return \PrefixedByPoP\mb_output_handler(...func_get_args()); } }
 if (!function_exists('mb_parse_str')) { function mb_parse_str() { return \PrefixedByPoP\mb_parse_str(...func_get_args()); } }
+if (!function_exists('mb_rtrim')) { function mb_rtrim() { return \PrefixedByPoP\mb_rtrim(...func_get_args()); } }
 if (!function_exists('mb_scrub')) { function mb_scrub() { return \PrefixedByPoP\mb_scrub(...func_get_args()); } }
 if (!function_exists('mb_str_pad')) { function mb_str_pad() { return \PrefixedByPoP\mb_str_pad(...func_get_args()); } }
 if (!function_exists('mb_str_split')) { function mb_str_split() { return \PrefixedByPoP\mb_str_split(...func_get_args()); } }
@@ -118,19 +120,15 @@ if (!function_exists('mb_strwidth')) { function mb_strwidth() { return \Prefixed
 if (!function_exists('mb_substitute_character')) { function mb_substitute_character() { return \PrefixedByPoP\mb_substitute_character(...func_get_args()); } }
 if (!function_exists('mb_substr')) { function mb_substr() { return \PrefixedByPoP\mb_substr(...func_get_args()); } }
 if (!function_exists('mb_substr_count')) { function mb_substr_count() { return \PrefixedByPoP\mb_substr_count(...func_get_args()); } }
+if (!function_exists('mb_trim')) { function mb_trim() { return \PrefixedByPoP\mb_trim(...func_get_args()); } }
 if (!function_exists('mb_ucfirst')) { function mb_ucfirst() { return \PrefixedByPoP\mb_ucfirst(...func_get_args()); } }
 if (!function_exists('password_algos')) { function password_algos() { return \PrefixedByPoP\password_algos(...func_get_args()); } }
 if (!function_exists('preg_last_error_msg')) { function preg_last_error_msg() { return \PrefixedByPoP\preg_last_error_msg(...func_get_args()); } }
-if (!function_exists('sapi_windows_vt100_support')) { function sapi_windows_vt100_support() { return \PrefixedByPoP\sapi_windows_vt100_support(...func_get_args()); } }
-if (!function_exists('spl_object_id')) { function spl_object_id() { return \PrefixedByPoP\spl_object_id(...func_get_args()); } }
 if (!function_exists('str_contains')) { function str_contains() { return \PrefixedByPoP\str_contains(...func_get_args()); } }
 if (!function_exists('str_decrement')) { function str_decrement() { return \PrefixedByPoP\str_decrement(...func_get_args()); } }
 if (!function_exists('str_ends_with')) { function str_ends_with() { return \PrefixedByPoP\str_ends_with(...func_get_args()); } }
 if (!function_exists('str_increment')) { function str_increment() { return \PrefixedByPoP\str_increment(...func_get_args()); } }
 if (!function_exists('str_starts_with')) { function str_starts_with() { return \PrefixedByPoP\str_starts_with(...func_get_args()); } }
 if (!function_exists('stream_context_set_options')) { function stream_context_set_options() { return \PrefixedByPoP\stream_context_set_options(...func_get_args()); } }
-if (!function_exists('stream_isatty')) { function stream_isatty() { return \PrefixedByPoP\stream_isatty(...func_get_args()); } }
-if (!function_exists('utf8_decode')) { function utf8_decode() { return \PrefixedByPoP\utf8_decode(...func_get_args()); } }
-if (!function_exists('utf8_encode')) { function utf8_encode() { return \PrefixedByPoP\utf8_encode(...func_get_args()); } }
 
 return $loader;

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Request;
 
-use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptions;
-use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
-use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
-use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
-use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
+use GatoGraphQL\GatoGraphQL\Registries\GraphQLEndpointPathProviderRegistryInterface;
+use GatoGraphQL\GatoGraphQL\Services\GraphQLEndpointPathProviders\GraphQLEndpointPathProviderInterface;
 use PoPAPI\APIEndpoints\EndpointUtils;
 use PoP\Root\Routing\RoutingHelperServiceInterface;
 use PoP\Root\Services\BasicServiceTrait;
@@ -28,40 +25,27 @@ class PrematureRequestService implements PrematureRequestServiceInterface
     use BasicServiceTrait;
 
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     * @var \GatoGraphQL\GatoGraphQL\Registries\GraphQLEndpointPathProviderRegistryInterface|null
      */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private $graphQLEndpointPathProviderRegistry;
     /**
      * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
      */
     private $routingHelperService;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
+    final public function setGraphQLEndpointPathProviderRegistry(GraphQLEndpointPathProviderRegistryInterface $graphQLEndpointPathProviderRegistry): void
     {
-        $this->moduleRegistry = $moduleRegistry;
+        $this->graphQLEndpointPathProviderRegistry = $graphQLEndpointPathProviderRegistry;
     }
-    final protected function getModuleRegistry(): ModuleRegistryInterface
+    final protected function getGraphQLEndpointPathProviderRegistry(): GraphQLEndpointPathProviderRegistryInterface
     {
-        if ($this->moduleRegistry === null) {
-            /** @var ModuleRegistryInterface */
-            $moduleRegistry = $this->instanceManager->getInstance(ModuleRegistryInterface::class);
-            $this->moduleRegistry = $moduleRegistry;
+        if ($this->graphQLEndpointPathProviderRegistry === null) {
+            /** @var GraphQLEndpointPathProviderRegistryInterface */
+            $graphQLEndpointPathProviderRegistry = $this->instanceManager->getInstance(GraphQLEndpointPathProviderRegistryInterface::class);
+            $this->graphQLEndpointPathProviderRegistry = $graphQLEndpointPathProviderRegistry;
         }
-        return $this->moduleRegistry;
+        return $this->graphQLEndpointPathProviderRegistry;
     }
-    final public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    final protected function getUserSettingsManager(): UserSettingsManagerInterface
-    {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-
     final public function setRoutingHelperService(RoutingHelperServiceInterface $routingHelperService): void
     {
         $this->routingHelperService = $routingHelperService;
@@ -123,29 +107,11 @@ class PrematureRequestService implements PrematureRequestServiceInterface
      */
     protected function getGraphQLEndpointPaths(): array
     {
-        $moduleRegistry = $this->getModuleRegistry();
-        $userSettingsManager = $this->getUserSettingsManager();
-
-        $graphQLEndpointPaths = [];
-        if ($moduleRegistry->isModuleEnabled(EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT)) {
-            $graphQLEndpointPaths[] = $userSettingsManager->getSetting(
-                EndpointFunctionalityModuleResolver::SINGLE_ENDPOINT,
-                ModuleSettingOptions::PATH
-            );
-        }
-        if ($moduleRegistry->isModuleEnabled(EndpointFunctionalityModuleResolver::CUSTOM_ENDPOINTS)) {
-            $graphQLEndpointPaths[] = $userSettingsManager->getSetting(
-                EndpointFunctionalityModuleResolver::CUSTOM_ENDPOINTS,
-                ModuleSettingOptions::PATH
-            );
-        }
-        if ($moduleRegistry->isModuleEnabled(EndpointFunctionalityModuleResolver::PERSISTED_QUERIES)) {
-            $graphQLEndpointPaths[] = $userSettingsManager->getSetting(
-                EndpointFunctionalityModuleResolver::PERSISTED_QUERIES,
-                ModuleSettingOptions::PATH
-            );
-        }
-
-        return $graphQLEndpointPaths;
+        return array_map(
+            function (GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider) {
+                return $graphQLEndpointPathProvider->getPath();
+            },
+            $this->getGraphQLEndpointPathProviderRegistry()->getGraphQLEndpointPathProviders(true)
+        );
     }
 }

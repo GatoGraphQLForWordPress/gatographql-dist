@@ -49,12 +49,16 @@ class ExtensionListTable extends AbstractExtensionListTable
         $moduleRegistry = ModuleRegistryFacade::getInstance();
         $modules = $moduleRegistry->getAllModules(true, false, false);
         $wordPressPluginAPIUnneededRequiredEntries = $this->getWordPressPluginAPIUnneededRequiredEntries();
+        $displayGatoGraphQLPROExtensionsOnExtensionsPage = PluginStaticModuleConfiguration::displayGatoGraphQLPROExtensionsOnExtensionsPage();
         foreach ($modules as $module) {
             $moduleResolver = $moduleRegistry->getModuleResolver($module);
             if (!($moduleResolver instanceof ExtensionModuleResolverInterface)) {
                 continue;
             }
             $isBundleExtension = $moduleResolver instanceof BundleExtensionModuleResolverInterface;
+            if (!$isBundleExtension && !$displayGatoGraphQLPROExtensionsOnExtensionsPage) {
+                continue;
+            }
             $item = array_merge(['name' => $moduleResolver->getName($module), 'slug' => $moduleResolver->getGatoGraphQLExtensionSlug($module), 'short_description' => $moduleResolver->getDescription($module), 'homepage' => $moduleResolver->getWebsiteURL($module), 'icons' => [
                 'default' => $moduleResolver->getLogoURL($module),
             ]], $wordPressPluginAPIUnneededRequiredEntries, [
@@ -114,29 +118,29 @@ class ExtensionListTable extends AbstractExtensionListTable
      */
     public function getPluginInstallActionLabel(array $plugin): string
     {
-        $offerSinglePROCommercialProduct = PluginStaticModuleConfiguration::offerSinglePROCommercialProduct();
+        $displayGatoGraphQLPROBundleOnExtensionsPage = PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage();
+        $displayGatoGraphQLPROFeatureBundlesOnExtensionsPage = PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage();
+
+        $module = $plugin['gato_extension_module'];
 
         // If it's a Bundle => "Get Bundle", otherwise "Get Extension"
-        $extensionActionLabel = $plugin['gato_extension_is_bundle']
-            ? sprintf(
+        if ($module === BundleExtensionModuleResolver::PRO) {
+            $extensionActionLabel = sprintf(
                 '%s%s',
-                $offerSinglePROCommercialProduct ? sprintf('<strong>%s</strong>', \__('Go PRO', 'gatographql')) : \__('Get Bundle', 'gatographql'),
+                $displayGatoGraphQLPROBundleOnExtensionsPage && !$displayGatoGraphQLPROFeatureBundlesOnExtensionsPage ? sprintf('<strong>%s</strong>', \__('Go PRO', 'gatographql')) : \__('Get Bundle', 'gatographql'),
                 HTMLCodes::OPEN_IN_NEW_WINDOW
-            )
-            : (
-                $offerSinglePROCommercialProduct ? sprintf(
-                    '%s%s',
-                    \__('Visit on website', 'gatographql'),
-                    HTMLCodes::OPEN_IN_NEW_WINDOW
-                ) : parent::getPluginInstallActionLabel($plugin)
             );
+        } else {
+            $extensionActionLabel = parent::getPluginInstallActionLabel($plugin);
+        }
+
         return sprintf(
             '
                 <span class="gatographql-extension-action-label">%s</span>
                 <span class="gatographql-extension-bundle-action-label" style="display: none;">%s</span>
             ',
             $extensionActionLabel,
-            $offerSinglePROCommercialProduct ? \__('Active (via PRO)', 'gatographql') : \__('Active (via Bundle)', 'gatographql')
+            $displayGatoGraphQLPROBundleOnExtensionsPage && !$displayGatoGraphQLPROFeatureBundlesOnExtensionsPage ? \__('Active (via PRO)', 'gatographql') : \__('Active (via Bundle)', 'gatographql')
         );
     }
 
@@ -150,7 +154,7 @@ class ExtensionListTable extends AbstractExtensionListTable
             if (
                 in_array($plugin['gato_extension_module'], [
                 BundleExtensionModuleResolver::PRO,
-                BundleExtensionModuleResolver::ALL_IN_ONE_TOOLBOX_FOR_WORDPRESS,
+                BundleExtensionModuleResolver::ALL_EXTENSIONS,
                 ])
             ) {
                 $additionalPluginCardClassnames .= ' plugin-card-highlight';

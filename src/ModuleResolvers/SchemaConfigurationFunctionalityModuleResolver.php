@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\ModuleResolvers;
 
+use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\Constants\GlobalFieldsSchemaExposure;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptions;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface;
+use GatoGraphQL\GatoGraphQL\Module;
+use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\ModuleSettings\Properties;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\StaticHelpers\BehaviorHelpers;
@@ -62,16 +65,16 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
     {
         return [
             self::SCHEMA_CONFIGURATION,
-            self::SCHEMA_NAMESPACING,
+            self::SCHEMA_EXPOSE_SENSITIVE_DATA,
             self::RESPONSE_HEADERS,
+            self::MUTATIONS,
+            self::NESTED_MUTATIONS,
+            self::SCHEMA_SELF_FIELDS,
+            self::GLOBAL_ID_FIELD,
+            self::SCHEMA_NAMESPACING,
             self::GLOBAL_FIELDS,
             self::COMPOSABLE_DIRECTIVES,
             self::MULTIFIELD_DIRECTIVES,
-            self::MUTATIONS,
-            self::NESTED_MUTATIONS,
-            self::SCHEMA_EXPOSE_SENSITIVE_DATA,
-            self::SCHEMA_SELF_FIELDS,
-            self::GLOBAL_ID_FIELD,
         ];
     }
 
@@ -125,7 +128,7 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
     {
         switch ($module) {
             case self::SCHEMA_CONFIGURATION:
-                return \__('Customize the schema accessible to different Custom Endpoints and Persisted Queries, by applying a custom configuration (involving namespacing, access control, cache control, and others) to the grand schema', 'gatographql');
+                return \__('Customize the schema accessible to different endpoints, by applying a custom configuration (involving namespacing, access control, cache control, and others) to the grand schema', 'gatographql');
             case self::SCHEMA_NAMESPACING:
                 return \__('Automatically namespace types with a vendor/project name, to avoid naming collisions', 'gatographql');
             case self::RESPONSE_HEADERS:
@@ -170,6 +173,20 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 return true;
             default:
                 return parent::isHidden($module);
+        }
+    }
+
+    public function isEnabledByDefault(string $module): bool
+    {
+        /**
+         * @var ModuleConfiguration
+         */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        switch ($module) {
+            case self::SCHEMA_CONFIGURATION:
+                return $moduleConfiguration->isSchemaConfigurationModuleEnabledByDefault();
+            default:
+                return parent::isEnabledByDefault($module);
         }
     }
 
@@ -232,8 +249,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Namespace the schema?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Namespace types in the GraphQL schema?<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Namespace types in the GraphQL schema?<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/namespacing-the-schema',
+                        \__('Namespacing the schema', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
@@ -246,7 +267,15 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                     $option
                 ),
                 Properties::TITLE => \__('Response Headers', 'gatographql'),
-                Properties::DESCRIPTION => sprintf('%s<br/>%s', \__('Provide custom headers to add to the API response. One header per line, with format: <code>{header name}: {header value}</code>', 'gatographql'), $defaultValueDesc),
+                Properties::DESCRIPTION => sprintf(
+                    '%s<br/>%s<br/><span class="more-info">%s</span>',
+                    \__('Provide custom headers to add to the API response. One header per line, with format: <code>{header name}: {header value}</code>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/adding-custom-headers-to-the-graphql-response-cors',
+                        \__('Adding custom headers to the GraphQL response (CORS)', 'gatographql')
+                    )
+                ),
                 Properties::TYPE => Properties::TYPE_ARRAY,
                 Properties::IS_MULTIPLE => true,
             ];
@@ -265,8 +294,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Schema exposure.', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Under what types to expose global fields.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Under what types to expose global fields.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/config/hiding-global-fields',
+                        \__('Hiding Global Fields', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => $globalFieldsSchemaExposureValues,
@@ -281,8 +314,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Enable multi-field directives?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Enable having a single directive be applied to multiple fields.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Enable having a single directive be applied to multiple fields.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/using-multi-field-directives',
+                        \__('Using multi-field directives', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
@@ -296,8 +333,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Enable composable directives?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Enable adding composable directives (also called "meta-directives", such as <code>@underEachArrayItem</code>, <code>@underArrayItem</code> and <code>@underJSONObjectProperty</code>) to the schema.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Enable adding composable directives (also called "meta-directives", such as <code>@underEachArrayItem</code>, <code>@underArrayItem</code> and <code>@underJSONObjectProperty</code>) to the schema.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/using-composable-directives',
+                        \__('Using composable directives', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
@@ -316,8 +357,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Use payload types for all mutations in the schema?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Use payload types for mutations in the schema?<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Use payload types for mutations in the schema?<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/config/returning-a-payload-object-or-the-mutated-entity-for-mutations',
+                        \__('Returning a payload object or the mutated entity for mutations', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => $possibleValues,
@@ -346,8 +391,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Mutation Scheme:', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Select the mutation scheme to use in the schema.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Select the mutation scheme to use in the schema.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/using-nested-mutations',
+                        \__('Using nested mutations', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => $possibleValues,
@@ -370,8 +419,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Add “sensitive” fields to the schema?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Expose “sensitive” data elements in the GraphQL schema (such as field <code>Root.roles</code>, field arg <code>Root.posts(status:)</code>, and others), which provide access to potentially private user data.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Expose “sensitive” data elements in the GraphQL schema (such as field <code>Root.roles</code>, field arg <code>Root.posts(status:)</code>, and others), which provide access to potentially private user data.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/querying-sensitive-data-fields',
+                        \__('Querying “sensitive” data fields', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
@@ -385,8 +438,12 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
                 ),
                 Properties::TITLE => \__('Expose the self fields to all types in the schema?', 'gatographql'),
                 Properties::DESCRIPTION => sprintf(
-                    \__('Expose the <code>self</code> field in the GraphQL schema, which returns an instance of the same object (for whichever type it is applied on), which can be used to adapt the shape of the GraphQL response.<br/>%s', 'gatographql'),
-                    $defaultValueDesc
+                    \__('Expose the <code>self</code> field in the GraphQL schema, which returns an instance of the same object (for whichever type it is applied on), which can be used to adapt the shape of the GraphQL response.<br/>%s<br/><span class="more-info">%s</span>', 'gatographql'),
+                    $defaultValueDesc,
+                    $this->getSettingsItemHelpLinkHTML(
+                        'https://gatographql.com/guides/schema/querying-self-fields',
+                        \__('Querying \'self\' fields', 'gatographql')
+                    )
                 ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];

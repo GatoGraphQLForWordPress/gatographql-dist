@@ -285,57 +285,60 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
          *
          * @see https://stackoverflow.com/questions/48632394/wordpress-add-custom-taxonomy-to-custom-menu
          */
-        $graphQLEndpointCategoriesLabel = $this->getGraphQLEndpointCategoryTaxonomy()->getTaxonomyPluralNames(true);
-        $graphQLEndpointCategoriesCustomPostTypes = $this->getGraphQLEndpointCategoryTaxonomy()->getCustomPostTypes();
-        $graphQLEndpointCategoriesRelativePath = sprintf(
-            'edit-tags.php?taxonomy=%s&post_type=%s',
-            $this->getGraphQLEndpointCategoryTaxonomy()->getTaxonomy(),
-            /**
-             * The custom taxonomy has 2 CPTs associated to it:
-             *
-             * - Custom Endpoints
-             * - Persisted Queries
-             *
-             * The "count" column shows the number from both of them,
-             * but clicking on it should take to neither. That's why
-             * param "post_type" points to the non-existing "both of them" CPT,
-             * and so the link in "count" is removed.
-             */
-            implode(
-                ',',
-                $graphQLEndpointCategoriesCustomPostTypes
-            )
-        );
-
-        /**
-         * When clicking on "Endpoint Categories" it would highlight
-         * the Posts menu. With this code, it highlights the Gato GraphQL menu.
-         *
-         * @see https://stackoverflow.com/a/66094349
-         */
-        \add_filter(
-            'parent_file',
-            function (string $parent_file) use ($graphQLEndpointCategoriesRelativePath) {
-                global $pagenow, $plugin_page, $submenu_file, $taxonomy;
+        $graphQLEndpointCategoryTaxonomy = $this->getGraphQLEndpointCategoryTaxonomy();
+        if ($graphQLEndpointCategoryTaxonomy->isServiceEnabled()) {
+            $graphQLEndpointCategoriesLabel = $graphQLEndpointCategoryTaxonomy->getTaxonomyPluralNames(true);
+            $graphQLEndpointCategoriesCustomPostTypes = $graphQLEndpointCategoryTaxonomy->getCustomPostTypes();
+            $graphQLEndpointCategoriesRelativePath = sprintf(
+                'edit-tags.php?taxonomy=%s&post_type=%s',
+                $graphQLEndpointCategoryTaxonomy->getTaxonomy(),
                 /**
-                 * Check also we're not filtering Custom Endpoints or
-                 * Persisted Queries by Category. In that case,
-                 * keep the highlight on that menu item.
+                 * The custom taxonomy has 2 CPTs associated to it:
+                 *
+                 * - Custom Endpoints
+                 * - Persisted Queries
+                 *
+                 * The "count" column shows the number from both of them,
+                 * but clicking on it should take to neither. That's why
+                 * param "post_type" points to the non-existing "both of them" CPT,
+                 * and so the link in "count" is removed.
                  */
-                if (
-                    $pagenow !== 'edit.php'
-                    && $taxonomy === $this->getGraphQLEndpointCategoryTaxonomy()->getTaxonomy()
-                ) {
-                    $plugin_page = $submenu_file = $graphQLEndpointCategoriesRelativePath;
-                }
-                return $parent_file;
-            }
-        );
+                implode(
+                    ',',
+                    $graphQLEndpointCategoriesCustomPostTypes
+                )
+            );
 
-        /**
-         * Finally add the "Endpoint Categories" link to the menu.
-         */
-        \add_submenu_page($menuName, $graphQLEndpointCategoriesLabel, $graphQLEndpointCategoriesLabel, $schemaEditorAccessCapability, $graphQLEndpointCategoriesRelativePath);
+            /**
+             * When clicking on "Endpoint Categories" it would highlight
+             * the Posts menu. With this code, it highlights the Gato GraphQL menu.
+             *
+             * @see https://stackoverflow.com/a/66094349
+             */
+            \add_filter(
+                'parent_file',
+                function (string $parent_file) use ($graphQLEndpointCategoriesRelativePath, $graphQLEndpointCategoryTaxonomy) {
+                    global $pagenow, $plugin_page, $submenu_file, $taxonomy;
+                    /**
+                     * Check also we're not filtering Custom Endpoints or
+                     * Persisted Queries by Category. In that case,
+                     * keep the highlight on that menu item.
+                     */
+                    if (
+                        $pagenow !== 'edit.php'
+                        && $taxonomy === $graphQLEndpointCategoryTaxonomy->getTaxonomy()
+                    ) {
+                        $plugin_page = $submenu_file = $graphQLEndpointCategoriesRelativePath;
+                    }
+                    return $parent_file;
+                }
+            );
+
+            /**
+             * Finally add the "Endpoint Categories" link to the menu.
+             */
+            \add_submenu_page($menuName, $graphQLEndpointCategoriesLabel, $graphQLEndpointCategoriesLabel, $schemaEditorAccessCapability, $graphQLEndpointCategoriesRelativePath);
+        }
 
         $modulesMenuPage = $this->getModuleMenuPage();
         /**
@@ -387,8 +390,8 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             if (
                 $hookName = \add_submenu_page(
                     $menuName,
-                    __('Extension Docs', 'gatographql'),
-                    __('Extension Docs', 'gatographql'),
+                    __('Extension Reference Docs', 'gatographql'),
+                    __('Extension Reference Docs', 'gatographql'),
                     'manage_options',
                     $extensionDocsMenuPage->getScreenID(),
                     $callable
@@ -413,7 +416,7 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
 
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        if (!$moduleConfiguration->hideTutorialPage()) {
+        if ($moduleConfiguration->enableSchemaTutorialPage()) {
             $tutorialMenuPage = $this->getTutorialMenuPage();
             /**
              * @var callable
@@ -422,8 +425,8 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             if (
                 $hookName = \add_submenu_page(
                     $menuName,
-                    __('Schema tutorial', 'gatographql'),
-                    __('Schema tutorial', 'gatographql'),
+                    __('Schema Tutorial', 'gatographql'),
+                    __('Schema Tutorial', 'gatographql'),
                     $schemaEditorAccessCapability,
                     $tutorialMenuPage->getScreenID(),
                     $callable
@@ -443,8 +446,8 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         if (
             $hookName = \add_submenu_page(
                 $menuName,
-                __('About Gato GraphQL', 'gatographql'),
-                __('About Gato GraphQL', 'gatographql'),
+                __('About', 'gatographql'),
+                __('About', 'gatographql'),
                 'manage_options',
                 $aboutMenuPage->getScreenID(),
                 [$aboutMenuPage, 'print']

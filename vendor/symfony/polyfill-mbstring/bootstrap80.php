@@ -203,7 +203,7 @@ if (!\function_exists('mb_strstr')) {
 }
 if (!\function_exists('mb_get_info')) {
     /** @internal */
-    function mb_get_info(?string $type = 'all') : array|string|int|false
+    function mb_get_info(?string $type = 'all') : array|string|int|false|null
     {
         return p\Mbstring::mb_get_info((string) $type);
     }
@@ -298,6 +298,27 @@ if (!\function_exists('mb_lcfirst')) {
     function mb_lcfirst($string, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_lcfirst($string, $encoding);
+    }
+}
+if (!\function_exists('mb_trim')) {
+    /** @internal */
+    function mb_trim(string $string, ?string $characters = null, ?string $encoding = null) : string
+    {
+        return p\Mbstring::mb_trim($string, $characters, $encoding);
+    }
+}
+if (!\function_exists('mb_ltrim')) {
+    /** @internal */
+    function mb_ltrim(string $string, ?string $characters = null, ?string $encoding = null) : string
+    {
+        return p\Mbstring::mb_ltrim($string, $characters, $encoding);
+    }
+}
+if (!\function_exists('mb_rtrim')) {
+    /** @internal */
+    function mb_rtrim(string $string, ?string $characters = null, ?string $encoding = null) : string
+    {
+        return p\Mbstring::mb_rtrim($string, $characters, $encoding);
     }
 }
 if (\extension_loaded('mbstring')) {

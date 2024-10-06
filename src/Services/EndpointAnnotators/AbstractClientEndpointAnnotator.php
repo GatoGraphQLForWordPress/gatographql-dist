@@ -6,8 +6,6 @@ namespace GatoGraphQL\GatoGraphQL\Services\EndpointAnnotators;
 
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeNames;
 use GatoGraphQL\GatoGraphQL\Services\Blocks\BlockInterface;
-use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType;
-use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLEndpointCustomPostTypeInterface;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers;
 use WP_Post;
 
@@ -17,10 +15,6 @@ abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator
      * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
      */
     private $blockHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLCustomEndpointCustomPostType|null
-     */
-    private $graphQLCustomEndpointCustomPostType;
 
     final public function setBlockHelpers(BlockHelpers $blockHelpers): void
     {
@@ -34,24 +28,6 @@ abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator
             $this->blockHelpers = $blockHelpers;
         }
         return $this->blockHelpers;
-    }
-    final public function setGraphQLCustomEndpointCustomPostType(GraphQLCustomEndpointCustomPostType $graphQLCustomEndpointCustomPostType): void
-    {
-        $this->graphQLCustomEndpointCustomPostType = $graphQLCustomEndpointCustomPostType;
-    }
-    final protected function getGraphQLCustomEndpointCustomPostType(): GraphQLCustomEndpointCustomPostType
-    {
-        if ($this->graphQLCustomEndpointCustomPostType === null) {
-            /** @var GraphQLCustomEndpointCustomPostType */
-            $graphQLCustomEndpointCustomPostType = $this->instanceManager->getInstance(GraphQLCustomEndpointCustomPostType::class);
-            $this->graphQLCustomEndpointCustomPostType = $graphQLCustomEndpointCustomPostType;
-        }
-        return $this->graphQLCustomEndpointCustomPostType;
-    }
-
-    protected function getCustomPostType(): GraphQLEndpointCustomPostTypeInterface
-    {
-        return $this->getGraphQLCustomEndpointCustomPostType();
     }
 
     /**

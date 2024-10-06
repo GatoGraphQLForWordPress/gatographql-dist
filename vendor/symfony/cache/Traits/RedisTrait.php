@@ -216,7 +216,7 @@ trait RedisTrait
                     }
                     try {
                         if (\version_compare(\phpversion('redis'), '6.0.0', '>=') && $isRedisExt) {
-                            $options = ['host' => $host, 'port' => $port, 'connectTimeout' => $params['timeout'], 'persistent' => $params['persistent_id'], 'retryInterval' => $params['retry_interval'], 'readTimeout' => $params['read_timeout']];
+                            $options = ['host' => $host, 'port' => $port, 'connectTimeout' => (float) $params['timeout'], 'persistent' => $params['persistent_id'], 'retryInterval' => (int) $params['retry_interval'], 'readTimeout' => (float) $params['read_timeout']];
                             if ($passAuth) {
                                 $options['auth'] = $params['auth'];
                             }

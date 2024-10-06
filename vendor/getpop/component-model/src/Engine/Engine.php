@@ -556,6 +556,7 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         $this->formatData();
         // Keep only the data that is needed to be sent, and encode it as JSON
         $this->calculateOutputData();
+        App::doAction(\PoP\ComponentModel\Engine\EngineHookNames::GENERATE_DATA_END);
     }
     protected function formatData() : void
     {

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Services\CustomPostTypes;
 
-interface CustomPostTypeInterface
+use PoP\Root\Services\ServiceInterface;
+
+interface CustomPostTypeInterface extends ServiceInterface
 {
     public function getCustomPostType(): string;
     /**
@@ -15,4 +17,6 @@ interface CustomPostTypeInterface
      * Register the custom post type
      */
     public function registerCustomPostType(): void;
+    public function isHierarchical(): bool;
+    public function useCustomPostExcerptAsDescription(): bool;
 }

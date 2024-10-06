@@ -7,6 +7,7 @@ namespace GatoGraphQL\GatoGraphQL\Services\CustomPostTypes;
 use GatoGraphQL\GatoGraphQL\Constants\BlockAttributeNames;
 use GatoGraphQL\GatoGraphQL\Constants\HookNames;
 use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\SchemaConfigurationFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\Registries\EndpointAnnotatorRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\Blocks\EndpointSchemaConfigurationBlock;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers;
@@ -244,8 +245,11 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
             ),
             [
                 'state' => \__('State', 'gatographql'),
-                'schema-config' => \__('Schema Configuration', 'gatographql'),
             ],
+            $this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)
+                ? [
+                    'schema-config' => \__('Schema Configuration', 'gatographql'),
+                ] : [],
             array_slice(
                 $columns,
                 $titlePos + 1,
@@ -289,8 +293,12 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
                     esc_html_e('(None)', 'gatographql');
                     break;
                 }
-                /** @var WP_Post */
+                /** @var WP_Post|null */
                 $schemaConfiguration = get_post($schemaConfigurationID);
+                if ($schemaConfiguration === null) {
+                    esc_html_e('(not found)', 'gatographql');
+                    break;
+                }
                 /** @var string */
                 $schemaConfigurationURL = get_edit_post_link($schemaConfigurationID);
                 ?>
@@ -328,7 +336,7 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
      * that hooks is executed when retrieving `Post.content` against
      * a custom endpoint!
      */
-    public function usePostExcerptAsDescription(): bool
+    public function useCustomPostExcerptAsDescription(): bool
     {
         // Use `''` instead of `null` so that the query resolution
         // works either without param or empty (?view=)

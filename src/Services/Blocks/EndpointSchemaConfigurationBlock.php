@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Services\Blocks;
 
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointConfigurationFunctionalityModuleResolver;
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\SchemaConfigurationFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\Services\BlockCategories\BlockCategoryInterface;
 use GatoGraphQL\GatoGraphQL\Services\BlockCategories\EndpointBlockCategory;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\BlockRenderingHelpers;
@@ -76,6 +77,14 @@ class EndpointSchemaConfigurationBlock extends AbstractBlock implements Persiste
             $this->endpointBlockCategory = $endpointBlockCategory;
         }
         return $this->endpointBlockCategory;
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        if (!$this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)) {
+            return false;
+        }
+        return parent::isServiceEnabled();
     }
 
     protected function getBlockName(): string

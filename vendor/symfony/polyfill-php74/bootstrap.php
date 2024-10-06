@@ -21,17 +21,19 @@ if (!\function_exists('get_mangled_object_vars')) {
         return p\Php74::get_mangled_object_vars($object);
     }
 }
-if (!\function_exists('mb_str_split') && \function_exists('mb_substr')) {
-    /** @internal */
-    function mb_str_split($string, $length = 1, $encoding = null)
-    {
-        return p\Php74::mb_str_split($string, $length, $encoding);
-    }
-}
 if (!\function_exists('password_algos')) {
     /** @internal */
     function password_algos()
     {
         return p\Php74::password_algos();
+    }
+}
+if (\extension_loaded('mbstring')) {
+    if (!\function_exists('mb_str_split')) {
+        /** @internal */
+        function mb_str_split($string, $length = 1, $encoding = null)
+        {
+            return p\Php74::mb_str_split($string, $length, $encoding);
+        }
     }
 }
