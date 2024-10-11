@@ -44,6 +44,11 @@ The first option (`Users with capability: "gatogql_manage_graphql_schema"`) is s
 
 </div>
 
+## Fixed
+
+- Remove global fields from schema when disabled via ACL ([#2894](https://github.com/GatoGraphQL/GatoGraphQL/pull/2894)) (`v6.0.2`)
+- Global fields duplicated in schema with nested mutations enabled ([#2895](https://github.com/GatoGraphQL/GatoGraphQL/pull/2895)) (`v6.0.2`)
+
 ## [Extensions] Improvements
 
 - [Schema Functions] If `from` email not provided in `_sendEmail` mutation, use the blog's admin email

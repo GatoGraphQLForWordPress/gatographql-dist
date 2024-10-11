@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, nextjs, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 6.0.1
+Stable tag: 6.0.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,6 +27,8 @@ The [standard use cases](https://gatographql.com) are:
 == Extensions ==
 
 [Extensions](https://gatographql.com/extensions) allow you to augment the server functionality, and extend the GraphQL schema.
+
+[youtube https://www.youtube.com/watch?v=3YaaMJNTIuk]
 
 You can purchase each extension separately, or get a [bundle containing all the extensions](https://gatographql.com/pricing).
 
@@ -146,6 +148,10 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 6.0.2 =
+* Fixed: Remove global fields from schema when disabled via ACL (#2894)
+* Fixed: Global fields duplicated in schema with nested mutations enabled (#2895)
 
 = 6.0.0 =
 * Action required: When updating the plugin (i.e. not installing anew), you need to deactivate and then re-activate the plugin. Until then, the "GraphiQL" and "Schema" items won't appear on the menu (due to the newly-added "Schema Editing Access" module, see below)

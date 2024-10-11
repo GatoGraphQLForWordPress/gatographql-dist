@@ -680,7 +680,7 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
     protected function filterDirectiveNameResolvers(array $directiveNameResolvers) : array
     {
         // Execute a hook, allowing to filter them out (eg: removing fieldNames from a private schema)
-        return \array_filter($directiveNameResolvers, function ($directiveName) use($directiveNameResolvers) {
+        return \array_filter($directiveNameResolvers, function (string $directiveName) use($directiveNameResolvers) {
             $directiveResolvers = $directiveNameResolvers[$directiveName];
             foreach ($directiveResolvers as $directiveResolver) {
                 // Execute 2 filters: a generic one, and a specific one
