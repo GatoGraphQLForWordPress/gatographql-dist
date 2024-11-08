@@ -12,10 +12,6 @@ class RootUpdatePageMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\
      * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\UnionType\RootUpdatePageMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootUpdatePageMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootUpdatePageMutationErrorPayloadUnionTypeDataLoader(RootUpdatePageMutationErrorPayloadUnionTypeDataLoader $rootUpdatePageMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootUpdatePageMutationErrorPayloadUnionTypeDataLoader = $rootUpdatePageMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootUpdatePageMutationErrorPayloadUnionTypeDataLoader() : RootUpdatePageMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdatePageMutationErrorPayloadUnionTypeDataLoader === null) {

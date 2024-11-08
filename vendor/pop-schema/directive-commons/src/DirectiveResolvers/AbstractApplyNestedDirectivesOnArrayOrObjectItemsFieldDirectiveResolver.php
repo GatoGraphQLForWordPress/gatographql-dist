@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace PoPSchema\DirectiveCommons\DirectiveResolvers;
 
+use PoPSchema\DirectiveCommons\Module;
+use PoPSchema\DirectiveCommons\ModuleConfiguration;
 use PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface;
@@ -12,6 +14,7 @@ use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
 use PoP\ComponentModel\FeedbackItemProviders\ErrorFeedbackItemProvider;
 use PoP\ComponentModel\Feedback\EngineIterationFeedbackStore;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectResolutionFeedback;
 use PoP\ComponentModel\Feedback\SchemaFeedback;
 use PoP\ComponentModel\Module as ComponentModelModule;
@@ -30,7 +33,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 use stdClass;
 /** @internal */
@@ -52,10 +54,6 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
      * @var \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface|null
      */
     private $objectResolvedDynamicVariablesService;
-    public final function setDirectivePipelineService(DirectivePipelineServiceInterface $directivePipelineService) : void
-    {
-        $this->directivePipelineService = $directivePipelineService;
-    }
     protected final function getDirectivePipelineService() : DirectivePipelineServiceInterface
     {
         if ($this->directivePipelineService === null) {
@@ -65,10 +63,6 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
         }
         return $this->directivePipelineService;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -77,10 +71,6 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setObjectResolvedDynamicVariablesService(ObjectResolvedDynamicVariablesServiceInterface $objectResolvedDynamicVariablesService) : void
-    {
-        $this->objectResolvedDynamicVariablesService = $objectResolvedDynamicVariablesService;
     }
     protected final function getObjectResolvedDynamicVariablesService() : ObjectResolvedDynamicVariablesServiceInterface
     {
@@ -336,8 +326,20 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
             );
             $objectResolutionFeedbackStoreErrors = $separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->getErrors();
             $schemaFeedbackStoreErrors = $separateEngineIterationFeedbackStore->schemaFeedbackStore->getErrors();
-            $separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->setErrors([]);
-            $separateEngineIterationFeedbackStore->schemaFeedbackStore->setErrors([]);
+            /**
+             * If bubbling up the errors for the meta directives, the errors
+             * will be handled below.
+             *
+             * Otherwise, already incorporate the errors.
+             *
+             * @var ModuleConfiguration
+             */
+            $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+            $nestErrorsInMetaDirectives = $moduleConfiguration->nestErrorsInMetaDirectives();
+            if ($nestErrorsInMetaDirectives) {
+                $separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->setErrors([]);
+                $separateEngineIterationFeedbackStore->schemaFeedbackStore->setErrors([]);
+            }
             $engineIterationFeedbackStore->incorporate($separateEngineIterationFeedbackStore);
             /**
              * Restore 'field-type-modifiers-for-serialization' to the previous state
@@ -346,7 +348,7 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
                 $appStateManager->override('field-type-modifiers-for-serialization', $originalFieldTypeModifiersByField);
             }
             // If any item fails, set the whole response field as null
-            if ($objectResolutionFeedbackStoreErrors !== [] || $schemaFeedbackStoreErrors !== []) {
+            if ($nestErrorsInMetaDirectives && ($objectResolutionFeedbackStoreErrors !== [] || $schemaFeedbackStoreErrors !== [])) {
                 // // Transfer the error to the composable directive
                 if ($schemaFeedbackStoreErrors !== []) {
                     $fields = MethodHelpers::getFieldsFromIDFieldSet($idFieldSet);

@@ -14,10 +14,6 @@ abstract class AbstractTagTermDoesNotExistErrorPayloadObjectTypeResolverPicker e
      * @var \PoPCMSSchema\TagMutations\TypeResolvers\ObjectType\TagTermDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $tagDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setTagTermDoesNotExistErrorPayloadObjectTypeResolver(TagTermDoesNotExistErrorPayloadObjectTypeResolver $tagDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->tagDoesNotExistErrorPayloadObjectTypeResolver = $tagDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getTagTermDoesNotExistErrorPayloadObjectTypeResolver() : TagTermDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->tagDoesNotExistErrorPayloadObjectTypeResolver === null) {

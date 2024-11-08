@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObject
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver === null) {

@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPaylo
      * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver === null) {

@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvParameterException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\FileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\EnvParameterException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\FileLoader;
 /**
  * This pass validates each definition individually only taking the information
  * into account which is contained in the definition itself.

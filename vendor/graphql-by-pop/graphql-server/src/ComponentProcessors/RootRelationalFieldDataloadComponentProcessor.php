@@ -19,10 +19,6 @@ class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFi
      * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
      */
     private $graphQLSchemaDefinitionService;
-    public final function setGraphQLSchemaDefinitionService(GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService) : void
-    {
-        $this->graphQLSchemaDefinitionService = $graphQLSchemaDefinitionService;
-    }
     protected final function getGraphQLSchemaDefinitionService() : GraphQLSchemaDefinitionServiceInterface
     {
         if ($this->graphQLSchemaDefinitionService === null) {

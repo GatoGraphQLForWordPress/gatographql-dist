@@ -22,10 +22,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCustomPostAuthorInputObjectTypeResolver|null
      */
     private $filterCommentsByCustomPostAuthorInputObjectTypeResolver;
-    public final function setFilterCommentsByCommentAuthorInputObjectTypeResolver(FilterCommentsByCommentAuthorInputObjectTypeResolver $filterCommentsByCommentAuthorInputObjectTypeResolver) : void
-    {
-        $this->filterCommentsByCommentAuthorInputObjectTypeResolver = $filterCommentsByCommentAuthorInputObjectTypeResolver;
-    }
     protected final function getFilterCommentsByCommentAuthorInputObjectTypeResolver() : FilterCommentsByCommentAuthorInputObjectTypeResolver
     {
         if ($this->filterCommentsByCommentAuthorInputObjectTypeResolver === null) {
@@ -34,10 +30,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
             $this->filterCommentsByCommentAuthorInputObjectTypeResolver = $filterCommentsByCommentAuthorInputObjectTypeResolver;
         }
         return $this->filterCommentsByCommentAuthorInputObjectTypeResolver;
-    }
-    public final function setFilterCommentsByCustomPostAuthorInputObjectTypeResolver(FilterCommentsByCustomPostAuthorInputObjectTypeResolver $filterCommentsByCustomPostAuthorInputObjectTypeResolver) : void
-    {
-        $this->filterCommentsByCustomPostAuthorInputObjectTypeResolver = $filterCommentsByCustomPostAuthorInputObjectTypeResolver;
     }
     protected final function getFilterCommentsByCustomPostAuthorInputObjectTypeResolver() : FilterCommentsByCustomPostAuthorInputObjectTypeResolver
     {

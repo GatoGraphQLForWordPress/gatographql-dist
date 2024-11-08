@@ -8,21 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Psr\Container\ContainerInterface as PsrContainerInterface;
-use PrefixedByPoP\Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\Autowire;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\TypedReference;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceProviderInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerInterface as PsrContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\BoundArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Autowire;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\TypedReference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\SessionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\SubscribedService;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceProviderInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberInterface;
 /**
  * Compiler pass to register tagged services that require a service locator.
  *

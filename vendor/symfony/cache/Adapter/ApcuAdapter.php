@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
@@ -99,9 +99,7 @@ class ApcuAdapter extends AbstractAdapter
         } catch (\Throwable $e) {
             if (1 === \count($values)) {
                 // Workaround https://github.com/krakjoe/apcu/issues/170
-                \reset($values);
-                // Workaround https://github.com/krakjoe/apcu/issues/170
-                \apcu_delete(\key($values));
+                \apcu_delete(\array_key_first($values));
             }
             throw $e;
         }

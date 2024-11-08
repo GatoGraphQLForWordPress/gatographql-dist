@@ -13,10 +13,6 @@ class RootCreateGenericCustomPostMutationErrorPayloadUnionTypeResolver extends A
      * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\UnionType\RootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader(RootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader $rootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootCreateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

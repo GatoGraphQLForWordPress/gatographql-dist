@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception;
 
 /**
  * Thrown when a file was not found.

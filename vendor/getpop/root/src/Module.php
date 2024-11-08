@@ -9,7 +9,7 @@ use PoP\Root\Container\SystemCompilerPasses\RegisterSystemCompilerPassServiceCom
 use PoP\Root\Module\AbstractModule;
 use PoP\Root\Module\ApplicationEvents;
 use PoP\Root\Module\ModuleInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /** @internal */
 class Module extends AbstractModule
 {

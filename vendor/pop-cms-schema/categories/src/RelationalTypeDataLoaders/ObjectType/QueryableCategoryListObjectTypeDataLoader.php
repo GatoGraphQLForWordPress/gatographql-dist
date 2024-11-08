@@ -13,10 +13,6 @@ class QueryableCategoryListObjectTypeDataLoader extends AbstractCategoryObjectTy
      * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
      */
     private $queryableCategoryListTypeAPI;
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI) : void
-    {
-        $this->queryableCategoryListTypeAPI = $queryableCategoryListTypeAPI;
-    }
     protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryListTypeAPI === null) {

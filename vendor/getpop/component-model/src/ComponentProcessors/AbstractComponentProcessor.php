@@ -78,10 +78,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
      * @var \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface|null
      */
     private $componentHelpers;
-    public final function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers) : void
-    {
-        $this->componentPathHelpers = $componentPathHelpers;
-    }
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {
         if ($this->componentPathHelpers === null) {
@@ -90,10 +86,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
             $this->componentPathHelpers = $componentPathHelpers;
         }
         return $this->componentPathHelpers;
-    }
-    public final function setComponentFilterManager(ComponentFilterManagerInterface $componentFilterManager) : void
-    {
-        $this->componentFilterManager = $componentFilterManager;
     }
     protected final function getComponentFilterManager() : ComponentFilterManagerInterface
     {
@@ -104,10 +96,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         }
         return $this->componentFilterManager;
     }
-    public final function setComponentProcessorManager(\PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface $componentProcessorManager) : void
-    {
-        $this->componentProcessorManager = $componentProcessorManager;
-    }
     protected final function getComponentProcessorManager() : \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -116,10 +104,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
             $this->componentProcessorManager = $componentProcessorManager;
         }
         return $this->componentProcessorManager;
-    }
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
     }
     protected final function getNameResolver() : NameResolverInterface
     {
@@ -130,10 +114,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         }
         return $this->nameResolver;
     }
-    public final function setDataloadHelperService(DataloadHelperServiceInterface $dataloadHelperService) : void
-    {
-        $this->dataloadHelperService = $dataloadHelperService;
-    }
     protected final function getDataloadHelperService() : DataloadHelperServiceInterface
     {
         if ($this->dataloadHelperService === null) {
@@ -142,10 +122,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
             $this->dataloadHelperService = $dataloadHelperService;
         }
         return $this->dataloadHelperService;
-    }
-    public final function setRequestHelperService(RequestHelperServiceInterface $requestHelperService) : void
-    {
-        $this->requestHelperService = $requestHelperService;
     }
     protected final function getRequestHelperService() : RequestHelperServiceInterface
     {
@@ -156,10 +132,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
         }
         return $this->requestHelperService;
     }
-    public final function setComponentPaths(ComponentPaths $componentPaths) : void
-    {
-        $this->componentPaths = $componentPaths;
-    }
     protected final function getComponentPaths() : ComponentPaths
     {
         if ($this->componentPaths === null) {
@@ -168,10 +140,6 @@ abstract class AbstractComponentProcessor implements \PoP\ComponentModel\Compone
             $this->componentPaths = $componentPaths;
         }
         return $this->componentPaths;
-    }
-    public final function setComponentHelpers(ComponentHelpersInterface $componentHelpers) : void
-    {
-        $this->componentHelpers = $componentHelpers;
     }
     protected final function getComponentHelpers() : ComponentHelpersInterface
     {

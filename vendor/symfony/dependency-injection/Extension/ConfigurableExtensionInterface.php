@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Extension;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurableInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ConfigurableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  * @internal

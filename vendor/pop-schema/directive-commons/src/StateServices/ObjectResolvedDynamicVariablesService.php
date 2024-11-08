@@ -29,10 +29,6 @@ class ObjectResolvedDynamicVariablesService implements \PoPSchema\DirectiveCommo
      * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
      */
     private $typeSerializationService;
-    public final function setTypeSerializationService(TypeSerializationServiceInterface $typeSerializationService) : void
-    {
-        $this->typeSerializationService = $typeSerializationService;
-    }
     protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {

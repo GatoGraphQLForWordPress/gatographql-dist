@@ -8,21 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Extension;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension;
 
-use PrefixedByPoP\Symfony\Component\Config\Builder\ConfigBuilderGenerator;
-use PrefixedByPoP\Symfony\Component\Config\FileLocator;
-use PrefixedByPoP\Symfony\Component\Config\Loader\DelegatingLoader;
-use PrefixedByPoP\Symfony\Component\Config\Loader\LoaderResolver;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\ClosureLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\IniFileLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder\ConfigBuilderGenerator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\DelegatingLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\LoaderResolver;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\ClosureLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\IniFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  * @internal

@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
-use PrefixedByPoP\Symfony\Component\Config\FileLocatorInterface;
-use PrefixedByPoP\Symfony\Component\Config\Loader\FileLoader;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\FileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * DefinitionFileLoader loads config definitions from a PHP file.
  *

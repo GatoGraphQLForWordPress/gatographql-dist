@@ -3,7 +3,7 @@
 /**
  * A handler for processor instructions.
  */
-namespace PrefixedByPoP\Masterminds\HTML5;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5;
 
 /**
  * Provide an processor to handle embedded instructions.

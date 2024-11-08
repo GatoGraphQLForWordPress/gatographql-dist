@@ -95,10 +95,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver) : void
-    {
-        $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
-    }
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
@@ -107,10 +103,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
         }
         return $this->genericCustomPostObjectTypeResolver;
-    }
-    public final function setRootUpdateGenericCustomPostMutationPayloadObjectTypeResolver(RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver $rootUpdateGenericCustomPostMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericCustomPostMutationPayloadObjectTypeResolver = $rootUpdateGenericCustomPostMutationPayloadObjectTypeResolver;
     }
     protected final function getRootUpdateGenericCustomPostMutationPayloadObjectTypeResolver() : RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver
     {
@@ -121,10 +113,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootUpdateGenericCustomPostMutationPayloadObjectTypeResolver;
     }
-    public final function setRootCreateGenericCustomPostMutationPayloadObjectTypeResolver(RootCreateGenericCustomPostMutationPayloadObjectTypeResolver $rootCreateGenericCustomPostMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericCustomPostMutationPayloadObjectTypeResolver = $rootCreateGenericCustomPostMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootCreateGenericCustomPostMutationPayloadObjectTypeResolver() : RootCreateGenericCustomPostMutationPayloadObjectTypeResolver
     {
         if ($this->rootCreateGenericCustomPostMutationPayloadObjectTypeResolver === null) {
@@ -133,10 +121,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootCreateGenericCustomPostMutationPayloadObjectTypeResolver = $rootCreateGenericCustomPostMutationPayloadObjectTypeResolver;
         }
         return $this->rootCreateGenericCustomPostMutationPayloadObjectTypeResolver;
-    }
-    public final function setCreateGenericCustomPostMutationResolver(CreateGenericCustomPostMutationResolver $createGenericCustomPostMutationResolver) : void
-    {
-        $this->createGenericCustomPostMutationResolver = $createGenericCustomPostMutationResolver;
     }
     protected final function getCreateGenericCustomPostMutationResolver() : CreateGenericCustomPostMutationResolver
     {
@@ -147,10 +131,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->createGenericCustomPostMutationResolver;
     }
-    public final function setCreateGenericCustomPostBulkOperationMutationResolver(CreateGenericCustomPostBulkOperationMutationResolver $createGenericCustomPostBulkOperationMutationResolver) : void
-    {
-        $this->createGenericCustomPostBulkOperationMutationResolver = $createGenericCustomPostBulkOperationMutationResolver;
-    }
     protected final function getCreateGenericCustomPostBulkOperationMutationResolver() : CreateGenericCustomPostBulkOperationMutationResolver
     {
         if ($this->createGenericCustomPostBulkOperationMutationResolver === null) {
@@ -159,10 +139,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->createGenericCustomPostBulkOperationMutationResolver = $createGenericCustomPostBulkOperationMutationResolver;
         }
         return $this->createGenericCustomPostBulkOperationMutationResolver;
-    }
-    public final function setUpdateGenericCustomPostMutationResolver(UpdateGenericCustomPostMutationResolver $updateGenericCustomPostMutationResolver) : void
-    {
-        $this->updateGenericCustomPostMutationResolver = $updateGenericCustomPostMutationResolver;
     }
     protected final function getUpdateGenericCustomPostMutationResolver() : UpdateGenericCustomPostMutationResolver
     {
@@ -173,10 +149,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->updateGenericCustomPostMutationResolver;
     }
-    public final function setUpdateGenericCustomPostBulkOperationMutationResolver(UpdateGenericCustomPostBulkOperationMutationResolver $updateGenericCustomPostBulkOperationMutationResolver) : void
-    {
-        $this->updateGenericCustomPostBulkOperationMutationResolver = $updateGenericCustomPostBulkOperationMutationResolver;
-    }
     protected final function getUpdateGenericCustomPostBulkOperationMutationResolver() : UpdateGenericCustomPostBulkOperationMutationResolver
     {
         if ($this->updateGenericCustomPostBulkOperationMutationResolver === null) {
@@ -185,10 +157,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->updateGenericCustomPostBulkOperationMutationResolver = $updateGenericCustomPostBulkOperationMutationResolver;
         }
         return $this->updateGenericCustomPostBulkOperationMutationResolver;
-    }
-    public final function setPayloadableUpdateGenericCustomPostMutationResolver(PayloadableUpdateGenericCustomPostMutationResolver $payloadableUpdateGenericCustomPostMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericCustomPostMutationResolver = $payloadableUpdateGenericCustomPostMutationResolver;
     }
     protected final function getPayloadableUpdateGenericCustomPostMutationResolver() : PayloadableUpdateGenericCustomPostMutationResolver
     {
@@ -199,10 +167,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableUpdateGenericCustomPostMutationResolver;
     }
-    public final function setPayloadableUpdateGenericCustomPostBulkOperationMutationResolver(PayloadableUpdateGenericCustomPostBulkOperationMutationResolver $payloadableUpdateGenericCustomPostBulkOperationMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericCustomPostBulkOperationMutationResolver = $payloadableUpdateGenericCustomPostBulkOperationMutationResolver;
-    }
     protected final function getPayloadableUpdateGenericCustomPostBulkOperationMutationResolver() : PayloadableUpdateGenericCustomPostBulkOperationMutationResolver
     {
         if ($this->payloadableUpdateGenericCustomPostBulkOperationMutationResolver === null) {
@@ -211,10 +175,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableUpdateGenericCustomPostBulkOperationMutationResolver = $payloadableUpdateGenericCustomPostBulkOperationMutationResolver;
         }
         return $this->payloadableUpdateGenericCustomPostBulkOperationMutationResolver;
-    }
-    public final function setPayloadableCreateGenericCustomPostMutationResolver(PayloadableCreateGenericCustomPostMutationResolver $payloadableCreateGenericCustomPostMutationResolver) : void
-    {
-        $this->payloadableCreateGenericCustomPostMutationResolver = $payloadableCreateGenericCustomPostMutationResolver;
     }
     protected final function getPayloadableCreateGenericCustomPostMutationResolver() : PayloadableCreateGenericCustomPostMutationResolver
     {
@@ -225,10 +185,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableCreateGenericCustomPostMutationResolver;
     }
-    public final function setPayloadableCreateGenericCustomPostBulkOperationMutationResolver(PayloadableCreateGenericCustomPostBulkOperationMutationResolver $payloadableCreateGenericCustomPostBulkOperationMutationResolver) : void
-    {
-        $this->payloadableCreateGenericCustomPostBulkOperationMutationResolver = $payloadableCreateGenericCustomPostBulkOperationMutationResolver;
-    }
     protected final function getPayloadableCreateGenericCustomPostBulkOperationMutationResolver() : PayloadableCreateGenericCustomPostBulkOperationMutationResolver
     {
         if ($this->payloadableCreateGenericCustomPostBulkOperationMutationResolver === null) {
@@ -237,10 +193,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableCreateGenericCustomPostBulkOperationMutationResolver = $payloadableCreateGenericCustomPostBulkOperationMutationResolver;
         }
         return $this->payloadableCreateGenericCustomPostBulkOperationMutationResolver;
-    }
-    public final function setRootUpdateGenericCustomPostInputObjectTypeResolver(RootUpdateGenericCustomPostInputObjectTypeResolver $rootUpdateGenericCustomPostInputObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericCustomPostInputObjectTypeResolver = $rootUpdateGenericCustomPostInputObjectTypeResolver;
     }
     protected final function getRootUpdateGenericCustomPostInputObjectTypeResolver() : RootUpdateGenericCustomPostInputObjectTypeResolver
     {
@@ -251,10 +203,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootUpdateGenericCustomPostInputObjectTypeResolver;
     }
-    public final function setRootCreateGenericCustomPostInputObjectTypeResolver(RootCreateGenericCustomPostInputObjectTypeResolver $rootCreateGenericCustomPostInputObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericCustomPostInputObjectTypeResolver = $rootCreateGenericCustomPostInputObjectTypeResolver;
-    }
     protected final function getRootCreateGenericCustomPostInputObjectTypeResolver() : RootCreateGenericCustomPostInputObjectTypeResolver
     {
         if ($this->rootCreateGenericCustomPostInputObjectTypeResolver === null) {
@@ -263,10 +211,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootCreateGenericCustomPostInputObjectTypeResolver = $rootCreateGenericCustomPostInputObjectTypeResolver;
         }
         return $this->rootCreateGenericCustomPostInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

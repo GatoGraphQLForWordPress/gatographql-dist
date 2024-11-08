@@ -12,10 +12,6 @@ class PayloadableCreateGenericCategoryTermBulkOperationMutationResolver extends 
      * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableCreateGenericCategoryTermMutationResolver|null
      */
     private $payloadableCreateGenericCategoryTermMutationResolver;
-    public final function setPayloadableCreateGenericCategoryTermMutationResolver(\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableCreateGenericCategoryTermMutationResolver $payloadableCreateGenericCategoryTermMutationResolver) : void
-    {
-        $this->payloadableCreateGenericCategoryTermMutationResolver = $payloadableCreateGenericCategoryTermMutationResolver;
-    }
     protected final function getPayloadableCreateGenericCategoryTermMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableCreateGenericCategoryTermMutationResolver
     {
         if ($this->payloadableCreateGenericCategoryTermMutationResolver === null) {

@@ -90,7 +90,11 @@ class CustomPostTypeMutationAPI implements CustomPostTypeMutationAPIInterface
 
     protected function createCustomPostCRUDMutationException(WP_Error $wpError): CustomPostCRUDMutationException
     {
-        return new CustomPostCRUDMutationException($wpError->get_error_message(), $wpError->get_error_code() ? $wpError->get_error_code() : null, $this->getWPErrorData($wpError));
+        return new CustomPostCRUDMutationException(
+            $wpError->get_error_message(),
+            $wpError->get_error_code() ? $wpError->get_error_code() : null,
+            $this->getWPErrorData($wpError),
+        );
     }
 
     /**

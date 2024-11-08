@@ -17,10 +17,6 @@ class IdentifiableObjectObjectTypeFieldResolver extends \PoP\ComponentModel\Fiel
      * @var \PoP\ComponentModel\FieldResolvers\InterfaceType\IdentifiableObjectInterfaceTypeFieldResolver|null
      */
     private $identifiableObjectInterfaceTypeFieldResolver;
-    public final function setIdentifiableObjectInterfaceTypeFieldResolver(IdentifiableObjectInterfaceTypeFieldResolver $identifiableObjectInterfaceTypeFieldResolver) : void
-    {
-        $this->identifiableObjectInterfaceTypeFieldResolver = $identifiableObjectInterfaceTypeFieldResolver;
-    }
     protected final function getIdentifiableObjectInterfaceTypeFieldResolver() : IdentifiableObjectInterfaceTypeFieldResolver
     {
         if ($this->identifiableObjectInterfaceTypeFieldResolver === null) {

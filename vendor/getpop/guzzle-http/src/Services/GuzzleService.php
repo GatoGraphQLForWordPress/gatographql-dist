@@ -4,10 +4,10 @@ declare (strict_types=1);
 namespace PoP\GuzzleHTTP\Services;
 
 use Exception;
-use PrefixedByPoP\GuzzleHttp\BodySummarizer;
-use PrefixedByPoP\GuzzleHttp\Client;
-use PrefixedByPoP\GuzzleHttp\Exception\RequestException;
-use PrefixedByPoP\GuzzleHttp\Promise\Utils;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\BodySummarizer;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Client;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\Utils;
 use PoP\ComponentModel\App;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\Module;

@@ -8,22 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
-use PrefixedByPoP\Predis\Command\Redis\UNLINK;
-use PrefixedByPoP\Predis\Connection\Aggregate\ClusterInterface;
-use PrefixedByPoP\Predis\Connection\Aggregate\RedisCluster;
-use PrefixedByPoP\Predis\Connection\Aggregate\ReplicationInterface;
-use PrefixedByPoP\Predis\Connection\Cluster\ClusterInterface as Predis2ClusterInterface;
-use PrefixedByPoP\Predis\Connection\Cluster\RedisCluster as Predis2RedisCluster;
-use PrefixedByPoP\Predis\Response\ErrorInterface;
-use PrefixedByPoP\Predis\Response\Status;
-use PrefixedByPoP\Relay\Relay;
-use PrefixedByPoP\Relay\Sentinel;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Command\Redis\UNLINK;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ClusterInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\RedisCluster;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ReplicationInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Cluster\ClusterInterface as Predis2ClusterInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Cluster\RedisCluster as Predis2RedisCluster;
+use GatoExternalPrefixByGatoGraphQL\Predis\Response\ErrorInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Response\Status;
+use GatoExternalPrefixByGatoGraphQL\Relay\Relay;
+use GatoExternalPrefixByGatoGraphQL\Relay\Sentinel;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Aurimas Niekis <aurimas@niekis.lt>
  * @author Nicolas Grekas <p@tchwork.com>
@@ -53,7 +53,7 @@ trait RedisTrait
         if (\preg_match('#[^-+_.A-Za-z0-9]#', $namespace, $match)) {
             throw new InvalidArgumentException(\sprintf('RedisAdapter namespace contains "%s" but only characters in [-+_.A-Za-z0-9] are allowed.', $match[0]));
         }
-        if ($redis instanceof \PrefixedByPoP\Predis\ClientInterface && $redis->getOptions()->exceptions) {
+        if ($redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && $redis->getOptions()->exceptions) {
             $options = clone $redis->getOptions();
             \Closure::bind(function () {
                 $this->options['exceptions'] = \false;
@@ -87,7 +87,7 @@ trait RedisTrait
         } else {
             throw new InvalidArgumentException('Invalid Redis DSN: it does not start with "redis[s]:".');
         }
-        if (!\extension_loaded('redis') && !\class_exists(\PrefixedByPoP\Predis\Client::class)) {
+        if (!\extension_loaded('redis') && !\class_exists(\GatoExternalPrefixByGatoGraphQL\Predis\Client::class)) {
             throw new CacheException('Cannot find the "redis" extension nor the "predis/predis" package.');
         }
         $params = \preg_replace_callback('#^' . $scheme . ':(//)?(?:(?:(?<user>[^:@]*+):)?(?<password>[^@]*+)@)?#', function ($m) use(&$auth) {
@@ -152,7 +152,7 @@ trait RedisTrait
             throw new InvalidArgumentException('Invalid Redis DSN: path and query "dbindex" parameters mismatch.');
         }
         $params += $query + $options + self::$defaultConnectionOptions;
-        if (isset($params['redis_sentinel']) && !\class_exists(\PrefixedByPoP\Predis\Client::class) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
+        if (isset($params['redis_sentinel']) && !\class_exists(\GatoExternalPrefixByGatoGraphQL\Predis\Client::class) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
             throw new CacheException('Redis Sentinel support requires one of: "predis/predis", "ext-redis >= 5.2", "ext-relay".');
         }
         if (isset($params['lazy'])) {
@@ -164,7 +164,7 @@ trait RedisTrait
         }
         switch (\true) {
             case $params['redis_cluster']:
-                $class = \extension_loaded('redis') ? \RedisCluster::class : \PrefixedByPoP\Predis\Client::class;
+                $class = \extension_loaded('redis') ? \RedisCluster::class : \GatoExternalPrefixByGatoGraphQL\Predis\Client::class;
                 break;
             case isset($params['redis_sentinel']):
                 switch (\true) {
@@ -175,7 +175,7 @@ trait RedisTrait
                         $class = Relay::class;
                         break;
                     default:
-                        $class = \PrefixedByPoP\Predis\Client::class;
+                        $class = \GatoExternalPrefixByGatoGraphQL\Predis\Client::class;
                         break;
                 }
                 break;
@@ -189,10 +189,10 @@ trait RedisTrait
                 $class = Relay::class;
                 break;
             default:
-                $class = \PrefixedByPoP\Predis\Client::class;
+                $class = \GatoExternalPrefixByGatoGraphQL\Predis\Client::class;
                 break;
         }
-        if (isset($params['redis_sentinel']) && !\is_a($class, \PrefixedByPoP\Predis\Client::class, \true) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
+        if (isset($params['redis_sentinel']) && !\is_a($class, \GatoExternalPrefixByGatoGraphQL\Predis\Client::class, \true) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
             throw new CacheException(\sprintf('Cannot use Redis Sentinel: class "%s" does not extend "Predis\\Client" and neither ext-redis >= 5.2 nor ext-relay have been found.', $class));
         }
         $isRedisExt = \is_a($class, \Redis::class, \true);
@@ -223,12 +223,12 @@ trait RedisTrait
                             $sentinel = new \RedisSentinel($options);
                         } else {
                             $extra = $passAuth ? [$params['auth']] : [];
-                            $sentinel = new $sentinelClass($host, $port, $params['timeout'], (string) $params['persistent_id'], $params['retry_interval'], $params['read_timeout'], ...$extra);
+                            $sentinel = @new $sentinelClass($host, $port, $params['timeout'], (string) $params['persistent_id'], $params['retry_interval'], $params['read_timeout'], ...$extra);
                         }
-                        if ($address = $sentinel->getMasterAddrByName($params['redis_sentinel'])) {
+                        if ($address = @$sentinel->getMasterAddrByName($params['redis_sentinel'])) {
                             [$host, $port] = $address;
                         }
-                    } catch (\RedisException|\PrefixedByPoP\Relay\Exception $redisException) {
+                    } catch (\RedisException|\GatoExternalPrefixByGatoGraphQL\Relay\Exception $redisException) {
                     }
                 } while (++$hostIndex < \count($hosts) && !$address);
                 if (isset($params['redis_sentinel']) && !$address) {
@@ -265,7 +265,7 @@ trait RedisTrait
                     if (0 < $params['tcp_keepalive'] && (!$isRedisExt || \defined('Redis::OPT_TCP_KEEPALIVE'))) {
                         $redis->setOption($isRedisExt ? \Redis::OPT_TCP_KEEPALIVE : Relay::OPT_TCP_KEEPALIVE, $params['tcp_keepalive']);
                     }
-                } catch (\RedisException|\PrefixedByPoP\Relay\Exception $e) {
+                } catch (\RedisException|\GatoExternalPrefixByGatoGraphQL\Relay\Exception $e) {
                     throw new InvalidArgumentException('Redis connection failed: ' . $e->getMessage());
                 }
                 return $redis;
@@ -339,7 +339,7 @@ trait RedisTrait
                 return $redis;
             };
             $redis = $params['lazy'] ? RedisClusterProxy::createLazyProxy($initializer) : $initializer();
-        } elseif (\is_a($class, \PrefixedByPoP\Predis\ClientInterface::class, \true)) {
+        } elseif (\is_a($class, \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface::class, \true)) {
             if ($params['redis_cluster']) {
                 $params['cluster'] = 'redis';
             } elseif (isset($params['redis_sentinel'])) {
@@ -389,7 +389,7 @@ trait RedisTrait
             return [];
         }
         $result = [];
-        if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface)) {
+        if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface)) {
             $values = $this->pipeline(function () use($ids) {
                 foreach ($ids as $id) {
                     (yield 'get' => [$id]);
@@ -415,14 +415,14 @@ trait RedisTrait
     }
     protected function doClear(string $namespace) : bool
     {
-        if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface) {
+        if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
             $prefix = $this->redis->getOptions()->prefix ? $this->redis->getOptions()->prefix->getPrefix() : '';
             $prefixLen = \strlen($prefix ?? '');
         }
         $cleared = \true;
         $hosts = $this->getHosts();
         $host = \reset($hosts);
-        if ($host instanceof \PrefixedByPoP\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
+        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
             // Predis supports info command only on the master in replication environments
             $hosts = [$host->getClientFor('master')];
         }
@@ -436,7 +436,7 @@ trait RedisTrait
             if ($host instanceof Relay) {
                 $prefix = Relay::SCAN_PREFIX & $host->getOption(Relay::OPT_SCAN) ? '' : $host->getOption(Relay::OPT_PREFIX);
                 $prefixLen = \strlen($host->getOption(Relay::OPT_PREFIX) ?? '');
-            } elseif (!$host instanceof \PrefixedByPoP\Predis\ClientInterface) {
+            } elseif (!$host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
                 $prefix = \defined('Redis::SCAN_PREFIX') && \Redis::SCAN_PREFIX & $host->getOption(\Redis::OPT_SCAN) ? '' : $host->getOption(\Redis::OPT_PREFIX);
                 $prefixLen = \strlen($host->getOption(\Redis::OPT_PREFIX) ?? '');
             }
@@ -446,13 +446,13 @@ trait RedisTrait
                 // can hang your server when it is executed against large databases (millions of items).
                 // Whenever you hit this scale, you should really consider upgrading to Redis 2.8 or above.
                 $unlink = \version_compare($info['redis_version'], '4.0', '>=') ? 'UNLINK' : 'DEL';
-                $args = $this->redis instanceof \PrefixedByPoP\Predis\ClientInterface ? [0, $pattern] : [[$pattern], 0];
+                $args = $this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface ? [0, $pattern] : [[$pattern], 0];
                 $cleared = $host->eval("local keys=redis.call('KEYS',ARGV[1]) for i=1,#keys,5000 do redis.call('{$unlink}',unpack(keys,i,math.min(i+4999,#keys))) end return 1", $args[0], $args[1]) && $cleared;
                 continue;
             }
             $cursor = null;
             do {
-                $keys = $host instanceof \PrefixedByPoP\Predis\ClientInterface ? $host->scan($cursor, 'MATCH', $pattern, 'COUNT', 1000) : $host->scan($cursor, $pattern, 1000);
+                $keys = $host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface ? $host->scan($cursor ?? 0, 'MATCH', $pattern, 'COUNT', 1000) : $host->scan($cursor, $pattern, 1000);
                 if (isset($keys[1]) && \is_array($keys[1])) {
                     $cursor = $keys[0];
                     $keys = $keys[1];
@@ -474,7 +474,7 @@ trait RedisTrait
         if (!$ids) {
             return \true;
         }
-        if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface)) {
+        if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface)) {
             static $del;
             $del = $del ?? (\class_exists(UNLINK::class) ? 'unlink' : 'del');
             $this->pipeline(function () use($ids, $del) {
@@ -525,16 +525,16 @@ trait RedisTrait
     {
         $ids = [];
         $redis = $redis ?? $this->redis;
-        if ($redis instanceof \RedisCluster || $redis instanceof \PrefixedByPoP\Predis\ClientInterface && ($redis->getConnection() instanceof RedisCluster || $redis->getConnection() instanceof Predis2RedisCluster)) {
+        if ($redis instanceof \RedisCluster || $redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && ($redis->getConnection() instanceof RedisCluster || $redis->getConnection() instanceof Predis2RedisCluster)) {
             // phpredis & predis don't support pipelining with RedisCluster
             // see https://github.com/phpredis/phpredis/blob/develop/cluster.markdown#pipelining
             // see https://github.com/nrk/predis/issues/267#issuecomment-123781423
             $results = [];
             foreach ($generator() as $command => $args) {
                 $results[] = $redis->{$command}(...$args);
-                $ids[] = 'eval' === $command ? $redis instanceof \PrefixedByPoP\Predis\ClientInterface ? $args[2] : $args[1][0] : $args[0];
+                $ids[] = 'eval' === $command ? $redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface ? $args[2] : $args[1][0] : $args[0];
             }
-        } elseif ($redis instanceof \PrefixedByPoP\Predis\ClientInterface) {
+        } elseif ($redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
             $results = $redis->pipeline(static function ($redis) use($generator, &$ids) {
                 foreach ($generator() as $command => $args) {
                     $redis->{$command}(...$args);
@@ -567,8 +567,8 @@ trait RedisTrait
             }
             $results = $redis->exec();
         }
-        if (!$redis instanceof \PrefixedByPoP\Predis\ClientInterface && 'eval' === $command && $redis->getLastError()) {
-            $e = $redis instanceof Relay ? new \PrefixedByPoP\Relay\Exception($redis->getLastError()) : new \RedisException($redis->getLastError());
+        if (!$redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && 'eval' === $command && $redis->getLastError()) {
+            $e = $redis instanceof Relay ? new \GatoExternalPrefixByGatoGraphQL\Relay\Exception($redis->getLastError()) : new \RedisException($redis->getLastError());
             $results = \array_map(function ($v) use($e) {
                 return \false === $v ? $e : $v;
             }, (array) $results);
@@ -583,12 +583,12 @@ trait RedisTrait
     private function getHosts() : array
     {
         $hosts = [$this->redis];
-        if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface) {
+        if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
             $connection = $this->redis->getConnection();
             if (($connection instanceof ClusterInterface || $connection instanceof Predis2ClusterInterface) && $connection instanceof \Traversable) {
                 $hosts = [];
                 foreach ($connection as $c) {
-                    $hosts[] = new \PrefixedByPoP\Predis\Client($c);
+                    $hosts[] = new \GatoExternalPrefixByGatoGraphQL\Predis\Client($c);
                 }
             }
         } elseif ($this->redis instanceof \RedisArray) {

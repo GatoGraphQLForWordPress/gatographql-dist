@@ -14,10 +14,6 @@ abstract class AbstractBlockSchemaConfigurationExecuter extends AbstractSchemaCo
      */
     private $blockHelpers;
 
-    final public function setBlockHelpers(BlockHelpers $blockHelpers): void
-    {
-        $this->blockHelpers = $blockHelpers;
-    }
     final protected function getBlockHelpers(): BlockHelpers
     {
         if ($this->blockHelpers === null) {

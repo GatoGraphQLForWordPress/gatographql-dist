@@ -48,4 +48,14 @@ abstract class AbstractBundleExtension extends AbstractExtension implements Bund
             $this->getBundledExtensionDataItems()
         );
     }
+
+    /**
+     * By initializing the Bundle after the Extensions,
+     * the bundle can override services from any of the
+     * bundled extensions.
+     */
+    protected function getInitializeExtensionPriority(): int
+    {
+        return parent::getInitializeExtensionPriority() + 10;
+    }
 }

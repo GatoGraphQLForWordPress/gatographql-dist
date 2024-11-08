@@ -95,10 +95,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setMediaObjectTypeResolver(MediaObjectTypeResolver $mediaObjectTypeResolver) : void
-    {
-        $this->mediaObjectTypeResolver = $mediaObjectTypeResolver;
-    }
     protected final function getMediaObjectTypeResolver() : MediaObjectTypeResolver
     {
         if ($this->mediaObjectTypeResolver === null) {
@@ -107,10 +103,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->mediaObjectTypeResolver = $mediaObjectTypeResolver;
         }
         return $this->mediaObjectTypeResolver;
-    }
-    public final function setCreateMediaItemMutationResolver(CreateMediaItemMutationResolver $createMediaItemMutationResolver) : void
-    {
-        $this->createMediaItemMutationResolver = $createMediaItemMutationResolver;
     }
     protected final function getCreateMediaItemMutationResolver() : CreateMediaItemMutationResolver
     {
@@ -121,10 +113,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->createMediaItemMutationResolver;
     }
-    public final function setCreateMediaItemBulkOperationMutationResolver(CreateMediaItemBulkOperationMutationResolver $createMediaItemBulkOperationMutationResolver) : void
-    {
-        $this->createMediaItemBulkOperationMutationResolver = $createMediaItemBulkOperationMutationResolver;
-    }
     protected final function getCreateMediaItemBulkOperationMutationResolver() : CreateMediaItemBulkOperationMutationResolver
     {
         if ($this->createMediaItemBulkOperationMutationResolver === null) {
@@ -133,10 +121,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->createMediaItemBulkOperationMutationResolver = $createMediaItemBulkOperationMutationResolver;
         }
         return $this->createMediaItemBulkOperationMutationResolver;
-    }
-    public final function setUpdateMediaItemMutationResolver(UpdateMediaItemMutationResolver $updateMediaItemMutationResolver) : void
-    {
-        $this->updateMediaItemMutationResolver = $updateMediaItemMutationResolver;
     }
     protected final function getUpdateMediaItemMutationResolver() : UpdateMediaItemMutationResolver
     {
@@ -147,10 +131,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->updateMediaItemMutationResolver;
     }
-    public final function setUpdateMediaItemBulkOperationMutationResolver(UpdateMediaItemBulkOperationMutationResolver $updateMediaItemBulkOperationMutationResolver) : void
-    {
-        $this->updateMediaItemBulkOperationMutationResolver = $updateMediaItemBulkOperationMutationResolver;
-    }
     protected final function getUpdateMediaItemBulkOperationMutationResolver() : UpdateMediaItemBulkOperationMutationResolver
     {
         if ($this->updateMediaItemBulkOperationMutationResolver === null) {
@@ -159,10 +139,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->updateMediaItemBulkOperationMutationResolver = $updateMediaItemBulkOperationMutationResolver;
         }
         return $this->updateMediaItemBulkOperationMutationResolver;
-    }
-    public final function setRootCreateMediaItemInputObjectTypeResolver(RootCreateMediaItemInputObjectTypeResolver $rootCreateMediaItemInputObjectTypeResolver) : void
-    {
-        $this->rootCreateMediaItemInputObjectTypeResolver = $rootCreateMediaItemInputObjectTypeResolver;
     }
     protected final function getRootCreateMediaItemInputObjectTypeResolver() : RootCreateMediaItemInputObjectTypeResolver
     {
@@ -173,10 +149,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootCreateMediaItemInputObjectTypeResolver;
     }
-    public final function setRootCreateMediaItemMutationPayloadObjectTypeResolver(RootCreateMediaItemMutationPayloadObjectTypeResolver $rootCreateMediaItemMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootCreateMediaItemMutationPayloadObjectTypeResolver = $rootCreateMediaItemMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootCreateMediaItemMutationPayloadObjectTypeResolver() : RootCreateMediaItemMutationPayloadObjectTypeResolver
     {
         if ($this->rootCreateMediaItemMutationPayloadObjectTypeResolver === null) {
@@ -185,10 +157,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootCreateMediaItemMutationPayloadObjectTypeResolver = $rootCreateMediaItemMutationPayloadObjectTypeResolver;
         }
         return $this->rootCreateMediaItemMutationPayloadObjectTypeResolver;
-    }
-    public final function setPayloadableCreateMediaItemMutationResolver(PayloadableCreateMediaItemMutationResolver $payloadableCreateMediaItemMutationResolver) : void
-    {
-        $this->payloadableCreateMediaItemMutationResolver = $payloadableCreateMediaItemMutationResolver;
     }
     protected final function getPayloadableCreateMediaItemMutationResolver() : PayloadableCreateMediaItemMutationResolver
     {
@@ -199,10 +167,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableCreateMediaItemMutationResolver;
     }
-    public final function setPayloadableCreateMediaItemBulkOperationMutationResolver(PayloadableCreateMediaItemBulkOperationMutationResolver $payloadableCreateMediaItemBulkOperationMutationResolver) : void
-    {
-        $this->payloadableCreateMediaItemBulkOperationMutationResolver = $payloadableCreateMediaItemBulkOperationMutationResolver;
-    }
     protected final function getPayloadableCreateMediaItemBulkOperationMutationResolver() : PayloadableCreateMediaItemBulkOperationMutationResolver
     {
         if ($this->payloadableCreateMediaItemBulkOperationMutationResolver === null) {
@@ -211,10 +175,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableCreateMediaItemBulkOperationMutationResolver = $payloadableCreateMediaItemBulkOperationMutationResolver;
         }
         return $this->payloadableCreateMediaItemBulkOperationMutationResolver;
-    }
-    public final function setRootUpdateMediaItemInputObjectTypeResolver(RootUpdateMediaItemInputObjectTypeResolver $rootUpdateMediaItemInputObjectTypeResolver) : void
-    {
-        $this->rootUpdateMediaItemInputObjectTypeResolver = $rootUpdateMediaItemInputObjectTypeResolver;
     }
     protected final function getRootUpdateMediaItemInputObjectTypeResolver() : RootUpdateMediaItemInputObjectTypeResolver
     {
@@ -225,10 +185,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootUpdateMediaItemInputObjectTypeResolver;
     }
-    public final function setRootUpdateMediaItemMutationPayloadObjectTypeResolver(RootUpdateMediaItemMutationPayloadObjectTypeResolver $rootUpdateMediaItemMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootUpdateMediaItemMutationPayloadObjectTypeResolver = $rootUpdateMediaItemMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootUpdateMediaItemMutationPayloadObjectTypeResolver() : RootUpdateMediaItemMutationPayloadObjectTypeResolver
     {
         if ($this->rootUpdateMediaItemMutationPayloadObjectTypeResolver === null) {
@@ -237,10 +193,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootUpdateMediaItemMutationPayloadObjectTypeResolver = $rootUpdateMediaItemMutationPayloadObjectTypeResolver;
         }
         return $this->rootUpdateMediaItemMutationPayloadObjectTypeResolver;
-    }
-    public final function setPayloadableUpdateMediaItemMutationResolver(PayloadableUpdateMediaItemMutationResolver $payloadableUpdateMediaItemMutationResolver) : void
-    {
-        $this->payloadableUpdateMediaItemMutationResolver = $payloadableUpdateMediaItemMutationResolver;
     }
     protected final function getPayloadableUpdateMediaItemMutationResolver() : PayloadableUpdateMediaItemMutationResolver
     {
@@ -251,10 +203,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableUpdateMediaItemMutationResolver;
     }
-    public final function setPayloadableUpdateMediaItemBulkOperationMutationResolver(PayloadableUpdateMediaItemBulkOperationMutationResolver $payloadableUpdateMediaItemBulkOperationMutationResolver) : void
-    {
-        $this->payloadableUpdateMediaItemBulkOperationMutationResolver = $payloadableUpdateMediaItemBulkOperationMutationResolver;
-    }
     protected final function getPayloadableUpdateMediaItemBulkOperationMutationResolver() : PayloadableUpdateMediaItemBulkOperationMutationResolver
     {
         if ($this->payloadableUpdateMediaItemBulkOperationMutationResolver === null) {
@@ -263,10 +211,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableUpdateMediaItemBulkOperationMutationResolver = $payloadableUpdateMediaItemBulkOperationMutationResolver;
         }
         return $this->payloadableUpdateMediaItemBulkOperationMutationResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

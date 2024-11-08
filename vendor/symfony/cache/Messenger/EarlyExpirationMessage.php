@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Messenger;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger;
 
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AdapterInterface;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ReverseContainer;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AdapterInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ReverseContainer;
 /**
  * Conveys a cached value that needs to be computed.
  * @internal

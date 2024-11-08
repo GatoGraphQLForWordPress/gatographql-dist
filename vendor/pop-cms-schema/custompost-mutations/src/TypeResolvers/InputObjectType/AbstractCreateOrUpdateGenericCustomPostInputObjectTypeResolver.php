@@ -14,10 +14,6 @@ abstract class AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver ex
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
      */
     private $customPostEnumStringScalarTypeResolver;
-    public final function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver) : void
-    {
-        $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
-    }
     protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {

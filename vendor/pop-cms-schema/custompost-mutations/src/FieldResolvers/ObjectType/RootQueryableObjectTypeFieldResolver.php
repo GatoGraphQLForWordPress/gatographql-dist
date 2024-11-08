@@ -59,10 +59,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
-    }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -71,10 +67,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
             $this->intScalarTypeResolver = $intScalarTypeResolver;
         }
         return $this->intScalarTypeResolver;
-    }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
     }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
@@ -85,10 +77,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostTypeAPI;
     }
-    public final function setCustomPostByOneofInputObjectTypeResolver(CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver) : void
-    {
-        $this->customPostByOneofInputObjectTypeResolver = $customPostByOneofInputObjectTypeResolver;
-    }
     protected final function getCustomPostByOneofInputObjectTypeResolver() : CustomPostByOneofInputObjectTypeResolver
     {
         if ($this->customPostByOneofInputObjectTypeResolver === null) {
@@ -97,10 +85,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
             $this->customPostByOneofInputObjectTypeResolver = $customPostByOneofInputObjectTypeResolver;
         }
         return $this->customPostByOneofInputObjectTypeResolver;
-    }
-    public final function setRootMyCustomPostsFilterInputObjectTypeResolver(RootMyCustomPostsFilterInputObjectTypeResolver $rootMyCustomPostsFilterInputObjectTypeResolver) : void
-    {
-        $this->rootMyCustomPostsFilterInputObjectTypeResolver = $rootMyCustomPostsFilterInputObjectTypeResolver;
     }
     protected final function getRootMyCustomPostsFilterInputObjectTypeResolver() : RootMyCustomPostsFilterInputObjectTypeResolver
     {
@@ -111,10 +95,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->rootMyCustomPostsFilterInputObjectTypeResolver;
     }
-    public final function setCustomPostPaginationInputObjectTypeResolver(CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver) : void
-    {
-        $this->customPostPaginationInputObjectTypeResolver = $customPostPaginationInputObjectTypeResolver;
-    }
     protected final function getCustomPostPaginationInputObjectTypeResolver() : CustomPostPaginationInputObjectTypeResolver
     {
         if ($this->customPostPaginationInputObjectTypeResolver === null) {
@@ -124,10 +104,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
         }
         return $this->customPostPaginationInputObjectTypeResolver;
     }
-    public final function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver) : void
-    {
-        $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
-    }
     protected final function getCustomPostSortInputObjectTypeResolver() : CustomPostSortInputObjectTypeResolver
     {
         if ($this->customPostSortInputObjectTypeResolver === null) {
@@ -136,10 +112,6 @@ class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
             $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
         }
         return $this->customPostSortInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

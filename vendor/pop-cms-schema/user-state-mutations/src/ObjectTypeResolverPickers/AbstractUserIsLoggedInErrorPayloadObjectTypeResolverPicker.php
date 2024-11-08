@@ -14,10 +14,6 @@ abstract class AbstractUserIsLoggedInErrorPayloadObjectTypeResolverPicker extend
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\UserIsLoggedInErrorPayloadObjectTypeResolver|null
      */
     private $userIsLoggedInErrorPayloadObjectTypeResolver;
-    public final function setUserIsLoggedInErrorPayloadObjectTypeResolver(UserIsLoggedInErrorPayloadObjectTypeResolver $userIsLoggedInErrorPayloadObjectTypeResolver) : void
-    {
-        $this->userIsLoggedInErrorPayloadObjectTypeResolver = $userIsLoggedInErrorPayloadObjectTypeResolver;
-    }
     protected final function getUserIsLoggedInErrorPayloadObjectTypeResolver() : UserIsLoggedInErrorPayloadObjectTypeResolver
     {
         if ($this->userIsLoggedInErrorPayloadObjectTypeResolver === null) {

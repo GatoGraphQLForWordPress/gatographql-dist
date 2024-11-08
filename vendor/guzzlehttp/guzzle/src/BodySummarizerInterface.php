@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\Psr\Http\Message\MessageInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\MessageInterface;
 /** @internal */
 interface BodySummarizerInterface
 {

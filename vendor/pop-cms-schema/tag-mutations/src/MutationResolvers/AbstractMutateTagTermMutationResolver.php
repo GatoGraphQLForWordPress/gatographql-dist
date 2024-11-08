@@ -14,10 +14,6 @@ abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxon
      * @var \PoPCMSSchema\TagMutations\TypeAPIs\TagTypeMutationAPIInterface|null
      */
     private $tagTypeMutationAPI;
-    public final function setTagTypeMutationAPI(TagTypeMutationAPIInterface $tagTypeMutationAPI) : void
-    {
-        $this->tagTypeMutationAPI = $tagTypeMutationAPI;
-    }
     protected final function getTagTypeMutationAPI() : TagTypeMutationAPIInterface
     {
         if ($this->tagTypeMutationAPI === null) {

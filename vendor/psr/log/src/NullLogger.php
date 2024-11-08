@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Log;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Log;
 
 /**
  * This Logger can be used to avoid conditional log calls.

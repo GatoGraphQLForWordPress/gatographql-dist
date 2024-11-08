@@ -14,10 +14,6 @@ abstract class AbstractFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadOb
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver|null
      */
     private $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
-    public final function setFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver(FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver) : void
-    {
-        $this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver = $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
-    }
     protected final function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver() : FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver
     {
         if ($this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver === null) {

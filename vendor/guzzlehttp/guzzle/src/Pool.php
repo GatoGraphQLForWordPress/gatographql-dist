@@ -1,12 +1,12 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\EachPromise;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\GuzzleHttp\Promise\PromisorInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\EachPromise;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromisorInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * Sends an iterator of requests concurrently using a capped pool size.
  *

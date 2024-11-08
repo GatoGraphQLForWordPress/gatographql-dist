@@ -12,10 +12,6 @@ class PayloadableUpdatePostBulkOperationMutationResolver extends AbstractBulkOpe
      * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver|null
      */
     private $payloadableUpdatePostMutationResolver;
-    public final function setPayloadableUpdatePostMutationResolver(\PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver $payloadableUpdatePostMutationResolver) : void
-    {
-        $this->payloadableUpdatePostMutationResolver = $payloadableUpdatePostMutationResolver;
-    }
     protected final function getPayloadableUpdatePostMutationResolver() : \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver
     {
         if ($this->payloadableUpdatePostMutationResolver === null) {

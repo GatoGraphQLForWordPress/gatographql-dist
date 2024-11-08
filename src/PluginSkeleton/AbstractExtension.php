@@ -36,10 +36,21 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
+        ?string $pluginFolder = null,
+        /** Useful to override by standalone plugins */
+        ?string $pluginURL = null,
+        /** Useful to override by standalone plugins */
         ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null
     )
     {
-        parent::__construct($pluginFile, $pluginVersion, $pluginName, $commitHash);
+        parent::__construct(
+            $pluginFile,
+            $pluginVersion,
+            $pluginName,
+            $commitHash,
+            $pluginFolder,
+            $pluginURL,
+        );
         $this->extensionInitializationConfiguration = $extensionInitializationConfiguration ?? $this->maybeCreateInitializationConfiguration();
     }
 
@@ -49,7 +60,8 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
         if ($extensionInitializationConfigurationClass === null) {
             return null;
         }
-        return new $extensionInitializationConfigurationClass();
+        /** @var AbstractExtensionInitializationConfiguration $extensionInitializationConfigurationClass */
+        return new $extensionInitializationConfigurationClass($this);
     }
 
     /**
@@ -134,7 +146,8 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
                  */
                 \add_action(
                     PluginLifecycleHooks::INITIALIZE_EXTENSION,
-                    \Closure::fromCallable([$this, 'initialize'])
+                    \Closure::fromCallable([$this, 'initialize']),
+                    $this->getInitializeExtensionPriority()
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION_COMPONENTS,
@@ -156,6 +169,11 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
             },
             PluginLifecyclePriorities::SETUP_EXTENSIONS
         );
+    }
+
+    protected function getInitializeExtensionPriority(): int
+    {
+        return 10;
     }
 
     /**

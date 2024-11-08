@@ -6,8 +6,8 @@ namespace PoP\Root\Module;
 use PoP\Root\App;
 use PoP\Root\Container\Loader\SchemaServiceYamlFileLoader;
 use PoP\Root\Container\Loader\ServiceYamlFileLoader;
-use PrefixedByPoP\Symfony\Component\Config\FileLocator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
 /** @internal */
 trait InitializeContainerServicesInModuleTrait
 {

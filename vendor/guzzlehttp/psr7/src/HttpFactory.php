@@ -1,20 +1,20 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
-use PrefixedByPoP\Psr\Http\Message\RequestFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\ServerRequestFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\ServerRequestInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
-use PrefixedByPoP\Psr\Http\Message\UploadedFileFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\UploadedFileInterface;
-use PrefixedByPoP\Psr\Http\Message\UriFactoryInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ServerRequestFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ServerRequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UploadedFileFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UploadedFileInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriFactoryInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * Implements all of the PSR-17 interfaces.
  *

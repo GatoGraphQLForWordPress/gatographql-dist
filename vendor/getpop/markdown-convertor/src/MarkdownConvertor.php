@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\MarkdownConvertor;
 
-use PrefixedByPoP\Michelf\MarkdownExtra;
+use GatoExternalPrefixByGatoGraphQL\Michelf\MarkdownExtra;
 /**
  * Markdown formatter provided by `michelf/php-markdown`
  *

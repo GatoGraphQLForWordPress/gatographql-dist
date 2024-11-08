@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\ResettableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ContractsTrait;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ProxyTrait;
-use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\ResettableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ContractsTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ProxyTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
@@ -99,7 +99,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
     /**
      * @param mixed $key
      */
-    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface
+    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
     {
         $item = $this->pool->getItem($this->getId($key));
         return (self::$createCacheItem)($key, $item, $this->poolHash);

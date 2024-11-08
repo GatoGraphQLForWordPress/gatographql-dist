@@ -24,10 +24,6 @@ class ErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolve
      * @var \PoPSchema\SchemaCommons\FieldResolvers\InterfaceType\ErrorPayloadInterfaceTypeFieldResolver|null
      */
     private $errorPayloadInterfaceTypeFieldResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -36,10 +32,6 @@ class ErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolve
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setErrorPayloadInterfaceTypeFieldResolver(ErrorPayloadInterfaceTypeFieldResolver $errorPayloadInterfaceTypeFieldResolver) : void
-    {
-        $this->errorPayloadInterfaceTypeFieldResolver = $errorPayloadInterfaceTypeFieldResolver;
     }
     protected final function getErrorPayloadInterfaceTypeFieldResolver() : ErrorPayloadInterfaceTypeFieldResolver
     {

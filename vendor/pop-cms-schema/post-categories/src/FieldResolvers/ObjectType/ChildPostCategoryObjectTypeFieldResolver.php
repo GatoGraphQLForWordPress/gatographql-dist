@@ -20,10 +20,6 @@ class ChildPostCategoryObjectTypeFieldResolver extends AbstractChildCategoryObje
      * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
      */
     private $postCategoryObjectTypeResolver;
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
-    {
-        $this->postCategoryTypeAPI = $postCategoryTypeAPI;
-    }
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
@@ -32,10 +28,6 @@ class ChildPostCategoryObjectTypeFieldResolver extends AbstractChildCategoryObje
             $this->postCategoryTypeAPI = $postCategoryTypeAPI;
         }
         return $this->postCategoryTypeAPI;
-    }
-    public final function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver) : void
-    {
-        $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {

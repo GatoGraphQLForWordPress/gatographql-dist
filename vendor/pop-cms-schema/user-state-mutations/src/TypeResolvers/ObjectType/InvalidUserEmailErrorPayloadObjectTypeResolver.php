@@ -13,10 +13,6 @@ class InvalidUserEmailErrorPayloadObjectTypeResolver extends AbstractErrorPayloa
      * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\InvalidUserEmailErrorPayloadObjectTypeDataLoader|null
      */
     private $invalidUserEmailErrorPayloadObjectTypeDataLoader;
-    public final function setInvalidUserEmailErrorPayloadObjectTypeDataLoader(InvalidUserEmailErrorPayloadObjectTypeDataLoader $invalidUserEmailErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->invalidUserEmailErrorPayloadObjectTypeDataLoader = $invalidUserEmailErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getInvalidUserEmailErrorPayloadObjectTypeDataLoader() : InvalidUserEmailErrorPayloadObjectTypeDataLoader
     {
         if ($this->invalidUserEmailErrorPayloadObjectTypeDataLoader === null) {

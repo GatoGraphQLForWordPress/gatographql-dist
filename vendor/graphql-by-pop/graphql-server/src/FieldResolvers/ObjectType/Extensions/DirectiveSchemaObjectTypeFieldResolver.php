@@ -25,10 +25,6 @@ class DirectiveSchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldReso
      * @var \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface|null
      */
     private $fieldDirectiveResolverRegistry;
-    public final function setDirectiveKindEnumTypeResolver(DirectiveKindEnumTypeResolver $directiveKindEnumTypeResolver) : void
-    {
-        $this->directiveKindEnumTypeResolver = $directiveKindEnumTypeResolver;
-    }
     protected final function getDirectiveKindEnumTypeResolver() : DirectiveKindEnumTypeResolver
     {
         if ($this->directiveKindEnumTypeResolver === null) {
@@ -37,10 +33,6 @@ class DirectiveSchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldReso
             $this->directiveKindEnumTypeResolver = $directiveKindEnumTypeResolver;
         }
         return $this->directiveKindEnumTypeResolver;
-    }
-    public final function setFieldDirectiveResolverRegistry(FieldDirectiveResolverRegistryInterface $fieldDirectiveResolverRegistry) : void
-    {
-        $this->fieldDirectiveResolverRegistry = $fieldDirectiveResolverRegistry;
     }
     protected final function getFieldDirectiveResolverRegistry() : FieldDirectiveResolverRegistryInterface
     {

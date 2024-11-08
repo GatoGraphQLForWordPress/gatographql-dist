@@ -25,10 +25,6 @@ class InputCoercingService implements \PoP\ComponentModel\Schema\InputCoercingSe
      * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
      */
     private $outputService;
-    public final function setOutputService(OutputServiceInterface $outputService) : void
-    {
-        $this->outputService = $outputService;
-    }
     protected final function getOutputService() : OutputServiceInterface
     {
         if ($this->outputService === null) {

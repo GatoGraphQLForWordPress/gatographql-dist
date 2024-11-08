@@ -12,10 +12,6 @@ class UpdatePageBulkOperationMutationResolver extends AbstractBulkOperationDecor
      * @var \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver|null
      */
     private $updatePageMutationResolver;
-    public final function setUpdatePageMutationResolver(\PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver $updatePageMutationResolver) : void
-    {
-        $this->updatePageMutationResolver = $updatePageMutationResolver;
-    }
     protected final function getUpdatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver
     {
         if ($this->updatePageMutationResolver === null) {

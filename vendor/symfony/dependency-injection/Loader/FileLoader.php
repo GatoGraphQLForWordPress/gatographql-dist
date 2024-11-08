@@ -8,24 +8,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
-use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
-use PrefixedByPoP\Symfony\Component\Config\FileLocatorInterface;
-use PrefixedByPoP\Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
-use PrefixedByPoP\Symfony\Component\Config\Loader\Loader;
-use PrefixedByPoP\Symfony\Component\Config\Resource\GlobResource;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Alias;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\AsAlias;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\Exclude;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\When;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ChildDefinition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\RegisterAutoconfigureAttributesPass;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\LoaderLoadException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\Loader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\GlobResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Alias;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Exclude;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\When;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\RegisterAutoconfigureAttributesPass;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\LogicException;
 /**
  * FileLoader is the abstract class used by all built-in loaders that are file based.
  *

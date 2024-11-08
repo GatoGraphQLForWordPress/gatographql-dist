@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Promise;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise;
 
 /**
  * Interface used with classes that return a promise.

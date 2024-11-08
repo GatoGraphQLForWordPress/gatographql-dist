@@ -12,10 +12,6 @@ class PayloadableCreatePageBulkOperationMutationResolver extends AbstractBulkOpe
      * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver|null
      */
     private $payloadableCreatePageMutationResolver;
-    public final function setPayloadableCreatePageMutationResolver(\PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver $payloadableCreatePageMutationResolver) : void
-    {
-        $this->payloadableCreatePageMutationResolver = $payloadableCreatePageMutationResolver;
-    }
     protected final function getPayloadableCreatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver
     {
         if ($this->payloadableCreatePageMutationResolver === null) {

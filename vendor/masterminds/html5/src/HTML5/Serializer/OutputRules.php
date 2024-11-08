@@ -7,9 +7,9 @@
  * These output rules are likely to generate output similar to the document that
  * was parsed. It is not intended to output exactly the document that was parsed.
  */
-namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Serializer;
 
-use PrefixedByPoP\Masterminds\HTML5\Elements;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Elements;
 /**
  * Generate the output html5 based on element rules.
  * @internal

@@ -16,10 +16,6 @@ class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldR
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
      */
     private $stringScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {

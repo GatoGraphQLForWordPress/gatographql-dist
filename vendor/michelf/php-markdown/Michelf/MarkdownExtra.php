@@ -8,13 +8,13 @@
  * @copyright 2004-2021 Michel Fortin <https://michelf.com/projects/php-markdown/>
  * @copyright (Original Markdown) 2004-2006 John Gruber <https://daringfireball.net/projects/markdown/>
  */
-namespace PrefixedByPoP\Michelf;
+namespace GatoExternalPrefixByGatoGraphQL\Michelf;
 
 /**
  * Markdown Extra Parser Class
  * @internal
  */
-class MarkdownExtra extends \PrefixedByPoP\Michelf\Markdown
+class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
 {
     /**
      * Configuration variables

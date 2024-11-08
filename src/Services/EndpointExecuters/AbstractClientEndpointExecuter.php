@@ -17,10 +17,6 @@ abstract class AbstractClientEndpointExecuter extends AbstractCPTEndpointExecute
      */
     private $templateHelpers;
 
-    final public function setTemplateHelpers(TemplateHelpersInterface $templateHelpers): void
-    {
-        $this->templateHelpers = $templateHelpers;
-    }
     final protected function getTemplateHelpers(): TemplateHelpersInterface
     {
         if ($this->templateHelpers === null) {

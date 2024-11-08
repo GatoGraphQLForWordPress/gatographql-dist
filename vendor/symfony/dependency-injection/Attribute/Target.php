@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\LogicException;
 /**
  * An attribute to tell how a dependency is used and hint named autowiring aliases.
  *

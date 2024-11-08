@@ -46,10 +46,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\PostSetTagsMutationPayloadObjectTypeResolver|null
      */
     private $postSetTagsMutationPayloadObjectTypeResolver;
-    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
-    {
-        $this->postObjectTypeResolver = $postObjectTypeResolver;
-    }
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -58,14 +54,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             $this->postObjectTypeResolver = $postObjectTypeResolver;
         }
         return $this->postObjectTypeResolver;
-    }
-    public final function setSetTagsOnPostMutationResolver(SetTagsOnPostMutationResolver $setTagsOnPostMutationResolver) : void
-    {
-        $this->setTagsOnPostMutationResolver = $setTagsOnPostMutationResolver;
-    }
-    public final function setSetTagsOnPostBulkOperationMutationResolver(SetTagsOnPostBulkOperationMutationResolver $setTagsOnPostBulkOperationMutationResolver) : void
-    {
-        $this->setTagsOnPostBulkOperationMutationResolver = $setTagsOnPostBulkOperationMutationResolver;
     }
     protected final function getSetTagsOnPostBulkOperationMutationResolver() : SetTagsOnPostBulkOperationMutationResolver
     {
@@ -85,10 +73,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         }
         return $this->setTagsOnPostMutationResolver;
     }
-    public final function setPostSetTagsInputObjectTypeResolver(PostSetTagsInputObjectTypeResolver $postSetTagsInputObjectTypeResolver) : void
-    {
-        $this->postSetTagsInputObjectTypeResolver = $postSetTagsInputObjectTypeResolver;
-    }
     protected final function getPostSetTagsInputObjectTypeResolver() : AbstractSetTagsOnCustomPostInputObjectTypeResolver
     {
         if ($this->postSetTagsInputObjectTypeResolver === null) {
@@ -97,10 +81,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             $this->postSetTagsInputObjectTypeResolver = $postSetTagsInputObjectTypeResolver;
         }
         return $this->postSetTagsInputObjectTypeResolver;
-    }
-    public final function setPayloadableSetTagsOnPostMutationResolver(PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnPostMutationResolver = $payloadableSetTagsOnPostMutationResolver;
     }
     protected final function getPayloadableSetTagsOnPostMutationResolver() : PayloadableSetTagsOnPostMutationResolver
     {
@@ -111,10 +91,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         }
         return $this->payloadableSetTagsOnPostMutationResolver;
     }
-    public final function setPayloadableSetTagsOnPostBulkOperationMutationResolver(PayloadableSetTagsOnPostBulkOperationMutationResolver $payloadableSetTagsOnPostBulkOperationMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnPostBulkOperationMutationResolver = $payloadableSetTagsOnPostBulkOperationMutationResolver;
-    }
     protected final function getPayloadableSetTagsOnPostBulkOperationMutationResolver() : PayloadableSetTagsOnPostBulkOperationMutationResolver
     {
         if ($this->payloadableSetTagsOnPostBulkOperationMutationResolver === null) {
@@ -123,10 +99,6 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             $this->payloadableSetTagsOnPostBulkOperationMutationResolver = $payloadableSetTagsOnPostBulkOperationMutationResolver;
         }
         return $this->payloadableSetTagsOnPostBulkOperationMutationResolver;
-    }
-    public final function setPostSetTagsMutationPayloadObjectTypeResolver(PostSetTagsMutationPayloadObjectTypeResolver $postSetTagsMutationPayloadObjectTypeResolver) : void
-    {
-        $this->postSetTagsMutationPayloadObjectTypeResolver = $postSetTagsMutationPayloadObjectTypeResolver;
     }
     protected final function getPostSetTagsMutationPayloadObjectTypeResolver() : PostSetTagsMutationPayloadObjectTypeResolver
     {

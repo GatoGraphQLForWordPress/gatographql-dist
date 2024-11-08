@@ -22,10 +22,6 @@ class SetupCortexRoutingHookSet extends AbstractHookSet
      */
     private $routingManager;
 
-    final public function setRoutingManager(RoutingManagerInterface $routingManager): void
-    {
-        $this->routingManager = $routingManager;
-    }
     final protected function getRoutingManager(): RoutingManagerInterface
     {
         if ($this->routingManager === null) {
@@ -64,9 +60,12 @@ class SetupCortexRoutingHookSet extends AbstractHookSet
         /** @var WPQueryRoutingManagerInterface */
         $routingManager = $this->getRoutingManager();
         foreach ($routingManager->getRoutes() as $route) {
-            $routes->addRoute(new QueryRoute($route, function (array $matches) {
-                return WPQueries::GENERIC_NATURE;
-            }));
+            $routes->addRoute(new QueryRoute(
+                $route,
+                function (array $matches) {
+                    return WPQueries::GENERIC_NATURE;
+                },
+            ));
         }
     }
 }

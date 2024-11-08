@@ -19,10 +19,6 @@ class CommentObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
      * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
      */
     private $commentTypeAPI;
-    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
-    {
-        $this->commentTypeAPI = $commentTypeAPI;
-    }
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {

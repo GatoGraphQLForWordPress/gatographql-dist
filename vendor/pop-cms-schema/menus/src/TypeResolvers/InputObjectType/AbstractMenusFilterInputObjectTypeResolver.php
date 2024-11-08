@@ -25,10 +25,6 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
      */
     private $slugsFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -38,10 +34,6 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
-    {
-        $this->searchFilterInput = $searchFilterInput;
-    }
     protected final function getSearchFilterInput() : SearchFilterInput
     {
         if ($this->searchFilterInput === null) {
@@ -50,10 +42,6 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
             $this->searchFilterInput = $searchFilterInput;
         }
         return $this->searchFilterInput;
-    }
-    public final function setSlugsFilterInput(SlugsFilterInput $slugsFilterInput) : void
-    {
-        $this->slugsFilterInput = $slugsFilterInput;
     }
     protected final function getSlugsFilterInput() : SlugsFilterInput
     {

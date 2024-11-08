@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Antonio Jose Cerezo Aranda <aj.cerezo@gmail.com>
  * @internal
@@ -32,7 +32,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
      * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
      */
     private $marshaller;
-    public function __construct(\PrefixedByPoP\CouchbaseBucket $bucket, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
+    public function __construct(\GatoExternalPrefixByGatoGraphQL\CouchbaseBucket $bucket, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         if (!static::isSupported()) {
             throw new CacheException('Couchbase >= 2.6.0 < 3.0.0 is required.');
@@ -46,7 +46,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
     /**
      * @param mixed[]|string $servers
      */
-    public static function createConnection($servers, array $options = []) : \PrefixedByPoP\CouchbaseBucket
+    public static function createConnection($servers, array $options = []) : \GatoExternalPrefixByGatoGraphQL\CouchbaseBucket
     {
         if (\is_string($servers)) {
             $servers = [$servers];
@@ -81,7 +81,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
                 $newServers[] = $matches['host'];
             }
             $connectionString = $protocol . '://' . \implode(',', $newServers);
-            $client = new \PrefixedByPoP\CouchbaseCluster($connectionString);
+            $client = new \GatoExternalPrefixByGatoGraphQL\CouchbaseCluster($connectionString);
             $client->authenticateAs($username, $password);
             $bucket = $client->openBucket($matches['bucketName']);
             unset($options['username'], $options['password']);

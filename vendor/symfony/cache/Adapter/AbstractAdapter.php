@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Log\LoggerAwareInterface;
-use PrefixedByPoP\Psr\Log\LoggerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\ResettableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\AbstractAdapterTrait;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ContractsTrait;
-use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\ResettableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\AbstractAdapterTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ContractsTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal

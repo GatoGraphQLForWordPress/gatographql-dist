@@ -13,10 +13,6 @@ class UserIsNotLoggedInErrorPayloadObjectTypeResolver extends AbstractErrorPaylo
      * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\UserIsNotLoggedInErrorPayloadObjectTypeDataLoader|null
      */
     private $userIsNotLoggedInErrorPayloadObjectTypeDataLoader;
-    public final function setUserIsNotLoggedInErrorPayloadObjectTypeDataLoader(UserIsNotLoggedInErrorPayloadObjectTypeDataLoader $userIsNotLoggedInErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->userIsNotLoggedInErrorPayloadObjectTypeDataLoader = $userIsNotLoggedInErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getUserIsNotLoggedInErrorPayloadObjectTypeDataLoader() : UserIsNotLoggedInErrorPayloadObjectTypeDataLoader
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeDataLoader === null) {

@@ -15,7 +15,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Module\ModuleInterface;
 use PoP\Root\StateManagers\HookManager;
 use PoP\Root\StateManagers\HookManagerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * This class must be used when there is no underlying
  * PoP architecture that renders the response, hence the
@@ -58,10 +58,6 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
      * @var \GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface|null
      */
     private $graphQLServerAppStateProviderService;
-    public final function setGraphQLParserHelperService(GraphQLParserHelperServiceInterface $graphQLParserHelperService) : void
-    {
-        $this->graphQLParserHelperService = $graphQLParserHelperService;
-    }
     protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {
@@ -70,10 +66,6 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
             $this->graphQLParserHelperService = $graphQLParserHelperService;
         }
         return $this->graphQLParserHelperService;
-    }
-    public final function setGraphQLServerAppStateProviderService(GraphQLServerAppStateProviderServiceInterface $graphQLServerAppStateProviderService) : void
-    {
-        $this->graphQLServerAppStateProviderService = $graphQLServerAppStateProviderService;
     }
     protected final function getGraphQLServerAppStateProviderService() : GraphQLServerAppStateProviderServiceInterface
     {

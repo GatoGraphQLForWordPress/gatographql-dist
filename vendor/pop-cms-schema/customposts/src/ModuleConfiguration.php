@@ -8,6 +8,13 @@ use PoP\Root\Module\EnvironmentValueHelpers;
 /** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
+    public function allowQueryingPrivateCPTs() : bool
+    {
+        $envVariable = \PoPCMSSchema\CustomPosts\Environment::ALLOW_QUERYING_PRIVATE_CPTS;
+        $defaultValue = \false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
     public function getCustomPostListDefaultLimit() : ?int
     {
         $envVariable = \PoPCMSSchema\CustomPosts\Environment::CUSTOMPOST_LIST_DEFAULT_LIMIT;

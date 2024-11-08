@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception;
 
 /**
  * Raised when a session does not exist. This happens in the following cases:

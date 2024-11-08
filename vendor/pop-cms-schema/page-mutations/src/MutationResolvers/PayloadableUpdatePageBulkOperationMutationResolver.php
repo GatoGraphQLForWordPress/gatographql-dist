@@ -12,10 +12,6 @@ class PayloadableUpdatePageBulkOperationMutationResolver extends AbstractBulkOpe
      * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableUpdatePageMutationResolver|null
      */
     private $payloadableUpdatePageMutationResolver;
-    public final function setPayloadableUpdatePageMutationResolver(\PoPCMSSchema\PageMutations\MutationResolvers\PayloadableUpdatePageMutationResolver $payloadableUpdatePageMutationResolver) : void
-    {
-        $this->payloadableUpdatePageMutationResolver = $payloadableUpdatePageMutationResolver;
-    }
     protected final function getPayloadableUpdatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableUpdatePageMutationResolver
     {
         if ($this->payloadableUpdatePageMutationResolver === null) {

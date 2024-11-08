@@ -18,10 +18,6 @@ abstract class AbstractRelationalTypeResolverDecorator implements \PoP\Component
      * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
      */
     private $attachableExtensionManager;
-    public final function setAttachableExtensionManager(AttachableExtensionManagerInterface $attachableExtensionManager) : void
-    {
-        $this->attachableExtensionManager = $attachableExtensionManager;
-    }
     protected final function getAttachableExtensionManager() : AttachableExtensionManagerInterface
     {
         if ($this->attachableExtensionManager === null) {

@@ -16,10 +16,6 @@ class MediaObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
      * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
      */
     private $mediaTypeAPI;
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
-    {
-        $this->mediaTypeAPI = $mediaTypeAPI;
-    }
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {

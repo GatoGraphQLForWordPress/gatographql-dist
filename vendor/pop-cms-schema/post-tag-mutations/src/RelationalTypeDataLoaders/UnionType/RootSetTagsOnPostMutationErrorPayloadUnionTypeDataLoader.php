@@ -13,10 +13,6 @@ class RootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader extends AbstractU
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\RootSetTagsOnPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootSetTagsOnPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootSetTagsOnPostMutationErrorPayloadUnionTypeResolver(RootSetTagsOnPostMutationErrorPayloadUnionTypeResolver $rootSetTagsOnPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootSetTagsOnPostMutationErrorPayloadUnionTypeResolver = $rootSetTagsOnPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootSetTagsOnPostMutationErrorPayloadUnionTypeResolver() : RootSetTagsOnPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootSetTagsOnPostMutationErrorPayloadUnionTypeResolver === null) {

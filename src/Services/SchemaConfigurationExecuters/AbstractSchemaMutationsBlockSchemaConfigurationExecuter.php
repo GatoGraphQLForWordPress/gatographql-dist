@@ -18,10 +18,6 @@ abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends A
      */
     private $schemaConfigPayloadTypesForMutationsBlock;
 
-    final public function setSchemaConfigPayloadTypesForMutationsBlock(SchemaConfigPayloadTypesForMutationsBlock $schemaConfigPayloadTypesForMutationsBlock): void
-    {
-        $this->schemaConfigPayloadTypesForMutationsBlock = $schemaConfigPayloadTypesForMutationsBlock;
-    }
     final protected function getSchemaConfigPayloadTypesForMutationsBlock(): SchemaConfigPayloadTypesForMutationsBlock
     {
         if ($this->schemaConfigPayloadTypesForMutationsBlock === null) {
@@ -67,7 +63,10 @@ abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends A
          * Execute last so it overrides the default settings
          */
         $hookModuleClass = $this->getHookModuleClass();
-        $hookName = ModuleConfigurationHelpers::getHookName($hookModuleClass, $this->getHookUsePayloadableEnvironmentClass());
+        $hookName = ModuleConfigurationHelpers::getHookName(
+            $hookModuleClass,
+            $this->getHookUsePayloadableEnvironmentClass(),
+        );
         App::addFilter(
             $hookName,
             function () use ($usePayloadType) {
@@ -75,7 +74,10 @@ abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends A
             },
             PHP_INT_MAX
         );
-        $hookName = ModuleConfigurationHelpers::getHookName($hookModuleClass, $this->getHookAddFieldsToQueryPayloadableEnvironmentClass());
+        $hookName = ModuleConfigurationHelpers::getHookName(
+            $hookModuleClass,
+            $this->getHookAddFieldsToQueryPayloadableEnvironmentClass(),
+        );
         App::addFilter(
             $hookName,
             function () use ($usePayloadType) {

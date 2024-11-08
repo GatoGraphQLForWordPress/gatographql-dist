@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
 // Help opcache.preload discover always-needed symbols
 \class_exists(MetadataBag::class);
 \class_exists(StrictSessionHandler::class);

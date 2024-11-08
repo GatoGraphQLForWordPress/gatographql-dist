@@ -13,10 +13,6 @@ abstract class AbstractErrorPayloadUnionTypeResolver extends AbstractUnionTypeRe
      * @var \PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver|null
      */
     private $errorPayloadInterfaceTypeResolver;
-    public final function setErrorPayloadInterfaceTypeResolver(ErrorPayloadInterfaceTypeResolver $errorPayloadInterfaceTypeResolver) : void
-    {
-        $this->errorPayloadInterfaceTypeResolver = $errorPayloadInterfaceTypeResolver;
-    }
     protected final function getErrorPayloadInterfaceTypeResolver() : ErrorPayloadInterfaceTypeResolver
     {
         if ($this->errorPayloadInterfaceTypeResolver === null) {

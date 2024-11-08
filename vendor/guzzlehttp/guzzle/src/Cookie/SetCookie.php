@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Cookie;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Cookie;
 
 /**
  * Set-Cookie object

@@ -19,10 +19,6 @@ class SchemaCustomPostsBlockSchemaConfigurationExecuter extends AbstractCustomiz
      */
     private $schemaConfigSchemaCustomPostsBlock;
 
-    final public function setSchemaConfigSchemaCustomPostsBlock(SchemaConfigSchemaCustomPostsBlock $schemaConfigSchemaCustomPostsBlock): void
-    {
-        $this->schemaConfigSchemaCustomPostsBlock = $schemaConfigSchemaCustomPostsBlock;
-    }
     final protected function getSchemaConfigSchemaCustomPostsBlock(): SchemaConfigSchemaCustomPostsBlock
     {
         if ($this->schemaConfigSchemaCustomPostsBlock === null) {

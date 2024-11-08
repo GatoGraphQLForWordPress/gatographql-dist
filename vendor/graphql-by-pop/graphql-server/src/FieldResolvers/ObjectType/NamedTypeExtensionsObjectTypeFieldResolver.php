@@ -25,10 +25,6 @@ class NamedTypeExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
      */
     private $booleanScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -37,10 +33,6 @@ class NamedTypeExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {

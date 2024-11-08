@@ -13,10 +13,6 @@ class LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver 
      * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeDataLoader === null) {

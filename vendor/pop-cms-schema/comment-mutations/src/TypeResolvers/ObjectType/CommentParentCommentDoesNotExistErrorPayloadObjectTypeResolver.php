@@ -13,10 +13,6 @@ class CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver extends Abs
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader|null
      */
     private $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader(CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader = $commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader() : CommentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentParentCommentDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

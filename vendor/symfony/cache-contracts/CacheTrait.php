@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache;
 
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
-use PrefixedByPoP\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(InvalidArgumentException::class);
 /**

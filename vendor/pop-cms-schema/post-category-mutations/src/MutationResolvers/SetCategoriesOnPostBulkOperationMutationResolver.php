@@ -12,10 +12,6 @@ class SetCategoriesOnPostBulkOperationMutationResolver extends AbstractBulkOpera
      * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostMutationResolver|null
      */
     private $setCategoriesOnPostMutationResolver;
-    public final function setSetCategoriesOnPostMutationResolver(\PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostMutationResolver $setCategoriesOnPostMutationResolver) : void
-    {
-        $this->setCategoriesOnPostMutationResolver = $setCategoriesOnPostMutationResolver;
-    }
     protected final function getSetCategoriesOnPostMutationResolver() : \PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostMutationResolver
     {
         if ($this->setCategoriesOnPostMutationResolver === null) {

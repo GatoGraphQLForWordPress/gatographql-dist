@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Message;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Http\Message;
 
 /**
  * Value object representing a file uploaded through an HTTP request.

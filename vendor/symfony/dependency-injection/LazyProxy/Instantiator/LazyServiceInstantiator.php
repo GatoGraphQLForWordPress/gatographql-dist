@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\Instantiator;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\Instantiator;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\LazyServiceDumper;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\LazyServiceDumper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal

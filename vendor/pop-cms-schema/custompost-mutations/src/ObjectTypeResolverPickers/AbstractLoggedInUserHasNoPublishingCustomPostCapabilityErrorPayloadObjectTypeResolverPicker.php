@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoPublishingCustomPostCapabilityErrorPaylo
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver === null) {

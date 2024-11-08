@@ -9,7 +9,7 @@ use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
 use PoP\Root\Container\ContainerCacheConfiguration;
 use PoP\Root\HttpFoundation\Response;
 use PoP\Root\Module\ModuleInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * This class is currently not used, but its code can
  * eventually be useful, hence it's been kept as an

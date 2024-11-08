@@ -8,17 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
-use PrefixedByPoP\Psr\Log\LoggerAwareInterface;
-use PrefixedByPoP\Psr\Log\LoggerAwareTrait;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\ResettableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ContractsTrait;
-use PrefixedByPoP\Symfony\Contracts\Cache\TagAwareCacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\ResettableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ContractsTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\TagAwareCacheInterface;
 /**
  * Implements simple and robust tag-based invalidation suitable for use with volatile caches.
  *
@@ -134,7 +134,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
     /**
      * @param mixed $key
      */
-    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface
+    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
     {
         foreach ($this->getItems([$key]) as $item) {
             return $item;
@@ -336,8 +336,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
         if ($newTags) {
             (self::$saveTags)($this->tags, $newTags);
         }
-        \reset($this->knownTagVersions);
-        while ($now > ($this->knownTagVersions[$tag = \key($this->knownTagVersions)][0] ?? \INF)) {
+        while ($now > ($this->knownTagVersions[$tag = \array_key_first($this->knownTagVersions)][0] ?? \INF)) {
             unset($this->knownTagVersions[$tag]);
         }
         return $tagVersions;

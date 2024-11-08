@@ -14,10 +14,6 @@ abstract class AbstractPasswordIsIncorrectErrorPayloadObjectTypeResolverPicker e
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeResolver|null
      */
     private $userIsNotLoggedInErrorPayloadObjectTypeResolver;
-    public final function setPasswordIsIncorrectErrorPayloadObjectTypeResolver(PasswordIsIncorrectErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver) : void
-    {
-        $this->userIsNotLoggedInErrorPayloadObjectTypeResolver = $userIsNotLoggedInErrorPayloadObjectTypeResolver;
-    }
     protected final function getPasswordIsIncorrectErrorPayloadObjectTypeResolver() : PasswordIsIncorrectErrorPayloadObjectTypeResolver
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeResolver === null) {

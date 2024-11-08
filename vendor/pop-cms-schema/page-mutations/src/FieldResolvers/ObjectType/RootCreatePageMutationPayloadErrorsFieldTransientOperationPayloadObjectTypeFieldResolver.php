@@ -15,10 +15,6 @@ class RootCreatePageMutationPayloadErrorsFieldTransientOperationPayloadObjectTyp
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\UnionType\RootCreatePageMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootCreatePageMutationErrorPayloadUnionTypeResolver;
-    public final function setRootCreatePageMutationErrorPayloadUnionTypeResolver(RootCreatePageMutationErrorPayloadUnionTypeResolver $rootCreatePageMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootCreatePageMutationErrorPayloadUnionTypeResolver = $rootCreatePageMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootCreatePageMutationErrorPayloadUnionTypeResolver() : RootCreatePageMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreatePageMutationErrorPayloadUnionTypeResolver === null) {

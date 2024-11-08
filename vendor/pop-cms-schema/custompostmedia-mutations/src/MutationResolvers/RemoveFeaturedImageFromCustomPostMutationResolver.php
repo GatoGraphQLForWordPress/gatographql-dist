@@ -15,10 +15,6 @@ class RemoveFeaturedImageFromCustomPostMutationResolver extends \PoPCMSSchema\Cu
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
      */
     private $customPostMediaTypeMutationAPI;
-    public final function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI) : void
-    {
-        $this->customPostMediaTypeMutationAPI = $customPostMediaTypeMutationAPI;
-    }
     protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {

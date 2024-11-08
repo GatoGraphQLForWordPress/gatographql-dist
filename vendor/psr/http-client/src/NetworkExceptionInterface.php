@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Client;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Http\Client;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * Thrown when the request cannot be completed because of network issues.
  *

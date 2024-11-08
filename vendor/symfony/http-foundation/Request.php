@@ -8,13 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\JsonException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\JsonException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\SessionInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(AcceptHeader::class);
 \class_exists(FileBag::class);
@@ -290,6 +291,8 @@ class Request
      * @param array                $files      The request files ($_FILES)
      * @param array                $server     The server parameters ($_SERVER)
      * @param string|resource|null $content    The raw body data
+     *
+     * @throws BadRequestException When the URI is invalid
      * @return static
      */
     public static function create(string $uri, string $method = 'GET', array $parameters = [], array $cookies = [], array $files = [], array $server = [], $content = null)
@@ -301,6 +304,18 @@ class Request
             trigger_deprecation('symfony/http-foundation', '6.3', 'Calling "%s()" with an invalid URI is deprecated.', __METHOD__);
             $components = \parse_url($uri . '#');
             unset($components['fragment']);
+        }
+        if (\false === $components) {
+            throw new BadRequestException('Invalid URI.');
+        }
+        if (\false !== ($i = \strpos($uri, '\\')) && $i < \strcspn($uri, '?#')) {
+            throw new BadRequestException('Invalid URI: A URI cannot contain a backslash.');
+        }
+        if (\strlen($uri) !== \strcspn($uri, "\r\n\t")) {
+            throw new BadRequestException('Invalid URI: A URI cannot contain CR/LF/TAB characters.');
+        }
+        if ('' !== $uri && (\ord($uri[0]) <= 32 || \ord($uri[-1]) <= 32)) {
+            throw new BadRequestException('Invalid URI: A URI must not start nor end with ASCII control characters or spaces.');
         }
         if (isset($components['host'])) {
             $server['SERVER_NAME'] = $components['host'];
@@ -1065,7 +1080,7 @@ class Request
             return $this->method = $method;
         }
         if (!\preg_match('/^[A-Z]++$/D', $method)) {
-            throw new SuspiciousOperationException(\sprintf('Invalid method override "%s".', $method));
+            throw new SuspiciousOperationException('Invalid HTTP method override.');
         }
         return $this->method = $method;
     }
@@ -1318,7 +1333,7 @@ class Request
             return new InputBag([]);
         }
         try {
-            $content = \json_decode($content, \true, 512, \JSON_BIGINT_AS_STRING);
+            $content = \json_decode($content, \true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new JsonException('Could not decode request body.', $e->getCode(), $e);
         }
@@ -1340,7 +1355,7 @@ class Request
             throw new JsonException('Request body is empty.');
         }
         try {
-            $content = \json_decode($content, \true, 512, \JSON_BIGINT_AS_STRING);
+            $content = \json_decode($content, \true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new JsonException('Could not decode request body.', $e->getCode(), $e);
         }

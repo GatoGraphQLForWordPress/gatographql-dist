@@ -13,10 +13,6 @@ class CategoryUnionTypeDataLoader extends AbstractUnionTypeDataLoader
      * @var \PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver|null
      */
     private $categoryUnionTypeResolver;
-    public final function setCategoryUnionTypeResolver(CategoryUnionTypeResolver $categoryUnionTypeResolver) : void
-    {
-        $this->categoryUnionTypeResolver = $categoryUnionTypeResolver;
-    }
     protected final function getCategoryUnionTypeResolver() : CategoryUnionTypeResolver
     {
         if ($this->categoryUnionTypeResolver === null) {

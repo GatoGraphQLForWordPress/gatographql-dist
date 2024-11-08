@@ -19,10 +19,6 @@ class ASTHelperService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterfa
      * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
      */
     private $astNodeDuplicatorService;
-    public final function setASTNodeDuplicatorService(\PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService) : void
-    {
-        $this->astNodeDuplicatorService = $astNodeDuplicatorService;
-    }
     protected final function getASTNodeDuplicatorService() : \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {

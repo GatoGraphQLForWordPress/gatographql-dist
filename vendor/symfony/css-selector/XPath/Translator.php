@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\XPath;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\FunctionNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\NodeInterface;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Parser;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\ParserInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\FunctionNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\NodeInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\SelectorNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Parser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * XPath expression translator interface.
  *

@@ -18,10 +18,6 @@ class ReleaseNotesAboutMenuPage extends AbstractDocAboutMenuPage
      */
     private $aboutMenuPage;
 
-    final public function setAboutMenuPage(AboutMenuPage $aboutMenuPage): void
-    {
-        $this->aboutMenuPage = $aboutMenuPage;
-    }
     final protected function getAboutMenuPage(): AboutMenuPage
     {
         if ($this->aboutMenuPage === null) {
@@ -35,6 +31,11 @@ class ReleaseNotesAboutMenuPage extends AbstractDocAboutMenuPage
     public function getMenuPageSlug(): string
     {
         return $this->getAboutMenuPage()->getMenuPageSlug();
+    }
+
+    public function getMenuPageTitle(): string
+    {
+        return $this->getAboutMenuPage()->getMenuPageTitle();
     }
 
     /**

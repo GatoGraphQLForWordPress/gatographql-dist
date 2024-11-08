@@ -34,10 +34,6 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     private $cmsHelperService;
 
-    final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
-    {
-        $this->cmsHelperService = $cmsHelperService;
-    }
     final protected function getCMSHelperService(): CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {
@@ -57,7 +53,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
             /** @var WP_Term */
             return $taxonomyTermObjectOrID;
         }
-        return $this->getTerm($taxonomyTermObjectOrID, $taxonomy);
+        return $this->getTerm(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
     }
 
     /**
@@ -107,7 +106,11 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         if (empty($taxonomyOrTaxonomies)) {
             return [];
         }
-        $taxonomyTerms =  wp_get_post_terms((int)$customPostID, $taxonomyOrTaxonomies, $query);
+        $taxonomyTerms =  wp_get_post_terms(
+            (int)$customPostID,
+            $taxonomyOrTaxonomies,
+            $query,
+        );
         if ($taxonomyTerms instanceof WP_Error) {
             return null;
         }
@@ -160,7 +163,11 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
         unset($query['offset']);
 
         // Resolve and count
-        $taxonomyTerms = wp_get_post_terms((int)$customPostID, $taxonomyOrTaxonomies, $query);
+        $taxonomyTerms = wp_get_post_terms(
+            (int)$customPostID,
+            $taxonomyOrTaxonomies,
+            $query,
+        );
         if ($taxonomyTerms instanceof WP_Error) {
             return null;
         }
@@ -318,7 +325,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermName($taxonomyTermObjectOrID, ?string $taxonomy = null): ?string
     {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -376,7 +386,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTerm($taxonomyTermID, ?string $taxonomy = null): ?WP_Term
     {
-        $taxonomyTerm = get_term((int)$taxonomyTermID, $taxonomy ?? '');
+        $taxonomyTerm = get_term(
+            (int)$taxonomyTermID,
+            $taxonomy ?? '',
+        );
         if (!($taxonomyTerm instanceof WP_Term)) {
             return null;
         }
@@ -388,7 +401,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermURL($taxonomyTermObjectOrID, ?string $taxonomy = null): ?string
     {
-        $taxonomyTermLink = get_term_link($taxonomyTermObjectOrID, $taxonomy ?? '');
+        $taxonomyTermLink = get_term_link(
+            $taxonomyTermObjectOrID,
+            $taxonomy ?? '',
+        );
         if ($taxonomyTermLink instanceof WP_Error) {
             return null;
         }
@@ -415,7 +431,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermSlug($taxonomyTermObjectOrID, ?string $taxonomy = null): ?string
     {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -452,7 +471,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermDescription($taxonomyTermObjectOrID, ?string $taxonomy = null): ?string
     {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -465,7 +487,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermItemCount($taxonomyTermObjectOrID, ?string $taxonomy = null): ?int
     {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }
@@ -487,7 +512,10 @@ abstract class AbstractTaxonomyTypeAPI implements TaxonomyTypeAPIInterface
      */
     protected function getTaxonomyTermParentID($taxonomyTermObjectOrID, ?string $taxonomy = null)
     {
-        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = $this->getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return null;
         }

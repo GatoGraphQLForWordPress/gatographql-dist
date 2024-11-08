@@ -13,10 +13,6 @@ class CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver exte
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader|null
      */
     private $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
-    public final function setCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader(CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader() : CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader === null) {

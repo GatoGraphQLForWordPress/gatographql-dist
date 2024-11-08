@@ -12,10 +12,6 @@ class RootUpdatePostInputObjectTypeResolver extends RootUpdateCustomPostInputObj
      * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver|null
      */
     private $postContentAsOneofInputObjectTypeResolver;
-    public final function setPostContentAsOneofInputObjectTypeResolver(\PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver $postContentAsOneofInputObjectTypeResolver) : void
-    {
-        $this->postContentAsOneofInputObjectTypeResolver = $postContentAsOneofInputObjectTypeResolver;
-    }
     protected final function getPostContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver
     {
         if ($this->postContentAsOneofInputObjectTypeResolver === null) {

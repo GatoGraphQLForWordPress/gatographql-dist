@@ -19,10 +19,6 @@ class FilterByTaxonomyTermsInputObjectTypeResolver extends AbstractQueryableInpu
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
      */
     private $stringScalarTypeResolver;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -31,10 +27,6 @@ class FilterByTaxonomyTermsInputObjectTypeResolver extends AbstractQueryableInpu
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {

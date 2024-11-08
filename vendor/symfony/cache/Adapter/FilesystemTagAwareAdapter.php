@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\TagAwareMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\FilesystemTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\TagAwareMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\FilesystemTrait;
 /**
  * Stores tag id <> cache id relationship as a symlink, and lookup on invalidation calls.
  *

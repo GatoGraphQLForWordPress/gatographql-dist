@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\ExpressionFunction;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 /**
  * Define some ExpressionLanguage functions.
  *

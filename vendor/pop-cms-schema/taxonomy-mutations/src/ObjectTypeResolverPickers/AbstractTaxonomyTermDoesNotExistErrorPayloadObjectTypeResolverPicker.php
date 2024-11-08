@@ -14,10 +14,6 @@ abstract class AbstractTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolverPic
      * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver(TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver = $taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getTaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver() : TaxonomyTermDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->taxonomyTermDoesNotExistErrorPayloadObjectTypeResolver === null) {

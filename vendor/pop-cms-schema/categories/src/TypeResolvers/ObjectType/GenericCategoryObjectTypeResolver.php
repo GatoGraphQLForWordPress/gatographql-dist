@@ -22,10 +22,6 @@ class GenericCategoryObjectTypeResolver extends \PoPCMSSchema\Categories\TypeRes
      * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
      */
     private $queryableCategoryListTypeAPI;
-    public final function setQueryableCategoryListObjectTypeDataLoader(QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader) : void
-    {
-        $this->queryableCategoryListObjectTypeDataLoader = $queryableCategoryListObjectTypeDataLoader;
-    }
     protected final function getQueryableCategoryListObjectTypeDataLoader() : QueryableCategoryListObjectTypeDataLoader
     {
         if ($this->queryableCategoryListObjectTypeDataLoader === null) {
@@ -34,10 +30,6 @@ class GenericCategoryObjectTypeResolver extends \PoPCMSSchema\Categories\TypeRes
             $this->queryableCategoryListObjectTypeDataLoader = $queryableCategoryListObjectTypeDataLoader;
         }
         return $this->queryableCategoryListObjectTypeDataLoader;
-    }
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI) : void
-    {
-        $this->queryableCategoryListTypeAPI = $queryableCategoryListTypeAPI;
     }
     protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {

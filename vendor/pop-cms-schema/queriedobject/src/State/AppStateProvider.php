@@ -15,10 +15,6 @@ class AppStateProvider extends AbstractAppStateProvider
      * @var \PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface|null
      */
     private $cmsRoutingStateService;
-    public final function setCMSRoutingStateService(CMSRoutingStateServiceInterface $cmsRoutingStateService) : void
-    {
-        $this->cmsRoutingStateService = $cmsRoutingStateService;
-    }
     protected final function getCMSRoutingStateService() : CMSRoutingStateServiceInterface
     {
         if ($this->cmsRoutingStateService === null) {

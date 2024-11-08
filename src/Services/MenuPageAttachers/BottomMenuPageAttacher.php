@@ -6,8 +6,10 @@ namespace GatoGraphQL\GatoGraphQL\Services\MenuPageAttachers;
 
 use GatoGraphQL\GatoGraphQL\Module;
 use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface;
+use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\CustomPostTypeInterface;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\AboutMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionDocModuleDocumentationMenuPage;
@@ -23,8 +25,12 @@ use GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage;
 use GatoGraphQL\GatoGraphQL\Services\Taxonomies\GraphQLEndpointCategoryTaxonomy;
 use PoP\Root\App;
 
+use function add_submenu_page;
+
 class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
 {
+    use WithSettingsPageMenuPageAttacherTrait;
+
     /**
      * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
      */
@@ -82,10 +88,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
      */
     private $graphQLEndpointCategoryTaxonomy;
 
-    final public function setMenuPageHelper(MenuPageHelper $menuPageHelper): void
-    {
-        $this->menuPageHelper = $menuPageHelper;
-    }
     final protected function getMenuPageHelper(): MenuPageHelper
     {
         if ($this->menuPageHelper === null) {
@@ -94,10 +96,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->menuPageHelper = $menuPageHelper;
         }
         return $this->menuPageHelper;
-    }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
     }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -108,10 +106,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->moduleRegistry;
     }
-    final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
-    {
-        $this->userAuthorization = $userAuthorization;
-    }
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
         if ($this->userAuthorization === null) {
@@ -120,10 +114,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->userAuthorization = $userAuthorization;
         }
         return $this->userAuthorization;
-    }
-    final public function setSettingsMenuPage(SettingsMenuPage $settingsMenuPage): void
-    {
-        $this->settingsMenuPage = $settingsMenuPage;
     }
     final protected function getSettingsMenuPage(): SettingsMenuPage
     {
@@ -134,10 +124,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->settingsMenuPage;
     }
-    final public function setModuleDocumentationMenuPage(ModuleDocumentationMenuPage $moduleDocumentationMenuPage): void
-    {
-        $this->moduleDocumentationMenuPage = $moduleDocumentationMenuPage;
-    }
     final protected function getModuleDocumentationMenuPage(): ModuleDocumentationMenuPage
     {
         if ($this->moduleDocumentationMenuPage === null) {
@@ -146,10 +132,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->moduleDocumentationMenuPage = $moduleDocumentationMenuPage;
         }
         return $this->moduleDocumentationMenuPage;
-    }
-    final public function setModulesMenuPage(ModulesMenuPage $modulesMenuPage): void
-    {
-        $this->modulesMenuPage = $modulesMenuPage;
     }
     final protected function getModulesMenuPage(): ModulesMenuPage
     {
@@ -160,10 +142,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->modulesMenuPage;
     }
-    final public function setExtensionModuleDocumentationMenuPage(ExtensionModuleDocumentationMenuPage $extensionModuleDocumentationMenuPage): void
-    {
-        $this->extensionModuleDocumentationMenuPage = $extensionModuleDocumentationMenuPage;
-    }
     final protected function getExtensionModuleDocumentationMenuPage(): ExtensionModuleDocumentationMenuPage
     {
         if ($this->extensionModuleDocumentationMenuPage === null) {
@@ -172,10 +150,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->extensionModuleDocumentationMenuPage = $extensionModuleDocumentationMenuPage;
         }
         return $this->extensionModuleDocumentationMenuPage;
-    }
-    final public function setExtensionDocModuleDocumentationMenuPage(ExtensionDocModuleDocumentationMenuPage $extensionDocModuleDocumentationMenuPage): void
-    {
-        $this->extensionDocModuleDocumentationMenuPage = $extensionDocModuleDocumentationMenuPage;
     }
     final protected function getExtensionDocModuleDocumentationMenuPage(): ExtensionDocModuleDocumentationMenuPage
     {
@@ -186,10 +160,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->extensionDocModuleDocumentationMenuPage;
     }
-    final public function setExtensionsMenuPage(ExtensionsMenuPage $extensionsMenuPage): void
-    {
-        $this->extensionsMenuPage = $extensionsMenuPage;
-    }
     final protected function getExtensionsMenuPage(): ExtensionsMenuPage
     {
         if ($this->extensionsMenuPage === null) {
@@ -198,10 +168,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->extensionsMenuPage = $extensionsMenuPage;
         }
         return $this->extensionsMenuPage;
-    }
-    final public function setReleaseNotesAboutMenuPage(ReleaseNotesAboutMenuPage $releaseNotesAboutMenuPage): void
-    {
-        $this->releaseNotesAboutMenuPage = $releaseNotesAboutMenuPage;
     }
     final protected function getReleaseNotesAboutMenuPage(): ReleaseNotesAboutMenuPage
     {
@@ -212,10 +178,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->releaseNotesAboutMenuPage;
     }
-    final public function setExtensionDocsMenuPage(ExtensionDocsMenuPage $extensionDocsMenuPage): void
-    {
-        $this->extensionDocsMenuPage = $extensionDocsMenuPage;
-    }
     final protected function getExtensionDocsMenuPage(): ExtensionDocsMenuPage
     {
         if ($this->extensionDocsMenuPage === null) {
@@ -224,10 +186,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->extensionDocsMenuPage = $extensionDocsMenuPage;
         }
         return $this->extensionDocsMenuPage;
-    }
-    final public function setTutorialMenuPage(TutorialMenuPage $tutorialMenuPage): void
-    {
-        $this->tutorialMenuPage = $tutorialMenuPage;
     }
     final protected function getTutorialMenuPage(): TutorialMenuPage
     {
@@ -238,10 +196,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
         }
         return $this->tutorialMenuPage;
     }
-    final public function setAboutMenuPage(AboutMenuPage $aboutMenuPage): void
-    {
-        $this->aboutMenuPage = $aboutMenuPage;
-    }
     final protected function getAboutMenuPage(): AboutMenuPage
     {
         if ($this->aboutMenuPage === null) {
@@ -250,10 +204,6 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             $this->aboutMenuPage = $aboutMenuPage;
         }
         return $this->aboutMenuPage;
-    }
-    final public function setGraphQLEndpointCategoryTaxonomy(GraphQLEndpointCategoryTaxonomy $graphQLEndpointCategoryTaxonomy): void
-    {
-        $this->graphQLEndpointCategoryTaxonomy = $graphQLEndpointCategoryTaxonomy;
     }
     final protected function getGraphQLEndpointCategoryTaxonomy(): GraphQLEndpointCategoryTaxonomy
     {
@@ -286,7 +236,10 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
          * @see https://stackoverflow.com/questions/48632394/wordpress-add-custom-taxonomy-to-custom-menu
          */
         $graphQLEndpointCategoryTaxonomy = $this->getGraphQLEndpointCategoryTaxonomy();
-        if ($graphQLEndpointCategoryTaxonomy->isServiceEnabled()) {
+        if (
+            $graphQLEndpointCategoryTaxonomy->isServiceEnabled()
+            && $graphQLEndpointCategoryTaxonomy->showInMenu() !== null
+        ) {
             $graphQLEndpointCategoriesLabel = $graphQLEndpointCategoryTaxonomy->getTaxonomyPluralNames(true);
             $graphQLEndpointCategoriesCustomPostTypes = $graphQLEndpointCategoryTaxonomy->getCustomPostTypes();
             $graphQLEndpointCategoriesRelativePath = sprintf(
@@ -305,7 +258,12 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
                  */
                 implode(
                     ',',
-                    $graphQLEndpointCategoriesCustomPostTypes
+                    array_map(
+                        function (CustomPostTypeInterface $customPostTypeService) {
+                            return $customPostTypeService->getCustomPostType();
+                        },
+                        $graphQLEndpointCategoriesCustomPostTypes
+                    )
                 )
             );
 
@@ -337,43 +295,55 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             /**
              * Finally add the "Endpoint Categories" link to the menu.
              */
-            \add_submenu_page($menuName, $graphQLEndpointCategoriesLabel, $graphQLEndpointCategoriesLabel, $schemaEditorAccessCapability, $graphQLEndpointCategoriesRelativePath);
+            add_submenu_page(
+                $menuName,
+                $graphQLEndpointCategoriesLabel,
+                $graphQLEndpointCategoriesLabel,
+                $schemaEditorAccessCapability,
+                $graphQLEndpointCategoriesRelativePath,
+            );
         }
 
         $modulesMenuPage = $this->getModuleMenuPage();
-        /**
-         * @var callable
-         */
-        $callable = [$modulesMenuPage, 'print'];
-        if (
-            $hookName = \add_submenu_page(
-                $menuName,
-                __('Modules', 'gatographql'),
-                __('Modules', 'gatographql'),
-                'manage_options',
-                $modulesMenuPage->getScreenID(),
-                $callable
-            )
-        ) {
-            $modulesMenuPage->setHookName($hookName);
+        if ($modulesMenuPage->isServiceEnabled()) {
+            $modulesMenuPageTitle = $modulesMenuPage->getMenuPageTitle();
+            /**
+             * @var callable
+             */
+            $callable = [$modulesMenuPage, 'print'];
+            if (
+                $hookName = add_submenu_page(
+                    $menuName,
+                    $modulesMenuPageTitle,
+                    $modulesMenuPageTitle,
+                    'manage_options',
+                    $modulesMenuPage->getScreenID(),
+                    $callable
+                )
+            ) {
+                $modulesMenuPage->setHookName($hookName);
+            }
         }
 
         $extensionsMenuPage = $this->getExtensionMenuPage();
-        /**
-         * @var callable
-         */
-        $callable = [$extensionsMenuPage, 'print'];
-        if (
-            $hookName = \add_submenu_page(
-                $menuName,
-                __('Extensions', 'gatographql'),
-                __('Extensions', 'gatographql'),
-                'manage_options',
-                $extensionsMenuPage->getScreenID(),
-                $callable
-            )
-        ) {
-            $extensionsMenuPage->setHookName($hookName);
+        if ($extensionsMenuPage->isServiceEnabled()) {
+            $extensionsMenuPageTitle = $extensionsMenuPage->getMenuPageTitle();
+            /**
+             * @var callable
+             */
+            $callable = [$extensionsMenuPage, 'print'];
+            if (
+                $hookName = add_submenu_page(
+                    $menuName,
+                    $extensionsMenuPageTitle,
+                    $extensionsMenuPageTitle,
+                    'manage_options',
+                    $extensionsMenuPage->getScreenID(),
+                    $callable
+                )
+            ) {
+                $extensionsMenuPage->setHookName($hookName);
+            }
         }
 
         /**
@@ -382,16 +352,20 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
          * when opening it via the Extensions page
          */
         $extensionDocsMenuPage = $this->getExtensionDocMenuPage();
-        if (App::query('page') === $extensionDocsMenuPage->getScreenID()) {
+        if (
+            $extensionDocsMenuPage->isServiceEnabled()
+            && App::query('page') === $extensionDocsMenuPage->getScreenID()
+        ) {
+            $extensionDocsMenuPageTitle = $extensionDocsMenuPage->getMenuPageTitle();
             /**
              * @var callable
              */
             $callable = [$extensionDocsMenuPage, 'print'];
             if (
-                $hookName = \add_submenu_page(
+                $hookName = add_submenu_page(
                     $menuName,
-                    __('Extension Reference Docs', 'gatographql'),
-                    __('Extension Reference Docs', 'gatographql'),
+                    $extensionDocsMenuPageTitle,
+                    $extensionDocsMenuPageTitle,
                     'manage_options',
                     $extensionDocsMenuPage->getScreenID(),
                     $callable
@@ -401,32 +375,26 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             }
         }
 
-        if (
-            $hookName = \add_submenu_page(
-                $menuName,
-                __('Settings', 'gatographql'),
-                __('Settings', 'gatographql'),
-                'manage_options',
-                $this->getSettingsMenuPage()->getScreenID(),
-                [$this->getSettingsMenuPage(), 'print']
-            )
-        ) {
-            $this->getSettingsMenuPage()->setHookName($hookName);
+        // If the private endpoint is disabled, the Settings page becomes the default one
+        $isPrivateEndpointDisabled = !$this->getModuleRegistry()->isModuleEnabled(EndpointFunctionalityModuleResolver::PRIVATE_ENDPOINT);
+        if (!$isPrivateEndpointDisabled) {
+            $this->addSettingsMenuPage();
         }
 
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if ($moduleConfiguration->enableSchemaTutorialPage()) {
             $tutorialMenuPage = $this->getTutorialMenuPage();
+            $tutorialMenuPageTitle = $tutorialMenuPage->getMenuPageTitle();
             /**
              * @var callable
              */
             $callable = [$tutorialMenuPage, 'print'];
             if (
-                $hookName = \add_submenu_page(
+                $hookName = add_submenu_page(
                     $menuName,
-                    __('Schema Tutorial', 'gatographql'),
-                    __('Schema Tutorial', 'gatographql'),
+                    $tutorialMenuPageTitle,
+                    $tutorialMenuPageTitle,
                     $schemaEditorAccessCapability,
                     $tutorialMenuPage->getScreenID(),
                     $callable
@@ -436,26 +404,22 @@ class BottomMenuPageAttacher extends AbstractPluginMenuPageAttacher
             }
         }
 
-        /**
-         * Only show the About page when actually loading it
-         * So it doesn't appear on the menu, but it's still available
-         * to display the release notes on the modal window
-         */
         $aboutMenuPage = $this->getReleaseNoteOrAboutMenuPage();
-        // if (App::query('page') === $aboutMenuPage->getScreenID()) {
-        if (
-            $hookName = \add_submenu_page(
-                $menuName,
-                __('About', 'gatographql'),
-                __('About', 'gatographql'),
-                'manage_options',
-                $aboutMenuPage->getScreenID(),
-                [$aboutMenuPage, 'print']
-            )
-        ) {
-            $aboutMenuPage->setHookName($hookName);
+        if ($aboutMenuPage->isServiceEnabled()) {
+            $aboutMenuPageTitle = $aboutMenuPage->getMenuPageTitle();
+            if (
+                $hookName = add_submenu_page(
+                    $menuName,
+                    $aboutMenuPageTitle,
+                    $aboutMenuPageTitle,
+                    'manage_options',
+                    $aboutMenuPage->getScreenID(),
+                    [$aboutMenuPage, 'print']
+                )
+            ) {
+                $aboutMenuPage->setHookName($hookName);
+            }
         }
-        // }
     }
 
     /**

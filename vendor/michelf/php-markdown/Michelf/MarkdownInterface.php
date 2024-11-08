@@ -8,7 +8,7 @@
  * @copyright 2004-2021 Michel Fortin <https://michelf.com/projects/php-markdown/>
  * @copyright (Original Markdown) 2004-2006 John Gruber <https://daringfireball.net/projects/markdown/>
  */
-namespace PrefixedByPoP\Michelf;
+namespace GatoExternalPrefixByGatoGraphQL\Michelf;
 
 /**
  * Markdown Parser Interface

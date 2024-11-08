@@ -8,45 +8,45 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Composer\InstalledVersions;
-use PrefixedByPoP\Symfony\Component\Config\Resource\ClassExistenceResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\ComposerResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\DirectoryResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\FileExistenceResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\FileResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\GlobResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\ReflectionClassResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\AbstractArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\LazyClosure;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\Target;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\Compiler;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\ResolveEnvPlaceholdersPass;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\InstantiatorInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\LazyServiceInstantiator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInstantiator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use GatoExternalPrefixByGatoGraphQL\Composer\InstalledVersions;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ClassExistenceResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ComposerResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\DirectoryResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\FileExistenceResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\FileResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\GlobResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ReflectionClassResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ResourceInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\LazyClosure;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Target;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\Compiler;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\ResolveEnvPlaceholdersPass;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\InstantiatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\LazyServiceInstantiator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInstantiator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Expression;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 /**
  * ContainerBuilder is a DI container that provides an API to easily describe services.
  *

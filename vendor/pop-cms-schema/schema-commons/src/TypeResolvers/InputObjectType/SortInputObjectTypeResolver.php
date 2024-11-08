@@ -30,10 +30,6 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OrderFilterInput|null
      */
     private $includeFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -42,10 +38,6 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setOrderEnumTypeResolver(OrderEnumTypeResolver $orderEnumTypeResolver) : void
-    {
-        $this->orderEnumTypeResolver = $orderEnumTypeResolver;
     }
     protected final function getOrderEnumTypeResolver() : OrderEnumTypeResolver
     {
@@ -56,10 +48,6 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
         }
         return $this->orderEnumTypeResolver;
     }
-    public final function setOrderByFilterInput(OrderByFilterInput $excludeIDsFilterInput) : void
-    {
-        $this->excludeIDsFilterInput = $excludeIDsFilterInput;
-    }
     protected final function getOrderByFilterInput() : OrderByFilterInput
     {
         if ($this->excludeIDsFilterInput === null) {
@@ -68,10 +56,6 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
             $this->excludeIDsFilterInput = $excludeIDsFilterInput;
         }
         return $this->excludeIDsFilterInput;
-    }
-    public final function setOrderFilterInput(OrderFilterInput $includeFilterInput) : void
-    {
-        $this->includeFilterInput = $includeFilterInput;
     }
     protected final function getOrderFilterInput() : OrderFilterInput
     {

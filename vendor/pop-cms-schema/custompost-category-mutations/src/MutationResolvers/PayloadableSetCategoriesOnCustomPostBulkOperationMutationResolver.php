@@ -12,10 +12,6 @@ class PayloadableSetCategoriesOnCustomPostBulkOperationMutationResolver extends 
      * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnCustomPostMutationResolver|null
      */
     private $payloadableSetCategoriesOnCustomPostMutationResolver;
-    public final function setPayloadableSetCategoriesOnCustomPostMutationResolver(\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnCustomPostMutationResolver $payloadableSetCategoriesOnCustomPostMutationResolver) : void
-    {
-        $this->payloadableSetCategoriesOnCustomPostMutationResolver = $payloadableSetCategoriesOnCustomPostMutationResolver;
-    }
     protected final function getPayloadableSetCategoriesOnCustomPostMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnCustomPostMutationResolver
     {
         if ($this->payloadableSetCategoriesOnCustomPostMutationResolver === null) {

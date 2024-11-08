@@ -13,8 +13,8 @@ use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\PluginEnvironment;
 use GatoGraphQL\GatoGraphQL\PluginStaticModuleConfiguration;
 use GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface;
-use GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage;
 use PoP\ComponentModel\App;
+use PoP\Root\Environment as RootEnvironment;
 
 class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctionalityModuleResolver
 {
@@ -41,18 +41,10 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
      */
     private $markdownContentParser;
     /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ModulesMenuPage|null
-     */
-    private $modulesMenuPage;
-    /**
      * @var \GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface|null
      */
     private $userAuthorizationSchemeRegistry;
 
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
-    }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
         if ($this->markdownContentParser === null) {
@@ -61,23 +53,6 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
             $this->markdownContentParser = $markdownContentParser;
         }
         return $this->markdownContentParser;
-    }
-    final public function setModulesMenuPage(ModulesMenuPage $modulesMenuPage): void
-    {
-        $this->modulesMenuPage = $modulesMenuPage;
-    }
-    final protected function getModulesMenuPage(): ModulesMenuPage
-    {
-        if ($this->modulesMenuPage === null) {
-            /** @var ModulesMenuPage */
-            $modulesMenuPage = $this->instanceManager->getInstance(ModulesMenuPage::class);
-            $this->modulesMenuPage = $modulesMenuPage;
-        }
-        return $this->modulesMenuPage;
-    }
-    final public function setUserAuthorizationSchemeRegistry(UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry): void
-    {
-        $this->userAuthorizationSchemeRegistry = $userAuthorizationSchemeRegistry;
     }
     final protected function getUserAuthorizationSchemeRegistry(): UserAuthorizationSchemeRegistryInterface
     {
@@ -165,7 +140,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
         $defaultValues = [
             self::GENERAL => [
                 self::OPTION_ENABLE_SCHEMA_TUTORIAL => false,
-                self::OPTION_ENABLE_LOGS => false,
+                self::OPTION_ENABLE_LOGS => RootEnvironment::isApplicationEnvironmentDev(),
                 self::OPTION_INSTALL_PLUGIN_SETUP_DATA => true,
                 self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE => true,
                 self::OPTION_PRINT_SETTINGS_WITH_TABS => true,
@@ -189,32 +164,39 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
 
         $moduleSettings = parent::getSettings($module);
         if ($module === self::GENERAL) {
-            $option = self::OPTION_ENABLE_SCHEMA_TUTORIAL;
-            $moduleSettings[] = [
-            Properties::INPUT => $option,
-            Properties::NAME => $this->getSettingOptionName(
-                $module,
-                $option
-            ),
-            Properties::TITLE => \__('Enable the Schema tutorial?', 'gatographql'),
-            Properties::DESCRIPTION => sprintf(
-                \__('Add a tutorial page explaining all elements of the GraphQL schema offered by Gato GraphQL, accessible from the menu navigation on the left<br/><span class="more-info">%s</span>', 'gatographql'),
-                $this->getSettingsItemHelpLinkHTML(
-                    'https://gatographql.com/guides/config/enabling-the-schema-tutorial-page',
-                    \__('Enabling the Schema Tutorial page', 'gatographql')
-                )
-            ),
-            Properties::TYPE => Properties::TYPE_BOOL,
-            ];
+            $generalTabDisplayableOptionNames = $this->getGeneralTabDisplayableOptionNames();
 
-            if ($moduleConfiguration->displayEnableLogsSettingsOption()) {
+            $option = self::OPTION_ENABLE_SCHEMA_TUTORIAL;
+            if ($generalTabDisplayableOptionNames === null || in_array($option, $generalTabDisplayableOptionNames)) {
+                $moduleSettings[] = [
+                    Properties::INPUT => $option,
+                    Properties::NAME => $this->getSettingOptionName(
+                        $module,
+                        $option
+                    ),
+                    Properties::TITLE => \__('Enable the Schema tutorial?', 'gatographql'),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('Add a tutorial page explaining all elements of the GraphQL schema offered by Gato GraphQL, accessible from the menu navigation on the left<br/><span class="more-info">%s</span>', 'gatographql'),
+                        $this->getSettingsItemHelpLinkHTML(
+                            'https://gatographql.com/guides/config/enabling-the-schema-tutorial-page',
+                            \__('Enabling the Schema Tutorial page', 'gatographql')
+                        )
+                    ),
+                    Properties::TYPE => Properties::TYPE_BOOL,
+                ];
+            }
+
+            $option = self::OPTION_ENABLE_LOGS;
+            if (
+                $moduleConfiguration->displayEnableLogsSettingsOption()
+                && ($generalTabDisplayableOptionNames === null || in_array($option, $generalTabDisplayableOptionNames))
+            ) {
                 $logFile = PluginEnvironment::getLogsFilePath(LoggerFiles::INFO);
                 $relativeLogFile = str_replace(
                     constant('ABSPATH'),
                     '',
                     $logFile
                 );
-                $option = self::OPTION_ENABLE_LOGS;
                 $moduleSettings[] = [
                     Properties::INPUT => $option,
                     Properties::NAME => $this->getSettingOptionName(
@@ -230,8 +212,11 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                 ];
             }
 
-            if (PluginStaticModuleConfiguration::canManageInstallingPluginSetupData()) {
-                $option = self::OPTION_INSTALL_PLUGIN_SETUP_DATA;
+            $option = self::OPTION_INSTALL_PLUGIN_SETUP_DATA;
+            if (
+                PluginStaticModuleConfiguration::canManageInstallingPluginSetupData()
+                && ($generalTabDisplayableOptionNames === null || in_array($option, $generalTabDisplayableOptionNames))
+            ) {
                 $moduleSettings[] = [
                     Properties::INPUT => $option,
                     Properties::NAME => $this->getSettingOptionName(
@@ -251,40 +236,44 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
             }
 
             $option = self::OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE;
-            $moduleSettings[] = [
-            Properties::INPUT => $option,
-            Properties::NAME => $this->getSettingOptionName(
-                $module,
-                $option
-            ),
-            Properties::TITLE => \__('Display admin notice with release notes?', 'gatographql'),
-            Properties::DESCRIPTION => sprintf(
-                \__('Immediately after upgrading the plugin, show an admin notice with a link to the latest release notes?<br/><span class="more-info">%s</span>', 'gatographql'),
-                $this->getSettingsItemHelpLinkHTML(
-                    'https://gatographql.com/guides/config/displaying-the-plugins-new-features',
-                    \__('Displaying the plugin\'s new features', 'gatographql')
-                )
-            ),
-            Properties::TYPE => Properties::TYPE_BOOL,
-            ];
+            if ($generalTabDisplayableOptionNames === null || in_array($option, $generalTabDisplayableOptionNames)) {
+                $moduleSettings[] = [
+                    Properties::INPUT => $option,
+                    Properties::NAME => $this->getSettingOptionName(
+                        $module,
+                        $option
+                    ),
+                    Properties::TITLE => \__('Display admin notice with release notes?', 'gatographql'),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('Immediately after upgrading the plugin, show an admin notice with a link to the latest release notes?<br/><span class="more-info">%s</span>', 'gatographql'),
+                        $this->getSettingsItemHelpLinkHTML(
+                            'https://gatographql.com/guides/config/displaying-the-plugins-new-features',
+                            \__('Displaying the plugin\'s new features', 'gatographql')
+                        )
+                    ),
+                    Properties::TYPE => Properties::TYPE_BOOL,
+                ];
+            }
 
             $option = self::OPTION_PRINT_SETTINGS_WITH_TABS;
-            $moduleSettings[] = [
-            Properties::INPUT => $option,
-            Properties::NAME => $this->getSettingOptionName(
-                $module,
-                $option
-            ),
-            Properties::TITLE => \__('Organize these settings under tabs?', 'gatographql'),
-            Properties::DESCRIPTION => sprintf(
-                \__('Have all options in this Settings page be organized under tabs, one tab per module.<br/>After ticking the checkbox, must click on "Save Changes" to be applied<br/><span class="more-info">%s</span>', 'gatographql'),
-                $this->getSettingsItemHelpLinkHTML(
-                    'https://gatographql.com/guides/config/printing-the-settings-page-with-tabs-or-long-format',
-                    \__('Printing the Settings page with tabs or long format', 'gatographql')
-                )
-            ),
-            Properties::TYPE => Properties::TYPE_BOOL,
-            ];
+            if ($generalTabDisplayableOptionNames === null || in_array($option, $generalTabDisplayableOptionNames)) {
+                $moduleSettings[] = [
+                    Properties::INPUT => $option,
+                    Properties::NAME => $this->getSettingOptionName(
+                        $module,
+                        $option
+                    ),
+                    Properties::TITLE => \__('Organize these settings under tabs?', 'gatographql'),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('Have all options in this Settings page be organized under tabs, one tab per module.<br/>After ticking the checkbox, must click on "Save Changes" to be applied<br/><span class="more-info">%s</span>', 'gatographql'),
+                        $this->getSettingsItemHelpLinkHTML(
+                            'https://gatographql.com/guides/config/printing-the-settings-page-with-tabs-or-long-format',
+                            \__('Printing the Settings page with tabs or long format', 'gatographql')
+                        )
+                    ),
+                    Properties::TYPE => Properties::TYPE_BOOL,
+                ];
+            }
         } elseif ($module === self::SERVER_IP_CONFIGURATION) {
             // If any extension depends on this, it shall enable it
             if ($moduleConfiguration->enableSettingClientIPAddressServerPropertyName()) {
@@ -343,5 +332,15 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
             ];
         }
         return $moduleSettings;
+    }
+
+    /**
+     * Allow to select what options to display in the General tab
+     *
+     * @return string[]
+     */
+    public function getGeneralTabDisplayableOptionNames(): ?array
+    {
+        return null;
     }
 }

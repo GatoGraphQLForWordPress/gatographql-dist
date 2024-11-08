@@ -13,10 +13,6 @@ trait BasicServiceTrait
      * @var \PoP\Root\Translation\TranslationAPIInterface|null
      */
     private $translationAPI;
-    public final function setTranslationAPI(TranslationAPIInterface $translationAPI) : void
-    {
-        $this->translationAPI = $translationAPI;
-    }
     protected final function getTranslationAPI() : TranslationAPIInterface
     {
         if ($this->translationAPI === null) {

@@ -14,10 +14,6 @@ abstract class AbstractCommentsAreNotSupportedByCustomPostTypeErrorPayloadObject
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver|null
      */
     private $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
-    public final function setCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver(CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver) : void
-    {
-        $this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver = $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
-    }
     protected final function getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver() : CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver
     {
         if ($this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver === null) {

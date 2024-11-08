@@ -9,6 +9,7 @@ use GatoGraphQL\GatoGraphQL\Facades\InternalGraphQLServerContainerCacheConfigura
 use GatoGraphQL\GatoGraphQL\PluginAppGraphQLServerNames;
 use PoP\Root\Container\ContainerCacheConfiguration;
 use PoP\Root\Helpers\AppThreadHelpers;
+use PoP\Root\Helpers\ClassHelpers;
 
 /**
  * Base class to set the configuration for all the PoP components in the main plugin.
@@ -16,11 +17,20 @@ use PoP\Root\Helpers\AppThreadHelpers;
 abstract class AbstractMainPluginInitializationConfiguration extends AbstractPluginInitializationConfiguration implements MainPluginInitializationConfigurationInterface
 {
     /**
+     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface
+     */
+    protected $mainPlugin;
+    /**
      * Cache the Container Cache Configuration
      *
      * @var array<string,ContainerCacheConfiguration>
      */
     private $containerCacheConfigurationsCache = [];
+
+    public function __construct(MainPluginInterface $mainPlugin)
+    {
+        $this->mainPlugin = $mainPlugin;
+    }
 
     /**
      * Provide the configuration to cache the container
@@ -29,9 +39,15 @@ abstract class AbstractMainPluginInitializationConfiguration extends AbstractPlu
      */
     public function getContainerCacheConfiguration(string $pluginAppGraphQLServerName, array $pluginAppGraphQLServerContext): ContainerCacheConfiguration
     {
-        $pluginAppGraphQLServerUniqueID = AppThreadHelpers::getUniqueID($pluginAppGraphQLServerName, $pluginAppGraphQLServerContext);
+        $pluginAppGraphQLServerUniqueID = AppThreadHelpers::getUniqueID(
+            $pluginAppGraphQLServerName,
+            $pluginAppGraphQLServerContext,
+        );
         if (!isset($this->containerCacheConfigurationsCache[$pluginAppGraphQLServerUniqueID])) {
-            $this->containerCacheConfigurationsCache[$pluginAppGraphQLServerUniqueID] = $this->doGetContainerCacheConfiguration($pluginAppGraphQLServerName, $pluginAppGraphQLServerContext);
+            $this->containerCacheConfigurationsCache[$pluginAppGraphQLServerUniqueID] = $this->doGetContainerCacheConfiguration(
+                $pluginAppGraphQLServerName,
+                $pluginAppGraphQLServerContext,
+            );
         }
         return $this->containerCacheConfigurationsCache[$pluginAppGraphQLServerUniqueID];
     }
@@ -57,6 +73,7 @@ abstract class AbstractMainPluginInitializationConfiguration extends AbstractPlu
             $containerConfigurationCacheDirectory = $containerCacheConfigurationManager->getDirectory();
         }
         return new ContainerCacheConfiguration(
+            ClassHelpers::getTrailingClassPSR4Namespace(get_class($this->mainPlugin)),
             $cacheContainerConfiguration,
             $containerConfigurationCacheNamespace,
             $containerConfigurationCacheDirectory

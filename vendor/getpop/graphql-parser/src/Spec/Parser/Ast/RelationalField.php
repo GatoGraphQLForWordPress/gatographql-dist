@@ -17,10 +17,6 @@ class RelationalField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField i
      * @var \PoP\GraphQLParser\AST\ASTHelperServiceInterface|null
      */
     private $astHelperService;
-    public final function setASTHelperService(ASTHelperServiceInterface $astHelperService) : void
-    {
-        $this->astHelperService = $astHelperService;
-    }
     protected final function getASTHelperService() : ASTHelperServiceInterface
     {
         if ($this->astHelperService === null) {

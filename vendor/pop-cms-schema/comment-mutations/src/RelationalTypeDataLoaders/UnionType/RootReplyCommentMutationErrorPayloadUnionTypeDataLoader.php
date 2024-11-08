@@ -13,10 +13,6 @@ class RootReplyCommentMutationErrorPayloadUnionTypeDataLoader extends AbstractUn
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootReplyCommentMutationErrorPayloadUnionTypeResolver;
-    public final function setRootReplyCommentMutationErrorPayloadUnionTypeResolver(RootReplyCommentMutationErrorPayloadUnionTypeResolver $rootReplyCommentMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootReplyCommentMutationErrorPayloadUnionTypeResolver = $rootReplyCommentMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootReplyCommentMutationErrorPayloadUnionTypeResolver() : RootReplyCommentMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootReplyCommentMutationErrorPayloadUnionTypeResolver === null) {

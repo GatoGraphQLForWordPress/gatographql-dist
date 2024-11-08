@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
-use PrefixedByPoP\Psr\Http\Message\UploadedFileInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 /** @internal */
 class UploadedFile implements UploadedFileInterface

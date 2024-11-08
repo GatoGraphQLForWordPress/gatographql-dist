@@ -19,10 +19,6 @@ class TagUnionTypeResolver extends AbstractUnionTypeResolver
      * @var \PoPCMSSchema\Tags\TypeResolvers\InterfaceType\TagInterfaceTypeResolver|null
      */
     private $tagInterfaceTypeResolver;
-    public final function setTagUnionTypeDataLoader(TagUnionTypeDataLoader $tagUnionTypeDataLoader) : void
-    {
-        $this->tagUnionTypeDataLoader = $tagUnionTypeDataLoader;
-    }
     protected final function getTagUnionTypeDataLoader() : TagUnionTypeDataLoader
     {
         if ($this->tagUnionTypeDataLoader === null) {
@@ -31,10 +27,6 @@ class TagUnionTypeResolver extends AbstractUnionTypeResolver
             $this->tagUnionTypeDataLoader = $tagUnionTypeDataLoader;
         }
         return $this->tagUnionTypeDataLoader;
-    }
-    public final function setTagInterfaceTypeResolver(TagInterfaceTypeResolver $tagInterfaceTypeResolver) : void
-    {
-        $this->tagInterfaceTypeResolver = $tagInterfaceTypeResolver;
     }
     protected final function getTagInterfaceTypeResolver() : TagInterfaceTypeResolver
     {

@@ -12,10 +12,6 @@ class GenericErrorPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\Typ
      * @var \PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\GenericErrorPayloadObjectTypeDataLoader|null
      */
     private $genericErrorPayloadObjectTypeDataLoader;
-    public final function setGenericErrorPayloadObjectTypeDataLoader(GenericErrorPayloadObjectTypeDataLoader $genericErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->genericErrorPayloadObjectTypeDataLoader = $genericErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getGenericErrorPayloadObjectTypeDataLoader() : GenericErrorPayloadObjectTypeDataLoader
     {
         if ($this->genericErrorPayloadObjectTypeDataLoader === null) {

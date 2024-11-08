@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\LoaderLoadException;
 /**
  * Loader is the abstract class used by all built-in loaders.
  *

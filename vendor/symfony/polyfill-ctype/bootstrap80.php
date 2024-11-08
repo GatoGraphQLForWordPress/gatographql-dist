@@ -10,7 +10,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use PrefixedByPoP\Symfony\Polyfill\Ctype as p;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Polyfill\Ctype as p;
 if (!\function_exists('ctype_alnum')) {
     /** @internal */
     function ctype_alnum(mixed $text) : bool

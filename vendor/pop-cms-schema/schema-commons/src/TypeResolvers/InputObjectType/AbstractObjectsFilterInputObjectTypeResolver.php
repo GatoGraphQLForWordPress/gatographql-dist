@@ -25,10 +25,6 @@ abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQuer
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
      */
     private $includeFilterInput;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -38,10 +34,6 @@ abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQuer
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setExcludeIDsFilterInput(ExcludeIDsFilterInput $excludeIDsFilterInput) : void
-    {
-        $this->excludeIDsFilterInput = $excludeIDsFilterInput;
-    }
     protected final function getExcludeIDsFilterInput() : ExcludeIDsFilterInput
     {
         if ($this->excludeIDsFilterInput === null) {
@@ -50,10 +42,6 @@ abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQuer
             $this->excludeIDsFilterInput = $excludeIDsFilterInput;
         }
         return $this->excludeIDsFilterInput;
-    }
-    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
-    {
-        $this->includeFilterInput = $includeFilterInput;
     }
     protected final function getIncludeFilterInput() : IncludeFilterInput
     {

@@ -30,10 +30,6 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
      */
     private $slugFilterInput;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -42,10 +38,6 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -56,10 +48,6 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
-    {
-        $this->includeFilterInput = $includeFilterInput;
-    }
     protected final function getIncludeFilterInput() : IncludeFilterInput
     {
         if ($this->includeFilterInput === null) {
@@ -68,10 +56,6 @@ abstract class AbstractTaxonomyByInputObjectTypeResolver extends AbstractOneofQu
             $this->includeFilterInput = $includeFilterInput;
         }
         return $this->includeFilterInput;
-    }
-    public final function setSlugFilterInput(SlugFilterInput $slugFilterInput) : void
-    {
-        $this->slugFilterInput = $slugFilterInput;
     }
     protected final function getSlugFilterInput() : SlugFilterInput
     {

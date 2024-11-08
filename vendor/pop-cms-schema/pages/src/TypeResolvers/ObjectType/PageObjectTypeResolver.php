@@ -18,10 +18,6 @@ class PageObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
      * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
      */
     private $pageTypeAPI;
-    public final function setPageObjectTypeDataLoader(PageObjectTypeDataLoader $pageObjectTypeDataLoader) : void
-    {
-        $this->pageObjectTypeDataLoader = $pageObjectTypeDataLoader;
-    }
     protected final function getPageObjectTypeDataLoader() : PageObjectTypeDataLoader
     {
         if ($this->pageObjectTypeDataLoader === null) {
@@ -30,10 +26,6 @@ class PageObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
             $this->pageObjectTypeDataLoader = $pageObjectTypeDataLoader;
         }
         return $this->pageObjectTypeDataLoader;
-    }
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
-    {
-        $this->pageTypeAPI = $pageTypeAPI;
     }
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {

@@ -15,10 +15,6 @@ class PostTagDeleteMutationPayloadErrorsFieldTransientOperationPayloadObjectType
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostTagDeleteMutationErrorPayloadUnionTypeResolver|null
      */
     private $postTagDeleteMutationErrorPayloadUnionTypeResolver;
-    public final function setPostTagDeleteMutationErrorPayloadUnionTypeResolver(PostTagDeleteMutationErrorPayloadUnionTypeResolver $postTagDeleteMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->postTagDeleteMutationErrorPayloadUnionTypeResolver = $postTagDeleteMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getPostTagDeleteMutationErrorPayloadUnionTypeResolver() : PostTagDeleteMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postTagDeleteMutationErrorPayloadUnionTypeResolver === null) {

@@ -12,10 +12,6 @@ class RootLogoutUserMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\
      * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\UnionType\RootLogoutUserMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootLogoutUserMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootLogoutUserMutationErrorPayloadUnionTypeDataLoader(RootLogoutUserMutationErrorPayloadUnionTypeDataLoader $rootLogoutUserMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootLogoutUserMutationErrorPayloadUnionTypeDataLoader = $rootLogoutUserMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootLogoutUserMutationErrorPayloadUnionTypeDataLoader() : RootLogoutUserMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootLogoutUserMutationErrorPayloadUnionTypeDataLoader === null) {

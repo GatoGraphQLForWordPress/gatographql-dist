@@ -14,10 +14,6 @@ abstract class AbstractTaxonomyIsNotValidErrorPayloadObjectTypeResolverPicker ex
      * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\TaxonomyIsNotValidErrorPayloadObjectTypeResolver|null
      */
     private $taxonomyIsNotValidErrorPayloadObjectTypeResolver;
-    public final function setTaxonomyIsNotValidErrorPayloadObjectTypeResolver(TaxonomyIsNotValidErrorPayloadObjectTypeResolver $taxonomyIsNotValidErrorPayloadObjectTypeResolver) : void
-    {
-        $this->taxonomyIsNotValidErrorPayloadObjectTypeResolver = $taxonomyIsNotValidErrorPayloadObjectTypeResolver;
-    }
     protected final function getTaxonomyIsNotValidErrorPayloadObjectTypeResolver() : TaxonomyIsNotValidErrorPayloadObjectTypeResolver
     {
         if ($this->taxonomyIsNotValidErrorPayloadObjectTypeResolver === null) {

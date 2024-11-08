@@ -14,10 +14,6 @@ class AddPostTagFilterInputObjectTypeHookSet extends AbstractAddTagFilterInputOb
      * @var \PoPCMSSchema\PostTags\TypeResolvers\InputObjectType\PostsFilterCustomPostsByTagsInputObjectTypeResolver|null
      */
     private $postsFilterCustomPostsByTagsInputObjectTypeResolver;
-    public final function setPostsFilterCustomPostsByTagsInputObjectTypeResolver(PostsFilterCustomPostsByTagsInputObjectTypeResolver $postsFilterCustomPostsByTagsInputObjectTypeResolver) : void
-    {
-        $this->postsFilterCustomPostsByTagsInputObjectTypeResolver = $postsFilterCustomPostsByTagsInputObjectTypeResolver;
-    }
     protected final function getPostsFilterCustomPostsByTagsInputObjectTypeResolver() : PostsFilterCustomPostsByTagsInputObjectTypeResolver
     {
         if ($this->postsFilterCustomPostsByTagsInputObjectTypeResolver === null) {

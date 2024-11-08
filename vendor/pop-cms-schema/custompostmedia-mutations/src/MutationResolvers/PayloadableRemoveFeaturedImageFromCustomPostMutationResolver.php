@@ -22,10 +22,6 @@ class PayloadableRemoveFeaturedImageFromCustomPostMutationResolver extends \PoPC
      * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
      */
     private $mediaTypeMutationAPI;
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
-    {
-        $this->mediaTypeAPI = $mediaTypeAPI;
-    }
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -34,10 +30,6 @@ class PayloadableRemoveFeaturedImageFromCustomPostMutationResolver extends \PoPC
             $this->mediaTypeAPI = $mediaTypeAPI;
         }
         return $this->mediaTypeAPI;
-    }
-    public final function setMediaTypeMutationAPI(MediaTypeMutationAPIInterface $mediaTypeMutationAPI) : void
-    {
-        $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
     }
     protected final function getMediaTypeMutationAPI() : MediaTypeMutationAPIInterface
     {

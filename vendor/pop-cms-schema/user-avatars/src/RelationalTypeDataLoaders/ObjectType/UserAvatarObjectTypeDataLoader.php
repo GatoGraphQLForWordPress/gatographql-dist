@@ -12,10 +12,6 @@ class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
      * @var \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface|null
      */
     private $userAvatarRuntimeRegistry;
-    public final function setUserAvatarRuntimeRegistry(UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry) : void
-    {
-        $this->userAvatarRuntimeRegistry = $userAvatarRuntimeRegistry;
-    }
     protected final function getUserAvatarRuntimeRegistry() : UserAvatarRuntimeRegistryInterface
     {
         if ($this->userAvatarRuntimeRegistry === null) {

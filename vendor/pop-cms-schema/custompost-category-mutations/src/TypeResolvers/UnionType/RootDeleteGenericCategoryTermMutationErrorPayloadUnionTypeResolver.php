@@ -13,10 +13,6 @@ class RootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeResolver extends
      * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader(RootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader $rootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader = $rootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader() : RootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootDeleteGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader === null) {

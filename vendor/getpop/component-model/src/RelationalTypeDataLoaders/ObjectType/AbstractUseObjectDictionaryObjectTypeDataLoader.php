@@ -13,10 +13,6 @@ abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractO
      * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
      */
     private $objectDictionary;
-    public final function setObjectDictionary(ObjectDictionaryInterface $objectDictionary) : void
-    {
-        $this->objectDictionary = $objectDictionary;
-    }
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {

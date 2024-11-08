@@ -12,10 +12,6 @@ class RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver extends \PoPC
      * @var \PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\UnionType\RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader(RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

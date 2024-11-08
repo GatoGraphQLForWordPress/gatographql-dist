@@ -22,10 +22,6 @@ class Document extends AbstractDocument
      * @var \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface|null
      */
     private $operationDependencyDefinerDirectiveRegistry;
-    public final function setDynamicVariableDefinerDirectiveRegistry(DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry) : void
-    {
-        $this->dynamicVariableDefinerDirectiveRegistry = $dynamicVariableDefinerDirectiveRegistry;
-    }
     protected final function getDynamicVariableDefinerDirectiveRegistry() : DynamicVariableDefinerDirectiveRegistryInterface
     {
         if ($this->dynamicVariableDefinerDirectiveRegistry === null) {
@@ -34,10 +30,6 @@ class Document extends AbstractDocument
             $this->dynamicVariableDefinerDirectiveRegistry = $dynamicVariableDefinerDirectiveRegistry;
         }
         return $this->dynamicVariableDefinerDirectiveRegistry;
-    }
-    public final function setOperationDependencyDefinerDirectiveRegistry(OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry) : void
-    {
-        $this->operationDependencyDefinerDirectiveRegistry = $operationDependencyDefinerDirectiveRegistry;
     }
     protected final function getOperationDependencyDefinerDirectiveRegistry() : OperationDependencyDefinerDirectiveRegistryInterface
     {

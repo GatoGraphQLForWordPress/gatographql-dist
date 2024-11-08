@@ -21,10 +21,6 @@ class CommonFilterInputContainerComponentProcessor extends \PoPCMSSchema\SchemaC
      * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
      */
     private $cmsService;
-    public final function setCMSService(CMSServiceInterface $cmsService) : void
-    {
-        $this->cmsService = $cmsService;
-    }
     protected final function getCMSService() : CMSServiceInterface
     {
         if ($this->cmsService === null) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
-use PrefixedByPoP\Masterminds\HTML5\Elements;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Elements;
 /**
  * The HTML5 tokenizer.
  *

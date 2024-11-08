@@ -21,10 +21,6 @@ abstract class AbstractPostTagObjectTypeResolverPicker extends AbstractObjectTyp
      * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
      */
     private $postTagTypeAPI;
-    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
-    {
-        $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
-    }
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -33,10 +29,6 @@ abstract class AbstractPostTagObjectTypeResolverPicker extends AbstractObjectTyp
             $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
         }
         return $this->postTagObjectTypeResolver;
-    }
-    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
-    {
-        $this->postTagTypeAPI = $postTagTypeAPI;
     }
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {

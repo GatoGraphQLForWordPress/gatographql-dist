@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Promise;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise;
 
 /** @internal */
 final class Utils
@@ -128,7 +128,9 @@ final class Utils
         $promise = Each::of($promises, function ($value, $idx) use(&$results) : void {
             $results[$idx] = $value;
         }, function ($reason, $idx, Promise $aggregate) : void {
-            $aggregate->reject($reason);
+            if (Is::pending($aggregate)) {
+                $aggregate->reject($reason);
+            }
         })->then(function () use(&$results) {
             \ksort($results);
             return $results;

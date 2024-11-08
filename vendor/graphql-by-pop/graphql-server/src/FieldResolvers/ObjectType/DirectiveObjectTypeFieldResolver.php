@@ -40,10 +40,6 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\DirectiveExtensionsObjectTypeResolver|null
      */
     private $directiveExtensionsObjectTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -52,10 +48,6 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
@@ -66,10 +58,6 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->booleanScalarTypeResolver;
     }
-    public final function setInputValueObjectTypeResolver(InputValueObjectTypeResolver $inputValueObjectTypeResolver) : void
-    {
-        $this->inputValueObjectTypeResolver = $inputValueObjectTypeResolver;
-    }
     protected final function getInputValueObjectTypeResolver() : InputValueObjectTypeResolver
     {
         if ($this->inputValueObjectTypeResolver === null) {
@@ -79,10 +67,6 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->inputValueObjectTypeResolver;
     }
-    public final function setDirectiveLocationEnumTypeResolver(DirectiveLocationEnumTypeResolver $directiveLocationEnumTypeResolver) : void
-    {
-        $this->directiveLocationEnumTypeResolver = $directiveLocationEnumTypeResolver;
-    }
     protected final function getDirectiveLocationEnumTypeResolver() : DirectiveLocationEnumTypeResolver
     {
         if ($this->directiveLocationEnumTypeResolver === null) {
@@ -91,10 +75,6 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->directiveLocationEnumTypeResolver = $directiveLocationEnumTypeResolver;
         }
         return $this->directiveLocationEnumTypeResolver;
-    }
-    public final function setDirectiveExtensionsObjectTypeResolver(DirectiveExtensionsObjectTypeResolver $directiveExtensionsObjectTypeResolver) : void
-    {
-        $this->directiveExtensionsObjectTypeResolver = $directiveExtensionsObjectTypeResolver;
     }
     protected final function getDirectiveExtensionsObjectTypeResolver() : DirectiveExtensionsObjectTypeResolver
     {

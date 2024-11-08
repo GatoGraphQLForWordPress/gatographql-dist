@@ -27,10 +27,6 @@ class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface|null
      */
     private $mandatoryOperationDirectiveResolverRegistry;
-    public final function setSuperRootObjectTypeDataLoader(SuperRootObjectTypeDataLoader $superRootObjectTypeDataLoader) : void
-    {
-        $this->superRootObjectTypeDataLoader = $superRootObjectTypeDataLoader;
-    }
     protected final function getSuperRootObjectTypeDataLoader() : SuperRootObjectTypeDataLoader
     {
         if ($this->superRootObjectTypeDataLoader === null) {
@@ -39,10 +35,6 @@ class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
             $this->superRootObjectTypeDataLoader = $superRootObjectTypeDataLoader;
         }
         return $this->superRootObjectTypeDataLoader;
-    }
-    public final function setMandatoryOperationDirectiveResolverRegistry(MandatoryOperationDirectiveResolverRegistryInterface $mandatoryOperationDirectiveResolverRegistry) : void
-    {
-        $this->mandatoryOperationDirectiveResolverRegistry = $mandatoryOperationDirectiveResolverRegistry;
     }
     protected final function getMandatoryOperationDirectiveResolverRegistry() : MandatoryOperationDirectiveResolverRegistryInterface
     {

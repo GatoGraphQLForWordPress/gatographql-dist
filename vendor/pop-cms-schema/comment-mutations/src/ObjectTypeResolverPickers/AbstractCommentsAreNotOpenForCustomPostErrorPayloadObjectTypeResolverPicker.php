@@ -14,10 +14,6 @@ abstract class AbstractCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeReso
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver|null
      */
     private $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver;
-    public final function setCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver(CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver) : void
-    {
-        $this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver = $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver;
-    }
     protected final function getCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver() : CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver
     {
         if ($this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver === null) {

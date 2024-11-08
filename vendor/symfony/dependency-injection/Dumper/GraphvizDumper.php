@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Dumper;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Dumper;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Parameter;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Parameter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
 /**
  * GraphvizDumper dumps a service container as a graphviz file.
  *

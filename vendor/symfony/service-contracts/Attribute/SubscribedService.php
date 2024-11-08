@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service\Attribute;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute;
 
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceMethodsSubscriberTrait;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceMethodsSubscriberTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberInterface;
 /**
  * For use as the return value for {@see ServiceSubscriberInterface}.
  *

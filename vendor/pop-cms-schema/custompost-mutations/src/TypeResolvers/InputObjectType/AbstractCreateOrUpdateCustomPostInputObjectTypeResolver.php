@@ -29,10 +29,6 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostContentAsOneofInputObjectTypeResolver|null
      */
     private $customPostContentAsOneofInputObjectTypeResolver;
-    public final function setCustomPostStatusEnumTypeResolver(CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver) : void
-    {
-        $this->customPostStatusEnumTypeResolver = $customPostStatusEnumTypeResolver;
-    }
     protected final function getCustomPostStatusEnumTypeResolver() : CustomPostStatusEnumTypeResolver
     {
         if ($this->customPostStatusEnumTypeResolver === null) {
@@ -41,10 +37,6 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
             $this->customPostStatusEnumTypeResolver = $customPostStatusEnumTypeResolver;
         }
         return $this->customPostStatusEnumTypeResolver;
-    }
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
@@ -55,10 +47,6 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -67,10 +55,6 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setCustomPostContentAsOneofInputObjectTypeResolver(\PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostContentAsOneofInputObjectTypeResolver $customPostContentAsOneofInputObjectTypeResolver) : void
-    {
-        $this->customPostContentAsOneofInputObjectTypeResolver = $customPostContentAsOneofInputObjectTypeResolver;
     }
     protected final function getCustomPostContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostContentAsOneofInputObjectTypeResolver
     {

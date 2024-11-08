@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  * @internal

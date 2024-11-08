@@ -15,10 +15,6 @@ class RootLoginUserMutationPayloadErrorsFieldTransientOperationPayloadObjectType
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\RootLoginUserMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootLoginUserMutationErrorPayloadUnionTypeResolver;
-    public final function setRootLoginUserMutationErrorPayloadUnionTypeResolver(RootLoginUserMutationErrorPayloadUnionTypeResolver $rootLoginUserMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootLoginUserMutationErrorPayloadUnionTypeResolver = $rootLoginUserMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootLoginUserMutationErrorPayloadUnionTypeResolver() : RootLoginUserMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootLoginUserMutationErrorPayloadUnionTypeResolver === null) {

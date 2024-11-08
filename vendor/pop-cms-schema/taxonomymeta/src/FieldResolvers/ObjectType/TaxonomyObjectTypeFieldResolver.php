@@ -17,10 +17,6 @@ class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldRes
      * @var \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface|null
      */
     private $taxonomyMetaTypeAPI;
-    public final function setTaxonomyMetaTypeAPI(TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI) : void
-    {
-        $this->taxonomyMetaTypeAPI = $taxonomyMetaTypeAPI;
-    }
     protected final function getTaxonomyMetaTypeAPI() : TaxonomyMetaTypeAPIInterface
     {
         if ($this->taxonomyMetaTypeAPI === null) {

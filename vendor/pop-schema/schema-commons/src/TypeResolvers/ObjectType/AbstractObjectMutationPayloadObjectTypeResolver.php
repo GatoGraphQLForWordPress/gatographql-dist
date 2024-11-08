@@ -13,10 +13,6 @@ abstract class AbstractObjectMutationPayloadObjectTypeResolver extends AbstractT
      * @var \PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\ObjectMutationPayloadObjectTypeDataLoader|null
      */
     private $objectMutationPayloadObjectTypeDataLoader;
-    public final function setObjectMutationPayloadObjectTypeDataLoader(ObjectMutationPayloadObjectTypeDataLoader $objectMutationPayloadObjectTypeDataLoader) : void
-    {
-        $this->objectMutationPayloadObjectTypeDataLoader = $objectMutationPayloadObjectTypeDataLoader;
-    }
     protected final function getObjectMutationPayloadObjectTypeDataLoader() : ObjectMutationPayloadObjectTypeDataLoader
     {
         if ($this->objectMutationPayloadObjectTypeDataLoader === null) {

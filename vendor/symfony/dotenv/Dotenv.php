@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Dotenv;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv;
 
-use PrefixedByPoP\Symfony\Component\Dotenv\Exception\FormatException;
-use PrefixedByPoP\Symfony\Component\Dotenv\Exception\FormatExceptionContext;
-use PrefixedByPoP\Symfony\Component\Dotenv\Exception\PathException;
-use PrefixedByPoP\Symfony\Component\Process\Exception\ExceptionInterface as ProcessException;
-use PrefixedByPoP\Symfony\Component\Process\Process;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Exception\FormatException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Exception\FormatExceptionContext;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Exception\PathException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Process\Exception\ExceptionInterface as ProcessException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Process\Process;
 /**
  * Manages .env files.
  *
@@ -432,7 +432,7 @@ final class Dotenv
             (?!\\()                             # no opening parenthesis
             (?P<opening_brace>\\{)?             # optional brace
             (?P<name>' . self::VARNAME_REGEX . ')? # var name
-            (?P<default_value>:[-=][^\\}]++)?   # optional default value
+            (?P<default_value>:[-=][^\\}]*+)?   # optional default value
             (?P<closing_brace>\\})?             # optional closing brace
         /x';
         $value = \preg_replace_callback($regex, function ($matches) use($loadedVars) {

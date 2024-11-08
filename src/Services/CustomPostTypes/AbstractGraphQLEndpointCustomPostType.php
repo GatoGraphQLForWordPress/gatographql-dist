@@ -26,10 +26,6 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
      */
     private $endpointBlockHelpers;
 
-    final public function setBlockHelpers(BlockHelpers $blockHelpers): void
-    {
-        $this->blockHelpers = $blockHelpers;
-    }
     final protected function getBlockHelpers(): BlockHelpers
     {
         if ($this->blockHelpers === null) {
@@ -38,10 +34,6 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
             $this->blockHelpers = $blockHelpers;
         }
         return $this->blockHelpers;
-    }
-    final public function setEndpointBlockHelpers(EndpointBlockHelpers $endpointBlockHelpers): void
-    {
-        $this->endpointBlockHelpers = $endpointBlockHelpers;
     }
     final protected function getEndpointBlockHelpers(): EndpointBlockHelpers
     {
@@ -220,9 +212,13 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
      */
     public function getOptionsBlockDataItem($postOrID): ?array
     {
+        $endpointOptionsBlock = $this->getEndpointOptionsBlock();
+        if ($endpointOptionsBlock === null) {
+            return null;
+        }
         return $this->getBlockHelpers()->getSingleBlockOfTypeFromCustomPost(
             $postOrID,
-            $this->getEndpointOptionsBlock()
+            $endpointOptionsBlock
         );
     }
 
@@ -284,7 +280,10 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
             case 'schema-config':
                 /** @var string */
                 $enablingModule = $this->getEnablingModule();
-                $schemaConfigurationID = $this->getEndpointBlockHelpers()->getSchemaConfigurationID($enablingModule, $post_id);
+                $schemaConfigurationID = $this->getEndpointBlockHelpers()->getSchemaConfigurationID(
+                    $enablingModule,
+                    $post_id,
+                );
                 if ($schemaConfigurationID === EndpointSchemaConfigurationBlock::ATTRIBUTE_VALUE_SCHEMA_CONFIGURATION_NONE) {
                     esc_html_e('"None" selected', 'gatographql');
                     break;

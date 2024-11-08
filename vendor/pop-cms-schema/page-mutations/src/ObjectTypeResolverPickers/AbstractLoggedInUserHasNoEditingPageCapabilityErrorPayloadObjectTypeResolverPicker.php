@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectT
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver === null) {

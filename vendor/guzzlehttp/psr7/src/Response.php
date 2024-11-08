@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
 /**
  * PSR-7 response implementation.
  * @internal

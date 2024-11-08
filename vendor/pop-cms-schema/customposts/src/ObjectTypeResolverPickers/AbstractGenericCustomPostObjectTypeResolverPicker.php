@@ -26,10 +26,6 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
      * @var \PoPCMSSchema\CustomPosts\Registries\CustomPostObjectTypeResolverPickerRegistryInterface|null
      */
     private $customPostObjectTypeResolverPickerRegistry;
-    public final function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver) : void
-    {
-        $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
-    }
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
@@ -39,10 +35,6 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
         }
         return $this->genericCustomPostObjectTypeResolver;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -51,10 +43,6 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
             $this->customPostTypeAPI = $customPostTypeAPI;
         }
         return $this->customPostTypeAPI;
-    }
-    public final function setCustomPostObjectTypeResolverPickerRegistry(CustomPostObjectTypeResolverPickerRegistryInterface $customPostObjectTypeResolverPickerRegistry) : void
-    {
-        $this->customPostObjectTypeResolverPickerRegistry = $customPostObjectTypeResolverPickerRegistry;
     }
     protected final function getCustomPostObjectTypeResolverPickerRegistry() : CustomPostObjectTypeResolverPickerRegistryInterface
     {

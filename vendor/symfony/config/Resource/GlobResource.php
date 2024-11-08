@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Resource;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
 
-use PrefixedByPoP\Symfony\Component\Finder\Finder;
-use PrefixedByPoP\Symfony\Component\Finder\Glob;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Finder\Finder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Finder\Glob;
 /**
  * GlobResource represents a set of resources stored on the filesystem.
  *

@@ -15,10 +15,6 @@ class GenericTagDeleteMutationPayloadErrorsFieldTransientOperationPayloadObjectT
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\GenericTagDeleteMutationErrorPayloadUnionTypeResolver|null
      */
     private $genericTagDeleteMutationErrorPayloadUnionTypeResolver;
-    public final function setGenericTagDeleteMutationErrorPayloadUnionTypeResolver(GenericTagDeleteMutationErrorPayloadUnionTypeResolver $genericTagDeleteMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->genericTagDeleteMutationErrorPayloadUnionTypeResolver = $genericTagDeleteMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getGenericTagDeleteMutationErrorPayloadUnionTypeResolver() : GenericTagDeleteMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericTagDeleteMutationErrorPayloadUnionTypeResolver === null) {

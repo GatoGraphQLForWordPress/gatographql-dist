@@ -26,10 +26,6 @@ class GraphQLDataStructureFormatter extends MirrorQueryDataStructureFormatter
      * @var \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface|null
      */
     private $feedbackEntryService;
-    public final function setFeedbackEntryManager(FeedbackEntryManagerInterface $feedbackEntryService) : void
-    {
-        $this->feedbackEntryService = $feedbackEntryService;
-    }
     protected final function getFeedbackEntryManager() : FeedbackEntryManagerInterface
     {
         if ($this->feedbackEntryService === null) {

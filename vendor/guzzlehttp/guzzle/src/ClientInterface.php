@@ -1,12 +1,12 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\GuzzleHttp\Exception\GuzzleException;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\GuzzleException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * Client interface for sending HTTP requests.
  * @internal

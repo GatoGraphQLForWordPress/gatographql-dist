@@ -26,10 +26,6 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
      * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserByOneofInputObjectTypeResolver|null
      */
     private $userByOneofInputObjectTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -38,10 +34,6 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setUserByOneofInputObjectTypeResolver(UserByOneofInputObjectTypeResolver $userByOneofInputObjectTypeResolver) : void
-    {
-        $this->userByOneofInputObjectTypeResolver = $userByOneofInputObjectTypeResolver;
     }
     protected final function getUserByOneofInputObjectTypeResolver() : UserByOneofInputObjectTypeResolver
     {

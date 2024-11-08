@@ -20,10 +20,6 @@ class NetworkSiteObjectTypeResolver extends AbstractObjectTypeResolver
      */
     private $networkSiteObjectTypeDataLoader;
 
-    final public function setMultisiteTypeAPI(MultisiteTypeAPIInterface $multisiteTypeAPI): void
-    {
-        $this->multisiteTypeAPI = $multisiteTypeAPI;
-    }
     final protected function getMultisiteTypeAPI(): MultisiteTypeAPIInterface
     {
         if ($this->multisiteTypeAPI === null) {
@@ -32,10 +28,6 @@ class NetworkSiteObjectTypeResolver extends AbstractObjectTypeResolver
             $this->multisiteTypeAPI = $multisiteTypeAPI;
         }
         return $this->multisiteTypeAPI;
-    }
-    final public function setNetworkSiteObjectTypeDataLoader(NetworkSiteObjectTypeDataLoader $networkSiteObjectTypeDataLoader): void
-    {
-        $this->networkSiteObjectTypeDataLoader = $networkSiteObjectTypeDataLoader;
     }
     final protected function getNetworkSiteObjectTypeDataLoader(): NetworkSiteObjectTypeDataLoader
     {

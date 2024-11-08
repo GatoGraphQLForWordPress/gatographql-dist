@@ -30,10 +30,6 @@ class InputValueObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\InputValueExtensionsObjectTypeResolver|null
      */
     private $inputValueExtensionsObjectTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -43,10 +39,6 @@ class InputValueObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setTypeObjectTypeResolver(TypeObjectTypeResolver $typeObjectTypeResolver) : void
-    {
-        $this->typeObjectTypeResolver = $typeObjectTypeResolver;
-    }
     protected final function getTypeObjectTypeResolver() : TypeObjectTypeResolver
     {
         if ($this->typeObjectTypeResolver === null) {
@@ -55,10 +47,6 @@ class InputValueObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->typeObjectTypeResolver = $typeObjectTypeResolver;
         }
         return $this->typeObjectTypeResolver;
-    }
-    public final function setInputValueExtensionsObjectTypeResolver(InputValueExtensionsObjectTypeResolver $inputValueExtensionsObjectTypeResolver) : void
-    {
-        $this->inputValueExtensionsObjectTypeResolver = $inputValueExtensionsObjectTypeResolver;
     }
     protected final function getInputValueExtensionsObjectTypeResolver() : InputValueExtensionsObjectTypeResolver
     {

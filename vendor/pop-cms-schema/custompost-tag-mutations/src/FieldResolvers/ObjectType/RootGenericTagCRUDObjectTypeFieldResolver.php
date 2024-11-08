@@ -130,10 +130,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
      */
     private $booleanScalarTypeResolver;
-    public final function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver) : void
-    {
-        $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
-    }
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -142,10 +138,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
         }
         return $this->genericTagObjectTypeResolver;
-    }
-    public final function setRootDeleteGenericTagTermMutationPayloadObjectTypeResolver(RootDeleteGenericTagTermMutationPayloadObjectTypeResolver $rootDeleteGenericTagTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootDeleteGenericTagTermMutationPayloadObjectTypeResolver = $rootDeleteGenericTagTermMutationPayloadObjectTypeResolver;
     }
     protected final function getRootDeleteGenericTagTermMutationPayloadObjectTypeResolver() : RootDeleteGenericTagTermMutationPayloadObjectTypeResolver
     {
@@ -156,10 +148,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->rootDeleteGenericTagTermMutationPayloadObjectTypeResolver;
     }
-    public final function setRootUpdateGenericTagTermMutationPayloadObjectTypeResolver(RootUpdateGenericTagTermMutationPayloadObjectTypeResolver $rootUpdateGenericTagTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericTagTermMutationPayloadObjectTypeResolver = $rootUpdateGenericTagTermMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootUpdateGenericTagTermMutationPayloadObjectTypeResolver() : RootUpdateGenericTagTermMutationPayloadObjectTypeResolver
     {
         if ($this->rootUpdateGenericTagTermMutationPayloadObjectTypeResolver === null) {
@@ -168,10 +156,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->rootUpdateGenericTagTermMutationPayloadObjectTypeResolver = $rootUpdateGenericTagTermMutationPayloadObjectTypeResolver;
         }
         return $this->rootUpdateGenericTagTermMutationPayloadObjectTypeResolver;
-    }
-    public final function setRootCreateGenericTagTermMutationPayloadObjectTypeResolver(RootCreateGenericTagTermMutationPayloadObjectTypeResolver $rootCreateGenericTagTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericTagTermMutationPayloadObjectTypeResolver = $rootCreateGenericTagTermMutationPayloadObjectTypeResolver;
     }
     protected final function getRootCreateGenericTagTermMutationPayloadObjectTypeResolver() : RootCreateGenericTagTermMutationPayloadObjectTypeResolver
     {
@@ -182,10 +166,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->rootCreateGenericTagTermMutationPayloadObjectTypeResolver;
     }
-    public final function setCreateGenericTagTermMutationResolver(CreateGenericTagTermMutationResolver $createGenericTagTermMutationResolver) : void
-    {
-        $this->createGenericTagTermMutationResolver = $createGenericTagTermMutationResolver;
-    }
     protected final function getCreateGenericTagTermMutationResolver() : CreateGenericTagTermMutationResolver
     {
         if ($this->createGenericTagTermMutationResolver === null) {
@@ -194,10 +174,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->createGenericTagTermMutationResolver = $createGenericTagTermMutationResolver;
         }
         return $this->createGenericTagTermMutationResolver;
-    }
-    public final function setCreateGenericTagTermBulkOperationMutationResolver(CreateGenericTagTermBulkOperationMutationResolver $createGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->createGenericTagTermBulkOperationMutationResolver = $createGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getCreateGenericTagTermBulkOperationMutationResolver() : CreateGenericTagTermBulkOperationMutationResolver
     {
@@ -208,10 +184,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->createGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setDeleteGenericTagTermMutationResolver(DeleteGenericTagTermMutationResolver $deleteGenericTagTermMutationResolver) : void
-    {
-        $this->deleteGenericTagTermMutationResolver = $deleteGenericTagTermMutationResolver;
-    }
     protected final function getDeleteGenericTagTermMutationResolver() : DeleteGenericTagTermMutationResolver
     {
         if ($this->deleteGenericTagTermMutationResolver === null) {
@@ -220,10 +192,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->deleteGenericTagTermMutationResolver = $deleteGenericTagTermMutationResolver;
         }
         return $this->deleteGenericTagTermMutationResolver;
-    }
-    public final function setDeleteGenericTagTermBulkOperationMutationResolver(DeleteGenericTagTermBulkOperationMutationResolver $deleteGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->deleteGenericTagTermBulkOperationMutationResolver = $deleteGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getDeleteGenericTagTermBulkOperationMutationResolver() : DeleteGenericTagTermBulkOperationMutationResolver
     {
@@ -234,10 +202,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->deleteGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setUpdateGenericTagTermMutationResolver(UpdateGenericTagTermMutationResolver $updateGenericTagTermMutationResolver) : void
-    {
-        $this->updateGenericTagTermMutationResolver = $updateGenericTagTermMutationResolver;
-    }
     protected final function getUpdateGenericTagTermMutationResolver() : UpdateGenericTagTermMutationResolver
     {
         if ($this->updateGenericTagTermMutationResolver === null) {
@@ -246,10 +210,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->updateGenericTagTermMutationResolver = $updateGenericTagTermMutationResolver;
         }
         return $this->updateGenericTagTermMutationResolver;
-    }
-    public final function setUpdateGenericTagTermBulkOperationMutationResolver(UpdateGenericTagTermBulkOperationMutationResolver $updateGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->updateGenericTagTermBulkOperationMutationResolver = $updateGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getUpdateGenericTagTermBulkOperationMutationResolver() : UpdateGenericTagTermBulkOperationMutationResolver
     {
@@ -260,10 +220,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->updateGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableDeleteGenericTagTermMutationResolver(PayloadableDeleteGenericTagTermMutationResolver $payloadableDeleteGenericTagTermMutationResolver) : void
-    {
-        $this->payloadableDeleteGenericTagTermMutationResolver = $payloadableDeleteGenericTagTermMutationResolver;
-    }
     protected final function getPayloadableDeleteGenericTagTermMutationResolver() : PayloadableDeleteGenericTagTermMutationResolver
     {
         if ($this->payloadableDeleteGenericTagTermMutationResolver === null) {
@@ -272,10 +228,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->payloadableDeleteGenericTagTermMutationResolver = $payloadableDeleteGenericTagTermMutationResolver;
         }
         return $this->payloadableDeleteGenericTagTermMutationResolver;
-    }
-    public final function setPayloadableDeleteGenericTagTermBulkOperationMutationResolver(PayloadableDeleteGenericTagTermBulkOperationMutationResolver $payloadableDeleteGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableDeleteGenericTagTermBulkOperationMutationResolver = $payloadableDeleteGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableDeleteGenericTagTermBulkOperationMutationResolver() : PayloadableDeleteGenericTagTermBulkOperationMutationResolver
     {
@@ -286,10 +238,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->payloadableDeleteGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableUpdateGenericTagTermMutationResolver(PayloadableUpdateGenericTagTermMutationResolver $payloadableUpdateGenericTagTermMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericTagTermMutationResolver = $payloadableUpdateGenericTagTermMutationResolver;
-    }
     protected final function getPayloadableUpdateGenericTagTermMutationResolver() : PayloadableUpdateGenericTagTermMutationResolver
     {
         if ($this->payloadableUpdateGenericTagTermMutationResolver === null) {
@@ -298,10 +246,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->payloadableUpdateGenericTagTermMutationResolver = $payloadableUpdateGenericTagTermMutationResolver;
         }
         return $this->payloadableUpdateGenericTagTermMutationResolver;
-    }
-    public final function setPayloadableUpdateGenericTagTermBulkOperationMutationResolver(PayloadableUpdateGenericTagTermBulkOperationMutationResolver $payloadableUpdateGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericTagTermBulkOperationMutationResolver = $payloadableUpdateGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableUpdateGenericTagTermBulkOperationMutationResolver() : PayloadableUpdateGenericTagTermBulkOperationMutationResolver
     {
@@ -312,10 +256,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->payloadableUpdateGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableCreateGenericTagTermMutationResolver(PayloadableCreateGenericTagTermMutationResolver $payloadableCreateGenericTagTermMutationResolver) : void
-    {
-        $this->payloadableCreateGenericTagTermMutationResolver = $payloadableCreateGenericTagTermMutationResolver;
-    }
     protected final function getPayloadableCreateGenericTagTermMutationResolver() : PayloadableCreateGenericTagTermMutationResolver
     {
         if ($this->payloadableCreateGenericTagTermMutationResolver === null) {
@@ -324,10 +264,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->payloadableCreateGenericTagTermMutationResolver = $payloadableCreateGenericTagTermMutationResolver;
         }
         return $this->payloadableCreateGenericTagTermMutationResolver;
-    }
-    public final function setPayloadableCreateGenericTagTermBulkOperationMutationResolver(PayloadableCreateGenericTagTermBulkOperationMutationResolver $payloadableCreateGenericTagTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableCreateGenericTagTermBulkOperationMutationResolver = $payloadableCreateGenericTagTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableCreateGenericTagTermBulkOperationMutationResolver() : PayloadableCreateGenericTagTermBulkOperationMutationResolver
     {
@@ -338,10 +274,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->payloadableCreateGenericTagTermBulkOperationMutationResolver;
     }
-    public final function setRootDeleteGenericTagTermInputObjectTypeResolver(RootDeleteGenericTagTermInputObjectTypeResolver $rootDeleteGenericTagTermInputObjectTypeResolver) : void
-    {
-        $this->rootDeleteGenericTagTermInputObjectTypeResolver = $rootDeleteGenericTagTermInputObjectTypeResolver;
-    }
     protected final function getRootDeleteGenericTagTermInputObjectTypeResolver() : RootDeleteGenericTagTermInputObjectTypeResolver
     {
         if ($this->rootDeleteGenericTagTermInputObjectTypeResolver === null) {
@@ -350,10 +282,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->rootDeleteGenericTagTermInputObjectTypeResolver = $rootDeleteGenericTagTermInputObjectTypeResolver;
         }
         return $this->rootDeleteGenericTagTermInputObjectTypeResolver;
-    }
-    public final function setRootUpdateGenericTagTermInputObjectTypeResolver(RootUpdateGenericTagTermInputObjectTypeResolver $rootUpdateGenericTagTermInputObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericTagTermInputObjectTypeResolver = $rootUpdateGenericTagTermInputObjectTypeResolver;
     }
     protected final function getRootUpdateGenericTagTermInputObjectTypeResolver() : RootUpdateGenericTagTermInputObjectTypeResolver
     {
@@ -364,10 +292,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->rootUpdateGenericTagTermInputObjectTypeResolver;
     }
-    public final function setRootCreateGenericTagTermInputObjectTypeResolver(RootCreateGenericTagTermInputObjectTypeResolver $rootCreateGenericTagTermInputObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericTagTermInputObjectTypeResolver = $rootCreateGenericTagTermInputObjectTypeResolver;
-    }
     protected final function getRootCreateGenericTagTermInputObjectTypeResolver() : RootCreateGenericTagTermInputObjectTypeResolver
     {
         if ($this->rootCreateGenericTagTermInputObjectTypeResolver === null) {
@@ -377,10 +301,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $this->rootCreateGenericTagTermInputObjectTypeResolver;
     }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
-    }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -389,10 +309,6 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
             $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
         }
         return $this->userLoggedInCheckpoint;
-    }
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {

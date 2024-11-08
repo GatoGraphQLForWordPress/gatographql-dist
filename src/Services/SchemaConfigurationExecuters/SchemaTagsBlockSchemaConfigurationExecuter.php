@@ -19,10 +19,6 @@ class SchemaTagsBlockSchemaConfigurationExecuter extends AbstractCustomizableCon
      */
     private $schemaConfigTagsBlock;
 
-    final public function setSchemaConfigSchemaTagsBlock(SchemaConfigSchemaTagsBlock $schemaConfigTagsBlock): void
-    {
-        $this->schemaConfigTagsBlock = $schemaConfigTagsBlock;
-    }
     final protected function getSchemaConfigSchemaTagsBlock(): SchemaConfigSchemaTagsBlock
     {
         if ($this->schemaConfigTagsBlock === null) {

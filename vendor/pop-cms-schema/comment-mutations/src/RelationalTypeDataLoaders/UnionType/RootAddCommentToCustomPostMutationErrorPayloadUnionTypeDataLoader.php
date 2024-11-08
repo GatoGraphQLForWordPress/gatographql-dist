@@ -13,10 +13,6 @@ class RootAddCommentToCustomPostMutationErrorPayloadUnionTypeDataLoader extends 
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver(RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver = $rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver() : RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver === null) {

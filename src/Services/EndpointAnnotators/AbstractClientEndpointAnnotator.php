@@ -16,10 +16,6 @@ abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator
      */
     private $blockHelpers;
 
-    final public function setBlockHelpers(BlockHelpers $blockHelpers): void
-    {
-        $this->blockHelpers = $blockHelpers;
-    }
     final protected function getBlockHelpers(): BlockHelpers
     {
         if ($this->blockHelpers === null) {

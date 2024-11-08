@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception;
 
 /** @internal */
 class TooManyRedirectsException extends RequestException

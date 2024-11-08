@@ -12,10 +12,6 @@ class RootSetTagsOnPostMutationErrorPayloadUnionTypeResolver extends \PoPCMSSche
      * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader(RootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader $rootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader = $rootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader() : RootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetTagsOnPostMutationErrorPayloadUnionTypeDataLoader === null) {

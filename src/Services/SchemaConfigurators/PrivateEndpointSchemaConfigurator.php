@@ -15,10 +15,6 @@ class PrivateEndpointSchemaConfigurator extends AbstractEndpointSchemaConfigurat
      */
     private $endpointSchemaConfigurationExecuterRegistry;
 
-    final public function setEndpointSchemaConfigurationExecuterRegistry(EndpointSchemaConfigurationExecuterRegistryInterface $endpointSchemaConfigurationExecuterRegistry): void
-    {
-        $this->endpointSchemaConfigurationExecuterRegistry = $endpointSchemaConfigurationExecuterRegistry;
-    }
     final protected function getEndpointSchemaConfigurationExecuterRegistry(): EndpointSchemaConfigurationExecuterRegistryInterface
     {
         if ($this->endpointSchemaConfigurationExecuterRegistry === null) {

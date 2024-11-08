@@ -24,10 +24,6 @@ class ComponentPathHelpers implements \PoP\ComponentModel\ComponentPath\Componen
      * @var \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface|null
      */
     private $componentHelpers;
-    public final function setComponentPathManager(\PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface $componentPathManager) : void
-    {
-        $this->componentPathManager = $componentPathManager;
-    }
     protected final function getComponentPathManager() : \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {
@@ -36,10 +32,6 @@ class ComponentPathHelpers implements \PoP\ComponentModel\ComponentPath\Componen
             $this->componentPathManager = $componentPathManager;
         }
         return $this->componentPathManager;
-    }
-    public final function setComponentHelpers(ComponentHelpersInterface $componentHelpers) : void
-    {
-        $this->componentHelpers = $componentHelpers;
     }
     protected final function getComponentHelpers() : ComponentHelpersInterface
     {

@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\Exception\FileLoaderImportCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
-use PrefixedByPoP\Symfony\Component\Config\Exception\LoaderLoadException;
-use PrefixedByPoP\Symfony\Component\Config\FileLocatorInterface;
-use PrefixedByPoP\Symfony\Component\Config\Resource\FileExistenceResource;
-use PrefixedByPoP\Symfony\Component\Config\Resource\GlobResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\FileLoaderImportCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\LoaderLoadException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\FileExistenceResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\GlobResource;
 /**
  * FileLoader is the abstract class used by all built-in loaders that are file based.
  *

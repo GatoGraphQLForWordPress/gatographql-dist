@@ -12,10 +12,6 @@ class RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeResolver extends
      * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader(RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

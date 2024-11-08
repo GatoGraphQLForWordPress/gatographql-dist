@@ -19,7 +19,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GRAPHQL_CLIENTS_COMPONENT_URL;
         $defaultValue = '';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -31,7 +34,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -43,7 +50,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = true;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -55,7 +66,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = '/graphiql/';
         $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -67,7 +82,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -79,6 +98,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = '/schema/';
         $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

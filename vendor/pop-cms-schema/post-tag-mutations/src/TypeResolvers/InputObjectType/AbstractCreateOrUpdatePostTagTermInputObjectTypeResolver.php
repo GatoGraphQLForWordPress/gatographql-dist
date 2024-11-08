@@ -18,10 +18,6 @@ abstract class AbstractCreateOrUpdatePostTagTermInputObjectTypeResolver extends 
      * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
      */
     private $postTagTypeAPI;
-    public final function setPostTagTaxonomyEnumStringScalarTypeResolver(PostTagTaxonomyEnumStringScalarTypeResolver $postTagTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->postTagTaxonomyEnumStringScalarTypeResolver = $postTagTaxonomyEnumStringScalarTypeResolver;
-    }
     protected final function getPostTagTaxonomyEnumStringScalarTypeResolver() : PostTagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->postTagTaxonomyEnumStringScalarTypeResolver === null) {
@@ -30,10 +26,6 @@ abstract class AbstractCreateOrUpdatePostTagTermInputObjectTypeResolver extends 
             $this->postTagTaxonomyEnumStringScalarTypeResolver = $postTagTaxonomyEnumStringScalarTypeResolver;
         }
         return $this->postTagTaxonomyEnumStringScalarTypeResolver;
-    }
-    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
-    {
-        $this->postTagTypeAPI = $postTagTypeAPI;
     }
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {

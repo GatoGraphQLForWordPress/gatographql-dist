@@ -26,10 +26,6 @@ class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputO
      */
     private $metaQueryCompareByArrayValueInputObjectTypeResolver;
 
-    final public function setMetaQueryCompareByKeyInputObjectTypeResolver(MetaQueryCompareByKeyInputObjectTypeResolver $metaQueryCompareByKeyInputObjectTypeResolver): void
-    {
-        $this->metaQueryCompareByKeyInputObjectTypeResolver = $metaQueryCompareByKeyInputObjectTypeResolver;
-    }
     final protected function getMetaQueryCompareByKeyInputObjectTypeResolver(): MetaQueryCompareByKeyInputObjectTypeResolver
     {
         if ($this->metaQueryCompareByKeyInputObjectTypeResolver === null) {
@@ -38,10 +34,6 @@ class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputO
             $this->metaQueryCompareByKeyInputObjectTypeResolver = $metaQueryCompareByKeyInputObjectTypeResolver;
         }
         return $this->metaQueryCompareByKeyInputObjectTypeResolver;
-    }
-    final public function setMetaQueryCompareByNumericValueInputObjectTypeResolver(MetaQueryCompareByNumericValueInputObjectTypeResolver $metaQueryCompareByNumericValueInputObjectTypeResolver): void
-    {
-        $this->metaQueryCompareByNumericValueInputObjectTypeResolver = $metaQueryCompareByNumericValueInputObjectTypeResolver;
     }
     final protected function getMetaQueryCompareByNumericValueInputObjectTypeResolver(): MetaQueryCompareByNumericValueInputObjectTypeResolver
     {
@@ -52,10 +44,6 @@ class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputO
         }
         return $this->metaQueryCompareByNumericValueInputObjectTypeResolver;
     }
-    final public function setMetaQueryCompareByStringValueInputObjectTypeResolver(MetaQueryCompareByStringValueInputObjectTypeResolver $metaQueryCompareByStringValueInputObjectTypeResolver): void
-    {
-        $this->metaQueryCompareByStringValueInputObjectTypeResolver = $metaQueryCompareByStringValueInputObjectTypeResolver;
-    }
     final protected function getMetaQueryCompareByStringValueInputObjectTypeResolver(): MetaQueryCompareByStringValueInputObjectTypeResolver
     {
         if ($this->metaQueryCompareByStringValueInputObjectTypeResolver === null) {
@@ -64,10 +52,6 @@ class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputO
             $this->metaQueryCompareByStringValueInputObjectTypeResolver = $metaQueryCompareByStringValueInputObjectTypeResolver;
         }
         return $this->metaQueryCompareByStringValueInputObjectTypeResolver;
-    }
-    final public function setMetaQueryCompareByArrayValueInputObjectTypeResolver(MetaQueryCompareByArrayValueInputObjectTypeResolver $metaQueryCompareByArrayValueInputObjectTypeResolver): void
-    {
-        $this->metaQueryCompareByArrayValueInputObjectTypeResolver = $metaQueryCompareByArrayValueInputObjectTypeResolver;
     }
     final protected function getMetaQueryCompareByArrayValueInputObjectTypeResolver(): MetaQueryCompareByArrayValueInputObjectTypeResolver
     {

@@ -1,16 +1,16 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Exception\RequestException;
-use PrefixedByPoP\GuzzleHttp\HandlerStack;
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\GuzzleHttp\TransferStats;
-use PrefixedByPoP\GuzzleHttp\Utils;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\HandlerStack;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\TransferStats;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
 /**
  * Handler that returns responses or throw exceptions from a queue.
  *

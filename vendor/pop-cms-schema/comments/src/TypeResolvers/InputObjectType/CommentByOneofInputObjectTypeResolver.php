@@ -19,10 +19,6 @@ class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputO
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
      */
     private $includeFilterInput;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -31,10 +27,6 @@ class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputO
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setIncludeFilterInput(IncludeFilterInput $includeFilterInput) : void
-    {
-        $this->includeFilterInput = $includeFilterInput;
     }
     protected final function getIncludeFilterInput() : IncludeFilterInput
     {

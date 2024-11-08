@@ -17,6 +17,11 @@ final class DependedOnActiveWordPressPlugin extends AbstractDependedOnWordPressP
     public function __construct(string $name, string $file, ?string $versionConstraint = null, array $alternativeFiles = [], ?string $url = null)
     {
         $this->versionConstraint = $versionConstraint;
-        parent::__construct($name, $file, $alternativeFiles, $url);
+        parent::__construct(
+            $name,
+            $file,
+            $alternativeFiles,
+            $url,
+        );
     }
 }

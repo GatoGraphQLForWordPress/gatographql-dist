@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage;
 
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\ArrayAdapter;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ArrayAdapter;
 // Help opcache.preload discover always-needed symbols
 \class_exists(ParsedExpression::class);
 /**

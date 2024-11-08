@@ -12,10 +12,6 @@ class PayloadableDeletePostCategoryTermBulkOperationMutationResolver extends Abs
      * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableDeletePostCategoryTermMutationResolver|null
      */
     private $payloadableDeletePostCategoryTermMutationResolver;
-    public final function setPayloadableDeletePostCategoryTermMutationResolver(\PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableDeletePostCategoryTermMutationResolver $payloadableDeletePostCategoryTermMutationResolver) : void
-    {
-        $this->payloadableDeletePostCategoryTermMutationResolver = $payloadableDeletePostCategoryTermMutationResolver;
-    }
     protected final function getPayloadableDeletePostCategoryTermMutationResolver() : \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableDeletePostCategoryTermMutationResolver
     {
         if ($this->payloadableDeletePostCategoryTermMutationResolver === null) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception;
 
-use PrefixedByPoP\Psr\Http\Client\ClientExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Client\ClientExceptionInterface;
 /** @internal */
 interface GuzzleException extends ClientExceptionInterface
 {

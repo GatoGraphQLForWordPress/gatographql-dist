@@ -31,10 +31,6 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
      * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
      */
     private $mediaTypeMutationAPI;
-    public final function setCustomPostMediaTypeMutationAPI(CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI) : void
-    {
-        $this->customPostMediaTypeMutationAPI = $customPostMediaTypeMutationAPI;
-    }
     protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {
@@ -44,10 +40,6 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
         }
         return $this->customPostMediaTypeMutationAPI;
     }
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
-    {
-        $this->mediaTypeAPI = $mediaTypeAPI;
-    }
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -56,10 +48,6 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
             $this->mediaTypeAPI = $mediaTypeAPI;
         }
         return $this->mediaTypeAPI;
-    }
-    public final function setMediaTypeMutationAPI(MediaTypeMutationAPIInterface $mediaTypeMutationAPI) : void
-    {
-        $this->mediaTypeMutationAPI = $mediaTypeMutationAPI;
     }
     protected final function getMediaTypeMutationAPI() : MediaTypeMutationAPIInterface
     {

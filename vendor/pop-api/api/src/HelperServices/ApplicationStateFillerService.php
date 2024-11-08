@@ -22,10 +22,6 @@ class ApplicationStateFillerService implements \PoPAPI\API\HelperServices\Applic
      * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
      */
     private $graphQLParserHelperService;
-    public final function setGraphQLParserHelperService(GraphQLParserHelperServiceInterface $graphQLParserHelperService) : void
-    {
-        $this->graphQLParserHelperService = $graphQLParserHelperService;
-    }
     protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Exception\InternalErrorException;
-use PrefixedByPoP\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Exception\InternalErrorException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
 /**
  * CSS selector token stream.
  *

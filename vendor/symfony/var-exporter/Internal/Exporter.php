@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter\Internal;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\NotInstantiableTypeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Exception\NotInstantiableTypeException;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *

@@ -13,10 +13,6 @@ class TagTermDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPay
      * @var \PoPCMSSchema\TagMutations\RelationalTypeDataLoaders\ObjectType\TagTermDoesNotExistErrorPayloadObjectTypeDataLoader|null
      */
     private $tagDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setTagTermDoesNotExistErrorPayloadObjectTypeDataLoader(TagTermDoesNotExistErrorPayloadObjectTypeDataLoader $tagDoesNotExistErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->tagDoesNotExistErrorPayloadObjectTypeDataLoader = $tagDoesNotExistErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getTagTermDoesNotExistErrorPayloadObjectTypeDataLoader() : TagTermDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->tagDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

@@ -27,10 +27,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setCustomPostUpdateInputObjectTypeResolver(CustomPostUpdateInputObjectTypeResolver $customPostUpdateInputObjectTypeResolver) : void
-    {
-        $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
-    }
     protected final function getCustomPostUpdateInputObjectTypeResolver() : CustomPostUpdateInputObjectTypeResolver
     {
         if ($this->customPostUpdateInputObjectTypeResolver === null) {
@@ -39,10 +35,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
             $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
         }
         return $this->customPostUpdateInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

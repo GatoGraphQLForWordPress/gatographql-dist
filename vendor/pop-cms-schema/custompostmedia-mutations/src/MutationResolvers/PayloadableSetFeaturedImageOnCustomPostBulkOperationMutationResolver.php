@@ -12,10 +12,6 @@ class PayloadableSetFeaturedImageOnCustomPostBulkOperationMutationResolver exten
      * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostMutationResolver|null
      */
     private $payloadableSetFeaturedImageOnCustomPostMutationResolver;
-    public final function setPayloadableSetFeaturedImageOnCustomPostMutationResolver(\PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostMutationResolver $payloadableSetFeaturedImageOnCustomPostMutationResolver) : void
-    {
-        $this->payloadableSetFeaturedImageOnCustomPostMutationResolver = $payloadableSetFeaturedImageOnCustomPostMutationResolver;
-    }
     protected final function getPayloadableSetFeaturedImageOnCustomPostMutationResolver() : \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\PayloadableSetFeaturedImageOnCustomPostMutationResolver
     {
         if ($this->payloadableSetFeaturedImageOnCustomPostMutationResolver === null) {

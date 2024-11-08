@@ -8,29 +8,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Alias;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\AbstractArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ChildDefinition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
-use PrefixedByPoP\Symfony\Component\Yaml\Exception\ParseException;
-use PrefixedByPoP\Symfony\Component\Yaml\Parser as YamlParser;
-use PrefixedByPoP\Symfony\Component\Yaml\Tag\TaggedValue;
-use PrefixedByPoP\Symfony\Component\Yaml\Yaml;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Alias;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\AbstractArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\BoundArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Expression;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Exception\ParseException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Parser as YamlParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Tag\TaggedValue;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Yaml;
 /**
  * YamlFileLoader loads YAML files service definitions.
  *
@@ -576,7 +576,7 @@ class YamlFileLoader extends FileLoader
      */
     protected function loadFile(string $file) : ?array
     {
-        if (!\class_exists(\PrefixedByPoP\Symfony\Component\Yaml\Parser::class)) {
+        if (!\class_exists(\GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Parser::class)) {
             throw new RuntimeException('Unable to load YAML config files as the Symfony Yaml Component is not installed. Try running "composer require symfony/yaml".');
         }
         if (!\stream_is_local($file)) {

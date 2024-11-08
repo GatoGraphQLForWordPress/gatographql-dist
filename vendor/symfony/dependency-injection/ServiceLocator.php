@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Psr\Container\ContainerExceptionInterface;
-use PrefixedByPoP\Psr\Container\NotFoundExceptionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceLocatorTrait;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceProviderInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\NotFoundExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceLocatorTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceProviderInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberInterface;
 /**
  * @author Robin Chalas <robin.chalas@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>

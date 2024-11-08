@@ -13,10 +13,6 @@ abstract class AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver extends
      * @var \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver|null
      */
     private $parentCategoryByOneofInputObjectTypeResolver;
-    public final function setCategoryByOneofInputObjectTypeResolver(\PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver $parentCategoryByOneofInputObjectTypeResolver) : void
-    {
-        $this->parentCategoryByOneofInputObjectTypeResolver = $parentCategoryByOneofInputObjectTypeResolver;
-    }
     protected final function getCategoryByOneofInputObjectTypeResolver() : \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver
     {
         if ($this->parentCategoryByOneofInputObjectTypeResolver === null) {

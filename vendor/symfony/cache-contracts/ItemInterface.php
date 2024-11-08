@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache;
 
-use PrefixedByPoP\Psr\Cache\CacheException;
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\InvalidArgumentException;
 /**
  * Augments PSR-6's CacheItemInterface with support for tags and metadata.
  *

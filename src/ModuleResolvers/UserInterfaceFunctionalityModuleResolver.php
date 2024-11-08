@@ -30,10 +30,6 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
      */
     private $customPostTypeRegistry;
 
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
-    }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
         if ($this->markdownContentParser === null) {
@@ -42,10 +38,6 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
             $this->markdownContentParser = $markdownContentParser;
         }
         return $this->markdownContentParser;
-    }
-    final public function setCustomPostTypeRegistry(CustomPostTypeRegistryInterface $customPostTypeRegistry): void
-    {
-        $this->customPostTypeRegistry = $customPostTypeRegistry;
     }
     final protected function getCustomPostTypeRegistry(): CustomPostTypeRegistryInterface
     {
@@ -156,8 +148,6 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
                 return false;
             case self::EXCERPT_AS_DESCRIPTION:
                 return $this->getUseExcerptAsDescriptionEnabledCustomPostTypeServices() === [] ? false : null;
-            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
-                return true;
             default:
                 return parent::isPredefinedEnabledOrDisabled($module);
         }

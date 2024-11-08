@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\XPath;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\SelectorNode;
 /**
  * XPath expression translator interface.
  *

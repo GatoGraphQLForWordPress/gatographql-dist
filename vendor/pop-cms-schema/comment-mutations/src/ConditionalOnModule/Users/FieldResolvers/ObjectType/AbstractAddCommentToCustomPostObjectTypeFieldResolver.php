@@ -21,10 +21,6 @@ abstract class AbstractAddCommentToCustomPostObjectTypeFieldResolver extends Ups
      * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
      */
     private $userTypeAPI;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
-    {
-        $this->userTypeAPI = $userTypeAPI;
-    }
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {

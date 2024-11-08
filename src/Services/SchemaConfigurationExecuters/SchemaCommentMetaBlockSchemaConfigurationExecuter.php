@@ -18,10 +18,6 @@ class SchemaCommentMetaBlockSchemaConfigurationExecuter extends AbstractSchemaMe
      */
     private $schemaConfigSchemaCommentMetaBlock;
 
-    final public function setSchemaConfigSchemaCommentMetaBlock(SchemaConfigSchemaCommentMetaBlock $schemaConfigSchemaCommentMetaBlock): void
-    {
-        $this->schemaConfigSchemaCommentMetaBlock = $schemaConfigSchemaCommentMetaBlock;
-    }
     final protected function getSchemaConfigSchemaCommentMetaBlock(): SchemaConfigSchemaCommentMetaBlock
     {
         if ($this->schemaConfigSchemaCommentMetaBlock === null) {

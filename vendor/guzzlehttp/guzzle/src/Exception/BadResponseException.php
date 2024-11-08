@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
 /**
  * Exception when an HTTP error occurs (4xx or 5xx error)
  * @internal

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\XPath\Extension;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\Extension;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\XPath\Translator;
-use PrefixedByPoP\Symfony\Component\CssSelector\XPath\XPathExpr;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\Translator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\XPathExpr;
 /**
  * XPath expression translator attribute extension.
  *

@@ -10,7 +10,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use PrefixedByPoP\Symfony\Polyfill\Php83 as p;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Polyfill\Php83 as p;
 if (\PHP_VERSION_ID >= 80300) {
     return;
 }

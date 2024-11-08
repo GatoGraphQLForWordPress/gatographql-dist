@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace PoP\GuzzleHTTP\UpstreamWrappers\Http\Message;
 
-use PrefixedByPoP\Psr\Http\Message\MessageInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\MessageInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
 /**
  * Wrap a Response object, so it can be exposed and consumed.
  * The upstream class from Guzzle cannot, as it will be scoped.
@@ -250,7 +250,7 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
      * @return static
      * @throws \InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus($code, $reasonPhrase = '') : \PrefixedByPoP\Psr\Http\Message\ResponseInterface
+    public function withStatus($code, $reasonPhrase = '') : \GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface
     {
         return new static($this->response->withStatus($code, $reasonPhrase));
     }

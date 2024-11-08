@@ -36,11 +36,7 @@ class ModuleListTable extends AbstractItemListTable
      */
     private $userSettingsManager;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
     }
@@ -537,7 +533,13 @@ class ModuleListTable extends AbstractItemListTable
                 ],
             [
                 'desc' => \__('Description', 'gatographql'),
-                'depends-on' => sprintf(\__('%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s', 'gatographql'), \__('Depends on:', 'gatographql'), \__('▹ active module', 'gatographql'), \__('☑︎ active plugin', 'gatographql'), \__('☒ inactive plugin', 'gatographql')),
+                'depends-on' => sprintf(
+                    \__('%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s<br/>&nbsp;&nbsp;%s', 'gatographql'),
+                    \__('Depends on:', 'gatographql'),
+                    \__('▹ active module', 'gatographql'),
+                    \__('☑︎ active plugin', 'gatographql'),
+                    \__('☒ inactive plugin', 'gatographql'),
+                ),
             ]
         );
     }

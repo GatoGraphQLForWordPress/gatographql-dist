@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
 // Help opcache.preload discover always-needed symbols
 \class_exists(ResponseHeaderBag::class);
@@ -362,7 +362,7 @@ class Response
         }
         $statusCode = \func_num_args() > 0 ? \func_get_arg(0) : null;
         $informationalResponse = $statusCode >= 100 && $statusCode < 200;
-        if ($informationalResponse && !\function_exists('PrefixedByPoP\\headers_send')) {
+        if ($informationalResponse && !\function_exists('GatoExternalPrefixByGatoGraphQL\\headers_send')) {
             // skip informational responses if not supported by the SAPI
             return $this;
         }
@@ -429,7 +429,7 @@ class Response
         }
         if (\function_exists('fastcgi_finish_request')) {
             \fastcgi_finish_request();
-        } elseif (\function_exists('PrefixedByPoP\\litespeed_finish_request')) {
+        } elseif (\function_exists('GatoExternalPrefixByGatoGraphQL\\litespeed_finish_request')) {
             litespeed_finish_request();
         } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], \true)) {
             static::closeOutputBuffers(0, \true);

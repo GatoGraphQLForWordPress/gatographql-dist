@@ -15,10 +15,6 @@ class RootCreatePostMutationPayloadErrorsFieldTransientOperationPayloadObjectTyp
      * @var \PoPCMSSchema\PostMutations\TypeResolvers\UnionType\RootCreatePostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootCreatePostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootCreatePostMutationErrorPayloadUnionTypeResolver(RootCreatePostMutationErrorPayloadUnionTypeResolver $rootCreatePostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootCreatePostMutationErrorPayloadUnionTypeResolver = $rootCreatePostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootCreatePostMutationErrorPayloadUnionTypeResolver() : RootCreatePostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreatePostMutationErrorPayloadUnionTypeResolver === null) {

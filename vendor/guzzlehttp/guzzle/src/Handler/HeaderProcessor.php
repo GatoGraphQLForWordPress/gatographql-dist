@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
 /**
  * @internal
  */

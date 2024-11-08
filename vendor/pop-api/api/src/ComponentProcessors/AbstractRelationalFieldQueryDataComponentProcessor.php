@@ -48,10 +48,6 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
      * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
      */
     private $astNodeDuplicatorService;
-    public final function setQueryASTTransformationService(QueryASTTransformationServiceInterface $queryASTTransformationService) : void
-    {
-        $this->queryASTTransformationService = $queryASTTransformationService;
-    }
     protected final function getQueryASTTransformationService() : QueryASTTransformationServiceInterface
     {
         if ($this->queryASTTransformationService === null) {
@@ -60,10 +56,6 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
             $this->queryASTTransformationService = $queryASTTransformationService;
         }
         return $this->queryASTTransformationService;
-    }
-    public final function setASTNodeDuplicatorService(ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService) : void
-    {
-        $this->astNodeDuplicatorService = $astNodeDuplicatorService;
     }
     protected final function getASTNodeDuplicatorService() : ASTNodeDuplicatorServiceInterface
     {

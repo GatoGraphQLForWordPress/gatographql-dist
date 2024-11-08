@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\CannotWriteFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FormSizeFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\IniSizeFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\NoFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\NoTmpDirFileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\PartialFileException;
-use PrefixedByPoP\Symfony\Component\Mime\MimeTypes;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\CannotWriteFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FormSizeFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\IniSizeFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\NoFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\NoTmpDirFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\PartialFileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Mime\MimeTypes;
 /**
  * A file uploaded through a form.
  *

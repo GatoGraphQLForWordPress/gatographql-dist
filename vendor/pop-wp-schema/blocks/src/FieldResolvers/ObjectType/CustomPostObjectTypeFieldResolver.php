@@ -43,10 +43,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      */
     private $jsonObjectScalarTypeResolver;
 
-    final public function setBlockContentParser(BlockContentParserInterface $blockContentParser): void
-    {
-        $this->blockContentParser = $blockContentParser;
-    }
     final protected function getBlockContentParser(): BlockContentParserInterface
     {
         if ($this->blockContentParser === null) {
@@ -56,10 +52,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
         }
         return $this->blockContentParser;
     }
-    final public function setBlockFilterByOneofInputObjectTypeResolver(BlockFilterByOneofInputObjectTypeResolver $blockFilterByOneofInputObjectTypeResolver): void
-    {
-        $this->blockFilterByOneofInputObjectTypeResolver = $blockFilterByOneofInputObjectTypeResolver;
-    }
     final protected function getBlockFilterByOneofInputObjectTypeResolver(): BlockFilterByOneofInputObjectTypeResolver
     {
         if ($this->blockFilterByOneofInputObjectTypeResolver === null) {
@@ -68,10 +60,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
             $this->blockFilterByOneofInputObjectTypeResolver = $blockFilterByOneofInputObjectTypeResolver;
         }
         return $this->blockFilterByOneofInputObjectTypeResolver;
-    }
-    final public function setJSONObjectScalarTypeResolver(JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver): void
-    {
-        $this->jsonObjectScalarTypeResolver = $jsonObjectScalarTypeResolver;
     }
     final protected function getJSONObjectScalarTypeResolver(): JSONObjectScalarTypeResolver
     {
@@ -221,13 +209,16 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                     $blockContentParserPayload = $this->getBlockContentParser()->parseCustomPostIntoBlockDataItems($customPost, $options);
                 } catch (BlockContentParserException $e) {
                     $objectTypeFieldResolutionFeedbackStore->addError(
-                        new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(
-                            GenericFeedbackItemProvider::class,
-                            GenericFeedbackItemProvider::E1,
-                            [
-                                $e->getMessage(),
-                            ]
-                        ), $fieldDataAccessor->getField())
+                        new ObjectTypeFieldResolutionFeedback(
+                            new FeedbackItemResolution(
+                                GenericFeedbackItemProvider::class,
+                                GenericFeedbackItemProvider::E1,
+                                [
+                                    $e->getMessage(),
+                                ]
+                            ),
+                            $fieldDataAccessor->getField(),
+                        )
                     );
                     return null;
                 }
@@ -239,13 +230,16 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                 if ($blockContentParserPayload->warnings !== null) {
                     foreach ($blockContentParserPayload->warnings as $warning) {
                         $objectTypeFieldResolutionFeedbackStore->addWarning(
-                            new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(
-                                GenericFeedbackItemProvider::class,
-                                GenericFeedbackItemProvider::W1,
-                                [
-                                    $warning,
-                                ]
-                            ), $fieldDataAccessor->getField())
+                            new ObjectTypeFieldResolutionFeedback(
+                                new FeedbackItemResolution(
+                                    GenericFeedbackItemProvider::class,
+                                    GenericFeedbackItemProvider::W1,
+                                    [
+                                        $warning,
+                                    ]
+                                ),
+                                $fieldDataAccessor->getField(),
+                            )
                         );
                     }
                 }
@@ -331,7 +325,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                         $stack = array_merge(
                             // First place the innerBlocks in the stack, so they are all together
                             $blockDataItemInnerBlocks,
-                            $stack
+                            $stack,
                         );
                     }
 
@@ -405,7 +399,13 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
             );
         }
 
-        return $this->createBlockObject($name, $attributes, $innerBlocks, $innerContent, $blockItem);
+        return $this->createBlockObject(
+            $name,
+            $attributes,
+            $innerBlocks,
+            $innerContent,
+            $blockItem,
+        );
     }
 
     /**
@@ -424,11 +424,25 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
     protected function createBlockObject(string $name, ?stdClass $attributes, ?array $innerBlocks, array $innerContent, stdClass $blockItem): BlockInterface
     {
         /** @var BlockInterface|null */
-        $injectedBlockObject = App::applyFilters(HookNames::BLOCK_TYPE, null, $name, $attributes, $innerBlocks, $innerContent, $blockItem);
+        $injectedBlockObject = App::applyFilters(
+            HookNames::BLOCK_TYPE,
+            null,
+            $name,
+            $attributes,
+            $innerBlocks,
+            $innerContent,
+            $blockItem,
+        );
         if ($injectedBlockObject !== null) {
             return $injectedBlockObject;
         }
-        return new GeneralBlock($name, $attributes, $innerBlocks, $innerContent, $blockItem);
+        return new GeneralBlock(
+            $name,
+            $attributes,
+            $innerBlocks,
+            $innerContent,
+            $blockItem,
+        );
     }
 
     /**

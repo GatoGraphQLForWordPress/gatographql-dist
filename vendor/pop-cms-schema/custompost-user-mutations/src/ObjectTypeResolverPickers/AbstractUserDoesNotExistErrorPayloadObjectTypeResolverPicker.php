@@ -14,10 +14,6 @@ abstract class AbstractUserDoesNotExistErrorPayloadObjectTypeResolverPicker exte
      * @var \PoPCMSSchema\CustomPostUserMutations\TypeResolvers\ObjectType\UserDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $mediaItemDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setUserDoesNotExistErrorPayloadObjectTypeResolver(UserDoesNotExistErrorPayloadObjectTypeResolver $mediaItemDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->mediaItemDoesNotExistErrorPayloadObjectTypeResolver = $mediaItemDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getUserDoesNotExistErrorPayloadObjectTypeResolver() : UserDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->mediaItemDoesNotExistErrorPayloadObjectTypeResolver === null) {

@@ -15,10 +15,6 @@ class PostSetCategoriesMutationPayloadErrorsFieldTransientOperationPayloadObject
      * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\PostSetCategoriesMutationErrorPayloadUnionTypeResolver|null
      */
     private $postSetCategoriesMutationErrorPayloadUnionTypeResolver;
-    public final function setPostSetCategoriesMutationErrorPayloadUnionTypeResolver(PostSetCategoriesMutationErrorPayloadUnionTypeResolver $postSetCategoriesMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->postSetCategoriesMutationErrorPayloadUnionTypeResolver = $postSetCategoriesMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getPostSetCategoriesMutationErrorPayloadUnionTypeResolver() : PostSetCategoriesMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postSetCategoriesMutationErrorPayloadUnionTypeResolver === null) {

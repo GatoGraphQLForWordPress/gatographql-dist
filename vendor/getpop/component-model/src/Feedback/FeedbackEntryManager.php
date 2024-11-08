@@ -31,10 +31,6 @@ class FeedbackEntryManager implements \PoP\ComponentModel\Feedback\FeedbackEntry
      * @var \PoP\ComponentModel\Response\DatabaseEntryManagerInterface|null
      */
     private $databaseEntryManager;
-    public final function setDatabaseEntryManager(DatabaseEntryManagerInterface $databaseEntryManager) : void
-    {
-        $this->databaseEntryManager = $databaseEntryManager;
-    }
     protected final function getDatabaseEntryManager() : DatabaseEntryManagerInterface
     {
         if ($this->databaseEntryManager === null) {

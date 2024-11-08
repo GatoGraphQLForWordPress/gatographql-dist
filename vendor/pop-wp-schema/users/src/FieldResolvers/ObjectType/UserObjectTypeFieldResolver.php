@@ -35,10 +35,6 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      */
     private $dateTimeScalarTypeResolver;
 
-    final public function setDateFormatter(DateFormatterInterface $dateFormatter): void
-    {
-        $this->dateFormatter = $dateFormatter;
-    }
     final protected function getDateFormatter(): DateFormatterInterface
     {
         if ($this->dateFormatter === null) {
@@ -48,10 +44,6 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->dateFormatter;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -60,10 +52,6 @@ class UserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    final public function setDateTimeScalarTypeResolver(DateTimeScalarTypeResolver $dateTimeScalarTypeResolver): void
-    {
-        $this->dateTimeScalarTypeResolver = $dateTimeScalarTypeResolver;
     }
     final protected function getDateTimeScalarTypeResolver(): DateTimeScalarTypeResolver
     {

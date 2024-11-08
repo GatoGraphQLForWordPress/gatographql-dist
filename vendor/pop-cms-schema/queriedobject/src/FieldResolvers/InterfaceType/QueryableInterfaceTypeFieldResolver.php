@@ -26,10 +26,6 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
      */
     private $stringScalarTypeResolver;
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
-    {
-        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
-    }
     protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -39,10 +35,6 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
         }
         return $this->urlScalarTypeResolver;
     }
-    public final function setURLAbsolutePathScalarTypeResolver(URLAbsolutePathScalarTypeResolver $urlAbsolutePathScalarTypeResolver) : void
-    {
-        $this->urlAbsolutePathScalarTypeResolver = $urlAbsolutePathScalarTypeResolver;
-    }
     protected final function getURLAbsolutePathScalarTypeResolver() : URLAbsolutePathScalarTypeResolver
     {
         if ($this->urlAbsolutePathScalarTypeResolver === null) {
@@ -51,10 +43,6 @@ class QueryableInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldReso
             $this->urlAbsolutePathScalarTypeResolver = $urlAbsolutePathScalarTypeResolver;
         }
         return $this->urlAbsolutePathScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {

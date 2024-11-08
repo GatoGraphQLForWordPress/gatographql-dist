@@ -23,10 +23,6 @@ abstract class AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver extend
      * @var \PoPCMSSchema\CustomPostMedia\FieldResolvers\InterfaceType\WithFeaturedImageInterfaceTypeFieldResolver|null
      */
     private $withFeaturedImageInterfaceTypeFieldResolver;
-    public final function setCustomPostMediaTypeAPI(CustomPostMediaTypeAPIInterface $customPostMediaTypeAPI) : void
-    {
-        $this->customPostMediaTypeAPI = $customPostMediaTypeAPI;
-    }
     protected final function getCustomPostMediaTypeAPI() : CustomPostMediaTypeAPIInterface
     {
         if ($this->customPostMediaTypeAPI === null) {
@@ -35,10 +31,6 @@ abstract class AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver extend
             $this->customPostMediaTypeAPI = $customPostMediaTypeAPI;
         }
         return $this->customPostMediaTypeAPI;
-    }
-    public final function setWithFeaturedImageInterfaceTypeFieldResolver(WithFeaturedImageInterfaceTypeFieldResolver $withFeaturedImageInterfaceTypeFieldResolver) : void
-    {
-        $this->withFeaturedImageInterfaceTypeFieldResolver = $withFeaturedImageInterfaceTypeFieldResolver;
     }
     protected final function getWithFeaturedImageInterfaceTypeFieldResolver() : WithFeaturedImageInterfaceTypeFieldResolver
     {

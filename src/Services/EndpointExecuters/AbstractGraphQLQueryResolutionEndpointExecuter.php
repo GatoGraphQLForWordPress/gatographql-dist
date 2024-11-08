@@ -20,10 +20,6 @@ abstract class AbstractGraphQLQueryResolutionEndpointExecuter extends AbstractCP
      */
     private $queryRetriever;
 
-    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
-    {
-        $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
-    }
     final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {
@@ -32,10 +28,6 @@ abstract class AbstractGraphQLQueryResolutionEndpointExecuter extends AbstractCP
             $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
         }
         return $this->graphQLDataStructureFormatter;
-    }
-    final public function setQueryRetriever(QueryRetrieverInterface $queryRetriever): void
-    {
-        $this->queryRetriever = $queryRetriever;
     }
     final protected function getQueryRetriever(): QueryRetrieverInterface
     {

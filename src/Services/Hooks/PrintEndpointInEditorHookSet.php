@@ -19,10 +19,6 @@ class PrintEndpointInEditorHookSet extends AbstractHookSet
      */
     private $endpointHelpers;
 
-    final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
-    {
-        $this->userAuthorization = $userAuthorization;
-    }
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
         if ($this->userAuthorization === null) {
@@ -31,10 +27,6 @@ class PrintEndpointInEditorHookSet extends AbstractHookSet
             $this->userAuthorization = $userAuthorization;
         }
         return $this->userAuthorization;
-    }
-    final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
-    {
-        $this->endpointHelpers = $endpointHelpers;
     }
     final protected function getEndpointHelpers(): EndpointHelpers
     {

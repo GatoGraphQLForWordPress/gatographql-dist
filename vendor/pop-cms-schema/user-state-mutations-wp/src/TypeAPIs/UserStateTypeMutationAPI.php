@@ -46,7 +46,10 @@ class UserStateTypeMutationAPI implements UserStateTypeMutationAPIInterface
         if ($result instanceof WP_Error) {
             /** @var WP_Error */
             $wpError = $result;
-            throw $this->createUserStateMutationException($wpError, $credentials);
+            throw $this->createUserStateMutationException(
+                $wpError,
+                $credentials,
+            );
         }
 
         $user = $result;
@@ -80,7 +83,11 @@ class UserStateTypeMutationAPI implements UserStateTypeMutationAPIInterface
         }
         $errorData = $this->getWPErrorData($wpError) ?? new stdClass();
         $errorData->userLogin = $credentials['user_login'];
-        return new UserStateMutationException($errorMessage, $errorCode, $errorData);
+        return new UserStateMutationException(
+            $errorMessage,
+            $errorCode,
+            $errorData,
+        );
     }
 
     public function logout(): void

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Psr\Container\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 /**
  * Turns public and "container.reversible" services back to their ids.
  *

@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
 /**
  * Response represents an HTTP response in JSON format.
@@ -119,7 +119,7 @@ class JsonResponse extends Response
             }
             throw $e;
         }
-        if (0 & $this->encodingOptions) {
+        if (\JSON_THROW_ON_ERROR & $this->encodingOptions) {
             return $this->setJson($data);
         }
         if (\JSON_ERROR_NONE !== \json_last_error()) {

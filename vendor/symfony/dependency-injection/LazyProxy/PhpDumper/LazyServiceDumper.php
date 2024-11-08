@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\VarExporter\ProxyHelper;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\ProxyHelper;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal

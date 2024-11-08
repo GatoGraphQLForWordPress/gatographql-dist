@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config;
 
-use PrefixedByPoP\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 /**
  * FileLocator uses an array of pre-defined paths to find files.
  *
@@ -69,7 +69,7 @@ class FileLocator implements FileLocatorInterface
      */
     private function isAbsolutePath(string $file) : bool
     {
-        if ('/' === $file[0] || '\\' === $file[0] || \strlen($file) > 3 && \ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2]) || null !== \parse_url($file, \PHP_URL_SCHEME)) {
+        if ('/' === $file[0] || '\\' === $file[0] || \strlen($file) > 3 && \ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2]) || \parse_url($file, \PHP_URL_SCHEME) || \strncmp($file, 'phar:///', \strlen('phar:///')) === 0) {
             return \true;
         }
         return \false;

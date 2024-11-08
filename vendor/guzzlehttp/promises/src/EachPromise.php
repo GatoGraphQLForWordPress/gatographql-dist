@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Promise;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise;
 
 /**
  * Represents a promise that iterates over many promises and invokes

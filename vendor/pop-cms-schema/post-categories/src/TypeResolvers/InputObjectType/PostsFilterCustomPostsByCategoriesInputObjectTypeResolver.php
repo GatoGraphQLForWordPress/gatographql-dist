@@ -18,10 +18,6 @@ class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends Abstract
      * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
      */
     private $postCategoryTaxonomyEnumStringScalarTypeResolver;
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
-    {
-        $this->postCategoryTypeAPI = $postCategoryTypeAPI;
-    }
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
@@ -30,10 +26,6 @@ class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends Abstract
             $this->postCategoryTypeAPI = $postCategoryTypeAPI;
         }
         return $this->postCategoryTypeAPI;
-    }
-    public final function setPostCategoryTaxonomyEnumStringScalarTypeResolver(PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
     }
     protected final function getPostCategoryTaxonomyEnumStringScalarTypeResolver() : PostCategoryTaxonomyEnumStringScalarTypeResolver
     {

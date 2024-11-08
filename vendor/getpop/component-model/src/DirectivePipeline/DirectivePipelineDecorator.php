@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\DirectivePipeline;
 
 use PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface;
-use PrefixedByPoP\League\Pipeline\PipelineInterface;
+use GatoExternalPrefixByGatoGraphQL\League\Pipeline\PipelineInterface;
 use PoP\ComponentModel\Engine\EngineIterationFieldSet;
 use PoP\ComponentModel\Feedback\EngineIterationFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface;

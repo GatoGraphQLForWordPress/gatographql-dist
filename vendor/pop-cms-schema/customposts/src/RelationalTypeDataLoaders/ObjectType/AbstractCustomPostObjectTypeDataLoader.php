@@ -21,10 +21,6 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
      */
     private $filterCustomPostStatusEnumTypeResolver;
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -33,10 +29,6 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
             $this->customPostTypeAPI = $customPostTypeAPI;
         }
         return $this->customPostTypeAPI;
-    }
-    public final function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver) : void
-    {
-        $this->filterCustomPostStatusEnumTypeResolver = $filterCustomPostStatusEnumTypeResolver;
     }
     protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
     {

@@ -21,10 +21,6 @@ class UserAvatarObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
      */
     private $intScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -33,10 +29,6 @@ class UserAvatarObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {

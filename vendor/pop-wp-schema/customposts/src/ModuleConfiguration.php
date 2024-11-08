@@ -15,6 +15,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = true;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

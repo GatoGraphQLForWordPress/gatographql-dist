@@ -26,10 +26,6 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver|null
      */
     private $createMediaItemFromOneofInputObjectTypeResolver;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -39,10 +35,6 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -51,10 +43,6 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setCreateMediaItemFromOneofInputObjectTypeResolver(\PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver $createMediaItemFromOneofInputObjectTypeResolver) : void
-    {
-        $this->createMediaItemFromOneofInputObjectTypeResolver = $createMediaItemFromOneofInputObjectTypeResolver;
     }
     protected final function getCreateMediaItemFromOneofInputObjectTypeResolver() : \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver
     {

@@ -28,10 +28,6 @@ abstract class AbstractEditorScript extends AbstractScript
      */
     private $localeHelper;
 
-    final public function setEditorHelpers(EditorHelpers $editorHelpers): void
-    {
-        $this->editorHelpers = $editorHelpers;
-    }
     final protected function getEditorHelpers(): EditorHelpers
     {
         if ($this->editorHelpers === null) {
@@ -40,10 +36,6 @@ abstract class AbstractEditorScript extends AbstractScript
             $this->editorHelpers = $editorHelpers;
         }
         return $this->editorHelpers;
-    }
-    final public function setLocaleHelper(LocaleHelper $localeHelper): void
-    {
-        $this->localeHelper = $localeHelper;
     }
     final protected function getLocaleHelper(): LocaleHelper
     {

@@ -21,10 +21,6 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\CustomPostUserMutations\TypeResolvers\InputObjectType\AuthorByOneofInputObjectTypeResolver|null
      */
     private $authorByOneofInputObjectTypeResolver;
-    public final function setAuthorByOneofInputObjectTypeResolver(AuthorByOneofInputObjectTypeResolver $authorByOneofInputObjectTypeResolver) : void
-    {
-        $this->authorByOneofInputObjectTypeResolver = $authorByOneofInputObjectTypeResolver;
-    }
     protected final function getAuthorByOneofInputObjectTypeResolver() : AuthorByOneofInputObjectTypeResolver
     {
         if ($this->authorByOneofInputObjectTypeResolver === null) {

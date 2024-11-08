@@ -122,11 +122,7 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
      * on services.yaml produces an exception of PHP properties not initialized
      * in its depended services.
      */
-    public final function setPersistentCache(PersistentCacheInterface $persistentCache) : void
-    {
-        $this->persistentCache = $persistentCache;
-    }
-    public final function getPersistentCache() : PersistentCacheInterface
+    protected final function getPersistentCache() : PersistentCacheInterface
     {
         if ($this->persistentCache === null) {
             /** @var PersistentCacheInterface */
@@ -134,10 +130,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->persistentCache = $persistentCache;
         }
         return $this->persistentCache;
-    }
-    public final function setDataStructureManager(DataStructureManagerInterface $dataStructureManager) : void
-    {
-        $this->dataStructureManager = $dataStructureManager;
     }
     protected final function getDataStructureManager() : DataStructureManagerInterface
     {
@@ -148,10 +140,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->dataStructureManager;
     }
-    public final function setModelInstance(ModelInstanceInterface $modelInstance) : void
-    {
-        $this->modelInstance = $modelInstance;
-    }
     protected final function getModelInstance() : ModelInstanceInterface
     {
         if ($this->modelInstance === null) {
@@ -160,10 +148,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->modelInstance = $modelInstance;
         }
         return $this->modelInstance;
-    }
-    public final function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers) : void
-    {
-        $this->componentPathHelpers = $componentPathHelpers;
     }
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {
@@ -174,10 +158,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->componentPathHelpers;
     }
-    public final function setComponentPathManager(ComponentPathManagerInterface $componentPathManager) : void
-    {
-        $this->componentPathManager = $componentPathManager;
-    }
     protected final function getComponentPathManager() : ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {
@@ -186,10 +166,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->componentPathManager = $componentPathManager;
         }
         return $this->componentPathManager;
-    }
-    public final function setComponentFilterManager(ComponentFilterManagerInterface $componentFilterManager) : void
-    {
-        $this->componentFilterManager = $componentFilterManager;
     }
     protected final function getComponentFilterManager() : ComponentFilterManagerInterface
     {
@@ -200,10 +176,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->componentFilterManager;
     }
-    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
-    {
-        $this->componentProcessorManager = $componentProcessorManager;
-    }
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -212,10 +184,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->componentProcessorManager = $componentProcessorManager;
         }
         return $this->componentProcessorManager;
-    }
-    public final function setDataloadHelperService(DataloadHelperServiceInterface $dataloadHelperService) : void
-    {
-        $this->dataloadHelperService = $dataloadHelperService;
     }
     protected final function getDataloadHelperService() : DataloadHelperServiceInterface
     {
@@ -226,10 +194,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->dataloadHelperService;
     }
-    public final function setEntryComponentManager(EntryComponentManagerInterface $entryComponentManager) : void
-    {
-        $this->entryComponentManager = $entryComponentManager;
-    }
     protected final function getEntryComponentManager() : EntryComponentManagerInterface
     {
         if ($this->entryComponentManager === null) {
@@ -238,10 +202,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->entryComponentManager = $entryComponentManager;
         }
         return $this->entryComponentManager;
-    }
-    public final function setRequestHelperService(RequestHelperServiceInterface $requestHelperService) : void
-    {
-        $this->requestHelperService = $requestHelperService;
     }
     protected final function getRequestHelperService() : RequestHelperServiceInterface
     {
@@ -252,10 +212,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->requestHelperService;
     }
-    public final function setApplicationInfo(ApplicationInfoInterface $applicationInfo) : void
-    {
-        $this->applicationInfo = $applicationInfo;
-    }
     protected final function getApplicationInfo() : ApplicationInfoInterface
     {
         if ($this->applicationInfo === null) {
@@ -264,10 +220,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->applicationInfo = $applicationInfo;
         }
         return $this->applicationInfo;
-    }
-    public final function setComponentHelpers(ComponentHelpersInterface $componentHelpers) : void
-    {
-        $this->componentHelpers = $componentHelpers;
     }
     protected final function getComponentHelpers() : ComponentHelpersInterface
     {
@@ -278,10 +230,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
         }
         return $this->componentHelpers;
     }
-    public final function setFeedbackEntryManager(FeedbackEntryManagerInterface $feedbackEntryService) : void
-    {
-        $this->feedbackEntryService = $feedbackEntryService;
-    }
     protected final function getFeedbackEntryManager() : FeedbackEntryManagerInterface
     {
         if ($this->feedbackEntryService === null) {
@@ -290,10 +238,6 @@ class Engine implements \PoP\ComponentModel\Engine\EngineInterface
             $this->feedbackEntryService = $feedbackEntryService;
         }
         return $this->feedbackEntryService;
-    }
-    public final function setDatabaseEntryManager(DatabaseEntryManagerInterface $databaseEntryManager) : void
-    {
-        $this->databaseEntryManager = $databaseEntryManager;
     }
     protected final function getDatabaseEntryManager() : DatabaseEntryManagerInterface
     {

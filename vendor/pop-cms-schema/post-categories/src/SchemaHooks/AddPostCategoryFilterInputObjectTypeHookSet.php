@@ -14,10 +14,6 @@ class AddPostCategoryFilterInputObjectTypeHookSet extends AbstractAddCategoryFil
      * @var \PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType\PostsFilterCustomPostsByCategoriesInputObjectTypeResolver|null
      */
     private $postsFilterCustomPostsByCategoriesInputObjectTypeResolver;
-    public final function setPostsFilterCustomPostsByCategoriesInputObjectTypeResolver(PostsFilterCustomPostsByCategoriesInputObjectTypeResolver $postsFilterCustomPostsByCategoriesInputObjectTypeResolver) : void
-    {
-        $this->postsFilterCustomPostsByCategoriesInputObjectTypeResolver = $postsFilterCustomPostsByCategoriesInputObjectTypeResolver;
-    }
     protected final function getPostsFilterCustomPostsByCategoriesInputObjectTypeResolver() : PostsFilterCustomPostsByCategoriesInputObjectTypeResolver
     {
         if ($this->postsFilterCustomPostsByCategoriesInputObjectTypeResolver === null) {

@@ -168,9 +168,13 @@ class LemonSqueezyCommercialExtensionActivationService implements MarketplacePro
         $mainPluginVersion = PluginApp::getMainPlugin()->getPluginVersion();
         $isExtensionOnDevelopmentMode = PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion);
         if ($isTestMode && !$isExtensionOnDevelopmentMode) {
-            throw new LicenseOperationNotSuccessfulException($this->__('The license is for test mode, but the extension is not on development mode', 'gatographql'));
+            throw new LicenseOperationNotSuccessfulException(
+                $this->__('The license is for test mode, but the extension is not on development mode', 'gatographql'),
+            );
         } elseif (!$isTestMode && $isExtensionOnDevelopmentMode) {
-            throw new LicenseOperationNotSuccessfulException($this->__('The license is not for test mode, but the extension is on development mode', 'gatographql'));
+            throw new LicenseOperationNotSuccessfulException(
+                $this->__('The license is not for test mode, but the extension is on development mode', 'gatographql'),
+            );
         }
 
         /**
@@ -197,7 +201,18 @@ class LemonSqueezyCommercialExtensionActivationService implements MarketplacePro
         /** @var string */
         $customerEmail = $body['meta']['customer_email'];
 
-        return new CommercialExtensionActivatedLicenseObjectProperties($licenseKey, $body, $status, $instanceID, $instanceName, $activationUsage, $activationLimit, $productName, $customerName, $customerEmail);
+        return new CommercialExtensionActivatedLicenseObjectProperties(
+            $licenseKey,
+            $body,
+            $status,
+            $instanceID,
+            $instanceName,
+            $activationUsage,
+            $activationLimit,
+            $productName,
+            $customerName,
+            $customerEmail,
+        );
     }
 
     /**

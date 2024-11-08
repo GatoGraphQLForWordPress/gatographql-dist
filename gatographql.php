@@ -4,9 +4,9 @@ Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
 GitHub Plugin URI: https://github.com/GatoGraphQL/GatoGraphQL
 Description: Powerful and flexible GraphQL server for WordPress.
-Version: 6.0.2
+Version: 7.0.0
 Requires at least: 6.1
-Requires PHP: 7.2
+Requires PHP: 7.4
 Author: Gato GraphQL
 Author URI: https://gatographql.com
 License: GPLv2 or later
@@ -48,43 +48,20 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '6.0.2';
+$pluginVersion = '7.0.0';
 $pluginName = __('Gato GraphQL', 'gatographql');
 
 /**
- * If the plugin is already registered, print an error and halt loading
+ * If the plugin is already registered, halt loading
  */
-if (class_exists(Plugin::class) && !PluginApp::getMainPluginManager()->assertIsValid($pluginVersion)) {
+if (class_exists(Plugin::class)) {
     return;
 }
 
-/**
- * Validate that there is enough memory to run the plugin.
- *
- * > Note that to have no memory limit, set this directive to -1.
- *
- * @see https://www.php.net/manual/en/ini.core.php#ini.sect.resource-limits
- */
-$phpMemoryLimit = \ini_get('memory_limit');
-$phpMemoryLimitInBytes = \wp_convert_hr_to_bytes($phpMemoryLimit);
-if ($phpMemoryLimitInBytes !== -1) {
-    // Minimum: 64MB
-    $minRequiredPHPMemoryLimit = '64M';
-    $minRequiredPHPMemoryLimitInBytes = \wp_convert_hr_to_bytes($minRequiredPHPMemoryLimit);
-    if ($phpMemoryLimitInBytes < $minRequiredPHPMemoryLimitInBytes) {
-        \add_action('admin_notices', function () use ($minRequiredPHPMemoryLimit, $phpMemoryLimit) {
-            printf(
-                '<div class="notice notice-error"><p>%s</p></div>',
-                sprintf(
-                    __('Plugin <strong>%1$s</strong> requires at least <strong>%2$s</strong> of memory, however the server\'s PHP memory limit is set to <strong>%3$s</strong>. Please increase the memory limit to load %1$s.', 'gatographql'),
-                    __('Gato GraphQL', 'gatographql'),
-                    $minRequiredPHPMemoryLimit,
-                    $phpMemoryLimit
-                )
-            );
-        });
-        return;
-    }
+// Validate that there is enough memory to run the plugin
+require_once __DIR__ . '/includes/startup.php';
+if (!\PoPIncludes\GatoGraphQL\Startup::checkGatoGraphQLMemoryRequirements($pluginName)) {
+    return;
 }
 
 /**
@@ -92,8 +69,12 @@ if ($phpMemoryLimitInBytes !== -1) {
  * in the "plugins_loaded" hook, and that's too late to register
  * the capabilities.
  */
+require_once __DIR__ . '/includes/capabilities.php';
 require_once __DIR__ . '/includes/schema-editing-access-capabilities.php';
-registerGatoGraphQLSchemaEditingAccessCapabilities(__FILE__);
+\PoPIncludes\GatoGraphQL\SchemaEditingAccessCapabilities::registerGatoGraphQLSchemaEditingAccessCapabilities(
+    __FILE__,
+    constant('GATOGRAPHQL_CAPABILITY_MANAGE_GRAPHQL_SCHEMA')
+);
 
 /**
  * The commit hash is added to the plugin version 
@@ -110,7 +91,7 @@ registerGatoGraphQLSchemaEditingAccessCapabilities(__FILE__);
  *
  * @gatographql-readonly-code
  */
-$commitHash = 'e51e99ba45974aa765dfd04bf7908f8cba374881';
+$commitHash = '8f2c413011d05a2e5e526e9ff1cf79a449493b85';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');

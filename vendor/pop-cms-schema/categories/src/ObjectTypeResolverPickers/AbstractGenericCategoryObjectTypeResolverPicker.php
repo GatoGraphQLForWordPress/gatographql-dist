@@ -34,10 +34,6 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
      * @var \PoPCMSSchema\Categories\Registries\CategoryObjectTypeResolverPickerRegistryInterface|null
      */
     private $categoryObjectTypeResolverPickerRegistry;
-    public final function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver) : void
-    {
-        $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
-    }
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {
@@ -47,10 +43,6 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
         }
         return $this->genericCategoryObjectTypeResolver;
     }
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI) : void
-    {
-        $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
-    }
     protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryTypeAPI === null) {
@@ -59,10 +51,6 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
             $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
         }
         return $this->queryableCategoryTypeAPI;
-    }
-    public final function setCategoryObjectTypeResolverPickerRegistry(CategoryObjectTypeResolverPickerRegistryInterface $categoryObjectTypeResolverPickerRegistry) : void
-    {
-        $this->categoryObjectTypeResolverPickerRegistry = $categoryObjectTypeResolverPickerRegistry;
     }
     protected final function getCategoryObjectTypeResolverPickerRegistry() : CategoryObjectTypeResolverPickerRegistryInterface
     {

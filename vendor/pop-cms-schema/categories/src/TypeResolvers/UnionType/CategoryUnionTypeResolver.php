@@ -19,10 +19,6 @@ class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
      * @var \PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeResolver|null
      */
     private $categoryInterfaceTypeResolver;
-    public final function setCategoryUnionTypeDataLoader(CategoryUnionTypeDataLoader $categoryUnionTypeDataLoader) : void
-    {
-        $this->categoryUnionTypeDataLoader = $categoryUnionTypeDataLoader;
-    }
     protected final function getCategoryUnionTypeDataLoader() : CategoryUnionTypeDataLoader
     {
         if ($this->categoryUnionTypeDataLoader === null) {
@@ -31,10 +27,6 @@ class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
             $this->categoryUnionTypeDataLoader = $categoryUnionTypeDataLoader;
         }
         return $this->categoryUnionTypeDataLoader;
-    }
-    public final function setCategoryInterfaceTypeResolver(CategoryInterfaceTypeResolver $categoryInterfaceTypeResolver) : void
-    {
-        $this->categoryInterfaceTypeResolver = $categoryInterfaceTypeResolver;
     }
     protected final function getCategoryInterfaceTypeResolver() : CategoryInterfaceTypeResolver
     {

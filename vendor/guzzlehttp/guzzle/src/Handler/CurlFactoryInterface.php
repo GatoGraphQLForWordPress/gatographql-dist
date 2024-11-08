@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /** @internal */
 interface CurlFactoryInterface
 {

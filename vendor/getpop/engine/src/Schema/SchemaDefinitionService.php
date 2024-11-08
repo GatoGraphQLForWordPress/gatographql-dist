@@ -20,10 +20,6 @@ class SchemaDefinitionService implements \PoP\Engine\Schema\SchemaDefinitionServ
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver|null
      */
     private $anyBuiltInScalarScalarTypeResolver;
-    public final function setRootObjectTypeResolver(RootObjectTypeResolver $rootObjectTypeResolver) : void
-    {
-        $this->rootObjectTypeResolver = $rootObjectTypeResolver;
-    }
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -32,10 +28,6 @@ class SchemaDefinitionService implements \PoP\Engine\Schema\SchemaDefinitionServ
             $this->rootObjectTypeResolver = $rootObjectTypeResolver;
         }
         return $this->rootObjectTypeResolver;
-    }
-    public final function setAnyBuiltInScalarScalarTypeResolver(AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver) : void
-    {
-        $this->anyBuiltInScalarScalarTypeResolver = $anyBuiltInScalarScalarTypeResolver;
     }
     protected final function getAnyBuiltInScalarScalarTypeResolver() : AnyBuiltInScalarScalarTypeResolver
     {

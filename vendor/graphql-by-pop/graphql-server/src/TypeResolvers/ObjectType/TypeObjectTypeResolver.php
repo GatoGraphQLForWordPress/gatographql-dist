@@ -13,10 +13,6 @@ class TypeObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\O
      * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader|null
      */
     private $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
-    public final function setWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader(WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader) : void
-    {
-        $this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader = $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
-    }
     protected final function getWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader() : WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader === null) {

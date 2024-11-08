@@ -31,10 +31,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\UserRoles\FilterInputs\ExcludeUserRolesFilterInput|null
      */
     private $excludeUserRolesFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -44,10 +40,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setUserRolesFilterInput(UserRolesFilterInput $userRolesFilterInput) : void
-    {
-        $this->userRolesFilterInput = $userRolesFilterInput;
-    }
     protected final function getUserRolesFilterInput() : UserRolesFilterInput
     {
         if ($this->userRolesFilterInput === null) {
@@ -56,10 +48,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
             $this->userRolesFilterInput = $userRolesFilterInput;
         }
         return $this->userRolesFilterInput;
-    }
-    public final function setExcludeUserRolesFilterInput(ExcludeUserRolesFilterInput $excludeUserRolesFilterInput) : void
-    {
-        $this->excludeUserRolesFilterInput = $excludeUserRolesFilterInput;
     }
     protected final function getExcludeUserRolesFilterInput() : ExcludeUserRolesFilterInput
     {

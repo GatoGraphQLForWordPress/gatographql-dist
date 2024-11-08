@@ -27,10 +27,6 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
      * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
      */
     private $taxonomyTermTypeAPI;
-    public final function setTaxonomyTypeMutationAPI(TaxonomyTypeMutationAPIInterface $taxonomyTypeMutationAPI) : void
-    {
-        $this->taxonomyTypeMutationAPI = $taxonomyTypeMutationAPI;
-    }
     protected final function getTaxonomyTypeMutationAPI() : TaxonomyTypeMutationAPIInterface
     {
         if ($this->taxonomyTypeMutationAPI === null) {
@@ -39,10 +35,6 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
             $this->taxonomyTypeMutationAPI = $taxonomyTypeMutationAPI;
         }
         return $this->taxonomyTypeMutationAPI;
-    }
-    public final function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI) : void
-    {
-        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
     }
     protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
     {

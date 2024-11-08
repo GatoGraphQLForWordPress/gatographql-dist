@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Log\LoggerAwareTrait;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  *
@@ -181,7 +181,7 @@ trait AbstractAdapterTrait
     /**
      * @param mixed $key
      */
-    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface
+    public function getItem($key) : CacheItem
     {
         $id = $this->getId($key);
         if (isset($this->deferred[$key])) {

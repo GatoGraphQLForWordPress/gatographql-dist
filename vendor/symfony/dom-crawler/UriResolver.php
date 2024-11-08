@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DomCrawler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler;
 
 /**
  * The UriResolver class takes an URI (relative, absolute, fragment, etc.)

@@ -18,11 +18,7 @@ class UserSettingsHelpers
      */
     private $userSettingsManager;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
     }

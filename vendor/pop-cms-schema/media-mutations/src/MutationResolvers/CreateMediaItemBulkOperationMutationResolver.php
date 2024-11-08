@@ -12,10 +12,6 @@ class CreateMediaItemBulkOperationMutationResolver extends AbstractBulkOperation
      * @var \PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemMutationResolver|null
      */
     private $createMediaItemMutationResolver;
-    public final function setCreateMediaItemMutationResolver(\PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemMutationResolver $createMediaItemMutationResolver) : void
-    {
-        $this->createMediaItemMutationResolver = $createMediaItemMutationResolver;
-    }
     protected final function getCreateMediaItemMutationResolver() : \PoPCMSSchema\MediaMutations\MutationResolvers\CreateMediaItemMutationResolver
     {
         if ($this->createMediaItemMutationResolver === null) {

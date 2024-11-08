@@ -27,10 +27,6 @@ abstract class AbstractComponentMutationResolverBridge implements \PoP\Component
      * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
      */
     private $componentProcessorManager;
-    public final function setComponentProcessorManager(ComponentProcessorManagerInterface $componentProcessorManager) : void
-    {
-        $this->componentProcessorManager = $componentProcessorManager;
-    }
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {

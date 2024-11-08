@@ -12,10 +12,6 @@ class PayloadableSetTagsOnPostBulkOperationMutationResolver extends AbstractBulk
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver|null
      */
     private $payloadableSetTagsOnPostMutationResolver;
-    public final function setPayloadableSetTagsOnPostMutationResolver(\PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnPostMutationResolver = $payloadableSetTagsOnPostMutationResolver;
-    }
     protected final function getPayloadableSetTagsOnPostMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver
     {
         if ($this->payloadableSetTagsOnPostMutationResolver === null) {

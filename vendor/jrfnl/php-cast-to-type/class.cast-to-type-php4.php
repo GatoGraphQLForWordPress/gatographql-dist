@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 /**
  * CastToType.
@@ -27,7 +27,7 @@ namespace PrefixedByPoP;
  * In PHP 4, scope modifiers did not exist yet.
  * @phpcs:disable Squiz.Scope.MethodScope
  */
-if (!\class_exists('PrefixedByPoP\\CastToType')) {
+if (!\class_exists('GatoExternalPrefixByGatoGraphQL\\CastToType')) {
     /**
      * CastToType
      *

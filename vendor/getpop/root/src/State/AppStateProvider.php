@@ -15,10 +15,6 @@ class AppStateProvider extends \PoP\Root\State\AbstractAppStateProvider
      * @var \PoP\Root\Routing\RoutingManagerInterface|null
      */
     private $routingManager;
-    public final function setRoutingManager(RoutingManagerInterface $routingManager) : void
-    {
-        $this->routingManager = $routingManager;
-    }
     protected final function getRoutingManager() : RoutingManagerInterface
     {
         if ($this->routingManager === null) {

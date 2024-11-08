@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoP\Engine\Cache;
 
 use PoP\ComponentModel\Cache\Cache as UpstreamCache;
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
 /** @internal */
 class Cache extends UpstreamCache
 {

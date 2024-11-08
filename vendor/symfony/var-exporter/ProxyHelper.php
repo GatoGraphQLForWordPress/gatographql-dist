@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Hydrator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectRegistry;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal

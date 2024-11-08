@@ -18,10 +18,6 @@ abstract class AbstractCreateOrUpdatePostCategoryTermInputObjectTypeResolver ext
      * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
      */
     private $postCategoryTypeAPI;
-    public final function setPostCategoryTaxonomyEnumStringScalarTypeResolver(PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
-    }
     protected final function getPostCategoryTaxonomyEnumStringScalarTypeResolver() : PostCategoryTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->postCategoryTaxonomyEnumStringScalarTypeResolver === null) {
@@ -30,10 +26,6 @@ abstract class AbstractCreateOrUpdatePostCategoryTermInputObjectTypeResolver ext
             $this->postCategoryTaxonomyEnumStringScalarTypeResolver = $postCategoryTaxonomyEnumStringScalarTypeResolver;
         }
         return $this->postCategoryTaxonomyEnumStringScalarTypeResolver;
-    }
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
-    {
-        $this->postCategoryTypeAPI = $postCategoryTypeAPI;
     }
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {

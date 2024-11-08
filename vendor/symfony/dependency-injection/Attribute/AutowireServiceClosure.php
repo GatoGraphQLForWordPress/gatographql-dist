@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
 /**
  * Attribute to wrap a service in a closure that returns it.
  * @internal

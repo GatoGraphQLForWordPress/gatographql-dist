@@ -12,10 +12,6 @@ class PayloadableSetCategoriesOnPostBulkOperationMutationResolver extends Abstra
      * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostMutationResolver|null
      */
     private $payloadableSetCategoriesOnPostMutationResolver;
-    public final function setPayloadableSetCategoriesOnPostMutationResolver(\PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostMutationResolver $payloadableSetCategoriesOnPostMutationResolver) : void
-    {
-        $this->payloadableSetCategoriesOnPostMutationResolver = $payloadableSetCategoriesOnPostMutationResolver;
-    }
     protected final function getPayloadableSetCategoriesOnPostMutationResolver() : \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostMutationResolver
     {
         if ($this->payloadableSetCategoriesOnPostMutationResolver === null) {

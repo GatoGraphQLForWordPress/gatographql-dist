@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Config;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Config;
 
-use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ResourceInterface;
 /**
  * Tracks container parameters.
  *

@@ -12,10 +12,6 @@ class CommentReplyMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Co
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\CommentReplyMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $commentReplyMutationErrorPayloadUnionTypeDataLoader;
-    public final function setCommentReplyMutationErrorPayloadUnionTypeDataLoader(CommentReplyMutationErrorPayloadUnionTypeDataLoader $commentReplyMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->commentReplyMutationErrorPayloadUnionTypeDataLoader = $commentReplyMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getCommentReplyMutationErrorPayloadUnionTypeDataLoader() : CommentReplyMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->commentReplyMutationErrorPayloadUnionTypeDataLoader === null) {

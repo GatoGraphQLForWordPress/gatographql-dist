@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
 /**
  * Lazily reads or writes to a file that is opened only after an IO operation
  * take place on the stream.

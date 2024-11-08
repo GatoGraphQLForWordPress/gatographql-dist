@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * HTTP handler that uses cURL easy handles as a transport layer.
  *

@@ -25,10 +25,6 @@ class CategoryPostFieldDataloadComponentProcessor extends AbstractRelationalFiel
      * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
      */
     private $listQueryInputOutputHandler;
-    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
-    {
-        $this->postObjectTypeResolver = $postObjectTypeResolver;
-    }
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -37,10 +33,6 @@ class CategoryPostFieldDataloadComponentProcessor extends AbstractRelationalFiel
             $this->postObjectTypeResolver = $postObjectTypeResolver;
         }
         return $this->postObjectTypeResolver;
-    }
-    public final function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler) : void
-    {
-        $this->listQueryInputOutputHandler = $listQueryInputOutputHandler;
     }
     protected final function getListQueryInputOutputHandler() : ListQueryInputOutputHandler
     {

@@ -14,10 +14,6 @@ abstract class AbstractCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver|null
      */
     private $commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver;
-    public final function setCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver(CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver $commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver) : void
-    {
-        $this->commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver = $commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver;
-    }
     protected final function getCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver() : CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver
     {
         if ($this->commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver === null) {

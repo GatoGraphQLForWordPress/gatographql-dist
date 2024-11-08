@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5;
 
 /**
  * The base exception for the HTML5 project.

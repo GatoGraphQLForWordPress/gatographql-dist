@@ -13,10 +13,6 @@ class RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver extends Ab
      * @var \PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader(RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader = $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader() : RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeDataLoader === null) {

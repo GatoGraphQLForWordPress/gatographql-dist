@@ -12,10 +12,6 @@ class CustomPostAddCommentMutationErrorPayloadUnionTypeResolver extends \PoPCMSS
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $customPostAddCommentMutationErrorPayloadUnionTypeDataLoader;
-    public final function setCustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader(CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader $customPostAddCommentMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->customPostAddCommentMutationErrorPayloadUnionTypeDataLoader = $customPostAddCommentMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getCustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader() : CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->customPostAddCommentMutationErrorPayloadUnionTypeDataLoader === null) {

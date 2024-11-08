@@ -14,10 +14,6 @@ class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
      * @var \PoPCMSSchema\Menus\TypeResolvers\EnumType\MenuOrderByEnumTypeResolver|null
      */
     private $menuSortByEnumTypeResolver;
-    public final function setMenuOrderByEnumTypeResolver(MenuOrderByEnumTypeResolver $menuSortByEnumTypeResolver) : void
-    {
-        $this->menuSortByEnumTypeResolver = $menuSortByEnumTypeResolver;
-    }
     protected final function getMenuOrderByEnumTypeResolver() : MenuOrderByEnumTypeResolver
     {
         if ($this->menuSortByEnumTypeResolver === null) {

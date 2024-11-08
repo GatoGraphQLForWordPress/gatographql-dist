@@ -15,10 +15,6 @@ class CommentMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutati
      * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
      */
     private $commentObjectTypeResolver;
-    public final function setCommentObjectTypeResolver(CommentObjectTypeResolver $commentObjectTypeResolver) : void
-    {
-        $this->commentObjectTypeResolver = $commentObjectTypeResolver;
-    }
     protected final function getCommentObjectTypeResolver() : CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {

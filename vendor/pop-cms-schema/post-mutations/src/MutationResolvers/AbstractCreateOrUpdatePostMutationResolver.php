@@ -16,10 +16,6 @@ abstract class AbstractCreateOrUpdatePostMutationResolver extends AbstractCreate
      * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
      */
     private $postTypeAPI;
-    public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
-    {
-        $this->postTypeAPI = $postTypeAPI;
-    }
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {

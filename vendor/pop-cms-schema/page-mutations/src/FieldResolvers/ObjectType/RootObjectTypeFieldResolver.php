@@ -95,10 +95,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
-    {
-        $this->pageObjectTypeResolver = $pageObjectTypeResolver;
-    }
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -107,10 +103,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->pageObjectTypeResolver = $pageObjectTypeResolver;
         }
         return $this->pageObjectTypeResolver;
-    }
-    public final function setRootUpdatePageMutationPayloadObjectTypeResolver(RootUpdatePageMutationPayloadObjectTypeResolver $rootUpdatePageMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootUpdatePageMutationPayloadObjectTypeResolver = $rootUpdatePageMutationPayloadObjectTypeResolver;
     }
     protected final function getRootUpdatePageMutationPayloadObjectTypeResolver() : RootUpdatePageMutationPayloadObjectTypeResolver
     {
@@ -121,10 +113,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootUpdatePageMutationPayloadObjectTypeResolver;
     }
-    public final function setRootCreatePageMutationPayloadObjectTypeResolver(RootCreatePageMutationPayloadObjectTypeResolver $rootCreatePageMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootCreatePageMutationPayloadObjectTypeResolver = $rootCreatePageMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootCreatePageMutationPayloadObjectTypeResolver() : RootCreatePageMutationPayloadObjectTypeResolver
     {
         if ($this->rootCreatePageMutationPayloadObjectTypeResolver === null) {
@@ -133,10 +121,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootCreatePageMutationPayloadObjectTypeResolver = $rootCreatePageMutationPayloadObjectTypeResolver;
         }
         return $this->rootCreatePageMutationPayloadObjectTypeResolver;
-    }
-    public final function setCreatePageMutationResolver(CreatePageMutationResolver $createPageMutationResolver) : void
-    {
-        $this->createPageMutationResolver = $createPageMutationResolver;
     }
     protected final function getCreatePageMutationResolver() : CreatePageMutationResolver
     {
@@ -147,10 +131,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->createPageMutationResolver;
     }
-    public final function setCreatePageBulkOperationMutationResolver(CreatePageBulkOperationMutationResolver $createPageBulkOperationMutationResolver) : void
-    {
-        $this->createPageBulkOperationMutationResolver = $createPageBulkOperationMutationResolver;
-    }
     protected final function getCreatePageBulkOperationMutationResolver() : CreatePageBulkOperationMutationResolver
     {
         if ($this->createPageBulkOperationMutationResolver === null) {
@@ -159,10 +139,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->createPageBulkOperationMutationResolver = $createPageBulkOperationMutationResolver;
         }
         return $this->createPageBulkOperationMutationResolver;
-    }
-    public final function setUpdatePageMutationResolver(UpdatePageMutationResolver $updatePageMutationResolver) : void
-    {
-        $this->updatePageMutationResolver = $updatePageMutationResolver;
     }
     protected final function getUpdatePageMutationResolver() : UpdatePageMutationResolver
     {
@@ -173,10 +149,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->updatePageMutationResolver;
     }
-    public final function setUpdatePageBulkOperationMutationResolver(UpdatePageBulkOperationMutationResolver $updatePageBulkOperationMutationResolver) : void
-    {
-        $this->updatePageBulkOperationMutationResolver = $updatePageBulkOperationMutationResolver;
-    }
     protected final function getUpdatePageBulkOperationMutationResolver() : UpdatePageBulkOperationMutationResolver
     {
         if ($this->updatePageBulkOperationMutationResolver === null) {
@@ -185,10 +157,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->updatePageBulkOperationMutationResolver = $updatePageBulkOperationMutationResolver;
         }
         return $this->updatePageBulkOperationMutationResolver;
-    }
-    public final function setPayloadableUpdatePageMutationResolver(PayloadableUpdatePageMutationResolver $payloadableUpdatePageMutationResolver) : void
-    {
-        $this->payloadableUpdatePageMutationResolver = $payloadableUpdatePageMutationResolver;
     }
     protected final function getPayloadableUpdatePageMutationResolver() : PayloadableUpdatePageMutationResolver
     {
@@ -199,10 +167,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableUpdatePageMutationResolver;
     }
-    public final function setPayloadableUpdatePageBulkOperationMutationResolver(PayloadableUpdatePageBulkOperationMutationResolver $payloadableUpdatePageBulkOperationMutationResolver) : void
-    {
-        $this->payloadableUpdatePageBulkOperationMutationResolver = $payloadableUpdatePageBulkOperationMutationResolver;
-    }
     protected final function getPayloadableUpdatePageBulkOperationMutationResolver() : PayloadableUpdatePageBulkOperationMutationResolver
     {
         if ($this->payloadableUpdatePageBulkOperationMutationResolver === null) {
@@ -211,10 +175,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableUpdatePageBulkOperationMutationResolver = $payloadableUpdatePageBulkOperationMutationResolver;
         }
         return $this->payloadableUpdatePageBulkOperationMutationResolver;
-    }
-    public final function setPayloadableCreatePageMutationResolver(PayloadableCreatePageMutationResolver $payloadableCreatePageMutationResolver) : void
-    {
-        $this->payloadableCreatePageMutationResolver = $payloadableCreatePageMutationResolver;
     }
     protected final function getPayloadableCreatePageMutationResolver() : PayloadableCreatePageMutationResolver
     {
@@ -225,10 +185,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableCreatePageMutationResolver;
     }
-    public final function setPayloadableCreatePageBulkOperationMutationResolver(PayloadableCreatePageBulkOperationMutationResolver $payloadableCreatePageBulkOperationMutationResolver) : void
-    {
-        $this->payloadableCreatePageBulkOperationMutationResolver = $payloadableCreatePageBulkOperationMutationResolver;
-    }
     protected final function getPayloadableCreatePageBulkOperationMutationResolver() : PayloadableCreatePageBulkOperationMutationResolver
     {
         if ($this->payloadableCreatePageBulkOperationMutationResolver === null) {
@@ -237,10 +193,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->payloadableCreatePageBulkOperationMutationResolver = $payloadableCreatePageBulkOperationMutationResolver;
         }
         return $this->payloadableCreatePageBulkOperationMutationResolver;
-    }
-    public final function setRootUpdatePageInputObjectTypeResolver(RootUpdatePageInputObjectTypeResolver $rootUpdatePageInputObjectTypeResolver) : void
-    {
-        $this->rootUpdatePageInputObjectTypeResolver = $rootUpdatePageInputObjectTypeResolver;
     }
     protected final function getRootUpdatePageInputObjectTypeResolver() : RootUpdatePageInputObjectTypeResolver
     {
@@ -251,10 +203,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->rootUpdatePageInputObjectTypeResolver;
     }
-    public final function setRootCreatePageInputObjectTypeResolver(RootCreatePageInputObjectTypeResolver $rootCreatePageInputObjectTypeResolver) : void
-    {
-        $this->rootCreatePageInputObjectTypeResolver = $rootCreatePageInputObjectTypeResolver;
-    }
     protected final function getRootCreatePageInputObjectTypeResolver() : RootCreatePageInputObjectTypeResolver
     {
         if ($this->rootCreatePageInputObjectTypeResolver === null) {
@@ -263,10 +211,6 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->rootCreatePageInputObjectTypeResolver = $rootCreatePageInputObjectTypeResolver;
         }
         return $this->rootCreatePageInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Tokenizer;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Tokenizer;
 
 /**
  * CSS selector tokenizer escaping applier.

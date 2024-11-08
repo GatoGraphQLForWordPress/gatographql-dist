@@ -28,10 +28,6 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
      */
     private $requestHelperService;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -40,10 +36,6 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
             $this->moduleRegistry = $moduleRegistry;
         }
         return $this->moduleRegistry;
-    }
-    final public function setRequestHelperService(RequestHelperServiceInterface $requestHelperService): void
-    {
-        $this->requestHelperService = $requestHelperService;
     }
     final protected function getRequestHelperService(): RequestHelperServiceInterface
     {
@@ -104,7 +96,10 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         if ($documentation === null) {
             return sprintf(
                 '<p>%s</p>',
-                $this->getModuleHasNoDocumentationErrorMessage($module, $moduleResolver)
+                $this->getModuleHasNoDocumentationErrorMessage(
+                    $module,
+                    $moduleResolver,
+                )
             );
         }
         return $documentation;
@@ -201,7 +196,13 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
 
             /** @var ExtensionModuleResolverInterface */
             $extensionModuleResolver = $this->getModuleRegistry()->getModuleResolver($bundleExtensionModule);
-            $documentation .= $this->getBundleExtensionItemHTML($extensionModuleResolver->getName($bundleExtensionModule), $extensionModuleResolver->getLogoURL($bundleExtensionModule), $internalLink, $extensionModuleResolver->getWebsiteURL($bundleExtensionModule), $extensionModuleResolver->getDescription($bundleExtensionModule));
+            $documentation .= $this->getBundleExtensionItemHTML(
+                $extensionModuleResolver->getName($bundleExtensionModule),
+                $extensionModuleResolver->getLogoURL($bundleExtensionModule),
+                $internalLink,
+                $extensionModuleResolver->getWebsiteURL($bundleExtensionModule),
+                $extensionModuleResolver->getDescription($bundleExtensionModule),
+            );
         }
 
         return sprintf(

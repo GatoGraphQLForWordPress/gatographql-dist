@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\League\Pipeline;
+namespace GatoExternalPrefixByGatoGraphQL\League\Pipeline;
 
 /** @internal */
 interface ProcessorInterface

@@ -14,10 +14,6 @@ class CustomPostSortInputObjectTypeResolver extends SortInputObjectTypeResolver
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver|null
      */
     private $customPostSortByEnumTypeResolver;
-    public final function setCustomPostOrderByEnumTypeResolver(CustomPostOrderByEnumTypeResolver $customPostSortByEnumTypeResolver) : void
-    {
-        $this->customPostSortByEnumTypeResolver = $customPostSortByEnumTypeResolver;
-    }
     protected final function getCustomPostOrderByEnumTypeResolver() : CustomPostOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {

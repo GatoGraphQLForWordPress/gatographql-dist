@@ -49,7 +49,19 @@ class MenuTypeAPI implements MenuTypeAPIInterface
          */
         return array_map(
             function (object $menuItem): MenuItem {
-                return new MenuItem($menuItem->ID, (int) $menuItem->object_id, $menuItem->menu_item_parent === "0" ? null : (int) $menuItem->menu_item_parent, \apply_filters('the_title', $menuItem->title, $menuItem->object_id), $menuItem->title, $menuItem->attr_title, $menuItem->url, $menuItem->description, array_filter($menuItem->classes), $menuItem->target, $menuItem->xfn);
+                return new MenuItem(
+                    $menuItem->ID,
+                    (int) $menuItem->object_id,
+                    $menuItem->menu_item_parent === "0" ? null : (int) $menuItem->menu_item_parent,
+                    \apply_filters('the_title', $menuItem->title, $menuItem->object_id),
+                    $menuItem->title,
+                    $menuItem->attr_title,
+                    $menuItem->url,
+                    $menuItem->description,
+                    array_filter($menuItem->classes),
+                    $menuItem->target,
+                    $menuItem->xfn,
+                );
             },
             $menuItems
         );

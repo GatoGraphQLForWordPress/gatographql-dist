@@ -8,20 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AbstractAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\ArrayAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\ChainAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\NullAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\ParameterNormalizer;
-use PrefixedByPoP\Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ChildDefinition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Reference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AbstractAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ArrayAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ChainAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\NullAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ParameterNormalizer;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal

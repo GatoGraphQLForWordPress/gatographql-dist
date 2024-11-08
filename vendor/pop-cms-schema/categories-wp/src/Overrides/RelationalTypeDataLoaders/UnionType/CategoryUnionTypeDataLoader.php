@@ -23,10 +23,6 @@ class CategoryUnionTypeDataLoader extends UpstreamCategoryUnionTypeDataLoader
      */
     private $queryableCategoryListObjectTypeDataLoader;
 
-    final public function setQueryableCategoryListObjectTypeDataLoader(QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader): void
-    {
-        $this->queryableCategoryListObjectTypeDataLoader = $queryableCategoryListObjectTypeDataLoader;
-    }
     final protected function getQueryableCategoryListObjectTypeDataLoader(): QueryableCategoryListObjectTypeDataLoader
     {
         if ($this->queryableCategoryListObjectTypeDataLoader === null) {

@@ -12,10 +12,6 @@ class PageUpdateMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Page
      * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\UnionType\PageUpdateMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $pageUpdateMutationErrorPayloadUnionTypeDataLoader;
-    public final function setPageUpdateMutationErrorPayloadUnionTypeDataLoader(PageUpdateMutationErrorPayloadUnionTypeDataLoader $pageUpdateMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->pageUpdateMutationErrorPayloadUnionTypeDataLoader = $pageUpdateMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getPageUpdateMutationErrorPayloadUnionTypeDataLoader() : PageUpdateMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->pageUpdateMutationErrorPayloadUnionTypeDataLoader === null) {

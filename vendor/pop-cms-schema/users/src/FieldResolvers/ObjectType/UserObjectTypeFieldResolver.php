@@ -43,10 +43,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
      */
     private $queryableInterfaceTypeFieldResolver;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
-    {
-        $this->userTypeAPI = $userTypeAPI;
-    }
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -55,10 +51,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->userTypeAPI = $userTypeAPI;
         }
         return $this->userTypeAPI;
-    }
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
-    {
-        $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
     protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
     {
@@ -69,10 +61,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->emailScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -82,10 +70,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
-    {
-        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
-    }
     protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -94,10 +78,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->urlScalarTypeResolver = $urlScalarTypeResolver;
         }
         return $this->urlScalarTypeResolver;
-    }
-    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
-    {
-        $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
     }
     protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
     {

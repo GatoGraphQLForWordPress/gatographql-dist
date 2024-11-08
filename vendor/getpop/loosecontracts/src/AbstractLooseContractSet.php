@@ -13,10 +13,6 @@ abstract class AbstractLooseContractSet extends AbstractAutomaticallyInstantiate
      * @var \PoP\LooseContracts\LooseContractManagerInterface|null
      */
     private $looseContractManager;
-    public final function setLooseContractManager(\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager) : void
-    {
-        $this->looseContractManager = $looseContractManager;
-    }
     protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {

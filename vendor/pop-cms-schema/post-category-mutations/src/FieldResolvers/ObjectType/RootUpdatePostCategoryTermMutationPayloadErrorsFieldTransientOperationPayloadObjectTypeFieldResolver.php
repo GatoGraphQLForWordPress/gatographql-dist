@@ -15,10 +15,6 @@ class RootUpdatePostCategoryTermMutationPayloadErrorsFieldTransientOperationPayl
      * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver;
-    public final function setRootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver(RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver = $rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver() : RootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdatePostCategoryTermMutationErrorPayloadUnionTypeResolver === null) {

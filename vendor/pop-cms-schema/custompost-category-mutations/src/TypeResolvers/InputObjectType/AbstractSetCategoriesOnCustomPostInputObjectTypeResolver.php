@@ -30,10 +30,6 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
      * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
      */
     private $categoryTaxonomyEnumStringScalarTypeResolver;
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
-    }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -42,10 +38,6 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
             $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
         }
         return $this->booleanScalarTypeResolver;
-    }
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
@@ -56,10 +48,6 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setCategoriesByOneofInputObjectTypeResolver(\PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CategoriesByOneofInputObjectTypeResolver $categoriesByOneofInputObjectTypeResolver) : void
-    {
-        $this->categoriesByOneofInputObjectTypeResolver = $categoriesByOneofInputObjectTypeResolver;
-    }
     protected final function getCategoriesByOneofInputObjectTypeResolver() : \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CategoriesByOneofInputObjectTypeResolver
     {
         if ($this->categoriesByOneofInputObjectTypeResolver === null) {
@@ -68,10 +56,6 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
             $this->categoriesByOneofInputObjectTypeResolver = $categoriesByOneofInputObjectTypeResolver;
         }
         return $this->categoriesByOneofInputObjectTypeResolver;
-    }
-    public final function setCategoryTaxonomyEnumStringScalarTypeResolver(CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->categoryTaxonomyEnumStringScalarTypeResolver = $categoryTaxonomyEnumStringScalarTypeResolver;
     }
     protected final function getCategoryTaxonomyEnumStringScalarTypeResolver() : CategoryTaxonomyEnumStringScalarTypeResolver
     {

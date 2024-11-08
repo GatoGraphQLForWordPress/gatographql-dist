@@ -13,10 +13,6 @@ class RootUpdateGenericTagTermMutationErrorPayloadUnionTypeResolver extends Abst
      * @var \PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\UnionType\RootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader(RootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader $rootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader = $rootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader() : RootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdateGenericTagTermMutationErrorPayloadUnionTypeDataLoader === null) {

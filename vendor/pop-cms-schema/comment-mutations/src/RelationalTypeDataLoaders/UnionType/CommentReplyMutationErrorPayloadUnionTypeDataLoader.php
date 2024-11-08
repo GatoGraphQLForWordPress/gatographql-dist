@@ -13,10 +13,6 @@ class CommentReplyMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionT
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CommentReplyMutationErrorPayloadUnionTypeResolver|null
      */
     private $commentReplyMutationErrorPayloadUnionTypeResolver;
-    public final function setCommentReplyMutationErrorPayloadUnionTypeResolver(CommentReplyMutationErrorPayloadUnionTypeResolver $commentReplyMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->commentReplyMutationErrorPayloadUnionTypeResolver = $commentReplyMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getCommentReplyMutationErrorPayloadUnionTypeResolver() : CommentReplyMutationErrorPayloadUnionTypeResolver
     {
         if ($this->commentReplyMutationErrorPayloadUnionTypeResolver === null) {

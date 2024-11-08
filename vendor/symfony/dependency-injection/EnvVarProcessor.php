@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
@@ -157,8 +157,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                             continue;
                         }
                         if ($env instanceof \Stringable) {
-                            \end($this->loadedVars);
-                            $this->loadedVars[\key($this->loadedVars)][$name] = $env = (string) $env;
+                            $this->loadedVars[\array_key_last($this->loadedVars)][$name] = $env = (string) $env;
                         }
                         if ('' !== ($env ?? '')) {
                             $ended = \false;
@@ -245,7 +244,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                 throw new RuntimeException(\sprintf('Invalid URL in env var "%s".', $name));
             }
             if (!isset($params['scheme'], $params['host'])) {
-                throw new RuntimeException(\sprintf('Invalid URL env var "%s": schema and host expected, "%s" given.', $name, $env));
+                throw new RuntimeException(\sprintf('Invalid URL in env var "%s": scheme and host expected.', $name));
             }
             $params += ['port' => null, 'user' => null, 'pass' => null, 'path' => null, 'query' => null, 'fragment' => null];
             $params['user'] = null !== $params['user'] ? \rawurldecode($params['user']) : null;

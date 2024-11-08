@@ -13,10 +13,6 @@ class CategoryTermDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErr
      * @var \PoPCMSSchema\CategoryMutations\RelationalTypeDataLoaders\ObjectType\CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader|null
      */
     private $categoryDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setCategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader(CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader $categoryDoesNotExistErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->categoryDoesNotExistErrorPayloadObjectTypeDataLoader = $categoryDoesNotExistErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getCategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader() : CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->categoryDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

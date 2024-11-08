@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Expression;
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcher\ExpressionRequestMatcher as NewExpressionRequestMatcher;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Expression;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatcher\ExpressionRequestMatcher as NewExpressionRequestMatcher;
 trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is deprecated, use "%s" instead.', ExpressionRequestMatcher::class, NewExpressionRequestMatcher::class);
 /**
  * ExpressionRequestMatcher uses an expression to match a Request.

@@ -15,10 +15,6 @@ class CustomPostAddCommentMutationPayloadErrorsFieldTransientOperationPayloadObj
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver|null
      */
     private $customPostAddCommentMutationErrorPayloadUnionTypeResolver;
-    public final function setCustomPostAddCommentMutationErrorPayloadUnionTypeResolver(CustomPostAddCommentMutationErrorPayloadUnionTypeResolver $customPostAddCommentMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->customPostAddCommentMutationErrorPayloadUnionTypeResolver = $customPostAddCommentMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getCustomPostAddCommentMutationErrorPayloadUnionTypeResolver() : CustomPostAddCommentMutationErrorPayloadUnionTypeResolver
     {
         if ($this->customPostAddCommentMutationErrorPayloadUnionTypeResolver === null) {

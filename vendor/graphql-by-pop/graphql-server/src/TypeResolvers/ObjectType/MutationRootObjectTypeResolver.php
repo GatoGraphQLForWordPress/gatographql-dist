@@ -24,10 +24,6 @@ class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeRes
      * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\MutationRootObjectTypeDataLoader|null
      */
     private $mutationRootObjectTypeDataLoader;
-    public final function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper) : void
-    {
-        $this->typeResolverHelper = $typeResolverHelper;
-    }
     protected final function getTypeResolverHelper() : TypeResolverHelperInterface
     {
         if ($this->typeResolverHelper === null) {
@@ -36,10 +32,6 @@ class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeRes
             $this->typeResolverHelper = $typeResolverHelper;
         }
         return $this->typeResolverHelper;
-    }
-    public final function setMutationRootObjectTypeDataLoader(MutationRootObjectTypeDataLoader $mutationRootObjectTypeDataLoader) : void
-    {
-        $this->mutationRootObjectTypeDataLoader = $mutationRootObjectTypeDataLoader;
     }
     protected final function getMutationRootObjectTypeDataLoader() : MutationRootObjectTypeDataLoader
     {

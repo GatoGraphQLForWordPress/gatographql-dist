@@ -26,10 +26,6 @@ abstract class AbstractFieldDataloadComponentProcessor extends AbstractRelationa
      * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
      */
     private $listQueryInputOutputHandler;
-    public final function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver) : void
-    {
-        $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
-    }
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -38,10 +34,6 @@ abstract class AbstractFieldDataloadComponentProcessor extends AbstractRelationa
             $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
         }
         return $this->postTagObjectTypeResolver;
-    }
-    public final function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler) : void
-    {
-        $this->listQueryInputOutputHandler = $listQueryInputOutputHandler;
     }
     protected final function getListQueryInputOutputHandler() : ListQueryInputOutputHandler
     {

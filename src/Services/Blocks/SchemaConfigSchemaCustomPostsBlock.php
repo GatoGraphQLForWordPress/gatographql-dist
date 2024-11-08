@@ -20,10 +20,6 @@ class SchemaConfigSchemaCustomPostsBlock extends AbstractSchemaConfigCustomizabl
      */
     private $wpDataModelProvider;
 
-    final public function setWPDataModelProvider(WPDataModelProviderInterface $wpDataModelProvider): void
-    {
-        $this->wpDataModelProvider = $wpDataModelProvider;
-    }
     final protected function getWPDataModelProvider(): WPDataModelProviderInterface
     {
         if ($this->wpDataModelProvider === null) {

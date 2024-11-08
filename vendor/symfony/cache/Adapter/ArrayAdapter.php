@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Log\LoggerAwareInterface;
-use PrefixedByPoP\Psr\Log\LoggerAwareTrait;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\ResettableInterface;
-use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\ResettableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
 /**
  * An in-memory cache storage.
  *
@@ -127,7 +127,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
     /**
      * @param mixed $key
      */
-    public function getItem($key) : \PrefixedByPoP\Psr\Cache\CacheItemInterface
+    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
     {
         if (!($isHit = $this->hasItem($key))) {
             $value = null;

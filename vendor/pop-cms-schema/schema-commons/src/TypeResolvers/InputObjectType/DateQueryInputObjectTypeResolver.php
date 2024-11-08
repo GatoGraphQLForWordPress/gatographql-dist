@@ -14,10 +14,6 @@ class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeR
      * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver|null
      */
     private $dateScalarTypeResolver;
-    public final function setDateScalarTypeResolver(DateScalarTypeResolver $dateScalarTypeResolver) : void
-    {
-        $this->dateScalarTypeResolver = $dateScalarTypeResolver;
-    }
     protected final function getDateScalarTypeResolver() : DateScalarTypeResolver
     {
         if ($this->dateScalarTypeResolver === null) {

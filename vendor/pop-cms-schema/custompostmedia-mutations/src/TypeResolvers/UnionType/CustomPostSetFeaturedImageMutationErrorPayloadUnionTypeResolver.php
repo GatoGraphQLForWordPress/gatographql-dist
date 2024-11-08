@@ -12,10 +12,6 @@ class CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver extends \P
      * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader;
-    public final function setCustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader(CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader $customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader = $customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getCustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader() : CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader === null) {

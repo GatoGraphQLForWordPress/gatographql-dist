@@ -13,10 +13,6 @@ class PostSetTagsMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTy
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\PostSetTagsMutationErrorPayloadUnionTypeResolver|null
      */
     private $postSetTagsMutationErrorPayloadUnionTypeResolver;
-    public final function setPostSetTagsMutationErrorPayloadUnionTypeResolver(PostSetTagsMutationErrorPayloadUnionTypeResolver $postSetTagsMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->postSetTagsMutationErrorPayloadUnionTypeResolver = $postSetTagsMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getPostSetTagsMutationErrorPayloadUnionTypeResolver() : PostSetTagsMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postSetTagsMutationErrorPayloadUnionTypeResolver === null) {

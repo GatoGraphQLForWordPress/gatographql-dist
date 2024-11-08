@@ -14,10 +14,6 @@ abstract class AbstractCategoryTermDoesNotExistErrorPayloadObjectTypeResolverPic
      * @var \PoPCMSSchema\CategoryMutations\TypeResolvers\ObjectType\CategoryTermDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $categoryDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setCategoryTermDoesNotExistErrorPayloadObjectTypeResolver(CategoryTermDoesNotExistErrorPayloadObjectTypeResolver $categoryDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->categoryDoesNotExistErrorPayloadObjectTypeResolver = $categoryDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getCategoryTermDoesNotExistErrorPayloadObjectTypeResolver() : CategoryTermDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->categoryDoesNotExistErrorPayloadObjectTypeResolver === null) {

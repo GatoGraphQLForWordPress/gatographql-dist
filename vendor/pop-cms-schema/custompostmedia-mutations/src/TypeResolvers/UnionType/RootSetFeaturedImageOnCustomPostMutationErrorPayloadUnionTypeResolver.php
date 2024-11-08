@@ -12,10 +12,6 @@ class RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeResolver exte
      * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader(RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetFeaturedImageOnCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

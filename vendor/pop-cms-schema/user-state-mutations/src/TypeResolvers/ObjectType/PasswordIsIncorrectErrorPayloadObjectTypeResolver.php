@@ -13,10 +13,6 @@ class PasswordIsIncorrectErrorPayloadObjectTypeResolver extends AbstractErrorPay
      * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeDataLoader|null
      */
     private $passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
-    public final function setPasswordIsIncorrectErrorPayloadObjectTypeDataLoader(PasswordIsIncorrectErrorPayloadObjectTypeDataLoader $passwordIsIncorrectErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader = $passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getPasswordIsIncorrectErrorPayloadObjectTypeDataLoader() : PasswordIsIncorrectErrorPayloadObjectTypeDataLoader
     {
         if ($this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader === null) {

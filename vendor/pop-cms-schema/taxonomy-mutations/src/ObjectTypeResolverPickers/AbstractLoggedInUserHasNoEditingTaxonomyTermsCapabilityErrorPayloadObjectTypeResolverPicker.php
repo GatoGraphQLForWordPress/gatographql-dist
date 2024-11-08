@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPaylo
      * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayloadObjectTypeResolver === null) {

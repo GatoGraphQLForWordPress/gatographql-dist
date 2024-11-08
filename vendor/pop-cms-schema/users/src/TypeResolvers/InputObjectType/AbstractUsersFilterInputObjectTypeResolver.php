@@ -12,10 +12,6 @@ abstract class AbstractUsersFilterInputObjectTypeResolver extends AbstractObject
      * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver|null
      */
     private $userSearchByOneofInputObjectTypeResolver;
-    public final function setUserSearchByOneofInputObjectTypeResolver(\PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver $userSearchByOneofInputObjectTypeResolver) : void
-    {
-        $this->userSearchByOneofInputObjectTypeResolver = $userSearchByOneofInputObjectTypeResolver;
-    }
     protected final function getUserSearchByOneofInputObjectTypeResolver() : \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver
     {
         if ($this->userSearchByOneofInputObjectTypeResolver === null) {

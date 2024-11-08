@@ -15,10 +15,6 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
      * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver|null
      */
     private $filterByTaxonomyTermsInputObjectTypeResolver;
-    public final function setFilterByTaxonomyTermsInputObjectTypeResolver(FilterByTaxonomyTermsInputObjectTypeResolver $filterByTaxonomyTermsInputObjectTypeResolver) : void
-    {
-        $this->filterByTaxonomyTermsInputObjectTypeResolver = $filterByTaxonomyTermsInputObjectTypeResolver;
-    }
     protected final function getFilterByTaxonomyTermsInputObjectTypeResolver() : FilterByTaxonomyTermsInputObjectTypeResolver
     {
         if ($this->filterByTaxonomyTermsInputObjectTypeResolver === null) {

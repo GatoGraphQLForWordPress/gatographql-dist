@@ -12,10 +12,6 @@ class CreatePostBulkOperationMutationResolver extends AbstractBulkOperationDecor
      * @var \PoPCMSSchema\PostMutations\MutationResolvers\CreatePostMutationResolver|null
      */
     private $createPostMutationResolver;
-    public final function setCreatePostMutationResolver(\PoPCMSSchema\PostMutations\MutationResolvers\CreatePostMutationResolver $createPostMutationResolver) : void
-    {
-        $this->createPostMutationResolver = $createPostMutationResolver;
-    }
     protected final function getCreatePostMutationResolver() : \PoPCMSSchema\PostMutations\MutationResolvers\CreatePostMutationResolver
     {
         if ($this->createPostMutationResolver === null) {

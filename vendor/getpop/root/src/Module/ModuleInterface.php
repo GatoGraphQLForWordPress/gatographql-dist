@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root\Module;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Initialize module
  * @internal
@@ -119,4 +119,14 @@ interface ModuleInterface
      * ModuleInfo for the Module
      */
     public function getInfo() : ?\PoP\Root\Module\ModuleInfoInterface;
+    /**
+     * Indicate if this Module must also be registered
+     * under the classes of other Modules. Needed by
+     * standalone plugins to supersede
+     * GatoGraphQL\GatoGraphQL\Module and yet be able to
+     * get configuration values from that module.
+     *
+     * @return array<class-string<ModuleInterface>>
+     */
+    public function registerAsModules() : array;
 }

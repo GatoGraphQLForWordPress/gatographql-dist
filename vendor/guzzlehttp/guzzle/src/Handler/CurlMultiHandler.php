@@ -1,13 +1,13 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
 use Closure;
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\Promise;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\GuzzleHttp\Utils;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\Promise;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * Returns an asynchronous response using curl_multi_* functions.
  *

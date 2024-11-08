@@ -29,10 +29,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      */
     private $htmlScalarTypeResolver;
 
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -41,10 +37,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    final public function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver): void
-    {
-        $this->htmlScalarTypeResolver = $htmlScalarTypeResolver;
     }
     final protected function getHTMLScalarTypeResolver(): HTMLScalarTypeResolver
     {

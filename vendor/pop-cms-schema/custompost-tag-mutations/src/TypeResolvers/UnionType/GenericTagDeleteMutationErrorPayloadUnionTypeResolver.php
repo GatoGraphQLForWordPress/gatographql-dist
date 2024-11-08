@@ -13,10 +13,6 @@ class GenericTagDeleteMutationErrorPayloadUnionTypeResolver extends AbstractTagD
      * @var \PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\UnionType\GenericTagDeleteMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $genericTagDeleteMutationErrorPayloadUnionTypeDataLoader;
-    public final function setGenericTagDeleteMutationErrorPayloadUnionTypeDataLoader(GenericTagDeleteMutationErrorPayloadUnionTypeDataLoader $genericTagDeleteMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->genericTagDeleteMutationErrorPayloadUnionTypeDataLoader = $genericTagDeleteMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getGenericTagDeleteMutationErrorPayloadUnionTypeDataLoader() : GenericTagDeleteMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericTagDeleteMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -8,22 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocator as ArgumentServiceLocator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocator as ArgumentServiceLocator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(RewindableGenerator::class);
 \class_exists(ArgumentServiceLocator::class);

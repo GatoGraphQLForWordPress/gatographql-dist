@@ -8,22 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Builder;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\ArrayNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\BaseNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\BooleanNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\ExprBuilder;
-use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurationInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\EnumNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use PrefixedByPoP\Symfony\Component\Config\Definition\FloatNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\IntegerNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\NodeInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\PrototypedArrayNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\ScalarNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\VariableNode;
-use PrefixedByPoP\Symfony\Component\Config\Loader\ParamConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ArrayNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\BaseNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\BooleanNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Builder\ExprBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ConfigurationInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\EnumNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\FloatNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\IntegerNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\NodeInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\PrototypedArrayNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\VariableNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader\ParamConfigurator;
 /**
  * Generate ConfigBuilders to help create valid config.
  *
@@ -51,7 +51,7 @@ class ConfigBuilderGenerator implements ConfigBuilderGeneratorInterface
     {
         $this->classes = [];
         $rootNode = $configuration->getConfigTreeBuilder()->buildTree();
-        $rootClass = new ClassBuilder('PrefixedByPoP\\Symfony\\Config', $rootNode->getName());
+        $rootClass = new ClassBuilder('GatoExternalPrefixByGatoGraphQL\\Symfony\\Config', $rootNode->getName());
         $path = $this->getFullPath($rootClass);
         if (!\is_file($path)) {
             // Generate the class if the file not exists

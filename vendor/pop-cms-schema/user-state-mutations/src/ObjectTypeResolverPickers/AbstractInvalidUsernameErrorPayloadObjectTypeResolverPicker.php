@@ -14,10 +14,6 @@ abstract class AbstractInvalidUsernameErrorPayloadObjectTypeResolverPicker exten
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\InvalidUsernameErrorPayloadObjectTypeResolver|null
      */
     private $userIsNotLoggedInErrorPayloadObjectTypeResolver;
-    public final function setInvalidUsernameErrorPayloadObjectTypeResolver(InvalidUsernameErrorPayloadObjectTypeResolver $userIsNotLoggedInErrorPayloadObjectTypeResolver) : void
-    {
-        $this->userIsNotLoggedInErrorPayloadObjectTypeResolver = $userIsNotLoggedInErrorPayloadObjectTypeResolver;
-    }
     protected final function getInvalidUsernameErrorPayloadObjectTypeResolver() : InvalidUsernameErrorPayloadObjectTypeResolver
     {
         if ($this->userIsNotLoggedInErrorPayloadObjectTypeResolver === null) {

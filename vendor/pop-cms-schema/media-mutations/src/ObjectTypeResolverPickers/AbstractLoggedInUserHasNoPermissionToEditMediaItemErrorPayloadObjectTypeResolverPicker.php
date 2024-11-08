@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObj
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver(LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver $loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver = $loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver === null) {

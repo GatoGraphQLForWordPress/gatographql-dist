@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Yaml;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml;
 
-use PrefixedByPoP\Symfony\Component\Yaml\Exception\DumpException;
-use PrefixedByPoP\Symfony\Component\Yaml\Exception\ParseException;
-use PrefixedByPoP\Symfony\Component\Yaml\Tag\TaggedValue;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Exception\DumpException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Exception\ParseException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Tag\TaggedValue;
 /**
  * Inline implements a YAML parser/dumper for the YAML inline syntax.
  *

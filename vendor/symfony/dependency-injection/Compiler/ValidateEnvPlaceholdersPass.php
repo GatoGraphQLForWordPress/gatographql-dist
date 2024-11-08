@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\BaseNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurationInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Processor;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\BaseNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ConfigurationInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Processor;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 /**
  * Validates environment variable placeholders used in extension configuration with dummy values.
  *

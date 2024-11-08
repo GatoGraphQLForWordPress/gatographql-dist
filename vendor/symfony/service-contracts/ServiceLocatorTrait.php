@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service;
 
-use PrefixedByPoP\Psr\Container\ContainerExceptionInterface;
-use PrefixedByPoP\Psr\Container\NotFoundExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\NotFoundExceptionInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(ContainerExceptionInterface::class);
 \class_exists(NotFoundExceptionInterface::class);

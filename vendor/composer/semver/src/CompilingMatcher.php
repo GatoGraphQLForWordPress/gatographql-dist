@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver;
+namespace GatoExternalPrefixByGatoGraphQL\Composer\Semver;
 
-use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
-use PrefixedByPoP\Composer\Semver\Constraint\ConstraintInterface;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\Constraint;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\ConstraintInterface;
 /**
  * Helper class to evaluate constraint by compiling and reusing the code to evaluate
  * @internal

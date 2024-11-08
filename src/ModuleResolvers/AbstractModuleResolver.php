@@ -18,10 +18,6 @@ abstract class AbstractModuleResolver implements ModuleResolverInterface
      */
     private $moduleRegistry;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -222,5 +218,10 @@ abstract class AbstractModuleResolver implements ModuleResolverInterface
     public function getDocumentation(string $module): ?string
     {
         return null;
+    }
+
+    public function areDependedPluginsActive(string $module): bool
+    {
+        return true;
     }
 }

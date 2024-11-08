@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Rob Frawley 2nd <rmf@src.run>

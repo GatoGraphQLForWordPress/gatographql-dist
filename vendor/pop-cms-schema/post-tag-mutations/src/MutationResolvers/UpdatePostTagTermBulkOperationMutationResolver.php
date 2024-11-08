@@ -12,10 +12,6 @@ class UpdatePostTagTermBulkOperationMutationResolver extends AbstractBulkOperati
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\UpdatePostTagTermMutationResolver|null
      */
     private $updatePostTagTermMutationResolver;
-    public final function setUpdatePostTagTermMutationResolver(\PoPCMSSchema\PostTagMutations\MutationResolvers\UpdatePostTagTermMutationResolver $updatePostTagTermMutationResolver) : void
-    {
-        $this->updatePostTagTermMutationResolver = $updatePostTagTermMutationResolver;
-    }
     protected final function getUpdatePostTagTermMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\UpdatePostTagTermMutationResolver
     {
         if ($this->updatePostTagTermMutationResolver === null) {

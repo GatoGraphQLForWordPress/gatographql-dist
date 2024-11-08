@@ -16,10 +16,6 @@ class UserObjectTypeFieldResolver extends UpstreamUserObjectTypeFieldResolver
      */
     private $userRoleObjectTypeResolver;
 
-    final public function setUserRoleObjectTypeResolver(UserRoleObjectTypeResolver $userRoleObjectTypeResolver): void
-    {
-        $this->userRoleObjectTypeResolver = $userRoleObjectTypeResolver;
-    }
     final protected function getUserRoleObjectTypeResolver(): UserRoleObjectTypeResolver
     {
         if ($this->userRoleObjectTypeResolver === null) {

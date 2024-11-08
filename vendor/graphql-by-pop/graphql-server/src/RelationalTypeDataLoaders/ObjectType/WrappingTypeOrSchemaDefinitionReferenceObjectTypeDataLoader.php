@@ -27,10 +27,6 @@ class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends Abstra
      * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
      */
     private $objectDictionary;
-    public final function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry) : void
-    {
-        $this->schemaDefinitionReferenceRegistry = $schemaDefinitionReferenceRegistry;
-    }
     protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {
@@ -40,10 +36,6 @@ class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends Abstra
         }
         return $this->schemaDefinitionReferenceRegistry;
     }
-    public final function setGraphQLSyntaxService(GraphQLSyntaxServiceInterface $graphQLSyntaxService) : void
-    {
-        $this->graphQLSyntaxService = $graphQLSyntaxService;
-    }
     protected final function getGraphQLSyntaxService() : GraphQLSyntaxServiceInterface
     {
         if ($this->graphQLSyntaxService === null) {
@@ -52,10 +44,6 @@ class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends Abstra
             $this->graphQLSyntaxService = $graphQLSyntaxService;
         }
         return $this->graphQLSyntaxService;
-    }
-    public final function setObjectDictionary(ObjectDictionaryInterface $objectDictionary) : void
-    {
-        $this->objectDictionary = $objectDictionary;
     }
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {

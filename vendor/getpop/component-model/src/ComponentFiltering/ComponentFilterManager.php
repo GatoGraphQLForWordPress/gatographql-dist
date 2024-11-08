@@ -61,10 +61,6 @@ class ComponentFilterManager implements \PoP\ComponentModel\ComponentFiltering\C
      * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
      */
     private $componentPathHelpers;
-    public final function setComponentPathManager(ComponentPathManagerInterface $componentPathManager) : void
-    {
-        $this->componentPathManager = $componentPathManager;
-    }
     protected final function getComponentPathManager() : ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {
@@ -73,10 +69,6 @@ class ComponentFilterManager implements \PoP\ComponentModel\ComponentFiltering\C
             $this->componentPathManager = $componentPathManager;
         }
         return $this->componentPathManager;
-    }
-    public final function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers) : void
-    {
-        $this->componentPathHelpers = $componentPathHelpers;
     }
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {

@@ -14,10 +14,6 @@ abstract class AbstractUserHasNoPermissionToUploadFilesForOtherUsersErrorPayload
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver|null
      */
     private $userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver;
-    public final function setUserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver(UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver $userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver) : void
-    {
-        $this->userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver = $userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver;
-    }
     protected final function getUserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver() : UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver
     {
         if ($this->userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver === null) {

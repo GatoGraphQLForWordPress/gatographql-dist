@@ -13,10 +13,6 @@ class InvalidUsernameErrorPayloadObjectTypeResolver extends AbstractErrorPayload
      * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\InvalidUsernameErrorPayloadObjectTypeDataLoader|null
      */
     private $invalidUsernameErrorPayloadObjectTypeDataLoader;
-    public final function setInvalidUsernameErrorPayloadObjectTypeDataLoader(InvalidUsernameErrorPayloadObjectTypeDataLoader $invalidUsernameErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->invalidUsernameErrorPayloadObjectTypeDataLoader = $invalidUsernameErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getInvalidUsernameErrorPayloadObjectTypeDataLoader() : InvalidUsernameErrorPayloadObjectTypeDataLoader
     {
         if ($this->invalidUsernameErrorPayloadObjectTypeDataLoader === null) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 // Don't redefine the functions if included multiple times.
-if (!\function_exists('PrefixedByPoP\\GuzzleHttp\\describe_type')) {
+if (!\function_exists('GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\describe_type')) {
     require __DIR__ . '/functions.php';
 }

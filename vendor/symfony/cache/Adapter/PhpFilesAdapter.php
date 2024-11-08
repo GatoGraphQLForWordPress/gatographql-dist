@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Symfony\Component\Cache\Exception\CacheException;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\FilesystemCommonTrait;
-use PrefixedByPoP\Symfony\Component\VarExporter\VarExporter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\FilesystemCommonTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\VarExporter;
 /**
  * @author Piotr Stankowski <git@trakos.pl>
  * @author Nicolas Grekas <p@tchwork.com>

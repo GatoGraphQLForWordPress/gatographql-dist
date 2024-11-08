@@ -13,10 +13,6 @@ class UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver extends Abs
      * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader|null
      */
     private $userHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader;
-    public final function setUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader(UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader $userHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->userHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader = $userHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader() : UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader
     {
         if ($this->userHasNoPermissionToUploadFilesErrorPayloadObjectTypeDataLoader === null) {

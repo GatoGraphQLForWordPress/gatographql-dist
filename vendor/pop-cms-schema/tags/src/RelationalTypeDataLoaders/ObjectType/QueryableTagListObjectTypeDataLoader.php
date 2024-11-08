@@ -13,10 +13,6 @@ class QueryableTagListObjectTypeDataLoader extends AbstractTagObjectTypeDataLoad
      * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
      */
     private $queryableTagListTypeAPI;
-    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagListTypeAPI) : void
-    {
-        $this->queryableTagListTypeAPI = $queryableTagListTypeAPI;
-    }
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagListTypeAPI === null) {

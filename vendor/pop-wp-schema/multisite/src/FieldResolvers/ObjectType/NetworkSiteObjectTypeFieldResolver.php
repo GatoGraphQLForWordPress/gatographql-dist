@@ -34,10 +34,6 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
      */
     private $idScalarTypeResolver;
 
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -47,10 +43,6 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver): void
-    {
-        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
-    }
     final protected function getURLScalarTypeResolver(): URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -59,10 +51,6 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
             $this->urlScalarTypeResolver = $urlScalarTypeResolver;
         }
         return $this->urlScalarTypeResolver;
-    }
-    final public function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver): void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
     final protected function getIDScalarTypeResolver(): IDScalarTypeResolver
     {

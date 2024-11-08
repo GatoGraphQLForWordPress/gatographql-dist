@@ -5,53 +5,56 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Settings;
 
 /**
- * Option names. By convention they must all start with "gatographql-"
+ * Option names.
+ *
+ * They must be namespaced (via the OptionNamespacer service),
+ * so that they all start with "gatographql-"
  */
 class Options
 {
     /**
      * Option name under which to store the endpoint and client paths, defined by the user
      */
-    public const ENDPOINT_CONFIGURATION = 'gatographql-endpoint-configuration';
+    public const ENDPOINT_CONFIGURATION = 'endpoint-configuration';
     /**
      * Option name under which to store the "Schema Configuration" values, defined by the user
      */
-    public const SCHEMA_CONFIGURATION = 'gatographql-schema-configuration';
+    public const SCHEMA_CONFIGURATION = 'schema-configuration';
     /**
      * Option name under which to store the "Schema Type Configuration" values, defined by the user
      */
-    public const SCHEMA_TYPE_CONFIGURATION = 'gatographql-schema-type-configuration';
+    public const SCHEMA_TYPE_CONFIGURATION = 'schema-type-configuration';
     /**
      * Option name under which to store the server configuration, defined by the user
      */
-    public const SERVER_CONFIGURATION = 'gatographql-server-configuration';
+    public const SERVER_CONFIGURATION = 'server-configuration';
     /**
      * Option name under which to store the Plugin Configuration, defined by the user
      */
-    public const PLUGIN_CONFIGURATION = 'gatographql-plugin-configuration';
+    public const PLUGIN_CONFIGURATION = 'plugin-configuration';
     /**
      * Option name under which to store the License Keys, defined by the user
      */
-    public const API_KEYS = 'gatographql-api-keys';
+    public const API_KEYS = 'api-keys';
     /**
      * Option name for Plugin Management.
      *
      * This option won't be actually stored to DB, but it's
      * still needed to render the corresponding form.
      */
-    public const PLUGIN_MANAGEMENT = 'gatographql-plugin-management';
+    public const PLUGIN_MANAGEMENT = 'plugin-management';
     /**
      * Option name under which to store the enabled/disabled Modules
      */
-    public const MODULES = 'gatographql-modules';
+    public const MODULES = 'modules';
     /**
      * Option name under which to store the timestamps from the last
      * settings/modules write to the DB
      */
-    public const TIMESTAMPS = 'gatographql-timestamps';
+    public const TIMESTAMPS = 'timestamps';
     /**
      * Store the license data for all bundles/extensions that
      * have been activated
      */
-    public const COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES = 'gatographql-commercial-extension-activated-license-entries';
+    public const COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES = 'commercial-extension-activated-license-entries';
 }

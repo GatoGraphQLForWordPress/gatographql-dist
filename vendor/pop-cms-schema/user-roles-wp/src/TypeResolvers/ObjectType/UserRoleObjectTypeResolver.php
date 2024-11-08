@@ -16,10 +16,6 @@ class UserRoleObjectTypeResolver extends AbstractObjectTypeResolver
      */
     private $userRoleObjectTypeDataLoader;
 
-    final public function setUserRoleObjectTypeDataLoader(UserRoleObjectTypeDataLoader $userRoleObjectTypeDataLoader): void
-    {
-        $this->userRoleObjectTypeDataLoader = $userRoleObjectTypeDataLoader;
-    }
     final protected function getUserRoleObjectTypeDataLoader(): UserRoleObjectTypeDataLoader
     {
         if ($this->userRoleObjectTypeDataLoader === null) {

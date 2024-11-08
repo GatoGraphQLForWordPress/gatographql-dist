@@ -12,10 +12,6 @@ class QueryRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
      * @var \GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot|null
      */
     private $queryRoot;
-    public final function setQueryRoot(QueryRoot $queryRoot) : void
-    {
-        $this->queryRoot = $queryRoot;
-    }
     protected final function getQueryRoot() : QueryRoot
     {
         if ($this->queryRoot === null) {

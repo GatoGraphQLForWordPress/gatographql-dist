@@ -42,10 +42,6 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
      */
     private $tutorialMenuPage;
 
-    final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
-    {
-        $this->endpointHelpers = $endpointHelpers;
-    }
     final protected function getEndpointHelpers(): EndpointHelpers
     {
         if ($this->endpointHelpers === null) {
@@ -54,10 +50,6 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
             $this->endpointHelpers = $endpointHelpers;
         }
         return $this->endpointHelpers;
-    }
-    final public function setGraphiQLMenuPage(GraphiQLMenuPage $graphiQLMenuPage): void
-    {
-        $this->graphiQLMenuPage = $graphiQLMenuPage;
     }
     final protected function getGraphiQLMenuPage(): GraphiQLMenuPage
     {
@@ -68,10 +60,6 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
         }
         return $this->graphiQLMenuPage;
     }
-    final public function setGraphQLVoyagerMenuPage(GraphQLVoyagerMenuPage $graphQLVoyagerMenuPage): void
-    {
-        $this->graphQLVoyagerMenuPage = $graphQLVoyagerMenuPage;
-    }
     final protected function getGraphQLVoyagerMenuPage(): GraphQLVoyagerMenuPage
     {
         if ($this->graphQLVoyagerMenuPage === null) {
@@ -80,10 +68,6 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
             $this->graphQLVoyagerMenuPage = $graphQLVoyagerMenuPage;
         }
         return $this->graphQLVoyagerMenuPage;
-    }
-    final public function setTutorialMenuPage(TutorialMenuPage $tutorialMenuPage): void
-    {
-        $this->tutorialMenuPage = $tutorialMenuPage;
     }
     final protected function getTutorialMenuPage(): TutorialMenuPage
     {
@@ -227,16 +211,23 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
         ) {
             switch ($module) {
                 case self::PRIVATE_ENDPOINT:
-                    $description = sprintf(\__('Schema Configuration to use in the private endpoint <code>%1$s</code>.<br/><br/>The private endpoint powers the admin\'s <a href="%2$s" target="_blank">GraphiQL%5$s</a> and <a href="%3$s" target="_blank">Interactive Schema%5$s</a> clients, and can be used to <a href="%4$s" target="_blank">feed data to blocks%5$s</a>.', 'gatographql'), ltrim(
-                        GeneralUtils::removeDomain($this->getEndpointHelpers()->getAdminGraphQLEndpoint()),
-                        '/'
-                    ), \admin_url(sprintf(
-                        'admin.php?page=%s',
-                        $this->getGraphiQLMenuPage()->getScreenID()
-                    )), \admin_url(sprintf(
-                        'admin.php?page=%s',
-                        $this->getGraphQLVoyagerMenuPage()->getScreenID()
-                    )), 'https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/', HTMLCodes::OPEN_IN_NEW_WINDOW);
+                    $description = sprintf(
+                        \__('Schema Configuration to use in the private endpoint <code>%1$s</code>.<br/><br/>The private endpoint powers the admin\'s <a href="%2$s" target="_blank">GraphiQL%5$s</a> and <a href="%3$s" target="_blank">Interactive Schema%5$s</a> clients, and can be used to <a href="%4$s" target="_blank">feed data to blocks%5$s</a>.', 'gatographql'),
+                        ltrim(
+                            GeneralUtils::removeDomain($this->getEndpointHelpers()->getAdminGraphQLEndpoint()),
+                            '/'
+                        ),
+                        \admin_url(sprintf(
+                            'admin.php?page=%s',
+                            $this->getGraphiQLMenuPage()->getScreenID()
+                        )),
+                        \admin_url(sprintf(
+                            'admin.php?page=%s',
+                            $this->getGraphQLVoyagerMenuPage()->getScreenID()
+                        )),
+                        'https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/',
+                        HTMLCodes::OPEN_IN_NEW_WINDOW,
+                    );
                     break;
                 case self::SINGLE_ENDPOINT:
                     $description = \__('Schema Configuration to use in the Single Endpoint', 'gatographql');

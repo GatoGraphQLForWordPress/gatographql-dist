@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\PluginApp;
+use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 
 /**
  * Voyager page
@@ -12,6 +14,30 @@ use GatoGraphQL\GatoGraphQL\PluginApp;
 class GraphQLVoyagerMenuPage extends AbstractPluginMenuPage
 {
     use EnqueueReactMenuPageTrait;
+
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+
+    final protected function getModuleRegistry(): ModuleRegistryInterface
+    {
+        if ($this->moduleRegistry === null) {
+            /** @var ModuleRegistryInterface */
+            $moduleRegistry = $this->instanceManager->getInstance(ModuleRegistryInterface::class);
+            $this->moduleRegistry = $moduleRegistry;
+        }
+        return $this->moduleRegistry;
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        $isPrivateEndpointDisabled = !$this->getModuleRegistry()->isModuleEnabled(EndpointFunctionalityModuleResolver::PRIVATE_ENDPOINT);
+        if ($isPrivateEndpointDisabled) {
+            return false;
+        }
+        return parent::isServiceEnabled();
+    }
 
     public function print(): void
     {
@@ -27,6 +53,11 @@ class GraphQLVoyagerMenuPage extends AbstractPluginMenuPage
     public function getMenuPageSlug(): string
     {
         return 'voyager';
+    }
+
+    public function getMenuPageTitle(): string
+    {
+        return __('Schema', 'gatographql');
     }
 
     /**

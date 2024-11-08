@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut\ClassParser;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut\ElementParser;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut\EmptyStringParser;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut\HashParser;
-use PrefixedByPoP\Symfony\Component\CssSelector\XPath\Extension\HtmlExtension;
-use PrefixedByPoP\Symfony\Component\CssSelector\XPath\Translator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Shortcut\ClassParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Shortcut\ElementParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Shortcut\EmptyStringParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Shortcut\HashParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\Extension\HtmlExtension;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\Translator;
 /**
  * CssSelectorConverter is the main entry point of the component and can convert CSS
  * selectors to XPath expressions.

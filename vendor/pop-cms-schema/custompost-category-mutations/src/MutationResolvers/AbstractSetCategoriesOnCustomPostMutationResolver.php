@@ -22,7 +22,6 @@ use PoP\Root\Exception\AbstractException;
 abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends AbstractMutationResolver
 {
     use CreateOrUpdateCustomPostMutationResolverTrait, MutateTaxonomyTermMutationResolverTrait, \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait {
-        CreateOrUpdateCustomPostMutationResolverTrait::validateUserIsLoggedIn insteadof MutateTaxonomyTermMutationResolverTrait, \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait;
         CreateOrUpdateCustomPostMutationResolverTrait::getUserNotLoggedInError insteadof MutateTaxonomyTermMutationResolverTrait, \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait;
         CreateOrUpdateCustomPostMutationResolverTrait::validateIsUserLoggedIn insteadof MutateTaxonomyTermMutationResolverTrait, \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait;
         \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolverTrait::getTaxonomyTermDoesNotExistError insteadof MutateTaxonomyTermMutationResolverTrait;
@@ -52,10 +51,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
      * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
      */
     private $taxonomyTermTypeAPI;
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
-    }
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -64,10 +59,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
             $this->nameResolver = $nameResolver;
         }
         return $this->nameResolver;
-    }
-    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
-    {
-        $this->userRoleTypeAPI = $userRoleTypeAPI;
     }
     protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
@@ -78,10 +69,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->userRoleTypeAPI;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -90,10 +77,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
             $this->customPostTypeAPI = $customPostTypeAPI;
         }
         return $this->customPostTypeAPI;
-    }
-    public final function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI) : void
-    {
-        $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
     }
     protected final function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface
     {
@@ -104,10 +87,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
         }
         return $this->customPostTypeMutationAPI;
     }
-    public final function setCustomPostCategoryTypeMutationAPI(CustomPostCategoryTypeMutationAPIInterface $customPostCategoryTypeMutationAPI) : void
-    {
-        $this->customPostCategoryTypeMutationAPI = $customPostCategoryTypeMutationAPI;
-    }
     protected final function getCustomPostCategoryTypeMutationAPI() : CustomPostCategoryTypeMutationAPIInterface
     {
         if ($this->customPostCategoryTypeMutationAPI === null) {
@@ -116,10 +95,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
             $this->customPostCategoryTypeMutationAPI = $customPostCategoryTypeMutationAPI;
         }
         return $this->customPostCategoryTypeMutationAPI;
-    }
-    public final function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI) : void
-    {
-        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
     }
     protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
     {

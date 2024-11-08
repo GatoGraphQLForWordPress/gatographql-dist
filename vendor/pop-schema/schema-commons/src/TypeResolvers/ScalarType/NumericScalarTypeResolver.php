@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\TypeResolvers\ScalarType;
 
-use PrefixedByPoP\CastToType;
+use GatoExternalPrefixByGatoGraphQL\CastToType;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\TypeResolvers\ScalarType\AbstractScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;

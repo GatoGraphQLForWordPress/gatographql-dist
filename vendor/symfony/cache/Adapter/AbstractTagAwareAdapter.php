@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Psr\Log\LoggerAwareInterface;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\ResettableInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\AbstractAdapterTrait;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ContractsTrait;
-use PrefixedByPoP\Symfony\Contracts\Cache\TagAwareCacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerAwareInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\ResettableInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\AbstractAdapterTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ContractsTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\TagAwareCacheInterface;
 /**
  * Abstract for native TagAware adapters.
  *

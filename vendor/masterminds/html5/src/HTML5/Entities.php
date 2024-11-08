@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5;
 
 /**
  * Entity lookup tables.

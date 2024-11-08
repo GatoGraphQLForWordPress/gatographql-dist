@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\BoundArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\DefaultsConfigurator;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\BoundArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\DefaultsConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
 /** @internal */
 trait BindTrait
 {

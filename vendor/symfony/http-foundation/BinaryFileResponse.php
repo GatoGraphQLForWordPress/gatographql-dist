@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\File;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\File;
 /**
  * BinaryFileResponse represents an HTTP response delivering a file.
  *

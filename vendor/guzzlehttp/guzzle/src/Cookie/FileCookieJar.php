@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Cookie;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Cookie;
 
-use PrefixedByPoP\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
 /**
  * Persists non-session cookies using a JSON formatted file
  * @internal

@@ -12,10 +12,6 @@ class PayloadableUpdateGenericCustomPostBulkOperationMutationResolver extends Ab
      * @var \PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver|null
      */
     private $payloadableUpdateGenericCustomPostMutationResolver;
-    public final function setPayloadableUpdateGenericCustomPostMutationResolver(\PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver $payloadableUpdateGenericCustomPostMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericCustomPostMutationResolver = $payloadableUpdateGenericCustomPostMutationResolver;
-    }
     protected final function getPayloadableUpdateGenericCustomPostMutationResolver() : \PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver
     {
         if ($this->payloadableUpdateGenericCustomPostMutationResolver === null) {

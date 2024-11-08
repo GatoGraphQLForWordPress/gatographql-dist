@@ -1,12 +1,12 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception;
 
-use PrefixedByPoP\GuzzleHttp\BodySummarizer;
-use PrefixedByPoP\GuzzleHttp\BodySummarizerInterface;
-use PrefixedByPoP\Psr\Http\Client\RequestExceptionInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\BodySummarizer;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\BodySummarizerInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Client\RequestExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
 /**
  * HTTP Request exception
  * @internal
@@ -66,7 +66,7 @@ class RequestException extends TransferException implements RequestExceptionInte
             $label = 'Unsuccessful request';
             $className = __CLASS__;
         }
-        $uri = \PrefixedByPoP\GuzzleHttp\Psr7\Utils::redactUserInfo($request->getUri());
+        $uri = \GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Utils::redactUserInfo($request->getUri());
         // Client Error: `GET /` resulted in a `404 Not Found` response:
         // <html> ... (truncated)
         $message = \sprintf('%s: `%s %s` resulted in a `%s %s` response', $label, $request->getMethod(), $uri->__toString(), $response->getStatusCode(), $response->getReasonPhrase());

@@ -13,10 +13,6 @@ abstract class AbstractCreateOrUpdateTagTermInputObjectTypeResolver extends Abst
      * @var \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver|null
      */
     private $parentTagByOneofInputObjectTypeResolver;
-    public final function setTagByOneofInputObjectTypeResolver(\PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver $parentTagByOneofInputObjectTypeResolver) : void
-    {
-        $this->parentTagByOneofInputObjectTypeResolver = $parentTagByOneofInputObjectTypeResolver;
-    }
     protected final function getTagByOneofInputObjectTypeResolver() : \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver
     {
         if ($this->parentTagByOneofInputObjectTypeResolver === null) {

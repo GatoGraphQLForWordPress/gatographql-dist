@@ -14,10 +14,6 @@ abstract class AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicke
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\CustomPostDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $customPostDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setCustomPostDoesNotExistErrorPayloadObjectTypeResolver(CustomPostDoesNotExistErrorPayloadObjectTypeResolver $customPostDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->customPostDoesNotExistErrorPayloadObjectTypeResolver = $customPostDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getCustomPostDoesNotExistErrorPayloadObjectTypeResolver() : CustomPostDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->customPostDoesNotExistErrorPayloadObjectTypeResolver === null) {

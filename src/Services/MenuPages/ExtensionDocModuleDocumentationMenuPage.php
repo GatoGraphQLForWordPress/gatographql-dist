@@ -11,10 +11,6 @@ class ExtensionDocModuleDocumentationMenuPage extends AbstractExtensionModuleDoc
      */
     private $extensionDocsMenuPage;
 
-    final public function setExtensionDocsMenuPage(ExtensionDocsMenuPage $extensionDocsMenuPage): void
-    {
-        $this->extensionDocsMenuPage = $extensionDocsMenuPage;
-    }
     final protected function getExtensionDocsMenuPage(): ExtensionDocsMenuPage
     {
         if ($this->extensionDocsMenuPage === null) {
@@ -28,5 +24,15 @@ class ExtensionDocModuleDocumentationMenuPage extends AbstractExtensionModuleDoc
     public function getMenuPageSlug(): string
     {
         return $this->getExtensionDocsMenuPage()->getMenuPageSlug();
+    }
+
+    public function getMenuPageTitle(): string
+    {
+        return $this->getExtensionDocsMenuPage()->getMenuPageTitle();
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        return $this->getExtensionDocsMenuPage()->isServiceEnabled();
     }
 }

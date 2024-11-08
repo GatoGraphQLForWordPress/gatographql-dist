@@ -44,10 +44,6 @@ class MutationResolverHookSet extends AbstractHookSet
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
      */
     private $idScalarTypeResolver;
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
-    }
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -56,10 +52,6 @@ class MutationResolverHookSet extends AbstractHookSet
             $this->nameResolver = $nameResolver;
         }
         return $this->nameResolver;
-    }
-    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
-    {
-        $this->userRoleTypeAPI = $userRoleTypeAPI;
     }
     protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
@@ -70,10 +62,6 @@ class MutationResolverHookSet extends AbstractHookSet
         }
         return $this->userRoleTypeAPI;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -83,10 +71,6 @@ class MutationResolverHookSet extends AbstractHookSet
         }
         return $this->customPostTypeAPI;
     }
-    public final function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI) : void
-    {
-        $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
-    }
     protected final function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface
     {
         if ($this->customPostTypeMutationAPI === null) {
@@ -95,10 +79,6 @@ class MutationResolverHookSet extends AbstractHookSet
             $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
         }
         return $this->customPostTypeMutationAPI;
-    }
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {

@@ -5,14 +5,14 @@ services:
         autoconfigure: true
 
     transient_cache_item_pool:
-        class: \PrefixedByPoP\Symfony\Component\Cache\Adapter\ArrayAdapter
+        class: \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ArrayAdapter
 
     PoP\ComponentModel\Cache\CacheConfigurationManagerInterface:
         class: \PoP\ComponentModel\Cache\CacheConfigurationManager
 
     # Set the namespace for storing the cache
     persistent_cache_item_pool:
-        class: \PrefixedByPoP\Symfony\Component\Cache\Adapter\FilesystemAdapter
+        class: \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\FilesystemAdapter
         arguments:
             $namespace: '@=service("PoP\\ComponentModel\\Cache\\CacheConfigurationManagerInterface").getNamespace()'
             $directory: '@=service("PoP\\ComponentModel\\Cache\\CacheConfigurationManagerInterface").getDirectory()'

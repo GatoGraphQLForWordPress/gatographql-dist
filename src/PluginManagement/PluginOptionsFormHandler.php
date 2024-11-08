@@ -99,7 +99,10 @@ class PluginOptionsFormHandler
         if ($formOrigin !== $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory)) {
             return $value;
         }
-        $value = $this->getNormalizedModuleOptionValues($settingsCategory, $module);
+        $value = $this->getNormalizedModuleOptionValues(
+            $settingsCategory,
+            $module,
+        );
         // Return the specific value to this module/option
         $optionName = $moduleResolver->getSettingOptionName($module, $option);
         return $value[$optionName];

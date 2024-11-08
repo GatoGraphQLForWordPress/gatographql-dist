@@ -44,10 +44,6 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
      */
     private $markdownContentParser;
 
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
-    }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
         if ($this->markdownContentParser === null) {
@@ -158,7 +154,6 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
     {
         switch ($module) {
             case self::GLOBAL_FIELDS:
-                return true;
             case self::GLOBAL_ID_FIELD:
                 return true;
             default:

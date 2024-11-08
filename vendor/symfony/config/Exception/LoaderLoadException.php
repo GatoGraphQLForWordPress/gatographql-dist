@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Exception;
 
 /**
  * Exception class for when a resource cannot be loaded or imported.
@@ -29,7 +29,7 @@ class LoaderLoadException extends \Exception
     {
         if (!\is_string($resource)) {
             try {
-                $resource = \json_encode($resource, 0);
+                $resource = \json_encode($resource, \JSON_THROW_ON_ERROR);
             } catch (\JsonException $exception) {
                 $resource = \sprintf('resource of type "%s"', \get_debug_type($resource));
             }

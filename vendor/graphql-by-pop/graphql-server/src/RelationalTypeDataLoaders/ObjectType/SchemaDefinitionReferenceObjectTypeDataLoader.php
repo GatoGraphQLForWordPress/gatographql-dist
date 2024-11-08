@@ -12,10 +12,6 @@ class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDa
      * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
      */
     private $schemaDefinitionReferenceRegistry;
-    public final function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry) : void
-    {
-        $this->schemaDefinitionReferenceRegistry = $schemaDefinitionReferenceRegistry;
-    }
     protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {

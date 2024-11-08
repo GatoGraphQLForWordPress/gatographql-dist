@@ -31,10 +31,6 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
      */
     private $stringConversion;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -43,10 +39,6 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
             $this->moduleRegistry = $moduleRegistry;
         }
         return $this->moduleRegistry;
-    }
-    final public function setStringConversion(StringConversion $stringConversion): void
-    {
-        $this->stringConversion = $stringConversion;
     }
     final protected function getStringConversion(): StringConversion
     {

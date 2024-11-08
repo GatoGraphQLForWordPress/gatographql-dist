@@ -123,7 +123,11 @@ class PluginDataSetupService implements PluginDataSetupServiceInterface
             return $endpointCategoryID;
         }
 
-        return $this->createEndpointCategoryID($slug, \__('Admin', 'gatographql'), \__('Internal admin tasks', 'gatographql'));
+        return $this->createEndpointCategoryID(
+            $slug,
+            \__('Admin', 'gatographql'),
+            \__('Internal admin tasks', 'gatographql'),
+        );
     }
 
     protected function createEndpointCategoryID(string $slug, string $name, string $description): ?int
@@ -154,7 +158,11 @@ class PluginDataSetupService implements PluginDataSetupServiceInterface
             return $endpointCategoryID;
         }
 
-        return $this->createEndpointCategoryID($slug, \__('Webhook', 'gatographql'), \__('Process data from external services', 'gatographql'));
+        return $this->createEndpointCategoryID(
+            $slug,
+            \__('Webhook', 'gatographql'),
+            \__('Process data from external services', 'gatographql'),
+        );
     }
 
     /**

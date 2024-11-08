@@ -8,21 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Predis\Connection\Aggregate\ClusterInterface;
-use PrefixedByPoP\Predis\Connection\Aggregate\PredisCluster;
-use PrefixedByPoP\Predis\Connection\Aggregate\ReplicationInterface;
-use PrefixedByPoP\Predis\Response\ErrorInterface;
-use PrefixedByPoP\Predis\Response\Status;
-use PrefixedByPoP\Relay\Relay;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\LogicException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DeflateMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\TagAwareMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\RedisTrait;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ClusterInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\PredisCluster;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ReplicationInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Response\ErrorInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Response\Status;
+use GatoExternalPrefixByGatoGraphQL\Relay\Relay;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\DeflateMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\TagAwareMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\RedisTrait;
 /**
  * Stores tag id <> cache id relationship as a Redis Set.
  *
@@ -65,7 +65,7 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
      */
     public function __construct($redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
-        if ($redis instanceof \PrefixedByPoP\Predis\ClientInterface && $redis->getConnection() instanceof ClusterInterface && !$redis->getConnection() instanceof PredisCluster) {
+        if ($redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && $redis->getConnection() instanceof ClusterInterface && !$redis->getConnection() instanceof PredisCluster) {
             throw new InvalidArgumentException(\sprintf('Unsupported Predis cluster connection: only "%s" is, "%s" given.', PredisCluster::class, \get_debug_type($redis->getConnection())));
         }
         $isRelay = $redis instanceof Relay;
@@ -138,11 +138,11 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
 EOLUA;
         $results = $this->pipeline(function () use($ids, $lua) {
             foreach ($ids as $id) {
-                (yield 'eval' => $this->redis instanceof \PrefixedByPoP\Predis\ClientInterface ? [$lua, 1, $id] : [$lua, [$id], 1]);
+                (yield 'eval' => $this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface ? [$lua, 1, $id] : [$lua, [$id], 1]);
             }
         });
         foreach ($results as $id => $result) {
-            if ($result instanceof \RedisException || $result instanceof \PrefixedByPoP\Relay\Exception || $result instanceof ErrorInterface) {
+            if ($result instanceof \RedisException || $result instanceof \GatoExternalPrefixByGatoGraphQL\Relay\Exception || $result instanceof ErrorInterface) {
                 CacheItem::log($this->logger, 'Failed to delete key "{key}": ' . $result->getMessage(), ['key' => \substr($id, \strlen($this->namespace)), 'exception' => $result]);
                 continue;
             }
@@ -200,13 +200,13 @@ EOLUA;
             return redis.call('SSCAN', '{'..id..'}'..id, '0', 'COUNT', 5000)
 EOLUA;
         $results = $this->pipeline(function () use($tagIds, $lua) {
-            if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface) {
+            if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
                 $prefix = $this->redis->getOptions()->prefix ? $this->redis->getOptions()->prefix->getPrefix() : '';
             } elseif (\is_array($prefix = $this->redis->getOption($this->redis instanceof Relay ? Relay::OPT_PREFIX : \Redis::OPT_PREFIX) ?? '')) {
                 $prefix = \current($prefix);
             }
             foreach ($tagIds as $id) {
-                (yield 'eval' => $this->redis instanceof \PrefixedByPoP\Predis\ClientInterface ? [$lua, 1, $id, $prefix] : [$lua, [$id, $prefix], 1]);
+                (yield 'eval' => $this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface ? [$lua, 1, $id, $prefix] : [$lua, [$id, $prefix], 1]);
             }
         });
         $lua = <<<'EOLUA'
@@ -220,7 +220,7 @@ EOLUA;
 EOLUA;
         $success = \true;
         foreach ($results as $id => $values) {
-            if ($values instanceof \RedisException || $values instanceof \PrefixedByPoP\Relay\Exception || $values instanceof ErrorInterface) {
+            if ($values instanceof \RedisException || $values instanceof \GatoExternalPrefixByGatoGraphQL\Relay\Exception || $values instanceof ErrorInterface) {
                 CacheItem::log($this->logger, 'Failed to invalidate key "{key}": ' . $values->getMessage(), ['key' => \substr($id, \strlen($this->namespace)), 'exception' => $values]);
                 $success = \false;
                 continue;
@@ -230,7 +230,7 @@ EOLUA;
                 $this->doDelete($ids);
                 $evalArgs = [$id, $cursor];
                 \array_splice($evalArgs, 1, 0, $ids);
-                if ($this->redis instanceof \PrefixedByPoP\Predis\ClientInterface) {
+                if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface) {
                     \array_unshift($evalArgs, $lua, 1);
                 } else {
                     $evalArgs = [$lua, $evalArgs, 1];
@@ -252,7 +252,7 @@ EOLUA;
         }
         $hosts = $this->getHosts();
         $host = \reset($hosts);
-        if ($host instanceof \PrefixedByPoP\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
+        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
             // Predis supports info command only on the master in replication environments
             $hosts = [$host->getClientFor('master')];
         }

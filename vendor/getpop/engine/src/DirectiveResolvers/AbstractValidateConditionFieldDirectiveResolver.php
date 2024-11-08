@@ -19,10 +19,6 @@ abstract class AbstractValidateConditionFieldDirectiveResolver extends \PoP\Engi
      * @var \PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver|null
      */
     private $superRootObjectTypeResolver;
-    public final function setSuperRootObjectTypeResolver(SuperRootObjectTypeResolver $superRootObjectTypeResolver) : void
-    {
-        $this->superRootObjectTypeResolver = $superRootObjectTypeResolver;
-    }
     protected final function getSuperRootObjectTypeResolver() : SuperRootObjectTypeResolver
     {
         if ($this->superRootObjectTypeResolver === null) {

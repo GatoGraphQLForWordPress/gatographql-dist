@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DomCrawler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler;
 
-use PrefixedByPoP\Symfony\Component\DomCrawler\Field\ChoiceFormField;
-use PrefixedByPoP\Symfony\Component\DomCrawler\Field\FormField;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field\FormField;
 /**
  * Form represents an HTML form.
  *
@@ -163,9 +163,8 @@ class Form extends Link implements \ArrayAccess
     {
         $uri = parent::getUri();
         if (!\in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-            $query = \parse_url($uri, \PHP_URL_QUERY);
             $currentParameters = [];
-            if ($query) {
+            if ($query = \parse_url($uri, \PHP_URL_QUERY)) {
                 \parse_str($query, $currentParameters);
             }
             $queryString = \http_build_query(\array_merge($currentParameters, $this->getValues()), '', '&');

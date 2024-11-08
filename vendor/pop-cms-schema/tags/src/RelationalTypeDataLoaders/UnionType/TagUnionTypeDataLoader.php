@@ -13,10 +13,6 @@ class TagUnionTypeDataLoader extends AbstractUnionTypeDataLoader
      * @var \PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver|null
      */
     private $tagUnionTypeResolver;
-    public final function setTagUnionTypeResolver(TagUnionTypeResolver $tagUnionTypeResolver) : void
-    {
-        $this->tagUnionTypeResolver = $tagUnionTypeResolver;
-    }
     protected final function getTagUnionTypeResolver() : TagUnionTypeResolver
     {
         if ($this->tagUnionTypeResolver === null) {

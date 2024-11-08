@@ -45,10 +45,6 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
      */
     private $allowOrDenySettingsService;
 
-    final public function setMetaQueryValueTypesEnumTypeResolver(MetaQueryValueTypeEnumTypeResolver $metaQueryValueTypesEnumTypeResolver): void
-    {
-        $this->metaQueryValueTypesEnumTypeResolver = $metaQueryValueTypesEnumTypeResolver;
-    }
     final protected function getMetaQueryValueTypesEnumTypeResolver(): MetaQueryValueTypeEnumTypeResolver
     {
         if ($this->metaQueryValueTypesEnumTypeResolver === null) {
@@ -57,10 +53,6 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
             $this->metaQueryValueTypesEnumTypeResolver = $metaQueryValueTypesEnumTypeResolver;
         }
         return $this->metaQueryValueTypesEnumTypeResolver;
-    }
-    final public function setMetaQueryCompareByOneofInputObjectTypeResolver(MetaQueryCompareByOneofInputObjectTypeResolver $metaQueryCompareByOneofInputObjectTypeResolver): void
-    {
-        $this->metaQueryCompareByOneofInputObjectTypeResolver = $metaQueryCompareByOneofInputObjectTypeResolver;
     }
     final protected function getMetaQueryCompareByOneofInputObjectTypeResolver(): MetaQueryCompareByOneofInputObjectTypeResolver
     {
@@ -71,10 +63,6 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
         }
         return $this->metaQueryCompareByOneofInputObjectTypeResolver;
     }
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -84,10 +72,6 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
         }
         return $this->stringScalarTypeResolver;
     }
-    final public function setRelationEnumTypeResolver(RelationEnumTypeResolver $relationEnumTypeResolver): void
-    {
-        $this->relationEnumTypeResolver = $relationEnumTypeResolver;
-    }
     final protected function getRelationEnumTypeResolver(): RelationEnumTypeResolver
     {
         if ($this->relationEnumTypeResolver === null) {
@@ -96,10 +80,6 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
             $this->relationEnumTypeResolver = $relationEnumTypeResolver;
         }
         return $this->relationEnumTypeResolver;
-    }
-    final public function setAllowOrDenySettingsService(AllowOrDenySettingsServiceInterface $allowOrDenySettingsService): void
-    {
-        $this->allowOrDenySettingsService = $allowOrDenySettingsService;
     }
     final protected function getAllowOrDenySettingsService(): AllowOrDenySettingsServiceInterface
     {
@@ -182,20 +162,35 @@ abstract class AbstractMetaQueryInputObjectTypeResolver extends AbstractQueryabl
         switch ($inputFieldName) {
             case 'key':
                 if (
-                    !$this->getAllowOrDenySettingsService()->isEntryAllowed($coercedInputFieldValue, $this->getAllowOrDenyEntries(), $this->getAllowOrDenyBehavior())
+                    !$this->getAllowOrDenySettingsService()->isEntryAllowed(
+                        $coercedInputFieldValue,
+                        $this->getAllowOrDenyEntries(),
+                        $this->getAllowOrDenyBehavior(),
+                    )
                 ) {
-                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(
-                        FeedbackItemProvider::class,
-                        FeedbackItemProvider::E1,
-                        [
-                            $coercedInputFieldValue,
-                        ]
-                    ), $astNode));
+                    $objectTypeFieldResolutionFeedbackStore->addError(
+                        new ObjectTypeFieldResolutionFeedback(
+                            new FeedbackItemResolution(
+                                FeedbackItemProvider::class,
+                                FeedbackItemProvider::E1,
+                                [
+                                    $coercedInputFieldValue,
+                                ]
+                            ),
+                            $astNode,
+                        ),
+                    );
                     return;
                 }
                 break;
         }
-        parent::validateCoercedInputFieldValue($inputFieldTypeResolver, $inputFieldName, $coercedInputFieldValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
+        parent::validateCoercedInputFieldValue(
+            $inputFieldTypeResolver,
+            $inputFieldName,
+            $coercedInputFieldValue,
+            $astNode,
+            $objectTypeFieldResolutionFeedbackStore,
+        );
     }
 
     /**

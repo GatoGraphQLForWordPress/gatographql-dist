@@ -9,6 +9,7 @@ use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
 use GatoGraphQL\GatoGraphQL\Container\ContainerManagerInterface;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\Marketplace\LicenseValidationServiceInterface;
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginGeneralSettingsFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginManagementFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\ModuleSettings\Properties;
@@ -16,6 +17,7 @@ use GatoGraphQL\GatoGraphQL\PluginApp;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Registries\SettingsCategoryRegistryInterface;
 use GatoGraphQL\GatoGraphQL\SettingsCategoryResolvers\SettingsCategoryResolver;
+use GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface;
 use GatoGraphQL\GatoGraphQL\Settings\Options;
 use GatoGraphQL\GatoGraphQL\Settings\SettingsNormalizerInterface;
 use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
@@ -66,18 +68,14 @@ class SettingsMenuPage extends AbstractPluginMenuPage
      * @var \GatoGraphQL\GatoGraphQL\Container\ContainerManagerInterface|null
      */
     private $containerManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
+     */
+    private $optionNamespacer;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-    final public function setSettingsNormalizer(SettingsNormalizerInterface $settingsNormalizer): void
-    {
-        $this->settingsNormalizer = $settingsNormalizer;
     }
     final protected function getSettingsNormalizer(): SettingsNormalizerInterface
     {
@@ -88,10 +86,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         }
         return $this->settingsNormalizer;
     }
-    final public function setPluginGeneralSettingsFunctionalityModuleResolver(PluginGeneralSettingsFunctionalityModuleResolver $PluginGeneralSettingsFunctionalityModuleResolver): void
-    {
-        $this->PluginGeneralSettingsFunctionalityModuleResolver = $PluginGeneralSettingsFunctionalityModuleResolver;
-    }
     final protected function getPluginGeneralSettingsFunctionalityModuleResolver(): PluginGeneralSettingsFunctionalityModuleResolver
     {
         if ($this->PluginGeneralSettingsFunctionalityModuleResolver === null) {
@@ -100,10 +94,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             $this->PluginGeneralSettingsFunctionalityModuleResolver = $PluginGeneralSettingsFunctionalityModuleResolver;
         }
         return $this->PluginGeneralSettingsFunctionalityModuleResolver;
-    }
-    final public function setSettingsCategoryRegistry(SettingsCategoryRegistryInterface $settingsCategoryRegistry): void
-    {
-        $this->settingsCategoryRegistry = $settingsCategoryRegistry;
     }
     final protected function getSettingsCategoryRegistry(): SettingsCategoryRegistryInterface
     {
@@ -114,10 +104,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         }
         return $this->settingsCategoryRegistry;
     }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -126,10 +112,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             $this->moduleRegistry = $moduleRegistry;
         }
         return $this->moduleRegistry;
-    }
-    final public function setLicenseValidationService(LicenseValidationServiceInterface $licenseValidationService): void
-    {
-        $this->licenseValidationService = $licenseValidationService;
     }
     final protected function getLicenseValidationService(): LicenseValidationServiceInterface
     {
@@ -140,10 +122,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         }
         return $this->licenseValidationService;
     }
-    final public function setContainerManager(ContainerManagerInterface $containerManager): void
-    {
-        $this->containerManager = $containerManager;
-    }
     final protected function getContainerManager(): ContainerManagerInterface
     {
         if ($this->containerManager === null) {
@@ -153,10 +131,38 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         }
         return $this->containerManager;
     }
+    final protected function getOptionNamespacer(): OptionNamespacerInterface
+    {
+        if ($this->optionNamespacer === null) {
+            /** @var OptionNamespacerInterface */
+            $optionNamespacer = $this->instanceManager->getInstance(OptionNamespacerInterface::class);
+            $this->optionNamespacer = $optionNamespacer;
+        }
+        return $this->optionNamespacer;
+    }
+
+    public function getScreenID(): string
+    {
+        $isPrivateEndpointDisabled = !$this->getModuleRegistry()->isModuleEnabled(EndpointFunctionalityModuleResolver::PRIVATE_ENDPOINT);
+        if ($isPrivateEndpointDisabled) {
+            /**
+             * Override, because this is the default page, so it is invoked
+             * with the menu slug wp-admin/admin.php?page=gatographql,
+             * and not the menu page slug wp-admin/admin.php?page=gatographql_settings
+             */
+            return $this->getMenuName();
+        }
+        return parent::getScreenID();
+    }
 
     public function getMenuPageSlug(): string
     {
         return 'settings';
+    }
+
+    public function getMenuPageTitle(): string
+    {
+        return __('Settings', 'gatographql');
     }
 
     /**
@@ -203,12 +209,17 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 
                 // If pressed on the "Reset Settings" button...
                 if (isset($values[self::RESET_SETTINGS_BUTTON_ID])) {
-                    $this->restoreDBOptionValuesForNonSubmittedFormSections($settingsCategory, [
+                    $this->restoreDBOptionValuesForNonSubmittedFormSections(
+                        $settingsCategory,
                         [
-                            PluginManagementFunctionalityModuleResolver::RESET_SETTINGS,
-                            PluginManagementFunctionalityModuleResolver::OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR,
+                            [
+                                PluginManagementFunctionalityModuleResolver::RESET_SETTINGS,
+                                PluginManagementFunctionalityModuleResolver::OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR,
+                            ],
                         ],
-                    ], $oldValue, $values);
+                        $oldValue,
+                        $values,
+                    );
 
                     $this->resetSettings();
                     return;
@@ -216,16 +227,25 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 
                 // If pressed on the "Activate (Extensions)" button...
                 if (isset($values[self::ACTIVATE_EXTENSIONS_BUTTON_ID])) {
-                    $this->restoreDBOptionValuesForNonSubmittedFormSections($settingsCategory, [
+                    $this->restoreDBOptionValuesForNonSubmittedFormSections(
+                        $settingsCategory,
                         [
-                            PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
-                            PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS,
+                            [
+                                PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
+                                PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS,
+                            ],
                         ],
-                    ], $oldValue, $values);
+                        $oldValue,
+                        $values,
+                    );
 
                     // Retrieve the previously-stored license keys, and the newly-submitted license keys
                     $settingOptionName = $this->getModuleRegistry()->getModuleResolver(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS)->getSettingOptionName(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS, PluginManagementFunctionalityModuleResolver::OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS);
-                    $this->getLicenseValidationService()->activateDeactivateValidateGatoGraphQLCommercialExtensions($oldValue[$settingOptionName] ?? [], $values[$settingOptionName] ?? [], PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS);
+                    $this->getLicenseValidationService()->activateDeactivateValidateGatoGraphQLCommercialExtensions(
+                        $oldValue[$settingOptionName] ?? [],
+                        $values[$settingOptionName] ?? [],
+                        PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS,
+                    );
                     return;
                 }
             },
@@ -274,7 +294,10 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             \add_action(
                 "update_option_{$option}",
                 function () use ($flushRewriteRules, $regenerateContainer) {
-                    return $this->getContainerManager()->flushContainer($flushRewriteRules, $regenerateContainer);
+                    return $this->getContainerManager()->flushContainer(
+                        $flushRewriteRules,
+                        $regenerateContainer,
+                    );
                 }
             );
         }
@@ -416,13 +439,16 @@ class SettingsMenuPage extends AbstractPluginMenuPage
     protected function resetSettings(): void
     {
         $userSettingsManager = $this->getUserSettingsManager();
-        $resetOptions = [
-            Options::ENDPOINT_CONFIGURATION,
-            Options::SCHEMA_CONFIGURATION,
-            Options::SCHEMA_TYPE_CONFIGURATION,
-            Options::SERVER_CONFIGURATION,
-            Options::PLUGIN_CONFIGURATION,
-        ];
+        $resetOptions = array_map(
+            \Closure::fromCallable([$this->getOptionNamespacer(), 'namespaceOption']),
+            [
+                Options::ENDPOINT_CONFIGURATION,
+                Options::SCHEMA_CONFIGURATION,
+                Options::SCHEMA_TYPE_CONFIGURATION,
+                Options::SERVER_CONFIGURATION,
+                Options::PLUGIN_CONFIGURATION,
+            ]
+        );
         foreach ($resetOptions as $option) {
             $userSettingsManager->storeEmptySettings($option);
         }
@@ -502,11 +528,6 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                 break;
             }
         }
-        if ($activeCategoryID === null) {
-            /** @var string */
-            $firstSettingsCategory = key($primarySettingsCategorySettingsCategoryResolvers);
-            $activeCategoryID = $primarySettingsCategorySettingsCategoryResolvers[$firstSettingsCategory]->getID($firstSettingsCategory);
-        }
 
         $activeModule = App::query(RequestParams::MODULE);
         $class = 'wrap';
@@ -529,7 +550,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                 class="wrap gatographql-tabpanel"
                 data-tab-content-target="#gatographql-primary-settings-nav-tab-content > .tab-content"
             >
-                <h1><?php \esc_html_e('Gato GraphQL — Settings', 'gatographql'); ?></h1>
+                <h1><?php print(\esc_html($this->getPageTitle())); ?></h1>
                 <?php \settings_errors(); ?>
                 <div class="nav-tab-container">
                     <!-- Tabs -->
@@ -537,11 +558,22 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                         <?php
                         foreach ($primarySettingsCategorySettingsCategoryResolvers as $settingsCategory => $settingsCategoryResolver) {
                             // Make sure the category has items, otherwise skip
-                            $categorySettingsItems = $this->getCategorySettingsItems($settingsCategory, $settingsItems);
+                            $categorySettingsItems = $this->getCategorySettingsItems(
+                                $settingsCategory,
+                                $settingsItems,
+                            );
                             if ($categorySettingsItems === []) {
                                 continue;
                             }
                             $settingsCategoryID = $settingsCategoryResolver->getID($settingsCategory);
+                            /**
+                             * Check this inside the foreach, so that if not all items are shown
+                             * (eg: disabled modules in Standalone plugins), then the 1st item
+                             * from the filtered elements will be used
+                             */
+                            if ($activeCategoryID === null) {
+                                $activeCategoryID = $settingsCategoryID;
+                            }
                             ?>
                                 <a
                                     href="#<?php echo \esc_attr($settingsCategoryID) ?>"
@@ -562,7 +594,10 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                                 'display: %s;',
                                 $settingsCategoryID === $activeCategoryID ? 'block' : 'none'
                             );
-                            $categorySettingsItems = $this->getCategorySettingsItems($settingsCategory, $settingsItems);
+                            $categorySettingsItems = $this->getCategorySettingsItems(
+                                $settingsCategory,
+                                $settingsItems,
+                            );
                             if ($categorySettingsItems === []) {
                                 continue;
                             }
@@ -682,6 +717,15 @@ class SettingsMenuPage extends AbstractPluginMenuPage
 <?php
     }
 
+    protected function getPageTitle(): string
+    {
+        return sprintf(
+            \__('%s — %s', 'gatographql'),
+            PluginApp::getMainPlugin()->getPluginName(),
+            $this->getMenuPageTitle()
+        );
+    }
+
     /**
      * Filter all the category settings that must be printed
      * under the current section
@@ -764,7 +808,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         $value = $this->getOptionValue($module, $input);
         $description_safe = $itemSetting[Properties::DESCRIPTION] ?? '';
         ?>
-            <label for="<?php echo \esc_attr($name); ?>">
+            <label for="<?php echo \esc_attr($name); ?>" style="cursor: pointer;">
                 <input type="checkbox" name="<?php echo \esc_attr($optionsFormName . '[' . $name . ']'); ?>" id="<?php echo \esc_attr($name); ?>" value="1" <?php checked(1, $value); ?> />
                 <?php echo $description_safe; ?>
             </label>
@@ -806,6 +850,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                     name="<?php echo \esc_attr($optionsFormName . '[' . $name . ']'); ?>"
                     id="<?php echo \esc_attr($name); ?>"
                     value="<?php echo \esc_attr($value); ?>"
+                    class="regular-text"
                     <?php if ($isNumber) { ?>
                         type="number"
                         step="1"
@@ -854,7 +899,13 @@ class SettingsMenuPage extends AbstractPluginMenuPage
             <label for="<?php echo \esc_attr($id) ?>">
                 <strong><?php echo \esc_html($label); ?></strong>
                 <br/>
-                <input name="<?php echo \esc_attr($optionsFormName . '[' . $name . '][' . $key . ']'); ?>" id="<?php echo \esc_attr($id) ?>" value="<?php echo \esc_html($value[$key] ?? '') ?>" type="text">
+                <input
+                    name="<?php echo \esc_attr($optionsFormName . '[' . $name . '][' . $key . ']'); ?>"
+                    id="<?php echo \esc_attr($id) ?>"
+                    class="regular-text"
+                    value="<?php echo \esc_html($value[$key] ?? '') ?>"
+                    type="text"
+                >
             </label>
             <?php
             $addSpacing = true;
@@ -884,6 +935,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                 <select
                     name="<?php echo \esc_attr($optionsFormName . '[' . $name . ']' . ($isMultiple ? '[]' : '')); ?>"
                     id="<?php echo \esc_attr($name); ?>"
+                    class="regular-text"
                     <?php if ($isMultiple) : ?>
                         multiple="multiple"
                         size="10"
@@ -919,7 +971,12 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         $label_safe = isset($itemSetting[Properties::DESCRIPTION]) ? '<br/>' . $itemSetting[Properties::DESCRIPTION] : '';
         ?>
             <label for="<?php echo \esc_attr($name); ?>">
-                <textarea name="<?php echo \esc_attr($optionsFormName . '[' . $name . ']'); ?>" id="<?php echo \esc_attr($name); ?>" rows="10" cols="50"><?php echo \esc_html(implode("\n", $value)) ?></textarea>
+                <textarea
+                    name="<?php echo \esc_attr($optionsFormName . '[' . $name . ']'); ?>"
+                    id="<?php echo \esc_attr($name); ?>"
+                    rows="10"
+                    cols="50"
+                ><?php echo \esc_html(implode("\n", $value)) ?></textarea>
                 <?php echo $label_safe; ?>
             </label>
         <?php

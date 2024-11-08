@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 /**
  * CastToType - a class to consistently cast variables to a specific type.

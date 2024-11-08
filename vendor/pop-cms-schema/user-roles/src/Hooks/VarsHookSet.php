@@ -16,10 +16,6 @@ class VarsHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
      */
     private $userRoleTypeAPI;
-    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
-    {
-        $this->userRoleTypeAPI = $userRoleTypeAPI;
-    }
     protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
         if ($this->userRoleTypeAPI === null) {

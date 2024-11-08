@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 /*
  * This file is part of the Symfony package.
@@ -68,8 +68,7 @@ class ©
     }
     public function __unserialize(array $data) : void
     {
-        \reset($data);
-        $pack = \key($data);
+        $pack = \array_key_first($data);
         $this->value = $data[$pack];
         if ($hasTags = "\x80" === ($pack[4] & "\x80")) {
             unset($data[$pack]);
@@ -101,4 +100,4 @@ class ©
  *
  * @internal
  */
-\class_alias('PrefixedByPoP\\©', '©', \false);
+\class_alias('GatoExternalPrefixByGatoGraphQL\\©', '©', \false);

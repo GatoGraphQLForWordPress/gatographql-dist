@@ -32,6 +32,11 @@ interface PluginInterface
     public function getPluginName(): string;
 
     /**
+     * Plugin name
+     */
+    public function getPluginMenuName(): string;
+
+    /**
      * Plugin base name
      */
     public function getPluginBaseName(): string;
@@ -84,4 +89,48 @@ interface PluginInterface
      * PluginInfo class for the Plugin
      */
     public function getInfo(): ?PluginInfoInterface;
+
+    /**
+     * Namespace the plugin.
+     *
+     * Useful for standalone plugins to override
+     * this value, and automatically have entities
+     * not conflict with Gato GraphQL (or other
+     * standalone plugins).
+     */
+    public function getPluginNamespace(): string;
+
+    /**
+     * Namespace the entities to store in DB:
+     * CPT, taxonomies, etc.
+     *
+     * Useful for standalone plugins to override
+     * this value, and automatically have entities
+     * not conflict with Gato GraphQL (or other
+     * standalone plugins).
+     *
+     * Use 7 chars to identify it, as CPTs have
+     * a max length of 20 chars.
+     */
+    public function getPluginNamespaceForDB(): string;
+
+    /**
+     * Namespace classes. Eg: The container caching class.
+     *
+     * Useful for standalone plugins to override
+     * this value, and automatically have entities
+     * not conflict with Gato GraphQL (or other
+     * standalone plugins).
+     */
+    public function getPluginNamespaceForClass(): string;
+
+    public function getPluginWPConfigConstantNamespace(): string;
+
+    public function getPluginWPContentFolderName(): string;
+
+    /**
+     * If the plugin is prefixed using PHP-Scoper, use the
+     * top-level namespace name calculated here.
+     */
+    public function getPluginInternalScopingTopLevelNamespace(): string;
 }

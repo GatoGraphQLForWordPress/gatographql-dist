@@ -24,10 +24,6 @@ class GenericErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeField
      * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
      */
     private $jsonObjectScalarTypeResolver;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -36,10 +32,6 @@ class GenericErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeField
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setJSONObjectScalarTypeResolver(JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver) : void
-    {
-        $this->jsonObjectScalarTypeResolver = $jsonObjectScalarTypeResolver;
     }
     protected final function getJSONObjectScalarTypeResolver() : JSONObjectScalarTypeResolver
     {

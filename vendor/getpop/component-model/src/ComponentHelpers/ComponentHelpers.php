@@ -15,10 +15,6 @@ class ComponentHelpers implements \PoP\ComponentModel\ComponentHelpers\Component
      * @var \PoP\Definitions\DefinitionManagerInterface|null
      */
     private $definitionManager;
-    public final function setDefinitionManager(DefinitionManagerInterface $definitionManager) : void
-    {
-        $this->definitionManager = $definitionManager;
-    }
     protected final function getDefinitionManager() : DefinitionManagerInterface
     {
         if ($this->definitionManager === null) {

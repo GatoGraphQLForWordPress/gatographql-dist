@@ -13,10 +13,6 @@ abstract class AbstractRoutingManager implements \PoP\Root\Routing\RoutingManage
      * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
      */
     private $routingHelperService;
-    public final function setRoutingHelperService(\PoP\Root\Routing\RoutingHelperServiceInterface $routingHelperService) : void
-    {
-        $this->routingHelperService = $routingHelperService;
-    }
     protected final function getRoutingHelperService() : \PoP\Root\Routing\RoutingHelperServiceInterface
     {
         if ($this->routingHelperService === null) {

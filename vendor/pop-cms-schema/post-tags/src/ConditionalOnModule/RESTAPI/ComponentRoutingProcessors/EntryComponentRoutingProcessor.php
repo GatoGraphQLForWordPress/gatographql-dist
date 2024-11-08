@@ -20,10 +20,6 @@ use PoPCMSSchema\Tags\Routing\RequestNature as TagRequestNature;
 class EntryComponentRoutingProcessor extends AbstractRESTEntryComponentRoutingProcessor
 {
     private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
-    public final function setPostTagTypeAPI(PostTagTypeAPIInterface $postTagTypeAPI) : void
-    {
-        $this->postTagTypeAPI = $postTagTypeAPI;
-    }
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {

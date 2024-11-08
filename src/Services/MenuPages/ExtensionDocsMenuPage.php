@@ -21,10 +21,6 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
      */
     private $extensionsMenuPage;
 
-    final public function setExtensionsMenuPage(ExtensionsMenuPage $extensionsMenuPage): void
-    {
-        $this->extensionsMenuPage = $extensionsMenuPage;
-    }
     final protected function getExtensionsMenuPage(): ExtensionsMenuPage
     {
         if ($this->extensionsMenuPage === null) {
@@ -40,9 +36,14 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
         return 'extensiondocs';
     }
 
-    protected function getPageTitle(): string
+    public function getMenuPageTitle(): string
     {
-        return \__('Gato GraphQL - Extension Reference Docs', 'gatographql');
+        return __('Extension Reference Docs', 'gatographql');
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        return $this->getExtensionsMenuPage()->isServiceEnabled();
     }
 
     protected function getContentID(): string
@@ -76,10 +77,14 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
         $extensionsMenuPage = $this->getExtensionsMenuPage();
         return sprintf(
             '<p>%s</p>',
-            sprintf(__('%s <a href="%s" class="button">Back to the <strong>Extensions</strong> page</a></span>', 'gatographql'), $extensionsMenuPage->getHeaderMessage(), \admin_url(sprintf(
-                'admin.php?page=%s',
-                $extensionsMenuPage->getScreenID()
-            )))
+            sprintf(
+                __('%s <a href="%s" class="button">Back to the <strong>Extensions</strong> page</a></span>', 'gatographql'),
+                $extensionsMenuPage->getHeaderMessage(),
+                \admin_url(sprintf(
+                    'admin.php?page=%s',
+                    $extensionsMenuPage->getScreenID()
+                )),
+            )
         );
     }
 

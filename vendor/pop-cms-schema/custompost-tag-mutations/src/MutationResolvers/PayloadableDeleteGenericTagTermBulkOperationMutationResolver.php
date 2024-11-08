@@ -12,10 +12,6 @@ class PayloadableDeleteGenericTagTermBulkOperationMutationResolver extends Abstr
      * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableDeleteGenericTagTermMutationResolver|null
      */
     private $payloadableDeleteGenericTagTermMutationResolver;
-    public final function setPayloadableDeleteGenericTagTermMutationResolver(\PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableDeleteGenericTagTermMutationResolver $payloadableDeleteGenericTagTermMutationResolver) : void
-    {
-        $this->payloadableDeleteGenericTagTermMutationResolver = $payloadableDeleteGenericTagTermMutationResolver;
-    }
     protected final function getPayloadableDeleteGenericTagTermMutationResolver() : \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableDeleteGenericTagTermMutationResolver
     {
         if ($this->payloadableDeleteGenericTagTermMutationResolver === null) {

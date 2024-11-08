@@ -1,14 +1,14 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
-Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, nextjs, Next.js
+Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 6.0.2
-Requires PHP: 7.2
+Stable tag: 7.0.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Powerful and flexible GraphQL server for WordPress. Access any piece of data (posts, users, comments, tags, categories, etc) from your app via a GraphQL API.
+Powerful and flexible GraphQL server for WordPress. Access any piece of data (posts, users, comments, tags, etc) from your app via a GraphQL API.
 
 == Description ==
 
@@ -23,6 +23,8 @@ The [standard use cases](https://gatographql.com) are:
 **Build dynamic/headless sites:** Use WordPress as the CMS to manage data, and your framework of choice to render the site.
 
 **Speed up creating Gutenberg blocks:** Ship Gutenberg blocks faster, by avoiding creating REST controllers to feed them data.
+
+With Gato GraphQL, you also have the flexibility to migrate your application from WordPress to another PHP-based framework or CMS (if ever needed) with minimal effort: The GraphQL server can run via its standalone PHP component (which doesn't depend on WordPress), and only those resolvers fetching WordPress data (posts, users, comments, etc) used by your application would need to be ported. You can do **Headless WordPress without WordPress**, avoiding the vendor lock-in to WordPress.
 
 == Extensions ==
 
@@ -92,6 +94,12 @@ Among others, you can use any of these libraries/frameworks:
 - Svelte
 - Eleventy
 
+= Can I run Gato GraphQL without WordPress? =
+
+Yes you can. Gato GraphQL can be included within any PHP-based application (not only WordPress), based on Laravel, Symfony, or any other.
+
+Check guide [Running Gato GraphQL without WordPress](https://gatographql.com/guides/interact/running-gatographql-without-wordpress) for the explanation on how to do it.
+
 = Can I fetch Gutenberg block data with Gato GraphQL? =
 
 Yes you can. Check guide [Working with (Gutenberg) blocks](https://gatographql.com/guides/interact/working-with-gutenberg-blocks) for the different ways in which we can query block data, and guide [Mapping JS components to (Gutenberg) blocks](https://gatographql.com/guides/code/mapping-js-components-to-gutenberg-blocks) for an example.
@@ -106,9 +114,23 @@ In addition, Gato GraphQL provides fields on the GraphQL schema to retrieve mult
 
 Check out the [Gato GraphQL vs WP REST API comparison](https://gatographql.com/comparisons/gatographql-vs-wp-rest-api).
 
+= How to replace the WP REST API with Gato GraphQL? =
+
+Check out the [Replacing the WP REST API guide](https://gatographql.com/guides/intro/replacing-the-wp-rest-api-with-gatographql).
+
 = How does Gato GraphQL compare against WPGraphQL? =
 
 Check out the [Gato GraphQL vs WPGraphQL comparison](https://gatographql.com/comparisons/gatographql-vs-wpgraphql).
+
+= How to replace WPGraphQL with Gato GraphQL? =
+
+Check out the [Replacing WPGraphQL guide](https://gatographql.com/guides/intro/replacing-wpgraphql-with-gatographql).
+
+= Can I migrate from WordPress to Laravel/Symfony/etc? =
+
+Yes you can. Even more, only the WordPress-specific packages to fetch WordPress data (posts, users, comments, etc) used by your application would need to be ported to the new framework/CMS, and nothing else.
+
+Check guide [Migrating your app from WordPress to another PHP framework or CMS](https://gatographql.com/guides/interact/migrating-gatographql-from-wordpress-to-another-php-framework-or-cms) to learn more.
 
 = What are extensions needed for? =
 
@@ -148,6 +170,17 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 7.0.0 =
+* Breaking change: Bump minimum required PHP version to 7.4 (#2905)
+* Breaking change: Allow to include Gato GraphQL as the engine to power another standalone plugin (#2897)
+* Breaking change: Renamed env var `CACHE_DIR` to `CONTAINER_CACHE_DIR` (#2923)
+* Added convenience class for standalone plugins (#2899)
+* Allow to fetch posts with `auto-draft` status (#2911)
+* Allow disabling the private endpoint (#2913)
+* Added field `useGutenbergEditorWithCustomPostType` (#2960)
+* Fixed: Fetching raw attribute sources with multiple nodes in blocks (#2909)
+* [Extensions][Persisted Queries] Created a new "Persisted Query Endpoints" module (from "Persisted Queries"), to disable external execution of persisted queries
 
 = 6.0.2 =
 * Fixed: Remove global fields from schema when disabled via ACL (#2894)

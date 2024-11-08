@@ -13,10 +13,6 @@ class CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver extends Abstract
      * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader|null
      */
     private $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
-    public final function setCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader(CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader = $commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getCommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader() : CommentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentAuthorEmailIsMissingErrorPayloadObjectTypeDataLoader === null) {

@@ -38,10 +38,6 @@ class RootCustomPostListObjectTypeFieldResolver extends \PoPCMSSchema\CustomPost
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\RootCustomPostsFilterInputObjectTypeResolver|null
      */
     private $rootCustomPostsFilterInputObjectTypeResolver;
-    public final function setCustomPostByOneofInputObjectTypeResolver(CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver) : void
-    {
-        $this->customPostByOneofInputObjectTypeResolver = $customPostByOneofInputObjectTypeResolver;
-    }
     protected final function getCustomPostByOneofInputObjectTypeResolver() : CustomPostByOneofInputObjectTypeResolver
     {
         if ($this->customPostByOneofInputObjectTypeResolver === null) {
@@ -50,10 +46,6 @@ class RootCustomPostListObjectTypeFieldResolver extends \PoPCMSSchema\CustomPost
             $this->customPostByOneofInputObjectTypeResolver = $customPostByOneofInputObjectTypeResolver;
         }
         return $this->customPostByOneofInputObjectTypeResolver;
-    }
-    public final function setRootCustomPostsFilterInputObjectTypeResolver(RootCustomPostsFilterInputObjectTypeResolver $rootCustomPostsFilterInputObjectTypeResolver) : void
-    {
-        $this->rootCustomPostsFilterInputObjectTypeResolver = $rootCustomPostsFilterInputObjectTypeResolver;
     }
     protected final function getRootCustomPostsFilterInputObjectTypeResolver() : RootCustomPostsFilterInputObjectTypeResolver
     {

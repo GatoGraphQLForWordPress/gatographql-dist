@@ -3,7 +3,7 @@
 /**
  * Loads a string to be parsed.
  */
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
 /*
  *

@@ -130,10 +130,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
      */
     private $booleanScalarTypeResolver;
-    public final function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver) : void
-    {
-        $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
-    }
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {
@@ -142,10 +138,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
         }
         return $this->genericCategoryObjectTypeResolver;
-    }
-    public final function setRootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver(RootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver $rootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver = $rootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver;
     }
     protected final function getRootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver() : RootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver
     {
@@ -156,10 +148,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->rootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver;
     }
-    public final function setRootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver(RootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver $rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver = $rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver;
-    }
     protected final function getRootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver() : RootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver
     {
         if ($this->rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver === null) {
@@ -168,10 +156,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver = $rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver;
         }
         return $this->rootUpdateGenericCategoryTermMutationPayloadObjectTypeResolver;
-    }
-    public final function setRootCreateGenericCategoryTermMutationPayloadObjectTypeResolver(RootCreateGenericCategoryTermMutationPayloadObjectTypeResolver $rootCreateGenericCategoryTermMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericCategoryTermMutationPayloadObjectTypeResolver = $rootCreateGenericCategoryTermMutationPayloadObjectTypeResolver;
     }
     protected final function getRootCreateGenericCategoryTermMutationPayloadObjectTypeResolver() : RootCreateGenericCategoryTermMutationPayloadObjectTypeResolver
     {
@@ -182,10 +166,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->rootCreateGenericCategoryTermMutationPayloadObjectTypeResolver;
     }
-    public final function setCreateGenericCategoryTermMutationResolver(CreateGenericCategoryTermMutationResolver $createGenericCategoryTermMutationResolver) : void
-    {
-        $this->createGenericCategoryTermMutationResolver = $createGenericCategoryTermMutationResolver;
-    }
     protected final function getCreateGenericCategoryTermMutationResolver() : CreateGenericCategoryTermMutationResolver
     {
         if ($this->createGenericCategoryTermMutationResolver === null) {
@@ -194,10 +174,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->createGenericCategoryTermMutationResolver = $createGenericCategoryTermMutationResolver;
         }
         return $this->createGenericCategoryTermMutationResolver;
-    }
-    public final function setCreateGenericCategoryTermBulkOperationMutationResolver(CreateGenericCategoryTermBulkOperationMutationResolver $createGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->createGenericCategoryTermBulkOperationMutationResolver = $createGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getCreateGenericCategoryTermBulkOperationMutationResolver() : CreateGenericCategoryTermBulkOperationMutationResolver
     {
@@ -208,10 +184,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->createGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setDeleteGenericCategoryTermMutationResolver(DeleteGenericCategoryTermMutationResolver $deleteGenericCategoryTermMutationResolver) : void
-    {
-        $this->deleteGenericCategoryTermMutationResolver = $deleteGenericCategoryTermMutationResolver;
-    }
     protected final function getDeleteGenericCategoryTermMutationResolver() : DeleteGenericCategoryTermMutationResolver
     {
         if ($this->deleteGenericCategoryTermMutationResolver === null) {
@@ -220,10 +192,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->deleteGenericCategoryTermMutationResolver = $deleteGenericCategoryTermMutationResolver;
         }
         return $this->deleteGenericCategoryTermMutationResolver;
-    }
-    public final function setDeleteGenericCategoryTermBulkOperationMutationResolver(DeleteGenericCategoryTermBulkOperationMutationResolver $deleteGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->deleteGenericCategoryTermBulkOperationMutationResolver = $deleteGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getDeleteGenericCategoryTermBulkOperationMutationResolver() : DeleteGenericCategoryTermBulkOperationMutationResolver
     {
@@ -234,10 +202,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->deleteGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setUpdateGenericCategoryTermMutationResolver(UpdateGenericCategoryTermMutationResolver $updateGenericCategoryTermMutationResolver) : void
-    {
-        $this->updateGenericCategoryTermMutationResolver = $updateGenericCategoryTermMutationResolver;
-    }
     protected final function getUpdateGenericCategoryTermMutationResolver() : UpdateGenericCategoryTermMutationResolver
     {
         if ($this->updateGenericCategoryTermMutationResolver === null) {
@@ -246,10 +210,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->updateGenericCategoryTermMutationResolver = $updateGenericCategoryTermMutationResolver;
         }
         return $this->updateGenericCategoryTermMutationResolver;
-    }
-    public final function setUpdateGenericCategoryTermBulkOperationMutationResolver(UpdateGenericCategoryTermBulkOperationMutationResolver $updateGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->updateGenericCategoryTermBulkOperationMutationResolver = $updateGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getUpdateGenericCategoryTermBulkOperationMutationResolver() : UpdateGenericCategoryTermBulkOperationMutationResolver
     {
@@ -260,10 +220,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->updateGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableDeleteGenericCategoryTermMutationResolver(PayloadableDeleteGenericCategoryTermMutationResolver $payloadableDeleteGenericCategoryTermMutationResolver) : void
-    {
-        $this->payloadableDeleteGenericCategoryTermMutationResolver = $payloadableDeleteGenericCategoryTermMutationResolver;
-    }
     protected final function getPayloadableDeleteGenericCategoryTermMutationResolver() : PayloadableDeleteGenericCategoryTermMutationResolver
     {
         if ($this->payloadableDeleteGenericCategoryTermMutationResolver === null) {
@@ -272,10 +228,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->payloadableDeleteGenericCategoryTermMutationResolver = $payloadableDeleteGenericCategoryTermMutationResolver;
         }
         return $this->payloadableDeleteGenericCategoryTermMutationResolver;
-    }
-    public final function setPayloadableDeleteGenericCategoryTermBulkOperationMutationResolver(PayloadableDeleteGenericCategoryTermBulkOperationMutationResolver $payloadableDeleteGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableDeleteGenericCategoryTermBulkOperationMutationResolver = $payloadableDeleteGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableDeleteGenericCategoryTermBulkOperationMutationResolver() : PayloadableDeleteGenericCategoryTermBulkOperationMutationResolver
     {
@@ -286,10 +238,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->payloadableDeleteGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableUpdateGenericCategoryTermMutationResolver(PayloadableUpdateGenericCategoryTermMutationResolver $payloadableUpdateGenericCategoryTermMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericCategoryTermMutationResolver = $payloadableUpdateGenericCategoryTermMutationResolver;
-    }
     protected final function getPayloadableUpdateGenericCategoryTermMutationResolver() : PayloadableUpdateGenericCategoryTermMutationResolver
     {
         if ($this->payloadableUpdateGenericCategoryTermMutationResolver === null) {
@@ -298,10 +246,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->payloadableUpdateGenericCategoryTermMutationResolver = $payloadableUpdateGenericCategoryTermMutationResolver;
         }
         return $this->payloadableUpdateGenericCategoryTermMutationResolver;
-    }
-    public final function setPayloadableUpdateGenericCategoryTermBulkOperationMutationResolver(PayloadableUpdateGenericCategoryTermBulkOperationMutationResolver $payloadableUpdateGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableUpdateGenericCategoryTermBulkOperationMutationResolver = $payloadableUpdateGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableUpdateGenericCategoryTermBulkOperationMutationResolver() : PayloadableUpdateGenericCategoryTermBulkOperationMutationResolver
     {
@@ -312,10 +256,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->payloadableUpdateGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setPayloadableCreateGenericCategoryTermMutationResolver(PayloadableCreateGenericCategoryTermMutationResolver $payloadableCreateGenericCategoryTermMutationResolver) : void
-    {
-        $this->payloadableCreateGenericCategoryTermMutationResolver = $payloadableCreateGenericCategoryTermMutationResolver;
-    }
     protected final function getPayloadableCreateGenericCategoryTermMutationResolver() : PayloadableCreateGenericCategoryTermMutationResolver
     {
         if ($this->payloadableCreateGenericCategoryTermMutationResolver === null) {
@@ -324,10 +264,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->payloadableCreateGenericCategoryTermMutationResolver = $payloadableCreateGenericCategoryTermMutationResolver;
         }
         return $this->payloadableCreateGenericCategoryTermMutationResolver;
-    }
-    public final function setPayloadableCreateGenericCategoryTermBulkOperationMutationResolver(PayloadableCreateGenericCategoryTermBulkOperationMutationResolver $payloadableCreateGenericCategoryTermBulkOperationMutationResolver) : void
-    {
-        $this->payloadableCreateGenericCategoryTermBulkOperationMutationResolver = $payloadableCreateGenericCategoryTermBulkOperationMutationResolver;
     }
     protected final function getPayloadableCreateGenericCategoryTermBulkOperationMutationResolver() : PayloadableCreateGenericCategoryTermBulkOperationMutationResolver
     {
@@ -338,10 +274,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->payloadableCreateGenericCategoryTermBulkOperationMutationResolver;
     }
-    public final function setRootDeleteGenericCategoryTermInputObjectTypeResolver(RootDeleteGenericCategoryTermInputObjectTypeResolver $rootDeleteGenericCategoryTermInputObjectTypeResolver) : void
-    {
-        $this->rootDeleteGenericCategoryTermInputObjectTypeResolver = $rootDeleteGenericCategoryTermInputObjectTypeResolver;
-    }
     protected final function getRootDeleteGenericCategoryTermInputObjectTypeResolver() : RootDeleteGenericCategoryTermInputObjectTypeResolver
     {
         if ($this->rootDeleteGenericCategoryTermInputObjectTypeResolver === null) {
@@ -350,10 +282,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->rootDeleteGenericCategoryTermInputObjectTypeResolver = $rootDeleteGenericCategoryTermInputObjectTypeResolver;
         }
         return $this->rootDeleteGenericCategoryTermInputObjectTypeResolver;
-    }
-    public final function setRootUpdateGenericCategoryTermInputObjectTypeResolver(RootUpdateGenericCategoryTermInputObjectTypeResolver $rootUpdateGenericCategoryTermInputObjectTypeResolver) : void
-    {
-        $this->rootUpdateGenericCategoryTermInputObjectTypeResolver = $rootUpdateGenericCategoryTermInputObjectTypeResolver;
     }
     protected final function getRootUpdateGenericCategoryTermInputObjectTypeResolver() : RootUpdateGenericCategoryTermInputObjectTypeResolver
     {
@@ -364,10 +292,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->rootUpdateGenericCategoryTermInputObjectTypeResolver;
     }
-    public final function setRootCreateGenericCategoryTermInputObjectTypeResolver(RootCreateGenericCategoryTermInputObjectTypeResolver $rootCreateGenericCategoryTermInputObjectTypeResolver) : void
-    {
-        $this->rootCreateGenericCategoryTermInputObjectTypeResolver = $rootCreateGenericCategoryTermInputObjectTypeResolver;
-    }
     protected final function getRootCreateGenericCategoryTermInputObjectTypeResolver() : RootCreateGenericCategoryTermInputObjectTypeResolver
     {
         if ($this->rootCreateGenericCategoryTermInputObjectTypeResolver === null) {
@@ -377,10 +301,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
         }
         return $this->rootCreateGenericCategoryTermInputObjectTypeResolver;
     }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
-    }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -389,10 +309,6 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractObjectTypeF
             $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
         }
         return $this->userLoggedInCheckpoint;
-    }
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
     }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {

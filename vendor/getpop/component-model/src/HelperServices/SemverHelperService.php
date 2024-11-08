@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\HelperServices;
 
-use PrefixedByPoP\Composer\Semver\Semver;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Semver;
 use Exception;
 /** @internal */
 class SemverHelperService implements \PoP\ComponentModel\HelperServices\SemverHelperServiceInterface

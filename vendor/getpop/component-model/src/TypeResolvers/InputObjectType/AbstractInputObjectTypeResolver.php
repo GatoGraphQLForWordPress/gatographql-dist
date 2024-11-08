@@ -47,10 +47,6 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
      * @var \PoP\ComponentModel\Schema\InputCoercingServiceInterface|null
      */
     private $inputCoercingService;
-    public final function setDangerouslyNonSpecificScalarTypeScalarTypeResolver(DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver) : void
-    {
-        $this->dangerouslyNonSpecificScalarTypeScalarTypeResolver = $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    }
     protected final function getDangerouslyNonSpecificScalarTypeScalarTypeResolver() : DangerouslyNonSpecificScalarTypeScalarTypeResolver
     {
         if ($this->dangerouslyNonSpecificScalarTypeScalarTypeResolver === null) {
@@ -59,10 +55,6 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
             $this->dangerouslyNonSpecificScalarTypeScalarTypeResolver = $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
         }
         return $this->dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    }
-    public final function setInputCoercingService(InputCoercingServiceInterface $inputCoercingService) : void
-    {
-        $this->inputCoercingService = $inputCoercingService;
     }
     protected final function getInputCoercingService() : InputCoercingServiceInterface
     {

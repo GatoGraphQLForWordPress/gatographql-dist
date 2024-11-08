@@ -29,10 +29,6 @@ class RegisterQueryAndMutationRootsRootObjectTypeFieldResolver extends AbstractO
      * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\MutationRootObjectTypeResolver|null
      */
     private $mutationRootObjectTypeResolver;
-    public final function setQueryRootObjectTypeResolver(QueryRootObjectTypeResolver $queryRootObjectTypeResolver) : void
-    {
-        $this->queryRootObjectTypeResolver = $queryRootObjectTypeResolver;
-    }
     protected final function getQueryRootObjectTypeResolver() : QueryRootObjectTypeResolver
     {
         if ($this->queryRootObjectTypeResolver === null) {
@@ -41,10 +37,6 @@ class RegisterQueryAndMutationRootsRootObjectTypeFieldResolver extends AbstractO
             $this->queryRootObjectTypeResolver = $queryRootObjectTypeResolver;
         }
         return $this->queryRootObjectTypeResolver;
-    }
-    public final function setMutationRootObjectTypeResolver(MutationRootObjectTypeResolver $mutationRootObjectTypeResolver) : void
-    {
-        $this->mutationRootObjectTypeResolver = $mutationRootObjectTypeResolver;
     }
     protected final function getMutationRootObjectTypeResolver() : MutationRootObjectTypeResolver
     {

@@ -19,10 +19,6 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\FeaturedImageByOneofInputObjectTypeResolver|null
      */
     private $featuredImageByOneofInputObjectTypeResolver;
-    public final function setFeaturedImageByOneofInputObjectTypeResolver(FeaturedImageByOneofInputObjectTypeResolver $featuredImageByOneofInputObjectTypeResolver) : void
-    {
-        $this->featuredImageByOneofInputObjectTypeResolver = $featuredImageByOneofInputObjectTypeResolver;
-    }
     protected final function getFeaturedImageByOneofInputObjectTypeResolver() : FeaturedImageByOneofInputObjectTypeResolver
     {
         if ($this->featuredImageByOneofInputObjectTypeResolver === null) {

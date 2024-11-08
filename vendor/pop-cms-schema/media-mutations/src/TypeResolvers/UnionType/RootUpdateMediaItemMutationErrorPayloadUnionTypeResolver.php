@@ -12,10 +12,6 @@ class RootUpdateMediaItemMutationErrorPayloadUnionTypeResolver extends \PoPCMSSc
      * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\UnionType\RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader(RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader $rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader = $rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader() : RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader === null) {

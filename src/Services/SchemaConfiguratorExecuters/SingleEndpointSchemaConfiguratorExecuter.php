@@ -32,17 +32,9 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
      */
     private $endpointBlockHelpers;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-    final public function setSingleEndpointSchemaConfigurator(SingleEndpointSchemaConfigurator $singleEndpointSchemaConfigurator): void
-    {
-        $this->singleEndpointSchemaConfigurator = $singleEndpointSchemaConfigurator;
     }
     final protected function getSingleEndpointSchemaConfigurator(): SingleEndpointSchemaConfigurator
     {
@@ -53,10 +45,6 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
         }
         return $this->singleEndpointSchemaConfigurator;
     }
-    final public function setGraphQLEndpointHandler(GraphQLEndpointHandler $graphQLEndpointHandler): void
-    {
-        $this->graphQLEndpointHandler = $graphQLEndpointHandler;
-    }
     final protected function getGraphQLEndpointHandler(): GraphQLEndpointHandler
     {
         if ($this->graphQLEndpointHandler === null) {
@@ -65,10 +53,6 @@ class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfigurato
             $this->graphQLEndpointHandler = $graphQLEndpointHandler;
         }
         return $this->graphQLEndpointHandler;
-    }
-    final public function setEndpointBlockHelpers(EndpointBlockHelpers $endpointBlockHelpers): void
-    {
-        $this->endpointBlockHelpers = $endpointBlockHelpers;
     }
     final protected function getEndpointBlockHelpers(): EndpointBlockHelpers
     {

@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\TypedReference;
-use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
-use PrefixedByPoP\Symfony\Contracts\Service\ServiceSubscriberInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\TypedReference;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\SubscribedService;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberInterface;
 /**
  * Autowires a service locator based on a tag name or an explicit list of key => service-type pairs.
  * @internal

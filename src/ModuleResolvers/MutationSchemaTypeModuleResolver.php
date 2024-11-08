@@ -44,10 +44,6 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
      */
     private $markdownContentParser;
 
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
-    }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
         if ($this->markdownContentParser === null) {
@@ -368,8 +364,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql')),
-                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql')),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql'),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    \__('<code>authorID</code> input (when creating/updating custom posts)', 'gatographql'),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
         }

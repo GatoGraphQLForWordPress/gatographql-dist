@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache;
 
-use PrefixedByPoP\Psr\Log\LoggerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\LogicException;
-use PrefixedByPoP\Symfony\Contracts\Cache\ItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\LogicException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\ItemInterface;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
@@ -206,8 +206,7 @@ final class CacheItem implements ItemInterface
         if (1 !== \count($v)) {
             return \false;
         }
-        \reset($v);
-        if (10 !== \strlen($k = (string) \key($v))) {
+        if (10 !== \strlen($k = (string) \array_key_first($v))) {
             return \false;
         }
         if ("\x9d" !== $k[0]) {

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\Traits;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ChildDefinition;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 /** @internal */
 trait ParentTrait
 {
@@ -32,8 +32,8 @@ trait ParentTrait
         } else {
             // cast Definition to ChildDefinition
             $definition = \serialize($this->definition);
-            $definition = \substr_replace($definition, '67', 2, 2);
-            $definition = \substr_replace($definition, 'Child', 58, 0);
+            $definition = \substr_replace($definition, '85', 2, 2);
+            $definition = \substr_replace($definition, 'Child', 76, 0);
             $definition = \unserialize($definition);
             $this->definition = $definition->setParent($parent);
         }

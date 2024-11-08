@@ -15,10 +15,6 @@ class GenericCustomPostSetTagsMutationPayloadErrorsFieldTransientOperationPayloa
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver|null
      */
     private $genericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver;
-    public final function setGenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver(GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver $genericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->genericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver = $genericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getGenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver() : GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver === null) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
-use PrefixedByPoP\Masterminds\HTML5\Entities;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Entities;
 /**
  * Manage entity references.
  *

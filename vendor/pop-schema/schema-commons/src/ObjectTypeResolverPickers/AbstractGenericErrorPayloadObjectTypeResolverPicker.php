@@ -13,10 +13,6 @@ abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends \PoPS
      * @var \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\GenericErrorPayloadObjectTypeResolver|null
      */
     private $genericErrorPayloadObjectTypeResolver;
-    public final function setGenericErrorPayloadObjectTypeResolver(GenericErrorPayloadObjectTypeResolver $genericErrorPayloadObjectTypeResolver) : void
-    {
-        $this->genericErrorPayloadObjectTypeResolver = $genericErrorPayloadObjectTypeResolver;
-    }
     protected final function getGenericErrorPayloadObjectTypeResolver() : GenericErrorPayloadObjectTypeResolver
     {
         if ($this->genericErrorPayloadObjectTypeResolver === null) {

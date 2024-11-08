@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Request stack that controls the lifecycle of requests.
  *

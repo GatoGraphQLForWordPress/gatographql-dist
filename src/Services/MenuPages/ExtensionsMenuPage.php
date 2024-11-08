@@ -27,10 +27,6 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
      */
     private $extensionDocsMenuPage;
 
-    final public function setExtensionDocsMenuPage(ExtensionDocsMenuPage $extensionDocsMenuPage): void
-    {
-        $this->extensionDocsMenuPage = $extensionDocsMenuPage;
-    }
     final protected function getExtensionDocsMenuPage(): ExtensionDocsMenuPage
     {
         if ($this->extensionDocsMenuPage === null) {
@@ -46,9 +42,9 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
         return 'extensions';
     }
 
-    protected function getHeader(): string
+    public function getMenuPageTitle(): string
     {
-        return \__('Gato GraphQL — Extensions', 'gatographql');
+        return __('Extensions', 'gatographql');
     }
 
     protected function hasViews(): bool
@@ -127,12 +123,31 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
         $displayGatoGraphQLPROFeatureBundlesOnExtensionsPage = PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage();
         $displayGatoGraphQLPROExtensionsOnExtensionsPage = PluginStaticModuleConfiguration::displayGatoGraphQLPROExtensionsOnExtensionsPage();
         if ($displayGatoGraphQLPROBundleOnExtensionsPage && !PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage()) {
-            return sprintf(__('<strong>%1$s</strong> includes extensions that add functionality and extend the GraphQL schema. Browse them all here, or on the <a href="%2$s" target="%3$s">Gato GraphQL website%4$s</a>.', 'gatographql'), 'Gato GraphQL PRO', $moduleConfiguration->getGatoGraphQLWebsiteURL(), '_blank', HTMLCodes::OPEN_IN_NEW_WINDOW);
+            return sprintf(
+                __('<strong>%1$s</strong> includes extensions that add functionality and extend the GraphQL schema. Browse them all here, or on the <a href="%2$s" target="%3$s">Gato GraphQL website%4$s</a>.', 'gatographql'),
+                'Gato GraphQL PRO',
+                $moduleConfiguration->getGatoGraphQLWebsiteURL(),
+                '_blank',
+                HTMLCodes::OPEN_IN_NEW_WINDOW,
+            );
         }
         $headerMessage = __('Extensions add functionality and expand the GraphQL schema.', 'gatographql');
         if ($displayGatoGraphQLPROFeatureBundlesOnExtensionsPage && !$displayGatoGraphQLPROExtensionsOnExtensionsPage) {
-            return sprintf(__('%1$s Browse them on the <a href="%2$s" target="%3$s">Gato GraphQL website%4$s</a>.', 'gatographql'), $headerMessage, $moduleConfiguration->getGatoGraphQLWebsiteURL(), '_blank', HTMLCodes::OPEN_IN_NEW_WINDOW);
+            return sprintf(
+                __('%1$s Browse them on the <a href="%2$s" target="%3$s">Gato GraphQL website%4$s</a>.', 'gatographql'),
+                $headerMessage,
+                $moduleConfiguration->getGatoGraphQLWebsiteURL(),
+                '_blank',
+                HTMLCodes::OPEN_IN_NEW_WINDOW,
+            );
         }
-        return sprintf(__('%1$s Browse all <a href="%2$s" target="%4$s">bundles%5$s</a> and <a href="%3$s" target="%4$s">extensions%5$s</a> on the Gato GraphQL website.', 'gatographql'), $headerMessage, $moduleConfiguration->getGatoGraphQLBundlesPageURL(), $moduleConfiguration->getGatoGraphQLExtensionsPageURL(), '_blank', HTMLCodes::OPEN_IN_NEW_WINDOW);
+        return sprintf(
+            __('%1$s Browse all <a href="%2$s" target="%4$s">bundles%5$s</a> and <a href="%3$s" target="%4$s">extensions%5$s</a> on the Gato GraphQL website.', 'gatographql'),
+            $headerMessage,
+            $moduleConfiguration->getGatoGraphQLBundlesPageURL(),
+            $moduleConfiguration->getGatoGraphQLExtensionsPageURL(),
+            '_blank',
+            HTMLCodes::OPEN_IN_NEW_WINDOW,
+        );
     }
 }

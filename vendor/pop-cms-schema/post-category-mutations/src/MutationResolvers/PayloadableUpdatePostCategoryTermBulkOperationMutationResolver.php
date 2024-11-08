@@ -12,10 +12,6 @@ class PayloadableUpdatePostCategoryTermBulkOperationMutationResolver extends Abs
      * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableUpdatePostCategoryTermMutationResolver|null
      */
     private $payloadableUpdatePostCategoryTermMutationResolver;
-    public final function setPayloadableUpdatePostCategoryTermMutationResolver(\PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableUpdatePostCategoryTermMutationResolver $payloadableUpdatePostCategoryTermMutationResolver) : void
-    {
-        $this->payloadableUpdatePostCategoryTermMutationResolver = $payloadableUpdatePostCategoryTermMutationResolver;
-    }
     protected final function getPayloadableUpdatePostCategoryTermMutationResolver() : \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableUpdatePostCategoryTermMutationResolver
     {
         if ($this->payloadableUpdatePostCategoryTermMutationResolver === null) {

@@ -15,10 +15,6 @@ class RootRemoveFeaturedImageFromCustomPostMutationPayloadErrorsFieldTransientOp
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver(RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver = $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver() : RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver === null) {

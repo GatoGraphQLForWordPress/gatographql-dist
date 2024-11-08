@@ -15,10 +15,6 @@ class PageMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationP
      * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
      */
     private $pageObjectTypeResolver;
-    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
-    {
-        $this->pageObjectTypeResolver = $pageObjectTypeResolver;
-    }
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {

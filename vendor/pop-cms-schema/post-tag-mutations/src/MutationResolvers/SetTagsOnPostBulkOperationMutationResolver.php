@@ -12,10 +12,6 @@ class SetTagsOnPostBulkOperationMutationResolver extends AbstractBulkOperationDe
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver|null
      */
     private $setTagsOnPostMutationResolver;
-    public final function setSetTagsOnPostMutationResolver(\PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver $setTagsOnPostMutationResolver) : void
-    {
-        $this->setTagsOnPostMutationResolver = $setTagsOnPostMutationResolver;
-    }
     protected final function getSetTagsOnPostMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver
     {
         if ($this->setTagsOnPostMutationResolver === null) {

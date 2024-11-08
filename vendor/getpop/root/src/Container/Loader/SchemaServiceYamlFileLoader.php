@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace PoP\Root\Container\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\FileLocatorInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Override the Symfony class, to:
  *

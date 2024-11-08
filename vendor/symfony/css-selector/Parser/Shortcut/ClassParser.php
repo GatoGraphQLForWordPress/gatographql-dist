@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Shortcut;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Shortcut;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\ClassNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\ElementNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Node\SelectorNode;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\ParserInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\ClassNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\ElementNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node\SelectorNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * CSS selector class parser shortcut.
  *

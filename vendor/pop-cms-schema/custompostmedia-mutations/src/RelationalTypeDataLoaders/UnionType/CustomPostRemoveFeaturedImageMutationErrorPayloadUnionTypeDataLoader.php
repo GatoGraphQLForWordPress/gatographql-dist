@@ -13,10 +13,6 @@ class CustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeDataLoader exten
      * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\CustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver|null
      */
     private $customPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver;
-    public final function setCustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver(CustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver $customPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->customPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver = $customPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getCustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver() : CustomPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver
     {
         if ($this->customPostRemoveFeaturedImageMutationErrorPayloadUnionTypeResolver === null) {

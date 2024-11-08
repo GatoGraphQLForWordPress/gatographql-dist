@@ -43,7 +43,10 @@ trait HasMarkdownDocumentationModuleResolverTrait
             return null;
         }
 
-        return $this->getDocumentationMarkdownContent($module, $markdownFilename) ?? sprintf(
+        return $this->getDocumentationMarkdownContent(
+            $module,
+            $markdownFilename,
+        ) ?? sprintf(
             '<p>%s</p>',
             \__('Oops, the documentation for this module is not available', 'gatographql')
         );

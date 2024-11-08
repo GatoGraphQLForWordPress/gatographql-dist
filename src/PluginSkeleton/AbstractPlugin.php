@@ -6,13 +6,18 @@ namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
 
 use GatoGraphQL\ExternalDependencyWrappers\Composer\Semver\SemverWrapper;
 use GatoGraphQL\GatoGraphQL\Facades\Registries\CustomPostTypeRegistryFacade;
+use GatoGraphQL\GatoGraphQL\Facades\Settings\OptionNamespacerFacade;
 use GatoGraphQL\GatoGraphQL\Module;
 use GatoGraphQL\GatoGraphQL\ModuleConfiguration;
+use GatoGraphQL\GatoGraphQL\PluginMetadata;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInfoInterface;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\CustomPostTypeInterface;
 use PoP\Root\App;
 use PoP\Root\Helpers\ClassHelpers;
+use PoP\Root\Helpers\ScopingHelpers;
 use PoP\Root\Module\ModuleInterface;
+
+use function get_option;
 
 abstract class AbstractPlugin implements PluginInterface
 {
@@ -47,8 +52,29 @@ abstract class AbstractPlugin implements PluginInterface
      * @var string
      */
     protected $pluginName;
+    /**
+     * @var string
+     */
+    protected $pluginFolder;
+    /**
+     * @var string
+     */
+    protected $pluginURL;
+    /**
+     * @var string
+     */
+    protected $pluginScopingTopLevelNamespace;
 
-    public function __construct(string $pluginFile, string $pluginVersion, ?string $pluginName = null, ?string $commitHash = null)
+    public function __construct(
+        string $pluginFile,
+        string $pluginVersion,
+        ?string $pluginName = null,
+        ?string $commitHash = null,
+        /** Useful for development to regenerate the container when testing the generated plugin */
+        ?string $pluginFolder = null,
+        /** Useful to override by standalone plugins */
+        ?string $pluginURL = null
+    )
     {
         $this->pluginFile = $pluginFile;
         /** The main plugin file */
@@ -57,6 +83,9 @@ abstract class AbstractPlugin implements PluginInterface
         $this->pluginBaseName = \plugin_basename($pluginFile);
         $this->pluginSlug = dirname($this->pluginBaseName);
         $this->pluginName = $pluginName ?? $this->pluginBaseName;
+        $this->pluginFolder = $pluginFolder ?? dirname($this->pluginFile);
+        $this->pluginURL = $pluginURL ?? \plugin_dir_url($this->pluginFile);
+        $this->pluginScopingTopLevelNamespace = ScopingHelpers::getPluginInternalScopingTopLevelNamespace($this->pluginName);
         // Have the Plugin set its own info on the corresponding PluginInfo
         $this->initializeInfo();
     }
@@ -67,6 +96,14 @@ abstract class AbstractPlugin implements PluginInterface
     public function getPluginName(): string
     {
         return $this->pluginName;
+    }
+
+    /**
+     * Plugin name
+     */
+    public function getPluginMenuName(): string
+    {
+        return $this->getPluginName();
     }
 
     /**
@@ -134,7 +171,7 @@ abstract class AbstractPlugin implements PluginInterface
      */
     public function getPluginDir(): string
     {
-        return \dirname($this->pluginFile);
+        return $this->pluginFolder;
     }
 
     /**
@@ -142,7 +179,7 @@ abstract class AbstractPlugin implements PluginInterface
      */
     public function getPluginURL(): string
     {
-        return \plugin_dir_url($this->pluginFile);
+        return $this->pluginURL;
     }
 
     /**
@@ -169,7 +206,17 @@ abstract class AbstractPlugin implements PluginInterface
      */
     protected function getPluginInfoClass(): ?string
     {
-        $classNamespace = ClassHelpers::getClassPSR4Namespace(\get_called_class());
+        return $this->getPluginInfoClassFromPluginClass(\get_called_class());
+    }
+
+    /**
+     * PluginInfo class for the Plugin
+     *
+     * @return class-string<PluginInfoInterface>|null
+     */
+    protected function getPluginInfoClassFromPluginClass(string $pluginClass): ?string
+    {
+        $classNamespace = ClassHelpers::getClassPSR4Namespace($pluginClass);
         $pluginInfoClass = $classNamespace . '\\' . $this->getPluginInfoClassName();
         if (!class_exists($pluginInfoClass)) {
             return null;
@@ -208,8 +255,8 @@ abstract class AbstractPlugin implements PluginInterface
     public function configureComponents(): void
     {
         // Set the plugin folder on the plugin's Module
-        $pluginFolder = dirname($this->pluginFile);
-        $this->getPluginModule()->setPluginFolder($pluginFolder);
+        $pluginModule = $this->getPluginModule();
+        $pluginModule->setPluginFolder($this->pluginFolder);
     }
 
     /**
@@ -231,7 +278,12 @@ abstract class AbstractPlugin implements PluginInterface
     {
         $classNamespace = ClassHelpers::getClassPSR4Namespace(\get_called_class());
         /** @var class-string<ModuleInterface> */
-        return $classNamespace . '\\Module';
+        return $classNamespace . '\\' . $this->getModuleClassname();
+    }
+
+    protected function getModuleClassname(): string
+    {
+        return 'Module';
     }
 
     /**
@@ -325,7 +377,7 @@ abstract class AbstractPlugin implements PluginInterface
         return array_values(array_filter(
             $customPostTypeRegistry->getCustomPostTypes(),
             function (string $serviceDefinitionID) {
-                return strncmp($serviceDefinitionID, $this->getPluginNamespace() . '\\', strlen($this->getPluginNamespace() . '\\')) === 0;
+                return strncmp($serviceDefinitionID, $this->getPluginClassPSR4Namespace() . '\\', strlen($this->getPluginClassPSR4Namespace() . '\\')) === 0;
             },
             ARRAY_FILTER_USE_KEY
         ));
@@ -334,7 +386,7 @@ abstract class AbstractPlugin implements PluginInterface
     /**
      * The PSR-4 namespace, with format "Vendor\Project"
      */
-    public function getPluginNamespace(): string
+    public function getPluginClassPSR4Namespace(): string
     {
         return ClassHelpers::getClassPSR4Namespace(get_called_class());
     }
@@ -386,9 +438,11 @@ abstract class AbstractPlugin implements PluginInterface
      */
     private function removePluginVersion(): void
     {
-        $pluginVersions = \get_option(PluginOptions::PLUGIN_VERSIONS, []);
+        $optionNamespacer = OptionNamespacerFacade::getInstance();
+        $option = $optionNamespacer->namespaceOption(PluginOptions::PLUGIN_VERSIONS);
+        $pluginVersions = get_option($option, []);
         unset($pluginVersions[$this->pluginBaseName]);
-        \update_option(PluginOptions::PLUGIN_VERSIONS, $pluginVersions);
+        \update_option($option, $pluginVersions);
     }
 
     /**
@@ -469,7 +523,7 @@ abstract class AbstractPlugin implements PluginInterface
          * requests happening simultaneously might both execute
          * this logic
          */
-        $transientName = 'gatographql-installing-plugin-setup-data';
+        $transientName = $this->getPluginNamespace() . '-installing-plugin-setup-data';
         $transient = \get_transient($transientName);
         if ($transient !== false) {
             // Another instance is executing this code right now
@@ -517,5 +571,47 @@ abstract class AbstractPlugin implements PluginInterface
     protected function getPluginSetupDataVersionCallbacks(): array
     {
         return [];
+    }
+
+    public function getPluginNamespace(): string
+    {
+        return PluginMetadata::PLUGIN_NAMESPACE;
+    }
+
+    public function getPluginNamespaceForDB(): string
+    {
+        return PluginMetadata::PLUGIN_NAMESPACE_FOR_DB;
+    }
+
+    public function getPluginNamespaceForClass(): string
+    {
+        return PluginMetadata::PLUGIN_NAMESPACE_FOR_CLASS;
+    }
+
+    final public function getPluginWPConfigConstantNamespace(): string
+    {
+        return strtoupper($this->getPluginNamespace());
+    }
+
+    final public function getPluginWPContentFolderName(): string
+    {
+        return strtolower($this->getPluginSlug());
+    }
+
+    /**
+     * If the plugin is prefixed using PHP-Scoper, use the
+     * top-level namespace name calculated here.
+     *
+     * This same name must be input in the scoper-internal.inc.php
+     * config file.
+     *
+     * For instance, plugin "Gato GraphQL" will have the top-level
+     * namespace "GatoInternalPrefixByGatoGraphQL".
+     *
+     * @see ci/scoping/plugins/gatographql/scoper-internal.inc.php
+     */
+    final public function getPluginInternalScopingTopLevelNamespace(): string
+    {
+        return $this->pluginScopingTopLevelNamespace;
     }
 }

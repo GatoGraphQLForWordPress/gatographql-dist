@@ -14,10 +14,6 @@ class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObjectTypeDataLoader|null
      */
     private $userAvatarObjectTypeDataLoader;
-    public final function setUserAvatarObjectTypeDataLoader(UserAvatarObjectTypeDataLoader $userAvatarObjectTypeDataLoader) : void
-    {
-        $this->userAvatarObjectTypeDataLoader = $userAvatarObjectTypeDataLoader;
-    }
     protected final function getUserAvatarObjectTypeDataLoader() : UserAvatarObjectTypeDataLoader
     {
         if ($this->userAvatarObjectTypeDataLoader === null) {

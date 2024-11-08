@@ -37,10 +37,6 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver|null
      */
     private $commentAsOneofInputObjectTypeResolver;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -49,10 +45,6 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
-    {
-        $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
     protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
     {
@@ -63,10 +55,6 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->emailScalarTypeResolver;
     }
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
-    {
-        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
-    }
     protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -76,10 +64,6 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
         }
         return $this->urlScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -88,10 +72,6 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setCommentAsOneofInputObjectTypeResolver(\PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver $commentAsOneofInputObjectTypeResolver) : void
-    {
-        $this->commentAsOneofInputObjectTypeResolver = $commentAsOneofInputObjectTypeResolver;
     }
     protected final function getCommentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver
     {

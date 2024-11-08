@@ -25,10 +25,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
      */
     private $slugFilterInput;
 
-    final public function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver): void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -37,10 +33,6 @@ class InputObjectTypeHookSet extends AbstractHookSet
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    final public function setSlugFilterInput(SlugFilterInput $slugFilterInput): void
-    {
-        $this->slugFilterInput = $slugFilterInput;
     }
     final protected function getSlugFilterInput(): SlugFilterInput
     {

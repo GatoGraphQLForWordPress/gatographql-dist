@@ -19,10 +19,6 @@ abstract class AbstractGraphQLEndpointExecuterAppStateProvider extends AbstractA
      */
     private $graphQLDataStructureFormatter;
 
-    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
-    {
-        $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
-    }
     final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {

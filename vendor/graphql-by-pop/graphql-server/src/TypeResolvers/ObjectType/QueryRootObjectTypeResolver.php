@@ -16,10 +16,6 @@ class QueryRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
      * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\QueryRootObjectTypeDataLoader|null
      */
     private $queryRootObjectTypeDataLoader;
-    public final function setQueryRootObjectTypeDataLoader(QueryRootObjectTypeDataLoader $queryRootObjectTypeDataLoader) : void
-    {
-        $this->queryRootObjectTypeDataLoader = $queryRootObjectTypeDataLoader;
-    }
     protected final function getQueryRootObjectTypeDataLoader() : QueryRootObjectTypeDataLoader
     {
         if ($this->queryRootObjectTypeDataLoader === null) {

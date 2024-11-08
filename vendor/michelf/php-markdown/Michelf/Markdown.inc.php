@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 // Use this file if you cannot use class autoloading. It will include all the
 // files needed for the Markdown parser.

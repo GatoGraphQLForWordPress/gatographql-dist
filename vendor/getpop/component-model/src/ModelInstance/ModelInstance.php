@@ -22,10 +22,6 @@ class ModelInstance implements \PoP\ComponentModel\ModelInstance\ModelInstanceIn
      * @var \PoP\Definitions\DefinitionManagerInterface|null
      */
     private $definitionManager;
-    public final function setApplicationInfo(ApplicationInfoInterface $applicationInfo) : void
-    {
-        $this->applicationInfo = $applicationInfo;
-    }
     protected final function getApplicationInfo() : ApplicationInfoInterface
     {
         if ($this->applicationInfo === null) {
@@ -34,10 +30,6 @@ class ModelInstance implements \PoP\ComponentModel\ModelInstance\ModelInstanceIn
             $this->applicationInfo = $applicationInfo;
         }
         return $this->applicationInfo;
-    }
-    public final function setDefinitionManager(DefinitionManagerInterface $definitionManager) : void
-    {
-        $this->definitionManager = $definitionManager;
     }
     protected final function getDefinitionManager() : DefinitionManagerInterface
     {

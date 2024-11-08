@@ -12,10 +12,6 @@ class CreatePageBulkOperationMutationResolver extends AbstractBulkOperationDecor
      * @var \PoPCMSSchema\PageMutations\MutationResolvers\CreatePageMutationResolver|null
      */
     private $createPageMutationResolver;
-    public final function setCreatePageMutationResolver(\PoPCMSSchema\PageMutations\MutationResolvers\CreatePageMutationResolver $createPageMutationResolver) : void
-    {
-        $this->createPageMutationResolver = $createPageMutationResolver;
-    }
     protected final function getCreatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\CreatePageMutationResolver
     {
         if ($this->createPageMutationResolver === null) {

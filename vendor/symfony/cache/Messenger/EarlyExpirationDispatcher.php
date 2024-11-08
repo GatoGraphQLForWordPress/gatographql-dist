@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Messenger;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger;
 
-use PrefixedByPoP\Psr\Log\LoggerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AdapterInterface;
-use PrefixedByPoP\Symfony\Component\Cache\CacheItem;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ReverseContainer;
-use PrefixedByPoP\Symfony\Component\Messenger\MessageBusInterface;
-use PrefixedByPoP\Symfony\Component\Messenger\Stamp\HandledStamp;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AdapterInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ReverseContainer;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Messenger\MessageBusInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Messenger\Stamp\HandledStamp;
 /**
  * Sends the computation of cached values to a message bus.
  * @internal

@@ -7,6 +7,7 @@ namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\Constants\RequestParams;
 use GatoGraphQL\GatoGraphQL\ContentProcessors\PluginMarkdownContentRetrieverTrait;
+use GatoGraphQL\GatoGraphQL\PluginApp;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\MenuPages\AbstractDocsMenuPage;
 use PoP\ComponentModel\Misc\GeneralUtils;
@@ -20,10 +21,6 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
      */
     private $moduleRegistry;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -107,7 +104,13 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
                 $entryName
             );
             $entryID = $this->getEntryID($entryName);
-            $markdownContent .= sprintf('<a data-tab-target="%s" href="%s" class="nav-tab %s">%s</a>', '#' . $navContentUniqueID . ' > #' . $entryID, $entryURL, $entryName === $activeEntryName ? 'nav-tab-active' : '', $entryTitle);
+            $markdownContent .= sprintf(
+                '<a data-tab-target="%s" href="%s" class="nav-tab %s">%s</a>',
+                '#' . $navContentUniqueID . ' > #' . $entryID,
+                $entryURL,
+                $entryName === $activeEntryName ? 'nav-tab-active' : '',
+                $entryTitle,
+            );
         }
 
         $markdownContent .= '
@@ -158,8 +161,14 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
                     'display: %s;',
                     $entryName === $activeEntryName ? 'block' : 'none'
                 ),
-                $this->getEntryTitle($entryTitle, $entry),
-                $this->getEntryContent($entryContent, $entry)
+                $this->getEntryTitle(
+                    $entryTitle,
+                    $entry,
+                ),
+                $this->getEntryContent(
+                    $entryContent,
+                    $entry,
+                )
             );
         }
 
@@ -189,7 +198,14 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
         return false;
     }
 
-    abstract protected function getPageTitle(): string;
+    protected function getPageTitle(): string
+    {
+        return sprintf(
+            \__('%s — %s', 'gatographql'),
+            PluginApp::getMainPlugin()->getPluginName(),
+            $this->getMenuPageTitle()
+        );
+    }
 
     protected function getPageHeaderHTML(): string
     {

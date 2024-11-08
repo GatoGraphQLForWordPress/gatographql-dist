@@ -13,10 +13,6 @@ class RootSetCategoriesOnPostMutationErrorPayloadUnionTypeDataLoader extends Abs
      * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver(RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver $rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver = $rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver() : RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver === null) {

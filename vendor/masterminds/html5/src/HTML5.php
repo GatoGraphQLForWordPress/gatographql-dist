@@ -1,12 +1,12 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds;
 
-use PrefixedByPoP\Masterminds\HTML5\Parser\DOMTreeBuilder;
-use PrefixedByPoP\Masterminds\HTML5\Parser\Scanner;
-use PrefixedByPoP\Masterminds\HTML5\Parser\Tokenizer;
-use PrefixedByPoP\Masterminds\HTML5\Serializer\OutputRules;
-use PrefixedByPoP\Masterminds\HTML5\Serializer\Traverser;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser\DOMTreeBuilder;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser\Scanner;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser\Tokenizer;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Serializer\OutputRules;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Serializer\Traverser;
 /**
  * This class offers convenience methods for parsing and serializing HTML5.
  * It is roughly designed to mirror the \DOMDocument native class.

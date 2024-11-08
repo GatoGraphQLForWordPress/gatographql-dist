@@ -76,10 +76,6 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
      * @var \PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface|null
      */
     private $directivePipelineService;
-    public final function setMandatoryFieldDirectiveResolverRegistry(MandatoryFieldDirectiveResolverRegistryInterface $mandatoryFieldDirectiveResolverRegistry) : void
-    {
-        $this->mandatoryFieldDirectiveResolverRegistry = $mandatoryFieldDirectiveResolverRegistry;
-    }
     protected final function getMandatoryFieldDirectiveResolverRegistry() : MandatoryFieldDirectiveResolverRegistryInterface
     {
         if ($this->mandatoryFieldDirectiveResolverRegistry === null) {
@@ -88,10 +84,6 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             $this->mandatoryFieldDirectiveResolverRegistry = $mandatoryFieldDirectiveResolverRegistry;
         }
         return $this->mandatoryFieldDirectiveResolverRegistry;
-    }
-    public final function setDirectivePipelineService(DirectivePipelineServiceInterface $directivePipelineService) : void
-    {
-        $this->directivePipelineService = $directivePipelineService;
     }
     protected final function getDirectivePipelineService() : DirectivePipelineServiceInterface
     {

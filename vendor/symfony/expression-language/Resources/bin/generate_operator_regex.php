@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 /*
  * This file is part of the Symfony package.

@@ -15,10 +15,6 @@ class NativeAPIEndpointHandlerAppStateProvider extends AbstractAPIEndpointHandle
      */
     private $nativeAPIEndpointHandler;
 
-    final public function setNativeAPIEndpointHandler(NativeAPIEndpointHandler $nativeAPIEndpointHandler): void
-    {
-        $this->nativeAPIEndpointHandler = $nativeAPIEndpointHandler;
-    }
     final protected function getNativeAPIEndpointHandler(): NativeAPIEndpointHandler
     {
         if ($this->nativeAPIEndpointHandler === null) {

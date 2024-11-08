@@ -5,10 +5,47 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Services\Taxonomies;
 
 use GatoGraphQL\GatoGraphQL\AppHelpers;
+use GatoGraphQL\GatoGraphQL\PluginApp;
+use GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface;
+use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\CustomPostTypeInterface;
+use GatoGraphQL\GatoGraphQL\Services\Menus\MenuInterface;
+use GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu;
+use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
+use PoP\Root\Services\StandaloneServiceTrait;
 
 abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService implements TaxonomyInterface
 {
+    use StandaloneServiceTrait;
+
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu|null
+     */
+    private $pluginMenu;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
+     */
+    private $userAuthorization;
+
+    final protected function getPluginMenu(): PluginMenu
+    {
+        if ($this->pluginMenu === null) {
+            /** @var PluginMenu */
+            $pluginMenu = InstanceManagerFacade::getInstance()->getInstance(PluginMenu::class);
+            $this->pluginMenu = $pluginMenu;
+        }
+        return $this->pluginMenu;
+    }
+    final protected function getUserAuthorization(): UserAuthorizationInterface
+    {
+        if ($this->userAuthorization === null) {
+            /** @var UserAuthorizationInterface */
+            $userAuthorization = InstanceManagerFacade::getInstance()->getInstance(UserAuthorizationInterface::class);
+            $this->userAuthorization = $userAuthorization;
+        }
+        return $this->userAuthorization;
+    }
+
     /**
      * Add the hook to initialize the different taxonomies
      */
@@ -23,7 +60,7 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
 
         \add_action(
             'init',
-            \Closure::fromCallable([$this, 'initTaxonomy'])
+            \Closure::fromCallable([$this, 'initTaxonomy']),
         );
     }
 
@@ -69,16 +106,25 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
             $this->getTaxonomyName(false),
             $this->getTaxonomyPluralNames(false)
         );
-        $args = array(
-            'label' => $names_uc,
-            'labels' => $labels,
-            'hierarchical' => true,
-            'public' => true,
-            'show_ui' => true,
-            'show_in_nav_menus' => true,
-            'show_tagcloud' => false,
-            'show_in_rest' => true,
-            'show_admin_column' => $this->showAdminColumn(),
+        $securityTaxonomyArgs = [
+            'public' => $this->isPublic(),
+            'publicly_queryable' => $this->isPubliclyQueryable(),
+        ];
+        $canAccessSchemaEditor = $this->getUserAuthorization()->canAccessSchemaEditor();
+        $showInMenu = $this->showInMenu();
+        $args = array_merge(
+            $securityTaxonomyArgs,
+            [
+                'label' => $names_uc,
+                'labels' => $labels,
+                'hierarchical' => true,
+                'show_tagcloud' => false,
+                'show_in_nav_menus' => $showInMenu !== null,
+                'show_ui' => $showInMenu !== null,
+                'show_in_menu' => $showInMenu !== null,
+                'show_in_rest' => $canAccessSchemaEditor,
+                'show_admin_column' => $this->showAdminColumn(),
+            ]
         );
         /**
          * From documentation concerning 2nd parameter ($object_type):
@@ -93,13 +139,56 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
          */
         \register_taxonomy(
             $this->getTaxonomy(),
-            $this->getCustomPostTypes(),
+            array_map(
+                function (CustomPostTypeInterface $customPostTypeService) {
+                    return $customPostTypeService->getCustomPostType();
+                },
+                $this->getCustomPostTypes()
+            ),
             $args
         );
+    }
+
+    protected function isPublic(): bool
+    {
+        return true;
+    }
+
+    protected function isPubliclyQueryable(): bool
+    {
+        return $this->isPublic();
+    }
+
+    public function getMenu(): MenuInterface
+    {
+        return $this->getPluginMenu();
+    }
+
+    /**
+     * Show in menu
+     */
+    public function showInMenu(): ?string
+    {
+        if (!$this->isServiceEnabled()) {
+            return null;
+        }
+
+        $canAccessSchemaEditor = $this->getUserAuthorization()->canAccessSchemaEditor();
+        return $canAccessSchemaEditor ? $this->getMenu()->getName() : null;
     }
 
     protected function showAdminColumn(): bool
     {
         return $this->isHierarchical();
+    }
+
+    public function getTaxonomy(): string
+    {
+        return $this->getTaxonomyNamespace() . '-' . strtolower(str_replace(' ', '-', $this->getTaxonomyName(false)));
+    }
+
+    protected function getTaxonomyNamespace(): string
+    {
+        return PluginApp::getMainPlugin()->getPluginNamespaceForDB();
     }
 }

@@ -37,10 +37,6 @@ class AppStateProvider extends AbstractAppStateProvider
      */
     private $graphQLDataStructureFormatter;
 
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
-    }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
         if ($this->moduleRegistry === null) {
@@ -49,10 +45,6 @@ class AppStateProvider extends AbstractAppStateProvider
             $this->moduleRegistry = $moduleRegistry;
         }
         return $this->moduleRegistry;
-    }
-    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
-    {
-        $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
     }
     final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcher;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatcher;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\RequestMatcherInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Request;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatcherInterface;
 /**
  * Checks the Request URL host name matches a regular expression.
  *

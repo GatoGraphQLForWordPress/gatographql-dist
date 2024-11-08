@@ -8,6 +8,7 @@ use GatoGraphQL\GatoGraphQL\AppHelpers;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointConfigurationFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\UserInterfaceFunctionalityModuleResolver;
+use GatoGraphQL\GatoGraphQL\PluginApp;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface;
 use GatoGraphQL\GatoGraphQL\Services\Helpers\CPTUtils;
@@ -61,17 +62,9 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      */
     private $editorHelpers;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
     }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -82,10 +75,6 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         }
         return $this->moduleRegistry;
     }
-    final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
-    {
-        $this->userAuthorization = $userAuthorization;
-    }
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
         if ($this->userAuthorization === null) {
@@ -94,10 +83,6 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
             $this->userAuthorization = $userAuthorization;
         }
         return $this->userAuthorization;
-    }
-    final public function setCPTUtils(CPTUtils $cptUtils): void
-    {
-        $this->cptUtils = $cptUtils;
     }
     final protected function getCPTUtils(): CPTUtils
     {
@@ -108,10 +93,6 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         }
         return $this->cptUtils;
     }
-    final public function setPluginMenu(PluginMenu $pluginMenu): void
-    {
-        $this->pluginMenu = $pluginMenu;
-    }
     final protected function getPluginMenu(): PluginMenu
     {
         if ($this->pluginMenu === null) {
@@ -121,10 +102,6 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
         }
         return $this->pluginMenu;
     }
-    final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
-    {
-        $this->endpointHelpers = $endpointHelpers;
-    }
     final protected function getEndpointHelpers(): EndpointHelpers
     {
         if ($this->endpointHelpers === null) {
@@ -133,10 +110,6 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
             $this->endpointHelpers = $endpointHelpers;
         }
         return $this->endpointHelpers;
-    }
-    final public function setEditorHelpers(EditorHelpers $editorHelpers): void
-    {
-        $this->editorHelpers = $editorHelpers;
     }
     final protected function getEditorHelpers(): EditorHelpers
     {
@@ -591,8 +564,14 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      */
     public function getCustomPostType(): string
     {
-        return strtolower(str_replace(' ', '-', $this->getCustomPostTypeName()));
+        return $this->getCustomPostTypeNamespace() . '-' . strtolower(str_replace(' ', '-', $this->getCustomPostTypeName()));
     }
+
+    protected function getCustomPostTypeNamespace(): string
+    {
+        return PluginApp::getMainPlugin()->getPluginNamespaceForDB();
+    }
+
     /**
      * Custom Post Type plural name
      *
@@ -650,6 +629,15 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
     }
 
     /**
+     * Show in menu
+     */
+    public function showInMenu(): ?string
+    {
+        $canAccessSchemaEditor = $this->getUserAuthorization()->canAccessSchemaEditor();
+        return $canAccessSchemaEditor ? $this->getMenu()->getName() : null;
+    }
+
+    /**
      * The position on which to add the CPT on the menu.
      * This number will be used to initialize the CPT earlier or later
      */
@@ -699,6 +687,7 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
             'publicly_queryable' => $this->isPubliclyQueryable(),
         ];
         $canAccessSchemaEditor = $this->getUserAuthorization()->canAccessSchemaEditor();
+        $showInMenu = $this->showInMenu();
         /** @var array<string,mixed> */
         $postTypeArgs = array_merge(
             $securityPostTypeArgs,
@@ -709,9 +698,9 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
                 'hierarchical' => $this->isAPIHierarchyModuleEnabled() && $this->isHierarchical(),
                 'exclude_from_search' => true,
                 'show_in_admin_bar' => $this->showInAdminBar(),
-                'show_in_nav_menus' => true,
-                'show_ui' => true,
-                'show_in_menu' => $canAccessSchemaEditor ? $this->getMenu()->getName() : false,
+                'show_in_nav_menus' => $showInMenu !== null,
+                'show_ui' => $showInMenu !== null,
+                'show_in_menu' => $showInMenu ?? false,
                 'show_in_rest' => $canAccessSchemaEditor,
                 'supports' => [
                     'title',

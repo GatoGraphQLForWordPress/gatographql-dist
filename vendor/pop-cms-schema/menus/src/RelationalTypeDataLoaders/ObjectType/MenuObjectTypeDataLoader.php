@@ -12,10 +12,6 @@ class MenuObjectTypeDataLoader extends AbstractObjectTypeDataLoader
      * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
      */
     private $menuTypeAPI;
-    public final function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI) : void
-    {
-        $this->menuTypeAPI = $menuTypeAPI;
-    }
     protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {
         if ($this->menuTypeAPI === null) {

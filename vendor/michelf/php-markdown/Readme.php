@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 // This file passes the content of the Readme.md file in the same directory
 // through the Markdown filter. You can adapt this sample code in any way
@@ -12,7 +12,7 @@ namespace PrefixedByPoP;
 // If using Composer, use this instead:
 //require 'vendor/autoload.php';
 // Get Markdown class
-use PrefixedByPoP\Michelf\Markdown;
+use GatoExternalPrefixByGatoGraphQL\Michelf\Markdown;
 // Read file and pass content through the Markdown parser
 $text = \file_get_contents('Readme.md');
 $html = Markdown::defaultTransform($text);

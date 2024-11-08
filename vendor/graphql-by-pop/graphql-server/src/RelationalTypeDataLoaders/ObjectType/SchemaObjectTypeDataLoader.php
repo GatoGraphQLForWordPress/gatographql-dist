@@ -20,10 +20,6 @@ class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDa
      * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
      */
     private $schemaDefinitionReferenceRegistry;
-    public final function setSchemaObjectTypeResolver(SchemaObjectTypeResolver $schemaObjectTypeResolver) : void
-    {
-        $this->schemaObjectTypeResolver = $schemaObjectTypeResolver;
-    }
     protected final function getSchemaObjectTypeResolver() : SchemaObjectTypeResolver
     {
         if ($this->schemaObjectTypeResolver === null) {
@@ -32,10 +28,6 @@ class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDa
             $this->schemaObjectTypeResolver = $schemaObjectTypeResolver;
         }
         return $this->schemaObjectTypeResolver;
-    }
-    public final function setSchemaDefinitionReferenceRegistry(SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry) : void
-    {
-        $this->schemaDefinitionReferenceRegistry = $schemaDefinitionReferenceRegistry;
     }
     protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {

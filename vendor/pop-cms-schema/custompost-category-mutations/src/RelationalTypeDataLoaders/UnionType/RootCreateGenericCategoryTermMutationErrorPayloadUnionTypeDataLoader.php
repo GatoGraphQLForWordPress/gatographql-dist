@@ -13,10 +13,6 @@ class RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader exten
      * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\UnionType\RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver;
-    public final function setRootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver(RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver $rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver = $rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver() : RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver === null) {

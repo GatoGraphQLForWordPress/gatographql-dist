@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\SettingsCategoryResolvers;
 
 use GatoGraphQL\GatoGraphQL\Plugin;
+use GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface;
 use GatoGraphQL\GatoGraphQL\Settings\Options;
 
 class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
@@ -16,6 +17,21 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     public const PLUGIN_CONFIGURATION = Plugin::NAMESPACE . '\plugin-configuration';
     public const API_KEYS = Plugin::NAMESPACE . '\api-keys';
     public const PLUGIN_MANAGEMENT = Plugin::NAMESPACE . '\plugin-management';
+
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
+     */
+    private $optionNamespacer;
+
+    final protected function getOptionNamespacer(): OptionNamespacerInterface
+    {
+        if ($this->optionNamespacer === null) {
+            /** @var OptionNamespacerInterface */
+            $optionNamespacer = $this->instanceManager->getInstance(OptionNamespacerInterface::class);
+            $this->optionNamespacer = $optionNamespacer;
+        }
+        return $this->optionNamespacer;
+    }
 
     /**
      * @return string[]
@@ -59,22 +75,31 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     {
         switch ($settingsCategory) {
             case self::ENDPOINT_CONFIGURATION:
-                return Options::ENDPOINT_CONFIGURATION;
+                $option = Options::ENDPOINT_CONFIGURATION;
+                break;
             case self::SCHEMA_CONFIGURATION:
-                return Options::SCHEMA_CONFIGURATION;
+                $option = Options::SCHEMA_CONFIGURATION;
+                break;
             case self::SCHEMA_TYPE_CONFIGURATION:
-                return Options::SCHEMA_TYPE_CONFIGURATION;
+                $option = Options::SCHEMA_TYPE_CONFIGURATION;
+                break;
             case self::SERVER_CONFIGURATION:
-                return Options::SERVER_CONFIGURATION;
+                $option = Options::SERVER_CONFIGURATION;
+                break;
             case self::PLUGIN_CONFIGURATION:
-                return Options::PLUGIN_CONFIGURATION;
+                $option = Options::PLUGIN_CONFIGURATION;
+                break;
             case self::API_KEYS:
-                return Options::API_KEYS;
+                $option = Options::API_KEYS;
+                break;
             case self::PLUGIN_MANAGEMENT:
-                return Options::PLUGIN_MANAGEMENT;
+                $option = Options::PLUGIN_MANAGEMENT;
+                break;
             default:
-                return parent::getDBOptionName($settingsCategory);
+                $option = parent::getDBOptionName($settingsCategory);
+                break;
         }
+        return $this->getOptionNamespacer()->namespaceOption($option);
     }
 
     public function addOptionsFormSubmitButton(string $settingsCategory): bool

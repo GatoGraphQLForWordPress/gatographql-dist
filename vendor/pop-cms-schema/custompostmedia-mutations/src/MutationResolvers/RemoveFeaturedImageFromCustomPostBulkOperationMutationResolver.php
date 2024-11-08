@@ -12,10 +12,6 @@ class RemoveFeaturedImageFromCustomPostBulkOperationMutationResolver extends Abs
      * @var \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver|null
      */
     private $removeFeaturedImageFromCustomPostMutationResolver;
-    public final function setRemoveFeaturedImageFromCustomPostMutationResolver(\PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver $removeFeaturedImageFromCustomPostMutationResolver) : void
-    {
-        $this->removeFeaturedImageFromCustomPostMutationResolver = $removeFeaturedImageFromCustomPostMutationResolver;
-    }
     protected final function getRemoveFeaturedImageFromCustomPostMutationResolver() : \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\RemoveFeaturedImageFromCustomPostMutationResolver
     {
         if ($this->removeFeaturedImageFromCustomPostMutationResolver === null) {

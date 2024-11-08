@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
 /*
 Portions based on code from html5lib files with the following copyright:
@@ -26,7 +26,7 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-use PrefixedByPoP\Masterminds\HTML5\Exception;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Exception;
 /** @internal */
 class UTF8Utils
 {

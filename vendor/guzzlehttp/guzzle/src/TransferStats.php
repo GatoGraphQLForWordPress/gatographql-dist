@@ -1,10 +1,10 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * Represents data at the point after it was transferred either successfully
  * or after a network error.

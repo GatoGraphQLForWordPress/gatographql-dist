@@ -1,10 +1,10 @@
-# About Gato GraphQL
+# About {plugin-name}
 
 Powerful and flexible GraphQL server for WordPress.
 
 <!-- <div class="notice notice-info" markdown=1>
 
-### Rate Gato GraphQL
+### Rate {plugin-name}
 
 We work really hard to deliver a plugin that enables accessing any piece of data on our WordPress sites. It takes plenty of time and effort to develop, test and maintain the free Gato GraphQL plugin. Therefore if you like what you see and appreciate our work, we ask you nothing more than to please rate the plugin in the directory. Thanks in advance!
 
@@ -70,14 +70,22 @@ Gato GraphQL is a productivity tool for interacting with data in your WordPress 
 
 <br/>
 
-<div class="notice notice-warning" markdown=1>
+<div class="notice notice-warning inline" markdown=1>
 
 <strong>Subscribe to our newsletter</strong> to receive timely updates about Gato GraphQL:
 
 <form action="https://shop.gatographql.com/email-subscribe/external" method="POST" target="_blank">
   <p markdown=1>
     <label for="field-email">Email:</label>
-    <input type="email" name="email" id="field-email" required="" aria-required="true" placeholder="your@email.com" autocomplete="email">
+    <input
+      type="email"
+      name="email"
+      id="field-email"
+      required=""
+      aria-required="true"
+      placeholder="your@email.com"
+      autocomplete="email"
+    >
     <button type="submit" class="button">Subscribe</button>
   </p>
 </form>
@@ -88,7 +96,8 @@ Gato GraphQL is a productivity tool for interacting with data in your WordPress 
 
 New features released on each version:
 
-- **[6.0](../../release-notes/6.0/en.md)** (current)
+- **[7.0](../../release-notes/7.0/en.md)** (current)
+- [6.0](../../release-notes/6.0/en.md)
 - [5.0](../../release-notes/5.0/en.md)
 - [4.2](../../release-notes/4.2/en.md)
 - [4.1](../../release-notes/4.1/en.md)
@@ -125,7 +134,7 @@ _Support is provided to customers of any Gato GraphQL product with an active lic
 
 Send your message to the Gato GraphQL Support team:
 
-<form action="https://gatographql.com/__forms/support.html" method="POST" name="support" target="_blank">
+<form action="{contact-form-url}" method="POST" name="support" target="_blank">
   <input type="hidden" name="form-name" value="support" />
 
   <label for="field-name">Your name:</label>
@@ -134,6 +143,7 @@ Send your message to the Gato GraphQL Support team:
     type="text"
     name="name"
     id="field-name"
+    class="regular-text"
     required=""
     aria-required="true"
     placeholder="John Doe"
@@ -150,6 +160,7 @@ Send your message to the Gato GraphQL Support team:
     type="email"
     name="email"
     id="field-email"
+    class="regular-text"
     required=""
     aria-required="true"
     placeholder="your@email.com"
@@ -164,6 +175,7 @@ Send your message to the Gato GraphQL Support team:
     type="text"
     name="subject"
     id="field-subject"
+    class="regular-text"
     required=""
     aria-required="true"
     placeholder="Subject..."

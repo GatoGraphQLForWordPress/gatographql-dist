@@ -36,10 +36,6 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
      * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
      */
     private $outputService;
-    public final function setOutputService(OutputServiceInterface $outputService) : void
-    {
-        $this->outputService = $outputService;
-    }
     protected final function getOutputService() : OutputServiceInterface
     {
         if ($this->outputService === null) {

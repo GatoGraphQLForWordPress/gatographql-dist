@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Serializer;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Serializer;
 
 /**
  * Traverser for walking a DOM tree.

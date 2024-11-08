@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Cache;
 
 /**
  * Exception interface for invalid cache arguments.

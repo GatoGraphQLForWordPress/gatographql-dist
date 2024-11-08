@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadO
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver === null) {

@@ -12,10 +12,6 @@ class PayloadableDeletePostTagTermBulkOperationMutationResolver extends Abstract
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableDeletePostTagTermMutationResolver|null
      */
     private $payloadableDeletePostTagTermMutationResolver;
-    public final function setPayloadableDeletePostTagTermMutationResolver(\PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableDeletePostTagTermMutationResolver $payloadableDeletePostTagTermMutationResolver) : void
-    {
-        $this->payloadableDeletePostTagTermMutationResolver = $payloadableDeletePostTagTermMutationResolver;
-    }
     protected final function getPayloadableDeletePostTagTermMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableDeletePostTagTermMutationResolver
     {
         if ($this->payloadableDeletePostTagTermMutationResolver === null) {

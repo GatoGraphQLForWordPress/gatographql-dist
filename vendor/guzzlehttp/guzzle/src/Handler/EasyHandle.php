@@ -1,12 +1,12 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Psr7\Response;
-use PrefixedByPoP\GuzzleHttp\Utils;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Response;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
 /**
  * Represents a cURL easy handle and the data it populates.
  *

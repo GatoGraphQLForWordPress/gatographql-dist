@@ -1,14 +1,14 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\GuzzleHttp\Cookie\CookieJarInterface;
-use PrefixedByPoP\GuzzleHttp\Exception\RequestException;
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Cookie\CookieJarInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
 /**
  * Functions used to create and wrap handlers with handler middleware.
  * @internal

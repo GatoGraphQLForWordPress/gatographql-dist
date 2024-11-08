@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use PrefixedByPoP\Psr\Http\Message\ServerRequestInterface;
-use PrefixedByPoP\Psr\Http\Message\StreamInterface;
-use PrefixedByPoP\Psr\Http\Message\UploadedFileInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ServerRequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UploadedFileInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * Server-side HTTP request
  *

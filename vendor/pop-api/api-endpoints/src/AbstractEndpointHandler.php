@@ -18,10 +18,6 @@ abstract class AbstractEndpointHandler extends AbstractAutomaticallyInstantiated
      * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
      */
     private $routingHelperService;
-    public final function setRoutingHelperService(RoutingHelperServiceInterface $routingHelperService) : void
-    {
-        $this->routingHelperService = $routingHelperService;
-    }
     protected final function getRoutingHelperService() : RoutingHelperServiceInterface
     {
         if ($this->routingHelperService === null) {

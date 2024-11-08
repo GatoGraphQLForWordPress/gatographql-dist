@@ -6,7 +6,7 @@ namespace PoP\Root\Module;
 use PoP\Root\App;
 use PoP\Root\Helpers\ClassHelpers;
 use PoP\Root\Module\ModuleInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /** @internal */
 abstract class AbstractModule implements ModuleInterface
 {
@@ -293,12 +293,16 @@ abstract class AbstractModule implements ModuleInterface
     protected function getModuleConfigurationClass() : ?string
     {
         $classNamespace = ClassHelpers::getClassPSR4Namespace(\get_called_class());
-        $moduleConfigurationClass = $classNamespace . '\\ModuleConfiguration';
+        $moduleConfigurationClass = $classNamespace . '\\' . $this->getModuleConfigurationClassname();
         if (!\class_exists($moduleConfigurationClass)) {
             return null;
         }
         /** @var class-string<ModuleConfigurationInterface> */
         return $moduleConfigurationClass;
+    }
+    protected function getModuleConfigurationClassname() : string
+    {
+        return 'ModuleConfiguration';
     }
     protected function initializeInfo() : void
     {
@@ -322,5 +326,18 @@ abstract class AbstractModule implements ModuleInterface
         }
         /** @var class-string<ModuleInfoInterface> */
         return $moduleInfoClass;
+    }
+    /**
+     * Indicate if this Module must also be registered
+     * under the classes of other Modules. Needed by
+     * standalone plugins to supersede
+     * GatoGraphQL\GatoGraphQL\Module and yet be able to
+     * get configuration values from that module.
+     *
+     * @return array<class-string<ModuleInterface>>
+     */
+    public function registerAsModules() : array
+    {
+        return [];
     }
 }

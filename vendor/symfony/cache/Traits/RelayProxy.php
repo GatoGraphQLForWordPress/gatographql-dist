@@ -8,19 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Traits;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\LazyObjectInterface;
-use PrefixedByPoP\Symfony\Component\VarExporter\LazyProxyTrait;
-use PrefixedByPoP\Symfony\Contracts\Service\ResetInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
 // Help opcache.preload discover always-needed symbols
-\class_exists(\PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator::class);
-\class_exists(\PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry::class);
-\class_exists(\PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectState::class);
+\class_exists(\GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Hydrator::class);
+\class_exists(\GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectRegistry::class);
+\class_exists(\GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectState::class);
 /**
  * @internal
  */
-class RelayProxy extends \PrefixedByPoP\Relay\Relay implements ResetInterface, LazyObjectInterface
+class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements ResetInterface, LazyObjectInterface
 {
     use LazyProxyTrait {
         resetLazyObject as reset;

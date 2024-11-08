@@ -12,10 +12,6 @@ class AppStateProvider extends AbstractAppStateProvider
      * @var \PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface|null
      */
     private $userStateTypeAPI;
-    public final function setUserStateTypeAPI(UserStateTypeAPIInterface $userStateTypeAPI) : void
-    {
-        $this->userStateTypeAPI = $userStateTypeAPI;
-    }
     protected final function getUserStateTypeAPI() : UserStateTypeAPIInterface
     {
         if ($this->userStateTypeAPI === null) {

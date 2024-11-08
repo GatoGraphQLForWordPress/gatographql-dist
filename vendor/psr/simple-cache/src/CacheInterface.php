@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\SimpleCache;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\SimpleCache;
 
 /** @internal */
 interface CacheInterface

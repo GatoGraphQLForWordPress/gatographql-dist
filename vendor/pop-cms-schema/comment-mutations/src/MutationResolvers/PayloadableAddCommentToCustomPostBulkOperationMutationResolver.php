@@ -12,10 +12,6 @@ class PayloadableAddCommentToCustomPostBulkOperationMutationResolver extends Abs
      * @var \PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableAddCommentToCustomPostMutationResolver|null
      */
     private $payloadableAddCommentToCustomPostMutationResolver;
-    public final function setPayloadableAddCommentToCustomPostMutationResolver(\PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableAddCommentToCustomPostMutationResolver $payloadableAddCommentToCustomPostMutationResolver) : void
-    {
-        $this->payloadableAddCommentToCustomPostMutationResolver = $payloadableAddCommentToCustomPostMutationResolver;
-    }
     protected final function getPayloadableAddCommentToCustomPostMutationResolver() : \PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableAddCommentToCustomPostMutationResolver
     {
         if ($this->payloadableAddCommentToCustomPostMutationResolver === null) {

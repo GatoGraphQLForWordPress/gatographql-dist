@@ -18,10 +18,6 @@ class MediaObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType\MediaObjectTypeDataLoader|null
      */
     private $mediaObjectTypeDataLoader;
-    public final function setMediaTypeAPI(MediaTypeAPIInterface $mediaTypeAPI) : void
-    {
-        $this->mediaTypeAPI = $mediaTypeAPI;
-    }
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -30,10 +26,6 @@ class MediaObjectTypeResolver extends AbstractObjectTypeResolver
             $this->mediaTypeAPI = $mediaTypeAPI;
         }
         return $this->mediaTypeAPI;
-    }
-    public final function setMediaObjectTypeDataLoader(MediaObjectTypeDataLoader $mediaObjectTypeDataLoader) : void
-    {
-        $this->mediaObjectTypeDataLoader = $mediaObjectTypeDataLoader;
     }
     protected final function getMediaObjectTypeDataLoader() : MediaObjectTypeDataLoader
     {

@@ -28,10 +28,6 @@ class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers
      * @var \PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostByOneofInputObjectTypeResolver|null
      */
     private $postByOneofInputObjectTypeResolver;
-    public final function setPostByOneofInputObjectTypeResolver(PostByOneofInputObjectTypeResolver $postByOneofInputObjectTypeResolver) : void
-    {
-        $this->postByOneofInputObjectTypeResolver = $postByOneofInputObjectTypeResolver;
-    }
     protected final function getPostByOneofInputObjectTypeResolver() : PostByOneofInputObjectTypeResolver
     {
         if ($this->postByOneofInputObjectTypeResolver === null) {

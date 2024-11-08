@@ -13,10 +13,6 @@ class PostTagDeleteMutationErrorPayloadUnionTypeResolver extends AbstractTagDele
      * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\PostTagDeleteMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $postTagDeleteMutationErrorPayloadUnionTypeDataLoader;
-    public final function setPostTagDeleteMutationErrorPayloadUnionTypeDataLoader(PostTagDeleteMutationErrorPayloadUnionTypeDataLoader $postTagDeleteMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->postTagDeleteMutationErrorPayloadUnionTypeDataLoader = $postTagDeleteMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getPostTagDeleteMutationErrorPayloadUnionTypeDataLoader() : PostTagDeleteMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postTagDeleteMutationErrorPayloadUnionTypeDataLoader === null) {

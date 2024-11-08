@@ -33,10 +33,6 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
      * @var \PoPCMSSchema\Users\FilterInputs\EmailOrEmailsFilterInput|null
      */
     private $emailOrEmailsFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -45,10 +41,6 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
-    {
-        $this->emailScalarTypeResolver = $emailScalarTypeResolver;
     }
     protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
     {
@@ -59,10 +51,6 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
         }
         return $this->emailScalarTypeResolver;
     }
-    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
-    {
-        $this->searchFilterInput = $searchFilterInput;
-    }
     protected final function getSearchFilterInput() : SearchFilterInput
     {
         if ($this->searchFilterInput === null) {
@@ -71,10 +59,6 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
             $this->searchFilterInput = $searchFilterInput;
         }
         return $this->searchFilterInput;
-    }
-    public final function setEmailOrEmailsFilterInput(EmailOrEmailsFilterInput $emailOrEmailsFilterInput) : void
-    {
-        $this->emailOrEmailsFilterInput = $emailOrEmailsFilterInput;
     }
     protected final function getEmailOrEmailsFilterInput() : EmailOrEmailsFilterInput
     {

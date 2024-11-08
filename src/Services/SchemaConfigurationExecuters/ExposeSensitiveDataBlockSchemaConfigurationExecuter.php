@@ -17,10 +17,6 @@ class ExposeSensitiveDataBlockSchemaConfigurationExecuter extends AbstractDefaul
      */
     private $schemaConfigExposeSensitiveDataBlock;
 
-    final public function setSchemaConfigExposeSensitiveDataBlock(SchemaConfigExposeSensitiveDataBlock $schemaConfigExposeSensitiveDataBlock): void
-    {
-        $this->schemaConfigExposeSensitiveDataBlock = $schemaConfigExposeSensitiveDataBlock;
-    }
     final protected function getSchemaConfigExposeSensitiveDataBlock(): SchemaConfigExposeSensitiveDataBlock
     {
         if ($this->schemaConfigExposeSensitiveDataBlock === null) {

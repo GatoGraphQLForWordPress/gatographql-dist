@@ -27,7 +27,11 @@ class CategoryTypeMutationAPI extends TaxonomyTypeMutationAPI implements Categor
 
     protected function createTaxonomyTermCRUDMutationException(WP_Error $wpError): TaxonomyTermCRUDMutationException
     {
-        return new CategoryTermCRUDMutationException($wpError->get_error_message(), $wpError->get_error_code() ? $wpError->get_error_code() : null, $this->getWPErrorData($wpError));
+        return new CategoryTermCRUDMutationException(
+            $wpError->get_error_message(),
+            $wpError->get_error_code() ? $wpError->get_error_code() : null,
+            $this->getWPErrorData($wpError),
+        );
     }
 
     /**

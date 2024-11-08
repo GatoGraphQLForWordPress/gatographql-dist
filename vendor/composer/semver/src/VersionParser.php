@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Composer\Semver;
+namespace GatoExternalPrefixByGatoGraphQL\Composer\Semver;
 
-use PrefixedByPoP\Composer\Semver\Constraint\ConstraintInterface;
-use PrefixedByPoP\Composer\Semver\Constraint\MatchAllConstraint;
-use PrefixedByPoP\Composer\Semver\Constraint\MultiConstraint;
-use PrefixedByPoP\Composer\Semver\Constraint\Constraint;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\ConstraintInterface;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\MatchAllConstraint;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\MultiConstraint;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Constraint\Constraint;
 /**
  * Version parser.
  *

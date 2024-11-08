@@ -54,10 +54,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
      */
     private $markdownContentParser;
 
-    final public function setCommentObjectTypeResolver(CommentObjectTypeResolver $commentObjectTypeResolver): void
-    {
-        $this->commentObjectTypeResolver = $commentObjectTypeResolver;
-    }
     final protected function getCommentObjectTypeResolver(): CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {
@@ -66,10 +62,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $this->commentObjectTypeResolver = $commentObjectTypeResolver;
         }
         return $this->commentObjectTypeResolver;
-    }
-    final public function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver): void
-    {
-        $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
     }
     final protected function getPostTagObjectTypeResolver(): PostTagObjectTypeResolver
     {
@@ -80,10 +72,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->postTagObjectTypeResolver;
     }
-    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
-    {
-        $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
-    }
     final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
@@ -92,10 +80,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
         }
         return $this->postCategoryObjectTypeResolver;
-    }
-    final public function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver): void
-    {
-        $this->postObjectTypeResolver = $postObjectTypeResolver;
     }
     final protected function getPostObjectTypeResolver(): PostObjectTypeResolver
     {
@@ -106,10 +90,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->postObjectTypeResolver;
     }
-    final public function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver): void
-    {
-        $this->userObjectTypeResolver = $userObjectTypeResolver;
-    }
     final protected function getUserObjectTypeResolver(): UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
@@ -118,10 +98,6 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $this->userObjectTypeResolver = $userObjectTypeResolver;
         }
         return $this->userObjectTypeResolver;
-    }
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
     }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -275,78 +251,102 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $ulPlaceholder = '<ul><li><code>%s</code></li></ul>';
             $defaultValueDesc = $this->getDefaultValueDescription($this->getName($module));
             $moduleDescriptions = [
-                self::SCHEMA_CUSTOMPOST_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
-                    $metaKeyDesc,
-                    'custom posts'
-                ), $headsUpDesc, sprintf(
-                    $entryDesc,
-                    '_edit_last',
+                self::SCHEMA_CUSTOMPOST_META => sprintf(
+                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
                     sprintf(
-                        $ulPlaceholder,
-                        implode(
-                            '</code></li><li><code>',
-                            [
-                                '_edit_last',
-                                '/_edit_.*/',
-                                '#_edit_([a-zA-Z]*)#',
-                            ]
-                        )
-                    )
-                ), $defaultValueDesc),
-                self::SCHEMA_USER_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
-                    $metaKeyDesc,
-                    'users'
-                ), $headsUpDesc, sprintf(
-                    $entryDesc,
-                    'last_name',
+                        $metaKeyDesc,
+                        'custom posts'
+                    ),
+                    $headsUpDesc,
                     sprintf(
-                        $ulPlaceholder,
-                        implode(
-                            '</code></li><li><code>',
-                            [
-                                'last_name',
-                                '/last_.*/',
-                                '#last_([a-zA-Z]*)#',
-                            ]
+                        $entryDesc,
+                        '_edit_last',
+                        sprintf(
+                            $ulPlaceholder,
+                            implode(
+                                '</code></li><li><code>',
+                                [
+                                    '_edit_last',
+                                    '/_edit_.*/',
+                                    '#_edit_([a-zA-Z]*)#',
+                                ]
+                            )
                         )
-                    )
-                ), $defaultValueDesc),
-                self::SCHEMA_COMMENT_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
-                    $metaKeyDesc,
-                    'comments'
-                ), $headsUpDesc, sprintf(
-                    $entryDesc,
-                    'description',
+                    ),
+                    $defaultValueDesc,
+                ),
+                self::SCHEMA_USER_META => sprintf(
+                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
                     sprintf(
-                        $ulPlaceholder,
-                        implode(
-                            '</code></li><li><code>',
-                            [
-                                'description',
-                                '/desc.*/',
-                                '#desc([a-zA-Z]*)#',
-                            ]
-                        )
-                    )
-                ), $defaultValueDesc),
-                self::SCHEMA_TAXONOMY_META => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
-                    $metaKeyDesc,
-                    'taxonomies (tags and categories)'
-                ), $headsUpDesc, sprintf(
-                    $entryDesc,
-                    'description',
+                        $metaKeyDesc,
+                        'users'
+                    ),
+                    $headsUpDesc,
                     sprintf(
-                        $ulPlaceholder,
-                        implode(
-                            '</code></li><li><code>',
-                            [
-                                'description',
-                                '/desc.*/',
-                                '#desc([a-zA-Z]*)#',
-                            ]
+                        $entryDesc,
+                        'last_name',
+                        sprintf(
+                            $ulPlaceholder,
+                            implode(
+                                '</code></li><li><code>',
+                                [
+                                    'last_name',
+                                    '/last_.*/',
+                                    '#last_([a-zA-Z]*)#',
+                                ]
+                            )
                         )
-                    )
-                ), $defaultValueDesc),
+                    ),
+                    $defaultValueDesc,
+                ),
+                self::SCHEMA_COMMENT_META => sprintf(
+                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                    sprintf(
+                        $metaKeyDesc,
+                        'comments'
+                    ),
+                    $headsUpDesc,
+                    sprintf(
+                        $entryDesc,
+                        'description',
+                        sprintf(
+                            $ulPlaceholder,
+                            implode(
+                                '</code></li><li><code>',
+                                [
+                                    'description',
+                                    '/desc.*/',
+                                    '#desc([a-zA-Z]*)#',
+                                ]
+                            )
+                        )
+                    ),
+                    $defaultValueDesc,
+                ),
+                self::SCHEMA_TAXONOMY_META => sprintf(
+                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
+                    sprintf(
+                        $metaKeyDesc,
+                        'taxonomies (tags and categories)'
+                    ),
+                    $headsUpDesc,
+                    sprintf(
+                        $entryDesc,
+                        'description',
+                        sprintf(
+                            $ulPlaceholder,
+                            implode(
+                                '</code></li><li><code>',
+                                [
+                                    'description',
+                                    '/desc.*/',
+                                    '#desc([a-zA-Z]*)#',
+                                ]
+                            )
+                        )
+                    ),
+                    $defaultValueDesc,
+                ),
             ];
             $option = ModuleSettingOptions::ENTRIES;
             $moduleSettings[] = [
@@ -368,7 +368,12 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
                     $option
                 ),
                 Properties::TITLE => \__('Behavior', 'gatographql'),
-                Properties::DESCRIPTION => sprintf('%s %s%s', \__('Are the entries being allowed or denied access to?', 'gatographql'), \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'), $defaultValueDesc),
+                Properties::DESCRIPTION => sprintf(
+                    '%s %s%s',
+                    \__('Are the entries being allowed or denied access to?', 'gatographql'),
+                    \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'),
+                    $defaultValueDesc,
+                ),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => [
                     Behaviors::ALLOW => \__('Allow access', 'gatographql'),

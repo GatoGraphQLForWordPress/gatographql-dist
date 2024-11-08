@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache;
 
-use PrefixedByPoP\Psr\Log\LoggerInterface;
-use PrefixedByPoP\Symfony\Contracts\Cache\CacheInterface;
-use PrefixedByPoP\Symfony\Contracts\Cache\ItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\ItemInterface;
 /**
  * LockRegistry is used internally by existing adapters to protect against cache stampede.
  *

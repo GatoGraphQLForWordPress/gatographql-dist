@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace PrefixedByPoP\GuzzleHttp\Psr7;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 
-use PrefixedByPoP\GuzzleHttp\Psr7\Exception\MalformedUriException;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Exception\MalformedUriException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * PSR-7 URI implementation.
  *

@@ -21,10 +21,6 @@ class GenericCategoryListObjectTypeFieldResolver extends AbstractCustomPostListO
      * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
      */
     private $taxonomyTermTypeAPI;
-    public final function setTaxonomyCustomPostsFilterInputObjectTypeResolver(TaxonomyCustomPostsFilterInputObjectTypeResolver $taxonomyCustomPostsFilterInputObjectTypeResolver) : void
-    {
-        $this->taxonomyCustomPostsFilterInputObjectTypeResolver = $taxonomyCustomPostsFilterInputObjectTypeResolver;
-    }
     protected final function getTaxonomyCustomPostsFilterInputObjectTypeResolver() : TaxonomyCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->taxonomyCustomPostsFilterInputObjectTypeResolver === null) {
@@ -33,10 +29,6 @@ class GenericCategoryListObjectTypeFieldResolver extends AbstractCustomPostListO
             $this->taxonomyCustomPostsFilterInputObjectTypeResolver = $taxonomyCustomPostsFilterInputObjectTypeResolver;
         }
         return $this->taxonomyCustomPostsFilterInputObjectTypeResolver;
-    }
-    public final function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI) : void
-    {
-        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
     }
     protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
     {

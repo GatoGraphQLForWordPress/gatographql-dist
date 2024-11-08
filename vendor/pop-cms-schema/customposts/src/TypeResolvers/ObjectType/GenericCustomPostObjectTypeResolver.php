@@ -16,10 +16,6 @@ class GenericCustomPostObjectTypeResolver extends \PoPCMSSchema\CustomPosts\Type
      * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader|null
      */
     private $customPostObjectTypeDataLoader;
-    public final function setCustomPostObjectTypeDataLoader(CustomPostObjectTypeDataLoader $customPostObjectTypeDataLoader) : void
-    {
-        $this->customPostObjectTypeDataLoader = $customPostObjectTypeDataLoader;
-    }
     protected final function getCustomPostObjectTypeDataLoader() : CustomPostObjectTypeDataLoader
     {
         if ($this->customPostObjectTypeDataLoader === null) {

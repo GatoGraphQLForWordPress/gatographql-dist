@@ -14,10 +14,6 @@ abstract class AbstractCommentParentCommentDoesNotExistErrorPayloadObjectTypeRes
      * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver(CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver = $commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getCommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver() : CommentParentCommentDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->commentParentCommentDoesNotExistErrorPayloadObjectTypeResolver === null) {

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace GatoGraphQL\ExternalDependencyWrappers\Composer\Semver;
 
-use PrefixedByPoP\Composer\Semver\Semver;
+use GatoExternalPrefixByGatoGraphQL\Composer\Semver\Semver;
 use Exception;
 /**
  * Wrapper for Composer\Semver\Semver.

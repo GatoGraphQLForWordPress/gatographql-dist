@@ -27,7 +27,11 @@ class TagTypeMutationAPI extends TaxonomyTypeMutationAPI implements TagTypeMutat
 
     protected function createTaxonomyTermCRUDMutationException(WP_Error $wpError): TaxonomyTermCRUDMutationException
     {
-        return new TagTermCRUDMutationException($wpError->get_error_message(), $wpError->get_error_code() ? $wpError->get_error_code() : null, $this->getWPErrorData($wpError));
+        return new TagTermCRUDMutationException(
+            $wpError->get_error_message(),
+            $wpError->get_error_code() ? $wpError->get_error_code() : null,
+            $this->getWPErrorData($wpError),
+        );
     }
 
     /**

@@ -6,7 +6,7 @@ namespace GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Filesystem;
 use Exception;
 use GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Exception\IOException;
 use PoP\ComponentModel\Misc\GeneralUtils;
-use PrefixedByPoP\Symfony\Component\Filesystem\Filesystem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Filesystem;
 /**
  * Wrapper for Symfony\Component\Filesystem\Filesystem
  * @internal

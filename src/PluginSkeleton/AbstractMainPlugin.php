@@ -12,6 +12,7 @@ use GatoGraphQL\GatoGraphQL\AppThread;
 use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerSystemContainerBuilderFactory;
+use GatoGraphQL\GatoGraphQL\Facades\Settings\OptionNamespacerFacade;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseProperties;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseStatus;
@@ -63,17 +64,27 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
+        ?string $pluginFolder = null,
+        ?string $pluginURL = null,
         ?MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration = null
     )
     {
-        parent::__construct($pluginFile, $pluginVersion, $pluginName, $commitHash);
+        parent::__construct(
+            $pluginFile,
+            $pluginVersion,
+            $pluginName,
+            $commitHash,
+            $pluginFolder,
+            $pluginURL,
+        );
         $this->pluginInitializationConfiguration = $pluginInitializationConfiguration ?? $this->createInitializationConfiguration();
     }
 
     protected function createInitializationConfiguration(): MainPluginInitializationConfigurationInterface
     {
         $pluginInitializationConfigurationClass = $this->getPluginInitializationConfigurationClass();
-        return new $pluginInitializationConfigurationClass();
+        /** @var AbstractMainPluginInitializationConfiguration $pluginInitializationConfigurationClass */
+        return new $pluginInitializationConfigurationClass($this);
     }
 
     /**
@@ -85,7 +96,12 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     {
         $classNamespace = ClassHelpers::getClassPSR4Namespace(get_called_class());
         /** @var class-string<MainPluginInitializationConfigurationInterface> */
-        return $classNamespace . '\\PluginInitializationConfiguration';
+        return $classNamespace . '\\' . $this->getPluginInitializationConfigurationClassname();
+    }
+
+    protected function getPluginInitializationConfigurationClassname(): string
+    {
+        return 'PluginInitializationConfiguration';
     }
 
     /**
@@ -208,7 +224,12 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         }
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return array_merge([sprintf('<a href="%s" target="_blank">%s%s</a>', $moduleConfiguration->getGatoGraphQLWebsiteURL(), __('Go PRO', 'gatographql'), HTMLCodes::OPEN_IN_NEW_WINDOW)], $actions);
+        return array_merge([sprintf(
+            '<a href="%s" target="_blank">%s%s</a>',
+            $moduleConfiguration->getGatoGraphQLWebsiteURL(),
+            __('Go PRO', 'gatographql'),
+            HTMLCodes::OPEN_IN_NEW_WINDOW,
+        )], $actions);
     }
 
     /**
@@ -238,9 +259,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
 
     protected function removePluginFileFromStoredPluginVersions(string $pluginBaseName): void
     {
-        $storedPluginVersions = get_option(PluginOptions::PLUGIN_VERSIONS, []);
+        $optionNamespacer = OptionNamespacerFacade::getInstance();
+        $option = $optionNamespacer->namespaceOption(PluginOptions::PLUGIN_VERSIONS);
+        $storedPluginVersions = get_option($option, []);
         unset($storedPluginVersions[$pluginBaseName]);
-        update_option(PluginOptions::PLUGIN_VERSIONS, $storedPluginVersions);
+        update_option($option, $storedPluginVersions);
     }
 
 
@@ -281,15 +304,19 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
      */
     protected function getAllSettingsOptions(): array
     {
-        return [
-            Options::ENDPOINT_CONFIGURATION,
-            Options::SCHEMA_CONFIGURATION,
-            Options::SCHEMA_TYPE_CONFIGURATION,
-            Options::SERVER_CONFIGURATION,
-            Options::PLUGIN_CONFIGURATION,
-            Options::API_KEYS,
-            Options::PLUGIN_MANAGEMENT,
-        ];
+        $optionNamespacer = OptionNamespacerFacade::getInstance();
+        return array_map(
+            \Closure::fromCallable([$optionNamespacer, 'namespaceOption']),
+            [
+                Options::ENDPOINT_CONFIGURATION,
+                Options::SCHEMA_CONFIGURATION,
+                Options::SCHEMA_TYPE_CONFIGURATION,
+                Options::SERVER_CONFIGURATION,
+                Options::PLUGIN_CONFIGURATION,
+                Options::API_KEYS,
+                Options::PLUGIN_MANAGEMENT,
+            ]
+        );
     }
 
     /**
@@ -371,6 +398,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
 
         // Initialize the procedure to register/initialize plugin and extensions
         $this->executeSetupProcedure();
+
+        // Maybe revalidate the commercial licenses
+        $this->maybeRevalidateCommercialLicenses();
     }
 
     /**
@@ -399,7 +429,9 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 ) {
                     return;
                 }
-                $storedPluginVersions = get_option(PluginOptions::PLUGIN_VERSIONS, []);
+                $optionNamespacer = OptionNamespacerFacade::getInstance();
+                $option = $optionNamespacer->namespaceOption(PluginOptions::PLUGIN_VERSIONS);
+                $storedPluginVersions = get_option($option, []);
                 $registeredExtensionBaseNameInstances = PluginApp::getExtensionManager()->getExtensions();
 
                 // Check if the main plugin has been activated or updated
@@ -445,7 +477,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                  */
                 add_action(
                     PluginAppHooks::INITIALIZE_APP,
-                    function (string $pluginAppGraphQLServerName) use ($isMainPluginJustActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justActivatedExtensions, $justUpdatedExtensions) : void {
+                    function (string $pluginAppGraphQLServerName) use ($isMainPluginJustActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justActivatedExtensions, $justUpdatedExtensions, $option) : void {
                         if (
                             $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
                             || $this->initializationException !== null
@@ -463,7 +495,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                          *
                          * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/2631
                          */
-                        update_option(PluginOptions::PLUGIN_VERSIONS, $storedPluginVersions);
+                        update_option($option, $storedPluginVersions);
                         if ($isMainPluginJustActivated) {
                             $this->pluginJustActivated();
                         } elseif ($isMainPluginJustUpdated) {
@@ -497,6 +529,64 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     }
 
     /**
+     * After an X number of days, revalidate if the commercial
+     * licenses are still active.
+     *
+     * For this, store the latest "license check" timestamp in
+     * the DB, and check if that amount of time has been through,
+     * if so perform the check
+     */
+    protected function maybeRevalidateCommercialLicenses(): void
+    {
+        $numberOfDaysToRevalidateCommercialExtensionActivatedLicenses = $this->getNumberOfDaysToRevalidateCommercialExtensionActivatedLicenses();
+        if ($numberOfDaysToRevalidateCommercialExtensionActivatedLicenses === null) {
+            return;
+        }
+
+        /**
+         * Logic to check if the main plugin or any extension has
+         * just been activated or updated.
+         */
+        add_action(
+            PluginAppHooks::INITIALIZE_APP,
+            function (string $pluginAppGraphQLServerName) use ($numberOfDaysToRevalidateCommercialExtensionActivatedLicenses): void {
+                if (
+                    $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
+                    || !is_admin()
+                    || $this->initializationException !== null
+                ) {
+                    return;
+                }
+
+                /**
+                 * Only validate while some License is active.
+                 *
+                 * Execute this logic only now, inside the hook, to make
+                 * sure that `$extensionManager->assertCommercialLicenseHasBeenActivated(...)`
+                 * has been invoked
+                 */
+                $extensionManager = PluginApp::getExtensionManager();
+                if ($extensionManager->getActivatedLicenseCommercialExtensionSlugProductNames() === []) {
+                    return;
+                }
+
+                $userSettingsManager = UserSettingsManagerFacade::getInstance();
+
+                // Check if the X number of days have already passes
+                $numberOfSecondsToRevalidateCommercialExtensionActivatedLicenses = $numberOfDaysToRevalidateCommercialExtensionActivatedLicenses * 86400;
+                $now = time();
+                $licenseCheckTimestamp = $userSettingsManager->getLicenseCheckTimestamp() ?? 0; // If `null`, execute the license check
+                if (($now - $licenseCheckTimestamp) < $numberOfSecondsToRevalidateCommercialExtensionActivatedLicenses) {
+                    return;
+                }
+
+                $this->revalidateCommercialExtensionActivatedLicenses();
+            },
+            PluginLifecyclePriorities::REVALIDATE_LICENSE_CHECK
+        );
+    }
+
+    /**
      * Execute logic after the plugin/extension has just been updated
      */
     public function pluginJustUpdated(string $newVersion, string $previousVersion): void
@@ -504,6 +594,16 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         parent::pluginJustUpdated($newVersion, $previousVersion);
 
         $this->revalidateCommercialExtensionActivatedLicenses();
+    }
+
+    /**
+     * Provide the number of days after which to revalidate if the
+     * commercial licenses are still active, or `null` to disable
+     * the check.
+     */
+    protected function getNumberOfDaysToRevalidateCommercialExtensionActivatedLicenses(): ?int
+    {
+        return null;
     }
 
     /**
@@ -535,8 +635,10 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     {
         $commercialExtensionActivatedLicenseKeys = [];
 
+        $optionNamespacer = OptionNamespacerFacade::getInstance();
+
         /** @var array<string,mixed> */
-        $commercialExtensionActivatedLicenseEntries = get_option(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES, []);
+        $commercialExtensionActivatedLicenseEntries = get_option($optionNamespacer->namespaceOption(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES), []);
         foreach ($commercialExtensionActivatedLicenseEntries as $extensionSlug => $extensionLicenseProperties) {
             $commercialExtensionActivatedLicenseKeys[$extensionSlug] = $extensionLicenseProperties[LicenseProperties::LICENSE_KEY];
         }
@@ -905,5 +1007,10 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 return $classes;
             }
         );
+    }
+
+    public function getPluginWebsiteURL(): string
+    {
+        return $this->getPluginDomainURL();
     }
 }

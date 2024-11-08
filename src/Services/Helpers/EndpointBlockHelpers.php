@@ -35,17 +35,9 @@ class EndpointBlockHelpers
      */
     private $endpointSchemaConfigurationBlock;
 
-    public function setUserSettingsManager(UserSettingsManagerInterface $userSettingsManager): void
-    {
-        $this->userSettingsManager = $userSettingsManager;
-    }
-    protected function getUserSettingsManager(): UserSettingsManagerInterface
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
         return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
-    }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
     }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -56,10 +48,6 @@ class EndpointBlockHelpers
         }
         return $this->moduleRegistry;
     }
-    final public function setBlockHelpers(BlockHelpers $blockHelpers): void
-    {
-        $this->blockHelpers = $blockHelpers;
-    }
     final protected function getBlockHelpers(): BlockHelpers
     {
         if ($this->blockHelpers === null) {
@@ -68,10 +56,6 @@ class EndpointBlockHelpers
             $this->blockHelpers = $blockHelpers;
         }
         return $this->blockHelpers;
-    }
-    final public function setEndpointSchemaConfigurationBlock(EndpointSchemaConfigurationBlock $endpointSchemaConfigurationBlock): void
-    {
-        $this->endpointSchemaConfigurationBlock = $endpointSchemaConfigurationBlock;
     }
     final protected function getEndpointSchemaConfigurationBlock(): EndpointSchemaConfigurationBlock
     {

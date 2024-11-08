@@ -12,10 +12,6 @@ class PayloadableSetTagsOnCustomPostBulkOperationMutationResolver extends Abstra
      * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableSetTagsOnCustomPostMutationResolver|null
      */
     private $payloadableSetTagsOnCustomPostMutationResolver;
-    public final function setPayloadableSetTagsOnCustomPostMutationResolver(\PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableSetTagsOnCustomPostMutationResolver $payloadableSetTagsOnCustomPostMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnCustomPostMutationResolver = $payloadableSetTagsOnCustomPostMutationResolver;
-    }
     protected final function getPayloadableSetTagsOnCustomPostMutationResolver() : \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableSetTagsOnCustomPostMutationResolver
     {
         if ($this->payloadableSetTagsOnCustomPostMutationResolver === null) {

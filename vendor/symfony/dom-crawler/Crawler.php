@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DomCrawler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler;
 
-use PrefixedByPoP\Masterminds\HTML5;
-use PrefixedByPoP\Symfony\Component\CssSelector\CssSelectorConverter;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\CssSelectorConverter;
 /**
  * Crawler eases navigation of a list of \DOMNode objects.
  *

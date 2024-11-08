@@ -14,10 +14,6 @@ class CacheControlHeadersHookSet extends AbstractHookSet
      * @var \PoP\CacheControl\Managers\CacheControlEngineInterface|null
      */
     private $cacheControlEngine;
-    public final function setCacheControlEngine(CacheControlEngineInterface $cacheControlEngine) : void
-    {
-        $this->cacheControlEngine = $cacheControlEngine;
-    }
     protected final function getCacheControlEngine() : CacheControlEngineInterface
     {
         if ($this->cacheControlEngine === null) {

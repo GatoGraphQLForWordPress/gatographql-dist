@@ -14,10 +14,6 @@ class CommentablePageObjectTypeFieldResolver extends AbstractCommentableCustomPo
      * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
      */
     private $pageTypeAPI;
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
-    {
-        $this->pageTypeAPI = $pageTypeAPI;
-    }
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {

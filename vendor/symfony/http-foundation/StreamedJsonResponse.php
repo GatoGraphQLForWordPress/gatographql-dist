@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
 /**
  * StreamedJsonResponse represents a streamed HTTP response for JSON.
@@ -71,7 +71,7 @@ class StreamedJsonResponse extends StreamedResponse
     }
     private function stream() : void
     {
-        $jsonEncodingOptions = $this->encodingOptions;
+        $jsonEncodingOptions = \JSON_THROW_ON_ERROR | $this->encodingOptions;
         $keyEncodingOptions = $jsonEncodingOptions & ~\JSON_NUMERIC_CHECK;
         $this->streamData($this->data, $jsonEncodingOptions, $keyEncodingOptions);
     }
@@ -116,9 +116,7 @@ class StreamedJsonResponse extends StreamedResponse
             $this->streamData($generator, $jsonEncodingOptions, $keyEncodingOptions);
         }
         // send last part of the structure
-        \end($jsonParts);
-        // send last part of the structure
-        echo $jsonParts[\key($jsonParts)];
+        echo $jsonParts[\array_key_last($jsonParts)];
     }
     private function streamIterable(iterable $iterable, int $jsonEncodingOptions, int $keyEncodingOptions) : void
     {

@@ -39,10 +39,6 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageUpdateInputObjectTypeResolver|null
      */
     private $pageUpdateInputObjectTypeResolver;
-    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
-    {
-        $this->pageObjectTypeResolver = $pageObjectTypeResolver;
-    }
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -51,10 +47,6 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             $this->pageObjectTypeResolver = $pageObjectTypeResolver;
         }
         return $this->pageObjectTypeResolver;
-    }
-    public final function setPageUpdateMutationPayloadObjectTypeResolver(PageUpdateMutationPayloadObjectTypeResolver $pageUpdateMutationPayloadObjectTypeResolver) : void
-    {
-        $this->pageUpdateMutationPayloadObjectTypeResolver = $pageUpdateMutationPayloadObjectTypeResolver;
     }
     protected final function getPageUpdateMutationPayloadObjectTypeResolver() : PageUpdateMutationPayloadObjectTypeResolver
     {
@@ -65,10 +57,6 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         }
         return $this->pageUpdateMutationPayloadObjectTypeResolver;
     }
-    public final function setUpdatePageMutationResolver(UpdatePageMutationResolver $updatePageMutationResolver) : void
-    {
-        $this->updatePageMutationResolver = $updatePageMutationResolver;
-    }
     protected final function getUpdatePageMutationResolver() : UpdatePageMutationResolver
     {
         if ($this->updatePageMutationResolver === null) {
@@ -78,10 +66,6 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         }
         return $this->updatePageMutationResolver;
     }
-    public final function setPayloadableUpdatePageMutationResolver(PayloadableUpdatePageMutationResolver $payloadableUpdatePageMutationResolver) : void
-    {
-        $this->payloadableUpdatePageMutationResolver = $payloadableUpdatePageMutationResolver;
-    }
     protected final function getPayloadableUpdatePageMutationResolver() : PayloadableUpdatePageMutationResolver
     {
         if ($this->payloadableUpdatePageMutationResolver === null) {
@@ -90,10 +74,6 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
             $this->payloadableUpdatePageMutationResolver = $payloadableUpdatePageMutationResolver;
         }
         return $this->payloadableUpdatePageMutationResolver;
-    }
-    public final function setPageUpdateInputObjectTypeResolver(PageUpdateInputObjectTypeResolver $pageUpdateInputObjectTypeResolver) : void
-    {
-        $this->pageUpdateInputObjectTypeResolver = $pageUpdateInputObjectTypeResolver;
     }
     protected final function getPageUpdateInputObjectTypeResolver() : PageUpdateInputObjectTypeResolver
     {

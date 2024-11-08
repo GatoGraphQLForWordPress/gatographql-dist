@@ -14,10 +14,6 @@ abstract class AbstractQueryDataComponentProcessor extends \PoP\ComponentModel\C
      * @var \PoP\ComponentModel\QueryInputOutputHandlers\ActionExecutionQueryInputOutputHandler|null
      */
     private $actionExecutionQueryInputOutputHandler;
-    public final function setActionExecutionQueryInputOutputHandler(ActionExecutionQueryInputOutputHandler $actionExecutionQueryInputOutputHandler) : void
-    {
-        $this->actionExecutionQueryInputOutputHandler = $actionExecutionQueryInputOutputHandler;
-    }
     protected final function getActionExecutionQueryInputOutputHandler() : ActionExecutionQueryInputOutputHandler
     {
         if ($this->actionExecutionQueryInputOutputHandler === null) {

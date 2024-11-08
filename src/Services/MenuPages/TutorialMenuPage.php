@@ -28,10 +28,6 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
      */
     private $bundleExtensionAggregator;
 
-    final public function setTutorialLessonDataProvider(TutorialLessonDataProvider $tutorialLessonDataProvider): void
-    {
-        $this->tutorialLessonDataProvider = $tutorialLessonDataProvider;
-    }
     final protected function getTutorialLessonDataProvider(): TutorialLessonDataProvider
     {
         if ($this->tutorialLessonDataProvider === null) {
@@ -40,10 +36,6 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
             $this->tutorialLessonDataProvider = $tutorialLessonDataProvider;
         }
         return $this->tutorialLessonDataProvider;
-    }
-    final public function setBundleExtensionAggregator(BundleExtensionAggregator $bundleExtensionAggregator): void
-    {
-        $this->bundleExtensionAggregator = $bundleExtensionAggregator;
     }
     final protected function getBundleExtensionAggregator(): BundleExtensionAggregator
     {
@@ -60,9 +52,9 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
         return 'tutorial';
     }
 
-    protected function getPageTitle(): string
+    public function getMenuPageTitle(): string
     {
-        return \__('Gato GraphQL - Schema Tutorial', 'gatographql');
+        return __('Schema Tutorial', 'gatographql');
     }
 
     protected function getContentID(): string
@@ -155,7 +147,11 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
                 )
             )
         );
-        return sprintf('<div class="%s">%s</div>', 'extension-highlight', $messageHTML) . $entryContent;
+        return sprintf(
+            '<div class="%s">%s</div>',
+            'extension-highlight',
+            $messageHTML,
+        ) . $entryContent;
     }
 
     /**

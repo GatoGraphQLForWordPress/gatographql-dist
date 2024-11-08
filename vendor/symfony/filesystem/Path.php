@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Filesystem;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem;
 
-use PrefixedByPoP\Symfony\Component\Filesystem\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Filesystem\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Exception\RuntimeException;
 /**
  * Contains utility methods for handling path strings.
  *

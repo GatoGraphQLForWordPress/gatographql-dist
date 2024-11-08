@@ -40,10 +40,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
      * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FilterInputs\ExcludeAuthorIDsFilterInput|null
      */
     private $excludeAuthorIDsFilterInput;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -52,10 +48,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -66,10 +58,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setAuthorIDsFilterInput(AuthorIDsFilterInput $authorIDsFilterInput) : void
-    {
-        $this->authorIDsFilterInput = $authorIDsFilterInput;
-    }
     protected final function getAuthorIDsFilterInput() : AuthorIDsFilterInput
     {
         if ($this->authorIDsFilterInput === null) {
@@ -79,10 +67,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         }
         return $this->authorIDsFilterInput;
     }
-    public final function setAuthorSlugFilterInput(AuthorSlugFilterInput $authorSlugFilterInput) : void
-    {
-        $this->authorSlugFilterInput = $authorSlugFilterInput;
-    }
     protected final function getAuthorSlugFilterInput() : AuthorSlugFilterInput
     {
         if ($this->authorSlugFilterInput === null) {
@@ -91,10 +75,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->authorSlugFilterInput = $authorSlugFilterInput;
         }
         return $this->authorSlugFilterInput;
-    }
-    public final function setExcludeAuthorIDsFilterInput(ExcludeAuthorIDsFilterInput $excludeAuthorIDsFilterInput) : void
-    {
-        $this->excludeAuthorIDsFilterInput = $excludeAuthorIDsFilterInput;
     }
     protected final function getExcludeAuthorIDsFilterInput() : ExcludeAuthorIDsFilterInput
     {

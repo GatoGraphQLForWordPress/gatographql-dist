@@ -25,10 +25,6 @@ class MutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
      */
     private $userTypeAPI;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
-    {
-        $this->userTypeAPI = $userTypeAPI;
-    }
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {

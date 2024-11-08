@@ -13,10 +13,6 @@ class LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver exten
      * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader === null) {

@@ -1,13 +1,13 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\GuzzleHttp\Exception\InvalidArgumentException;
-use PrefixedByPoP\GuzzleHttp\Handler\CurlHandler;
-use PrefixedByPoP\GuzzleHttp\Handler\CurlMultiHandler;
-use PrefixedByPoP\GuzzleHttp\Handler\Proxy;
-use PrefixedByPoP\GuzzleHttp\Handler\StreamHandler;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler\CurlHandler;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler\CurlMultiHandler;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler\Proxy;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler\StreamHandler;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /** @internal */
 final class Utils
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
 /**
  * Debug function used to describe the provided value type and class.

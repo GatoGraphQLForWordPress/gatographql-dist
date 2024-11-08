@@ -22,10 +22,6 @@ class GenericTagObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\Obje
      * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
      */
     private $queryableTagListTypeAPI;
-    public final function setQueryableTagListObjectTypeDataLoader(QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader) : void
-    {
-        $this->queryableTagListObjectTypeDataLoader = $queryableTagListObjectTypeDataLoader;
-    }
     protected final function getQueryableTagListObjectTypeDataLoader() : QueryableTagListObjectTypeDataLoader
     {
         if ($this->queryableTagListObjectTypeDataLoader === null) {
@@ -34,10 +30,6 @@ class GenericTagObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\Obje
             $this->queryableTagListObjectTypeDataLoader = $queryableTagListObjectTypeDataLoader;
         }
         return $this->queryableTagListObjectTypeDataLoader;
-    }
-    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagListTypeAPI) : void
-    {
-        $this->queryableTagListTypeAPI = $queryableTagListTypeAPI;
     }
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {

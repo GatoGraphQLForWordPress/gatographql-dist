@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Log;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Log;
 
 /** @internal */
 class InvalidArgumentException extends \InvalidArgumentException

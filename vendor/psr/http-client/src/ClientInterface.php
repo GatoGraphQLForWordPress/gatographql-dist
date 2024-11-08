@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Http\Client;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Http\Client;
 
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
 /** @internal */
 interface ClientInterface
 {

@@ -16,10 +16,6 @@ class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\Componen
      * @var \PoP\Engine\Schema\SchemaDefinitionServiceInterface|null
      */
     private $schemaDefinitionService;
-    public final function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService) : void
-    {
-        $this->schemaDefinitionService = $schemaDefinitionService;
-    }
     protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {

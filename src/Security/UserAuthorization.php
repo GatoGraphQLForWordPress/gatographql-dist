@@ -28,10 +28,6 @@ class UserAuthorization implements UserAuthorizationInterface
      */
     private $userAuthorizationSchemeRegistry;
 
-    final public function setUserAuthorizationSchemeRegistry(UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry): void
-    {
-        $this->userAuthorizationSchemeRegistry = $userAuthorizationSchemeRegistry;
-    }
     final protected function getUserAuthorizationSchemeRegistry(): UserAuthorizationSchemeRegistryInterface
     {
         if ($this->userAuthorizationSchemeRegistry === null) {

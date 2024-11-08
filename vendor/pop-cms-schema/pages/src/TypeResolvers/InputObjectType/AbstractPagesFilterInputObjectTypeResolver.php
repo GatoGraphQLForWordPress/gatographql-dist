@@ -25,10 +25,6 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput|null
      */
     private $excludeParentIDsFilterInput;
-    public final function setParentIDFilterInput(ParentIDFilterInput $parentIDFilterInput) : void
-    {
-        $this->parentIDFilterInput = $parentIDFilterInput;
-    }
     protected final function getParentIDFilterInput() : ParentIDFilterInput
     {
         if ($this->parentIDFilterInput === null) {
@@ -38,10 +34,6 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
         }
         return $this->parentIDFilterInput;
     }
-    public final function setParentIDsFilterInput(ParentIDsFilterInput $parentIDsFilterInput) : void
-    {
-        $this->parentIDsFilterInput = $parentIDsFilterInput;
-    }
     protected final function getParentIDsFilterInput() : ParentIDsFilterInput
     {
         if ($this->parentIDsFilterInput === null) {
@@ -50,10 +42,6 @@ abstract class AbstractPagesFilterInputObjectTypeResolver extends AbstractCustom
             $this->parentIDsFilterInput = $parentIDsFilterInput;
         }
         return $this->parentIDsFilterInput;
-    }
-    public final function setExcludeParentIDsFilterInput(ExcludeParentIDsFilterInput $excludeParentIDsFilterInput) : void
-    {
-        $this->excludeParentIDsFilterInput = $excludeParentIDsFilterInput;
     }
     protected final function getExcludeParentIDsFilterInput() : ExcludeParentIDsFilterInput
     {

@@ -13,10 +13,6 @@ class UserDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloa
      * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\UserDoesNotExistErrorPayloadObjectTypeDataLoader|null
      */
     private $userDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setUserDoesNotExistErrorPayloadObjectTypeDataLoader(UserDoesNotExistErrorPayloadObjectTypeDataLoader $userDoesNotExistErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->userDoesNotExistErrorPayloadObjectTypeDataLoader = $userDoesNotExistErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getUserDoesNotExistErrorPayloadObjectTypeDataLoader() : UserDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->userDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

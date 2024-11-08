@@ -24,10 +24,6 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements \GraphQLByP
      * @var \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface|null
      */
     private $typeResolverHelper;
-    public final function setRootObjectTypeResolver(RootObjectTypeResolver $rootObjectTypeResolver) : void
-    {
-        $this->rootObjectTypeResolver = $rootObjectTypeResolver;
-    }
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -36,10 +32,6 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements \GraphQLByP
             $this->rootObjectTypeResolver = $rootObjectTypeResolver;
         }
         return $this->rootObjectTypeResolver;
-    }
-    public final function setTypeResolverHelper(TypeResolverHelperInterface $typeResolverHelper) : void
-    {
-        $this->typeResolverHelper = $typeResolverHelper;
     }
     protected final function getTypeResolverHelper() : TypeResolverHelperInterface
     {

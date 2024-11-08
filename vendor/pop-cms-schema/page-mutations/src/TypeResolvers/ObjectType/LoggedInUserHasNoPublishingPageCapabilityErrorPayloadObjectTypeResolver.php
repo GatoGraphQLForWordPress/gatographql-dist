@@ -13,10 +13,6 @@ class LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver ex
      * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader === null) {

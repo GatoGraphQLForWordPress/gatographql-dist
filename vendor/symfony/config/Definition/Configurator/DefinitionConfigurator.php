@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition\Configurator;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Configurator;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use PrefixedByPoP\Symfony\Component\Config\Definition\Loader\DefinitionFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Loader\DefinitionFileLoader;
 /**
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  * @internal

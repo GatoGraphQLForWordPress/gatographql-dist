@@ -12,10 +12,6 @@ class PostCategoryTaxonomyEnumStringScalarTypeResolver extends AbstractCategoryT
      * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
      */
     private $postCategoryTypeAPI;
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
-    {
-        $this->postCategoryTypeAPI = $postCategoryTypeAPI;
-    }
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {

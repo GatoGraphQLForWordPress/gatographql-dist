@@ -20,10 +20,6 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
      * @var \PoPCMSSchema\Meta\FieldResolvers\InterfaceType\WithMetaInterfaceTypeFieldResolver|null
      */
     private $withMetaInterfaceTypeFieldResolver;
-    public final function setWithMetaInterfaceTypeFieldResolver(WithMetaInterfaceTypeFieldResolver $withMetaInterfaceTypeFieldResolver) : void
-    {
-        $this->withMetaInterfaceTypeFieldResolver = $withMetaInterfaceTypeFieldResolver;
-    }
     protected final function getWithMetaInterfaceTypeFieldResolver() : WithMetaInterfaceTypeFieldResolver
     {
         if ($this->withMetaInterfaceTypeFieldResolver === null) {

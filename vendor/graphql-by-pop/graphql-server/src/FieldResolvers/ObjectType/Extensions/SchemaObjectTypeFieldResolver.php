@@ -36,10 +36,6 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
      */
     private $graphQLSchemaDefinitionService;
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
-    }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -49,10 +45,6 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->booleanScalarTypeResolver;
     }
-    public final function setFieldObjectTypeResolver(FieldObjectTypeResolver $fieldObjectTypeResolver) : void
-    {
-        $this->fieldObjectTypeResolver = $fieldObjectTypeResolver;
-    }
     protected final function getFieldObjectTypeResolver() : FieldObjectTypeResolver
     {
         if ($this->fieldObjectTypeResolver === null) {
@@ -61,10 +53,6 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->fieldObjectTypeResolver = $fieldObjectTypeResolver;
         }
         return $this->fieldObjectTypeResolver;
-    }
-    public final function setGraphQLSchemaDefinitionService(GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService) : void
-    {
-        $this->graphQLSchemaDefinitionService = $graphQLSchemaDefinitionService;
     }
     protected final function getGraphQLSchemaDefinitionService() : GraphQLSchemaDefinitionServiceInterface
     {

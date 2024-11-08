@@ -13,10 +13,6 @@ class LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver exte
      * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader === null) {

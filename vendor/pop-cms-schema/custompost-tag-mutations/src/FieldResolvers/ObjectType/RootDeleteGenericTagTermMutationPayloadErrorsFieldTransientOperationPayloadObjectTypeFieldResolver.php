@@ -15,10 +15,6 @@ class RootDeleteGenericTagTermMutationPayloadErrorsFieldTransientOperationPayloa
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\RootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver;
-    public final function setRootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver(RootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver $rootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver = $rootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver() : RootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver === null) {

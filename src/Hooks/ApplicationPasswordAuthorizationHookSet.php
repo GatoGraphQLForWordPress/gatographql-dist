@@ -36,10 +36,6 @@ class ApplicationPasswordAuthorizationHookSet extends AbstractHookSet
      */
     private $prematureRequestService;
 
-    final public function setPrematureRequestService(PrematureRequestServiceInterface $prematureRequestService): void
-    {
-        $this->prematureRequestService = $prematureRequestService;
-    }
     final protected function getPrematureRequestService(): PrematureRequestServiceInterface
     {
         if ($this->prematureRequestService === null) {
@@ -115,13 +111,16 @@ class ApplicationPasswordAuthorizationHookSet extends AbstractHookSet
         }
 
         App::getFeedbackStore()->generalFeedbackStore->addError(
-            new GeneralFeedback(new FeedbackItemResolution(
-                ErrorFeedbackItemProvider::class,
-                ErrorFeedbackItemProvider::E1,
-                [
-                    $error->get_error_message(),
-                ]
-            ), $extensions)
+            new GeneralFeedback(
+                new FeedbackItemResolution(
+                    ErrorFeedbackItemProvider::class,
+                    ErrorFeedbackItemProvider::E1,
+                    [
+                        $error->get_error_message(),
+                    ]
+                ),
+                $extensions,
+            )
         );
     }
 }

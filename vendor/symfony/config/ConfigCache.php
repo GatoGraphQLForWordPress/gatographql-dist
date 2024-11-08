@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config;
 
-use PrefixedByPoP\Symfony\Component\Config\Resource\SelfCheckingResourceChecker;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\SelfCheckingResourceChecker;
 /**
  * ConfigCache caches arbitrary content in files on disk.
  *

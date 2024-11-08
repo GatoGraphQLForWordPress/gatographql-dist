@@ -13,10 +13,6 @@ class RootCreateMediaItemMutationErrorPayloadUnionTypeDataLoader extends Abstrac
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\UnionType\RootCreateMediaItemMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootCreateMediaItemMutationErrorPayloadUnionTypeResolver;
-    public final function setRootCreateMediaItemMutationErrorPayloadUnionTypeResolver(RootCreateMediaItemMutationErrorPayloadUnionTypeResolver $rootCreateMediaItemMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootCreateMediaItemMutationErrorPayloadUnionTypeResolver = $rootCreateMediaItemMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootCreateMediaItemMutationErrorPayloadUnionTypeResolver() : RootCreateMediaItemMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreateMediaItemMutationErrorPayloadUnionTypeResolver === null) {

@@ -17,10 +17,6 @@ abstract class AbstractCustomPostContentAsOneofInputObjectTypeResolver extends A
      * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
      */
     private $htmlScalarTypeResolver;
-    public final function setHTMLScalarTypeResolver(HTMLScalarTypeResolver $htmlScalarTypeResolver) : void
-    {
-        $this->htmlScalarTypeResolver = $htmlScalarTypeResolver;
-    }
     protected final function getHTMLScalarTypeResolver() : HTMLScalarTypeResolver
     {
         if ($this->htmlScalarTypeResolver === null) {

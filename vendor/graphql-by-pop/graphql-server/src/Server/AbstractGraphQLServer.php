@@ -22,10 +22,6 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
      * @var \PoP\ComponentModel\Engine\EngineInterface|null
      */
     private $engine;
-    public final function setApplicationStateFillerService(ApplicationStateFillerServiceInterface $applicationStateFillerService) : void
-    {
-        $this->applicationStateFillerService = $applicationStateFillerService;
-    }
     protected final function getApplicationStateFillerService() : ApplicationStateFillerServiceInterface
     {
         if ($this->applicationStateFillerService === null) {
@@ -34,10 +30,6 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
             $this->applicationStateFillerService = $applicationStateFillerService;
         }
         return $this->applicationStateFillerService;
-    }
-    public final function setEngine(EngineInterface $engine) : void
-    {
-        $this->engine = $engine;
     }
     protected final function getEngine() : EngineInterface
     {

@@ -12,10 +12,6 @@ class RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver
      * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader(RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader = $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

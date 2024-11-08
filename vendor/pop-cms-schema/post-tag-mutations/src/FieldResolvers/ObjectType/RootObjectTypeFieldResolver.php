@@ -46,10 +46,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnPostMutationPayloadObjectTypeResolver|null
      */
     private $rootSetTagsOnPostMutationPayloadObjectTypeResolver;
-    public final function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver) : void
-    {
-        $this->postObjectTypeResolver = $postObjectTypeResolver;
-    }
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -58,10 +54,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
             $this->postObjectTypeResolver = $postObjectTypeResolver;
         }
         return $this->postObjectTypeResolver;
-    }
-    public final function setSetTagsOnPostMutationResolver(SetTagsOnPostMutationResolver $setTagsOnPostMutationResolver) : void
-    {
-        $this->setTagsOnPostMutationResolver = $setTagsOnPostMutationResolver;
     }
     protected final function getSetTagsOnPostMutationResolver() : SetTagsOnPostMutationResolver
     {
@@ -72,10 +64,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->setTagsOnPostMutationResolver;
     }
-    public final function setSetTagsOnPostBulkOperationMutationResolver(SetTagsOnPostBulkOperationMutationResolver $setTagsOnPostBulkOperationMutationResolver) : void
-    {
-        $this->setTagsOnPostBulkOperationMutationResolver = $setTagsOnPostBulkOperationMutationResolver;
-    }
     protected final function getSetTagsOnPostBulkOperationMutationResolver() : SetTagsOnPostBulkOperationMutationResolver
     {
         if ($this->setTagsOnPostBulkOperationMutationResolver === null) {
@@ -84,10 +72,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
             $this->setTagsOnPostBulkOperationMutationResolver = $setTagsOnPostBulkOperationMutationResolver;
         }
         return $this->setTagsOnPostBulkOperationMutationResolver;
-    }
-    public final function setRootSetTagsOnPostInputObjectTypeResolver(RootSetTagsOnPostInputObjectTypeResolver $rootSetTagsOnPostInputObjectTypeResolver) : void
-    {
-        $this->rootSetTagsOnPostInputObjectTypeResolver = $rootSetTagsOnPostInputObjectTypeResolver;
     }
     protected final function getRootSetTagsOnPostInputObjectTypeResolver() : AbstractSetTagsOnCustomPostInputObjectTypeResolver
     {
@@ -98,10 +82,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->rootSetTagsOnPostInputObjectTypeResolver;
     }
-    public final function setPayloadableSetTagsOnPostBulkOperationMutationResolver(PayloadableSetTagsOnPostBulkOperationMutationResolver $payloadableSetTagsOnPostBulkOperationMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnPostBulkOperationMutationResolver = $payloadableSetTagsOnPostBulkOperationMutationResolver;
-    }
     protected final function getPayloadableSetTagsOnPostBulkOperationMutationResolver() : PayloadableSetTagsOnPostBulkOperationMutationResolver
     {
         if ($this->payloadableSetTagsOnPostBulkOperationMutationResolver === null) {
@@ -111,10 +91,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
         }
         return $this->payloadableSetTagsOnPostBulkOperationMutationResolver;
     }
-    public final function setPayloadableSetTagsOnPostMutationResolver(PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver) : void
-    {
-        $this->payloadableSetTagsOnPostMutationResolver = $payloadableSetTagsOnPostMutationResolver;
-    }
     protected final function getPayloadableSetTagsOnPostMutationResolver() : PayloadableSetTagsOnPostMutationResolver
     {
         if ($this->payloadableSetTagsOnPostMutationResolver === null) {
@@ -123,10 +99,6 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
             $this->payloadableSetTagsOnPostMutationResolver = $payloadableSetTagsOnPostMutationResolver;
         }
         return $this->payloadableSetTagsOnPostMutationResolver;
-    }
-    public final function setRootSetTagsOnPostMutationPayloadObjectTypeResolver(RootSetTagsOnPostMutationPayloadObjectTypeResolver $rootSetTagsOnPostMutationPayloadObjectTypeResolver) : void
-    {
-        $this->rootSetTagsOnPostMutationPayloadObjectTypeResolver = $rootSetTagsOnPostMutationPayloadObjectTypeResolver;
     }
     protected final function getRootSetTagsOnPostMutationPayloadObjectTypeResolver() : RootSetTagsOnPostMutationPayloadObjectTypeResolver
     {

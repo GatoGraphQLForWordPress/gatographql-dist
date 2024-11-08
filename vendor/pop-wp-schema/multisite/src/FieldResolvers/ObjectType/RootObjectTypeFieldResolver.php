@@ -33,10 +33,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      */
     private $multisiteTypeAPI;
 
-    final public function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver): void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
-    }
     final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -46,10 +42,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->intScalarTypeResolver;
     }
-    final public function setNetworkSiteObjectTypeResolver(NetworkSiteObjectTypeResolver $networkSiteObjectTypeResolver): void
-    {
-        $this->networkSiteObjectTypeResolver = $networkSiteObjectTypeResolver;
-    }
     final protected function getNetworkSiteObjectTypeResolver(): NetworkSiteObjectTypeResolver
     {
         if ($this->networkSiteObjectTypeResolver === null) {
@@ -58,10 +50,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->networkSiteObjectTypeResolver = $networkSiteObjectTypeResolver;
         }
         return $this->networkSiteObjectTypeResolver;
-    }
-    final public function setMultisiteTypeAPI(MultisiteTypeAPIInterface $multisiteTypeAPI): void
-    {
-        $this->multisiteTypeAPI = $multisiteTypeAPI;
     }
     final protected function getMultisiteTypeAPI(): MultisiteTypeAPIInterface
     {

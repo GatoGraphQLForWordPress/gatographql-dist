@@ -12,10 +12,6 @@ class CreatePostCategoryTermBulkOperationMutationResolver extends AbstractBulkOp
      * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\CreatePostCategoryTermMutationResolver|null
      */
     private $createPostCategoryTermMutationResolver;
-    public final function setCreatePostCategoryTermMutationResolver(\PoPCMSSchema\PostCategoryMutations\MutationResolvers\CreatePostCategoryTermMutationResolver $createPostCategoryTermMutationResolver) : void
-    {
-        $this->createPostCategoryTermMutationResolver = $createPostCategoryTermMutationResolver;
-    }
     protected final function getCreatePostCategoryTermMutationResolver() : \PoPCMSSchema\PostCategoryMutations\MutationResolvers\CreatePostCategoryTermMutationResolver
     {
         if ($this->createPostCategoryTermMutationResolver === null) {

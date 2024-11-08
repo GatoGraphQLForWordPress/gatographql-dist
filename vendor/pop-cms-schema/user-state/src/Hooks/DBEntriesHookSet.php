@@ -15,10 +15,6 @@ class DBEntriesHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver|null
      */
     private $globalObjectTypeFieldResolver;
-    public final function setObjectTypeFieldResolver(ObjectTypeFieldResolver $globalObjectTypeFieldResolver) : void
-    {
-        $this->globalObjectTypeFieldResolver = $globalObjectTypeFieldResolver;
-    }
     protected final function getObjectTypeFieldResolver() : ObjectTypeFieldResolver
     {
         if ($this->globalObjectTypeFieldResolver === null) {

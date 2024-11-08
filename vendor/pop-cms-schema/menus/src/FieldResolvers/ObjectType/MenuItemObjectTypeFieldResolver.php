@@ -47,10 +47,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuItemObjectTypeResolver|null
      */
     private $menuItemObjectTypeResolver;
-    public final function setMenuItemRuntimeRegistry(MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry) : void
-    {
-        $this->menuItemRuntimeRegistry = $menuItemRuntimeRegistry;
-    }
     protected final function getMenuItemRuntimeRegistry() : MenuItemRuntimeRegistryInterface
     {
         if ($this->menuItemRuntimeRegistry === null) {
@@ -59,10 +55,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->menuItemRuntimeRegistry = $menuItemRuntimeRegistry;
         }
         return $this->menuItemRuntimeRegistry;
-    }
-    public final function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService) : void
-    {
-        $this->cmsHelperService = $cmsHelperService;
     }
     protected final function getCMSHelperService() : CMSHelperServiceInterface
     {
@@ -73,10 +65,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->cmsHelperService;
     }
-    public final function setURLScalarTypeResolver(URLScalarTypeResolver $urlScalarTypeResolver) : void
-    {
-        $this->urlScalarTypeResolver = $urlScalarTypeResolver;
-    }
     protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -85,10 +73,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->urlScalarTypeResolver = $urlScalarTypeResolver;
         }
         return $this->urlScalarTypeResolver;
-    }
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
     }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
@@ -99,10 +83,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -111,10 +91,6 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setMenuItemObjectTypeResolver(MenuItemObjectTypeResolver $menuItemObjectTypeResolver) : void
-    {
-        $this->menuItemObjectTypeResolver = $menuItemObjectTypeResolver;
     }
     protected final function getMenuItemObjectTypeResolver() : MenuItemObjectTypeResolver
     {

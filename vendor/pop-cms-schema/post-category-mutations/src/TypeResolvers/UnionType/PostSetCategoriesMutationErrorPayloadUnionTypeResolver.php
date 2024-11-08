@@ -12,10 +12,6 @@ class PostSetCategoriesMutationErrorPayloadUnionTypeResolver extends \PoPCMSSche
      * @var \PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
-    public final function setPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader(PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->postSetCategoriesMutationErrorPayloadUnionTypeDataLoader = $postSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader() : PostSetCategoriesMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postSetCategoriesMutationErrorPayloadUnionTypeDataLoader === null) {

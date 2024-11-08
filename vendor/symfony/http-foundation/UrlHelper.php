@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 
-use PrefixedByPoP\Symfony\Component\Routing\RequestContext;
-use PrefixedByPoP\Symfony\Component\Routing\RequestContextAwareInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Routing\RequestContext;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Routing\RequestContextAwareInterface;
 /**
  * A helper service for manipulating URLs within and outside the request scope.
  *

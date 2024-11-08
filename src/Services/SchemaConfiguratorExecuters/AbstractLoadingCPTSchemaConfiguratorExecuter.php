@@ -15,10 +15,6 @@ abstract class AbstractLoadingCPTSchemaConfiguratorExecuter extends AbstractSche
      */
     private $endpointBlockHelpers;
 
-    final public function setEndpointBlockHelpers(EndpointBlockHelpers $endpointBlockHelpers): void
-    {
-        $this->endpointBlockHelpers = $endpointBlockHelpers;
-    }
     final protected function getEndpointBlockHelpers(): EndpointBlockHelpers
     {
         if ($this->endpointBlockHelpers === null) {
@@ -60,7 +56,10 @@ abstract class AbstractLoadingCPTSchemaConfiguratorExecuter extends AbstractSche
     protected function getSchemaConfigurationID(): ?int
     {
         $customPostID = App::getState(['routing', 'queried-object-id']);
-        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID($this->getLoadingCPTSchemaConfiguratorModule(), $customPostID);
+        return $this->getEndpointBlockHelpers()->getSchemaConfigurationID(
+            $this->getLoadingCPTSchemaConfiguratorModule(),
+            $customPostID,
+        );
     }
 
     abstract protected function getCustomPostType(): string;

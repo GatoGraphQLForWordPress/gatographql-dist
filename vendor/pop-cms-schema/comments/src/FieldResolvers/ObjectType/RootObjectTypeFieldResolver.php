@@ -64,10 +64,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentSortInputObjectTypeResolver|null
      */
     private $commentSortInputObjectTypeResolver;
-    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
-    {
-        $this->commentTypeAPI = $commentTypeAPI;
-    }
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -76,10 +72,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->commentTypeAPI = $commentTypeAPI;
         }
         return $this->commentTypeAPI;
-    }
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
@@ -90,10 +82,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->intScalarTypeResolver;
     }
-    public final function setCommentObjectTypeResolver(CommentObjectTypeResolver $commentObjectTypeResolver) : void
-    {
-        $this->commentObjectTypeResolver = $commentObjectTypeResolver;
-    }
     protected final function getCommentObjectTypeResolver() : CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {
@@ -102,10 +90,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->commentObjectTypeResolver = $commentObjectTypeResolver;
         }
         return $this->commentObjectTypeResolver;
-    }
-    public final function setCommentByOneofInputObjectTypeResolver(CommentByOneofInputObjectTypeResolver $commentByOneofInputObjectTypeResolver) : void
-    {
-        $this->commentByOneofInputObjectTypeResolver = $commentByOneofInputObjectTypeResolver;
     }
     protected final function getCommentByOneofInputObjectTypeResolver() : CommentByOneofInputObjectTypeResolver
     {
@@ -116,10 +100,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->commentByOneofInputObjectTypeResolver;
     }
-    public final function setRootCommentsFilterInputObjectTypeResolver(RootCommentsFilterInputObjectTypeResolver $rootCommentsFilterInputObjectTypeResolver) : void
-    {
-        $this->rootCommentsFilterInputObjectTypeResolver = $rootCommentsFilterInputObjectTypeResolver;
-    }
     protected final function getRootCommentsFilterInputObjectTypeResolver() : RootCommentsFilterInputObjectTypeResolver
     {
         if ($this->rootCommentsFilterInputObjectTypeResolver === null) {
@@ -129,10 +109,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->rootCommentsFilterInputObjectTypeResolver;
     }
-    public final function setRootCommentPaginationInputObjectTypeResolver(RootCommentPaginationInputObjectTypeResolver $rootCommentPaginationInputObjectTypeResolver) : void
-    {
-        $this->rootCommentPaginationInputObjectTypeResolver = $rootCommentPaginationInputObjectTypeResolver;
-    }
     protected final function getRootCommentPaginationInputObjectTypeResolver() : RootCommentPaginationInputObjectTypeResolver
     {
         if ($this->rootCommentPaginationInputObjectTypeResolver === null) {
@@ -141,10 +117,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->rootCommentPaginationInputObjectTypeResolver = $rootCommentPaginationInputObjectTypeResolver;
         }
         return $this->rootCommentPaginationInputObjectTypeResolver;
-    }
-    public final function setCommentSortInputObjectTypeResolver(CommentSortInputObjectTypeResolver $commentSortInputObjectTypeResolver) : void
-    {
-        $this->commentSortInputObjectTypeResolver = $commentSortInputObjectTypeResolver;
     }
     protected final function getCommentSortInputObjectTypeResolver() : CommentSortInputObjectTypeResolver
     {

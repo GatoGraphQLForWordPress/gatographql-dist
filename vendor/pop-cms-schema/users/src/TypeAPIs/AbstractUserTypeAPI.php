@@ -13,10 +13,6 @@ abstract class AbstractUserTypeAPI implements \PoPCMSSchema\Users\TypeAPIs\UserT
      * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
      */
     private $cmsHelperService;
-    public final function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService) : void
-    {
-        $this->cmsHelperService = $cmsHelperService;
-    }
     protected final function getCMSHelperService() : CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {

@@ -13,10 +13,6 @@ class RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver extends Abstrac
      * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\RootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader(RootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader $rootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader = $rootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader() : RootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootCreatePostTagTermMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -20,10 +20,6 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CategoriesByOneofInputObjectTypeResolver|null
      */
     private $categoriesByOneofInputObjectTypeResolver;
-    public final function setCategoriesByOneofInputObjectTypeResolver(CategoriesByOneofInputObjectTypeResolver $categoriesByOneofInputObjectTypeResolver) : void
-    {
-        $this->categoriesByOneofInputObjectTypeResolver = $categoriesByOneofInputObjectTypeResolver;
-    }
     protected final function getCategoriesByOneofInputObjectTypeResolver() : CategoriesByOneofInputObjectTypeResolver
     {
         if ($this->categoriesByOneofInputObjectTypeResolver === null) {

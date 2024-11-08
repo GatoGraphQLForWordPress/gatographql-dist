@@ -16,10 +16,6 @@ class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListOb
      * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver|null
      */
     private $userCustomPostsFilterInputObjectTypeResolver;
-    public final function setUserCustomPostsFilterInputObjectTypeResolver(UserCustomPostsFilterInputObjectTypeResolver $userCustomPostsFilterInputObjectTypeResolver) : void
-    {
-        $this->userCustomPostsFilterInputObjectTypeResolver = $userCustomPostsFilterInputObjectTypeResolver;
-    }
     protected final function getUserCustomPostsFilterInputObjectTypeResolver() : UserCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->userCustomPostsFilterInputObjectTypeResolver === null) {

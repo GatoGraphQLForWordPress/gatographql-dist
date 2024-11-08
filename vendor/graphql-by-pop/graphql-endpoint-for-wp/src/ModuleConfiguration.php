@@ -16,7 +16,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function getGraphQLAPIEndpoint(): string
@@ -25,6 +29,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = '/api/graphql/';
         $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

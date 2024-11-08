@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
 /**
  * This class contains a list of built-in Guzzle request options.

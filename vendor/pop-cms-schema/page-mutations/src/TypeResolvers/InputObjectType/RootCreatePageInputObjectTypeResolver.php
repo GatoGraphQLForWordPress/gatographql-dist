@@ -12,10 +12,6 @@ class RootCreatePageInputObjectTypeResolver extends RootCreateCustomPostInputObj
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver|null
      */
     private $pageContentAsOneofInputObjectTypeResolver;
-    public final function setPageContentAsOneofInputObjectTypeResolver(\PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver $pageContentAsOneofInputObjectTypeResolver) : void
-    {
-        $this->pageContentAsOneofInputObjectTypeResolver = $pageContentAsOneofInputObjectTypeResolver;
-    }
     protected final function getPageContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver
     {
         if ($this->pageContentAsOneofInputObjectTypeResolver === null) {

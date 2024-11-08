@@ -13,10 +13,6 @@ class CMSHelperService implements \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServi
      * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
      */
     private $cmsService;
-    public final function setCMSService(\PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface $cmsService) : void
-    {
-        $this->cmsService = $cmsService;
-    }
     protected final function getCMSService() : \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface
     {
         if ($this->cmsService === null) {

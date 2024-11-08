@@ -26,10 +26,6 @@ class ModelInstanceHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\Categories\TypeAPIs\UniversalCategoryTypeAPIInterface|null
      */
     private $universalCategoryTypeAPI;
-    public final function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI) : void
-    {
-        $this->postTypeAPI = $postTypeAPI;
-    }
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
@@ -39,10 +35,6 @@ class ModelInstanceHookSet extends AbstractHookSet
         }
         return $this->postTypeAPI;
     }
-    public final function setPostCategoryTypeAPI(PostCategoryTypeAPIInterface $postCategoryTypeAPI) : void
-    {
-        $this->postCategoryTypeAPI = $postCategoryTypeAPI;
-    }
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
@@ -51,10 +43,6 @@ class ModelInstanceHookSet extends AbstractHookSet
             $this->postCategoryTypeAPI = $postCategoryTypeAPI;
         }
         return $this->postCategoryTypeAPI;
-    }
-    public final function setUniversalCategoryTypeAPI(UniversalCategoryTypeAPIInterface $universalCategoryTypeAPI) : void
-    {
-        $this->universalCategoryTypeAPI = $universalCategoryTypeAPI;
     }
     protected final function getUniversalCategoryTypeAPI() : UniversalCategoryTypeAPIInterface
     {

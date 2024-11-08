@@ -14,10 +14,6 @@ class MenuItemObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuItemObjectTypeDataLoader|null
      */
     private $menuItemObjectTypeDataLoader;
-    public final function setMenuItemObjectTypeDataLoader(MenuItemObjectTypeDataLoader $menuItemObjectTypeDataLoader) : void
-    {
-        $this->menuItemObjectTypeDataLoader = $menuItemObjectTypeDataLoader;
-    }
     protected final function getMenuItemObjectTypeDataLoader() : MenuItemObjectTypeDataLoader
     {
         if ($this->menuItemObjectTypeDataLoader === null) {

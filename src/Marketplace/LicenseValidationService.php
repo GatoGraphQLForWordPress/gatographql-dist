@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Marketplace;
 
 use GatoGraphQL\GatoGraphQL\Container\ContainerManagerInterface;
+use GatoGraphQL\GatoGraphQL\Facades\Settings\OptionNamespacerFacade;
+use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseProperties;
 use GatoGraphQL\GatoGraphQL\Marketplace\Exception\HTTPRequestNotSuccessfulException;
 use GatoGraphQL\GatoGraphQL\Marketplace\Exception\LicenseOperationNotSuccessfulException;
 use GatoGraphQL\GatoGraphQL\Marketplace\MarketplaceProviderCommercialExtensionActivationServiceInterface;
 use GatoGraphQL\GatoGraphQL\Marketplace\ObjectModels\CommercialExtensionActivatedLicenseObjectProperties;
 use GatoGraphQL\GatoGraphQL\PluginApp;
+use GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface;
 use GatoGraphQL\GatoGraphQL\Settings\Options;
+use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
 use PoP\ComponentModel\Misc\GeneralUtils;
 use PoP\Root\Services\BasicServiceTrait;
 
@@ -32,11 +36,15 @@ class LicenseValidationService implements LicenseValidationServiceInterface
      * @var \GatoGraphQL\GatoGraphQL\Container\ContainerManagerInterface|null
      */
     private $containerManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
+     */
+    private $userSettingsManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
+     */
+    private $optionNamespacer;
 
-    final public function setMarketplaceProviderCommercialExtensionActivationService(MarketplaceProviderCommercialExtensionActivationServiceInterface $marketplaceProviderCommercialExtensionActivationService): void
-    {
-        $this->marketplaceProviderCommercialExtensionActivationService = $marketplaceProviderCommercialExtensionActivationService;
-    }
     final protected function getMarketplaceProviderCommercialExtensionActivationService(): MarketplaceProviderCommercialExtensionActivationServiceInterface
     {
         if ($this->marketplaceProviderCommercialExtensionActivationService === null) {
@@ -46,10 +54,6 @@ class LicenseValidationService implements LicenseValidationServiceInterface
         }
         return $this->marketplaceProviderCommercialExtensionActivationService;
     }
-    final public function setContainerManager(ContainerManagerInterface $containerManager): void
-    {
-        $this->containerManager = $containerManager;
-    }
     final protected function getContainerManager(): ContainerManagerInterface
     {
         if ($this->containerManager === null) {
@@ -58,6 +62,14 @@ class LicenseValidationService implements LicenseValidationServiceInterface
             $this->containerManager = $containerManager;
         }
         return $this->containerManager;
+    }
+    final protected function getUserSettingsManager(): UserSettingsManagerInterface
+    {
+        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+    }
+    final protected function getOptionNamespacer(): OptionNamespacerInterface
+    {
+        return $this->optionNamespacer = $this->optionNamespacer ?? OptionNamespacerFacade::getInstance();
     }
 
     /**
@@ -69,13 +81,21 @@ class LicenseValidationService implements LicenseValidationServiceInterface
      */
     public function activateDeactivateValidateGatoGraphQLCommercialExtensions(array $previousLicenseKeys, array $submittedLicenseKeys, ?string $formSettingName = null): void
     {
+        // Store the latest "license check" timestamp to DB
+        $this->getUserSettingsManager()->storeLicenseCheckTimestamp();
+        $optionNamespacer = $this->getOptionNamespacer();
+        $option = $optionNamespacer->namespaceOption(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES);
         /** @var array<string,mixed> */
-        $commercialExtensionActivatedLicenseEntries = get_option(Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES, []);
+        $commercialExtensionActivatedLicenseEntries = get_option($option, []);
         [
             $activateLicenseKeys,
             $deactivateLicenseKeys,
             $validateLicenseKeys,
-        ] = $this->calculateLicenseKeysToActivateDeactivateValidate($commercialExtensionActivatedLicenseEntries, $previousLicenseKeys, $submittedLicenseKeys);
+        ] = $this->calculateLicenseKeysToActivateDeactivateValidate(
+            $commercialExtensionActivatedLicenseEntries,
+            $previousLicenseKeys,
+            $submittedLicenseKeys,
+        );
         if (
             $activateLicenseKeys === []
             && $deactivateLicenseKeys === []
@@ -106,25 +126,53 @@ class LicenseValidationService implements LicenseValidationServiceInterface
             /** @var string */
             $instanceID = $commercialExtensionActivatedLicenseEntry[LicenseProperties::INSTANCE_ID];
             try {
-                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->validateLicense($licenseKey, $instanceID);
+                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->validateLicense(
+                    $licenseKey,
+                    $instanceID,
+                );
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
                     \__('Validating license for "%s" produced error: %s', 'gatographql'),
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $e);
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
+                    $commercialExtensionActivatedLicenseEntries,
+                    $extensionSlug,
+                    $e,
+                );
                 if ($formSettingName !== null) {
-                    $this->showAdminMessagesOnLicenseOperationError($extensionSlug, $errorMessage, $e, $formSettingName);
+                    $this->showAdminMessagesOnLicenseOperationError(
+                        $extensionSlug,
+                        $errorMessage,
+                        $e,
+                        $formSettingName,
+                    );
                 }
                 continue;
             }
 
-            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry($commercialExtensionActivatedLicenseEntries, $extensionSlug, $commercialExtensionActivatedLicenseObjectProperties);
+            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry(
+                $commercialExtensionActivatedLicenseEntries,
+                $extensionSlug,
+                $commercialExtensionActivatedLicenseObjectProperties,
+            );
 
-            $successMessage = sprintf(\__('The license for "%s" has status "%s". You have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->status, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $successMessage = sprintf(
+                \__('The license for "%s" has status "%s". You have %s/%s instances activated.', 'gatographql'),
+                $extensionName,
+                $commercialExtensionActivatedLicenseObjectProperties->status,
+                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
+                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
+            );
             if ($formSettingName !== null) {
-                $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage, $formSettingName);
+                $this->showAdminMessagesOnLicenseOperationSuccess(
+                    $extensionSlug,
+                    $extensionName,
+                    $commercialExtensionActivatedLicenseObjectProperties,
+                    $successMessage,
+                    $formSettingName,
+                );
             }
         }
         /**
@@ -146,16 +194,28 @@ class LicenseValidationService implements LicenseValidationServiceInterface
             /** @var string */
             $instanceID = $commercialExtensionActivatedLicenseEntry[LicenseProperties::INSTANCE_ID];
             try {
-                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->deactivateLicense($licenseKey, $instanceID);
+                $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->deactivateLicense(
+                    $licenseKey,
+                    $instanceID,
+                );
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
                     \__('Deactivating license for "%s" produced error: %s', 'gatographql'),
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $e);
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
+                    $commercialExtensionActivatedLicenseEntries,
+                    $extensionSlug,
+                    $e,
+                );
                 if ($formSettingName !== null) {
-                    $this->showAdminMessagesOnLicenseOperationError($extensionSlug, $errorMessage, $e, $formSettingName);
+                    $this->showAdminMessagesOnLicenseOperationError(
+                        $extensionSlug,
+                        $errorMessage,
+                        $e,
+                        $formSettingName,
+                    );
                 }
                 continue;
             }
@@ -163,9 +223,20 @@ class LicenseValidationService implements LicenseValidationServiceInterface
             // Do not store deactivated instances
             unset($commercialExtensionActivatedLicenseEntries[$extensionSlug]);
 
-            $successMessage = sprintf(\__('Deactivating license for "%s" succeeded. You now have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $successMessage = sprintf(
+                \__('Deactivating license for "%s" succeeded. You now have %s/%s instances activated.', 'gatographql'),
+                $extensionName,
+                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
+                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
+            );
             if ($formSettingName !== null) {
-                $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage, $formSettingName);
+                $this->showAdminMessagesOnLicenseOperationSuccess(
+                    $extensionSlug,
+                    $extensionName,
+                    $commercialExtensionActivatedLicenseObjectProperties,
+                    $successMessage,
+                    $formSettingName,
+                );
             }
         }
         foreach ($activateLicenseKeys as $extensionSlug => $licenseKey) {
@@ -187,18 +258,42 @@ class LicenseValidationService implements LicenseValidationServiceInterface
                     $extensionName,
                     $e->getMessage()
                 );
-                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError($commercialExtensionActivatedLicenseEntries, $extensionSlug, $e);
+                $commercialExtensionActivatedLicenseEntries = $this->handleLicenseOperationError(
+                    $commercialExtensionActivatedLicenseEntries,
+                    $extensionSlug,
+                    $e,
+                );
                 if ($formSettingName !== null) {
-                    $this->showAdminMessagesOnLicenseOperationError($extensionSlug, $errorMessage, $e, $formSettingName);
+                    $this->showAdminMessagesOnLicenseOperationError(
+                        $extensionSlug,
+                        $errorMessage,
+                        $e,
+                        $formSettingName,
+                    );
                 }
                 continue;
             }
 
-            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry($commercialExtensionActivatedLicenseEntries, $extensionSlug, $commercialExtensionActivatedLicenseObjectProperties);
+            $commercialExtensionActivatedLicenseEntries = $this->addCommercialExtensionActivatedLicenseEntry(
+                $commercialExtensionActivatedLicenseEntries,
+                $extensionSlug,
+                $commercialExtensionActivatedLicenseObjectProperties,
+            );
 
-            $successMessage = sprintf(\__('Activating license for "%s" succeeded. You have %s/%s instances activated.', 'gatographql'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->activationUsage, $commercialExtensionActivatedLicenseObjectProperties->activationLimit);
+            $successMessage = sprintf(
+                \__('Activating license for "%s" succeeded. You have %s/%s instances activated.', 'gatographql'),
+                $extensionName,
+                $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
+                $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
+            );
             if ($formSettingName !== null) {
-                $this->showAdminMessagesOnLicenseOperationSuccess($extensionSlug, $extensionName, $commercialExtensionActivatedLicenseObjectProperties, $successMessage, $formSettingName);
+                $this->showAdminMessagesOnLicenseOperationSuccess(
+                    $extensionSlug,
+                    $extensionName,
+                    $commercialExtensionActivatedLicenseObjectProperties,
+                    $successMessage,
+                    $formSettingName,
+                );
             }
         }
         // Do not flush container or update DB if there are no changes
@@ -207,7 +302,7 @@ class LicenseValidationService implements LicenseValidationServiceInterface
         }
         // Store the payloads to the DB
         update_option(
-            Options::COMMERCIAL_EXTENSION_ACTIVATED_LICENSE_ENTRIES,
+            $option,
             $commercialExtensionActivatedLicenseEntries
         );
         // Because extensions will be activated/deactivated, flush the service container
@@ -323,7 +418,11 @@ class LicenseValidationService implements LicenseValidationServiceInterface
         add_settings_error(
             $formSettingName,
             'license_activation_' . $extensionSlug,
-            sprintf(\__('The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'), $extensionName, $commercialExtensionActivatedLicenseObjectProperties->productName),
+            sprintf(
+                \__('The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'),
+                $extensionName,
+                $commercialExtensionActivatedLicenseObjectProperties->productName,
+            ),
             'error'
         );
     }
@@ -434,6 +533,10 @@ class LicenseValidationService implements LicenseValidationServiceInterface
      */
     public function validateGatoGraphQLCommercialExtensions(array $activeLicenseKeys, ?string $formSettingName = null): void
     {
-        $this->activateDeactivateValidateGatoGraphQLCommercialExtensions($activeLicenseKeys, $activeLicenseKeys, $formSettingName);
+        $this->activateDeactivateValidateGatoGraphQLCommercialExtensions(
+            $activeLicenseKeys,
+            $activeLicenseKeys,
+            $formSettingName,
+        );
     }
 }

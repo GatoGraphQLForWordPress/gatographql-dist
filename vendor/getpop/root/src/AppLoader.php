@@ -9,7 +9,7 @@ use PoP\Root\Container\ContainerCacheConfiguration;
 use PoP\Root\Dotenv\DotenvBuilderFactory;
 use PoP\Root\Facades\SystemCompilerPassRegistryFacade;
 use PoP\Root\Module\ModuleInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /**
  * Application Loader
  * @internal
@@ -224,6 +224,9 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
             $this->initializedModuleClasses[] = $moduleClass;
             // Initialize and register the Module
             $module = $moduleManager->register($moduleClass);
+            foreach ($module->registerAsModules() as $registerAsModuleClass) {
+                $moduleManager->registerAs($module, $registerAsModuleClass);
+            }
             // Initialize all depended-upon PoP modules
             if ($dependedModuleClasses = \array_diff($module->getDependedModuleClasses(), $this->initializedModuleClasses)) {
                 $this->addComponentsOrderedForInitialization($dependedModuleClasses, $isDev);
@@ -250,7 +253,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
             // We reached the bottom of the rung, add the module to the list
             $this->orderedModuleClasses[] = $moduleClass;
             /**
-             * If this compononent satisfies the contracts for other
+             * If this component satisfies the contracts for other
              * modules, set them as "satisfied".
              */
             foreach ($module->getSatisfiedModuleClasses() as $satisfiedComponentClass) {
@@ -302,7 +305,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
          * System container: initialize it and compile it already,
          * since it will be used to initialize the Application container
          */
-        \PoP\Root\App::getSystemContainerBuilderFactory()->init(($nullsafeVariable1 = $this->containerCacheConfiguration) ? $nullsafeVariable1->cacheContainerConfiguration() : null, ($nullsafeVariable2 = $this->containerCacheConfiguration) ? $nullsafeVariable2->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable3 = $this->containerCacheConfiguration) ? $nullsafeVariable3->getContainerConfigurationCacheDirectory() : null);
+        \PoP\Root\App::getSystemContainerBuilderFactory()->init((($nullsafeVariable1 = $this->containerCacheConfiguration) ? $nullsafeVariable1->getApplicationName() : null) ?? '', ($nullsafeVariable2 = $this->containerCacheConfiguration) ? $nullsafeVariable2->cacheContainerConfiguration() : null, ($nullsafeVariable3 = $this->containerCacheConfiguration) ? $nullsafeVariable3->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable4 = $this->containerCacheConfiguration) ? $nullsafeVariable4->getContainerConfigurationCacheDirectory() : null);
         /**
          * Have all Components register their Container services,
          * and already compile the container.
@@ -379,7 +382,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
         /**
          * Initialize the Application container only
          */
-        \PoP\Root\App::getContainerBuilderFactory()->init(($nullsafeVariable4 = $this->containerCacheConfiguration) ? $nullsafeVariable4->cacheContainerConfiguration() : null, ($nullsafeVariable5 = $this->containerCacheConfiguration) ? $nullsafeVariable5->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable6 = $this->containerCacheConfiguration) ? $nullsafeVariable6->getContainerConfigurationCacheDirectory() : null);
+        \PoP\Root\App::getContainerBuilderFactory()->init((($nullsafeVariable5 = $this->containerCacheConfiguration) ? $nullsafeVariable5->getApplicationName() : null) ?? '', ($nullsafeVariable6 = $this->containerCacheConfiguration) ? $nullsafeVariable6->cacheContainerConfiguration() : null, ($nullsafeVariable7 = $this->containerCacheConfiguration) ? $nullsafeVariable7->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable8 = $this->containerCacheConfiguration) ? $nullsafeVariable8->getContainerConfigurationCacheDirectory() : null);
         /**
          * Initialize the container services by the Components
          */
@@ -390,6 +393,9 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
                 continue;
             }
             $moduleConfiguration = $this->moduleClassConfiguration[$moduleClass] ?? [];
+            foreach ($module->registerAsModules() as $registerAsModuleClass) {
+                $moduleConfiguration = \array_merge_recursive($this->moduleClassConfiguration[$registerAsModuleClass] ?? [], $moduleConfiguration);
+            }
             $skipSchemaForModule = $this->skipSchemaForModule($module);
             /** @var array<class-string<ModuleInterface>> */
             $skipSchemaModuleClasses = $this->skipSchemaModuleClasses;

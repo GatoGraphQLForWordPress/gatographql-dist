@@ -8,23 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Yaml\Command;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Command;
 
-use PrefixedByPoP\Symfony\Component\Console\Attribute\AsCommand;
-use PrefixedByPoP\Symfony\Component\Console\CI\GithubActionReporter;
-use PrefixedByPoP\Symfony\Component\Console\Command\Command;
-use PrefixedByPoP\Symfony\Component\Console\Completion\CompletionInput;
-use PrefixedByPoP\Symfony\Component\Console\Completion\CompletionSuggestions;
-use PrefixedByPoP\Symfony\Component\Console\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Console\Exception\RuntimeException;
-use PrefixedByPoP\Symfony\Component\Console\Input\InputArgument;
-use PrefixedByPoP\Symfony\Component\Console\Input\InputInterface;
-use PrefixedByPoP\Symfony\Component\Console\Input\InputOption;
-use PrefixedByPoP\Symfony\Component\Console\Output\OutputInterface;
-use PrefixedByPoP\Symfony\Component\Console\Style\SymfonyStyle;
-use PrefixedByPoP\Symfony\Component\Yaml\Exception\ParseException;
-use PrefixedByPoP\Symfony\Component\Yaml\Parser;
-use PrefixedByPoP\Symfony\Component\Yaml\Yaml;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Attribute\AsCommand;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\CI\GithubActionReporter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Command\Command;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Completion\CompletionInput;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Completion\CompletionSuggestions;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Exception\RuntimeException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Input\InputArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Input\InputInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Input\InputOption;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Output\OutputInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Style\SymfonyStyle;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Exception\ParseException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Parser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Yaml;
 /**
  * Validates YAML files syntax and outputs encountered errors.
  *

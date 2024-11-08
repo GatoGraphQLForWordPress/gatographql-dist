@@ -13,10 +13,6 @@ class PostObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
      * @var \PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLoader|null
      */
     private $postObjectTypeDataLoader;
-    public final function setPostObjectTypeDataLoader(PostObjectTypeDataLoader $postObjectTypeDataLoader) : void
-    {
-        $this->postObjectTypeDataLoader = $postObjectTypeDataLoader;
-    }
     protected final function getPostObjectTypeDataLoader() : PostObjectTypeDataLoader
     {
         if ($this->postObjectTypeDataLoader === null) {

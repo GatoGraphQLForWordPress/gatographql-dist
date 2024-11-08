@@ -52,7 +52,10 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
      */
     protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, ?string $taxonomy = null): ?WP_Term
     {
-        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return $taxonomyTerm;
         }
@@ -101,7 +104,11 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         }
 
         /** @var array<string|int>|object[] */
-        return $this->getCustomPostTaxonomyTerms($customPostObjectOrID, $query, $options) ?? [];
+        return $this->getCustomPostTaxonomyTerms(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        ) ?? [];
     }
 
     /**
@@ -120,7 +127,11 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         }
 
         /** @var string|int|WP_Post $customPostObjectOrID */
-        return $this->getCustomPostTaxonomyTermCount($customPostObjectOrID, $query, $options);
+        return $this->getCustomPostTaxonomyTermCount(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        );
     }
     /**
      * @param array<string,mixed> $query

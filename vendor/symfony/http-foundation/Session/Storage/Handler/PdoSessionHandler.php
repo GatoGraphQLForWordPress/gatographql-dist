@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use PrefixedByPoP\Doctrine\DBAL\Schema\Schema;
-use PrefixedByPoP\Doctrine\DBAL\Types\Types;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Schema\Schema;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Types\Types;
 /**
  * Session handler using a PDO connection to read and write data.
  *

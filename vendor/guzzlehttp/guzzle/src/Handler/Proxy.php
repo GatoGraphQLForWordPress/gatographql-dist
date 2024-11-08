@@ -1,10 +1,10 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\GuzzleHttp\RequestOptions;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\RequestOptions;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * Provides basic proxies for handlers.
  *

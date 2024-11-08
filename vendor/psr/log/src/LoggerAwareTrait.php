@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Log;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Log;
 
 /**
  * Basic Implementation of LoggerAwareInterface.

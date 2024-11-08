@@ -26,10 +26,6 @@ class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeF
      * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
      */
     private $mediaObjectTypeResolver;
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
-    }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -39,10 +35,6 @@ class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeF
         }
         return $this->booleanScalarTypeResolver;
     }
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -51,10 +43,6 @@ class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeF
             $this->idScalarTypeResolver = $idScalarTypeResolver;
         }
         return $this->idScalarTypeResolver;
-    }
-    public final function setMediaObjectTypeResolver(MediaObjectTypeResolver $mediaObjectTypeResolver) : void
-    {
-        $this->mediaObjectTypeResolver = $mediaObjectTypeResolver;
     }
     protected final function getMediaObjectTypeResolver() : MediaObjectTypeResolver
     {

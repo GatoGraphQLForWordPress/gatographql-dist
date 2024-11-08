@@ -29,6 +29,15 @@ class ModuleManager implements \PoP\Root\StateManagers\ModuleManagerInterface
         return $module;
     }
     /**
+     * Register a module under a different class
+     *
+     * @param class-string<ModuleInterface> $moduleClass
+     */
+    public function registerAs(ModuleInterface $module, string $moduleClass) : void
+    {
+        $this->modules[$moduleClass] = $module;
+    }
+    /**
      * @phpstan-param class-string<ModuleInterface> $moduleClass
      * @throws ComponentNotExistsException If the class of the module does not exist or has not been initialized
      */

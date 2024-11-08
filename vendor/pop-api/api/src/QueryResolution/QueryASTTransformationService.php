@@ -36,10 +36,6 @@ class QueryASTTransformationService implements \PoPAPI\API\QueryResolution\Query
      * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
      */
     private $astNodeDuplicatorService;
-    public final function setASTNodeDuplicatorService(ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService) : void
-    {
-        $this->astNodeDuplicatorService = $astNodeDuplicatorService;
-    }
     protected final function getASTNodeDuplicatorService() : ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {

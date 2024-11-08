@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
 /**
  * Interface for stream readers.

@@ -12,10 +12,6 @@ class UpdateGenericCategoryTermBulkOperationMutationResolver extends AbstractBul
      * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\UpdateGenericCategoryTermMutationResolver|null
      */
     private $updateGenericCategoryTermMutationResolver;
-    public final function setUpdateGenericCategoryTermMutationResolver(\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\UpdateGenericCategoryTermMutationResolver $updateGenericCategoryTermMutationResolver) : void
-    {
-        $this->updateGenericCategoryTermMutationResolver = $updateGenericCategoryTermMutationResolver;
-    }
     protected final function getUpdateGenericCategoryTermMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\UpdateGenericCategoryTermMutationResolver
     {
         if ($this->updateGenericCategoryTermMutationResolver === null) {

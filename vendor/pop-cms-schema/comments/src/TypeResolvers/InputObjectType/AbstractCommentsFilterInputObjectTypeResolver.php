@@ -103,10 +103,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput|null
      */
     private $excludeParentIDsFilterInput;
-    public final function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver) : void
-    {
-        $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
-    }
     protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
@@ -115,10 +111,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
         }
         return $this->dateQueryInputObjectTypeResolver;
-    }
-    public final function setCommentStatusEnumTypeResolver(CommentStatusEnumTypeResolver $commentStatusEnumTypeResolver) : void
-    {
-        $this->commentStatusEnumTypeResolver = $commentStatusEnumTypeResolver;
     }
     protected final function getCommentStatusEnumTypeResolver() : CommentStatusEnumTypeResolver
     {
@@ -129,10 +121,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->commentStatusEnumTypeResolver;
     }
-    public final function setCustomPostStatusEnumTypeResolver(CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver) : void
-    {
-        $this->customPostStatusEnumTypeResolver = $customPostStatusEnumTypeResolver;
-    }
     protected final function getCustomPostStatusEnumTypeResolver() : CustomPostStatusEnumTypeResolver
     {
         if ($this->customPostStatusEnumTypeResolver === null) {
@@ -141,10 +129,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->customPostStatusEnumTypeResolver = $customPostStatusEnumTypeResolver;
         }
         return $this->customPostStatusEnumTypeResolver;
-    }
-    public final function setCommentTypeEnumTypeResolver(CommentTypeEnumTypeResolver $commentTypeEnumTypeResolver) : void
-    {
-        $this->commentTypeEnumTypeResolver = $commentTypeEnumTypeResolver;
     }
     protected final function getCommentTypeEnumTypeResolver() : CommentTypeEnumTypeResolver
     {
@@ -155,10 +139,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->commentTypeEnumTypeResolver;
     }
-    public final function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver) : void
-    {
-        $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
-    }
     protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {
@@ -167,10 +147,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
         }
         return $this->customPostEnumStringScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -181,10 +157,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setCommentStatusFilterInput(CommentStatusFilterInput $commentStatusFilterInput) : void
-    {
-        $this->commentStatusFilterInput = $commentStatusFilterInput;
-    }
     protected final function getCommentStatusFilterInput() : CommentStatusFilterInput
     {
         if ($this->commentStatusFilterInput === null) {
@@ -193,10 +165,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->commentStatusFilterInput = $commentStatusFilterInput;
         }
         return $this->commentStatusFilterInput;
-    }
-    public final function setCommentTypesFilterInput(CommentTypesFilterInput $commentTypesFilterInput) : void
-    {
-        $this->commentTypesFilterInput = $commentTypesFilterInput;
     }
     protected final function getCommentTypesFilterInput() : CommentTypesFilterInput
     {
@@ -207,10 +175,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->commentTypesFilterInput;
     }
-    public final function setCustomPostIDFilterInput(CustomPostIDFilterInput $customPostIDFilterInput) : void
-    {
-        $this->customPostIDFilterInput = $customPostIDFilterInput;
-    }
     protected final function getCustomPostIDFilterInput() : CustomPostIDFilterInput
     {
         if ($this->customPostIDFilterInput === null) {
@@ -219,10 +183,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->customPostIDFilterInput = $customPostIDFilterInput;
         }
         return $this->customPostIDFilterInput;
-    }
-    public final function setCustomPostIDsFilterInput(CustomPostIDsFilterInput $customPostIDsFilterInput) : void
-    {
-        $this->customPostIDsFilterInput = $customPostIDsFilterInput;
     }
     protected final function getCustomPostIDsFilterInput() : CustomPostIDsFilterInput
     {
@@ -233,10 +193,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->customPostIDsFilterInput;
     }
-    public final function setCustomPostStatusFilterInput(CustomPostStatusFilterInput $customPostStatusFilterInput) : void
-    {
-        $this->customPostStatusFilterInput = $customPostStatusFilterInput;
-    }
     protected final function getCustomPostStatusFilterInput() : CustomPostStatusFilterInput
     {
         if ($this->customPostStatusFilterInput === null) {
@@ -245,10 +201,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->customPostStatusFilterInput = $customPostStatusFilterInput;
         }
         return $this->customPostStatusFilterInput;
-    }
-    public final function setExcludeCustomPostIDsFilterInput(ExcludeCustomPostIDsFilterInput $excludeCustomPostIDsFilterInput) : void
-    {
-        $this->excludeCustomPostIDsFilterInput = $excludeCustomPostIDsFilterInput;
     }
     protected final function getExcludeCustomPostIDsFilterInput() : ExcludeCustomPostIDsFilterInput
     {
@@ -259,10 +211,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->excludeCustomPostIDsFilterInput;
     }
-    public final function setUnionCustomPostTypesFilterInput(UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput) : void
-    {
-        $this->unionCustomPostTypesFilterInput = $unionCustomPostTypesFilterInput;
-    }
     protected final function getUnionCustomPostTypesFilterInput() : UnionCustomPostTypesFilterInput
     {
         if ($this->unionCustomPostTypesFilterInput === null) {
@@ -271,10 +219,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->unionCustomPostTypesFilterInput = $unionCustomPostTypesFilterInput;
         }
         return $this->unionCustomPostTypesFilterInput;
-    }
-    public final function setExcludeParentIDsFilterInput(ExcludeParentIDsFilterInput $excludeParentIDsFilterInput) : void
-    {
-        $this->excludeParentIDsFilterInput = $excludeParentIDsFilterInput;
     }
     protected final function getExcludeParentIDsFilterInput() : ExcludeParentIDsFilterInput
     {
@@ -285,10 +229,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->excludeParentIDsFilterInput;
     }
-    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
-    {
-        $this->searchFilterInput = $searchFilterInput;
-    }
     protected final function getSearchFilterInput() : SearchFilterInput
     {
         if ($this->searchFilterInput === null) {
@@ -298,10 +238,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
         }
         return $this->searchFilterInput;
     }
-    public final function setParentIDFilterInput(ParentIDFilterInput $parentIDFilterInput) : void
-    {
-        $this->parentIDFilterInput = $parentIDFilterInput;
-    }
     protected final function getParentIDFilterInput() : ParentIDFilterInput
     {
         if ($this->parentIDFilterInput === null) {
@@ -310,10 +246,6 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
             $this->parentIDFilterInput = $parentIDFilterInput;
         }
         return $this->parentIDFilterInput;
-    }
-    public final function setParentIDsFilterInput(ParentIDsFilterInput $parentIDsFilterInput) : void
-    {
-        $this->parentIDsFilterInput = $parentIDsFilterInput;
     }
     protected final function getParentIDsFilterInput() : ParentIDsFilterInput
     {

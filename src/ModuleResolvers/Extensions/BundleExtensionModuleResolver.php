@@ -33,22 +33,26 @@ class BundleExtensionModuleResolver extends AbstractBundleExtensionModuleResolve
      */
     public function getModulesToResolve(): array
     {
-        return array_merge(PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage() ? [
-            self::PRO,
-        ] : [], PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage() ? [
-            self::ACCESS_CONTROL,
-            self::CACHING,
-            self::CUSTOM_ENDPOINTS,
-            self::DEPRECATION,
-            self::INTERNAL_GRAPHQL_SERVER,
-            self::MULTIPLE_QUERY_EXECUTION,
-            self::PERSISTED_QUERIES,
-            self::POLYLANG_INTEGRATION,
-            self::QUERY_FUNCTIONS,
-            self::SCHEMA_FUNCTIONS,
-        ] : [], PluginStaticModuleConfiguration::displayGatoGraphQLPROAllExtensionsBundleOnExtensionsPage() ? [
-            self::ALL_EXTENSIONS,
-        ] : []);
+        return array_merge(
+            PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage() ? [
+                self::PRO,
+            ] : [],
+            PluginStaticModuleConfiguration::displayGatoGraphQLPROFeatureBundlesOnExtensionsPage() ? [
+                self::ACCESS_CONTROL,
+                self::CACHING,
+                self::CUSTOM_ENDPOINTS,
+                self::DEPRECATION,
+                self::INTERNAL_GRAPHQL_SERVER,
+                self::MULTIPLE_QUERY_EXECUTION,
+                self::PERSISTED_QUERIES,
+                self::POLYLANG_INTEGRATION,
+                self::QUERY_FUNCTIONS,
+                self::SCHEMA_FUNCTIONS,
+            ] : [],
+            PluginStaticModuleConfiguration::displayGatoGraphQLPROAllExtensionsBundleOnExtensionsPage() ? [
+                self::ALL_EXTENSIONS,
+            ] : [],
+        );
     }
 
     public function getName(string $module): string

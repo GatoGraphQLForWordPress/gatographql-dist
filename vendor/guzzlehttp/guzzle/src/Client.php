@@ -1,20 +1,20 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
-use PrefixedByPoP\GuzzleHttp\Cookie\CookieJar;
-use PrefixedByPoP\GuzzleHttp\Exception\GuzzleException;
-use PrefixedByPoP\GuzzleHttp\Exception\InvalidArgumentException;
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\ResponseInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Cookie\CookieJar;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\GuzzleException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * @final
  * @internal
  */
-class Client implements ClientInterface, \PrefixedByPoP\Psr\Http\Client\ClientInterface
+class Client implements ClientInterface, \GatoExternalPrefixByGatoGraphQL\Psr\Http\Client\ClientInterface
 {
     use ClientTrait;
     /**

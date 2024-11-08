@@ -17,10 +17,6 @@ abstract class AbstractPluginMenuPage extends AbstractMenuPage
      */
     private $pluginMenu;
 
-    final public function setPluginMenu(PluginMenu $pluginMenu): void
-    {
-        $this->pluginMenu = $pluginMenu;
-    }
     final protected function getPluginMenu(): PluginMenu
     {
         if ($this->pluginMenu === null) {

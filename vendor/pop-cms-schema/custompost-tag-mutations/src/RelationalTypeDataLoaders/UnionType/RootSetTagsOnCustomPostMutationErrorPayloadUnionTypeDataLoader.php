@@ -13,10 +13,6 @@ class RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader extends Abs
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver(RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver = $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver() : RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver === null) {

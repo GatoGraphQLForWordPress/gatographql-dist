@@ -19,10 +19,6 @@ class EndpointExecuterService extends AbstractAutomaticallyInstantiatedService
      */
     private $customEndpointExecuterRegistry;
 
-    final public function setEndpointExecuterRegistry(EndpointExecuterRegistryInterface $customEndpointExecuterRegistry): void
-    {
-        $this->customEndpointExecuterRegistry = $customEndpointExecuterRegistry;
-    }
     final protected function getEndpointExecuterRegistry(): EndpointExecuterRegistryInterface
     {
         if ($this->customEndpointExecuterRegistry === null) {

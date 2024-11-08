@@ -21,10 +21,6 @@ class RoutingHookSet extends AbstractHookSet
      * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
      */
     private $requestHelperService;
-    public final function setCMSService(CMSServiceInterface $cmsService) : void
-    {
-        $this->cmsService = $cmsService;
-    }
     protected final function getCMSService() : CMSServiceInterface
     {
         if ($this->cmsService === null) {
@@ -33,10 +29,6 @@ class RoutingHookSet extends AbstractHookSet
             $this->cmsService = $cmsService;
         }
         return $this->cmsService;
-    }
-    public final function setRequestHelperService(RequestHelperServiceInterface $requestHelperService) : void
-    {
-        $this->requestHelperService = $requestHelperService;
     }
     protected final function getRequestHelperService() : RequestHelperServiceInterface
     {

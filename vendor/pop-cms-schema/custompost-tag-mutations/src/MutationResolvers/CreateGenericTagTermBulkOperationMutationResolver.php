@@ -12,10 +12,6 @@ class CreateGenericTagTermBulkOperationMutationResolver extends AbstractBulkOper
      * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\CreateGenericTagTermMutationResolver|null
      */
     private $createGenericTagTermMutationResolver;
-    public final function setCreateGenericTagTermMutationResolver(\PoPCMSSchema\CustomPostTagMutations\MutationResolvers\CreateGenericTagTermMutationResolver $createGenericTagTermMutationResolver) : void
-    {
-        $this->createGenericTagTermMutationResolver = $createGenericTagTermMutationResolver;
-    }
     protected final function getCreateGenericTagTermMutationResolver() : \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\CreateGenericTagTermMutationResolver
     {
         if ($this->createGenericTagTermMutationResolver === null) {

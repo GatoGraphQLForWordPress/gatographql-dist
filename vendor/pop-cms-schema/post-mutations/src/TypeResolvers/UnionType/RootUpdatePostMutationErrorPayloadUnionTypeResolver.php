@@ -13,10 +13,6 @@ class RootUpdatePostMutationErrorPayloadUnionTypeResolver extends AbstractRootUp
      * @var \PoPCMSSchema\PostMutations\RelationalTypeDataLoaders\UnionType\RootUpdatePostMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootUpdatePostMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootUpdatePostMutationErrorPayloadUnionTypeDataLoader(RootUpdatePostMutationErrorPayloadUnionTypeDataLoader $rootUpdatePostMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootUpdatePostMutationErrorPayloadUnionTypeDataLoader = $rootUpdatePostMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootUpdatePostMutationErrorPayloadUnionTypeDataLoader() : RootUpdatePostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdatePostMutationErrorPayloadUnionTypeDataLoader === null) {

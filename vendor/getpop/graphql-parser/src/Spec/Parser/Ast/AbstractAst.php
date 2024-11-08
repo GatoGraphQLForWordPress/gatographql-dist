@@ -28,10 +28,6 @@ abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInte
      * @var \PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface|null
      */
     private $graphQLQueryStringFormatter;
-    public final function setGraphQLQueryStringFormatter(GraphQLQueryStringFormatterInterface $graphQLQueryStringFormatter) : void
-    {
-        $this->graphQLQueryStringFormatter = $graphQLQueryStringFormatter;
-    }
     protected final function getGraphQLQueryStringFormatter() : GraphQLQueryStringFormatterInterface
     {
         if ($this->graphQLQueryStringFormatter === null) {

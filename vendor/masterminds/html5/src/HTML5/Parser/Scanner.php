@@ -1,8 +1,8 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
-use PrefixedByPoP\Masterminds\HTML5\Exception;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Exception;
 /**
  * The scanner scans over a given data input to react appropriately to characters.
  * @internal

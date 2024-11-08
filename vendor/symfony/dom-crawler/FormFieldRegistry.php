@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DomCrawler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler;
 
-use PrefixedByPoP\Symfony\Component\DomCrawler\Field\FormField;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field\FormField;
 /**
  * This is an internal class that must not be used directly.
  *

@@ -12,10 +12,6 @@ class CreateGenericCustomPostBulkOperationMutationResolver extends AbstractBulkO
      * @var \PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateGenericCustomPostMutationResolver|null
      */
     private $createGenericCustomPostMutationResolver;
-    public final function setCreateGenericCustomPostMutationResolver(\PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateGenericCustomPostMutationResolver $createGenericCustomPostMutationResolver) : void
-    {
-        $this->createGenericCustomPostMutationResolver = $createGenericCustomPostMutationResolver;
-    }
     protected final function getCreateGenericCustomPostMutationResolver() : \PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateGenericCustomPostMutationResolver
     {
         if ($this->createGenericCustomPostMutationResolver === null) {

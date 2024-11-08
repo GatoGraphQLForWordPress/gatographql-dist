@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
 /**
  * Null dumper, negates any proxy code generation for any given service definition.
  *

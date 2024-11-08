@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\File;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use PrefixedByPoP\Symfony\Component\Mime\MimeTypes;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Mime\MimeTypes;
 /**
  * A file in the file system.
  *

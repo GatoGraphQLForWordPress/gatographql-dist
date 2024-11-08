@@ -29,10 +29,6 @@ class PostTagTypeAPI extends AbstractTagTypeAPI implements PostTagTypeAPIInterfa
      */
     private $postTypeAPI;
 
-    final public function setTaxonomyTermTypeAPI(TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI): void
-    {
-        $this->taxonomyTermTypeAPI = $taxonomyTermTypeAPI;
-    }
     final protected function getTaxonomyTermTypeAPI(): TaxonomyTermTypeAPIInterface
     {
         if ($this->taxonomyTermTypeAPI === null) {
@@ -43,10 +39,6 @@ class PostTagTypeAPI extends AbstractTagTypeAPI implements PostTagTypeAPIInterfa
         return $this->taxonomyTermTypeAPI;
     }
 
-    final public function setPostTypeAPI(PostTypeAPIInterface $postTypeAPI): void
-    {
-        $this->postTypeAPI = $postTypeAPI;
-    }
     final protected function getPostTypeAPI(): PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {

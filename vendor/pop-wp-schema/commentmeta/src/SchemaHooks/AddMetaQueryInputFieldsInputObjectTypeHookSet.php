@@ -17,10 +17,6 @@ class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQuery
      */
     private $commentMetaQueryInputObjectTypeResolver;
 
-    final public function setCommentMetaQueryInputObjectTypeResolver(CommentMetaQueryInputObjectTypeResolver $commentMetaQueryInputObjectTypeResolver): void
-    {
-        $this->commentMetaQueryInputObjectTypeResolver = $commentMetaQueryInputObjectTypeResolver;
-    }
     final protected function getCommentMetaQueryInputObjectTypeResolver(): CommentMetaQueryInputObjectTypeResolver
     {
         if ($this->commentMetaQueryInputObjectTypeResolver === null) {

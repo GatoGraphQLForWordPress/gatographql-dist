@@ -58,9 +58,15 @@ abstract class AbstractModuleConfiguration implements \PoP\Root\Module\ModuleCon
         if (!$this->enableHook($envVariable)) {
             return $this->configuration[$envVariable];
         }
-        $class = $this->getModuleClass();
-        $hookName = \PoP\Root\Module\ModuleConfigurationHelpers::getHookName($class, $envVariable);
-        $this->configuration[$envVariable] = App::applyFilters($hookName, $this->configuration[$envVariable], $class, $envVariable);
+        /**
+         * Allow multiple classes for a StandaloneModule to also
+         * get the configuration from the upstream Module
+         */
+        $classes = $this->getModuleClasses();
+        foreach ($classes as $class) {
+            $hookName = \PoP\Root\Module\ModuleConfigurationHelpers::getHookName($class, $envVariable);
+            $this->configuration[$envVariable] = App::applyFilters($hookName, $this->configuration[$envVariable], $class, $envVariable);
+        }
         return $this->configuration[$envVariable];
     }
     protected function enableHook(string $envVariable) : bool
@@ -71,12 +77,16 @@ abstract class AbstractModuleConfiguration implements \PoP\Root\Module\ModuleCon
      * Package's Module class, of type ModuleInterface.
      * By standard, it is "NamespaceOwner\Project\Module::class"
      *
-     * @phpstan-return class-string<ModuleInterface>
+     * @phpstan-return array<class-string<ModuleInterface>>
      */
-    protected function getModuleClass() : string
+    protected function getModuleClasses() : array
     {
         $classNamespace = ClassHelpers::getClassPSR4Namespace(\get_called_class());
-        /** @var class-string<ModuleInterface> */
-        return $classNamespace . '\\Module';
+        /** @var array<class-string<ModuleInterface>> */
+        return [$classNamespace . '\\' . $this->getModuleClassname()];
+    }
+    protected function getModuleClassname() : string
+    {
+        return 'Module';
     }
 }

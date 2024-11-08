@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root\Registries;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 /** @internal */
 interface CompilerPassRegistryInterface
 {

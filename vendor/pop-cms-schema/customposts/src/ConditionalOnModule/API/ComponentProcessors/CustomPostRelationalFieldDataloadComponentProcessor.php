@@ -32,10 +32,6 @@ class CustomPostRelationalFieldDataloadComponentProcessor extends AbstractRelati
      * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
      */
     private $listQueryInputOutputHandler;
-    public final function setCustomPostUnionTypeResolver(CustomPostUnionTypeResolver $customPostUnionTypeResolver) : void
-    {
-        $this->customPostUnionTypeResolver = $customPostUnionTypeResolver;
-    }
     protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {
@@ -44,10 +40,6 @@ class CustomPostRelationalFieldDataloadComponentProcessor extends AbstractRelati
             $this->customPostUnionTypeResolver = $customPostUnionTypeResolver;
         }
         return $this->customPostUnionTypeResolver;
-    }
-    public final function setListQueryInputOutputHandler(ListQueryInputOutputHandler $listQueryInputOutputHandler) : void
-    {
-        $this->listQueryInputOutputHandler = $listQueryInputOutputHandler;
     }
     protected final function getListQueryInputOutputHandler() : ListQueryInputOutputHandler
     {

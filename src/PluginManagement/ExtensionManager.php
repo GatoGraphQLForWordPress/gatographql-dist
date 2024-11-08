@@ -7,15 +7,20 @@ namespace GatoGraphQL\GatoGraphQL\PluginManagement;
 use GatoGraphQL\ExternalDependencyWrappers\Composer\Semver\SemverWrapper;
 use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
 use GatoGraphQL\GatoGraphQL\Exception\ExtensionNotRegisteredException;
+use GatoGraphQL\GatoGraphQL\Facades\Registries\ModuleRegistryFacade;
+use GatoGraphQL\GatoGraphQL\Facades\Registries\SettingsCategoryRegistryFacade;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseStatus;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginManagementFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\PluginApp;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\BundleExtensionInterface;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\ExtensionInterface;
 use GatoGraphQL\GatoGraphQL\PluginStaticModuleConfiguration;
+use GatoGraphQL\GatoGraphQL\Services\MenuPages\SettingsMenuPage;
+use GatoGraphQL\GatoGraphQL\SettingsCategoryResolvers\SettingsCategoryResolver;
 use GatoGraphQL\GatoGraphQL\StaticHelpers\AdminHelpers;
 use GatoGraphQL\GatoGraphQL\StaticHelpers\PluginVersionHelpers;
 use GatoGraphQL\GatoGraphQL\StaticHelpers\SettingsHelpers;
+use PoP\Root\Facades\Instances\InstanceManagerFacade;
 
 class ExtensionManager extends AbstractPluginManager
 {
@@ -127,8 +132,17 @@ class ExtensionManager extends AbstractPluginManager
              */
             $installedExtensionVersion = $this->extensionClassInstances[$extensionClass]->getPluginVersion();
             $errorMessage = $installedExtensionVersion === $extensionVersion && $this->isExtensionBundled($extensionClass)
-                ? sprintf(__('Extension <strong>%s</strong> with version <code>%s</code> is already installed. Are both the extension and a bundle containing the extension being installed? If so, please keep the bundle only.', 'gatographql'), $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(), $extensionVersion)
-                : sprintf(__('Extension <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'), $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(), $installedExtensionVersion, $extensionVersion);
+                ? sprintf(
+                    __('Extension <strong>%s</strong> with version <code>%s</code> is already installed. Are both the extension and a bundle containing the extension being installed? If so, please keep the bundle only.', 'gatographql'),
+                    $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(),
+                    $extensionVersion,
+                )
+                : sprintf(
+                    __('Extension <strong>%s</strong> is already installed with version <code>%s</code>, so version <code>%s</code> has not been loaded. Please deactivate all versions, remove the older version, and activate again the latest version of the plugin.', 'gatographql'),
+                    $extensionName ?? $this->extensionClassInstances[$extensionClass]->getPluginName(),
+                    $installedExtensionVersion,
+                    $extensionVersion,
+                );
             $this->printAdminNoticeErrorMessage($errorMessage);
             return false;
         }
@@ -151,13 +165,13 @@ class ExtensionManager extends AbstractPluginManager
                     $mainPluginVersionConstraint,
                     $mainPlugin->getPluginVersion(),
                     /**
-                     * Watch out! Hardcoding the URL, instead of doing
-                     * `$moduleConfiguration->getGatoGraphQLShopMyOrdersURL()`,
-                     * because it otherwise throws "`App::$appThread`
-                     * no initialized" error
+                     * Allow for standalone plugins to have their own Shop
                      */
-                    'https://gatographql.com/shop/my-orders',
-                    HTMLCodes::OPEN_IN_NEW_WINDOW
+                    sprintf(
+                        '%s/shop/my-orders',
+                        $mainPlugin->getPluginDomainURL()
+                    ),
+                    HTMLCodes::OPEN_IN_NEW_WINDOW,
                 )
             );
             return false;
@@ -180,13 +194,25 @@ class ExtensionManager extends AbstractPluginManager
         $errorMessagePlaceholder = __('Plugin <strong>%s</strong> is on "%s" mode, but Extension <strong>%s</strong> is on "%s" mode. They must both be the same. The extension has not been loaded.', 'gatographql');
         if (PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion) && !PluginVersionHelpers::isDevelopmentVersion($extensionVersion)) {
             $this->printAdminNoticeErrorMessage(
-                sprintf($errorMessagePlaceholder, $mainPlugin->getPluginName(), 'development', $extensionName ?? $extensionClass, 'production')
+                sprintf(
+                    $errorMessagePlaceholder,
+                    $mainPlugin->getPluginName(),
+                    'development',
+                    $extensionName ?? $extensionClass,
+                    'production',
+                )
             );
             return false;
         }
         if (!PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion) && PluginVersionHelpers::isDevelopmentVersion($extensionVersion)) {
             $this->printAdminNoticeErrorMessage(
-                sprintf($errorMessagePlaceholder, $mainPlugin->getPluginName(), 'production', $extensionName ?? $extensionClass, 'development')
+                sprintf(
+                    $errorMessagePlaceholder,
+                    $mainPlugin->getPluginName(),
+                    'production',
+                    $extensionName ?? $extensionClass,
+                    'development',
+                )
             );
             return false;
         }
@@ -220,10 +246,10 @@ class ExtensionManager extends AbstractPluginManager
 
     public function isExtensionBundled(string $bundledExtensionClass): bool
     {
-        return $this->getBundlingExtensionClass($bundledExtensionClass) !== null;
+        return $this->getBundlingExtension($bundledExtensionClass) !== null;
     }
 
-    public function getBundlingExtensionClass(string $bundledExtensionClass): ?BundleExtensionInterface
+    public function getBundlingExtension(string $bundledExtensionClass): ?BundleExtensionInterface
     {
         return $this->bundledExtensionClassBundlingExtensionClasses[$bundledExtensionClass] ?? null;
     }
@@ -312,7 +338,14 @@ class ExtensionManager extends AbstractPluginManager
             // if (App::query('page') === $settingsMenuPage->getScreenID()) {
             //     return;
             // }
-            $activateExtensionsSettingsURL = AdminHelpers::getSettingsPageTabURL(PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS);
+            $moduleRegistry = ModuleRegistryFacade::getInstance();
+            $settingsCategoryRegistry = SettingsCategoryRegistryFacade::getInstance();
+            $activateExtensionsModule = PluginManagementFunctionalityModuleResolver::ACTIVATE_EXTENSIONS;
+            $pluginManagementSettingsCategory = SettingsCategoryResolver::PLUGIN_MANAGEMENT;
+            $activateExtensionsModuleResolver = $moduleRegistry->getModuleResolver($activateExtensionsModule);
+            $instanceManager = InstanceManagerFacade::getInstance();
+            /** @var SettingsMenuPage */
+            $settingsMenuPage = $instanceManager->getInstance(SettingsMenuPage::class);
             $adminNotice_safe = sprintf(
                 '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
                 sprintf(
@@ -322,8 +355,13 @@ class ExtensionManager extends AbstractPluginManager
                         : $extensionName,
                     sprintf(
                         $messagePlaceholder,
-                        $activateExtensionsSettingsURL,
-                        sprintf('<code>%s > %s > %s</code>', \__('Settings', 'gatographql'), \__('Plugin Management', 'gatographql'), \__('Activate Extensions', 'gatographql'))
+                        AdminHelpers::getSettingsPageTabURL($activateExtensionsModule),
+                        sprintf(
+                            '<code>%s > %s > %s</code>',
+                            $settingsMenuPage->getMenuPageTitle(),
+                            $settingsCategoryRegistry->getSettingsCategoryResolver($pluginManagementSettingsCategory)->getName($pluginManagementSettingsCategory),
+                            $activateExtensionsModuleResolver->getName($activateExtensionsModule),
+                        )
                     )
                 )
             );
@@ -348,12 +386,23 @@ class ExtensionManager extends AbstractPluginManager
     }
 
     /**
+     * Call this method only after calling `assertCommercialLicenseHasBeenActivated`
+     */
+    public function isExtensionLicenseActive(string $extensionSlug): bool
+    {
+        return isset($this->activatedLicenseCommercialExtensionSlugProductNames[$extensionSlug]);
+    }
+
+    /**
      * @return array<string,string> Extension Slug => Extension Product Name
      */
     public function getCommercialExtensionSlugProductNames(): array
     {
         if ($this->commercialExtensionSlugProductNames === null) {
-            $this->commercialExtensionSlugProductNames = array_merge($this->getNonActivatedLicenseCommercialExtensionSlugProductNames(), $this->getActivatedLicenseCommercialExtensionSlugProductNames());
+            $this->commercialExtensionSlugProductNames = array_merge(
+                $this->getNonActivatedLicenseCommercialExtensionSlugProductNames(),
+                $this->getActivatedLicenseCommercialExtensionSlugProductNames(),
+            );
             ksort($this->commercialExtensionSlugProductNames);
         }
         return $this->commercialExtensionSlugProductNames;

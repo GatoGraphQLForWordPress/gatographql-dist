@@ -8,19 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DependencyInjection\Loader;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader;
 
-use PrefixedByPoP\Symfony\Component\Config\Builder\ConfigBuilderGenerator;
-use PrefixedByPoP\Symfony\Component\Config\Builder\ConfigBuilderGeneratorInterface;
-use PrefixedByPoP\Symfony\Component\Config\Builder\ConfigBuilderInterface;
-use PrefixedByPoP\Symfony\Component\Config\FileLocatorInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Attribute\When;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Container;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder\ConfigBuilderGenerator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder\ConfigBuilderGeneratorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder\ConfigBuilderInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocatorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\When;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Container;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 /**
  * PhpFileLoader loads service definitions from a PHP file.
  *

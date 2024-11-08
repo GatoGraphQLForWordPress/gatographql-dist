@@ -13,10 +13,6 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
      * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
      */
     private $componentPathHelpers;
-    public final function setComponentPathHelpers(ComponentPathHelpersInterface $componentPathHelpers) : void
-    {
-        $this->componentPathHelpers = $componentPathHelpers;
-    }
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {
         if ($this->componentPathHelpers === null) {
@@ -42,10 +38,6 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
      * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
      */
     private $componentPathManager;
-    public final function setComponentPathManager(ComponentPathManagerInterface $componentPathManager) : void
-    {
-        $this->componentPathManager = $componentPathManager;
-    }
     protected final function getComponentPathManager() : ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {

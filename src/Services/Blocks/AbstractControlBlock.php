@@ -26,10 +26,6 @@ abstract class AbstractControlBlock extends AbstractBlock
      */
     private $typeRegistry;
 
-    final public function setTypeRegistry(TypeRegistryInterface $typeRegistry): void
-    {
-        $this->typeRegistry = $typeRegistry;
-    }
     final protected function getTypeRegistry(): TypeRegistryInterface
     {
         if ($this->typeRegistry === null) {
@@ -173,16 +169,32 @@ abstract class AbstractControlBlock extends AbstractBlock
         $blockDataContent = '';
         $blockDataPlaceholder = '<h4>%s</h4>%s';
         if ($this->enableOperations()) {
-            $blockDataContent .= sprintf($blockDataPlaceholder, __('Operations', 'gatographql'), $operationContent);
+            $blockDataContent .= sprintf(
+                $blockDataPlaceholder,
+                __('Operations', 'gatographql'),
+                $operationContent,
+            );
         }
         if ($this->enableTypeFields()) {
-            $blockDataContent .= sprintf($blockDataPlaceholder, __('Fields', 'gatographql'), $fieldTypeContent);
+            $blockDataContent .= sprintf(
+                $blockDataPlaceholder,
+                __('Fields', 'gatographql'),
+                $fieldTypeContent,
+            );
         }
         if ($this->enableGlobalFields()) {
-            $blockDataContent .= sprintf($blockDataPlaceholder, __('Global Fields', 'gatographql'), $globalFieldContent);
+            $blockDataContent .= sprintf(
+                $blockDataPlaceholder,
+                __('Global Fields', 'gatographql'),
+                $globalFieldContent,
+            );
         }
         if ($this->enableDirectives()) {
-            $blockDataContent .= sprintf($blockDataPlaceholder, __('Directives', 'gatographql'), $directiveContent);
+            $blockDataContent .= sprintf(
+                $blockDataPlaceholder,
+                __('Directives', 'gatographql'),
+                $directiveContent,
+            );
         }
 
         $blockContentPlaceholder = '

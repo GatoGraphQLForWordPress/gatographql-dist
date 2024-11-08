@@ -17,10 +17,6 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
      * @var \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface|null
      */
     private $commentMetaTypeAPI;
-    public final function setCommentMetaTypeAPI(CommentMetaTypeAPIInterface $commentMetaTypeAPI) : void
-    {
-        $this->commentMetaTypeAPI = $commentMetaTypeAPI;
-    }
     protected final function getCommentMetaTypeAPI() : CommentMetaTypeAPIInterface
     {
         if ($this->commentMetaTypeAPI === null) {

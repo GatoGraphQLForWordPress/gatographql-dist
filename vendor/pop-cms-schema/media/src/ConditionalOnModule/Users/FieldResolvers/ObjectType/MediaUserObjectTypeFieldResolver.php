@@ -23,10 +23,6 @@ class MediaUserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
      */
     private $userObjectTypeResolver;
-    public final function setUserMediaTypeAPI(UserMediaTypeAPIInterface $userMediaTypeAPI) : void
-    {
-        $this->userMediaTypeAPI = $userMediaTypeAPI;
-    }
     protected final function getUserMediaTypeAPI() : UserMediaTypeAPIInterface
     {
         if ($this->userMediaTypeAPI === null) {
@@ -35,10 +31,6 @@ class MediaUserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->userMediaTypeAPI = $userMediaTypeAPI;
         }
         return $this->userMediaTypeAPI;
-    }
-    public final function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver) : void
-    {
-        $this->userObjectTypeResolver = $userObjectTypeResolver;
     }
     protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {

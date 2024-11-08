@@ -13,10 +13,6 @@ class GenericCustomPostUpdateMutationErrorPayloadUnionTypeResolver extends Abstr
      * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\UnionType\GenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $genericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader;
-    public final function setGenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader(GenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader $genericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->genericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader = $genericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getGenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader() : GenericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCustomPostUpdateMutationErrorPayloadUnionTypeDataLoader === null) {

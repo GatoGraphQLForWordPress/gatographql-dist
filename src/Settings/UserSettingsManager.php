@@ -6,11 +6,18 @@ namespace GatoGraphQL\GatoGraphQL\Settings;
 
 use GatoGraphQL\GatoGraphQL\Facades\Registries\SystemModuleRegistryFacade;
 use GatoGraphQL\GatoGraphQL\Facades\Registries\SystemSettingsCategoryRegistryFacade;
+use GatoGraphQL\GatoGraphQL\Facades\Settings\OptionNamespacerFacade;
+use GatoGraphQL\GatoGraphQL\Facades\TimestampSettingsManagerFacade;
+
+use function get_option;
+use function uniqid;
+use function update_option;
 
 class UserSettingsManager implements UserSettingsManagerInterface
 {
     private const TIMESTAMP_CONTAINER = 'container';
     private const TIMESTAMP_OPERATIONAL = 'operational';
+    private const TIMESTAMP_LICENSE_CHECK = 'license-check';
 
     /**
      * Cache the values in memory
@@ -18,6 +25,24 @@ class UserSettingsManager implements UserSettingsManagerInterface
      * @var array<string,array<string,mixed>>
      */
     protected $options = [];
+
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\TimestampSettingsManagerInterface|null
+     */
+    private $timestampSettingsManager;
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
+     */
+    private $optionNamespacer;
+
+    final protected function getTimestampSettingsManager(): TimestampSettingsManagerInterface
+    {
+        return $this->timestampSettingsManager = $this->timestampSettingsManager ?? TimestampSettingsManagerFacade::getInstance();
+    }
+    final protected function getOptionNamespacer(): OptionNamespacerInterface
+    {
+        return $this->optionNamespacer = $this->optionNamespacer ?? OptionNamespacerFacade::getInstance();
+    }
 
     /**
      * Timestamp of latest executed write to DB, concerning plugin activation,
@@ -43,9 +68,11 @@ class UserSettingsManager implements UserSettingsManagerInterface
      */
     protected function getOptionUniqueTimestamp(string $key): string
     {
-        $timestamps = \get_option(Options::TIMESTAMPS, [$key => $this->getUniqueIdentifier()]);
-        return $timestamps[$key];
+        /** @var string */
+        $timestamp = $this->getTimestampSettingsManager()->getTimestamp($key, $this->getUniqueIdentifier());
+        return $timestamp;
     }
+
     /**
      * Add a random number to `time()` to make it truly unique,
      * as to avoid a bug when 2 requests with different schema
@@ -53,7 +80,7 @@ class UserSettingsManager implements UserSettingsManagerInterface
      */
     protected function getUniqueIdentifier(): string
     {
-        return \uniqid();
+        return uniqid();
     }
     /**
      * Static timestamp, reflecting when the service container has been regenerated.
@@ -85,7 +112,7 @@ class UserSettingsManager implements UserSettingsManagerInterface
             self::TIMESTAMP_CONTAINER => $uniqueID,
             self::TIMESTAMP_OPERATIONAL => $uniqueID,
         ];
-        \update_option(Options::TIMESTAMPS, $timestamps);
+        $this->getTimestampSettingsManager()->storeTimestamps($timestamps);
     }
     /**
      * Store the current time to indicate the latest executed write to DB,
@@ -98,14 +125,42 @@ class UserSettingsManager implements UserSettingsManagerInterface
             self::TIMESTAMP_CONTAINER => $this->getContainerUniqueTimestamp(),
             self::TIMESTAMP_OPERATIONAL => $this->getUniqueIdentifier(),
         ];
-        \update_option(Options::TIMESTAMPS, $timestamps);
+        $this->getTimestampSettingsManager()->storeTimestamps($timestamps);
     }
     /**
      * Remove the timestamp
      */
     public function removeTimestamps(): void
     {
-        \delete_option(Options::TIMESTAMPS);
+        $this->getTimestampSettingsManager()->removeTimestamps([
+            self::TIMESTAMP_CONTAINER,
+            self::TIMESTAMP_OPERATIONAL,
+        ]);
+    }
+
+    /**
+     * Timestamp of latest executed validation of the commercial
+     * licenses against the Marketplace provider's API
+     */
+    public function getLicenseCheckTimestamp(): ?int
+    {
+        $timestamp = $this->getTimestampSettingsManager()->getTimestamp(self::TIMESTAMP_LICENSE_CHECK);
+        if ($timestamp === null) {
+            return null;
+        }
+        return (int) $timestamp;
+    }
+
+    /**
+     * Store the current time to indicate the latest executed
+     * validation of the commercial licenses
+     */
+    public function storeLicenseCheckTimestamp(): void
+    {
+        $this->getTimestampSettingsManager()->storeTimestamp(
+            self::TIMESTAMP_LICENSE_CHECK,
+            (string) time()
+        );
     }
 
     public function hasSetting(string $module, string $option): bool
@@ -180,17 +235,22 @@ class UserSettingsManager implements UserSettingsManagerInterface
 
     public function hasSetModuleEnabled(string $moduleID): bool
     {
-        return $this->hasItem(Options::MODULES, $moduleID);
+        return $this->hasItem($this->namespaceOption(Options::MODULES), $moduleID);
+    }
+
+    protected function namespaceOption(string $option): string
+    {
+        return $this->getOptionNamespacer()->namespaceOption($option);
     }
 
     public function isModuleEnabled(string $moduleID): bool
     {
-        return (bool) $this->getItem(Options::MODULES, $moduleID);
+        return (bool) $this->getItem($this->namespaceOption(Options::MODULES), $moduleID);
     }
 
     public function setModuleEnabled(string $moduleID, bool $isEnabled): void
     {
-        $this->setOptionItem(Options::MODULES, $moduleID, $isEnabled);
+        $this->setOptionItem($this->namespaceOption(Options::MODULES), $moduleID, $isEnabled);
     }
 
     /**
@@ -220,7 +280,7 @@ class UserSettingsManager implements UserSettingsManagerInterface
      */
     public function setModulesEnabled(array $moduleIDValues): void
     {
-        $this->storeItems(Options::MODULES, $moduleIDValues);
+        $this->storeItems($this->namespaceOption(Options::MODULES), $moduleIDValues);
 
         // Update the timestamp
         $this->storeContainerTimestamp();
@@ -252,7 +312,7 @@ class UserSettingsManager implements UserSettingsManagerInterface
     {
         // Lazy load the options
         if (!isset($this->options[$optionName])) {
-            $this->options[$optionName] = \get_option($optionName, []);
+            $this->options[$optionName] = get_option($optionName, []);
         }
     }
 
@@ -279,12 +339,12 @@ class UserSettingsManager implements UserSettingsManagerInterface
             $itemValues
         );
         // Save to the DB
-        \update_option($optionName, $this->options[$optionName]);
+        update_option($optionName, $this->options[$optionName]);
     }
 
     public function storeEmptySettings(string $optionName): void
     {
         unset($this->options[$optionName]);
-        \update_option($optionName, []);
+        update_option($optionName, []);
     }
 }

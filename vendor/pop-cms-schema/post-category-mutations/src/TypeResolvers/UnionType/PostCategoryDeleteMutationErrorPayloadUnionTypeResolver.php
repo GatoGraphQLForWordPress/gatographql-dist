@@ -13,10 +13,6 @@ class PostCategoryDeleteMutationErrorPayloadUnionTypeResolver extends AbstractCa
      * @var \PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\PostCategoryDeleteMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $postCategoryDeleteMutationErrorPayloadUnionTypeDataLoader;
-    public final function setPostCategoryDeleteMutationErrorPayloadUnionTypeDataLoader(PostCategoryDeleteMutationErrorPayloadUnionTypeDataLoader $postCategoryDeleteMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->postCategoryDeleteMutationErrorPayloadUnionTypeDataLoader = $postCategoryDeleteMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getPostCategoryDeleteMutationErrorPayloadUnionTypeDataLoader() : PostCategoryDeleteMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postCategoryDeleteMutationErrorPayloadUnionTypeDataLoader === null) {

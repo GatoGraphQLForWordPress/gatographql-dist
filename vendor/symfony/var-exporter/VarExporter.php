@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter;
 
-use PrefixedByPoP\Symfony\Component\VarExporter\Exception\ExceptionInterface;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Exporter;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Registry;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Values;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Exception\ExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Exporter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Hydrator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Registry;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Values;
 /**
  * Exports serializable PHP values to PHP code.
  *

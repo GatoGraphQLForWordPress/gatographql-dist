@@ -13,10 +13,6 @@ class SchemaObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers
      * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaObjectTypeDataLoader|null
      */
     private $schemaObjectTypeDataLoader;
-    public final function setSchemaObjectTypeDataLoader(SchemaObjectTypeDataLoader $schemaObjectTypeDataLoader) : void
-    {
-        $this->schemaObjectTypeDataLoader = $schemaObjectTypeDataLoader;
-    }
     protected final function getSchemaObjectTypeDataLoader() : SchemaObjectTypeDataLoader
     {
         if ($this->schemaObjectTypeDataLoader === null) {

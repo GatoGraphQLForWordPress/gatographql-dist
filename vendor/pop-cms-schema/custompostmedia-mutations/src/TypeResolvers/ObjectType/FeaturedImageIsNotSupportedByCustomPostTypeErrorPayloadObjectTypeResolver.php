@@ -13,10 +13,6 @@ class FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver 
      * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader|null
      */
     private $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
-    public final function setFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader(FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader() : FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader === null) {

@@ -6,8 +6,8 @@ namespace PoP\ComponentModel\Cache;
 use DateInterval;
 use PoP\ComponentModel\ModelInstance\ModelInstanceInterface;
 use PoP\Root\Services\BasicServiceTrait;
-use PrefixedByPoP\Psr\Cache\CacheItemInterface;
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
 /** @internal */
 class Cache implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\ComponentModel\Cache\TransientCacheInterface
 {
@@ -24,10 +24,6 @@ class Cache implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\
     public function __construct(CacheItemPoolInterface $cacheItemPool)
     {
         $this->cacheItemPool = $cacheItemPool;
-    }
-    public final function setModelInstance(ModelInstanceInterface $modelInstance) : void
-    {
-        $this->modelInstance = $modelInstance;
     }
     protected final function getModelInstance() : ModelInstanceInterface
     {

@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoP\Root\Dotenv;
 
 use PoP\Root\App;
-use PrefixedByPoP\Symfony\Component\Dotenv\Dotenv;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Dotenv;
 /** @internal */
 class DotenvBuilderFactory
 {

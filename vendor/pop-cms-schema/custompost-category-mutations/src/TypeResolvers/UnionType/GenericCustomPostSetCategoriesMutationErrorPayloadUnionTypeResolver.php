@@ -12,10 +12,6 @@ class GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver extend
      * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
-    public final function setGenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader(GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader $genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader = $genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getGenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader() : GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -64,10 +64,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
      * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
      */
     private $queryableTagTypeAPI;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
-    }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -76,10 +72,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
             $this->intScalarTypeResolver = $intScalarTypeResolver;
         }
         return $this->intScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -90,10 +82,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setTagUnionTypeResolver(TagUnionTypeResolver $tagUnionTypeResolver) : void
-    {
-        $this->tagUnionTypeResolver = $tagUnionTypeResolver;
-    }
     protected final function getTagUnionTypeResolver() : TagUnionTypeResolver
     {
         if ($this->tagUnionTypeResolver === null) {
@@ -102,10 +90,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
             $this->tagUnionTypeResolver = $tagUnionTypeResolver;
         }
         return $this->tagUnionTypeResolver;
-    }
-    public final function setTagByOneofInputObjectTypeResolver(TagByOneofInputObjectTypeResolver $tagByOneofInputObjectTypeResolver) : void
-    {
-        $this->tagByOneofInputObjectTypeResolver = $tagByOneofInputObjectTypeResolver;
     }
     protected final function getTagByOneofInputObjectTypeResolver() : TagByOneofInputObjectTypeResolver
     {
@@ -116,10 +100,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
         }
         return $this->tagByOneofInputObjectTypeResolver;
     }
-    public final function setTagTaxonomyEnumStringScalarTypeResolver(TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver) : void
-    {
-        $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
-    }
     protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {
@@ -128,10 +108,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
             $this->tagTaxonomyEnumStringScalarTypeResolver = $tagTaxonomyEnumStringScalarTypeResolver;
         }
         return $this->tagTaxonomyEnumStringScalarTypeResolver;
-    }
-    public final function setTagPaginationInputObjectTypeResolver(TagPaginationInputObjectTypeResolver $tagPaginationInputObjectTypeResolver) : void
-    {
-        $this->tagPaginationInputObjectTypeResolver = $tagPaginationInputObjectTypeResolver;
     }
     protected final function getTagPaginationInputObjectTypeResolver() : TagPaginationInputObjectTypeResolver
     {
@@ -142,10 +118,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
         }
         return $this->tagPaginationInputObjectTypeResolver;
     }
-    public final function setTaxonomySortInputObjectTypeResolver(TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver) : void
-    {
-        $this->taxonomySortInputObjectTypeResolver = $taxonomySortInputObjectTypeResolver;
-    }
     protected final function getTaxonomySortInputObjectTypeResolver() : TaxonomySortInputObjectTypeResolver
     {
         if ($this->taxonomySortInputObjectTypeResolver === null) {
@@ -155,10 +127,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
         }
         return $this->taxonomySortInputObjectTypeResolver;
     }
-    public final function setRootTagsFilterInputObjectTypeResolver(RootTagsFilterInputObjectTypeResolver $rootTagsFilterInputObjectTypeResolver) : void
-    {
-        $this->rootTagsFilterInputObjectTypeResolver = $rootTagsFilterInputObjectTypeResolver;
-    }
     protected final function getRootTagsFilterInputObjectTypeResolver() : RootTagsFilterInputObjectTypeResolver
     {
         if ($this->rootTagsFilterInputObjectTypeResolver === null) {
@@ -167,10 +135,6 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
             $this->rootTagsFilterInputObjectTypeResolver = $rootTagsFilterInputObjectTypeResolver;
         }
         return $this->rootTagsFilterInputObjectTypeResolver;
-    }
-    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagTypeAPI) : void
-    {
-        $this->queryableTagTypeAPI = $queryableTagTypeAPI;
     }
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {

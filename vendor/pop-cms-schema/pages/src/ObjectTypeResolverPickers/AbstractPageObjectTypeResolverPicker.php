@@ -18,10 +18,6 @@ abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeRe
      * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
      */
     private $pageTypeAPI;
-    public final function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver) : void
-    {
-        $this->pageObjectTypeResolver = $pageObjectTypeResolver;
-    }
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -30,10 +26,6 @@ abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeRe
             $this->pageObjectTypeResolver = $pageObjectTypeResolver;
         }
         return $this->pageObjectTypeResolver;
-    }
-    public final function setPageTypeAPI(PageTypeAPIInterface $pageTypeAPI) : void
-    {
-        $this->pageTypeAPI = $pageTypeAPI;
     }
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {

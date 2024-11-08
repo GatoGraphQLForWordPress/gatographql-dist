@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObje
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver(LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver = $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver === null) {

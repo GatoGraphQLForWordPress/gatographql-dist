@@ -34,10 +34,6 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
      * @var \PoPCMSSchema\Tags\Registries\TagObjectTypeResolverPickerRegistryInterface|null
      */
     private $tagObjectTypeResolverPickerRegistry;
-    public final function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver) : void
-    {
-        $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
-    }
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -47,10 +43,6 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
         }
         return $this->genericTagObjectTypeResolver;
     }
-    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagTypeAPI) : void
-    {
-        $this->queryableTagTypeAPI = $queryableTagTypeAPI;
-    }
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagTypeAPI === null) {
@@ -59,10 +51,6 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
             $this->queryableTagTypeAPI = $queryableTagTypeAPI;
         }
         return $this->queryableTagTypeAPI;
-    }
-    public final function setTagObjectTypeResolverPickerRegistry(TagObjectTypeResolverPickerRegistryInterface $tagObjectTypeResolverPickerRegistry) : void
-    {
-        $this->tagObjectTypeResolverPickerRegistry = $tagObjectTypeResolverPickerRegistry;
     }
     protected final function getTagObjectTypeResolverPickerRegistry() : TagObjectTypeResolverPickerRegistryInterface
     {

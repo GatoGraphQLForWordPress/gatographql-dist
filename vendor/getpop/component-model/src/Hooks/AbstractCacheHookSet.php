@@ -18,10 +18,6 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
      * @var \PoP\ComponentModel\Cache\TransientCacheInterface|null
      */
     private $transientCache;
-    public final function setPersistentCache(PersistentCacheInterface $persistentCache) : void
-    {
-        $this->persistentCache = $persistentCache;
-    }
     protected final function getPersistentCache() : PersistentCacheInterface
     {
         if ($this->persistentCache === null) {
@@ -30,10 +26,6 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
             $this->persistentCache = $persistentCache;
         }
         return $this->persistentCache;
-    }
-    public final function setTransientCache(TransientCacheInterface $transientCache) : void
-    {
-        $this->transientCache = $transientCache;
     }
     protected final function getTransientCache() : TransientCacheInterface
     {

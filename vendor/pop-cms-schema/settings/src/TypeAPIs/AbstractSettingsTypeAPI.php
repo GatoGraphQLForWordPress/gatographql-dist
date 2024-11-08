@@ -17,10 +17,6 @@ abstract class AbstractSettingsTypeAPI implements \PoPCMSSchema\Settings\TypeAPI
      * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
      */
     private $allowOrDenySettingsService;
-    public final function setAllowOrDenySettingsService(AllowOrDenySettingsServiceInterface $allowOrDenySettingsService) : void
-    {
-        $this->allowOrDenySettingsService = $allowOrDenySettingsService;
-    }
     protected final function getAllowOrDenySettingsService() : AllowOrDenySettingsServiceInterface
     {
         if ($this->allowOrDenySettingsService === null) {

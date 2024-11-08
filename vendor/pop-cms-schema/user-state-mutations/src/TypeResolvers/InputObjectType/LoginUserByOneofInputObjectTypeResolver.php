@@ -12,10 +12,6 @@ class LoginUserByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTy
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver|null
      */
     private $loginCredentialsInputObjectTypeResolver;
-    public final function setLoginCredentialsInputObjectTypeResolver(\PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver $loginCredentialsInputObjectTypeResolver) : void
-    {
-        $this->loginCredentialsInputObjectTypeResolver = $loginCredentialsInputObjectTypeResolver;
-    }
     protected final function getLoginCredentialsInputObjectTypeResolver() : \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver
     {
         if ($this->loginCredentialsInputObjectTypeResolver === null) {

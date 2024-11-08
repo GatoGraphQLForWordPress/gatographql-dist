@@ -17,10 +17,6 @@ abstract class AbstractRemoveAuthorInputFieldsInputObjectTypeHookSet extends Abs
      * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver|null
      */
     private $filterByAuthorInputObjectTypeResolver;
-    public final function setFilterByAuthorInputObjectTypeResolver(FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver) : void
-    {
-        $this->filterByAuthorInputObjectTypeResolver = $filterByAuthorInputObjectTypeResolver;
-    }
     protected final function getFilterByAuthorInputObjectTypeResolver() : FilterByAuthorInputObjectTypeResolver
     {
         if ($this->filterByAuthorInputObjectTypeResolver === null) {

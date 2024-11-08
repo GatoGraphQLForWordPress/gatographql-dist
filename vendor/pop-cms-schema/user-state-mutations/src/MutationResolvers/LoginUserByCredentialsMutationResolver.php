@@ -28,10 +28,6 @@ class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
      * @var \PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface|null
      */
     private $userStateTypeMutationAPI;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
-    {
-        $this->userTypeAPI = $userTypeAPI;
-    }
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -40,10 +36,6 @@ class LoginUserByCredentialsMutationResolver extends AbstractMutationResolver
             $this->userTypeAPI = $userTypeAPI;
         }
         return $this->userTypeAPI;
-    }
-    public final function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI) : void
-    {
-        $this->userStateTypeMutationAPI = $userStateTypeMutationAPI;
     }
     protected final function getUserStateTypeMutationAPI() : UserStateTypeMutationAPIInterface
     {

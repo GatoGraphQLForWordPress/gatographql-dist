@@ -9,22 +9,6 @@ use PoP\Root\Module\EnvironmentValueHelpers;
 
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
-    // /**
-    //  * URL base for the module, pointing to gatographql.com
-    //  */
-    // public function getModuleURLBase(): string
-    // {
-    //     // Define properties
-    //     $envVariable = Environment::MODULE_URL_BASE;
-    //     $defaultValue = 'https://gatographql.com/modules/';
-    //     // Initialize property from the environment/hook
-    //     $this->retrieveConfigurationValueOrUseDefault(
-    //         $envVariable,
-    //         $defaultValue
-    //     );
-    //     return $this->configuration[$envVariable];
-    // }
-
     /**
      * Group the fields under the type when printing it for the user
      */
@@ -34,7 +18,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = true;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -45,7 +33,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::NO_ITEMS_SELECTED_LABEL;
         $defaultValue = \__('(none selected)', 'gatographql');
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -56,7 +47,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::SETTINGS_VALUE_LABEL;
         $defaultValue = \__('🟡 Default', 'gatographql');
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -69,7 +63,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::EDITING_ACCESS_SCHEME;
         $defaultValue = null;
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function enableSettingClientIPAddressServerPropertyName(): bool
@@ -78,7 +75,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function getGatoGraphQLWebsiteURL(): string
@@ -86,7 +87,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_WEBSITE_URL;
         $defaultValue = 'https://gatographql.com';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLBundlesPageURL(): string
@@ -96,7 +100,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
             ? 'https://gatographql.com/bundles'
             : 'https://gatographql.com/extensions';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLExtensionsPageURL(): string
@@ -104,7 +111,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
         $defaultValue = 'https://gatographql.com/extensions';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLExtensionsReferencePageURL(): string
@@ -112,7 +122,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL;
         $defaultValue = 'https://gatographql.com/extensions-reference';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     public function getGatoGraphQLRequestExtensionPageURL(): string
@@ -120,15 +133,10 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL;
         $defaultValue = 'https://gatographql.com/contact/';
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
-    }
-
-    public function getGatoGraphQLShopMyOrdersURL(): string
-    {
-        $envVariable = Environment::GATOGRAPHQL_SHOP_MYORDERS_URL;
-        $defaultValue = 'https://gatographql.com/shop/my-orders';
-
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+        );
     }
 
     /**
@@ -142,7 +150,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = true;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function enableSchemaTutorialPage(): bool
@@ -151,7 +163,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function enableLogs(): bool
@@ -160,7 +176,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function installPluginSetupData(): bool
@@ -169,7 +189,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = true;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function showBundlesContainingReferencedExtensionsOnTutorial(): bool
@@ -178,7 +202,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function isSchemaConfigurationModuleEnabledByDefault(): bool
@@ -187,7 +215,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     public function displayEnableLogsSettingsOption(): bool
@@ -196,7 +228,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = false;
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
 
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 
     /**
@@ -208,7 +244,6 @@ class ModuleConfiguration extends AbstractModuleConfiguration
             case Environment::GATOGRAPHQL_WEBSITE_URL:
             case Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL:
             case Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL:
-            case Environment::GATOGRAPHQL_SHOP_MYORDERS_URL:
             case Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER:
                 return false;
             default:

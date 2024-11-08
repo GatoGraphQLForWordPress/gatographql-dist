@@ -48,10 +48,6 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
      */
     private $rootPredefinedCustomPostsFilterInputObjectTypeResolver;
 
-    final public function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver): void
-    {
-        $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
-    }
     final protected function getGenericCustomPostObjectTypeResolver(): GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
@@ -60,10 +56,6 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
             $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
         }
         return $this->genericCustomPostObjectTypeResolver;
-    }
-    final public function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI): void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
     }
     final protected function getCustomPostTypeAPI(): CustomPostTypeAPIInterface
     {
@@ -74,10 +66,6 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
         }
         return $this->customPostTypeAPI;
     }
-    final public function setCustomPostPaginationInputObjectTypeResolver(CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver): void
-    {
-        $this->customPostPaginationInputObjectTypeResolver = $customPostPaginationInputObjectTypeResolver;
-    }
     final protected function getCustomPostPaginationInputObjectTypeResolver(): CustomPostPaginationInputObjectTypeResolver
     {
         if ($this->customPostPaginationInputObjectTypeResolver === null) {
@@ -87,10 +75,6 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
         }
         return $this->customPostPaginationInputObjectTypeResolver;
     }
-    final public function setCustomPostSortInputObjectTypeResolver(CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver): void
-    {
-        $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
-    }
     final protected function getCustomPostSortInputObjectTypeResolver(): CustomPostSortInputObjectTypeResolver
     {
         if ($this->customPostSortInputObjectTypeResolver === null) {
@@ -99,10 +83,6 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
             $this->customPostSortInputObjectTypeResolver = $customPostSortInputObjectTypeResolver;
         }
         return $this->customPostSortInputObjectTypeResolver;
-    }
-    final public function setRootPredefinedCustomPostsFilterInputObjectTypeResolver(RootPredefinedCustomPostsFilterInputObjectTypeResolver $rootPredefinedCustomPostsFilterInputObjectTypeResolver): void
-    {
-        $this->rootPredefinedCustomPostsFilterInputObjectTypeResolver = $rootPredefinedCustomPostsFilterInputObjectTypeResolver;
     }
     final protected function getRootPredefinedCustomPostsFilterInputObjectTypeResolver(): RootPredefinedCustomPostsFilterInputObjectTypeResolver
     {
@@ -172,7 +152,10 @@ abstract class AbstractListOfCPTEntitiesRootObjectTypeFieldResolver extends Abst
      */
     public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
-        $query = array_merge($this->getQuery($objectTypeResolver, $object, $fieldDataAccessor), $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor));
+        $query = array_merge(
+            $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor),
+            $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor),
+        );
         $options = [
             SchemaCommonsQueryOptions::RETURN_TYPE => ReturnTypes::IDS,
             // With this flag, the hook will not remove the private CPTs

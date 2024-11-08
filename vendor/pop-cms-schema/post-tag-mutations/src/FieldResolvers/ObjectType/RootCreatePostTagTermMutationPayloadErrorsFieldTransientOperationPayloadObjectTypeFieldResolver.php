@@ -15,10 +15,6 @@ class RootCreatePostTagTermMutationPayloadErrorsFieldTransientOperationPayloadOb
      * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootCreatePostTagTermMutationErrorPayloadUnionTypeResolver;
-    public final function setRootCreatePostTagTermMutationErrorPayloadUnionTypeResolver(RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver $rootCreatePostTagTermMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootCreatePostTagTermMutationErrorPayloadUnionTypeResolver = $rootCreatePostTagTermMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootCreatePostTagTermMutationErrorPayloadUnionTypeResolver() : RootCreatePostTagTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreatePostTagTermMutationErrorPayloadUnionTypeResolver === null) {

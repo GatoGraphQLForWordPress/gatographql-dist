@@ -14,10 +14,6 @@ abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutate
      * @var \PoPCMSSchema\CategoryMutations\TypeAPIs\CategoryTypeMutationAPIInterface|null
      */
     private $categoryTypeMutationAPI;
-    public final function setCategoryTypeMutationAPI(CategoryTypeMutationAPIInterface $categoryTypeMutationAPI) : void
-    {
-        $this->categoryTypeMutationAPI = $categoryTypeMutationAPI;
-    }
     protected final function getCategoryTypeMutationAPI() : CategoryTypeMutationAPIInterface
     {
         if ($this->categoryTypeMutationAPI === null) {

@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/capabilities.php';
+namespace PoPIncludes\GatoGraphQL;
 
-/**
- * Make sure this function is not declared more than once
- * (eg: if for some reason the website has both the Extension
- * and the Bundle installed).
- */
-if (!function_exists('registerGatoGraphQLSchemaEditingAccessCapabilities')) {
-    function registerGatoGraphQLSchemaEditingAccessCapabilities(string $file): void
-    {
-        $capability = constant('GATOGRAPHQL_CAPABILITY_MANAGE_GRAPHQL_SCHEMA');
+use function register_activation_hook;
+use function register_deactivation_hook;
 
+class SchemaEditingAccessCapabilities {
+
+    public static function registerGatoGraphQLSchemaEditingAccessCapabilities(
+        string $file,
+        string $capability
+    ): void {
         /**
          * This method cannot be invoked from within "plugins_loaded",
          * then place it here.

@@ -15,10 +15,6 @@ class RootUpdateGenericCustomPostMutationPayloadErrorsFieldTransientOperationPay
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver;
-    public final function setRootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver(RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver $rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver = $rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver() : RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver === null) {

@@ -13,10 +13,6 @@ class PostUpdateMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTyp
      * @var \PoPCMSSchema\PostMutations\TypeResolvers\UnionType\PostUpdateMutationErrorPayloadUnionTypeResolver|null
      */
     private $postUpdateMutationErrorPayloadUnionTypeResolver;
-    public final function setPostUpdateMutationErrorPayloadUnionTypeResolver(PostUpdateMutationErrorPayloadUnionTypeResolver $postUpdateMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->postUpdateMutationErrorPayloadUnionTypeResolver = $postUpdateMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getPostUpdateMutationErrorPayloadUnionTypeResolver() : PostUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postUpdateMutationErrorPayloadUnionTypeResolver === null) {

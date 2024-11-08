@@ -40,10 +40,6 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
      */
     private $typeObjectTypeResolver;
-    public final function setBooleanScalarTypeResolver(BooleanScalarTypeResolver $booleanScalarTypeResolver) : void
-    {
-        $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
-    }
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -52,10 +48,6 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
         }
         return $this->booleanScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -66,10 +58,6 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setFieldExtensionsObjectTypeResolver(FieldExtensionsObjectTypeResolver $fieldExtensionsObjectTypeResolver) : void
-    {
-        $this->fieldExtensionsObjectTypeResolver = $fieldExtensionsObjectTypeResolver;
-    }
     protected final function getFieldExtensionsObjectTypeResolver() : FieldExtensionsObjectTypeResolver
     {
         if ($this->fieldExtensionsObjectTypeResolver === null) {
@@ -79,10 +67,6 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->fieldExtensionsObjectTypeResolver;
     }
-    public final function setInputValueObjectTypeResolver(InputValueObjectTypeResolver $inputValueObjectTypeResolver) : void
-    {
-        $this->inputValueObjectTypeResolver = $inputValueObjectTypeResolver;
-    }
     protected final function getInputValueObjectTypeResolver() : InputValueObjectTypeResolver
     {
         if ($this->inputValueObjectTypeResolver === null) {
@@ -91,10 +75,6 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->inputValueObjectTypeResolver = $inputValueObjectTypeResolver;
         }
         return $this->inputValueObjectTypeResolver;
-    }
-    public final function setTypeObjectTypeResolver(TypeObjectTypeResolver $typeObjectTypeResolver) : void
-    {
-        $this->typeObjectTypeResolver = $typeObjectTypeResolver;
     }
     protected final function getTypeObjectTypeResolver() : TypeObjectTypeResolver
     {

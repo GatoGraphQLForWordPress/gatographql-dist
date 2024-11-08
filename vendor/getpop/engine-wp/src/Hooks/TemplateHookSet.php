@@ -19,10 +19,6 @@ class TemplateHookSet extends AbstractHookSet
      */
     private $templateHelpers;
 
-    final public function setApplicationStateHelperService(ApplicationStateHelperServiceInterface $applicationStateHelperService): void
-    {
-        $this->applicationStateHelperService = $applicationStateHelperService;
-    }
     final protected function getApplicationStateHelperService(): ApplicationStateHelperServiceInterface
     {
         if ($this->applicationStateHelperService === null) {
@@ -31,10 +27,6 @@ class TemplateHookSet extends AbstractHookSet
             $this->applicationStateHelperService = $applicationStateHelperService;
         }
         return $this->applicationStateHelperService;
-    }
-    final public function setTemplateHelpers(TemplateHelpersInterface $templateHelpers): void
-    {
-        $this->templateHelpers = $templateHelpers;
     }
     final protected function getTemplateHelpers(): TemplateHelpersInterface
     {

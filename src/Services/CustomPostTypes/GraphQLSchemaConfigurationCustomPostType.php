@@ -17,10 +17,6 @@ class GraphQLSchemaConfigurationCustomPostType extends AbstractForPluginOwnUseCu
      */
     private $schemaConfigBlockRegistry;
 
-    final public function setSchemaConfigBlockRegistry(SchemaConfigBlockRegistryInterface $schemaConfigBlockRegistry): void
-    {
-        $this->schemaConfigBlockRegistry = $schemaConfigBlockRegistry;
-    }
     final protected function getSchemaConfigBlockRegistry(): SchemaConfigBlockRegistryInterface
     {
         if ($this->schemaConfigBlockRegistry === null) {
@@ -36,7 +32,7 @@ class GraphQLSchemaConfigurationCustomPostType extends AbstractForPluginOwnUseCu
      */
     public function getCustomPostType(): string
     {
-        return 'graphql-schemaconfig';
+        return $this->getCustomPostTypeNamespace() . '-schemaconfig';
     }
 
     /**

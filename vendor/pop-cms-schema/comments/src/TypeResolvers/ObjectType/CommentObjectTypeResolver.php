@@ -18,10 +18,6 @@ class CommentObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType\CommentObjectTypeDataLoader|null
      */
     private $commentObjectTypeDataLoader;
-    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
-    {
-        $this->commentTypeAPI = $commentTypeAPI;
-    }
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -30,10 +26,6 @@ class CommentObjectTypeResolver extends AbstractObjectTypeResolver
             $this->commentTypeAPI = $commentTypeAPI;
         }
         return $this->commentTypeAPI;
-    }
-    public final function setCommentObjectTypeDataLoader(CommentObjectTypeDataLoader $commentObjectTypeDataLoader) : void
-    {
-        $this->commentObjectTypeDataLoader = $commentObjectTypeDataLoader;
     }
     protected final function getCommentObjectTypeDataLoader() : CommentObjectTypeDataLoader
     {

@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Polyfill\Php74;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Polyfill\Php74;
 
 /**
  * @author Ion Bazan <ion.bazan@gmail.com>

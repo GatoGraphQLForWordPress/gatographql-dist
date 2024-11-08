@@ -27,10 +27,6 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setTagTermUpdateInputObjectTypeResolver(TagTermUpdateInputObjectTypeResolver $tagTermUpdateInputObjectTypeResolver) : void
-    {
-        $this->tagTermUpdateInputObjectTypeResolver = $tagTermUpdateInputObjectTypeResolver;
-    }
     protected final function getTagTermUpdateInputObjectTypeResolver() : TagTermUpdateInputObjectTypeResolver
     {
         if ($this->tagTermUpdateInputObjectTypeResolver === null) {
@@ -39,10 +35,6 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
             $this->tagTermUpdateInputObjectTypeResolver = $tagTermUpdateInputObjectTypeResolver;
         }
         return $this->tagTermUpdateInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

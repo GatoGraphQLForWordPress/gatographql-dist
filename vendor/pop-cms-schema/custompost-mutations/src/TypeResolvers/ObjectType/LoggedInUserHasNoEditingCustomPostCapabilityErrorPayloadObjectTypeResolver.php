@@ -13,10 +13,6 @@ class LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver
      * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader === null) {

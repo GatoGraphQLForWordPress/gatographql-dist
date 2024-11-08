@@ -23,10 +23,6 @@ class GenericCustomPostQueryableObjectTypeFieldResolver extends AbstractCustomPo
      * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
      */
     private $genericCategoryObjectTypeResolver;
-    public final function setQueryableCategoryTypeAPI(QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI) : void
-    {
-        $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
-    }
     protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryTypeAPI === null) {
@@ -35,10 +31,6 @@ class GenericCustomPostQueryableObjectTypeFieldResolver extends AbstractCustomPo
             $this->queryableCategoryTypeAPI = $queryableCategoryTypeAPI;
         }
         return $this->queryableCategoryTypeAPI;
-    }
-    public final function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver) : void
-    {
-        $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
     }
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {

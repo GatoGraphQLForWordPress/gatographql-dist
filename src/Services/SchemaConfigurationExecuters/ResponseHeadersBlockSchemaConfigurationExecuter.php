@@ -19,10 +19,6 @@ class ResponseHeadersBlockSchemaConfigurationExecuter extends AbstractCustomizab
      */
     private $schemaConfigCategoriesBlock;
 
-    final public function setSchemaConfigResponseHeadersBlock(SchemaConfigResponseHeadersBlock $schemaConfigCategoriesBlock): void
-    {
-        $this->schemaConfigCategoriesBlock = $schemaConfigCategoriesBlock;
-    }
     final protected function getSchemaConfigResponseHeadersBlock(): SchemaConfigResponseHeadersBlock
     {
         if ($this->schemaConfigCategoriesBlock === null) {

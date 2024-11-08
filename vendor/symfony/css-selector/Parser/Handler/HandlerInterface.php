@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Parser\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Handler;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Reader;
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\TokenStream;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Reader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\TokenStream;
 /**
  * CSS selector handler interface.
  *

@@ -17,10 +17,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
      * @var \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface|null
      */
     private $customPostMetaTypeAPI;
-    public final function setCustomPostMetaTypeAPI(CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI) : void
-    {
-        $this->customPostMetaTypeAPI = $customPostMetaTypeAPI;
-    }
     protected final function getCustomPostMetaTypeAPI() : CustomPostMetaTypeAPIInterface
     {
         if ($this->customPostMetaTypeAPI === null) {

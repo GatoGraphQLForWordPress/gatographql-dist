@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
 use MongoDB\BSON\Binary;
 use MongoDB\BSON\UTCDateTime;
-use PrefixedByPoP\MongoDB\Client;
+use GatoExternalPrefixByGatoGraphQL\MongoDB\Client;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;

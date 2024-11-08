@@ -12,10 +12,6 @@ class PayloadableUpdateMediaItemBulkOperationMutationResolver extends AbstractBu
      * @var \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableUpdateMediaItemMutationResolver|null
      */
     private $payloadableUpdateMediaItemMutationResolver;
-    public final function setPayloadableUpdateMediaItemMutationResolver(\PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableUpdateMediaItemMutationResolver $payloadableUpdateMediaItemMutationResolver) : void
-    {
-        $this->payloadableUpdateMediaItemMutationResolver = $payloadableUpdateMediaItemMutationResolver;
-    }
     protected final function getPayloadableUpdateMediaItemMutationResolver() : \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableUpdateMediaItemMutationResolver
     {
         if ($this->payloadableUpdateMediaItemMutationResolver === null) {

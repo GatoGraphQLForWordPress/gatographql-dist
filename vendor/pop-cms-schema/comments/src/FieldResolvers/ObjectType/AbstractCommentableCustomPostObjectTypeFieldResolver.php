@@ -26,10 +26,6 @@ abstract class AbstractCommentableCustomPostObjectTypeFieldResolver extends Abst
      * @var \PoPCMSSchema\Comments\FieldResolvers\InterfaceType\CommentableInterfaceTypeFieldResolver|null
      */
     private $commentableInterfaceTypeFieldResolver;
-    public final function setCommentTypeAPI(CommentTypeAPIInterface $commentTypeAPI) : void
-    {
-        $this->commentTypeAPI = $commentTypeAPI;
-    }
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -38,10 +34,6 @@ abstract class AbstractCommentableCustomPostObjectTypeFieldResolver extends Abst
             $this->commentTypeAPI = $commentTypeAPI;
         }
         return $this->commentTypeAPI;
-    }
-    public final function setCommentableInterfaceTypeFieldResolver(CommentableInterfaceTypeFieldResolver $commentableInterfaceTypeFieldResolver) : void
-    {
-        $this->commentableInterfaceTypeFieldResolver = $commentableInterfaceTypeFieldResolver;
     }
     protected final function getCommentableInterfaceTypeFieldResolver() : CommentableInterfaceTypeFieldResolver
     {

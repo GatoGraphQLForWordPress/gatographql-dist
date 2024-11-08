@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\VarExporter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter;
 
-use PrefixedByPoP\Symfony\Component\Serializer\Attribute\Ignore;
-use PrefixedByPoP\Symfony\Component\VarExporter\Hydrator as PublicHydrator;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\Hydrator;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectState;
-use PrefixedByPoP\Symfony\Component\VarExporter\Internal\LazyObjectTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Serializer\Attribute\Ignore;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Hydrator as PublicHydrator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\Hydrator;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectState;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal\LazyObjectTrait;
 /** @internal */
 trait LazyProxyTrait
 {

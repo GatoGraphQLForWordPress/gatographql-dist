@@ -29,10 +29,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
      * @var \PoPCMSSchema\Comments\ConditionalOnModule\Users\FilterInputs\ExcludeCustomPostAuthorIDsFilterInput|null
      */
     private $excludeCustomPostAuthorIDsFilterInput;
-    public final function setIDScalarTypeResolver(IDScalarTypeResolver $idScalarTypeResolver) : void
-    {
-        $this->idScalarTypeResolver = $idScalarTypeResolver;
-    }
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -42,10 +38,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         }
         return $this->idScalarTypeResolver;
     }
-    public final function setCustomPostAuthorIDsFilterInput(CustomPostAuthorIDsFilterInput $customPostAuthorIDsFilterInput) : void
-    {
-        $this->customPostAuthorIDsFilterInput = $customPostAuthorIDsFilterInput;
-    }
     protected final function getCustomPostAuthorIDsFilterInput() : CustomPostAuthorIDsFilterInput
     {
         if ($this->customPostAuthorIDsFilterInput === null) {
@@ -54,10 +46,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->customPostAuthorIDsFilterInput = $customPostAuthorIDsFilterInput;
         }
         return $this->customPostAuthorIDsFilterInput;
-    }
-    public final function setExcludeCustomPostAuthorIDsFilterInput(ExcludeCustomPostAuthorIDsFilterInput $excludeCustomPostAuthorIDsFilterInput) : void
-    {
-        $this->excludeCustomPostAuthorIDsFilterInput = $excludeCustomPostAuthorIDsFilterInput;
     }
     protected final function getExcludeCustomPostAuthorIDsFilterInput() : ExcludeCustomPostAuthorIDsFilterInput
     {

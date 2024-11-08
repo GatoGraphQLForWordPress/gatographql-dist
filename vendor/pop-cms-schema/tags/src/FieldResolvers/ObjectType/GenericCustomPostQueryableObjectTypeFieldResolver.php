@@ -23,10 +23,6 @@ class GenericCustomPostQueryableObjectTypeFieldResolver extends AbstractCustomPo
      * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
      */
     private $genericTagObjectTypeResolver;
-    public final function setQueryableTagTypeAPI(QueryableTagTypeAPIInterface $queryableTagTypeAPI) : void
-    {
-        $this->queryableTagTypeAPI = $queryableTagTypeAPI;
-    }
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagTypeAPI === null) {
@@ -35,10 +31,6 @@ class GenericCustomPostQueryableObjectTypeFieldResolver extends AbstractCustomPo
             $this->queryableTagTypeAPI = $queryableTagTypeAPI;
         }
         return $this->queryableTagTypeAPI;
-    }
-    public final function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver) : void
-    {
-        $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
     }
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {

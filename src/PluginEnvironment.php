@@ -9,7 +9,7 @@ use GatoGraphQL\GatoGraphQL\StaticHelpers\PluginEnvironmentHelpers;
 class PluginEnvironment
 {
     public const DISABLE_CONTAINER_CACHING = 'DISABLE_CONTAINER_CACHING';
-    public const CACHE_DIR = 'CACHE_DIR';
+    public const CONTAINER_CACHE_DIR = 'CONTAINER_CACHE_DIR';
     public const SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR = 'SETTINGS_OPTION_ENABLE_RESTRICTIVE_DEFAULT_BEHAVIOR';
 
     /**
@@ -32,22 +32,30 @@ class PluginEnvironment
 
     public static function getGatoGraphQLDynamicFileStorageDir(): string
     {
+        $mainPlugin = PluginApp::getMainPlugin();
+
         $baseCacheDir = null;
-        if (getenv(self::CACHE_DIR) !== false) {
-            $baseCacheDir = rtrim(getenv(self::CACHE_DIR), '/');
-        } elseif (PluginEnvironmentHelpers::isWPConfigConstantDefined(self::CACHE_DIR)) {
-            $baseCacheDir = rtrim(PluginEnvironmentHelpers::getWPConfigConstantValue(self::CACHE_DIR), '/');
+        if (getenv(self::CONTAINER_CACHE_DIR) !== false) {
+            $baseCacheDir = rtrim(getenv(self::CONTAINER_CACHE_DIR), '/');
+        } elseif (PluginEnvironmentHelpers::isWPConfigConstantDefined(self::CONTAINER_CACHE_DIR)) {
+            $baseCacheDir = rtrim(PluginEnvironmentHelpers::getWPConfigConstantValue(self::CONTAINER_CACHE_DIR), '/');
         } else {
             $baseCacheDir = constant('WP_CONTENT_DIR');
         }
 
-        return $baseCacheDir . \DIRECTORY_SEPARATOR . 'gatographql';
+        $dirName = $mainPlugin->getPluginWPContentFolderName();
+        return $baseCacheDir . \DIRECTORY_SEPARATOR . $dirName;
     }
 
     /**
      * If the cache dir is provided by either environment variable
      * or constant in wp-config.php, use it.
      * Otherwise, set the default to wp-content/gatographql/cache
+     *
+     * This method is invoked when initializing the plugin, before
+     * the main Plugin class is registered. Then, the folder cannot
+     * be inject via the Plugin, and the static "gatographql" must
+     * always be used.
      */
     public static function getCacheDir(): string
     {
@@ -57,6 +65,9 @@ class PluginEnvironment
         // return dirname(__FILE__, 2) . \DIRECTORY_SEPARATOR . 'cache';
     }
 
+    /**
+     * Store under the folder chosen for the (standalone) plugin
+     */
     public static function getLogsDir(): string
     {
         return static::getGatoGraphQLDynamicFileStorageDir() . \DIRECTORY_SEPARATOR . 'logs';

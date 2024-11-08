@@ -15,10 +15,6 @@ class CustomPostMutationPayloadObjectTypeFieldResolver extends AbstractObjectMut
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
      */
     private $customPostUnionTypeResolver;
-    public final function setCustomPostUnionTypeResolver(CustomPostUnionTypeResolver $customPostUnionTypeResolver) : void
-    {
-        $this->customPostUnionTypeResolver = $customPostUnionTypeResolver;
-    }
     protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {

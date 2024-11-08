@@ -20,10 +20,6 @@ abstract class AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolv
      */
     private $userAuthorization;
 
-    final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
-    {
-        $this->userAuthorization = $userAuthorization;
-    }
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
         if ($this->userAuthorization === null) {
@@ -37,7 +33,10 @@ abstract class AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolv
     public function resolveCanProcessField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
     {
         if (
-            !parent::resolveCanProcessField($objectTypeResolver, $field)
+            !parent::resolveCanProcessField(
+                $objectTypeResolver,
+                $field,
+            )
         ) {
             return false;
         }

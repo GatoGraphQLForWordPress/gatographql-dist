@@ -370,7 +370,11 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
 
-        $alternativeGatoGraphQLLogoURL = str_replace('GatoGraphQL-logo-face.png', 'GatoGraphQL-logo-sleeping.png', $this->getGatoGraphQLLogoURL());
+        $alternativeGatoGraphQLLogoURL = str_replace(
+            'GatoGraphQL-logo-face.png',
+            'GatoGraphQL-logo-sleeping.png',
+            $this->getGatoGraphQLLogoURL(),
+        );
 
         return sprintf(
             $additionalItemHTMLPlaceholder,

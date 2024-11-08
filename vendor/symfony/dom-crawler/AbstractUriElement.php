@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\DomCrawler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler;
 
 /**
  * Any HTML element that can link to an URI.
@@ -42,7 +42,7 @@ abstract class AbstractUriElement
         $this->setNode($node);
         $this->method = $method ? \strtoupper($method) : null;
         $this->currentUri = $currentUri;
-        $elementUriIsRelative = null === \parse_url(\trim($this->getRawUri()), \PHP_URL_SCHEME);
+        $elementUriIsRelative = !\parse_url(\trim($this->getRawUri()), \PHP_URL_SCHEME);
         $baseUriIsAbsolute = null !== $this->currentUri && \in_array(\strtolower(\substr($this->currentUri, 0, 4)), ['http', 'file']);
         if ($elementUriIsRelative && !$baseUriIsAbsolute) {
             throw new \InvalidArgumentException(\sprintf('The URL of the element is relative, so you must define its base URI passing an absolute URL to the constructor of the "%s" class ("%s" was passed).', __CLASS__, $this->currentUri));

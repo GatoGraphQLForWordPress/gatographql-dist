@@ -12,10 +12,6 @@ class DeletePostTagTermBulkOperationMutationResolver extends AbstractBulkOperati
      * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver|null
      */
     private $deletePostTagTermMutationResolver;
-    public final function setDeletePostTagTermMutationResolver(\PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver $deletePostTagTermMutationResolver) : void
-    {
-        $this->deletePostTagTermMutationResolver = $deletePostTagTermMutationResolver;
-    }
     protected final function getDeletePostTagTermMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver
     {
         if ($this->deletePostTagTermMutationResolver === null) {

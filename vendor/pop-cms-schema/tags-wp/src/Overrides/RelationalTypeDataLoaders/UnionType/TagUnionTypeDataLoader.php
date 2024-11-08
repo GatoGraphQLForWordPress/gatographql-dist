@@ -23,10 +23,6 @@ class TagUnionTypeDataLoader extends UpstreamTagUnionTypeDataLoader
      */
     private $queryableTagListObjectTypeDataLoader;
 
-    final public function setQueryableTagListObjectTypeDataLoader(QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader): void
-    {
-        $this->queryableTagListObjectTypeDataLoader = $queryableTagListObjectTypeDataLoader;
-    }
     final protected function getQueryableTagListObjectTypeDataLoader(): QueryableTagListObjectTypeDataLoader
     {
         if ($this->queryableTagListObjectTypeDataLoader === null) {

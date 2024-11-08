@@ -18,10 +18,6 @@ class MenuObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
      */
     private $menuTypeAPI;
-    public final function setMenuObjectTypeDataLoader(MenuObjectTypeDataLoader $menuObjectTypeDataLoader) : void
-    {
-        $this->menuObjectTypeDataLoader = $menuObjectTypeDataLoader;
-    }
     protected final function getMenuObjectTypeDataLoader() : MenuObjectTypeDataLoader
     {
         if ($this->menuObjectTypeDataLoader === null) {
@@ -30,10 +26,6 @@ class MenuObjectTypeResolver extends AbstractObjectTypeResolver
             $this->menuObjectTypeDataLoader = $menuObjectTypeDataLoader;
         }
         return $this->menuObjectTypeDataLoader;
-    }
-    public final function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI) : void
-    {
-        $this->menuTypeAPI = $menuTypeAPI;
     }
     protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {

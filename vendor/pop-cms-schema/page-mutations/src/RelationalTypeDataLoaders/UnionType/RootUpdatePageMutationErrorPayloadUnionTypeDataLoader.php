@@ -13,10 +13,6 @@ class RootUpdatePageMutationErrorPayloadUnionTypeDataLoader extends AbstractUnio
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\UnionType\RootUpdatePageMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootUpdatePageMutationErrorPayloadUnionTypeResolver;
-    public final function setRootUpdatePageMutationErrorPayloadUnionTypeResolver(RootUpdatePageMutationErrorPayloadUnionTypeResolver $rootUpdatePageMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootUpdatePageMutationErrorPayloadUnionTypeResolver = $rootUpdatePageMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootUpdatePageMutationErrorPayloadUnionTypeResolver() : RootUpdatePageMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdatePageMutationErrorPayloadUnionTypeResolver === null) {

@@ -27,10 +27,6 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
      * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
      */
     private $userLoggedInCheckpoint;
-    public final function setCategoryTermUpdateInputObjectTypeResolver(CategoryTermUpdateInputObjectTypeResolver $categoryTermUpdateInputObjectTypeResolver) : void
-    {
-        $this->categoryTermUpdateInputObjectTypeResolver = $categoryTermUpdateInputObjectTypeResolver;
-    }
     protected final function getCategoryTermUpdateInputObjectTypeResolver() : CategoryTermUpdateInputObjectTypeResolver
     {
         if ($this->categoryTermUpdateInputObjectTypeResolver === null) {
@@ -39,10 +35,6 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
             $this->categoryTermUpdateInputObjectTypeResolver = $categoryTermUpdateInputObjectTypeResolver;
         }
         return $this->categoryTermUpdateInputObjectTypeResolver;
-    }
-    public final function setUserLoggedInCheckpoint(UserLoggedInCheckpoint $userLoggedInCheckpoint) : void
-    {
-        $this->userLoggedInCheckpoint = $userLoggedInCheckpoint;
     }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {

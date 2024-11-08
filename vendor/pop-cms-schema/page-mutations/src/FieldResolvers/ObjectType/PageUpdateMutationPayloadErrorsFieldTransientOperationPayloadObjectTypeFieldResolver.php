@@ -15,10 +15,6 @@ class PageUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFie
      * @var \PoPCMSSchema\PageMutations\TypeResolvers\UnionType\PageUpdateMutationErrorPayloadUnionTypeResolver|null
      */
     private $pageUpdateMutationErrorPayloadUnionTypeResolver;
-    public final function setPageUpdateMutationErrorPayloadUnionTypeResolver(PageUpdateMutationErrorPayloadUnionTypeResolver $pageUpdateMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->pageUpdateMutationErrorPayloadUnionTypeResolver = $pageUpdateMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getPageUpdateMutationErrorPayloadUnionTypeResolver() : PageUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->pageUpdateMutationErrorPayloadUnionTypeResolver === null) {

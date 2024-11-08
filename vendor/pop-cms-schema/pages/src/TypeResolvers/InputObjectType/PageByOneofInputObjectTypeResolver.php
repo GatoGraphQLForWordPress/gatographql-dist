@@ -14,10 +14,6 @@ class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput|null
      */
     private $pathOrPathsFilterInput;
-    public final function setPathOrPathsFilterInput(PathOrPathsFilterInput $pathOrPathsFilterInput) : void
-    {
-        $this->pathOrPathsFilterInput = $pathOrPathsFilterInput;
-    }
     protected final function getPathOrPathsFilterInput() : PathOrPathsFilterInput
     {
         if ($this->pathOrPathsFilterInput === null) {

@@ -39,10 +39,6 @@ class EndpointSchemaConfigurationBlock extends AbstractBlock implements Persiste
      */
     private $endpointBlockCategory;
 
-    final public function setBlockRenderingHelpers(BlockRenderingHelpers $blockRenderingHelpers): void
-    {
-        $this->blockRenderingHelpers = $blockRenderingHelpers;
-    }
     final protected function getBlockRenderingHelpers(): BlockRenderingHelpers
     {
         if ($this->blockRenderingHelpers === null) {
@@ -52,10 +48,6 @@ class EndpointSchemaConfigurationBlock extends AbstractBlock implements Persiste
         }
         return $this->blockRenderingHelpers;
     }
-    final public function setCPTUtils(CPTUtils $cptUtils): void
-    {
-        $this->cptUtils = $cptUtils;
-    }
     final protected function getCPTUtils(): CPTUtils
     {
         if ($this->cptUtils === null) {
@@ -64,10 +56,6 @@ class EndpointSchemaConfigurationBlock extends AbstractBlock implements Persiste
             $this->cptUtils = $cptUtils;
         }
         return $this->cptUtils;
-    }
-    final public function setEndpointBlockCategory(EndpointBlockCategory $endpointBlockCategory): void
-    {
-        $this->endpointBlockCategory = $endpointBlockCategory;
     }
     final protected function getEndpointBlockCategory(): EndpointBlockCategory
     {

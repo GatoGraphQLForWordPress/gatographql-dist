@@ -21,10 +21,6 @@ class SchemaConfigurationBlockCategory extends AbstractBlockCategory
      */
     private $moduleRegistry;
 
-    final public function setGraphQLSchemaConfigurationCustomPostType(GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType): void
-    {
-        $this->graphQLSchemaConfigurationCustomPostType = $graphQLSchemaConfigurationCustomPostType;
-    }
     final protected function getGraphQLSchemaConfigurationCustomPostType(): GraphQLSchemaConfigurationCustomPostType
     {
         if ($this->graphQLSchemaConfigurationCustomPostType === null) {
@@ -33,10 +29,6 @@ class SchemaConfigurationBlockCategory extends AbstractBlockCategory
             $this->graphQLSchemaConfigurationCustomPostType = $graphQLSchemaConfigurationCustomPostType;
         }
         return $this->graphQLSchemaConfigurationCustomPostType;
-    }
-    final public function setModuleRegistry(ModuleRegistryInterface $moduleRegistry): void
-    {
-        $this->moduleRegistry = $moduleRegistry;
     }
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

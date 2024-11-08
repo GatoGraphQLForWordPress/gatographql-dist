@@ -18,10 +18,6 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
      * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\TagsByOneofInputObjectTypeResolver|null
      */
     private $tagsByOneofInputObjectTypeResolver;
-    public final function setTagsByOneofInputObjectTypeResolver(TagsByOneofInputObjectTypeResolver $tagsByOneofInputObjectTypeResolver) : void
-    {
-        $this->tagsByOneofInputObjectTypeResolver = $tagsByOneofInputObjectTypeResolver;
-    }
     protected final function getTagsByOneofInputObjectTypeResolver() : TagsByOneofInputObjectTypeResolver
     {
         if ($this->tagsByOneofInputObjectTypeResolver === null) {

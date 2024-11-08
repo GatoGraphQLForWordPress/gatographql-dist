@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config\Definition\Dumper;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Dumper;
 
-use PrefixedByPoP\Symfony\Component\Config\Definition\ArrayNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\BaseNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\BooleanNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\ConfigurationInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\EnumNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\FloatNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\IntegerNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\NodeInterface;
-use PrefixedByPoP\Symfony\Component\Config\Definition\PrototypedArrayNode;
-use PrefixedByPoP\Symfony\Component\Config\Definition\ScalarNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ArrayNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\BaseNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\BooleanNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ConfigurationInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\EnumNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\FloatNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\IntegerNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\NodeInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\PrototypedArrayNode;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNode;
 /**
  * Dumps an XML reference configuration for the given configuration/node instance.
  *

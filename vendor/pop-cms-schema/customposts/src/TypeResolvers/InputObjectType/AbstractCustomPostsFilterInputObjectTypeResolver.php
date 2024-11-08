@@ -49,10 +49,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
      */
     private $searchFilterInput;
-    public final function setDateQueryInputObjectTypeResolver(DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver) : void
-    {
-        $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
-    }
     protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
@@ -61,10 +57,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
             $this->dateQueryInputObjectTypeResolver = $dateQueryInputObjectTypeResolver;
         }
         return $this->dateQueryInputObjectTypeResolver;
-    }
-    public final function setFilterCustomPostStatusEnumTypeResolver(FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver) : void
-    {
-        $this->filterCustomPostStatusEnumTypeResolver = $filterCustomPostStatusEnumTypeResolver;
     }
     protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
     {
@@ -75,10 +67,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->filterCustomPostStatusEnumTypeResolver;
     }
-    public final function setCustomPostEnumStringScalarTypeResolver(CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver) : void
-    {
-        $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
-    }
     protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {
@@ -87,10 +75,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
             $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
         }
         return $this->customPostEnumStringScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -101,10 +85,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setCustomPostStatusFilterInput(CustomPostStatusFilterInput $customPostStatusFilterInput) : void
-    {
-        $this->customPostStatusFilterInput = $customPostStatusFilterInput;
-    }
     protected final function getCustomPostStatusFilterInput() : CustomPostStatusFilterInput
     {
         if ($this->customPostStatusFilterInput === null) {
@@ -114,10 +94,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->customPostStatusFilterInput;
     }
-    public final function setUnionCustomPostTypesFilterInput(UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput) : void
-    {
-        $this->unionCustomPostTypesFilterInput = $unionCustomPostTypesFilterInput;
-    }
     protected final function getUnionCustomPostTypesFilterInput() : UnionCustomPostTypesFilterInput
     {
         if ($this->unionCustomPostTypesFilterInput === null) {
@@ -126,10 +102,6 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
             $this->unionCustomPostTypesFilterInput = $unionCustomPostTypesFilterInput;
         }
         return $this->unionCustomPostTypesFilterInput;
-    }
-    public final function setSearchFilterInput(SearchFilterInput $searchFilterInput) : void
-    {
-        $this->searchFilterInput = $searchFilterInput;
     }
     protected final function getSearchFilterInput() : SearchFilterInput
     {

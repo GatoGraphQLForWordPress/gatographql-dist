@@ -14,10 +14,6 @@ class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
      * @var \PoPCMSSchema\Taxonomies\TypeResolvers\EnumType\TaxonomyOrderByEnumTypeResolver|null
      */
     private $taxonomySortByEnumTypeResolver;
-    public final function setTaxonomyOrderByEnumTypeResolver(TaxonomyOrderByEnumTypeResolver $taxonomySortByEnumTypeResolver) : void
-    {
-        $this->taxonomySortByEnumTypeResolver = $taxonomySortByEnumTypeResolver;
-    }
     protected final function getTaxonomyOrderByEnumTypeResolver() : TaxonomyOrderByEnumTypeResolver
     {
         if ($this->taxonomySortByEnumTypeResolver === null) {

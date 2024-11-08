@@ -12,10 +12,6 @@ class LoginUserOneofMutationResolver extends AbstractOneofMutationResolver
      * @var \PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver|null
      */
     private $loginUserByCredentialsMutationResolver;
-    public final function setLoginUserByCredentialsMutationResolver(\PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver $loginUserByCredentialsMutationResolver) : void
-    {
-        $this->loginUserByCredentialsMutationResolver = $loginUserByCredentialsMutationResolver;
-    }
     protected final function getLoginUserByCredentialsMutationResolver() : \PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver
     {
         if ($this->loginUserByCredentialsMutationResolver === null) {

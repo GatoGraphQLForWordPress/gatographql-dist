@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Flash;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 /**
  * FlashBagInterface.
  *

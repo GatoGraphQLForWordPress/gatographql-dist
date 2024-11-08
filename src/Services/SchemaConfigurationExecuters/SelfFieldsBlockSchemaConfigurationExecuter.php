@@ -17,10 +17,6 @@ class SelfFieldsBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDi
      */
     private $schemaConfigSelfFieldsBlock;
 
-    final public function setSchemaConfigSelfFieldsBlock(SchemaConfigSelfFieldsBlock $schemaConfigSelfFieldsBlock): void
-    {
-        $this->schemaConfigSelfFieldsBlock = $schemaConfigSelfFieldsBlock;
-    }
     final protected function getSchemaConfigSelfFieldsBlock(): SchemaConfigSelfFieldsBlock
     {
         if ($this->schemaConfigSelfFieldsBlock === null) {

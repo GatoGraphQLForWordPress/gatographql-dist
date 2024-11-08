@@ -13,10 +13,6 @@ class Engine extends UpstreamEngine
      * @var \PoP\LooseContracts\LooseContractManagerInterface|null
      */
     private $looseContractManager;
-    public final function setLooseContractManager(LooseContractManagerInterface $looseContractManager) : void
-    {
-        $this->looseContractManager = $looseContractManager;
-    }
     protected final function getLooseContractManager() : LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {

@@ -14,10 +14,6 @@ abstract class AbstractFilterInputComponentProcessor extends \PoP\ComponentModel
      * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
      */
     private $schemaDefinitionService;
-    public final function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService) : void
-    {
-        $this->schemaDefinitionService = $schemaDefinitionService;
-    }
     protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {

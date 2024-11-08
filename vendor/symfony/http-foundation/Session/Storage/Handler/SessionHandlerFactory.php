@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
-use PrefixedByPoP\Doctrine\DBAL\Configuration;
-use PrefixedByPoP\Doctrine\DBAL\DriverManager;
-use PrefixedByPoP\Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
-use PrefixedByPoP\Doctrine\DBAL\Tools\DsnParser;
-use PrefixedByPoP\Relay\Relay;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AbstractAdapter;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Configuration;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\DriverManager;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Tools\DsnParser;
+use GatoExternalPrefixByGatoGraphQL\Relay\Relay;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AbstractAdapter;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
@@ -39,7 +39,7 @@ class SessionHandlerFactory
             case $connection instanceof Relay:
             case $connection instanceof \RedisArray:
             case $connection instanceof \RedisCluster:
-            case $connection instanceof \PrefixedByPoP\Predis\ClientInterface:
+            case $connection instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface:
                 return new RedisSessionHandler($connection);
             case $connection instanceof \Memcached:
                 return new MemcachedSessionHandler($connection);

@@ -167,10 +167,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
      */
     private $markdownContentParser;
 
-    final public function setCommentObjectTypeResolver(CommentObjectTypeResolver $commentObjectTypeResolver): void
-    {
-        $this->commentObjectTypeResolver = $commentObjectTypeResolver;
-    }
     final protected function getCommentObjectTypeResolver(): CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {
@@ -179,10 +175,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->commentObjectTypeResolver = $commentObjectTypeResolver;
         }
         return $this->commentObjectTypeResolver;
-    }
-    final public function setCustomPostUnionTypeResolver(CustomPostUnionTypeResolver $customPostUnionTypeResolver): void
-    {
-        $this->customPostUnionTypeResolver = $customPostUnionTypeResolver;
     }
     final protected function getCustomPostUnionTypeResolver(): CustomPostUnionTypeResolver
     {
@@ -193,10 +185,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->customPostUnionTypeResolver;
     }
-    final public function setBlockUnionTypeResolver(BlockUnionTypeResolver $blockUnionTypeResolver): void
-    {
-        $this->blockUnionTypeResolver = $blockUnionTypeResolver;
-    }
     final protected function getBlockUnionTypeResolver(): BlockUnionTypeResolver
     {
         if ($this->blockUnionTypeResolver === null) {
@@ -205,10 +193,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->blockUnionTypeResolver = $blockUnionTypeResolver;
         }
         return $this->blockUnionTypeResolver;
-    }
-    final public function setTagUnionTypeResolver(TagUnionTypeResolver $tagUnionTypeResolver): void
-    {
-        $this->tagUnionTypeResolver = $tagUnionTypeResolver;
     }
     final protected function getTagUnionTypeResolver(): TagUnionTypeResolver
     {
@@ -219,10 +203,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->tagUnionTypeResolver;
     }
-    final public function setCategoryUnionTypeResolver(CategoryUnionTypeResolver $categoryUnionTypeResolver): void
-    {
-        $this->categoryUnionTypeResolver = $categoryUnionTypeResolver;
-    }
     final protected function getCategoryUnionTypeResolver(): CategoryUnionTypeResolver
     {
         if ($this->categoryUnionTypeResolver === null) {
@@ -231,10 +211,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->categoryUnionTypeResolver = $categoryUnionTypeResolver;
         }
         return $this->categoryUnionTypeResolver;
-    }
-    final public function setMediaObjectTypeResolver(MediaObjectTypeResolver $mediaObjectTypeResolver): void
-    {
-        $this->mediaObjectTypeResolver = $mediaObjectTypeResolver;
     }
     final protected function getMediaObjectTypeResolver(): MediaObjectTypeResolver
     {
@@ -245,10 +221,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->mediaObjectTypeResolver;
     }
-    final public function setPageObjectTypeResolver(PageObjectTypeResolver $pageObjectTypeResolver): void
-    {
-        $this->pageObjectTypeResolver = $pageObjectTypeResolver;
-    }
     final protected function getPageObjectTypeResolver(): PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -257,10 +229,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->pageObjectTypeResolver = $pageObjectTypeResolver;
         }
         return $this->pageObjectTypeResolver;
-    }
-    final public function setGenericCustomPostObjectTypeResolver(GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver): void
-    {
-        $this->genericCustomPostObjectTypeResolver = $genericCustomPostObjectTypeResolver;
     }
     final protected function getGenericCustomPostObjectTypeResolver(): GenericCustomPostObjectTypeResolver
     {
@@ -271,10 +239,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->genericCustomPostObjectTypeResolver;
     }
-    final public function setGenericTagObjectTypeResolver(GenericTagObjectTypeResolver $genericTagObjectTypeResolver): void
-    {
-        $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
-    }
     final protected function getGenericTagObjectTypeResolver(): GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -283,10 +247,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->genericTagObjectTypeResolver = $genericTagObjectTypeResolver;
         }
         return $this->genericTagObjectTypeResolver;
-    }
-    final public function setGenericCategoryObjectTypeResolver(GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver): void
-    {
-        $this->genericCategoryObjectTypeResolver = $genericCategoryObjectTypeResolver;
     }
     final protected function getGenericCategoryObjectTypeResolver(): GenericCategoryObjectTypeResolver
     {
@@ -297,10 +257,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->genericCategoryObjectTypeResolver;
     }
-    final public function setPostTagObjectTypeResolver(PostTagObjectTypeResolver $postTagObjectTypeResolver): void
-    {
-        $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
-    }
     final protected function getPostTagObjectTypeResolver(): PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -309,10 +265,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->postTagObjectTypeResolver = $postTagObjectTypeResolver;
         }
         return $this->postTagObjectTypeResolver;
-    }
-    final public function setPostCategoryObjectTypeResolver(PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver): void
-    {
-        $this->postCategoryObjectTypeResolver = $postCategoryObjectTypeResolver;
     }
     final protected function getPostCategoryObjectTypeResolver(): PostCategoryObjectTypeResolver
     {
@@ -323,10 +275,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->postCategoryObjectTypeResolver;
     }
-    final public function setMenuObjectTypeResolver(MenuObjectTypeResolver $menuObjectTypeResolver): void
-    {
-        $this->menuObjectTypeResolver = $menuObjectTypeResolver;
-    }
     final protected function getMenuObjectTypeResolver(): MenuObjectTypeResolver
     {
         if ($this->menuObjectTypeResolver === null) {
@@ -335,10 +283,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->menuObjectTypeResolver = $menuObjectTypeResolver;
         }
         return $this->menuObjectTypeResolver;
-    }
-    final public function setPostObjectTypeResolver(PostObjectTypeResolver $postObjectTypeResolver): void
-    {
-        $this->postObjectTypeResolver = $postObjectTypeResolver;
     }
     final protected function getPostObjectTypeResolver(): PostObjectTypeResolver
     {
@@ -349,10 +293,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->postObjectTypeResolver;
     }
-    final public function setGeneralBlockObjectTypeResolver(GeneralBlockObjectTypeResolver $generalBlockObjectTypeResolver): void
-    {
-        $this->generalBlockObjectTypeResolver = $generalBlockObjectTypeResolver;
-    }
     final protected function getGeneralBlockObjectTypeResolver(): GeneralBlockObjectTypeResolver
     {
         if ($this->generalBlockObjectTypeResolver === null) {
@@ -361,10 +301,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->generalBlockObjectTypeResolver = $generalBlockObjectTypeResolver;
         }
         return $this->generalBlockObjectTypeResolver;
-    }
-    final public function setUserRoleObjectTypeResolver(UserRoleObjectTypeResolver $userRoleObjectTypeResolver): void
-    {
-        $this->userRoleObjectTypeResolver = $userRoleObjectTypeResolver;
     }
     final protected function getUserRoleObjectTypeResolver(): UserRoleObjectTypeResolver
     {
@@ -375,10 +311,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->userRoleObjectTypeResolver;
     }
-    final public function setUserAvatarObjectTypeResolver(UserAvatarObjectTypeResolver $userAvatarObjectTypeResolver): void
-    {
-        $this->userAvatarObjectTypeResolver = $userAvatarObjectTypeResolver;
-    }
     final protected function getUserAvatarObjectTypeResolver(): UserAvatarObjectTypeResolver
     {
         if ($this->userAvatarObjectTypeResolver === null) {
@@ -387,10 +319,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->userAvatarObjectTypeResolver = $userAvatarObjectTypeResolver;
         }
         return $this->userAvatarObjectTypeResolver;
-    }
-    final public function setUserObjectTypeResolver(UserObjectTypeResolver $userObjectTypeResolver): void
-    {
-        $this->userObjectTypeResolver = $userObjectTypeResolver;
     }
     final protected function getUserObjectTypeResolver(): UserObjectTypeResolver
     {
@@ -401,10 +329,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         }
         return $this->userObjectTypeResolver;
     }
-    final public function setWPDataModelProvider(WPDataModelProviderInterface $wpDataModelProvider): void
-    {
-        $this->wpDataModelProvider = $wpDataModelProvider;
-    }
     final protected function getWPDataModelProvider(): WPDataModelProviderInterface
     {
         if ($this->wpDataModelProvider === null) {
@@ -413,10 +337,6 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $this->wpDataModelProvider = $wpDataModelProvider;
         }
         return $this->wpDataModelProvider;
-    }
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
     }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -634,7 +554,10 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
         switch ($module) {
             case self::SCHEMA_BLOCKS:
                 return [
-                    new DependedOnInactiveWordPressPlugin(\__('Classic Editor', 'gatographql'), 'classic-editor/classic-editor.php'),
+                    new DependedOnInactiveWordPressPlugin(
+                        \__('Classic Editor', 'gatographql'),
+                        'classic-editor/classic-editor.php',
+                    ),
                 ];
             default:
                 return parent::getDependentOnInactiveWordPressPlugins($module);
@@ -927,7 +850,11 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     \__('Max limit for %s', 'gatographql'),
                     $entities
                 ),
-                Properties::DESCRIPTION => sprintf($maxLimitMessagePlaceholder, $entities, $unlimitedValue),
+                Properties::DESCRIPTION => sprintf(
+                    $maxLimitMessagePlaceholder,
+                    $entities,
+                    $unlimitedValue,
+                ),
                 Properties::TYPE => Properties::TYPE_INT,
                 Properties::MIN_NUMBER => -1,
             ];
@@ -948,7 +875,15 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $option
                     ),
                     Properties::TITLE => \__('Included custom post types', 'gatographql'),
-                    Properties::DESCRIPTION => sprintf(\__('Select the custom post types that can be queried, to be accessible via <code>%s</code>. A custom post type will be represented by its own type in the schema if available (such as <code>%s</code> or <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'), $this->getCustomPostUnionTypeResolver()->getTypeName(), $this->getPostObjectTypeResolver()->getTypeName(), $this->getPageObjectTypeResolver()->getTypeName(), $this->getGenericCustomPostObjectTypeResolver()->getTypeName(), $this->getPressCtrlToSelectMoreThanOneOptionLabel(), $defaultValueDesc),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('Select the custom post types that can be queried, to be accessible via <code>%s</code>. A custom post type will be represented by its own type in the schema if available (such as <code>%s</code> or <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'),
+                        $this->getCustomPostUnionTypeResolver()->getTypeName(),
+                        $this->getPostObjectTypeResolver()->getTypeName(),
+                        $this->getPageObjectTypeResolver()->getTypeName(),
+                        $this->getGenericCustomPostObjectTypeResolver()->getTypeName(),
+                        $this->getPressCtrlToSelectMoreThanOneOptionLabel(),
+                        $defaultValueDesc,
+                    ),
                     Properties::TYPE => Properties::TYPE_ARRAY,
                     // Fetch all Schema Configurations from the DB
                     Properties::POSSIBLE_VALUES => $possibleValues,
@@ -963,7 +898,11 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $option
                     ),
                     Properties::TITLE => \__('Use single type instead of union type?', 'gatographql'),
-                    Properties::DESCRIPTION => sprintf(\__('If type <code>%s</code> is composed of only one type (eg: <code>%s</code>), then directly return this single type, instead of the union type?', 'gatographql'), $this->getCustomPostUnionTypeResolver()->getTypeName(), $this->getPostObjectTypeResolver()->getTypeName()),
+                    Properties::DESCRIPTION => sprintf(
+                        \__('If type <code>%s</code> is composed of only one type (eg: <code>%s</code>), then directly return this single type, instead of the union type?', 'gatographql'),
+                        $this->getCustomPostUnionTypeResolver()->getTypeName(),
+                        $this->getPostObjectTypeResolver()->getTypeName(),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
 
@@ -974,8 +913,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $module,
                         $option
                     ),
-                    Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('custom post status', 'gatographql')),
-                    Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('custom post status', 'gatographql')),
+                    Properties::TITLE => sprintf(
+                        $sensitiveDataTitlePlaceholder,
+                        \__('custom post status', 'gatographql'),
+                    ),
+                    Properties::DESCRIPTION => sprintf(
+                        $sensitiveDataDescPlaceholder,
+                        \__('custom post status', 'gatographql'),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
 
@@ -986,8 +931,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $module,
                         $option
                     ),
-                    Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('custom post raw content fields (<code>rawContent</code>, <code>rawTitle</code> and <code>rawExcerpt</code>)', 'gatographql')),
-                    Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('custom post raw content fields (<code>rawContent</code>, <code>rawTitle</code> and <code>rawExcerpt</code>)', 'gatographql')),
+                    Properties::TITLE => sprintf(
+                        $sensitiveDataTitlePlaceholder,
+                        \__('custom post raw content fields (<code>rawContent</code>, <code>rawTitle</code> and <code>rawExcerpt</code>)', 'gatographql'),
+                    ),
+                    Properties::DESCRIPTION => sprintf(
+                        $sensitiveDataDescPlaceholder,
+                        \__('custom post raw content fields (<code>rawContent</code>, <code>rawTitle</code> and <code>rawExcerpt</code>)', 'gatographql'),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
 
@@ -998,8 +949,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $module,
                         $option
                     ),
-                    Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('custom post edit link', 'gatographql')),
-                    Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('custom post edit link', 'gatographql')),
+                    Properties::TITLE => sprintf(
+                        $sensitiveDataTitlePlaceholder,
+                        \__('custom post edit link', 'gatographql'),
+                    ),
+                    Properties::DESCRIPTION => sprintf(
+                        $sensitiveDataDescPlaceholder,
+                        \__('custom post edit link', 'gatographql'),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
             } elseif ($module === self::SCHEMA_USERS) {
@@ -1010,8 +967,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $module,
                         $option
                     ),
-                    Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('user email', 'gatographql')),
-                    Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('user email', 'gatographql')),
+                    Properties::TITLE => sprintf(
+                        $sensitiveDataTitlePlaceholder,
+                        \__('user email', 'gatographql'),
+                    ),
+                    Properties::DESCRIPTION => sprintf(
+                        $sensitiveDataDescPlaceholder,
+                        \__('user email', 'gatographql'),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
             } elseif ($module === self::SCHEMA_TAGS) {
@@ -1042,8 +1005,19 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     Properties::TITLE => \__('Included tag taxonomies', 'gatographql'),
                     Properties::DESCRIPTION => sprintf(
                         '%s<br/><br/>%s',
-                        sprintf($taxonomyDescPlaceholder, \__('non-', 'gatographql'), \__('tag', 'gatographql')),
-                        sprintf(\__('Select the tag taxonomies that can be queried, to be accessible via <code>%s</code>. A tag taxonomy will be represented by its own type in the schema if available (such as <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'), $this->getTagUnionTypeResolver()->getTypeName(), $this->getPostTagObjectTypeResolver()->getTypeName(), $this->getGenericTagObjectTypeResolver()->getTypeName(), $this->getPressCtrlToSelectMoreThanOneOptionLabel(), $defaultValueDesc)
+                        sprintf(
+                            $taxonomyDescPlaceholder,
+                            \__('non-', 'gatographql'),
+                            \__('tag', 'gatographql'),
+                        ),
+                        sprintf(
+                            \__('Select the tag taxonomies that can be queried, to be accessible via <code>%s</code>. A tag taxonomy will be represented by its own type in the schema if available (such as <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'),
+                            $this->getTagUnionTypeResolver()->getTypeName(),
+                            $this->getPostTagObjectTypeResolver()->getTypeName(),
+                            $this->getGenericTagObjectTypeResolver()->getTypeName(),
+                            $this->getPressCtrlToSelectMoreThanOneOptionLabel(),
+                            $defaultValueDesc,
+                        )
                     ),
                     Properties::TYPE => Properties::TYPE_ARRAY,
                     // Fetch all Schema Configurations from the DB
@@ -1078,8 +1052,19 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     Properties::TITLE => \__('Included category taxonomies', 'gatographql'),
                     Properties::DESCRIPTION => sprintf(
                         '%s<br/><br/>%s',
-                        sprintf($taxonomyDescPlaceholder, '', \__('category', 'gatographql')),
-                        sprintf(\__('Select the category taxonomies that can be queried, to be accessible via <code>%s</code>. A tag taxonomy will be represented by its own type in the schema if available (such as <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'), $this->getCategoryUnionTypeResolver()->getTypeName(), $this->getPostCategoryObjectTypeResolver()->getTypeName(), $this->getGenericCategoryObjectTypeResolver()->getTypeName(), $this->getPressCtrlToSelectMoreThanOneOptionLabel(), $defaultValueDesc)
+                        sprintf(
+                            $taxonomyDescPlaceholder,
+                            '',
+                            \__('category', 'gatographql'),
+                        ),
+                        sprintf(
+                            \__('Select the category taxonomies that can be queried, to be accessible via <code>%s</code>. A tag taxonomy will be represented by its own type in the schema if available (such as <code>%s</code>) or, otherwise, via <code>%s</code>.<br/>%s<br/>%s', 'gatographql'),
+                            $this->getCategoryUnionTypeResolver()->getTypeName(),
+                            $this->getPostCategoryObjectTypeResolver()->getTypeName(),
+                            $this->getGenericCategoryObjectTypeResolver()->getTypeName(),
+                            $this->getPressCtrlToSelectMoreThanOneOptionLabel(),
+                            $defaultValueDesc,
+                        )
                     ),
                     Properties::TYPE => Properties::TYPE_ARRAY,
                     // Fetch all Schema Configurations from the DB
@@ -1094,8 +1079,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                         $module,
                         $option
                     ),
-                    Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('menu item raw title', 'gatographql')),
-                    Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('menu item raw title', 'gatographql')),
+                    Properties::TITLE => sprintf(
+                        $sensitiveDataTitlePlaceholder,
+                        \__('menu item raw title', 'gatographql'),
+                    ),
+                    Properties::DESCRIPTION => sprintf(
+                        $sensitiveDataDescPlaceholder,
+                        \__('menu item raw title', 'gatographql'),
+                    ),
                     Properties::TYPE => Properties::TYPE_BOOL,
                 ];
             }
@@ -1108,7 +1099,11 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $option
                 ),
                 Properties::TITLE => \__('Use single type instead of union type?', 'gatographql'),
-                Properties::DESCRIPTION => sprintf(\__('If type <code>%s</code> is composed of only one type (<code>%s</code>), then directly return this single type, instead of the union type?', 'gatographql'), $this->getBlockUnionTypeResolver()->getTypeName(), $this->getGeneralBlockObjectTypeResolver()->getTypeName()),
+                Properties::DESCRIPTION => sprintf(
+                    \__('If type <code>%s</code> is composed of only one type (<code>%s</code>), then directly return this single type, instead of the union type?', 'gatographql'),
+                    $this->getBlockUnionTypeResolver()->getTypeName(),
+                    $this->getGeneralBlockObjectTypeResolver()->getTypeName(),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
         } elseif ($module === self::SCHEMA_COMMENTS) {
@@ -1160,7 +1155,11 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $option
                 ),
                 Properties::TITLE => \__('Max limit for querying comments', 'gatographql'),
-                Properties::DESCRIPTION => sprintf($maxLimitMessagePlaceholder, \__('comments', 'gatographql'), $unlimitedValue),
+                Properties::DESCRIPTION => sprintf(
+                    $maxLimitMessagePlaceholder,
+                    \__('comments', 'gatographql'),
+                    $unlimitedValue,
+                ),
                 Properties::TYPE => Properties::TYPE_INT,
                 Properties::MIN_NUMBER => -1,
             ];
@@ -1172,8 +1171,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('comment status', 'gatographql')),
-                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('comment status', 'gatographql')),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    \__('comment status', 'gatographql'),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    \__('comment status', 'gatographql'),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
 
@@ -1184,8 +1189,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('comment raw content', 'gatographql')),
-                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('comment raw content', 'gatographql')),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    \__('comment raw content', 'gatographql'),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    \__('comment raw content', 'gatographql'),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
         } elseif ($module === self::SCHEMA_SETTINGS) {
@@ -1194,26 +1205,32 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             $entryDesc = \__('<strong>Example:</strong> Any of these entries match option name <code>"%1$s"</code>: %2$s', 'gatographql');
             $ulPlaceholder = '<ul><li><code>%s</code></li></ul>';
             $moduleDescriptions = [
-                self::SCHEMA_SETTINGS => sprintf(\__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'), sprintf(
-                    \__('List of all the option names, to either allow or deny access to, when querying fields <code>%s</code>, <code>%s</code> and <code>%s</code> (one entry per line).', 'gatographql'),
-                    'optionValue',
-                    'optionValues',
-                    'optionObjectValue'
-                ), $headsUpDesc, sprintf(
-                    $entryDesc,
-                    'siteurl',
+                self::SCHEMA_SETTINGS => sprintf(
+                    \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
                     sprintf(
-                        $ulPlaceholder,
-                        implode(
-                            '</code></li><li><code>',
-                            [
-                                'siteurl',
-                                '/site.*/',
-                                '#site([a-zA-Z]*)#',
-                            ]
+                        \__('List of all the option names, to either allow or deny access to, when querying fields <code>%s</code>, <code>%s</code> and <code>%s</code> (one entry per line).', 'gatographql'),
+                        'optionValue',
+                        'optionValues',
+                        'optionObjectValue'
+                    ),
+                    $headsUpDesc,
+                    sprintf(
+                        $entryDesc,
+                        'siteurl',
+                        sprintf(
+                            $ulPlaceholder,
+                            implode(
+                                '</code></li><li><code>',
+                                [
+                                    'siteurl',
+                                    '/site.*/',
+                                    '#site([a-zA-Z]*)#',
+                                ]
+                            )
                         )
-                    )
-                ), $defaultValueDesc),
+                    ),
+                    $defaultValueDesc,
+                ),
             ];
             $option = ModuleSettingOptions::ENTRIES;
             $moduleSettings[] = [
@@ -1235,7 +1252,12 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $option
                 ),
                 Properties::TITLE => \__('Behavior', 'gatographql'),
-                Properties::DESCRIPTION => sprintf('%s %s%s', \__('Are the entries being allowed or denied access to?', 'gatographql'), \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'), $defaultValueDesc),
+                Properties::DESCRIPTION => sprintf(
+                    '%s %s%s',
+                    \__('Are the entries being allowed or denied access to?', 'gatographql'),
+                    \__('<ul><li>Allow access: only the configured entries can be accessed, and no other can.</li><li>Deny access: the configured entries cannot be accessed, all other entries can.</li></ul>', 'gatographql'),
+                    $defaultValueDesc,
+                ),
                 Properties::TYPE => Properties::TYPE_STRING,
                 Properties::POSSIBLE_VALUES => [
                     Behaviors::ALLOW => \__('Allow access', 'gatographql'),
@@ -1266,8 +1288,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('user roles', 'gatographql')),
-                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('user roles', 'gatographql')),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    \__('user roles', 'gatographql'),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    \__('user roles', 'gatographql'),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
 
@@ -1278,8 +1306,14 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                     $module,
                     $option
                 ),
-                Properties::TITLE => sprintf($sensitiveDataTitlePlaceholder, \__('user capabilities', 'gatographql')),
-                Properties::DESCRIPTION => sprintf($sensitiveDataDescPlaceholder, \__('user capabilities', 'gatographql')),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    \__('user capabilities', 'gatographql'),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    \__('user capabilities', 'gatographql'),
+                ),
                 Properties::TYPE => Properties::TYPE_BOOL,
             ];
         }

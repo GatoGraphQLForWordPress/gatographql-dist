@@ -42,5 +42,6 @@ class PluginLifecyclePriorities
     public const BOOT_APPLICATION = 170;
     public const BOOT_PLUGIN = 180;
     public const BOOT_EXTENSIONS = 190;
-    public const AFTER_EVERYTHING = 200;
+    public const REVALIDATE_LICENSE_CHECK = 200;
+    public const AFTER_EVERYTHING = 210;
 }

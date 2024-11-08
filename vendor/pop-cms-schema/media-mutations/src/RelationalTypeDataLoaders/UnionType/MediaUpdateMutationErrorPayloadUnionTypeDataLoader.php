@@ -13,10 +13,6 @@ class MediaUpdateMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTy
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\UnionType\MediaUpdateMutationErrorPayloadUnionTypeResolver|null
      */
     private $mediaUpdateMutationErrorPayloadUnionTypeResolver;
-    public final function setMediaUpdateMutationErrorPayloadUnionTypeResolver(MediaUpdateMutationErrorPayloadUnionTypeResolver $mediaUpdateMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->mediaUpdateMutationErrorPayloadUnionTypeResolver = $mediaUpdateMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getMediaUpdateMutationErrorPayloadUnionTypeResolver() : MediaUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->mediaUpdateMutationErrorPayloadUnionTypeResolver === null) {

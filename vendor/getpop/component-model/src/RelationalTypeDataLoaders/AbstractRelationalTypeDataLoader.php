@@ -13,10 +13,6 @@ abstract class AbstractRelationalTypeDataLoader implements \PoP\ComponentModel\R
      * @var \PoP\LooseContracts\NameResolverInterface|null
      */
     private $nameResolver;
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
-    }
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {

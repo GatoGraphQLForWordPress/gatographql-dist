@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache;
 
-use PrefixedByPoP\Psr\Cache\CacheException as Psr6CacheException;
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
-use PrefixedByPoP\Psr\SimpleCache\CacheException as SimpleCacheException;
-use PrefixedByPoP\Psr\SimpleCache\CacheInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\AdapterInterface;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Traits\ProxyTrait;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheException as Psr6CacheException;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\SimpleCache\CacheException as SimpleCacheException;
+use GatoExternalPrefixByGatoGraphQL\Psr\SimpleCache\CacheInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AdapterInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ProxyTrait;
 /**
  * Turns a PSR-6 cache into a PSR-16 one.
  *

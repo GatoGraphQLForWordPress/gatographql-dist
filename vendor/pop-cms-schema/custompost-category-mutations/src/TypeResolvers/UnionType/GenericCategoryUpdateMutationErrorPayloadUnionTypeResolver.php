@@ -13,10 +13,6 @@ class GenericCategoryUpdateMutationErrorPayloadUnionTypeResolver extends Abstrac
      * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\GenericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $genericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader;
-    public final function setGenericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader(GenericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader $genericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->genericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader = $genericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getGenericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader() : GenericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCategoryUpdateMutationErrorPayloadUnionTypeDataLoader === null) {

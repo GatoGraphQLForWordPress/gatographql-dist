@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace PoP\Root\Container;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Definition;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
 /** @internal */
 interface ContainerBuilderWrapperInterface
 {

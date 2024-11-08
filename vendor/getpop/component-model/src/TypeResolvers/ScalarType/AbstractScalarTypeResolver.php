@@ -18,10 +18,6 @@ abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implement
      * @var \PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface|null
      */
     private $objectSerializationManager;
-    public final function setObjectSerializationManager(ObjectSerializationManagerInterface $objectSerializationManager) : void
-    {
-        $this->objectSerializationManager = $objectSerializationManager;
-    }
     protected final function getObjectSerializationManager() : ObjectSerializationManagerInterface
     {
         if ($this->objectSerializationManager === null) {

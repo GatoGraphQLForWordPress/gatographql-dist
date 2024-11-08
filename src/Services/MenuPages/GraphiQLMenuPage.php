@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Services\MenuPages;
 
+use GatoGraphQL\GatoGraphQL\ModuleResolvers\EndpointFunctionalityModuleResolver;
 use GatoGraphQL\GatoGraphQL\PluginApp;
+use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 
 /**
  * GraphiQL page
@@ -12,6 +14,30 @@ use GatoGraphQL\GatoGraphQL\PluginApp;
 class GraphiQLMenuPage extends AbstractPluginMenuPage
 {
     use EnqueueReactMenuPageTrait;
+
+    /**
+     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
+     */
+    private $moduleRegistry;
+
+    final protected function getModuleRegistry(): ModuleRegistryInterface
+    {
+        if ($this->moduleRegistry === null) {
+            /** @var ModuleRegistryInterface */
+            $moduleRegistry = $this->instanceManager->getInstance(ModuleRegistryInterface::class);
+            $this->moduleRegistry = $moduleRegistry;
+        }
+        return $this->moduleRegistry;
+    }
+
+    public function isServiceEnabled(): bool
+    {
+        $isPrivateEndpointDisabled = !$this->getModuleRegistry()->isModuleEnabled(EndpointFunctionalityModuleResolver::PRIVATE_ENDPOINT);
+        if ($isPrivateEndpointDisabled) {
+            return false;
+        }
+        return parent::isServiceEnabled();
+    }
 
     public function print(): void
     {
@@ -37,6 +63,11 @@ class GraphiQLMenuPage extends AbstractPluginMenuPage
     public function getMenuPageSlug(): string
     {
         return 'graphiql';
+    }
+
+    public function getMenuPageTitle(): string
+    {
+        return __('GraphiQL', 'gatographql');
     }
 
     /**
@@ -123,13 +154,12 @@ class GraphiQLMenuPage extends AbstractPluginMenuPage
 
     protected function getResponse(): string
     {
-        return '';
-        // return \__('Click the "Execute Query" button, or press Ctrl+Enter (Command+Enter in Mac)', 'gatographql');
+        return \__('Click the "Execute Query" button, or press Ctrl+Enter (Command+Enter in Mac)', 'gatographql');
     }
 
     protected function getDefaultQuery(): string
     {
-        return '
+        return <<<GRAPHQL
             # Welcome to GraphiQL
             #
             # GraphiQL is an in-browser tool for writing, validating, and
@@ -154,27 +184,6 @@ class GraphiQLMenuPage extends AbstractPluginMenuPage
             #
             #   Ctrl-Enter (or press the play button above)
             #
-
-            query {
-              posts(pagination: { limit: 3 }) {
-                id
-                title
-                date
-                url
-                author {
-                  id
-                  name
-                  url
-                }
-                tags {
-                  name
-                }
-                featuredImage {
-                  src
-                }
-              }
-            }
-
-            ';
+            GRAPHQL;
     }
 }

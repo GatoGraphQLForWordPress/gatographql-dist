@@ -13,10 +13,6 @@ class TaxonomyDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPa
      * @var \PoPCMSSchema\TaxonomyMutations\RelationalTypeDataLoaders\ObjectType\TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader|null
      */
     private $taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader;
-    public final function setTaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader(TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader $taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader = $taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getTaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader() : TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

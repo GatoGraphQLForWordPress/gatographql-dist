@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\DataCollector;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\DataCollector;
 
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\TraceableAdapter;
-use PrefixedByPoP\Symfony\Component\Cache\Adapter\TraceableAdapterEvent;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Response;
-use PrefixedByPoP\Symfony\Component\HttpKernel\DataCollector\DataCollector;
-use PrefixedByPoP\Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\TraceableAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\TraceableAdapterEvent;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Request;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Response;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
 /**
  * @author Aaron Scherer <aequasi@gmail.com>
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

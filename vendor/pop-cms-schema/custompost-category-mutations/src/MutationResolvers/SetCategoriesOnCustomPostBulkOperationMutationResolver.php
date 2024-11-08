@@ -12,10 +12,6 @@ class SetCategoriesOnCustomPostBulkOperationMutationResolver extends AbstractBul
      * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolver|null
      */
     private $setCategoriesOnCustomPostMutationResolver;
-    public final function setSetCategoriesOnCustomPostMutationResolver(\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolver $setCategoriesOnCustomPostMutationResolver) : void
-    {
-        $this->setCategoriesOnCustomPostMutationResolver = $setCategoriesOnCustomPostMutationResolver;
-    }
     protected final function getSetCategoriesOnCustomPostMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolver
     {
         if ($this->setCategoriesOnCustomPostMutationResolver === null) {

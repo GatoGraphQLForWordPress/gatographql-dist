@@ -14,10 +14,6 @@ abstract class AbstractLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadOb
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver|null
      */
     private $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver;
-    public final function setLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver(LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver) : void
-    {
-        $this->loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver = $loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver;
-    }
     protected final function getLoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPermissionToEditCustomPostErrorPayloadObjectTypeResolver === null) {

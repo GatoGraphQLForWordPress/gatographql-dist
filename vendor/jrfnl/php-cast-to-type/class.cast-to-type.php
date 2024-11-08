@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP;
+namespace GatoExternalPrefixByGatoGraphQL;
 
 /**
  * CastToType.
@@ -26,7 +26,7 @@ namespace PrefixedByPoP;
  * Selective PHPCS exclusion: this file is only supposed to be loaded in PHP 5+.
  * @phpcs:disable PHPCompatibility.Classes.NewClasses.exceptionFound
  */
-if (!\class_exists('PrefixedByPoP\\CastToType')) {
+if (!\class_exists('GatoExternalPrefixByGatoGraphQL\\CastToType')) {
     /**
      * CastToType
      *

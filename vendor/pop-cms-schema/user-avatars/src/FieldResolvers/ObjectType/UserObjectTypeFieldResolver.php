@@ -39,10 +39,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
      */
     private $intScalarTypeResolver;
-    public final function setUserAvatarTypeAPI(UserAvatarTypeAPIInterface $userAvatarTypeAPI) : void
-    {
-        $this->userAvatarTypeAPI = $userAvatarTypeAPI;
-    }
     protected final function getUserAvatarTypeAPI() : UserAvatarTypeAPIInterface
     {
         if ($this->userAvatarTypeAPI === null) {
@@ -51,10 +47,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->userAvatarTypeAPI = $userAvatarTypeAPI;
         }
         return $this->userAvatarTypeAPI;
-    }
-    public final function setUserAvatarRuntimeRegistry(UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry) : void
-    {
-        $this->userAvatarRuntimeRegistry = $userAvatarRuntimeRegistry;
     }
     protected final function getUserAvatarRuntimeRegistry() : UserAvatarRuntimeRegistryInterface
     {
@@ -65,10 +57,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->userAvatarRuntimeRegistry;
     }
-    public final function setUserAvatarObjectTypeResolver(UserAvatarObjectTypeResolver $userAvatarObjectTypeResolver) : void
-    {
-        $this->userAvatarObjectTypeResolver = $userAvatarObjectTypeResolver;
-    }
     protected final function getUserAvatarObjectTypeResolver() : UserAvatarObjectTypeResolver
     {
         if ($this->userAvatarObjectTypeResolver === null) {
@@ -77,10 +65,6 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             $this->userAvatarObjectTypeResolver = $userAvatarObjectTypeResolver;
         }
         return $this->userAvatarObjectTypeResolver;
-    }
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
     }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {

@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\ExpressionLanguage\Node;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Node;
 
-use PrefixedByPoP\Symfony\Component\ExpressionLanguage\Compiler;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Compiler;
 /**
  * Represents a node in the AST.
  *

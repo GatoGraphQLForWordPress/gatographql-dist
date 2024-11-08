@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Dotenv\Command;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Command;
 
-use PrefixedByPoP\Symfony\Component\Console\Attribute\AsCommand;
-use PrefixedByPoP\Symfony\Component\Console\Command\Command;
-use PrefixedByPoP\Symfony\Component\Console\Completion\CompletionInput;
-use PrefixedByPoP\Symfony\Component\Console\Completion\CompletionSuggestions;
-use PrefixedByPoP\Symfony\Component\Console\Formatter\OutputFormatter;
-use PrefixedByPoP\Symfony\Component\Console\Input\InputArgument;
-use PrefixedByPoP\Symfony\Component\Console\Input\InputInterface;
-use PrefixedByPoP\Symfony\Component\Console\Output\OutputInterface;
-use PrefixedByPoP\Symfony\Component\Console\Style\SymfonyStyle;
-use PrefixedByPoP\Symfony\Component\Dotenv\Dotenv;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Attribute\AsCommand;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Command\Command;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Completion\CompletionInput;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Completion\CompletionSuggestions;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Formatter\OutputFormatter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Input\InputArgument;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Input\InputInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Output\OutputInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Console\Style\SymfonyStyle;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Dotenv;
 /**
  * A console command to debug current dotenv files with variables and values.
  *

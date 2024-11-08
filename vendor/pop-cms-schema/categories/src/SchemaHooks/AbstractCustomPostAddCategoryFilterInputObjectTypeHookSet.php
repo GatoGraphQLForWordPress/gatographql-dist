@@ -12,10 +12,6 @@ abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends
      * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver|null
      */
     private $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
-    public final function setCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver(CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver) : void
-    {
-        $this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver = $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
-    }
     protected final function getCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver() : CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver
     {
         if ($this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver === null) {

@@ -34,10 +34,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
      * @var \PoPCMSSchema\Users\FilterInputs\EmailOrEmailsFilterInput|null
      */
     private $emailOrEmailsFilterInput;
-    public final function setEmailScalarTypeResolver(EmailScalarTypeResolver $emailScalarTypeResolver) : void
-    {
-        $this->emailScalarTypeResolver = $emailScalarTypeResolver;
-    }
     protected final function getEmailScalarTypeResolver() : EmailScalarTypeResolver
     {
         if ($this->emailScalarTypeResolver === null) {
@@ -46,10 +42,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->emailScalarTypeResolver = $emailScalarTypeResolver;
         }
         return $this->emailScalarTypeResolver;
-    }
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
     }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
@@ -60,10 +52,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         }
         return $this->stringScalarTypeResolver;
     }
-    public final function setNameFilterInput(NameFilterInput $nameFilterInput) : void
-    {
-        $this->nameFilterInput = $nameFilterInput;
-    }
     protected final function getNameFilterInput() : NameFilterInput
     {
         if ($this->nameFilterInput === null) {
@@ -72,10 +60,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->nameFilterInput = $nameFilterInput;
         }
         return $this->nameFilterInput;
-    }
-    public final function setEmailOrEmailsFilterInput(EmailOrEmailsFilterInput $emailOrEmailsFilterInput) : void
-    {
-        $this->emailOrEmailsFilterInput = $emailOrEmailsFilterInput;
     }
     protected final function getEmailOrEmailsFilterInput() : EmailOrEmailsFilterInput
     {

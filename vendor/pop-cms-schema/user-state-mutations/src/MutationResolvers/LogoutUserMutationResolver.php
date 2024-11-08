@@ -19,10 +19,6 @@ class LogoutUserMutationResolver extends AbstractMutationResolver
      * @var \PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface|null
      */
     private $userStateTypeMutationAPI;
-    public final function setUserStateTypeMutationAPI(UserStateTypeMutationAPIInterface $userStateTypeMutationAPI) : void
-    {
-        $this->userStateTypeMutationAPI = $userStateTypeMutationAPI;
-    }
     protected final function getUserStateTypeMutationAPI() : UserStateTypeMutationAPIInterface
     {
         if ($this->userStateTypeMutationAPI === null) {

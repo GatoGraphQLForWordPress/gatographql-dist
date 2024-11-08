@@ -14,10 +14,6 @@ class GeneralBlockObjectTypeResolver extends AbstractBlockObjectTypeResolver
      */
     private $genericBlockObjectTypeDataLoader;
 
-    final public function setGeneralBlockObjectTypeDataLoader(GeneralBlockObjectTypeDataLoader $genericBlockObjectTypeDataLoader): void
-    {
-        $this->genericBlockObjectTypeDataLoader = $genericBlockObjectTypeDataLoader;
-    }
     final protected function getGeneralBlockObjectTypeDataLoader(): GeneralBlockObjectTypeDataLoader
     {
         if ($this->genericBlockObjectTypeDataLoader === null) {

@@ -24,10 +24,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
      * @var \PoPCMSSchema\Media\FilterInputs\MimeTypesFilterInput|null
      */
     private $mimeTypesFilterInput;
-    public final function setStringScalarTypeResolver(StringScalarTypeResolver $stringScalarTypeResolver) : void
-    {
-        $this->stringScalarTypeResolver = $stringScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -36,10 +32,6 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
             $this->stringScalarTypeResolver = $stringScalarTypeResolver;
         }
         return $this->stringScalarTypeResolver;
-    }
-    public final function setMimeTypesFilterInput(MimeTypesFilterInput $mimeTypesFilterInput) : void
-    {
-        $this->mimeTypesFilterInput = $mimeTypesFilterInput;
     }
     protected final function getMimeTypesFilterInput() : MimeTypesFilterInput
     {

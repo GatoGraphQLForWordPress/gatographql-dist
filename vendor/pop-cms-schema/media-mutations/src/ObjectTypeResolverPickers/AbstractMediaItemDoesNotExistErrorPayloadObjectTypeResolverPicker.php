@@ -14,10 +14,6 @@ abstract class AbstractMediaItemDoesNotExistErrorPayloadObjectTypeResolverPicker
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\MediaItemDoesNotExistErrorPayloadObjectTypeResolver|null
      */
     private $mediaItemDoesNotExistErrorPayloadObjectTypeResolver;
-    public final function setMediaItemDoesNotExistErrorPayloadObjectTypeResolver(MediaItemDoesNotExistErrorPayloadObjectTypeResolver $mediaItemDoesNotExistErrorPayloadObjectTypeResolver) : void
-    {
-        $this->mediaItemDoesNotExistErrorPayloadObjectTypeResolver = $mediaItemDoesNotExistErrorPayloadObjectTypeResolver;
-    }
     protected final function getMediaItemDoesNotExistErrorPayloadObjectTypeResolver() : MediaItemDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->mediaItemDoesNotExistErrorPayloadObjectTypeResolver === null) {

@@ -28,10 +28,6 @@ abstract class AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers
      * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
      */
     private $attachableExtensionManager;
-    public final function setSchemaNamespacingService(SchemaNamespacingServiceInterface $schemaNamespacingService) : void
-    {
-        $this->schemaNamespacingService = $schemaNamespacingService;
-    }
     protected final function getSchemaNamespacingService() : SchemaNamespacingServiceInterface
     {
         if ($this->schemaNamespacingService === null) {
@@ -41,10 +37,6 @@ abstract class AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers
         }
         return $this->schemaNamespacingService;
     }
-    public final function setSchemaDefinitionService(SchemaDefinitionServiceInterface $schemaDefinitionService) : void
-    {
-        $this->schemaDefinitionService = $schemaDefinitionService;
-    }
     protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {
@@ -53,10 +45,6 @@ abstract class AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers
             $this->schemaDefinitionService = $schemaDefinitionService;
         }
         return $this->schemaDefinitionService;
-    }
-    public final function setAttachableExtensionManager(AttachableExtensionManagerInterface $attachableExtensionManager) : void
-    {
-        $this->attachableExtensionManager = $attachableExtensionManager;
     }
     protected final function getAttachableExtensionManager() : AttachableExtensionManagerInterface
     {

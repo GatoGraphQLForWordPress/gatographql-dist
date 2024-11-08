@@ -73,10 +73,6 @@ abstract class AbstractContentParser implements ContentParserInterface
         $this->setUseDocsFolderInFileDir($useDocsFolderInFileDir);
     }
 
-    final public function setRequestHelperService(RequestHelperServiceInterface $requestHelperService): void
-    {
-        $this->requestHelperService = $requestHelperService;
-    }
     final protected function getRequestHelperService(): RequestHelperServiceInterface
     {
         if ($this->requestHelperService === null) {
@@ -86,10 +82,6 @@ abstract class AbstractContentParser implements ContentParserInterface
         }
         return $this->requestHelperService;
     }
-    final public function setLocaleHelper(LocaleHelper $localeHelper): void
-    {
-        $this->localeHelper = $localeHelper;
-    }
     final protected function getLocaleHelper(): LocaleHelper
     {
         if ($this->localeHelper === null) {
@@ -98,10 +90,6 @@ abstract class AbstractContentParser implements ContentParserInterface
             $this->localeHelper = $localeHelper;
         }
         return $this->localeHelper;
-    }
-    final public function setCMSHelperService(CMSHelperServiceInterface $cmsHelperService): void
-    {
-        $this->cmsHelperService = $cmsHelperService;
     }
     final protected function getCMSHelperService(): CMSHelperServiceInterface
     {
@@ -423,7 +411,13 @@ abstract class AbstractContentParser implements ContentParserInterface
                     RequestParams::TAB,
                     $headerName
                 );
-                $panelTabs .= sprintf('<a data-tab-target="%s" href="%s" class="nav-tab %s">%s</a>', '#' . $navContentUniqueID . ' > #' . $headerName, $headerURL, $headerName === $activeHeaderName ? 'nav-tab-active' : '', $headers[$i]);
+                $panelTabs .= sprintf(
+                    '<a data-tab-target="%s" href="%s" class="nav-tab %s">%s</a>',
+                    '#' . $navContentUniqueID . ' > #' . $headerName,
+                    $headerURL,
+                    $headerName === $activeHeaderName ? 'nav-tab-active' : '',
+                    $headers[$i],
+                );
             }
 
             return
@@ -558,7 +552,13 @@ abstract class AbstractContentParser implements ContentParserInterface
                 ) {
                     return $matches[0];
                 }
-                return sprintf('<a %shref="%s"%s target="_blank">%s</a>', $matches[1], $matches[2], $matches[3], $matches[4] . ($addExternalLinkIcon ? '&#x2197;' : ''));
+                return sprintf(
+                    '<a %shref="%s"%s target="_blank">%s</a>',
+                    $matches[1],
+                    $matches[2],
+                    $matches[3],
+                    $matches[4] . ($addExternalLinkIcon ? '&#x2197;' : ''),
+                );
             },
             $htmlContent
         );

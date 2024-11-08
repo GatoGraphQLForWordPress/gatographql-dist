@@ -36,10 +36,6 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
      * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
      */
     private $customPostTypeMutationAPI;
-    public final function setNameResolver(NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
-    }
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -48,10 +44,6 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
             $this->nameResolver = $nameResolver;
         }
         return $this->nameResolver;
-    }
-    public final function setUserRoleTypeAPI(UserRoleTypeAPIInterface $userRoleTypeAPI) : void
-    {
-        $this->userRoleTypeAPI = $userRoleTypeAPI;
     }
     protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
@@ -62,10 +54,6 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         }
         return $this->userRoleTypeAPI;
     }
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -74,10 +62,6 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
             $this->customPostTypeAPI = $customPostTypeAPI;
         }
         return $this->customPostTypeAPI;
-    }
-    public final function setCustomPostTypeMutationAPI(CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI) : void
-    {
-        $this->customPostTypeMutationAPI = $customPostTypeMutationAPI;
     }
     protected final function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface
     {

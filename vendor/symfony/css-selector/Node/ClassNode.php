@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Node;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<selector>.<name>" node.

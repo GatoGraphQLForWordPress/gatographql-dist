@@ -46,7 +46,10 @@ abstract class AbstractDefaultEnableDisableFunctionalityBlockSchemaConfiguration
          * Define the settings value through a hook.
          * Execute last so it overrides the default settings
          */
-        $hookName = ModuleConfigurationHelpers::getHookName($this->getHookModuleClass(), $this->getHookEnvironmentClass());
+        $hookName = ModuleConfigurationHelpers::getHookName(
+            $this->getHookModuleClass(),
+            $this->getHookEnvironmentClass(),
+        );
         App::addFilter(
             $hookName,
             function () use ($enableFunctionality) {

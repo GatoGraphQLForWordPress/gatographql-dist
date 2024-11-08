@@ -20,10 +20,6 @@ class TransientOperationPayloadObjectTypeFieldResolver extends AbstractObjectTyp
      * @var \PoPSchema\SchemaCommons\TypeResolvers\EnumType\OperationStatusEnumTypeResolver|null
      */
     private $operationStatusEnumTypeResolver;
-    public final function setOperationStatusEnumTypeResolver(OperationStatusEnumTypeResolver $operationStatusEnumTypeResolver) : void
-    {
-        $this->operationStatusEnumTypeResolver = $operationStatusEnumTypeResolver;
-    }
     protected final function getOperationStatusEnumTypeResolver() : OperationStatusEnumTypeResolver
     {
         if ($this->operationStatusEnumTypeResolver === null) {

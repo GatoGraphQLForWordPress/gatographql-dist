@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\Session;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(AttributeBag::class);
 \class_exists(FlashBag::class);

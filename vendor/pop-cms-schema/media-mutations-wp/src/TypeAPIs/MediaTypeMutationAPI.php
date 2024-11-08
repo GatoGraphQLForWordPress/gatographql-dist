@@ -169,12 +169,20 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
          * If the filename has no extension, get it from the "mimeType"
          * input param.
          */
-        $filename = $this->maybeAddExtensionToFilename($filename, $mediaItemData['mimeType'] ?? null);
+        $filename = $this->maybeAddExtensionToFilename(
+            $filename,
+            $mediaItemData['mimeType'] ?? null,
+        );
         $mimeType = $this->getFileMimeTypeOrThrowError($filename);
         if (empty($mediaItemData['title'])) {
             $mediaItemData['title'] = $filename;
         }
-        $mediaItemID = $this->createMediaItemFromLocalFile($downloadedFile, $filename, $mimeType, $mediaItemData);
+        $mediaItemID = $this->createMediaItemFromLocalFile(
+            $downloadedFile,
+            $filename,
+            $mimeType,
+            $mediaItemData,
+        );
         \unlink($downloadedFile);
         return $mediaItemID;
     }
@@ -186,7 +194,10 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
      */
     public function createMediaItemFromContents(string $body, string $filename, array $mediaItemData)
     {
-        $filename = $this->maybeAddExtensionToFilename($filename, $mediaItemData['mimeType'] ?? null);
+        $filename = $this->maybeAddExtensionToFilename(
+            $filename,
+            $mediaItemData['mimeType'] ?? null,
+        );
         $mimeType = $this->getFileMimeTypeOrThrowError($filename);
         $uploadedFileOrError = \wp_upload_bits($filename, null, $body);
         if ($uploadedFileOrError['error']) {
@@ -202,7 +213,12 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
         }
         /** @var string */
         $file = $uploadedFile['file'];
-        return $this->createMediaItemFromLocalFile($file, $filename, $mimeType, $mediaItemData);
+        return $this->createMediaItemFromLocalFile(
+            $file,
+            $filename,
+            $mimeType,
+            $mediaItemData,
+        );
     }
 
     /**
@@ -298,7 +314,11 @@ class MediaTypeMutationAPI implements MediaTypeMutationAPIInterface
 
         $mediaItemID = $mediaItemIDOrError;
 
-        $this->addImageMetaData($mediaItemID, $uploadedFilename, $mediaItemData);
+        $this->addImageMetaData(
+            $mediaItemID,
+            $uploadedFilename,
+            $mediaItemData,
+        );
 
         return $mediaItemID;
     }

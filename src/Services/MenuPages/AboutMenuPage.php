@@ -22,6 +22,11 @@ class AboutMenuPage extends AbstractDocsMenuPage
         return 'about';
     }
 
+    public function getMenuPageTitle(): string
+    {
+        return __('About', 'gatographql');
+    }
+
     protected function useTabpanelForContent(): bool
     {
         return true;
@@ -40,12 +45,7 @@ class AboutMenuPage extends AbstractDocsMenuPage
 
     protected function getContentToPrint(): string
     {
-        $content = $this->getMarkdownContent(
-            'about',
-            'general',
-            $this->getMarkdownContentOptions()
-        );
-
+        $content = $this->getPageMarkdownContent();
         if ($content === null) {
             return sprintf(
                 '<p>%s</p>',
@@ -71,7 +71,7 @@ class AboutMenuPage extends AbstractDocsMenuPage
                 PHP_EOL,
                 [
                     'License Key: ' . $extensionCommercialExtensionActivatedLicenseObjectProperties->licenseKey,
-                    'Extension: ' . $extensionCommercialExtensionActivatedLicenseObjectProperties->productName,
+                    'Product: ' . $extensionCommercialExtensionActivatedLicenseObjectProperties->productName,
                     'Instance Name: ' . ($extensionCommercialExtensionActivatedLicenseObjectProperties->instanceName ?? ''),
                     'Instance ID: ' . ($extensionCommercialExtensionActivatedLicenseObjectProperties->instanceID ?? ''),
                     'Status: ' . $extensionCommercialExtensionActivatedLicenseObjectProperties->status,
@@ -112,9 +112,30 @@ class AboutMenuPage extends AbstractDocsMenuPage
                 $valueInject
             );
         }
+        $mainPlugin = PluginApp::getMainPlugin();
+        $contactFormURL = $mainPlugin->getPluginDomainURL() . '/__forms/support.html';
+        $variableValueInjections = [
+            '{plugin-name}' => $mainPlugin->getPluginName(),
+            '{contact-form-url}' => $contactFormURL,
+        ];
+        foreach ($variableValueInjections as $search => $valueInject) {
+            $replacements[$search] = sprintf(
+                '%s',
+                $valueInject
+            );
+        }
         $content = str_replace(array_keys($replacements), array_values($replacements), $content);
 
-        return $content;
+        return sprintf('<div class="wrap" markdown=1>%s</div>', $content);
+    }
+
+    protected function getPageMarkdownContent(): ?string
+    {
+        return $this->getMarkdownContent(
+            'about',
+            'general',
+            $this->getMarkdownContentOptions()
+        );
     }
 
     /**

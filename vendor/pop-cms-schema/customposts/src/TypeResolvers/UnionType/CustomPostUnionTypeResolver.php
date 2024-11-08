@@ -19,10 +19,6 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
      * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver|null
      */
     private $customPostInterfaceTypeResolver;
-    public final function setCustomPostUnionTypeDataLoader(CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader) : void
-    {
-        $this->customPostUnionTypeDataLoader = $customPostUnionTypeDataLoader;
-    }
     protected final function getCustomPostUnionTypeDataLoader() : CustomPostUnionTypeDataLoader
     {
         if ($this->customPostUnionTypeDataLoader === null) {
@@ -31,10 +27,6 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
             $this->customPostUnionTypeDataLoader = $customPostUnionTypeDataLoader;
         }
         return $this->customPostUnionTypeDataLoader;
-    }
-    public final function setCustomPostInterfaceTypeResolver(CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver) : void
-    {
-        $this->customPostInterfaceTypeResolver = $customPostInterfaceTypeResolver;
     }
     protected final function getCustomPostInterfaceTypeResolver() : CustomPostInterfaceTypeResolver
     {

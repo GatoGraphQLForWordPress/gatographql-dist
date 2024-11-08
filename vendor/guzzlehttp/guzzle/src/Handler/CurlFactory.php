@@ -1,17 +1,17 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Handler;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
-use PrefixedByPoP\GuzzleHttp\Exception\ConnectException;
-use PrefixedByPoP\GuzzleHttp\Exception\RequestException;
-use PrefixedByPoP\GuzzleHttp\Promise as P;
-use PrefixedByPoP\GuzzleHttp\Promise\FulfilledPromise;
-use PrefixedByPoP\GuzzleHttp\Promise\PromiseInterface;
-use PrefixedByPoP\GuzzleHttp\Psr7\LazyOpenStream;
-use PrefixedByPoP\GuzzleHttp\TransferStats;
-use PrefixedByPoP\GuzzleHttp\Utils;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
-use PrefixedByPoP\Psr\Http\Message\UriInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\ConnectException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\FulfilledPromise;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\LazyOpenStream;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\TransferStats;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\UriInterface;
 /**
  * Creates curl resources from a request
  *
@@ -183,7 +183,7 @@ class CurlFactory implements CurlFactoryInterface
         $sanitizedError = self::sanitizeCurlError($ctx['error'] ?? '', $uri);
         $message = \sprintf('cURL error %s: %s (%s)', $ctx['errno'], $sanitizedError, 'see https://curl.haxx.se/libcurl/c/libcurl-errors.html');
         if ('' !== $sanitizedError) {
-            $redactedUriString = \PrefixedByPoP\GuzzleHttp\Psr7\Utils::redactUserInfo($uri)->__toString();
+            $redactedUriString = \GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Utils::redactUserInfo($uri)->__toString();
             if ($redactedUriString !== '' && \false === \strpos($sanitizedError, $redactedUriString)) {
                 $message .= \sprintf(' for %s', $redactedUriString);
             }
@@ -202,7 +202,7 @@ class CurlFactory implements CurlFactoryInterface
         if ('' === $baseUriString) {
             return $error;
         }
-        $redactedUriString = \PrefixedByPoP\GuzzleHttp\Psr7\Utils::redactUserInfo($baseUri)->__toString();
+        $redactedUriString = \GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Utils::redactUserInfo($baseUri)->__toString();
         return \str_replace($baseUriString, $redactedUriString, $error);
     }
     /**
@@ -353,11 +353,11 @@ class CurlFactory implements CurlFactoryInterface
         }
         if (!isset($options['sink'])) {
             // Use a default temp stream if no sink was set.
-            $options['sink'] = \PrefixedByPoP\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'w+');
+            $options['sink'] = \GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'w+');
         }
         $sink = $options['sink'];
         if (!\is_string($sink)) {
-            $sink = \PrefixedByPoP\GuzzleHttp\Psr7\Utils::streamFor($sink);
+            $sink = \GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Utils::streamFor($sink);
         } elseif (!\is_dir(\dirname($sink))) {
             // Ensure that the directory exists before failing in curl.
             throw new \RuntimeException(\sprintf('Directory %s does not exist for sink value of %s', \dirname($sink), $sink));

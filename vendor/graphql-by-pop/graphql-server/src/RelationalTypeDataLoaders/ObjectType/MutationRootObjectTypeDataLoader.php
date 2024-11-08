@@ -12,10 +12,6 @@ class MutationRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
      * @var \GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot|null
      */
     private $mutationRoot;
-    public final function setMutationRoot(MutationRoot $mutationRoot) : void
-    {
-        $this->mutationRoot = $mutationRoot;
-    }
     protected final function getMutationRoot() : MutationRoot
     {
         if ($this->mutationRoot === null) {

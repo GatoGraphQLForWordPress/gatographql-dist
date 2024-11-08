@@ -31,10 +31,6 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
      */
     private $markdownContentParser;
 
-    final public function setMarkdownContentParser(MarkdownContentParserInterface $markdownContentParser): void
-    {
-        $this->markdownContentParser = $markdownContentParser;
-    }
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
         if ($this->markdownContentParser === null) {

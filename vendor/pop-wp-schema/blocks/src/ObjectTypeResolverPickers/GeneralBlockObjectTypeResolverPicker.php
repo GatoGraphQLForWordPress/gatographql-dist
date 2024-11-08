@@ -15,10 +15,6 @@ class GeneralBlockObjectTypeResolverPicker extends AbstractBlockObjectTypeResolv
      */
     private $generalBlockObjectTypeResolver;
 
-    final public function setGeneralBlockObjectTypeResolver(GeneralBlockObjectTypeResolver $generalBlockObjectTypeResolver): void
-    {
-        $this->generalBlockObjectTypeResolver = $generalBlockObjectTypeResolver;
-    }
     final protected function getGeneralBlockObjectTypeResolver(): GeneralBlockObjectTypeResolver
     {
         if ($this->generalBlockObjectTypeResolver === null) {

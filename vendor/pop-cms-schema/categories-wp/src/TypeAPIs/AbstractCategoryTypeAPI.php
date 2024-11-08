@@ -96,7 +96,11 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var array<string|int>|object[] */
-        return $this->getCustomPostTaxonomyTerms($customPostObjectOrID, $query, $options) ?? [];
+        return $this->getCustomPostTaxonomyTerms(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        ) ?? [];
     }
     /**
      * @param array<string,mixed> $query
@@ -114,7 +118,11 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         }
 
         /** @var string|int|WP_Post $customPostObjectOrID */
-        return $this->getCustomPostTaxonomyTermCount($customPostObjectOrID, $query, $options);
+        return $this->getCustomPostTaxonomyTermCount(
+            $customPostObjectOrID,
+            $query,
+            $options,
+        );
     }
     /**
      * @param array<string,mixed> $query
@@ -179,7 +187,10 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
      */
     protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, ?string $taxonomy = null): ?WP_Term
     {
-        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, $taxonomy);
+        $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
+            $taxonomyTermObjectOrID,
+            $taxonomy,
+        );
         if ($taxonomyTerm === null) {
             return $taxonomyTerm;
         }

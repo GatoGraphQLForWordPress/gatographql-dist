@@ -17,10 +17,6 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
      * @var \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface|null
      */
     private $userMetaTypeAPI;
-    public final function setUserMetaTypeAPI(UserMetaTypeAPIInterface $userMetaTypeAPI) : void
-    {
-        $this->userMetaTypeAPI = $userMetaTypeAPI;
-    }
     protected final function getUserMetaTypeAPI() : UserMetaTypeAPIInterface
     {
         if ($this->userMetaTypeAPI === null) {

@@ -33,10 +33,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
      * @var \PoPCMSSchema\CustomPosts\FieldResolvers\InterfaceType\CustomPostInterfaceTypeFieldResolver|null
      */
     private $customPostInterfaceTypeFieldResolver;
-    public final function setCustomPostTypeAPI(CustomPostTypeAPIInterface $customPostTypeAPI) : void
-    {
-        $this->customPostTypeAPI = $customPostTypeAPI;
-    }
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -45,10 +41,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
             $this->customPostTypeAPI = $customPostTypeAPI;
         }
         return $this->customPostTypeAPI;
-    }
-    public final function setDateFormatter(DateFormatterInterface $dateFormatter) : void
-    {
-        $this->dateFormatter = $dateFormatter;
     }
     protected final function getDateFormatter() : DateFormatterInterface
     {
@@ -59,10 +51,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         }
         return $this->dateFormatter;
     }
-    public final function setQueryableInterfaceTypeFieldResolver(QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver) : void
-    {
-        $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
-    }
     protected final function getQueryableInterfaceTypeFieldResolver() : QueryableInterfaceTypeFieldResolver
     {
         if ($this->queryableInterfaceTypeFieldResolver === null) {
@@ -71,10 +59,6 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
             $this->queryableInterfaceTypeFieldResolver = $queryableInterfaceTypeFieldResolver;
         }
         return $this->queryableInterfaceTypeFieldResolver;
-    }
-    public final function setCustomPostInterfaceTypeFieldResolver(CustomPostInterfaceTypeFieldResolver $customPostInterfaceTypeFieldResolver) : void
-    {
-        $this->customPostInterfaceTypeFieldResolver = $customPostInterfaceTypeFieldResolver;
     }
     protected final function getCustomPostInterfaceTypeFieldResolver() : CustomPostInterfaceTypeFieldResolver
     {

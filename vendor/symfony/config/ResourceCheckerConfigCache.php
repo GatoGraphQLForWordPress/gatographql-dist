@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Config;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config;
 
-use PrefixedByPoP\Symfony\Component\Config\Resource\ResourceInterface;
-use PrefixedByPoP\Symfony\Component\Filesystem\Exception\IOException;
-use PrefixedByPoP\Symfony\Component\Filesystem\Filesystem;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ResourceInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Exception\IOException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Filesystem;
 /**
  * ResourceCheckerConfigCache uses instances of ResourceCheckerInterface
  * to check whether cached data is still fresh.

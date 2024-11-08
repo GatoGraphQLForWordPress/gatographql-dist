@@ -178,7 +178,10 @@ class ExtensionListTable extends AbstractExtensionListTable
          * @var string
          */
         $extensionModule = $plugin['gato_extension_module'];
-        return $this->getOpeningModuleDocInModalLinkURL(App::request('page') ?? App::query('page', ''), $extensionModule);
+        return $this->getOpeningModuleDocInModalLinkURL(
+            App::request('page') ?? App::query('page', ''),
+            $extensionModule,
+        );
     }
 
     /**

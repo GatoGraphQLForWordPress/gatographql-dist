@@ -17,10 +17,6 @@ abstract class AbstractLooseContractResolutionSet extends AbstractAutomaticallyI
      * @var \PoP\LooseContracts\NameResolverInterface|null
      */
     private $nameResolver;
-    public final function setLooseContractManager(\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager) : void
-    {
-        $this->looseContractManager = $looseContractManager;
-    }
     protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {
@@ -29,10 +25,6 @@ abstract class AbstractLooseContractResolutionSet extends AbstractAutomaticallyI
             $this->looseContractManager = $looseContractManager;
         }
         return $this->looseContractManager;
-    }
-    public final function setNameResolver(\PoP\LooseContracts\NameResolverInterface $nameResolver) : void
-    {
-        $this->nameResolver = $nameResolver;
     }
     protected final function getNameResolver() : \PoP\LooseContracts\NameResolverInterface
     {

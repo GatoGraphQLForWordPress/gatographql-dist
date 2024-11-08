@@ -23,10 +23,6 @@ abstract class AbstractViewSourceEndpointExecuter extends AbstractCPTEndpointExe
      */
     private $renderingHelpers;
 
-    final public function setUserAuthorization(UserAuthorizationInterface $userAuthorization): void
-    {
-        $this->userAuthorization = $userAuthorization;
-    }
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
         if ($this->userAuthorization === null) {
@@ -35,10 +31,6 @@ abstract class AbstractViewSourceEndpointExecuter extends AbstractCPTEndpointExe
             $this->userAuthorization = $userAuthorization;
         }
         return $this->userAuthorization;
-    }
-    final public function setRenderingHelpers(RenderingHelpers $renderingHelpers): void
-    {
-        $this->renderingHelpers = $renderingHelpers;
     }
     final protected function getRenderingHelpers(): RenderingHelpers
     {

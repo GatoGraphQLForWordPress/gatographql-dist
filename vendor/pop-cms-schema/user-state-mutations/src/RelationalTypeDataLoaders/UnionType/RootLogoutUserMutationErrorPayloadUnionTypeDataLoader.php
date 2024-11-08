@@ -13,10 +13,6 @@ class RootLogoutUserMutationErrorPayloadUnionTypeDataLoader extends AbstractUnio
      * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\RootLogoutUserMutationErrorPayloadUnionTypeResolver|null
      */
     private $rootLogoutUserMutationErrorPayloadUnionTypeResolver;
-    public final function setRootLogoutUserMutationErrorPayloadUnionTypeResolver(RootLogoutUserMutationErrorPayloadUnionTypeResolver $rootLogoutUserMutationErrorPayloadUnionTypeResolver) : void
-    {
-        $this->rootLogoutUserMutationErrorPayloadUnionTypeResolver = $rootLogoutUserMutationErrorPayloadUnionTypeResolver;
-    }
     protected final function getRootLogoutUserMutationErrorPayloadUnionTypeResolver() : RootLogoutUserMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootLogoutUserMutationErrorPayloadUnionTypeResolver === null) {

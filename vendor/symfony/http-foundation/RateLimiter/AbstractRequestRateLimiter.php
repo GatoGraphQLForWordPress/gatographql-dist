@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\HttpFoundation\RateLimiter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RateLimiter;
 
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Request;
-use PrefixedByPoP\Symfony\Component\RateLimiter\LimiterInterface;
-use PrefixedByPoP\Symfony\Component\RateLimiter\Policy\NoLimiter;
-use PrefixedByPoP\Symfony\Component\RateLimiter\RateLimit;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Request;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\RateLimiter\LimiterInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\RateLimiter\Policy\NoLimiter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\RateLimiter\RateLimit;
 /**
  * An implementation of PeekableRequestRateLimiterInterface that
  * fits most use-cases.

@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\CssSelector\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Exception;
 
-use PrefixedByPoP\Symfony\Component\CssSelector\Parser\Token;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Token;
 /**
  * ParseException is thrown when a CSS selector syntax is not valid.
  *

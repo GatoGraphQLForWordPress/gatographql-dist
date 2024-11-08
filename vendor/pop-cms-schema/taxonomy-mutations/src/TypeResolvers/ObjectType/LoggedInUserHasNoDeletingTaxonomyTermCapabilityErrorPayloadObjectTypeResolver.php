@@ -13,10 +13,6 @@ class LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResol
      * @var \PoPCMSSchema\TaxonomyMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader|null
      */
     private $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader;
-    public final function setLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader(LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader) : void
-    {
-        $this->loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader = $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader;
-    }
     protected final function getLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeDataLoader === null) {

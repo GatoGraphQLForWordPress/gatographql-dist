@@ -12,10 +12,6 @@ class SetTagsOnCustomPostBulkOperationMutationResolver extends AbstractBulkOpera
      * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolver|null
      */
     private $setTagsOnCustomPostMutationResolver;
-    public final function setSetTagsOnCustomPostMutationResolver(\PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolver $setTagsOnCustomPostMutationResolver) : void
-    {
-        $this->setTagsOnCustomPostMutationResolver = $setTagsOnCustomPostMutationResolver;
-    }
     protected final function getSetTagsOnCustomPostMutationResolver() : \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolver
     {
         if ($this->setTagsOnCustomPostMutationResolver === null) {

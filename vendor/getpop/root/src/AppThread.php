@@ -18,9 +18,9 @@ use PoP\Root\StateManagers\HookManager;
 use PoP\Root\StateManagers\HookManagerInterface;
 use PoP\Root\StateManagers\ModuleManager;
 use PoP\Root\StateManagers\ModuleManagerInterface;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use PrefixedByPoP\Symfony\Component\HttpFoundation\InputBag;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\InputBag;
 /**
  * Single class hosting all the top-level instances
  * to run the application. Only a single AppThread

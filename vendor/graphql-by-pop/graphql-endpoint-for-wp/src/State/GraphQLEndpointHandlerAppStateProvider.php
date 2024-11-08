@@ -20,10 +20,6 @@ class GraphQLEndpointHandlerAppStateProvider extends AbstractAPIEndpointHandlerA
      */
     private $graphQLEndpointHandler;
 
-    final public function setGraphQLDataStructureFormatter(GraphQLDataStructureFormatter $graphQLDataStructureFormatter): void
-    {
-        $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
-    }
     final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {
@@ -32,10 +28,6 @@ class GraphQLEndpointHandlerAppStateProvider extends AbstractAPIEndpointHandlerA
             $this->graphQLDataStructureFormatter = $graphQLDataStructureFormatter;
         }
         return $this->graphQLDataStructureFormatter;
-    }
-    final public function setGraphQLEndpointHandler(GraphQLEndpointHandler $graphQLEndpointHandler): void
-    {
-        $this->graphQLEndpointHandler = $graphQLEndpointHandler;
     }
     final protected function getGraphQLEndpointHandler(): GraphQLEndpointHandler
     {

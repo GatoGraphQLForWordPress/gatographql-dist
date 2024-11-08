@@ -52,10 +52,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * @var \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\MenuSortInputObjectTypeResolver|null
      */
     private $menuSortInputObjectTypeResolver;
-    public final function setIntScalarTypeResolver(IntScalarTypeResolver $intScalarTypeResolver) : void
-    {
-        $this->intScalarTypeResolver = $intScalarTypeResolver;
-    }
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -64,10 +60,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->intScalarTypeResolver = $intScalarTypeResolver;
         }
         return $this->intScalarTypeResolver;
-    }
-    public final function setMenuObjectTypeResolver(MenuObjectTypeResolver $menuObjectTypeResolver) : void
-    {
-        $this->menuObjectTypeResolver = $menuObjectTypeResolver;
     }
     protected final function getMenuObjectTypeResolver() : MenuObjectTypeResolver
     {
@@ -78,10 +70,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->menuObjectTypeResolver;
     }
-    public final function setMenuTypeAPI(MenuTypeAPIInterface $menuTypeAPI) : void
-    {
-        $this->menuTypeAPI = $menuTypeAPI;
-    }
     protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {
         if ($this->menuTypeAPI === null) {
@@ -90,10 +78,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->menuTypeAPI = $menuTypeAPI;
         }
         return $this->menuTypeAPI;
-    }
-    public final function setMenuByInputObjectTypeResolver(MenuByInputObjectTypeResolver $menuByInputObjectTypeResolver) : void
-    {
-        $this->menuByInputObjectTypeResolver = $menuByInputObjectTypeResolver;
     }
     protected final function getMenuByInputObjectTypeResolver() : MenuByInputObjectTypeResolver
     {
@@ -104,10 +88,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->menuByInputObjectTypeResolver;
     }
-    public final function setRootMenusFilterInputObjectTypeResolver(RootMenusFilterInputObjectTypeResolver $rootMenusFilterInputObjectTypeResolver) : void
-    {
-        $this->rootMenusFilterInputObjectTypeResolver = $rootMenusFilterInputObjectTypeResolver;
-    }
     protected final function getRootMenusFilterInputObjectTypeResolver() : RootMenusFilterInputObjectTypeResolver
     {
         if ($this->rootMenusFilterInputObjectTypeResolver === null) {
@@ -117,10 +97,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $this->rootMenusFilterInputObjectTypeResolver;
     }
-    public final function setRootMenuPaginationInputObjectTypeResolver(RootMenuPaginationInputObjectTypeResolver $rootMenuPaginationInputObjectTypeResolver) : void
-    {
-        $this->rootMenuPaginationInputObjectTypeResolver = $rootMenuPaginationInputObjectTypeResolver;
-    }
     protected final function getRootMenuPaginationInputObjectTypeResolver() : RootMenuPaginationInputObjectTypeResolver
     {
         if ($this->rootMenuPaginationInputObjectTypeResolver === null) {
@@ -129,10 +105,6 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
             $this->rootMenuPaginationInputObjectTypeResolver = $rootMenuPaginationInputObjectTypeResolver;
         }
         return $this->rootMenuPaginationInputObjectTypeResolver;
-    }
-    public final function setMenuSortInputObjectTypeResolver(MenuSortInputObjectTypeResolver $menuSortInputObjectTypeResolver) : void
-    {
-        $this->menuSortInputObjectTypeResolver = $menuSortInputObjectTypeResolver;
     }
     protected final function getMenuSortInputObjectTypeResolver() : MenuSortInputObjectTypeResolver
     {

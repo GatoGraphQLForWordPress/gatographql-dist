@@ -18,10 +18,6 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver
      * @var \PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader|null
      */
     private $userObjectTypeDataLoader;
-    public final function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI) : void
-    {
-        $this->userTypeAPI = $userTypeAPI;
-    }
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -30,10 +26,6 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver
             $this->userTypeAPI = $userTypeAPI;
         }
         return $this->userTypeAPI;
-    }
-    public final function setUserObjectTypeDataLoader(UserObjectTypeDataLoader $userObjectTypeDataLoader) : void
-    {
-        $this->userObjectTypeDataLoader = $userObjectTypeDataLoader;
     }
     protected final function getUserObjectTypeDataLoader() : UserObjectTypeDataLoader
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\GuzzleHttp\Exception;
+namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception;
 
-use PrefixedByPoP\Psr\Http\Client\NetworkExceptionInterface;
-use PrefixedByPoP\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Client\NetworkExceptionInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 /**
  * Exception thrown when a connection cannot be established.
  *

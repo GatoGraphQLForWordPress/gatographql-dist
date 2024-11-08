@@ -19,10 +19,6 @@ class NetworkSiteObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoa
      */
     private $multisiteTypeAPI;
 
-    final public function setMultisiteTypeAPI(MultisiteTypeAPIInterface $multisiteTypeAPI): void
-    {
-        $this->multisiteTypeAPI = $multisiteTypeAPI;
-    }
     final protected function getMultisiteTypeAPI(): MultisiteTypeAPIInterface
     {
         if ($this->multisiteTypeAPI === null) {

@@ -8,24 +8,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Component\Cache\Adapter;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 
-use PrefixedByPoP\Doctrine\DBAL\ArrayParameterType;
-use PrefixedByPoP\Doctrine\DBAL\Configuration;
-use PrefixedByPoP\Doctrine\DBAL\Connection;
-use PrefixedByPoP\Doctrine\DBAL\Driver\ServerInfoAwareConnection;
-use PrefixedByPoP\Doctrine\DBAL\DriverManager;
-use PrefixedByPoP\Doctrine\DBAL\Exception as DBALException;
-use PrefixedByPoP\Doctrine\DBAL\Exception\TableNotFoundException;
-use PrefixedByPoP\Doctrine\DBAL\ParameterType;
-use PrefixedByPoP\Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
-use PrefixedByPoP\Doctrine\DBAL\Schema\Schema;
-use PrefixedByPoP\Doctrine\DBAL\ServerVersionProvider;
-use PrefixedByPoP\Doctrine\DBAL\Tools\DsnParser;
-use PrefixedByPoP\Symfony\Component\Cache\Exception\InvalidArgumentException;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
-use PrefixedByPoP\Symfony\Component\Cache\Marshaller\MarshallerInterface;
-use PrefixedByPoP\Symfony\Component\Cache\PruneableInterface;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\ArrayParameterType;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Configuration;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Connection;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Driver\ServerInfoAwareConnection;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\DriverManager;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Exception as DBALException;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Exception\TableNotFoundException;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\ParameterType;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Schema\Schema;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\ServerVersionProvider;
+use GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Tools\DsnParser;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\DefaultMarshaller;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\MarshallerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
 /** @internal */
 class DoctrineDbalAdapter extends AbstractAdapter implements PruneableInterface
 {
@@ -329,18 +329,18 @@ class DoctrineDbalAdapter extends AbstractAdapter implements PruneableInterface
         }
         $platform = $this->conn->getDatabasePlatform();
         switch (\true) {
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\MySQLPlatform:
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\MySQL57Platform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\MySQLPlatform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\MySQL57Platform:
                 return 'mysql';
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\SqlitePlatform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\SqlitePlatform:
                 return 'sqlite';
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\PostgreSQLPlatform:
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\PostgreSQL94Platform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\PostgreSQLPlatform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\PostgreSQL94Platform:
                 return 'pgsql';
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\OraclePlatform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\OraclePlatform:
                 return 'oci';
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\SQLServerPlatform:
-            case $platform instanceof \PrefixedByPoP\Doctrine\DBAL\Platforms\SQLServer2012Platform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\SQLServerPlatform:
+            case $platform instanceof \GatoExternalPrefixByGatoGraphQL\Doctrine\DBAL\Platforms\SQLServer2012Platform:
                 return 'sqlsrv';
             default:
                 return \get_class($platform);

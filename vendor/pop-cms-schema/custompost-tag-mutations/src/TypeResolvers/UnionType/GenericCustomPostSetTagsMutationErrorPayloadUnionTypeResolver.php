@@ -12,10 +12,6 @@ class GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver extends \PoP
      * @var \PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\UnionType\GenericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $genericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader;
-    public final function setGenericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader(GenericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader $genericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->genericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader = $genericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getGenericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader() : GenericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCustomPostSetTagsMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PrefixedByPoP\Symfony\Contracts\Service;
+namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service;
 
-use PrefixedByPoP\Psr\Container\ContainerInterface;
-use PrefixedByPoP\Symfony\Contracts\Service\Attribute\Required;
-use PrefixedByPoP\Symfony\Contracts\Service\Attribute\SubscribedService;
+use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\Required;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\SubscribedService;
 trigger_deprecation('symfony/contracts', 'v3.5', '"%s" is deprecated, use "ServiceMethodsSubscriberTrait" instead.', ServiceSubscriberTrait::class);
 /**
  * Implementation of ServiceSubscriberInterface that determines subscribed services

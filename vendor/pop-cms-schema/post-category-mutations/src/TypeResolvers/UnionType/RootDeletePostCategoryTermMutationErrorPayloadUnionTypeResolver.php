@@ -13,10 +13,6 @@ class RootDeletePostCategoryTermMutationErrorPayloadUnionTypeResolver extends Ab
      * @var \PoPCMSSchema\PostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader|null
      */
     private $rootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    public final function setRootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader(RootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader $rootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader) : void
-    {
-        $this->rootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader = $rootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader;
-    }
     protected final function getRootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader() : RootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootDeletePostCategoryTermMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\Facades\Cache;
 
 use PoP\Root\App;
-use PrefixedByPoP\Psr\Cache\CacheItemPoolInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
 /** @internal */
 class PersistentCacheItemPoolFacade
 {

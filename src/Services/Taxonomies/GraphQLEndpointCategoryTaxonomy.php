@@ -8,21 +8,17 @@ use GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\CustomPostTypeInterface;
 use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLEndpointCustomPostTypeInterface;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
-use PoP\Root\Services\StandaloneServiceTrait;
 
 class GraphQLEndpointCategoryTaxonomy extends AbstractCategory
 {
-    use StandaloneServiceTrait;
+    /** @var CustomPostTypeInterface[]|null */
+    protected $customPostTypes;
 
     /**
      * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
      */
     private $customPostTypeRegistry;
 
-    final public function setCustomPostTypeRegistry(CustomPostTypeRegistryInterface $customPostTypeRegistry): void
-    {
-        $this->customPostTypeRegistry = $customPostTypeRegistry;
-    }
     final protected function getCustomPostTypeRegistry(): CustomPostTypeRegistryInterface
     {
         if ($this->customPostTypeRegistry === null) {
@@ -43,7 +39,7 @@ class GraphQLEndpointCategoryTaxonomy extends AbstractCategory
 
     public function getTaxonomy(): string
     {
-        return 'graphql-endpoint-category';
+        return $this->getTaxonomyNamespace() . '-endpoint-category';
     }
 
     public function getTaxonomyName(bool $titleCase = true): string
@@ -59,29 +55,45 @@ class GraphQLEndpointCategoryTaxonomy extends AbstractCategory
         return $titleCase ? \__('Endpoint Categories', 'gatographql') : \__('endpoint categories', 'gatographql');
     }
 
+    public function showInMenu(): ?string
+    {
+        $menu = parent::showInMenu();
+        if ($menu === null) {
+            return null;
+        }
+
+        // Show if any of the attached CPTs is shown
+        foreach ($this->getCustomPostTypes() as $customPostType) {
+            if (
+                $customPostType->isServiceEnabled()
+                && $customPostType->showInMenu()
+            ) {
+                return $menu;
+            }
+        }
+        return null;
+    }
+
     /**
-     * @return string[]
+     * @return CustomPostTypeInterface[]
      */
     public function getCustomPostTypes(): array
     {
-        $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
-        $endpointCustomPostTypeServices = array_values(array_filter(
-            $customPostTypeServices,
-            function (CustomPostTypeInterface $customPostTypeService) {
-                return $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface;
-            }
-        ));
-        $enabledEndpointCustomPostTypeServices = array_values(array_filter(
-            $endpointCustomPostTypeServices,
-            function (CustomPostTypeInterface $customPostTypeService) {
-                return $customPostTypeService->isServiceEnabled();
-            }
-        ));
-        return array_map(
-            function (CustomPostTypeInterface $customPostTypeService) {
-                return $customPostTypeService->getCustomPostType();
-            },
-            $enabledEndpointCustomPostTypeServices
-        );
+        if ($this->customPostTypes === null) {
+            $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
+            $endpointCustomPostTypeServices = array_values(array_filter(
+                $customPostTypeServices,
+                function (CustomPostTypeInterface $customPostTypeService) {
+                    return $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface;
+                }
+            ));
+            $this->customPostTypes = array_values(array_filter(
+                $endpointCustomPostTypeServices,
+                function (CustomPostTypeInterface $customPostTypeService) {
+                    return $customPostTypeService->isServiceEnabled();
+                }
+            ));
+        }
+        return $this->customPostTypes;
     }
 }

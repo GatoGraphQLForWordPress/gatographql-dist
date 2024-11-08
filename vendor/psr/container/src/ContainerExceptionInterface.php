@@ -1,6 +1,6 @@
 <?php
 
-namespace PrefixedByPoP\Psr\Container;
+namespace GatoExternalPrefixByGatoGraphQL\Psr\Container;
 
 use Throwable;
 /**

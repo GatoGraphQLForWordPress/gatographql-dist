@@ -1,9 +1,9 @@
 <?php
 
-namespace PrefixedByPoP\Masterminds\HTML5\Parser;
+namespace GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Parser;
 
-use PrefixedByPoP\Masterminds\HTML5\Elements;
-use PrefixedByPoP\Masterminds\HTML5\InstructionProcessor;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\Elements;
+use GatoExternalPrefixByGatoGraphQL\Masterminds\HTML5\InstructionProcessor;
 /**
  * Create an HTML5 DOM tree from events.
  *

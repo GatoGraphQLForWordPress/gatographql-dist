@@ -38,4 +38,4 @@ final class Attribute
  * file that was distributed with this source code.
  */
 /** @internal */
-//\class_alias('PrefixedByPoP\\Attribute', 'Attribute', \false);
+//\class_alias('GatoExternalPrefixByGatoGraphQL\\Attribute', 'Attribute', \false);

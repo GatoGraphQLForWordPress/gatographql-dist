@@ -12,10 +12,6 @@ class CreateGenericCategoryTermBulkOperationMutationResolver extends AbstractBul
      * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\CreateGenericCategoryTermMutationResolver|null
      */
     private $createGenericCategoryTermMutationResolver;
-    public final function setCreateGenericCategoryTermMutationResolver(\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\CreateGenericCategoryTermMutationResolver $createGenericCategoryTermMutationResolver) : void
-    {
-        $this->createGenericCategoryTermMutationResolver = $createGenericCategoryTermMutationResolver;
-    }
     protected final function getCreateGenericCategoryTermMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\CreateGenericCategoryTermMutationResolver
     {
         if ($this->createGenericCategoryTermMutationResolver === null) {

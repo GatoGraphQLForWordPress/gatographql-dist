@@ -34,10 +34,6 @@ class AppStateProvider extends AbstractAppStateProvider
      * @var \PoP\ComponentModel\Engine\EngineInterface|null
      */
     private $engine;
-    public final function setVariableManager(VariableManagerInterface $fieldQueryInterpreter) : void
-    {
-        $this->fieldQueryInterpreter = $fieldQueryInterpreter;
-    }
     protected final function getVariableManager() : VariableManagerInterface
     {
         if ($this->fieldQueryInterpreter === null) {
@@ -47,10 +43,6 @@ class AppStateProvider extends AbstractAppStateProvider
         }
         return $this->fieldQueryInterpreter;
     }
-    public final function setComponentFilterManager(ComponentFilterManagerInterface $componentFilterManager) : void
-    {
-        $this->componentFilterManager = $componentFilterManager;
-    }
     protected final function getComponentFilterManager() : ComponentFilterManagerInterface
     {
         if ($this->componentFilterManager === null) {
@@ -59,10 +51,6 @@ class AppStateProvider extends AbstractAppStateProvider
             $this->componentFilterManager = $componentFilterManager;
         }
         return $this->componentFilterManager;
-    }
-    public final function setEngine(EngineInterface $engine) : void
-    {
-        $this->engine = $engine;
     }
     protected final function getEngine() : EngineInterface
     {

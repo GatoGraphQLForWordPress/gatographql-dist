@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\Root\Container\Loader;
 
-use PrefixedByPoP\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Override the Symfony class, to add the required tag
  * "container.ignore_attributes" to avoid PHP 8's attributes.
