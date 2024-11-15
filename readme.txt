@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 7.0.0
+Stable tag: 7.0.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -170,6 +170,15 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 7.0.3 =
+* Allow method handling hook `allowed_block_types_all` to receive `null` (#2965)
+
+= 7.0.2 =
+* Changed label in Settings form button to "Save Changes (all from this tab)"
+
+= 7.0.1 =
+* Renamed "Gato GraphQL Shop" to "Gato Shop"
 
 = 7.0.0 =
 * Breaking change: Bump minimum required PHP version to 7.4 (#2905)
