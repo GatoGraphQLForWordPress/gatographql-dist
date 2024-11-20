@@ -47,6 +47,11 @@ abstract class AbstractEditorScript extends AbstractScript
         return $this->localeHelper;
     }
 
+    protected function loadScriptsInWPAdminOnly(): bool
+    {
+        return true;
+    }
+
     /**
      * Pass localized data to the block
      *

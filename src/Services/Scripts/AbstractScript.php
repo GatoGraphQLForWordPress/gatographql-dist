@@ -55,7 +55,15 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
      */
     final public function initialize(): void
     {
-        \add_action('init', \Closure::fromCallable([$this, 'initScript']));
+        \add_action(
+            $this->loadScriptsInWPAdminOnly() ? 'admin_init' : 'init',
+            \Closure::fromCallable([$this, 'initScript'])
+        );
+    }
+
+    protected function loadScriptsInWPAdminOnly(): bool
+    {
+        return false;
     }
 
     public function getEnablingModule(): ?string
