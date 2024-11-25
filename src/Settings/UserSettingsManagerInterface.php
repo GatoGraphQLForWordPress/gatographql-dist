@@ -51,6 +51,23 @@ interface UserSettingsManagerInterface
      */
     public function storeLicenseCheckTimestamp(): void;
 
+    /**
+     * Timestamp of the latest activation of any commercial license
+     */
+    public function getLicenseActivationTimestamp(): ?int;
+
+    /**
+     * Store the current time to indicate the latest activation
+     * of any commercial license
+     */
+    public function storeLicenseActivationTimestamp(): void;
+
+    /**
+     * Remove the flag to indicate the latest activation
+     * of any commercial license
+     */
+    public function removeLicenseActivationTimestamp(): void;
+
     public function hasSetting(string $module, string $option): bool;
     /**
      * @return mixed

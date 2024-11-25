@@ -11,6 +11,8 @@ use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
 use PoP\ComponentModel\Module as ComponentModelModule;
 use PoP\ComponentModel\ModuleConfiguration as ComponentModelModuleConfiguration;
 
+use function flush_rewrite_rules;
+
 class ContainerManager implements ContainerManagerInterface
 {
     /**
@@ -26,7 +28,7 @@ class ContainerManager implements ContainerManagerInterface
     public function flushContainer(bool $flushRewriteRules, ?bool $regenerateContainer): void
     {
         if ($flushRewriteRules) {
-            \flush_rewrite_rules();
+            flush_rewrite_rules();
         }
         /**
          * Update the timestamp, and maybe regenerate

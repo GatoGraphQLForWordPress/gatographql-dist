@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 7.0.4
+Stable tag: 7.0.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -170,6 +170,9 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 7.0.5 =
+* When an extension is activated, execute `flush_rewrite_rules` only at the end (or CPTs are not loaded properly) (#2970)
 
 = 7.0.4 =
 * Do not print block editor scripts in the frontend (#2966)

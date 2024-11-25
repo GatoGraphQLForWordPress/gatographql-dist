@@ -103,6 +103,8 @@ class LicenseValidationService implements LicenseValidationServiceInterface
         ) {
             return;
         }
+        // Keep a record of the extensions that have just been activated
+        $justActivatedCommercialExtensionSlugs = [];
         // Keep the original values, to only flush the container if these have changed
         $originalCommercialExtensionActivatedLicenseEntries = $commercialExtensionActivatedLicenseEntries;
         $extensionManager = PluginApp::getExtensionManager();
@@ -286,6 +288,7 @@ class LicenseValidationService implements LicenseValidationServiceInterface
                 $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
                 $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
             );
+            $justActivatedCommercialExtensionSlugs[] = $extensionSlug;
             if ($formSettingName !== null) {
                 $this->showAdminMessagesOnLicenseOperationSuccess(
                     $extensionSlug,
@@ -307,6 +310,18 @@ class LicenseValidationService implements LicenseValidationServiceInterface
         );
         // Because extensions will be activated/deactivated, flush the service container
         $this->getContainerManager()->flushContainer(true, true);
+        if ($justActivatedCommercialExtensionSlugs === []) {
+            return;
+        }
+        /**
+         * Actually...
+         *
+         * Calling `flush_rewrite_rules` when activating the extension's
+         * license (in options.php) doesn't work, the CPTs do not load
+         * properly afterwards. This must be invoked right after. That's
+         * why we use a timestamp as a flag to indicate this state.
+         */
+        $this->getUserSettingsManager()->storeLicenseActivationTimestamp();
     }
 
     /**
