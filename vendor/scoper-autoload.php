@@ -47,7 +47,7 @@ humbug_phpscoper_expose_class('Attribute', 'GatoExternalPrefixByGatoGraphQL\Attr
 humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
 humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInitdab7a880a5c199488a179e56f4a87577', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitdab7a880a5c199488a179e56f4a87577');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit0436eddfff656e79d851ea3517a003f5', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit0436eddfff656e79d851ea3517a003f5');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

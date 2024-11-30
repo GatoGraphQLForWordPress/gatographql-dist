@@ -10,6 +10,13 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\CopyTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\GeosearchTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\GetrangeTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\HsetTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\MoveTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\NullableReturnTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\PfcountTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
@@ -22,9 +29,16 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
  */
 class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements ResetInterface, LazyObjectInterface
 {
+    use CopyTrait;
+    use GeosearchTrait;
+    use GetrangeTrait;
+    use HsetTrait;
     use LazyProxyTrait {
         resetLazyObject as reset;
     }
+    use MoveTrait;
+    use NullableReturnTrait;
+    use PfcountTrait;
     use RelayProxyTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($host = null, $port = 6379, $connect_timeout = 0.0, $command_timeout = 0.0, $context = [], $database = 0)
@@ -294,13 +308,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dbsize(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|false|string
-     */
-    public function dump($key)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|bool
      */
     public function replicaof($host = null, $port = 0)
@@ -469,13 +476,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geoadd(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|false|float
-     */
-    public function geodist($key, $src, $dst, $unit = null)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geodist(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|mixed[]|false
      */
     public function geohash($key, $member, ...$other_members)
@@ -511,13 +511,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->georadius_ro(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|mixed[]
-     */
-    public function geosearch($key, $position, $shape, $unit, $options = [])
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geosearch(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|false|int
      */
     public function geosearchstore($dst, $src, $position, $shape, $unit, $options = [])
@@ -537,13 +530,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function getset($key, $value)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->getset(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|string
-     */
-    public function getrange($key, $start, $end)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->getrange(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|false|int
@@ -656,13 +642,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function pfadd($key, $elements)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->pfadd(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|int
-     */
-    public function pfcount($key)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->pfcount(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|bool
@@ -817,20 +796,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function type($key)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->type(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|null|string
-     */
-    public function lmove($srckey, $dstkey, $srcpos, $dstpos)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lmove(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|null|string
-     */
-    public function blmove($srckey, $dstkey, $srcpos, $dstpos, $timeout)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->blmove(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|mixed[]|false
@@ -1050,13 +1015,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hmget(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|mixed[]|false|string
-     */
-    public function hrandfield($hash, $options = null)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hrandfield(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|bool
      */
     public function hmset($hash, $members)
@@ -1076,13 +1034,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function hsetnx($hash, $member, $value)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hsetnx(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|int
-     */
-    public function hset($key, $mem, $val, ...$kvals)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hset(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|false|int
@@ -1429,13 +1380,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->xack(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|false|string
-     */
-    public function xadd($key, $id, $values, $maxlen = 0, $approx = \false, $nomkstream = \false)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->xadd(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|mixed[]|bool
      */
     public function xclaim($key, $group, $consumer, $min_idle, $ids, $options)
@@ -1583,20 +1527,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrevrangebylex(...\func_get_args());
     }
     /**
-     * @return \Relay\Relay|mixed[]|false|int
-     */
-    public function zrank($key, $rank, $withscore = \false)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrank(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|mixed[]|false|int
-     */
-    public function zrevrank($key, $rank, $withscore = \false)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrevrank(...\func_get_args());
-    }
-    /**
      * @return \Relay\Relay|false|int
      */
     public function zrem($key, ...$args)
@@ -1672,13 +1602,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function zmscore($key, ...$mems)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zmscore(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|false|float
-     */
-    public function zscore($key, $member)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscore(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|mixed[]|false

@@ -31,11 +31,8 @@ class UriResolver
     public static function resolve(string $uri, ?string $baseUri) : string
     {
         $uri = \trim($uri);
-        if (\false === ($scheme = \parse_url($uri, \PHP_URL_SCHEME)) && '/' === ($uri[0] ?? '')) {
-            $scheme = \parse_url($uri . '#', \PHP_URL_SCHEME);
-        }
         // absolute URL?
-        if (null !== $scheme) {
+        if (null !== \parse_url(\strlen($uri) !== \strcspn($uri, '?#') ? $uri : $uri . '#', \PHP_URL_SCHEME)) {
             return $uri;
         }
         if (null === $baseUri) {

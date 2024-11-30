@@ -17,13 +17,6 @@ if (\version_compare(\phpversion('relay'), '0.8.1', '>=')) {
     trait RelayProxyTrait
     {
         /**
-         * @return \Relay\Relay|bool
-         */
-        public function copy($src, $dst, $options = null)
-        {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
-        }
-        /**
          * @return \Relay\Relay|mixed[]|false
          */
         public function jsonArrAppend($key, $value_or_array, $path = null)
@@ -198,12 +191,5 @@ if (\version_compare(\phpversion('relay'), '0.8.1', '>=')) {
      */
     trait RelayProxyTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function copy($src, $dst, $options = null)
-        {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
-        }
     }
 }

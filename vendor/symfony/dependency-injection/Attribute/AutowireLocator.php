@@ -27,8 +27,8 @@ class AutowireLocator extends Autowire
     /**
      * @see ServiceSubscriberInterface::getSubscribedServices()
      *
-     * @param string|array<string|SubscribedService> $services An explicit list of services or a tag name
-     * @param string|string[]                        $exclude  A service or a list of services to exclude
+     * @param string|array<string|Autowire|SubscribedService> $services An explicit list of services or a tag name
+     * @param string|string[]                                 $exclude  A service or a list of services to exclude
      */
     public function __construct($services, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true)
     {

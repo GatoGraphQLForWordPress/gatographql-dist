@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdab7a880a5c199488a179e56f4a87577
+class ComposerStaticInit0436eddfff656e79d851ea3517a003f5
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1076,6 +1076,13 @@ class ComposerStaticInitdab7a880a5c199488a179e56f4a87577
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\CopyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/CopyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GeosearchTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/GeosearchTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GetrangeTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/GetrangeTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\HsetTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/HsetTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\MoveTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/MoveTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\NullableReturnTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/NullableReturnTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\PfcountTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/PfcountTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGeneratorInterface' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGeneratorInterface.php',
@@ -1716,15 +1723,19 @@ class ComposerStaticInitdab7a880a5c199488a179e56f4a87577
         'GatoGraphQL\\GatoGraphQL\\Log\\Logger' => __DIR__ . '/../..' . '/src/Log/Logger.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\LoggerFiles' => __DIR__ . '/../..' . '/src/Log/LoggerFiles.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\LoggerInterface' => __DIR__ . '/../..' . '/src/Log/LoggerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\AbstractMarketplaceProviderCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/AbstractMarketplaceProviderCommercialPluginUpdaterService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseProperties' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseStatus' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseStatus.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\HTTPRequestNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/HTTPRequestNotSuccessfulException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\LicenseOperationNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/LicenseOperationNotSuccessfulException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LemonSqueezyCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/Marketplace/LemonSqueezyCommercialExtensionActivationService.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\LemonSqueezyCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/LemonSqueezyCommercialPluginUpdaterService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationService' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialExtensionActivationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialExtensionActivationServiceInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialPluginUpdaterServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialExtensionActivatedLicenseObjectProperties' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialExtensionActivatedLicenseObjectProperties.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialPluginUpdatedPluginData' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialPluginUpdatedPluginData.php',
         'GatoGraphQL\\GatoGraphQL\\Module' => __DIR__ . '/../..' . '/src/Module.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleConfiguration' => __DIR__ . '/../..' . '/src/ModuleConfiguration.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\APIKeysFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/APIKeysFunctionalityModuleResolverTrait.php',
@@ -5131,9 +5142,9 @@ class ComposerStaticInitdab7a880a5c199488a179e56f4a87577
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdab7a880a5c199488a179e56f4a87577::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdab7a880a5c199488a179e56f4a87577::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdab7a880a5c199488a179e56f4a87577::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$classMap;
 
         }, null, ClassLoader::class);
     }

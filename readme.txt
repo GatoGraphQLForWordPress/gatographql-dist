@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 7.0.5
+Stable tag: 8.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -142,7 +142,7 @@ Yes it does. If you have purchased any Gato GraphQL product and found out that i
 
 = Can I try out Gato GraphQL + all extensions? =
 
-Yes, you can [launch your own sandbox site](https://app.instawp.io/launch?t=gatographql-demo&d=v2) to play with Gato GraphQL + all extensions, for free, for 7 days.
+Yes, you can [launch your own sandbox site](https://app.instawp.io/launch?t=gatographql-demo&d=v2) to play with Gato GraphQL + all extensions, for free.
 
 = Is the plugin open source? =
 
@@ -170,6 +170,12 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 8.0.0 =
+* Extensions (eg: the "All Extensions" bundle) can now be updated from the Plugins page (#2972)
+
+= 7.0.8 =
+* Fixed: Don't hardcode Gato GraphQL's plugin base name in `plugin_action_links` hook to allow standalone plugins to use it (#2971)
 
 = 7.0.5 =
 * When an extension is activated, execute `flush_rewrite_rules` only at the end (or CPTs are not loaded properly) (#2970)
