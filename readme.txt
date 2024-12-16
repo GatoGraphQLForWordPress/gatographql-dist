@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 8.0.0
+Stable tag: 9.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -170,6 +170,17 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 9.0.0 =
+* Breaking change: Changed signature of method `assertCommercialLicenseHasBeenActivated` (#2978)
+* Only register block JS scripts when in allowed CPT (#2975)
+* Enable updating extensions from Plugins page after major release (#2978)
+* Improve performance when caching resolvers for a queried field (#2981)
+* Fixed: Catch exception from SymfonyDI on `admin_init` hook (#2974)
+* Fixed: Show "Visit plugin site" link instead of "View details" for extensions (#2976)
+* Fixed "Deprecated: Calling get_parent_class() without arguments is deprecated" (#2977)
+* Fixed Elementor not loading widgets with Gato GraphQL active (#2986)
+* [Extensions][Helper Function Collection] Added field `_arrayFlatten`
 
 = 8.0.0 =
 * Extensions (eg: the "All Extensions" bundle) can now be updated from the Plugins page (#2972)

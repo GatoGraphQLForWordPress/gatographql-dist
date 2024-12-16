@@ -106,7 +106,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
             case self::SERVER_IP_CONFIGURATION:
                 return \__('Server IP Configuration', 'gatographql');
             case self::SCHEMA_EDITING_ACCESS:
-                return \__('Schema Editing Access', 'gatographql-schema-editing-access');
+                return \__('Schema Editing Access', 'gatographql');
             default:
                 return $module;
         }
@@ -120,7 +120,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
             case self::SERVER_IP_CONFIGURATION:
                 return \__('Configure retrieving the Client IP depending on the platform/environment', 'gatographql');
             case self::SCHEMA_EDITING_ACCESS:
-                return \__('Grant access to users other than admins to edit the GraphQL schema', 'gatographql-schema-editing-access');
+                return \__('Grant access to users other than admins to edit the GraphQL schema', 'gatographql');
             default:
                 return parent::getDescription($module);
         }
@@ -319,9 +319,9 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                 $module,
                 $option
             ),
-            Properties::TITLE => \__('Which users can edit the schema?', 'gatographql-schema-editing-access'),
+            Properties::TITLE => \__('Which users can edit the schema?', 'gatographql'),
             Properties::DESCRIPTION => sprintf(
-                \__('Indicate which users can edit the schema (i.e. creating and updating Persisted Queries, Custom Endpoints, and others)<br/><span class="more-info">%s</span>', 'gatographql-schema-editing-access'),
+                \__('Indicate which users can edit the schema (i.e. creating and updating Persisted Queries, Custom Endpoints, and others)<br/><span class="more-info">%s</span>', 'gatographql'),
                 $this->getSettingsItemHelpLinkHTML(
                     'https://gatographql.com/guides/config/managing-who-can-edit-the-schema',
                     \__('Managing who can edit the schema', 'gatographql')

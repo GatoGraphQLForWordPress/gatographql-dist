@@ -11,6 +11,7 @@ use GatoGraphQL\GatoGraphQL\Facades\Registries\ModuleRegistryFacade;
 use GatoGraphQL\GatoGraphQL\Facades\Registries\SettingsCategoryRegistryFacade;
 use GatoGraphQL\GatoGraphQL\Marketplace\Constants\LicenseStatus;
 use GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginManagementFunctionalityModuleResolver;
+use GatoGraphQL\GatoGraphQL\ObjectModels\ActiveLicenseCommercialExtensionData;
 use GatoGraphQL\GatoGraphQL\PluginApp;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\BundleExtensionInterface;
 use GatoGraphQL\GatoGraphQL\PluginSkeleton\ExtensionInterface;
@@ -22,6 +23,8 @@ use GatoGraphQL\GatoGraphQL\StaticHelpers\PluginVersionHelpers;
 use GatoGraphQL\GatoGraphQL\StaticHelpers\SettingsHelpers;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 
+use function plugin_basename;
+
 class ExtensionManager extends AbstractPluginManager
 {
     /** @var string[] */
@@ -30,11 +33,11 @@ class ExtensionManager extends AbstractPluginManager
     /** @var array<string,BundleExtensionInterface> */
     private $bundledExtensionClassBundlingExtensionClasses = [];
 
-    /** @var array<string,string> Extension Slug => Extension Product Name */
-    private $nonActivatedLicenseCommercialExtensionSlugProductNames = [];
+    /** @var array<string,ActiveLicenseCommercialExtensionData> Extension Slug => ActiveLicenseCommercialExtensionData */
+    private $nonActivatedLicenseCommercialExtensionSlugDataEntries = [];
 
-    /** @var array<string,string> Extension Slug => Extension Product Name */
-    private $activatedLicenseCommercialExtensionSlugProductNames = [];
+    /** @var array<string,ActiveLicenseCommercialExtensionData> Extension Slug => ActiveLicenseCommercialExtensionData */
+    private $activatedLicenseCommercialExtensionSlugDataEntries = [];
 
     /** @var array<string,string>|null Extension Slug => Extension Product Name */
     private $commercialExtensionSlugProductNames;
@@ -268,8 +271,17 @@ class ExtensionManager extends AbstractPluginManager
      *
      * @param string $extensionProductName The EXACT name as the product is stored in the Gato Shop (i.e. in the Marketplace Provider's system)
      */
-    public function assertCommercialLicenseHasBeenActivated(string $extensionSlug, string $extensionProductName, string $extensionName): bool
+    public function assertCommercialLicenseHasBeenActivated(string $extensionFile, string $extensionProductName, string $extensionName, string $extensionVersion): bool
     {
+        $extensionBaseName = plugin_basename($extensionFile);
+        $extensionSlug = dirname($extensionBaseName);
+        $extensionData = new ActiveLicenseCommercialExtensionData(
+            $extensionProductName,
+            $extensionName,
+            $extensionSlug,
+            $extensionBaseName,
+            $extensionVersion,
+        );
         /**
          * Retrieve from the DB which licenses have been activated,
          * and check if this extension is in it
@@ -277,7 +289,7 @@ class ExtensionManager extends AbstractPluginManager
         $commercialExtensionActivatedLicenseObjectProperties = SettingsHelpers::getCommercialExtensionActivatedLicenseObjectProperties();
         if (!isset($commercialExtensionActivatedLicenseObjectProperties[$extensionSlug])) {
             $this->showAdminWarningNotice($extensionName);
-            $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
+            $this->nonActivatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
             return false;
         }
         $extensionCommercialExtensionActivatedLicenseObjectProperties = $commercialExtensionActivatedLicenseObjectProperties[$extensionSlug];
@@ -303,7 +315,7 @@ class ExtensionManager extends AbstractPluginManager
                 $extensionName,
                 __('The license is invalid. Please <a href="%s">enter a new license key in %s</a> to enable it', 'gatographql')
             );
-            $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
+            $this->nonActivatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
             return false;
         }
         /**
@@ -314,11 +326,11 @@ class ExtensionManager extends AbstractPluginManager
                 $extensionName,
                 __('The provided license key belongs to a different extension. Please <a href="%s">enter the right license key in %s</a> to enable it', 'gatographql')
             );
-            $this->nonActivatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
+            $this->nonActivatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
             return false;
         }
         // Everything is good!
-        $this->activatedLicenseCommercialExtensionSlugProductNames[$extensionSlug] = $extensionProductName;
+        $this->activatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
         return true;
     }
 
@@ -370,19 +382,19 @@ class ExtensionManager extends AbstractPluginManager
     }
 
     /**
-     * @return array<string,string> Extension Slug => Extension Product Name
+     * @return array<string,ActiveLicenseCommercialExtensionData> Extension Slug => ActiveLicenseCommercialExtensionData
      */
-    public function getNonActivatedLicenseCommercialExtensionSlugProductNames(): array
+    public function getNonActivatedLicenseCommercialExtensionSlugDataEntries(): array
     {
-        return $this->nonActivatedLicenseCommercialExtensionSlugProductNames;
+        return $this->nonActivatedLicenseCommercialExtensionSlugDataEntries;
     }
 
     /**
-     * @return array<string,string> Extension Slug => Extension Product Name
+     * @return array<string,ActiveLicenseCommercialExtensionData> Extension Slug => ActiveLicenseCommercialExtensionData
      */
-    public function getActivatedLicenseCommercialExtensionSlugProductNames(): array
+    public function getActivatedLicenseCommercialExtensionSlugDataEntries(): array
     {
-        return $this->activatedLicenseCommercialExtensionSlugProductNames;
+        return $this->activatedLicenseCommercialExtensionSlugDataEntries;
     }
 
     /**
@@ -390,7 +402,7 @@ class ExtensionManager extends AbstractPluginManager
      */
     public function isExtensionLicenseActive(string $extensionSlug): bool
     {
-        return isset($this->activatedLicenseCommercialExtensionSlugProductNames[$extensionSlug]);
+        return isset($this->activatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug]);
     }
 
     /**
@@ -399,9 +411,14 @@ class ExtensionManager extends AbstractPluginManager
     public function getCommercialExtensionSlugProductNames(): array
     {
         if ($this->commercialExtensionSlugProductNames === null) {
-            $this->commercialExtensionSlugProductNames = array_merge(
-                $this->getNonActivatedLicenseCommercialExtensionSlugProductNames(),
-                $this->getActivatedLicenseCommercialExtensionSlugProductNames(),
+            $this->commercialExtensionSlugProductNames = array_map(
+                function (ActiveLicenseCommercialExtensionData $extensionData) {
+                    return $extensionData->productName;
+                },
+                array_merge(
+                    $this->getNonActivatedLicenseCommercialExtensionSlugDataEntries(),
+                    $this->getActivatedLicenseCommercialExtensionSlugDataEntries()
+                ),
             );
             ksort($this->commercialExtensionSlugProductNames);
         }

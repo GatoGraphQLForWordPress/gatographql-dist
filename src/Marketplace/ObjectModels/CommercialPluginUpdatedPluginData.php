@@ -4,15 +4,28 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\Marketplace\ObjectModels;
 
-use GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInterface;
-
 class CommercialPluginUpdatedPluginData
 {
     /**
      * @readonly
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInterface
+     * @var string
      */
-    public $plugin;
+    public $pluginName;
+    /**
+     * @readonly
+     * @var string
+     */
+    public $pluginSlug;
+    /**
+     * @readonly
+     * @var string
+     */
+    public $pluginBaseName;
+    /**
+     * @readonly
+     * @var string
+     */
+    public $pluginVersion;
     /**
      * @readonly
      * @var string
@@ -23,9 +36,12 @@ class CommercialPluginUpdatedPluginData
      * @var string
      */
     public $cacheKey;
-    public function __construct(PluginInterface $plugin, string $licenseKey, string $cacheKey)
+    public function __construct(string $pluginName, string $pluginSlug, string $pluginBaseName, string $pluginVersion, string $licenseKey, string $cacheKey)
     {
-        $this->plugin = $plugin;
+        $this->pluginName = $pluginName;
+        $this->pluginSlug = $pluginSlug;
+        $this->pluginBaseName = $pluginBaseName;
+        $this->pluginVersion = $pluginVersion;
         $this->licenseKey = $licenseKey;
         $this->cacheKey = $cacheKey;
     }

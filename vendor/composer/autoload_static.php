@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0436eddfff656e79d851ea3517a003f5
+class ComposerStaticInit007320f3eadb283162bd984c89278457
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1648,6 +1648,7 @@ class ComposerStaticInit0436eddfff656e79d851ea3517a003f5
         'GatoGraphQL\\GatoGraphQL\\Constants\\PluginSetupDataEntrySlugs' => __DIR__ . '/../..' . '/src/Constants/PluginSetupDataEntrySlugs.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\RequestParams' => __DIR__ . '/../..' . '/src/Constants/RequestParams.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\SettingsValues' => __DIR__ . '/../..' . '/src/Constants/SettingsValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\TutorialLessons' => __DIR__ . '/../..' . '/src/Constants/TutorialLessons.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEditorBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEditorBlockCompilerPass.php',
@@ -1781,6 +1782,7 @@ class ComposerStaticInit0436eddfff656e79d851ea3517a003f5
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\VersioningFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/VersioningFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleSettings\\Properties' => __DIR__ . '/../..' . '/src/ModuleSettings/Properties.php',
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\AbstractDependedOnWordPressPlugin' => __DIR__ . '/../..' . '/src/ObjectModels/AbstractDependedOnWordPressPlugin.php',
+        'GatoGraphQL\\GatoGraphQL\\ObjectModels\\ActiveLicenseCommercialExtensionData' => __DIR__ . '/../..' . '/src/ObjectModels/ActiveLicenseCommercialExtensionData.php',
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\DependedOnActiveWordPressPlugin' => __DIR__ . '/../..' . '/src/ObjectModels/DependedOnActiveWordPressPlugin.php',
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\DependedOnInactiveWordPressPlugin' => __DIR__ . '/../..' . '/src/ObjectModels/DependedOnInactiveWordPressPlugin.php',
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\NullableGraphQLQueryVariablesEntry' => __DIR__ . '/../..' . '/src/ObjectModels/NullableGraphQLQueryVariablesEntry.php',
@@ -5142,9 +5144,9 @@ class ComposerStaticInit0436eddfff656e79d851ea3517a003f5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0436eddfff656e79d851ea3517a003f5::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit007320f3eadb283162bd984c89278457::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit007320f3eadb283162bd984c89278457::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit007320f3eadb283162bd984c89278457::$classMap;
 
         }, null, ClassLoader::class);
     }

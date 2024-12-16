@@ -74,19 +74,20 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService impleme
          * `isCommercial` belongs to `Extension`, not `Plugin`)
          */
         $extensionManager = PluginApp::getExtensionManager();
-        $pluginBaseNameInstances = $extensionManager->getExtensions();
+        $activeExtensionDataEntries = $extensionManager->getActivatedLicenseCommercialExtensionSlugDataEntries();
         foreach ($licenseKeys as $pluginSlug => $pluginLicenseKey) {
-            foreach ($pluginBaseNameInstances as $pluginBaseName => $extensionInstance) {
-                if ($extensionInstance->getPluginSlug() !== $pluginSlug) {
-                    continue;
-                }
-                $this->pluginSlugDataEntries[$pluginSlug] = new CommercialPluginUpdatedPluginData(
-                    $extensionInstance,
-                    $pluginLicenseKey,
-                    str_replace('-', '_', $pluginSlug) . '_updater',
-                );
-                break;
+            $activeExtensionData = $activeExtensionDataEntries[$pluginSlug] ?? null;
+            if ($activeExtensionData === null) {
+                continue;
             }
+            $this->pluginSlugDataEntries[$pluginSlug] = new CommercialPluginUpdatedPluginData(
+                $activeExtensionData->name,
+                $activeExtensionData->slug,
+                $activeExtensionData->baseName,
+                $activeExtensionData->version,
+                $pluginLicenseKey,
+                str_replace('-', '_', $pluginSlug) . '_updater',
+            );
         }
         add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginInfo']), 20, 3);
         add_filter('site_transient_update_plugins', \Closure::fromCallable([$this, 'overridePluginUpdate']));
@@ -128,8 +129,8 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService impleme
         }
 
         $result       = $remote->update;
-        $result->name = $pluginData->plugin->getPluginName();
-        $result->slug = $pluginData->plugin->getPluginSlug();
+        $result->name = $pluginData->pluginName;
+        $result->slug = $pluginData->pluginSlug;
         $result->sections = (array) $result->sections;
 
         return $result;
@@ -188,10 +189,15 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService impleme
 
         foreach ($this->pluginSlugDataEntries as $pluginData) {
             $res = (object) array(
-                'id'            => $pluginData->plugin->getPluginBaseName(),
-                'slug'          => $pluginData->plugin->getPluginSlug(),
-                'plugin'        => $pluginData->plugin->getPluginBaseName(),
-                'new_version'   => $pluginData->plugin->getPluginVersion(),
+                'id'            => $pluginData->pluginBaseName,
+                /**
+                 * If providing the slug, the plugin item in the Plugins page
+                 * will have link "View details", which produces an error,
+                 * instead of the expected "Visit plugin site"
+                 */
+                // 'slug'          => $pluginData->pluginSlug,
+                'plugin'        => $pluginData->pluginBaseName,
+                'new_version'   => $pluginData->pluginVersion,
                 'url'           => '',
                 'package'       => '',
                 'icons'         => [],
@@ -206,7 +212,7 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService impleme
 
             if (
                 $remote && ($remote->success ?? null) && !empty($remote->update)
-                && version_compare($pluginData->plugin->getPluginVersion(), $remote->update->version, '<')
+                && version_compare($pluginData->pluginVersion, $remote->update->version, '<')
             ) {
                 $res->new_version = $remote->update->version;
                 $res->package     = $remote->update->download_link;
@@ -244,7 +250,7 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService impleme
         $pluginIDs = $options['plugins'];
         foreach ($pluginIDs as $pluginID) {
             foreach ($this->pluginSlugDataEntries as $pluginData) {
-                if ($pluginID !== $pluginData->plugin->getPluginBaseName()) {
+                if ($pluginID !== $pluginData->pluginBaseName) {
                     continue;
                 }
                 delete_transient($pluginData->cacheKey);
