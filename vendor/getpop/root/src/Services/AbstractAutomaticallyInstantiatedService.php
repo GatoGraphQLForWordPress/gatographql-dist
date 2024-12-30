@@ -9,7 +9,7 @@ namespace PoP\Root\Services;
  * Eg: hooks.
  * @internal
  */
-abstract class AbstractAutomaticallyInstantiatedService implements \PoP\Root\Services\AutomaticallyInstantiatedServiceInterface
+abstract class AbstractAutomaticallyInstantiatedService extends \PoP\Root\Services\AbstractBasicService implements \PoP\Root\Services\AutomaticallyInstantiatedServiceInterface
 {
     use \PoP\Root\Services\AutomaticallyInstantiatedServiceTrait;
 }

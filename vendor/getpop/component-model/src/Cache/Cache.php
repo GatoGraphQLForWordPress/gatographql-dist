@@ -5,17 +5,16 @@ namespace PoP\ComponentModel\Cache;
 
 use DateInterval;
 use PoP\ComponentModel\ModelInstance\ModelInstanceInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
 /** @internal */
-class Cache implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\ComponentModel\Cache\TransientCacheInterface
+class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\ComponentModel\Cache\TransientCacheInterface
 {
     /**
      * @var \Psr\Cache\CacheItemPoolInterface
      */
     protected $cacheItemPool;
-    use BasicServiceTrait;
     use \PoP\ComponentModel\Cache\ReplaceCurrentExecutionDataWithPlaceholdersTrait;
     /**
      * @var \PoP\ComponentModel\ModelInstance\ModelInstanceInterface|null

@@ -3,12 +3,11 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Users\TypeAPIs;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
 /** @internal */
-abstract class AbstractUserTypeAPI implements \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface
+abstract class AbstractUserTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
      */

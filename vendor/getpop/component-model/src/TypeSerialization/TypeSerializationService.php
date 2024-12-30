@@ -14,13 +14,12 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarType
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 use stdClass;
 /** @internal */
-class TypeSerializationService implements \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface
+class TypeSerializationService extends AbstractBasicService implements \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
      */

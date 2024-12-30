@@ -6,11 +6,10 @@ namespace PoP\Root\FeedbackItemProviders;
 use ArgumentCountError;
 use PoP\Root\Exception\MisconfiguredServiceException;
 use PoP\Root\Helpers\ClassHelpers;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractFeedbackItemProvider implements \PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface
+abstract class AbstractFeedbackItemProvider extends AbstractBasicService implements \PoP\Root\FeedbackItemProviders\FeedbackItemProviderInterface
 {
-    use BasicServiceTrait;
     public final function getNamespacedCode(string $code) : string
     {
         return $this->getNamespace() . $this->getNamespaceSeparator() . $code;

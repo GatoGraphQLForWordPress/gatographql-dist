@@ -5,11 +5,10 @@ namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\Root\Exception\ShouldNotHappenException;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class ComponentProcessorManager implements \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface
+class ComponentProcessorManager extends AbstractBasicService implements \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface
 {
-    use BasicServiceTrait;
     /**
      * @var array<string,array<string,ComponentProcessorInterface>>
      */

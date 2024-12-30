@@ -49,12 +49,11 @@ use PoP\Definitions\Constants\Params as DefinitionsParams;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\Root\Exception\ImpossibleToHappenException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 /** @internal */
-class Engine implements \PoP\ComponentModel\Engine\EngineInterface
+class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\EngineInterface
 {
-    use BasicServiceTrait;
     public const CACHETYPE_IMMUTABLEDATASETSETTINGS = 'static-datasetsettings';
     public const CACHETYPE_STATICDATAPROPERTIES = 'static-data-properties';
     public const CACHETYPE_STATEFULDATAPROPERTIES = 'stateful-data-properties';

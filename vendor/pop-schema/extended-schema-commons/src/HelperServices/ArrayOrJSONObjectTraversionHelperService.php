@@ -5,13 +5,12 @@ namespace PoPSchema\ExtendedSchemaCommons\HelperServices;
 
 use PoP\Engine\Exception\RuntimeOperationException;
 use PoP\ComponentModel\Response\OutputServiceInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPSchema\ExtendedSchemaCommons\Constants\OperationSymbols;
 use stdClass;
 /** @internal */
-class ArrayOrJSONObjectTraversionHelperService implements \PoPSchema\ExtendedSchemaCommons\HelperServices\ArrayOrJSONObjectTraversionHelperServiceInterface
+class ArrayOrJSONObjectTraversionHelperService extends AbstractBasicService implements \PoPSchema\ExtendedSchemaCommons\HelperServices\ArrayOrJSONObjectTraversionHelperServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
      */

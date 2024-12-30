@@ -413,7 +413,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
             if ($directiveArgTypeResolver instanceof InputObjectTypeResolverInterface) {
                 $directiveArgTypeResolver->validateInputValue($argValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
             }
-            $this->validateDirectiveArgValue($argName, $argValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
+            $this->validateDirectiveArgValue($argName, $argValue, $astNode, $directiveArgs, $relationalTypeResolver, $fields, $objectTypeFieldResolutionFeedbackStore);
         }
         $engineIterationFeedbackStore->schemaFeedbackStore->incorporateFromObjectTypeFieldResolutionFeedbackStore($objectTypeFieldResolutionFeedbackStore, $relationalTypeResolver, $fields);
     }
@@ -646,9 +646,12 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     }
     /**
      * Validate the constraints for a directive argument
+     *
+     * @param FieldInterface[] $fields
+     * @param array<string,mixed> $directiveArgs
      * @param mixed $directiveArgValue
      */
-    protected function validateDirectiveArgValue(string $directiveArgName, $directiveArgValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateDirectiveArgValue(string $directiveArgName, $directiveArgValue, AstInterface $astNode, array $directiveArgs, RelationalTypeResolverInterface $relationalTypeResolver, array $fields, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
     /**

@@ -21,12 +21,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\GraphQLParser\Spec\Parser\Location;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 /** @internal */
-class FeedbackEntryManager implements \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface
+class FeedbackEntryManager extends AbstractBasicService implements \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\Response\DatabaseEntryManagerInterface|null
      */

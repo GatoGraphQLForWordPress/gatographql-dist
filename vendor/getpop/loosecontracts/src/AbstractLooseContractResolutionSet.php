@@ -3,12 +3,10 @@
 declare (strict_types=1);
 namespace PoP\LooseContracts;
 
-use PoP\Root\Services\BasicServiceTrait;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 /** @internal */
 abstract class AbstractLooseContractResolutionSet extends AbstractAutomaticallyInstantiatedService
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\LooseContracts\LooseContractManagerInterface|null
      */

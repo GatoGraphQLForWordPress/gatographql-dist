@@ -4,11 +4,10 @@ declare (strict_types=1);
 namespace PoPCMSSchema\SchemaCommons\CMS;
 
 use PoP\ComponentModel\Misc\GeneralUtils;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class CMSHelperService implements \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface
+class CMSHelperService extends AbstractBasicService implements \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
      */

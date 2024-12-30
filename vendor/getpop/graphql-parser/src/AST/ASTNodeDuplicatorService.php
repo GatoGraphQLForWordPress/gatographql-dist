@@ -11,7 +11,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 /**
  * Fragments can be referenced by different Fields. Because values
@@ -53,9 +53,8 @@ use SplObjectStorage;
  * will then produce "Updated title".
  * @internal
  */
-class ASTNodeDuplicatorService implements \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
+class ASTNodeDuplicatorService extends AbstractBasicService implements \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var SplObjectStorage<FragmentReference,Fragment>
      */

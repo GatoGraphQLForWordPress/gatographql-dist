@@ -3,13 +3,12 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Meta\TypeAPIs;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
 /** @internal */
-abstract class AbstractMetaTypeAPI implements \PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface
+abstract class AbstractMetaTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
      */

@@ -11,11 +11,10 @@ use PoP\ComponentModel\Tokens\ComponentPath;
 use PoP\Root\App;
 use PoP\Root\Module as RootModule;
 use PoP\Root\ModuleConfiguration as RootModuleConfiguration;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class ComponentPathHelpers implements \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface
+class ComponentPathHelpers extends AbstractBasicService implements \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
      */

@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
-use PoP\Root\Services\ServiceInterface;
+use PoP\Root\Services\ActivableServiceInterface;
 /** @internal */
-interface AttachableExtensionInterface extends ServiceInterface
+interface AttachableExtensionInterface extends ActivableServiceInterface
 {
     /**
      * It is represented through a static class, because the extensions work at class level, not object level
@@ -22,4 +22,10 @@ interface AttachableExtensionInterface extends ServiceInterface
      * The priority in the class has priority (pun intended ;))
      */
     public function attach(string $group) : void;
+    /**
+     * Use this function as a proxy to know if a Service
+     * has not been disabled (i.e. it has been added to
+     * the GraphQL schema)
+     */
+    public function hasServiceBeenAttached() : bool;
 }

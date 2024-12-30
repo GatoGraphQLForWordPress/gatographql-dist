@@ -26,7 +26,7 @@ final class ContainerBuilderWrapper implements \PoP\Root\Container\ContainerBuil
         return $this->containerBuilder->getDefinition($id);
     }
     /**
-     * @return Definition[] An array of Definition instances
+     * @return array<string,Definition> An array of Definition instances
      */
     public final function getDefinitions() : array
     {

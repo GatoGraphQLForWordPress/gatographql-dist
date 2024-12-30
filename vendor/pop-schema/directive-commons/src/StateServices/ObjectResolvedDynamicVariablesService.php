@@ -18,13 +18,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPSchema\DirectiveCommons\FeedbackItemProviders\FeedbackItemProvider;
 use SplObjectStorage;
 /** @internal */
-class ObjectResolvedDynamicVariablesService implements \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface
+class ObjectResolvedDynamicVariablesService extends AbstractBasicService implements \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
      */

@@ -5,12 +5,11 @@ namespace PoP\GuzzleHTTP\Services;
 
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPInvalidResponseException;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use stdClass;
 /** @internal */
-class HTTPResponseValidator implements \PoP\GuzzleHTTP\Services\HTTPResponseValidatorInterface
+class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleHTTP\Services\HTTPResponseValidatorInterface
 {
-    use BasicServiceTrait;
     /**
      * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException

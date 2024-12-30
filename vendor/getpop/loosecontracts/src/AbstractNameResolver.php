@@ -3,11 +3,10 @@
 declare (strict_types=1);
 namespace PoP\LooseContracts;
 
-use PoP\Root\Services\WithInstanceManagerServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractNameResolver implements \PoP\LooseContracts\NameResolverInterface
+abstract class AbstractNameResolver extends AbstractBasicService implements \PoP\LooseContracts\NameResolverInterface
 {
-    use WithInstanceManagerServiceTrait;
     /**
      * @var \PoP\LooseContracts\LooseContractManagerInterface|null
      */

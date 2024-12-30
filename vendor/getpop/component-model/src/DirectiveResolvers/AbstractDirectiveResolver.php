@@ -5,7 +5,7 @@ namespace PoP\ComponentModel\DirectiveResolvers;
 
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /**
  * Top most ancestor class on the hierarchy of the
  * Directive Resolver classes.
@@ -27,9 +27,8 @@ use PoP\Root\Services\BasicServiceTrait;
  * @see AbstractFieldDirectiveResolver
  * @internal
  */
-abstract class AbstractDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface
+abstract class AbstractDirectiveResolver extends AbstractBasicService implements \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\GraphQLParser\Spec\Parser\Ast\Directive
      */

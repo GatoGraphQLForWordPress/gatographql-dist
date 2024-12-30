@@ -3,11 +3,10 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserRoles\TypeAPIs;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractUserRoleTypeAPI implements \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface
+abstract class AbstractUserRoleTypeAPI extends AbstractBasicService implements \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface
 {
-    use BasicServiceTrait;
     /**
      * @param string|int|object $userObjectOrID
      */

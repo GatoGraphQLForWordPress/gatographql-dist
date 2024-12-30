@@ -9,11 +9,10 @@ use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleConfiguration;
 use PoP\Definitions\Constants\Params as DefinitionsParams;
 use PoP\Root\App;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class RequestHelperService implements \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface
+class RequestHelperService extends AbstractBasicService implements \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface
 {
-    use BasicServiceTrait;
     public const HOOK_CURRENT_URL_REMOVE_PARAMS = __CLASS__ . ':current-url:remove-params';
     /**
      * Return the requested full URL

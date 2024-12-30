@@ -4,11 +4,10 @@ declare (strict_types=1);
 namespace PoP\Root\Routing;
 
 use PoP\Root\App;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class RoutingHelperService implements \PoP\Root\Routing\RoutingHelperServiceInterface
+class RoutingHelperService extends AbstractBasicService implements \PoP\Root\Routing\RoutingHelperServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var bool
      */

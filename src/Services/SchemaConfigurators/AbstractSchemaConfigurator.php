@@ -6,12 +6,10 @@ namespace GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators;
 
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\GatoGraphQL\Registries\SchemaConfigurationExecuterRegistryInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 
-abstract class AbstractSchemaConfigurator implements SchemaConfiguratorInterface
+abstract class AbstractSchemaConfigurator extends AbstractBasicService implements SchemaConfiguratorInterface
 {
-    use BasicServiceTrait;
-
     /**
      * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
      */

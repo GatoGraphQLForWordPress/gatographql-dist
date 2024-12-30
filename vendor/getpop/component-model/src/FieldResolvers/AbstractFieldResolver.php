@@ -3,11 +3,10 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\FieldResolvers;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractFieldResolver implements \PoP\ComponentModel\FieldResolvers\FieldResolverInterface
+abstract class AbstractFieldResolver extends AbstractBasicService implements \PoP\ComponentModel\FieldResolvers\FieldResolverInterface
 {
-    use BasicServiceTrait;
     /**
      * @return string[]
      */

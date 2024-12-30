@@ -4,12 +4,11 @@ declare (strict_types=1);
 namespace PoP\ComponentModel\ObjectSerialization;
 
 use PoP\Root\Exception\ShouldNotHappenException;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use stdClass;
 /** @internal */
-class ObjectSerializationManager implements \PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface
+class ObjectSerializationManager extends AbstractBasicService implements \PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface
 {
-    use BasicServiceTrait;
     /**
      * @var array<string,ObjectSerializerInterface>
      */

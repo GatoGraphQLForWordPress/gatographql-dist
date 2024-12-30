@@ -9,7 +9,7 @@ namespace PoP\Root\Services;
  * Eg: hooks.
  * @internal
  */
-interface AutomaticallyInstantiatedServiceInterface extends \PoP\Root\Services\ServiceInterface
+interface AutomaticallyInstantiatedServiceInterface extends \PoP\Root\Services\ActivableServiceInterface, \PoP\Root\Services\BasicServiceInterface
 {
     public function initialize() : void;
     public function getInstantiationEvent() : string;

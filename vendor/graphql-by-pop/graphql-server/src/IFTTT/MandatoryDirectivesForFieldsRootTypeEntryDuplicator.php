@@ -11,11 +11,10 @@ use GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\QueryRootObjectTypeResol
 use PoP\ComponentModel\Constants\ConfigurationValues;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 use PoP\Root\App;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class MandatoryDirectivesForFieldsRootTypeEntryDuplicator implements \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
+class MandatoryDirectivesForFieldsRootTypeEntryDuplicator extends AbstractBasicService implements \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
      */

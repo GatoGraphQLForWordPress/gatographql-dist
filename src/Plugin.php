@@ -277,7 +277,7 @@ class Plugin extends AbstractMainPlugin
      */
     public function getPluginActionLinks(array $actions): array
     {
-        if (!PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage()) {
+        if (!$this->addGoPROPluginActionLink()) {
             return parent::getPluginActionLinks($actions);
         }
         /** @var ModuleConfiguration */
@@ -288,5 +288,10 @@ class Plugin extends AbstractMainPlugin
             __('Go PRO', 'gatographql'),
             HTMLCodes::OPEN_IN_NEW_WINDOW,
         )], $actions);
+    }
+
+    protected function addGoPROPluginActionLink(): bool
+    {
+        return PluginStaticModuleConfiguration::displayGatoGraphQLPROBundleOnExtensionsPage();
     }
 }

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
-use PoP\Root\Services\ServiceInterface;
+use PoP\Root\Services\ActivableServiceInterface;
 /** @internal */
 class AttachExtensionService implements \PoP\ComponentModel\AttachableExtensions\AttachExtensionServiceInterface
 {
@@ -19,7 +19,7 @@ class AttachExtensionService implements \PoP\ComponentModel\AttachableExtensions
     {
         foreach ($this->classGroups[$event] ?? [] as $group => $extensions) {
             // Only attach the enabled thervices
-            $extensions = \array_filter($extensions, function (ServiceInterface $extension) {
+            $extensions = \array_filter($extensions, function (ActivableServiceInterface $extension) {
                 return $extension->isServiceEnabled();
             });
             foreach ($extensions as $extension) {

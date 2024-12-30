@@ -20,15 +20,14 @@ use PoP\Engine\Cache\CacheUtils;
 use PoP\GraphQLParser\Module as GraphQLParserModule;
 use PoP\GraphQLParser\ModuleConfiguration as GraphQLParserModuleConfiguration;
 use PoP\Root\App;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPAPI\API\Module as APIModule;
 use PoPAPI\API\ModuleConfiguration as APIModuleConfiguration;
 use PoPAPI\API\Schema\SchemaDefinitionServiceInterface;
 use PoPAPI\API\Schema\TypeKinds;
 /** @internal */
-class SchemaDefinitionReferenceRegistry implements \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface
+class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface
 {
-    use BasicServiceTrait;
     /**
      * @var array<string,mixed>|null
      */

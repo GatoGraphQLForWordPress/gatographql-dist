@@ -3,13 +3,12 @@
 declare (strict_types=1);
 namespace PoP\Root\State;
 
-use PoP\Root\Services\BasicServiceTrait;
-use PoP\Root\Services\ServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
+use PoP\Root\Services\ActivableServiceTrait;
 /** @internal */
-abstract class AbstractAppStateProvider implements \PoP\Root\State\AppStateProviderInterface
+abstract class AbstractAppStateProvider extends AbstractBasicService implements \PoP\Root\State\AppStateProviderInterface
 {
-    use BasicServiceTrait;
-    use ServiceTrait;
+    use ActivableServiceTrait;
     /**
      * @param array<string,mixed> $state
      */

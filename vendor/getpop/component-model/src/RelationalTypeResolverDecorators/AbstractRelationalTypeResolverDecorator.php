@@ -8,12 +8,11 @@ use PoP\ComponentModel\AttachableExtensions\AttachableExtensionTrait;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractRelationalTypeResolverDecorator implements \PoP\ComponentModel\RelationalTypeResolverDecorators\RelationalTypeResolverDecoratorInterface
+abstract class AbstractRelationalTypeResolverDecorator extends AbstractBasicService implements \PoP\ComponentModel\RelationalTypeResolverDecorators\RelationalTypeResolverDecoratorInterface
 {
     use AttachableExtensionTrait;
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
      */

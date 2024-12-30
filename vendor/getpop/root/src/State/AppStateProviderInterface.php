@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace PoP\Root\State;
 
-use PoP\Root\Services\ServiceInterface;
+use PoP\Root\Services\ActivableServiceInterface;
 /** @internal */
-interface AppStateProviderInterface extends ServiceInterface
+interface AppStateProviderInterface extends ActivableServiceInterface
 {
     /**
      * Initialize some state in the application

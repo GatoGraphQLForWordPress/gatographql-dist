@@ -3,12 +3,11 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Response;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use stdClass;
 /** @internal */
-class OutputService implements \PoP\ComponentModel\Response\OutputServiceInterface
+class OutputService extends AbstractBasicService implements \PoP\ComponentModel\Response\OutputServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * Encode the array, and trim to 500 chars max
      *

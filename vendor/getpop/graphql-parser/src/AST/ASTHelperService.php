@@ -10,11 +10,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FragmentReference;
 use PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class ASTHelperService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterface
+class ASTHelperService extends AbstractBasicService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
      */

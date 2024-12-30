@@ -5,12 +5,11 @@ namespace PoP\ComponentModel\ModelInstance;
 
 use PoP\Root\App;
 use PoP\ComponentModel\Info\ApplicationInfoInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoP\Definitions\DefinitionManagerInterface;
 /** @internal */
-class ModelInstance implements \PoP\ComponentModel\ModelInstance\ModelInstanceInterface
+class ModelInstance extends AbstractBasicService implements \PoP\ComponentModel\ModelInstance\ModelInstanceInterface
 {
-    use BasicServiceTrait;
     public const HOOK_ELEMENTS_RESULT = __CLASS__ . ':elements:result';
     public const HOOK_ELEMENTSFROMVARS_POSTORGETCHANGE = __CLASS__ . ':elementsFromVars:postOrGetChange';
     public const HOOK_ELEMENTSFROMVARS_RESULT = __CLASS__ . ':elementsFromVars:result';

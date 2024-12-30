@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Registries;
 
 use GatoGraphQL\GatoGraphQL\Services\EndpointAnnotators\EndpointAnnotatorInterface;
-use PoP\Root\Services\ServiceInterface;
+use PoP\Root\Services\ActivableServiceInterface;
 
 abstract class AbstractEndpointAnnotatorRegistry implements EndpointAnnotatorRegistryInterface
 {
@@ -32,7 +32,7 @@ abstract class AbstractEndpointAnnotatorRegistry implements EndpointAnnotatorReg
     {
         return array_values(array_filter(
             $this->getEndpointAnnotators(),
-            function (ServiceInterface $service) {
+            function (ActivableServiceInterface $service) {
                 return $service->isServiceEnabled();
             }
         ));

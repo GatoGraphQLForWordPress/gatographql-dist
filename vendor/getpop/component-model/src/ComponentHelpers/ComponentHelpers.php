@@ -5,11 +5,10 @@ namespace PoP\ComponentModel\ComponentHelpers;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\Definitions\DefinitionManagerInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class ComponentHelpers implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
+class ComponentHelpers extends AbstractBasicService implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
 {
-    use BasicServiceTrait;
     public const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
     /**
      * @var \PoP\Definitions\DefinitionManagerInterface|null

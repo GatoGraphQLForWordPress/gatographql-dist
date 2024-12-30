@@ -3,13 +3,14 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\TypeResolvers\ScalarType;
 
+use PoP\ComponentModel\FeedbackItemProviders\InputValueCoercionGraphQLSpecErrorFeedbackItemProvider;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
-use PoP\ComponentModel\FeedbackItemProviders\InputValueCoercionGraphQLSpecErrorFeedbackItemProvider;
 use PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface;
+use PoP\ComponentModel\Response\OutputServiceInterface;
 use PoP\ComponentModel\TypeResolvers\AbstractTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use stdClass;
 /** @internal */
 abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface
@@ -18,6 +19,10 @@ abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implement
      * @var \PoP\ComponentModel\ObjectSerialization\ObjectSerializationManagerInterface|null
      */
     private $objectSerializationManager;
+    /**
+     * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
+     */
+    private $outputService;
     protected final function getObjectSerializationManager() : ObjectSerializationManagerInterface
     {
         if ($this->objectSerializationManager === null) {
@@ -26,6 +31,15 @@ abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implement
             $this->objectSerializationManager = $objectSerializationManager;
         }
         return $this->objectSerializationManager;
+    }
+    protected final function getOutputService() : OutputServiceInterface
+    {
+        if ($this->outputService === null) {
+            /** @var OutputServiceInterface */
+            $outputService = $this->instanceManager->getInstance(OutputServiceInterface::class);
+            $this->outputService = $outputService;
+        }
+        return $this->outputService;
     }
     public function getSpecifiedByURL() : ?string
     {
@@ -101,6 +115,6 @@ abstract class AbstractScalarTypeResolver extends AbstractTypeResolver implement
      */
     protected function addDefaultError($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore, array $extensions = []) : void
     {
-        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_16, [$inputValue, $this->getMaybeNamespacedTypeName()]), $astNode, $extensions));
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_16, [\is_array($inputValue) || $inputValue instanceof stdClass ? $this->getOutputService()->jsonEncodeArrayOrStdClassValue($inputValue) : $inputValue, $this->getMaybeNamespacedTypeName()]), $astNode, $extensions));
     }
 }

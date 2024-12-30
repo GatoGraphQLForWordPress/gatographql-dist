@@ -6,12 +6,11 @@ namespace PoP\ComponentModel\Response;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 /** @internal */
-class DatabaseEntryManager implements \PoP\ComponentModel\Response\DatabaseEntryManagerInterface
+class DatabaseEntryManager extends AbstractBasicService implements \PoP\ComponentModel\Response\DatabaseEntryManagerInterface
 {
-    use BasicServiceTrait;
     public const PRIMARY_DBNAME = 'primary';
     public const HOOK_DBNAME_TO_FIELDNAMES = __CLASS__ . ':dbName-to-fieldNames';
     /**

@@ -5,11 +5,9 @@ namespace PoPAPI\APIEndpoints;
 
 use PoP\Root\Routing\RoutingHelperServiceInterface;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
-use PoP\Root\Services\BasicServiceTrait;
 /** @internal */
 abstract class AbstractEndpointHandler extends AbstractAutomaticallyInstantiatedService implements \PoPAPI\APIEndpoints\EndpointHandlerInterface
 {
-    use BasicServiceTrait;
     /**
      * @var string|null
      */

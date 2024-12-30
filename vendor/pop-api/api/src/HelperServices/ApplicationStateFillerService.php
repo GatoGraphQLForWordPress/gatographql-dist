@@ -13,11 +13,10 @@ use PoP\GraphQLParser\Exception\AbstractASTNodeException;
 use PoP\GraphQLParser\Exception\AbstractQueryException;
 use PoP\GraphQLParser\Exception\Parser\AbstractASTNodeParserException;
 use PoP\GraphQLParser\Exception\Parser\AbstractParserException;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class ApplicationStateFillerService implements \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface
+class ApplicationStateFillerService extends AbstractBasicService implements \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
      */

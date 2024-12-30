@@ -12,11 +12,10 @@ use PoP\GraphQLParser\Exception\Parser\SyntaxErrorParserException;
 use PoP\GraphQLParser\ExtendedSpec\Parser\ParserInterface;
 use PoP\GraphQLParser\Spec\Execution\Context;
 use PoP\GraphQLParser\Spec\Parser\Ast\Document;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-class GraphQLParserHelperService implements \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface
+class GraphQLParserHelperService extends AbstractBasicService implements \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * @throws SyntaxErrorParserException
      * @throws FeatureNotSupportedException

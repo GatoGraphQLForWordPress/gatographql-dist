@@ -8,4 +8,7 @@ class SettingsValues
 {
     public const ENABLED = 'enabled';
     public const DISABLED = 'disabled';
+
+    public const DEFAULT = 'default';
+    public const NONE = 'none';
 }

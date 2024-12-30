@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 9.0.0
+Stable tag: 10.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -26,15 +26,15 @@ The [standard use cases](https://gatographql.com) are:
 
 With Gato GraphQL, you also have the flexibility to migrate your application from WordPress to another PHP-based framework or CMS (if ever needed) with minimal effort: The GraphQL server can run via its standalone PHP component (which doesn't depend on WordPress), and only those resolvers fetching WordPress data (posts, users, comments, etc) used by your application would need to be ported. You can do **Headless WordPress without WordPress**, avoiding the vendor lock-in to WordPress.
 
-== Extensions ==
+== Power Extensions ==
 
-[Extensions](https://gatographql.com/extensions) allow you to augment the server functionality, and extend the GraphQL schema.
+The [Power Extensions](https://gatographql.com/extensions#power-extensions) allow you to augment the server functionality.
 
-[youtube https://www.youtube.com/watch?v=3YaaMJNTIuk]
+[youtube https://www.youtube.com/watch?v=d-Ap9axT7kE]
 
-You can purchase each extension separately, or get a [bundle containing all the extensions](https://gatographql.com/pricing).
+You can purchase a [bundle containing all the power extensions](https://gatographql.com/pricing#power-extensions).
 
-The available extensions are:
+The available power extensions are:
 
 [Access Control](https://gatographql.com/extensions/access-control): Grant granular access to the schema (based on the user being logged-in, having some role or capability, or by IP), to manage who can access what data.
 
@@ -44,17 +44,37 @@ The available extensions are:
 
 [Deprecation](https://gatographql.com/extensions/deprecation): Evolve the GraphQL schema by deprecating fields, and explaining how to replace them, through a user interface.
 
+[HTTP Client](https://gatographql.com/extensions/http-client): Connect to and interact with external services via their APIs.
+
 [Internal GraphQL Server](https://gatographql.com/extensions/internal-graphql-server): Execute GraphQL queries directly within your application, using PHP code.
 
 [Multiple Query Execution](https://gatographql.com/extensions/multiple-query-execution): Combine multiple queries into a single query, sharing state across them and executing them in the requested order.
 
 [Persisted Queries](https://gatographql.com/extensions/persisted-queries): Use GraphQL queries to create pre-defined endpoints as in REST, obtaining the benefits from both APIs.
 
-[Polylang Integration](https://gatographql.com/extensions/polylang-integration): Integration with the Polylang plugin, adding fields and filters to select the language when fetching data on a multilingual site.
-
 [Query Functions](https://gatographql.com/extensions/query-functions): Manipulate the values of fields within the GraphQL query, via a collection of utilities and special directives providing meta-programming capabilities.
 
 [Schema Functions](https://gatographql.com/extensions/schema-functions): The GraphQL schema is provided with fields and directives which expose functionalities from the PHP programming language.
+
+== Premium Extensions ==
+
+[Premium Extensions](https://gatographql.com/extensions#premium-extensions) allow you to integrate popular services and WordPress plugins into the GraphQL schema, and automate the execution of queries.
+
+You can [purchase each premium extension separately](https://gatographql.com/pricing#premium-extensions).
+
+The available premium extensions are:
+
+[Automation](https://gatographql.com/extensions/automation): Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron.
+
+[DeepL](https://gatographql.com/extensions/deepl): Translate a field value to over 30 languages using the DeepL API.
+
+[Events Manager](https://gatographql.com/extensions/events-manager): Integration with the Events Manager plugin, to fetch event data.
+
+[Google Translate](https://gatographql.com/extensions/google-translate): Translate a field value to over 190 languages using the Google Translate API.
+
+[MultilingualPress](https://gatographql.com/extensions/multilingualpress): Integration with the MultilingualPress plugin, to fetch multilingual data.
+
+[Polylang](https://gatographql.com/extensions/polylang): Integration with the Polylang plugin, adding fields and filters to select the language when fetching data on a multilingual site.
 
 == Frequently Asked Questions ==
 
@@ -66,6 +86,13 @@ The Gato GraphQL website contains extensive documentation:
 - [Extensions reference](https://gatographql.com/extensions-reference) docs
 - [Queries library](https://gatographql.com/library) with examples of GraphQL queries for many use cases
 - [Schema tutorial](https://gatographql.com/tutorial) to learn all the elements of the GraphQL schema
+
+= Can I watch videos demonstrating the plugin? =
+
+Sure you can. There are videos demonstrating how to use Gato GraphQL in:
+
+- The [Demos](https://gatographql.com/demos) page on gatographql.com
+- The [@GatoGraphQL YouTube channel](https://www.youtube.com/@GatoGraphQL)
 
 = Can I extend the GraphQL schema with my custom types and fields? =
 
@@ -170,6 +197,16 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 10.0.0 =
+* Breaking changes: Changed signature of method `validateDirectiveArgValue`, passing the `$directiveArgs` param when validating a single directive arg (#2989)
+* Breaking changes: Made params to method `assertIsValid` non-nullable (#2998)
+* Added GraphQL type `StringListValueJSONObject` (#2991)
+* Added YouTube videos to the extension docs (#9b95be5)
+* Added documentation for Premium Extensions (#2994)
+* Settings: For entries of the "Key => Label" type (eg: Extension license keys), allow to use a select input to print preselected values (#2988)
+* Fixed: Container not generated properly in certain hosts (`@required` attribute disregarded) (#3009)
+* Fixed: Use the Gutenberg Editor for the plugin CPTs (when Classic Editor active) (#3011)
 
 = 9.0.0 =
 * Breaking change: Changed signature of method `assertCommercialLicenseHasBeenActivated` (#2978)

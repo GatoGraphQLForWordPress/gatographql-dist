@@ -5,12 +5,11 @@ namespace PoP\ComponentModel\ObjectTypeResolverPickers;
 
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface;
 use PoP\ComponentModel\AttachableExtensions\AttachableExtensionTrait;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractObjectTypeResolverPicker implements \PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface
+abstract class AbstractObjectTypeResolverPicker extends AbstractBasicService implements \PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface
 {
     use AttachableExtensionTrait;
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
      */

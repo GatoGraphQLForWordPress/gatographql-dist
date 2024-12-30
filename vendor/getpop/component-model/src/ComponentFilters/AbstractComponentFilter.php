@@ -5,11 +5,10 @@ namespace PoP\ComponentModel\ComponentFilters;
 
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractComponentFilter implements \PoP\ComponentModel\ComponentFilters\ComponentFilterInterface
+abstract class AbstractComponentFilter extends AbstractBasicService implements \PoP\ComponentModel\ComponentFilters\ComponentFilterInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
      */

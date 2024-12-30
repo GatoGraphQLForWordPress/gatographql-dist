@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace PoPCMSSchema\UserAvatarsWP\TypeAPIs;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPCMSSchema\UserAvatars\TypeAPIs\UserAvatarTypeAPIInterface;
 use WP_User;
 
-class UserAvatarTypeAPI implements UserAvatarTypeAPIInterface
+class UserAvatarTypeAPI extends AbstractBasicService implements UserAvatarTypeAPIInterface
 {
-    use BasicServiceTrait;
-
     /**
      * @param string|int|object $userObjectOrID
      * @return string|int

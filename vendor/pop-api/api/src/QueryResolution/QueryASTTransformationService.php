@@ -17,13 +17,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment;
 use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 use PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use SplObjectStorage;
 use function max;
 /** @internal */
-class QueryASTTransformationService implements \PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface
+class QueryASTTransformationService extends AbstractBasicService implements \PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface
 {
-    use BasicServiceTrait;
     /**
      * Because fields are stored in SplObjectStorage,
      * the same instance must be retrieved in every case.

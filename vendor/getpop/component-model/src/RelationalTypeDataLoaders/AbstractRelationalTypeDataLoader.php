@@ -3,12 +3,11 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\RelationalTypeDataLoaders;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoP\LooseContracts\NameResolverInterface;
 /** @internal */
-abstract class AbstractRelationalTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface
+abstract class AbstractRelationalTypeDataLoader extends AbstractBasicService implements \PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoP\LooseContracts\NameResolverInterface|null
      */

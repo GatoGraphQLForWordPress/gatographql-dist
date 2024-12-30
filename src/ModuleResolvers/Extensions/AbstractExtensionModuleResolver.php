@@ -106,4 +106,9 @@ abstract class AbstractExtensionModuleResolver extends AbstractModuleResolver im
     {
         return $this->getSlug($module) . '/docs/modules';
     }
+
+    public function isPremium(string $module): bool
+    {
+        return false;
+    }
 }

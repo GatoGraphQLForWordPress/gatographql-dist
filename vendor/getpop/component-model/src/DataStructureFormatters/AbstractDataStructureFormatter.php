@@ -3,11 +3,10 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\DataStructureFormatters;
 
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractDataStructureFormatter implements \PoP\ComponentModel\DataStructureFormatters\DataStructureFormatterInterface
+abstract class AbstractDataStructureFormatter extends AbstractBasicService implements \PoP\ComponentModel\DataStructureFormatters\DataStructureFormatterInterface
 {
-    use BasicServiceTrait;
     /**
      * @return array<string,mixed>
      * @param array<string,mixed> $data

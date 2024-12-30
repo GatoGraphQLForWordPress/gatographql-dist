@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit007320f3eadb283162bd984c89278457
+class ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1754,11 +1754,14 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ExtensionCommonModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ExtensionCommonModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\AbstractBundleExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/AbstractBundleExtensionModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\AbstractExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/AbstractExtensionModuleResolver.php',
-        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\BundleExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/BundleExtensionModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\BundleExtensionModuleResolverInterface' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/BundleExtensionModuleResolverInterface.php',
-        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\ExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/ExtensionModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\ExtensionModuleResolverInterface' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/ExtensionModuleResolverInterface.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\ExtensionModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/ExtensionModuleResolverTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PowerBundleExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PowerBundleExtensionModuleResolver.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PowerExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PowerExtensionModuleResolver.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PremiumBundleExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PremiumBundleExtensionModuleResolver.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PremiumExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PremiumExtensionModuleResolver.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PremiumExtensionModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PremiumExtensionModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\HasMarkdownDocumentationModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/HasMarkdownDocumentationModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\IntegrationsModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/IntegrationsModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\MetaSchemaTypeModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/MetaSchemaTypeModuleResolver.php',
@@ -4145,6 +4148,7 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
         'PoPSchema\\ExtendedSchemaCommons\\Module' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/Module.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\EnumType\\ConditionEnumTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/EnumType/ConditionEnumTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\InputObjectType\\JSONObjectPropertyByInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/InputObjectType/JSONObjectPropertyByInputObjectTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AbstractScalarListValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AbstractScalarListValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AbstractScalarValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AbstractScalarValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AlwaysNullScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AlwaysNullScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\DomainScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/DomainScalarTypeResolver.php',
@@ -4159,6 +4163,7 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\PositiveIntScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/PositiveIntScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\StrictlyPositiveFloatScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/StrictlyPositiveFloatScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\StrictlyPositiveIntScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/StrictlyPositiveIntScalarTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\StringListValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/StringListValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\StringValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/StringValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\UUIDScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/UUIDScalarTypeResolver.php',
         'PoPSchema\\HTTPRequests\\Enums\\HTTPRequestMethodEnum' => __DIR__ . '/..' . '/pop-schema/http-requests/src/Enums/HTTPRequestMethodEnum.php',
@@ -5046,6 +5051,7 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
         'PoP\\Root\\Container\\ContainerCacheConfiguration' => __DIR__ . '/..' . '/getpop/root/src/Container/ContainerCacheConfiguration.php',
         'PoP\\Root\\Container\\ContainerInterface' => __DIR__ . '/..' . '/getpop/root/src/Container/ContainerInterface.php',
         'PoP\\Root\\Container\\HybridCompilerPasses\\AutomaticallyInstantiatedServiceCompilerPass' => __DIR__ . '/..' . '/getpop/root/src/Container/HybridCompilerPasses/AutomaticallyInstantiatedServiceCompilerPass.php',
+        'PoP\\Root\\Container\\HybridCompilerPasses\\SetInstanceManagerOnBasicServiceCompilerPass' => __DIR__ . '/..' . '/getpop/root/src/Container/HybridCompilerPasses/SetInstanceManagerOnBasicServiceCompilerPass.php',
         'PoP\\Root\\Container\\Loader\\SchemaServiceYamlFileLoader' => __DIR__ . '/..' . '/getpop/root/src/Container/Loader/SchemaServiceYamlFileLoader.php',
         'PoP\\Root\\Container\\Loader\\ServiceYamlFileLoader' => __DIR__ . '/..' . '/getpop/root/src/Container/Loader/ServiceYamlFileLoader.php',
         'PoP\\Root\\Container\\Loader\\ServiceYamlFileLoaderTrait' => __DIR__ . '/..' . '/getpop/root/src/Container/Loader/ServiceYamlFileLoaderTrait.php',
@@ -5117,13 +5123,14 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
         'PoP\\Root\\Routing\\RoutingHelperServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Routing/RoutingHelperServiceInterface.php',
         'PoP\\Root\\Routing\\RoutingManagerInterface' => __DIR__ . '/..' . '/getpop/root/src/Routing/RoutingManagerInterface.php',
         'PoP\\Root\\Services\\AbstractAutomaticallyInstantiatedService' => __DIR__ . '/..' . '/getpop/root/src/Services/AbstractAutomaticallyInstantiatedService.php',
+        'PoP\\Root\\Services\\AbstractBasicService' => __DIR__ . '/..' . '/getpop/root/src/Services/AbstractBasicService.php',
+        'PoP\\Root\\Services\\ActivableServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/ActivableServiceInterface.php',
+        'PoP\\Root\\Services\\ActivableServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/ActivableServiceTrait.php',
         'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceInterface.php',
         'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceTrait.php',
+        'PoP\\Root\\Services\\BasicServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/BasicServiceInterface.php',
         'PoP\\Root\\Services\\BasicServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/BasicServiceTrait.php',
-        'PoP\\Root\\Services\\ServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/ServiceInterface.php',
-        'PoP\\Root\\Services\\ServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/ServiceTrait.php',
         'PoP\\Root\\Services\\StandaloneServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/StandaloneServiceTrait.php',
-        'PoP\\Root\\Services\\WithInstanceManagerServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/WithInstanceManagerServiceTrait.php',
         'PoP\\Root\\StateManagers\\AppStateManager' => __DIR__ . '/..' . '/getpop/root/src/StateManagers/AppStateManager.php',
         'PoP\\Root\\StateManagers\\AppStateManagerInterface' => __DIR__ . '/..' . '/getpop/root/src/StateManagers/AppStateManagerInterface.php',
         'PoP\\Root\\StateManagers\\HookManager' => __DIR__ . '/..' . '/getpop/root/src/StateManagers/HookManager.php',
@@ -5144,9 +5151,9 @@ class ComposerStaticInit007320f3eadb283162bd984c89278457
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit007320f3eadb283162bd984c89278457::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit007320f3eadb283162bd984c89278457::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit007320f3eadb283162bd984c89278457::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$classMap;
 
         }, null, ClassLoader::class);
     }

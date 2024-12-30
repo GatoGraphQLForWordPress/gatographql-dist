@@ -3,11 +3,15 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\AttachableExtensions;
 
-use PoP\Root\Services\ServiceTrait;
+use PoP\Root\Services\ActivableServiceTrait;
 /** @internal */
 trait AttachableExtensionTrait
 {
-    use ServiceTrait;
+    use ActivableServiceTrait;
+    /**
+     * @var bool
+     */
+    protected $attached = \false;
     protected abstract function getAttachableExtensionManager() : \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface;
     /**
      * It is represented through a static class, because the extensions work at class level, not object level
@@ -28,10 +32,20 @@ trait AttachableExtensionTrait
      */
     public function attach(string $group) : void
     {
+        $this->attached = \true;
         $attachableExtensionManager = $this->getAttachableExtensionManager();
         $classesToAttachTo = $this->getClassesToAttachTo();
         foreach ($classesToAttachTo as $attachableClass) {
             $attachableExtensionManager->attachExtensionToClass($attachableClass, $group, $this);
         }
+    }
+    /**
+     * Use this function as a proxy to know if a Service
+     * has not been disabled (i.e. it has been added to
+     * the GraphQL schema)
+     */
+    public function hasServiceBeenAttached() : bool
+    {
+        return $this->attached;
     }
 }

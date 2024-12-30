@@ -4,11 +4,9 @@ declare (strict_types=1);
 namespace PoP\Root\Hooks;
 
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
-use PoP\Root\Services\BasicServiceTrait;
 /** @internal */
 abstract class AbstractHookSet extends AbstractAutomaticallyInstantiatedService
 {
-    use BasicServiceTrait;
     public final function initialize() : void
     {
         // Initialize the hooks

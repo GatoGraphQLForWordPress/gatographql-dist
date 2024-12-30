@@ -4,15 +4,14 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Settings\TypeAPIs;
 
 use PoP\Root\App;
-use PoP\Root\Services\BasicServiceTrait;
+use PoP\Root\Services\AbstractBasicService;
 use PoPCMSSchema\Settings\Module;
 use PoPCMSSchema\Settings\ModuleConfiguration;
 use PoPCMSSchema\Settings\Exception\OptionNotAllowedException;
 use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
 /** @internal */
-abstract class AbstractSettingsTypeAPI implements \PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface
+abstract class AbstractSettingsTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface
 {
-    use BasicServiceTrait;
     /**
      * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
      */
