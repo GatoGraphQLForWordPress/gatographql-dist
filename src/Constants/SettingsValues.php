@@ -11,4 +11,5 @@ class SettingsValues
 
     public const DEFAULT = 'default';
     public const NONE = 'none';
+    public const CURRENT = 'current';
 }

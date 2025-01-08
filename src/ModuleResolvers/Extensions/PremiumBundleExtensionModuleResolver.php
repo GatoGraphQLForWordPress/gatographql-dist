@@ -13,11 +13,10 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
     use PremiumExtensionModuleResolverTrait;
 
     public const AUTOMATION = Plugin::NAMESPACE . '\\bundle-extensions\\automation';
-    public const DEEPL = Plugin::NAMESPACE . '\\bundle-extensions\\deepl';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\bundle-extensions\\events-manager';
-    public const GOOGLE_TRANSLATE = Plugin::NAMESPACE . '\\bundle-extensions\\google-translate';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\bundle-extensions\\multilingualpress';
     public const POLYLANG = Plugin::NAMESPACE . '\\bundle-extensions\\polylang';
+    public const TRANSLATION = Plugin::NAMESPACE . '\\bundle-extensions\\translation';
 
     /**
      * @return string[]
@@ -29,11 +28,10 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         }
         return [
             self::AUTOMATION,
-            self::DEEPL,
             self::EVENTS_MANAGER,
-            self::GOOGLE_TRANSLATE,
             self::MULTILINGUALPRESS,
             self::POLYLANG,
+            self::TRANSLATION,
         ];
     }
 
@@ -42,16 +40,14 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Automation', 'gatographql');
-            case self::DEEPL:
-                return \__('DeepL', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Events Manager', 'gatographql');
-            case self::GOOGLE_TRANSLATE:
-                return \__('Google Translate', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('MultilingualPress', 'gatographql');
             case self::POLYLANG:
                 return \__('Polylang', 'gatographql');
+            case self::TRANSLATION:
+                return \__('Translation', 'gatographql');
             default:
                 return $module;
         }
@@ -62,16 +58,14 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
-            case self::DEEPL:
-                return \__('Translate content to multiple languages using the DeepL API.', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
-            case self::GOOGLE_TRANSLATE:
-                return \__('Translate content to multiple languages using the Google Translate API.', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::POLYLANG:
                 return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
+            case self::TRANSLATION:
+                return \__('Translate content to multiple languages using the service provider of your choice, among ChatGPT, DeepL, and Google Translate.', 'gatographql');
             default:
                 return parent::getDescription($module);
         }
@@ -89,16 +83,14 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return $imagePathURL . '/automation.svg';
-            case self::DEEPL:
-                return $imagePathURL . '/deepl.svg';
             case self::EVENTS_MANAGER:
                 return $imagePathURL . '/events-manager.webp';
-            case self::GOOGLE_TRANSLATE:
-                return $imagePathURL . '/google-translate.svg';
             case self::MULTILINGUALPRESS:
                 return $imagePathURL . '/multilingualpress.png';
             case self::POLYLANG:
                 return $imagePathURL . '/polylang.png';
+            case self::TRANSLATION:
+                return $imagePathURL . '/translation.svg';
             default:
                 return parent::getLogoURL($module);
         }
@@ -114,19 +106,9 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
                 return [
                     PremiumExtensionModuleResolver::AUTOMATION,
                 ];
-            case self::DEEPL:
-                return [
-                    PremiumExtensionModuleResolver::DEEPL,
-                    PremiumExtensionModuleResolver::TRANSLATION,
-                ];
             case self::EVENTS_MANAGER:
                 return [
                     PremiumExtensionModuleResolver::EVENTS_MANAGER,
-                ];
-            case self::GOOGLE_TRANSLATE:
-                return [
-                    PremiumExtensionModuleResolver::GOOGLE_TRANSLATE,
-                    PremiumExtensionModuleResolver::TRANSLATION,
                 ];
             case self::MULTILINGUALPRESS:
                 return [
@@ -135,6 +117,13 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::POLYLANG:
                 return [
                     PremiumExtensionModuleResolver::POLYLANG,
+                ];
+            case self::TRANSLATION:
+                return [
+                    PremiumExtensionModuleResolver::CHATGPT_TRANSLATION,
+                    PremiumExtensionModuleResolver::DEEPL,
+                    PremiumExtensionModuleResolver::GOOGLE_TRANSLATE,
+                    PremiumExtensionModuleResolver::TRANSLATION,
                 ];
             default:
                 return [];

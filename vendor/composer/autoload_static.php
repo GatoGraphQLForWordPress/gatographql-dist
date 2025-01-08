@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e
+class ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1780,6 +1780,7 @@ class ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\SchemaTypeModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/SchemaTypeModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\SchemaTypeModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/SchemaTypeModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ServerFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ServerFunctionalityModuleResolverTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ServiceConfigurationSettingsFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ServiceConfigurationSettingsFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\UserInterfaceFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/UserInterfaceFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\UserInterfaceFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/UserInterfaceFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\VersioningFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/VersioningFunctionalityModuleResolverTrait.php',
@@ -4286,6 +4287,7 @@ class ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e
         'PoPWPSchema\\CustomPosts\\Overrides\\RelationalTypeDataLoaders\\ObjectType\\CustomPostObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Overrides/RelationalTypeDataLoaders/ObjectType/CustomPostObjectTypeDataLoader.php',
         'PoPWPSchema\\CustomPosts\\Overrides\\TypeResolvers\\EnumType\\CustomPostOrderByEnumTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Overrides/TypeResolvers/EnumType/CustomPostOrderByEnumTypeResolver.php',
         'PoPWPSchema\\CustomPosts\\Overrides\\TypeResolvers\\EnumType\\CustomPostOrderByEnumTypeResolverTrait' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Overrides/TypeResolvers/EnumType/CustomPostOrderByEnumTypeResolverTrait.php',
+        'PoPWPSchema\\CustomPosts\\Overrides\\TypeResolvers\\EnumType\\CustomPostStatusEnumTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Overrides/TypeResolvers/EnumType/CustomPostStatusEnumTypeResolver.php',
         'PoPWPSchema\\CustomPosts\\SchemaHooks\\AbstractAddCustomPostPasswordInputFieldsInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/SchemaHooks/AbstractAddCustomPostPasswordInputFieldsInputObjectTypeHookSet.php',
         'PoPWPSchema\\CustomPosts\\SchemaHooks\\AddCustomPostPasswordInputFieldsInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/SchemaHooks/AddCustomPostPasswordInputFieldsInputObjectTypeHookSet.php',
         'PoPWPSchema\\CustomPosts\\SchemaHooks\\ConvertDateQueryInputFieldToArrayInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/SchemaHooks/ConvertDateQueryInputFieldToArrayInputObjectTypeHookSet.php',
@@ -5151,9 +5153,9 @@ class ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0f3ef9c66e11539e34b98bdef57f8e4e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$classMap;
 
         }, null, ClassLoader::class);
     }

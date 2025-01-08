@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 10.0.0
+Stable tag: 10.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -66,15 +66,13 @@ The available premium extensions are:
 
 [Automation](https://gatographql.com/extensions/automation): Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron.
 
-[DeepL](https://gatographql.com/extensions/deepl): Translate a field value to over 30 languages using the DeepL API.
-
 [Events Manager](https://gatographql.com/extensions/events-manager): Integration with the Events Manager plugin, to fetch event data.
-
-[Google Translate](https://gatographql.com/extensions/google-translate): Translate a field value to over 190 languages using the Google Translate API.
 
 [MultilingualPress](https://gatographql.com/extensions/multilingualpress): Integration with the MultilingualPress plugin, to fetch multilingual data.
 
 [Polylang](https://gatographql.com/extensions/polylang): Integration with the Polylang plugin, adding fields and filters to select the language when fetching data on a multilingual site.
+
+[Translation](https://gatographql.com/extensions/translation): Translate a field value using the service provider of your choice, among ChatGPT, DeepL, and Google Translate.
 
 == Frequently Asked Questions ==
 
@@ -159,9 +157,13 @@ Yes you can. Even more, only the WordPress-specific packages to fetch WordPress 
 
 Check guide [Migrating your app from WordPress to another PHP framework or CMS](https://gatographql.com/guides/interact/migrating-gatographql-from-wordpress-to-another-php-framework-or-cms) to learn more.
 
-= What are extensions needed for? =
+= What are Power Extensions needed for? =
 
-Extensions are needed to enhance the security of public APIs, add HTTP caching to speed up the application, execute multiple queries in a single request, connect to external services, send emails, and others.
+Power Extensions are sold in a bundle containing all of them. They are needed to enhance the security of public APIs, add HTTP caching to speed up the application, execute multiple queries in a single request, connect to external services, send emails, and others.
+
+= What are Premium Extensions needed for? =
+
+Premium Extensions are sold individually. Each extension provides some specific functionality, such as an integration with some specific WordPress plugin or external service, or the ability to automate tasks.
 
 = Does Gato GraphQL have a refund policy? =
 
@@ -197,6 +199,20 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 10.1 =
+* Added YouTube video for the Automation extension doc (#93311e2)
+* Completed documentation for extensions:
+  * [Schema Functions] New fields `_arrayEncodeAsJSONString` and `_objectEncodeAsJSONString` (#3013)
+  * [Helper Function Collection] New field `_arrayOfJSONObjectsExtractPropertiesAndConvertToObject` (#3018)
+* Order tabs in Settings by priority (#3014)
+* Added documentation for new extension "Translation" (replacing "Google Translate" and "DeepL") (#3016)
+* Allow to create custom posts as `private` (#3019)
+* Allow printing textarea options in Settings (#3020)
+* Fixed: Exception when serializing an array value (#3017)
+* [Extensions][Schema Functions] Added fields `_arrayEncodeAsJSONString` and `_objectEncodeAsJSONString`
+* [Extensions][Helper Function Collection] Added field `_arrayOfJSONObjectsExtractPropertiesAndConvertToObject`
+* [Extensions][Google Translate] Fixed: Make the `@strTranslate` directive send not more than 128 strings to translate
 
 = 10.0.0 =
 * Breaking changes: Changed signature of method `validateDirectiveArgValue`, passing the `$directiveArgs` param when validating a single directive arg (#2989)

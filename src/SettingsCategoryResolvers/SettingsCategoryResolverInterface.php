@@ -19,6 +19,8 @@ interface SettingsCategoryResolverInterface
 
     public function getOptionsFormName(string $settingsCategory): string;
 
+    public function getPriority(string $settingsCategory): int;
+
     /**
      * When printing the Settings, not all categories
      * need to submit a form. In particular,
