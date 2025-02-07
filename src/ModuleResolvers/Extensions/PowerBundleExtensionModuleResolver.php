@@ -141,7 +141,7 @@ class PowerBundleExtensionModuleResolver extends AbstractBundleExtensionModuleRe
         $pluginURL = PluginApp::getMainPlugin()->getPluginURL();
         switch ($module) {
             case self::POWER_EXTENSIONS:
-                return $pluginURL . 'assets/img/logos/GatoGraphQL-logo-face.png';
+                return $pluginURL . 'assets/img/logos/GatoGraphQL-logo-face.webp';
             case self::ACCESS_CONTROL:
                 return $pluginURL . 'assets/img/extension-logos/access-control.svg';
             case self::CACHING:

@@ -170,6 +170,15 @@ class IpUtils
      */
     public static function anonymize(string $ip) : string
     {
+        /**
+         * If the IP contains a % symbol, then it is a local-link address with scoping according to RFC 4007
+         * In that case, we only care about the part before the % symbol, as the following functions, can only work with
+         * the IP address itself. As the scope can leak information (containing interface name), we do not want to
+         * include it in our anonymized IP data.
+         */
+        if (\strpos($ip, '%') !== \false) {
+            $ip = \substr($ip, 0, \strpos($ip, '%'));
+        }
         $wrappedIPv6 = \false;
         if (\strncmp($ip, '[', \strlen('[')) === 0 && \substr_compare($ip, ']', -\strlen(']')) === 0) {
             $wrappedIPv6 = \true;

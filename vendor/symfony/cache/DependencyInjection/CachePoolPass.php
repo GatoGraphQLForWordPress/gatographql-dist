@@ -160,9 +160,6 @@ class CachePoolPass implements CompilerPassInterface
                 $clearer->setArgument(0, $pools);
             }
             $clearer->addTag('cache.pool.clearer');
-            if ('cache.system_clearer' === $id) {
-                $clearer->addTag('kernel.cache_clearer');
-            }
         }
         $allPoolsKeys = \array_keys($allPools);
         if ($container->hasDefinition('console.command.cache_pool_list')) {

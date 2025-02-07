@@ -86,9 +86,9 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::EVENTS_MANAGER:
                 return $imagePathURL . '/events-manager.webp';
             case self::MULTILINGUALPRESS:
-                return $imagePathURL . '/multilingualpress.png';
+                return $imagePathURL . '/multilingualpress.webp';
             case self::POLYLANG:
-                return $imagePathURL . '/polylang.png';
+                return $imagePathURL . '/polylang.webp';
             case self::TRANSLATION:
                 return $imagePathURL . '/translation.svg';
             default:

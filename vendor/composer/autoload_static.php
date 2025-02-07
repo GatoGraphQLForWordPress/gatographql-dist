@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c
+class ComposerStaticInit320d3f04921b2a532fde50e730d995ed
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1650,6 +1650,7 @@ class ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c
         'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => __DIR__ . '/../..' . '/src/Constants/ResetSettingsOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\SettingsValues' => __DIR__ . '/../..' . '/src/Constants/SettingsValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\TutorialLessons' => __DIR__ . '/../..' . '/src/Constants/TutorialLessons.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\Versioning' => __DIR__ . '/../..' . '/src/Constants/Versioning.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEditorBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEditorBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEndpointAnnotatorCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/AbstractRegisterEndpointAnnotatorCompilerPass.php',
@@ -5153,9 +5154,9 @@ class ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc4b89d84021e73d09393c6020d99fc5c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit320d3f04921b2a532fde50e730d995ed::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit320d3f04921b2a532fde50e730d995ed::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit320d3f04921b2a532fde50e730d995ed::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 10.1.0
+Stable tag: 10.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -200,7 +200,15 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 
 == Changelog ==
 
-= 10.1 =
+= 10.2.0 =
+* Added documentation for new field `_generateRandomString` in the Helper Function Collection extension (#3027)
+* Plugin updates: Use the same icon as the Gato GraphQL plugin for the extensions (#3022)
+* Allow to install setup data every time that the plugin is updated (#3028)
+* Convert all png images to webp (#3029)
+* [Extensions][Helper Function Collection] Added field `_generateRandomString`
+* [Extensions][Translation] Pass language + country code on `@strTranslate(to:)`
+
+= 10.1.0 =
 * Added YouTube video for the Automation extension doc (#93311e2)
 * Completed documentation for extensions:
   * [Schema Functions] New fields `_arrayEncodeAsJSONString` and `_objectEncodeAsJSONString` (#3013)

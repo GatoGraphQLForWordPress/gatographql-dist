@@ -819,6 +819,7 @@ return array(
     'GatoGraphQL\\GatoGraphQL\\Constants\\ResetSettingsOptions' => $baseDir . '/src/Constants/ResetSettingsOptions.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\SettingsValues' => $baseDir . '/src/Constants/SettingsValues.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\TutorialLessons' => $baseDir . '/src/Constants/TutorialLessons.php',
+    'GatoGraphQL\\GatoGraphQL\\Constants\\Versioning' => $baseDir . '/src/Constants/Versioning.php',
     'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractConfigureSchemaNamespacingCompilerPass' => $baseDir . '/src/Container/CompilerPasses/AbstractConfigureSchemaNamespacingCompilerPass.php',
     'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEditorBlockCompilerPass' => $baseDir . '/src/Container/CompilerPasses/AbstractRegisterEditorBlockCompilerPass.php',
     'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\AbstractRegisterEndpointAnnotatorCompilerPass' => $baseDir . '/src/Container/CompilerPasses/AbstractRegisterEndpointAnnotatorCompilerPass.php',
