@@ -47,7 +47,7 @@ humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefi
 humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedIntervalStringException');
 humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInitd767d7e0a6383d8f409ce9e1d0cb837e', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitd767d7e0a6383d8f409ce9e1d0cb837e');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit2b3cf0890776ae0015e7234e2fa582fb', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit2b3cf0890776ae0015e7234e2fa582fb');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
