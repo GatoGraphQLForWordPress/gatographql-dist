@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 10.2.0
+Stable tag: 10.3.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,16 @@ The available premium extensions are:
 [Polylang](https://gatographql.com/extensions/polylang): Integration with the Polylang plugin, adding fields and filters to select the language when fetching data on a multilingual site.
 
 [Translation](https://gatographql.com/extensions/translation): Translate a field value using the service provider of your choice, among ChatGPT, DeepL, and Google Translate.
+
+== Built with Gato GraphQL ==
+
+All the plugins by [Gato Plugins](https://gatoplugins.com) use Gato GraphQL under the hook.
+
+You can use Gato GraphQL to do everything offered by Gato Plugins!
+
+The plugins are:
+
+[Gato Multilingual for Polylang](https://gatoplugins.com/plugins/multilingual-polylang): Automatically translate your content.
 
 == Frequently Asked Questions ==
 
@@ -199,6 +209,10 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 10.3.0 =
+* Updated documentation for the **Response Error Trigger** module, adding the new `_warn` field and `@warn` directive (#3034)
+* Use the smaller images between PNG and WEBP (#3031)
 
 = 10.2.0 =
 * Added documentation for new field `_generateRandomString` in the Helper Function Collection extension (#3027)

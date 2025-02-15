@@ -381,7 +381,7 @@ abstract class AbstractUnionTypeResolver extends AbstractRelationalTypeResolver 
      */
     public function resolveValue(object $object, $fieldOrFieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
-        // Check that a typeResolver from this Union can process this object, or return an arror
+        // Check that a typeResolver from this Union can process this object, or return an error
         $targetObjectTypeResolver = $this->getTargetObjectTypeResolver($object);
         if ($targetObjectTypeResolver === null) {
             $field = $fieldOrFieldDataAccessor instanceof FieldInterface ? $fieldOrFieldDataAccessor : $fieldOrFieldDataAccessor->getField();
