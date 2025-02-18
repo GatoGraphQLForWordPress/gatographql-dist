@@ -13,5 +13,7 @@ class MutationInputProperties
     public const SLUG = 'slug';
     public const STATUS = 'status';
     public const CUSTOMPOST_TYPE = 'customPostType';
+    public const DATE = 'date';
+    public const GMT_DATE = 'gmtDate';
     public const HTML = 'html';
 }

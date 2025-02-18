@@ -3,13 +3,14 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType;
 
-use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
-use PoP\ComponentModel\Schema\SchemaTypeModifiers;
-use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
-use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
-use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver;
+use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver;
+use PoP\ComponentModel\Schema\SchemaTypeModifiers;
+use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
+use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
+use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\UpdateCustomPostInputObjectTypeResolverInterface, \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CreateCustomPostInputObjectTypeResolverInterface
 {
@@ -29,6 +30,10 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
      * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostContentAsOneofInputObjectTypeResolver|null
      */
     private $customPostContentAsOneofInputObjectTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver|null
+     */
+    private $dateTimeScalarTypeResolver;
     protected final function getCustomPostStatusEnumTypeResolver() : CustomPostStatusEnumTypeResolver
     {
         if ($this->customPostStatusEnumTypeResolver === null) {
@@ -65,6 +70,15 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
         }
         return $this->customPostContentAsOneofInputObjectTypeResolver;
     }
+    protected final function getDateTimeScalarTypeResolver() : DateTimeScalarTypeResolver
+    {
+        if ($this->dateTimeScalarTypeResolver === null) {
+            /** @var DateTimeScalarTypeResolver */
+            $dateTimeScalarTypeResolver = $this->instanceManager->getInstance(DateTimeScalarTypeResolver::class);
+            $this->dateTimeScalarTypeResolver = $dateTimeScalarTypeResolver;
+        }
+        return $this->dateTimeScalarTypeResolver;
+    }
     public function getTypeDescription() : ?string
     {
         return $this->__('Input to update a custom post', 'custompost-mutations');
@@ -74,7 +88,7 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge($this->addCustomPostInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], [MutationInputProperties::TITLE => $this->getStringScalarTypeResolver(), MutationInputProperties::CONTENT_AS => $this->getContentAsOneofInputObjectTypeResolver(), MutationInputProperties::EXCERPT => $this->getStringScalarTypeResolver(), MutationInputProperties::SLUG => $this->getStringScalarTypeResolver(), MutationInputProperties::STATUS => $this->getCustomPostStatusEnumTypeResolver()]);
+        return \array_merge($this->addCustomPostInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], [MutationInputProperties::TITLE => $this->getStringScalarTypeResolver(), MutationInputProperties::CONTENT_AS => $this->getContentAsOneofInputObjectTypeResolver(), MutationInputProperties::EXCERPT => $this->getStringScalarTypeResolver(), MutationInputProperties::SLUG => $this->getStringScalarTypeResolver(), MutationInputProperties::STATUS => $this->getCustomPostStatusEnumTypeResolver(), MutationInputProperties::DATE => $this->getDateTimeScalarTypeResolver(), MutationInputProperties::GMT_DATE => $this->getDateTimeScalarTypeResolver()]);
     }
     protected function getContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostContentAsOneofInputObjectTypeResolver
     {
@@ -96,6 +110,10 @@ abstract class AbstractCreateOrUpdateCustomPostInputObjectTypeResolver extends A
                 return $this->__('The slug of the custom post', 'custompost-mutations');
             case MutationInputProperties::STATUS:
                 return $this->__('The status of the custom post', 'custompost-mutations');
+            case MutationInputProperties::DATE:
+                return $this->__('The date of the custom post', 'custompost-mutations');
+            case MutationInputProperties::GMT_DATE:
+                return $this->__('The date in GMT of the custom post', 'custompost-mutations');
             default:
                 return parent::getInputFieldDescription($inputFieldName);
         }

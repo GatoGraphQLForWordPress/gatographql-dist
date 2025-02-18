@@ -61,6 +61,18 @@ class CustomPostTypeMutationAPI extends AbstractBasicService implements CustomPo
             $query['post_type'] = $query['custompost-type'];
             unset($query['custompost-type']);
         }
+        if (isset($query['date'])) {
+            $query['post_date'] = $query['date'];
+            // Also store the date for `draft` status
+            $query['edit_date'] = true;
+            unset($query['date']);
+        }
+        if (isset($query['gmtDate'])) {
+            $query['post_date_gmt'] = $query['gmtDate'];
+            // Also store the date for `draft` status
+            $query['edit_date'] = true;
+            unset($query['gmtDate']);
+        }
 
         return App::applyFilters(
             self::HOOK_QUERY,

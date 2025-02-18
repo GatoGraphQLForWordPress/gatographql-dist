@@ -23,6 +23,7 @@ class Properties
     public const TYPE = 'type';
     public const SUBTYPE = 'subtype';
     public const TYPE_STRING = 'string';
+    public const TYPE_PASSWORD = 'password';
     public const TYPE_BOOL = 'bool';
     public const TYPE_INT = 'int';
     public const TYPE_ARRAY = 'array';

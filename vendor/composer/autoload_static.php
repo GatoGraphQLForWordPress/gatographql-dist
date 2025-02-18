@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb
+class ComposerStaticInit3ddbd03a128769b016883dc01bee4cef
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1643,6 +1643,7 @@ class ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb
         'GatoGraphQL\\GatoGraphQL\\Constants\\GlobalFieldsSchemaExposure' => __DIR__ . '/../..' . '/src/Constants/GlobalFieldsSchemaExposure.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HTMLCodes' => __DIR__ . '/../..' . '/src/Constants/HTMLCodes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\LoggerSigns' => __DIR__ . '/../..' . '/src/Constants/LoggerSigns.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptionValues' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptionValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptions' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\PluginSetupDataEntrySlugs' => __DIR__ . '/../..' . '/src/Constants/PluginSetupDataEntrySlugs.php',
@@ -1764,6 +1765,7 @@ class ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PremiumExtensionModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PremiumExtensionModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\Extensions\\PremiumExtensionModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/Extensions/PremiumExtensionModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\HasMarkdownDocumentationModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/HasMarkdownDocumentationModuleResolverTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\IntegrationSchemaDirectiveModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/IntegrationSchemaDirectiveModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\IntegrationsModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/IntegrationsModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\MetaSchemaTypeModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/MetaSchemaTypeModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ModuleResolverInterface' => __DIR__ . '/../..' . '/src/ModuleResolvers/ModuleResolverInterface.php',
@@ -4204,7 +4206,6 @@ class ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb
         'PoPSchema\\SchemaCommons\\ObjectTypeResolverPickers\\AbstractGenericErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/ObjectTypeResolverPickers/AbstractGenericErrorPayloadObjectTypeResolverPicker.php',
         'PoPSchema\\SchemaCommons\\ObjectTypeResolverPickers\\ErrorPayloadObjectTypeResolverPickerInterface' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/ObjectTypeResolverPickers/ErrorPayloadObjectTypeResolverPickerInterface.php',
         'PoPSchema\\SchemaCommons\\ObjectTypeResolverPickers\\GenericErrorPayloadObjectTypeResolverPickerInterface' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/ObjectTypeResolverPickers/GenericErrorPayloadObjectTypeResolverPickerInterface.php',
-        'PoPSchema\\SchemaCommons\\Polyfill\\PHP72\\DateTimeInterface' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/Polyfill/PHP72/DateTimeInterface.php',
         'PoPSchema\\SchemaCommons\\RelationalTypeDataLoaders\\ObjectType\\GenericErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/RelationalTypeDataLoaders/ObjectType/GenericErrorPayloadObjectTypeDataLoader.php',
         'PoPSchema\\SchemaCommons\\RelationalTypeDataLoaders\\ObjectType\\ObjectMutationPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/RelationalTypeDataLoaders/ObjectType/ObjectMutationPayloadObjectTypeDataLoader.php',
         'PoPSchema\\SchemaCommons\\Services\\AllowOrDenySettingsService' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/Services/AllowOrDenySettingsService.php',
@@ -5154,9 +5155,9 @@ class ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2b3cf0890776ae0015e7234e2fa582fb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3ddbd03a128769b016883dc01bee4cef::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3ddbd03a128769b016883dc01bee4cef::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3ddbd03a128769b016883dc01bee4cef::$classMap;
 
         }, null, ClassLoader::class);
     }

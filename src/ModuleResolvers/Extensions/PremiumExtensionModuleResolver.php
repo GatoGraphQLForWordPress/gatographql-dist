@@ -12,6 +12,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
 
     public const AUTOMATION = Plugin::NAMESPACE . '\\extensions\\automation';
     public const CHATGPT_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\chatgpt-translation';
+    public const CLAUDE_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\claude-translation';
     public const DEEPL = Plugin::NAMESPACE . '\\extensions\\deepl';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\extensions\\events-manager';
     public const GOOGLE_TRANSLATE = Plugin::NAMESPACE . '\\extensions\\google-translate';
@@ -27,6 +28,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
         return [
             self::AUTOMATION,
             self::CHATGPT_TRANSLATION,
+            self::CLAUDE_TRANSLATION,
             self::DEEPL,
             self::EVENTS_MANAGER,
             self::GOOGLE_TRANSLATE,
@@ -43,6 +45,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Automation', 'gatographql');
             case self::CHATGPT_TRANSLATION:
                 return \__('ChatGPT Translation', 'gatographql');
+            case self::CLAUDE_TRANSLATION:
+                return \__('Claude Translation', 'gatographql');
             case self::DEEPL:
                 return \__('DeepL', 'gatographql');
             case self::EVENTS_MANAGER:
@@ -67,6 +71,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
             case self::CHATGPT_TRANSLATION:
                 return \__('Translate content to multiple languages using the ChatGPT API.', 'gatographql');
+            case self::CLAUDE_TRANSLATION:
+                return \__('Translate content to multiple languages using the Claude API.', 'gatographql');
             case self::DEEPL:
                 return \__('Translate content to multiple languages using the DeepL API.', 'gatographql');
             case self::EVENTS_MANAGER:

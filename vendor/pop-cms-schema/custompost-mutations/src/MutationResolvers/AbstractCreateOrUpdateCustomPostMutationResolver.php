@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\MutationResolvers;
 
+use DateTime;
+use DateTimeInterface;
 use PoPCMSSchema\CustomPostMutations\Constants\CustomPostCRUDHookNames;
 use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostMutations\Exception\CustomPostCRUDMutationException;
@@ -195,6 +197,20 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         }
         if ($fieldDataAccessor->hasValue(MutationInputProperties::CUSTOMPOST_TYPE)) {
             $customPostData['custompost-type'] = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_TYPE);
+        }
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::DATE)) {
+            /** @var DateTime|null */
+            $dateTime = $fieldDataAccessor->getValue(MutationInputProperties::DATE);
+            if ($dateTime !== null) {
+                $customPostData['date'] = $dateTime->format(DateTimeInterface::ATOM);
+            }
+        }
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::GMT_DATE)) {
+            /** @var DateTime|null */
+            $gmtDateTime = $fieldDataAccessor->getValue(MutationInputProperties::GMT_DATE);
+            if ($gmtDateTime !== null) {
+                $customPostData['gmtDate'] = $gmtDateTime->format(DateTimeInterface::ATOM);
+            }
         }
         // Inject author, categories, tags, featured image, etc
         return App::applyFilters(CustomPostCRUDHookNames::GET_CREATE_OR_UPDATE_DATA, $customPostData, $fieldDataAccessor);

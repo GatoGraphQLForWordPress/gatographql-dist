@@ -65,7 +65,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::POLYLANG:
                 return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::TRANSLATION:
-                return \__('Translate content to multiple languages using the service provider of your choice, among ChatGPT, DeepL, and Google Translate.', 'gatographql');
+                return \__('Translate content to multiple languages using the service provider of your choice, among ChatGPT, Claude, DeepL, and Google Translate.', 'gatographql');
             default:
                 return parent::getDescription($module);
         }
@@ -121,6 +121,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::TRANSLATION:
                 return [
                     PremiumExtensionModuleResolver::CHATGPT_TRANSLATION,
+                    PremiumExtensionModuleResolver::CLAUDE_TRANSLATION,
                     PremiumExtensionModuleResolver::DEEPL,
                     PremiumExtensionModuleResolver::GOOGLE_TRANSLATE,
                     PremiumExtensionModuleResolver::TRANSLATION,
