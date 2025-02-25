@@ -510,7 +510,8 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         if ($customPost === null) {
             return null;
         }
-        return $gmt ? $customPost->post_date_gmt : $customPost->post_date;
+        // If the GMT date is stored as "0000-00-00 00:00:00", then use the non-GMT date
+        return $gmt && ($customPost->post_date_gmt !== "0000-00-00 00:00:00")  ? $customPost->post_date_gmt : $customPost->post_date;
     }
 
     /**
@@ -523,7 +524,8 @@ abstract class AbstractCustomPostTypeAPI extends UpstreamAbstractCustomPostTypeA
         if ($customPost === null) {
             return null;
         }
-        return $gmt ? $customPost->post_modified_gmt : $customPost->post_modified;
+        // If the GMT date is stored as "0000-00-00 00:00:00", then use the non-GMT date
+        return $gmt && ($customPost->post_modified_gmt !== "0000-00-00 00:00:00") ? $customPost->post_modified_gmt : $customPost->post_modified;
     }
     /**
      * @param string|int|object $customPostObjectOrID

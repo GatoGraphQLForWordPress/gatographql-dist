@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 10.4.0
+Stable tag: 10.5.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -209,6 +209,10 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 10.5.0 =
+* Enable multiple checkbox options in Settings (#3040)
+* Fixed: If the GMT date is stored as `"0000-00-00 00:00:00"`, then use the non-GMT date (#3041)
 
 = 10.4.0 =
 * Added password input on Settings (#3035)
