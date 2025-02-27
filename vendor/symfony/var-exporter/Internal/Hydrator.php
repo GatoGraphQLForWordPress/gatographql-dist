@@ -259,6 +259,8 @@ class Hydrator
             $propertyScopes[$name] = [$class, $name, $readonlyScope, $property];
             if (\ReflectionProperty::IS_PROTECTED & $flags) {
                 $propertyScopes["\x00*\x00{$name}"] = $propertyScopes[$name];
+            } elseif (\PHP_VERSION_ID >= 80400 && $property->getHooks()) {
+                $propertyScopes[$name][] = \true;
             }
         }
         while ($r = $r->getParentClass()) {

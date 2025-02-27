@@ -14,8 +14,10 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const CHATGPT_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\chatgpt-translation';
     public const CLAUDE_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\claude-translation';
     public const DEEPL = Plugin::NAMESPACE . '\\extensions\\deepl';
+    public const DEEPSEEK_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\deepseek-translation';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\extensions\\events-manager';
     public const GOOGLE_TRANSLATE = Plugin::NAMESPACE . '\\extensions\\google-translate';
+    public const MISTRALAI_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\mistralai-translation';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\extensions\\multilingualpress';
     public const POLYLANG = Plugin::NAMESPACE . '\\extensions\\polylang';
     public const TRANSLATION = Plugin::NAMESPACE . '\\extensions\\translation';
@@ -30,8 +32,10 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::CHATGPT_TRANSLATION,
             self::CLAUDE_TRANSLATION,
             self::DEEPL,
+            self::DEEPSEEK_TRANSLATION,
             self::EVENTS_MANAGER,
             self::GOOGLE_TRANSLATE,
+            self::MISTRALAI_TRANSLATION,
             self::MULTILINGUALPRESS,
             self::POLYLANG,
             self::TRANSLATION,
@@ -49,10 +53,14 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Claude Translation', 'gatographql');
             case self::DEEPL:
                 return \__('DeepL', 'gatographql');
+            case self::DEEPSEEK_TRANSLATION:
+                return \__('DeepSeek', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Events Manager', 'gatographql');
             case self::GOOGLE_TRANSLATE:
                 return \__('Google Translate', 'gatographql');
+            case self::MISTRALAI_TRANSLATION:
+                return \__('Mistral AI Translation', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('MultilingualPress', 'gatographql');
             case self::POLYLANG:
@@ -75,10 +83,14 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Translate content to multiple languages using the Claude API.', 'gatographql');
             case self::DEEPL:
                 return \__('Translate content to multiple languages using the DeepL API.', 'gatographql');
+            case self::DEEPSEEK_TRANSLATION:
+                return \__('Translate content to multiple languages using the DeepSeek API.', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
             case self::GOOGLE_TRANSLATE:
                 return \__('Translate content to multiple languages using the Google Translate API.', 'gatographql');
+            case self::MISTRALAI_TRANSLATION:
+                return \__('Translate content to multiple languages using the Mistral AI API.', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::POLYLANG:

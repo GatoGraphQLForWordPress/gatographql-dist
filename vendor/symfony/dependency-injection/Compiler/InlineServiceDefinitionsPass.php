@@ -220,6 +220,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass
         if ($srcCount > 1 && \is_array($factory = $definition->getFactory()) && ($factory[0] instanceof Reference || $factory[0] instanceof Definition)) {
             return \false;
         }
-        return $this->container->getDefinition($srcId)->isShared();
+        $srcDefinition = $this->container->getDefinition($srcId);
+        return $srcDefinition->isShared() && !$srcDefinition->isLazy();
     }
 }

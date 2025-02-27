@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f
+class ComposerStaticInit272769fb83a5fb4fbc5c3927324f330b
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1640,6 +1640,7 @@ class ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f
         'GatoGraphQL\\GatoGraphQL\\Constants\\BlockConstants' => __DIR__ . '/../..' . '/src/Constants/BlockConstants.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ConfigurationDefaultValues' => __DIR__ . '/../..' . '/src/Constants/ConfigurationDefaultValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\DocumentationConstants' => __DIR__ . '/../..' . '/src/Constants/DocumentationConstants.php',
+        'GatoGraphQL\\GatoGraphQL\\Constants\\ExtensionDataOptions' => __DIR__ . '/../..' . '/src/Constants/ExtensionDataOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\GlobalFieldsSchemaExposure' => __DIR__ . '/../..' . '/src/Constants/GlobalFieldsSchemaExposure.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HTMLCodes' => __DIR__ . '/../..' . '/src/Constants/HTMLCodes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
@@ -5155,9 +5156,9 @@ class ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit6ce419ae749bdd1a7cd12e7bf2122e8f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit272769fb83a5fb4fbc5c3927324f330b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit272769fb83a5fb4fbc5c3927324f330b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit272769fb83a5fb4fbc5c3927324f330b::$classMap;
 
         }, null, ClassLoader::class);
     }

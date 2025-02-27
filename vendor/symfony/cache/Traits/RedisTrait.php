@@ -16,6 +16,7 @@ use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\RedisCluster;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ReplicationInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Cluster\ClusterInterface as Predis2ClusterInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Cluster\RedisCluster as Predis2RedisCluster;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Replication\ReplicationInterface as Predis2ReplicationInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Response\ErrorInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Response\Status;
 use GatoExternalPrefixByGatoGraphQL\Relay\Relay;
@@ -422,9 +423,14 @@ trait RedisTrait
         $cleared = \true;
         $hosts = $this->getHosts();
         $host = \reset($hosts);
-        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
-            // Predis supports info command only on the master in replication environments
-            $hosts = [$host->getClientFor('master')];
+        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client) {
+            $connection = $host->getConnection();
+            if ($connection instanceof ReplicationInterface) {
+                $hosts = [$host->getClientFor('master')];
+            } elseif ($connection instanceof Predis2ReplicationInterface) {
+                $connection->switchToMaster();
+                $hosts = [$host];
+            }
         }
         foreach ($hosts as $host) {
             if (!isset($namespace[0])) {

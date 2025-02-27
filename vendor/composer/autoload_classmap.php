@@ -809,6 +809,7 @@ return array(
     'GatoGraphQL\\GatoGraphQL\\Constants\\BlockConstants' => $baseDir . '/src/Constants/BlockConstants.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\ConfigurationDefaultValues' => $baseDir . '/src/Constants/ConfigurationDefaultValues.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\DocumentationConstants' => $baseDir . '/src/Constants/DocumentationConstants.php',
+    'GatoGraphQL\\GatoGraphQL\\Constants\\ExtensionDataOptions' => $baseDir . '/src/Constants/ExtensionDataOptions.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\GlobalFieldsSchemaExposure' => $baseDir . '/src/Constants/GlobalFieldsSchemaExposure.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\HTMLCodes' => $baseDir . '/src/Constants/HTMLCodes.php',
     'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => $baseDir . '/src/Constants/HookNames.php',

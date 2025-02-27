@@ -83,6 +83,7 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
                 $activeExtensionData->slug,
                 $activeExtensionData->baseName,
                 $activeExtensionData->version,
+                $activeExtensionData->changelogURL,
                 $pluginLicenseKey,
                 str_replace('-', '_', $pluginSlug) . '_updater',
             );
@@ -193,10 +194,10 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
                  * will have link "View details", which produces an error,
                  * instead of the expected "Visit plugin site"
                  */
-                // 'slug'          => $pluginData->pluginSlug,
+                'slug'          => '',//$pluginData->pluginSlug,
                 'plugin'        => $pluginData->pluginBaseName,
                 'new_version'   => $pluginData->pluginVersion,
-                'url'           => '',
+                'url'           => $pluginData->pluginChangelogURL,
                 'package'       => '',
                 'icons'         => [
                     // For each extension, use the same icon as the Gato GraphQL plugin

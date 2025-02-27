@@ -30,18 +30,24 @@ class CommercialPluginUpdatedPluginData
      * @readonly
      * @var string
      */
+    public $pluginChangelogURL;
+    /**
+     * @readonly
+     * @var string
+     */
     public $licenseKey;
     /**
      * @readonly
      * @var string
      */
     public $cacheKey;
-    public function __construct(string $pluginName, string $pluginSlug, string $pluginBaseName, string $pluginVersion, string $licenseKey, string $cacheKey)
+    public function __construct(string $pluginName, string $pluginSlug, string $pluginBaseName, string $pluginVersion, string $pluginChangelogURL, string $licenseKey, string $cacheKey)
     {
         $this->pluginName = $pluginName;
         $this->pluginSlug = $pluginSlug;
         $this->pluginBaseName = $pluginBaseName;
         $this->pluginVersion = $pluginVersion;
+        $this->pluginChangelogURL = $pluginChangelogURL;
         $this->licenseKey = $licenseKey;
         $this->cacheKey = $cacheKey;
     }

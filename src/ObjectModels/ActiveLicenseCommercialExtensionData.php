@@ -31,12 +31,18 @@ class ActiveLicenseCommercialExtensionData
      * @var string
      */
     public $version;
-    public function __construct(string $productName, string $name, string $slug, string $baseName, string $version)
+    /**
+     * @readonly
+     * @var string
+     */
+    public $changelogURL;
+    public function __construct(string $productName, string $name, string $slug, string $baseName, string $version, string $changelogURL)
     {
         $this->productName = $productName;
         $this->name = $name;
         $this->slug = $slug;
         $this->baseName = $baseName;
         $this->version = $version;
+        $this->changelogURL = $changelogURL;
     }
 }
