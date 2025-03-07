@@ -940,6 +940,7 @@ class SettingsMenuPage extends AbstractPluginMenuPage
         $isMultiple = $itemSetting[Properties::IS_MULTIPLE] ?? false;
         $subtype = $itemSetting[Properties::SUBTYPE] ?? null;
         $isMultipleBool = empty($possibleValues) && $subtype === Properties::TYPE_BOOL;
+        $isPassword = $subtype === Properties::TYPE_PASSWORD;
         foreach ($keyLabels as $key => $label) {
             $id = $name . '_' . $key;
             if ($addSpacing) {
@@ -971,7 +972,12 @@ class SettingsMenuPage extends AbstractPluginMenuPage
                             id="<?php echo esc_attr($id) ?>"
                             class="regular-text"
                             value="<?php echo esc_html($value[$key] ?? '') ?>"
-                            type="text"
+                            <?php if ($isPassword) : ?>
+                                type="password"
+                            <?php else : ?>
+                                type="text"
+                            <?php endif; ?>
+                            
                         >
                         <?php
                     } else {

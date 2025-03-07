@@ -47,7 +47,7 @@ class TemplateHookSet extends AbstractHookSet
         );
     }
 
-    public function getTemplate(string $template): string
+    public function getTemplate(?string $template): ?string
     {
         if ($this->useTemplate()) {
             return $this->getTemplateHelpers()->getGenerateDataAndPrepareAndSendResponseTemplateFile();
