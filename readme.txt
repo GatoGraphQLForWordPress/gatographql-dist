@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
 Requires at least: 6.1
 Tested up to: 6.7
-Stable tag: 11.1.2
+Stable tag: 11.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -210,10 +210,16 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 
 == Changelog ==
 
+= 11.2.0 =
+* Support fetching Page Builders data in the GraphQL schema (#3051)
+* Added documentation for new field `_objectMerge`, from the **Schema Functions** extension (#3050)
+* Fixed: Malcare deactivate triggers Exception (#3054)
+* Fixed: Install plugin setup data on first request after activating license (#3055)
+
 = 11.1.2 =
 * Support `password` type in multi-inputs in Settings (#3047)
 * Use `password` type to activate extensions in Settings (#3048)
-* Fixed: Hook `template_include` can receive `null` values (error may hapen when WooCommerce is installed) (#3049)
+* Fixed: Hook `template_include` can receive `null` values (error may happen when WooCommerce is installed) (#3049)
 
 = 11.0.4 =
 * Fixed: Do not remove the Screen Options tab on the post list page (#3046)

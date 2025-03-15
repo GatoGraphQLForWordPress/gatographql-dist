@@ -27,6 +27,7 @@ return array(
     'PoPWPSchema\\SchemaCommons\\' => array($vendorDir . '/pop-wp-schema/schema-commons/src'),
     'PoPWPSchema\\Posts\\' => array($vendorDir . '/pop-wp-schema/posts/src'),
     'PoPWPSchema\\Pages\\' => array($vendorDir . '/pop-wp-schema/pages/src'),
+    'PoPWPSchema\\PageBuilder\\' => array($vendorDir . '/pop-wp-schema/pagebuilder/src'),
     'PoPWPSchema\\Multisite\\' => array($vendorDir . '/pop-wp-schema/multisite/src'),
     'PoPWPSchema\\Meta\\' => array($vendorDir . '/pop-wp-schema/meta/src'),
     'PoPWPSchema\\Menus\\' => array($vendorDir . '/pop-wp-schema/menus/src'),

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b
+class ComposerStaticInite4b2f29d18326c4a1a62ef1580a2beba
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -42,6 +42,7 @@ class ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b
             'PoPWPSchema\\SchemaCommons\\' => 26,
             'PoPWPSchema\\Posts\\' => 18,
             'PoPWPSchema\\Pages\\' => 18,
+            'PoPWPSchema\\PageBuilder\\' => 24,
             'PoPWPSchema\\Multisite\\' => 22,
             'PoPWPSchema\\Meta\\' => 17,
             'PoPWPSchema\\Menus\\' => 18,
@@ -272,6 +273,10 @@ class ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b
         'PoPWPSchema\\Pages\\' => 
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/pages/src',
+        ),
+        'PoPWPSchema\\PageBuilder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src',
         ),
         'PoPWPSchema\\Multisite\\' => 
         array (
@@ -4338,6 +4343,21 @@ class ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b
         'PoPWPSchema\\Multisite\\TypeAPIs\\MultisiteTypeAPI' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeAPIs/MultisiteTypeAPI.php',
         'PoPWPSchema\\Multisite\\TypeAPIs\\MultisiteTypeAPIInterface' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeAPIs/MultisiteTypeAPIInterface.php',
         'PoPWPSchema\\Multisite\\TypeResolvers\\ObjectType\\NetworkSiteObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/multisite/src/TypeResolvers/ObjectType/NetworkSiteObjectTypeResolver.php',
+        'PoPWPSchema\\PageBuilder\\ConditionalOnModule\\CustomPosts\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/ConditionalOnModule/CustomPosts/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPWPSchema\\PageBuilder\\Container\\CompilerPasses\\RegisterPageBuilderProviderCompilerPass' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Container/CompilerPasses/RegisterPageBuilderProviderCompilerPass.php',
+        'PoPWPSchema\\PageBuilder\\Facades\\PageBuilderServiceFacade' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Facades/PageBuilderServiceFacade.php',
+        'PoPWPSchema\\PageBuilder\\Facades\\Registries\\PageBuilderProviderRegistryFacade' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Facades/Registries/PageBuilderProviderRegistryFacade.php',
+        'PoPWPSchema\\PageBuilder\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPWPSchema\\PageBuilder\\Module' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Module.php',
+        'PoPWPSchema\\PageBuilder\\PageBuilderProviders\\AbstractPageBuilderProvider' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/PageBuilderProviders/AbstractPageBuilderProvider.php',
+        'PoPWPSchema\\PageBuilder\\PageBuilderProviders\\PageBuilderProviderInterface' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/PageBuilderProviders/PageBuilderProviderInterface.php',
+        'PoPWPSchema\\PageBuilder\\Registries\\PageBuilderProviderRegistry' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Registries/PageBuilderProviderRegistry.php',
+        'PoPWPSchema\\PageBuilder\\Registries\\PageBuilderProviderRegistryInterface' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Registries/PageBuilderProviderRegistryInterface.php',
+        'PoPWPSchema\\PageBuilder\\Services\\PageBuilderService' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Services/PageBuilderService.php',
+        'PoPWPSchema\\PageBuilder\\Services\\PageBuilderServiceInterface' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/Services/PageBuilderServiceInterface.php',
+        'PoPWPSchema\\PageBuilder\\TypeAPIs\\PageBuilderTypeAPI' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/TypeAPIs/PageBuilderTypeAPI.php',
+        'PoPWPSchema\\PageBuilder\\TypeAPIs\\PageBuilderTypeAPIInterface' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/TypeAPIs/PageBuilderTypeAPIInterface.php',
+        'PoPWPSchema\\PageBuilder\\TypeResolvers\\EnumType\\PageBuilderProvidersEnumStringTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src/TypeResolvers/EnumType/PageBuilderProvidersEnumStringTypeResolver.php',
         'PoPWPSchema\\Pages\\FieldResolvers\\ObjectType\\PageObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/FieldResolvers/ObjectType/PageObjectTypeFieldResolver.php',
         'PoPWPSchema\\Pages\\Hooks\\AddPagePasswordToFilterInputQueryHookSet' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/Hooks/AddPagePasswordToFilterInputQueryHookSet.php',
         'PoPWPSchema\\Pages\\Module' => __DIR__ . '/..' . '/pop-wp-schema/pages/src/Module.php',
@@ -5156,9 +5176,9 @@ class ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit95b8c4d3d263e79e6c476f8f43e4325b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite4b2f29d18326c4a1a62ef1580a2beba::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite4b2f29d18326c4a1a62ef1580a2beba::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite4b2f29d18326c4a1a62ef1580a2beba::$classMap;
 
         }, null, ClassLoader::class);
     }

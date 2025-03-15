@@ -52,6 +52,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_MEDIA = Plugin::NAMESPACE . '\schema-media';
     public const SCHEMA_SITE = Plugin::NAMESPACE . '\schema-site';
     public const SCHEMA_MULTISITE = Plugin::NAMESPACE . '\schema-multisite';
+    public const SCHEMA_PAGEBUILDER = Plugin::NAMESPACE . '\schema-pagebuilder';
     public const SCHEMA_TAGS = Plugin::NAMESPACE . '\schema-tags';
     public const SCHEMA_POST_TAGS = Plugin::NAMESPACE . '\schema-post-tags';
     public const SCHEMA_CATEGORIES = Plugin::NAMESPACE . '\schema-categories';
@@ -364,6 +365,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_COMMENTS,
             self::SCHEMA_SITE,
             self::SCHEMA_MULTISITE,
+            self::SCHEMA_PAGEBUILDER,
             self::SCHEMA_TAGS,
             self::SCHEMA_POST_TAGS,
             self::SCHEMA_CATEGORIES,
@@ -443,6 +445,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Site', 'gatographql');
             case self::SCHEMA_MULTISITE:
                 return \__('Multisite', 'gatographql');
+            case self::SCHEMA_PAGEBUILDER:
+                return \__('Page Builder', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Tags', 'gatographql');
             case self::SCHEMA_POST_TAGS:
@@ -535,6 +539,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Fetch site information', 'gatographql');
             case self::SCHEMA_MULTISITE:
                 return \__('Fetch site information in a WordPress multisite network', 'gatographql');
+            case self::SCHEMA_PAGEBUILDER:
+                return \__('Fetch data from Page Builders installed on the site', 'gatographql');
             case self::SCHEMA_TAGS:
                 return \__('Base functionality for all tags', 'gatographql');
             case self::SCHEMA_CATEGORIES:
@@ -591,6 +597,7 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_MEDIA:
             case self::SCHEMA_SITE:
             case self::SCHEMA_MULTISITE:
+            case self::SCHEMA_PAGEBUILDER:
                 return false;
         }
         return $this->upstreamHasDocumentation($module);
