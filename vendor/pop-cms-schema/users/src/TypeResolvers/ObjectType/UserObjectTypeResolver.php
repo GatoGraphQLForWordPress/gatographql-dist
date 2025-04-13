@@ -8,7 +8,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 use PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 /** @internal */
-class UserObjectTypeResolver extends AbstractObjectTypeResolver
+class UserObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolverInterface
 {
     /**
      * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null

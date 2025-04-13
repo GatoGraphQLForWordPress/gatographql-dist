@@ -17,7 +17,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\Meta\Module::class, \PoPCMSSchema\Taxonomies\Module::class];
+        return [\PoPCMSSchema\MetaMutations\Module::class, \PoPCMSSchema\Taxonomies\Module::class];
     }
     /**
      * Initialize services

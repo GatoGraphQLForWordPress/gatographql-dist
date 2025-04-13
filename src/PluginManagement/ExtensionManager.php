@@ -242,7 +242,7 @@ class ExtensionManager extends AbstractPluginManager
          */
         $mainPlugin = PluginApp::getMainPluginManager()->getPlugin();
         $mainPluginVersion = $mainPlugin->getPluginVersion();
-        $errorMessagePlaceholder = __('Plugin <strong>%s</strong> is on "%s" mode, but Extension <strong>%s</strong> is on "%s" mode. They must both be the same. The extension has not been loaded.', 'gatographql');
+        $errorMessagePlaceholder = 'Plugin <strong>%s</strong> is on "%s" mode, but Extension <strong>%s</strong> is on "%s" mode. They must both be the same. The extension has not been loaded.';
         if (PluginVersionHelpers::isDevelopmentVersion($mainPluginVersion) && !PluginVersionHelpers::isDevelopmentVersion($extensionVersion)) {
             $this->printAdminNoticeErrorMessage(
                 sprintf(
@@ -363,7 +363,7 @@ class ExtensionManager extends AbstractPluginManager
         ) {
             $this->showAdminWarningNotice(
                 $extensionName,
-                __('The license is invalid. Please <a href="%s">enter a new license key in %s</a> to enable it', 'gatographql')
+                'invalid',
             );
             $this->nonActivatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
             return false;
@@ -374,7 +374,7 @@ class ExtensionManager extends AbstractPluginManager
         if ($extensionCommercialExtensionActivatedLicenseObjectProperties->productName !== $extensionProductName) {
             $this->showAdminWarningNotice(
                 $extensionName,
-                __('The provided license key belongs to a different extension. Please <a href="%s">enter the right license key in %s</a> to enable it', 'gatographql')
+                'unmatching',
             );
             $this->nonActivatedLicenseCommercialExtensionSlugDataEntries[$extensionSlug] = $extensionData;
             return false;
@@ -387,10 +387,21 @@ class ExtensionManager extends AbstractPluginManager
     /**
      * Unless we are in the Settings page, show a warning about activating the extension
      */
-    protected function showAdminWarningNotice(string $extensionName, ?string $messagePlaceholder = null): void
+    protected function showAdminWarningNotice(string $extensionName, ?string $messagePlaceholderCode = null): void
     {
-        $messagePlaceholder = $messagePlaceholder ?? __('Please <a href="%s">enter the license key in %s</a> to enable it', 'gatographql');
-        \add_action('admin_notices', function () use ($extensionName, $messagePlaceholder) {
+        \add_action('admin_notices', function () use ($extensionName, $messagePlaceholderCode) {
+            switch ($messagePlaceholderCode) {
+                case 'invalid':
+                    $messagePlaceholder = __('The license is invalid. Please <a href="%s">enter a new license key in %s</a> to enable it', 'gatographql');
+                    break;
+                case 'unmatching':
+                    $messagePlaceholder = __('The provided license key belongs to a different extension. Please <a href="%s">enter the right license key in %s</a> to enable it', 'gatographql');
+                    break;
+                default:
+                    $messagePlaceholder = __('Please <a href="%s">enter the license key in %s</a> to enable it', 'gatographql');
+                    break;
+            }
+
             // /**
             //  * Do not print the warnings in the Settings page
             //  */

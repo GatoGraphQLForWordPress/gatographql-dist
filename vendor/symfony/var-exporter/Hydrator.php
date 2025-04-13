@@ -59,8 +59,8 @@ final class Hydrator
             $class = \get_class($instance);
             $propertyScopes = InternalHydrator::$propertyScopes[$class] = InternalHydrator::$propertyScopes[$class] ?? InternalHydrator::getPropertyScopes($class);
             foreach ($properties as $name => &$value) {
-                [$scope, $name, $readonlyScope] = $propertyScopes[$name] ?? [$class, $name, $class];
-                $scopedProperties[$readonlyScope ?? $scope][$name] =& $value;
+                [$scope, $name, $writeScope] = $propertyScopes[$name] ?? [$class, $name, $class];
+                $scopedProperties[$writeScope ?? $scope][$name] =& $value;
             }
             unset($value);
         }

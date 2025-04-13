@@ -6,6 +6,7 @@ namespace PoPCMSSchema\CustomPostMutations\MutationResolvers;
 use PoPCMSSchema\CustomPostMutations\Constants\CustomPostCRUDHookNames;
 use PoPCMSSchema\CustomPostMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotExistErrorPayload;
+use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotHaveExpectedTypeErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPermissionToEditCustomPostErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayload;
@@ -33,6 +34,8 @@ trait PayloadableCustomPostMutationResolverTrait
                 return new LoggedInUserHasNoPermissionToEditCustomPostErrorPayload($feedbackItemResolution->getMessage());
             case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
                 return new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
+            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
+                return new CustomPostDoesNotHaveExpectedTypeErrorPayload($feedbackItemResolution->getMessage());
             default:
                 return App::applyFilters(CustomPostCRUDHookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
         }

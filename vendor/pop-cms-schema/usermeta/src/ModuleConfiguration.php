@@ -25,4 +25,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = Behaviors::ALLOW;
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
+    public function treatUserMetaKeysAsSensitiveData() : bool
+    {
+        $envVariable = \PoPCMSSchema\UserMeta\Environment::TREAT_USER_META_KEYS_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
 }

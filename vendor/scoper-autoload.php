@@ -30,7 +30,7 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
     }
 }
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInite4b2f29d18326c4a1a62ef1580a2beba', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInite4b2f29d18326c4a1a62ef1580a2beba');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitab69ff52dcc68f48b3cae20895d82140', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitab69ff52dcc68f48b3cae20895d82140');
 humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedStringException');
 humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
@@ -51,6 +51,7 @@ humbug_phpscoper_expose_class('©', 'GatoExternalPrefixByGatoGraphQL\©');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
+// if (!function_exists('__')) { function __() { return \GatoExternalPrefixByGatoGraphQL\__(...func_get_args()); } }
 // if (!function_exists('ctype_alnum')) { function ctype_alnum() { return \GatoExternalPrefixByGatoGraphQL\ctype_alnum(...func_get_args()); } }
 // if (!function_exists('ctype_alpha')) { function ctype_alpha() { return \GatoExternalPrefixByGatoGraphQL\ctype_alpha(...func_get_args()); } }
 // if (!function_exists('ctype_cntrl')) { function ctype_cntrl() { return \GatoExternalPrefixByGatoGraphQL\ctype_cntrl(...func_get_args()); } }

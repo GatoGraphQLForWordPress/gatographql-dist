@@ -23,16 +23,6 @@ trait CreateOrUpdateCustomPostMutationResolverTrait
     protected abstract function getUserRoleTypeAPI() : UserRoleTypeAPIInterface;
     protected abstract function getCustomPostTypeAPI() : CustomPostTypeAPIInterface;
     protected abstract function getCustomPostTypeMutationAPI() : CustomPostTypeMutationAPIInterface;
-    /**
-     * Check that the user is logged-in
-     */
-    protected function validateIsUserLoggedIn(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
-    {
-        $errorFeedbackItemResolution = $this->validateUserIsLoggedIn();
-        if ($errorFeedbackItemResolution !== null) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFeedbackItemResolution, $fieldDataAccessor->getField()));
-        }
-    }
     protected function validateCanLoggedInUserEditCustomPosts(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         // Validate user permission
@@ -65,6 +55,16 @@ trait CreateOrUpdateCustomPostMutationResolverTrait
         }
         if (!$this->getCustomPostTypeAPI()->customPostExists($customPostID)) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$customPostID]), $fieldDataAccessor->getField()));
+        }
+    }
+    /**
+     * @param string|int $customPostID
+     * @param string|int $customPostType
+     */
+    protected function validateIsCustomPostType($customPostID, $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        if ($this->getCustomPostTypeAPI()->getCustomPostType($customPostID) !== $customPostType) {
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$customPostID, $customPostType]), $fieldDataAccessor->getField()));
         }
     }
     /**

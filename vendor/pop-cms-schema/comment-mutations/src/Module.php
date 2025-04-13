@@ -18,7 +18,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\Comments\Module::class, \PoPCMSSchema\UserStateMutations\Module::class];
+        return [\PoPCMSSchema\Comments\Module::class, \PoPCMSSchema\CustomPosts\Module::class, \PoPCMSSchema\UserStateMutations\Module::class];
     }
     /**
      * Initialize services

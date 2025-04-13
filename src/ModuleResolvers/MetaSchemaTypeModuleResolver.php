@@ -30,6 +30,11 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_TAXONOMY_META = Plugin::NAMESPACE . '\schema-taxonomy-meta';
 
     /**
+     * Setting options
+     */
+    public const OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA = 'treat-meta-keys-as-sensitive-data';
+
+    /**
      * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
      */
     private $commentObjectTypeResolver;
@@ -217,6 +222,7 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
         $defaultMetaValues = [
             ModuleSettingOptions::ENTRIES => [],
             ModuleSettingOptions::BEHAVIOR => $useRestrictiveDefaults ? Behaviors::ALLOW : Behaviors::DENY,
+            self::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA => true,
         ];
         $defaultValues = [
             self::SCHEMA_CUSTOMPOST_META => $defaultMetaValues,
@@ -250,6 +256,8 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
             $entryDesc = \__('<strong>Example:</strong> Any of these entries match meta key <code>"%1$s"</code>: %2$s', 'gatographql');
             $ulPlaceholder = '<ul><li><code>%s</code></li></ul>';
             $defaultValueDesc = $this->getDefaultValueDescription($this->getName($module));
+            $sensitiveDataTitlePlaceholder = \__('Treat %s as “sensitive” data', 'gatographql');
+            $sensitiveDataDescPlaceholder = \__('If checked, the <strong>%s</strong> data is exposed in the schema only if the Schema Configuration has option <code>Expose Sensitive Data in the Schema</code> enabled', 'gatographql');
             $moduleDescriptions = [
                 self::SCHEMA_CUSTOMPOST_META => sprintf(
                     \__('%1$s<hr/>%2$s<hr/>%3$s%4$s', 'gatographql'),
@@ -348,6 +356,13 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
                     $defaultValueDesc,
                 ),
             ];
+            $entityNames = [
+                self::SCHEMA_CUSTOMPOST_META => \__('custom post', 'gatographql'),
+                self::SCHEMA_USER_META => \__('user', 'gatographql'),
+                self::SCHEMA_COMMENT_META => \__('comment', 'gatographql'),
+                self::SCHEMA_TAXONOMY_META => \__('taxonomy', 'gatographql'),
+            ];
+
             $option = ModuleSettingOptions::ENTRIES;
             $moduleSettings[] = [
                 Properties::INPUT => $option,
@@ -379,6 +394,30 @@ class MetaSchemaTypeModuleResolver extends AbstractModuleResolver
                     Behaviors::ALLOW => \__('Allow access', 'gatographql'),
                     Behaviors::DENY => \__('Deny access', 'gatographql'),
                 ],
+            ];
+
+            $option = self::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA;
+            $moduleSettings[] = [
+                Properties::INPUT => $option,
+                Properties::NAME => $this->getSettingOptionName(
+                    $module,
+                    $option
+                ),
+                Properties::TITLE => sprintf(
+                    $sensitiveDataTitlePlaceholder,
+                    sprintf(
+                        \__('%s meta keys', 'gatographql'),
+                        $entityNames[$module]
+                    ),
+                ),
+                Properties::DESCRIPTION => sprintf(
+                    $sensitiveDataDescPlaceholder,
+                    sprintf(
+                        \__('%s meta keys', 'gatographql'),
+                        $entityNames[$module]
+                    ),
+                ),
+                Properties::TYPE => Properties::TYPE_BOOL,
             ];
         }
 

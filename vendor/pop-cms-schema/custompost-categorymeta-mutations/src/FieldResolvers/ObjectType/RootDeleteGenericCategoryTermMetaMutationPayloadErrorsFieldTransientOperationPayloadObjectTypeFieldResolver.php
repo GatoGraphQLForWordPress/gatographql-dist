@@ -1,0 +1,38 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\CustomPostCategoryMetaMutations\FieldResolvers\ObjectType;
+
+use PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\UnionType\RootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\ObjectType\RootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver;
+use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver;
+use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+/** @internal */
+class RootDeleteGenericCategoryTermMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
+{
+    /**
+     * @var \PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\UnionType\RootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver|null
+     */
+    private $rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver;
+    protected final function getRootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver() : RootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver
+    {
+        if ($this->rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver === null) {
+            /** @var RootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver */
+            $rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver = $this->instanceManager->getInstance(RootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver::class);
+            $this->rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver = $rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver;
+        }
+        return $this->rootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver;
+    }
+    /**
+     * @return array<class-string<ObjectTypeResolverInterface>>
+     */
+    public function getObjectTypeResolverClassesToAttachTo() : array
+    {
+        return [RootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver::class];
+    }
+    protected function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
+    {
+        return $this->getRootDeleteGenericCategoryTermMetaMutationErrorPayloadUnionTypeResolver();
+    }
+}

@@ -1,0 +1,28 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\CommentMetaMutations\MutationResolvers;
+
+use PoPCMSSchema\SchemaCommons\MutationResolvers\AbstractBulkOperationDecoratorMutationResolver;
+use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
+/** @internal */
+class PayloadableDeleteCommentMetaBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
+{
+    /**
+     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableDeleteCommentMetaMutationResolver|null
+     */
+    private $payloadableDeleteCommentMetaMutationResolver;
+    protected final function getPayloadableDeleteCommentMetaMutationResolver() : \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableDeleteCommentMetaMutationResolver
+    {
+        if ($this->payloadableDeleteCommentMetaMutationResolver === null) {
+            /** @var PayloadableDeleteCommentMetaMutationResolver */
+            $payloadableDeleteCommentMetaMutationResolver = $this->instanceManager->getInstance(\PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableDeleteCommentMetaMutationResolver::class);
+            $this->payloadableDeleteCommentMetaMutationResolver = $payloadableDeleteCommentMetaMutationResolver;
+        }
+        return $this->payloadableDeleteCommentMetaMutationResolver;
+    }
+    protected function getDecoratedOperationMutationResolver() : MutationResolverInterface
+    {
+        return $this->getPayloadableDeleteCommentMetaMutationResolver();
+    }
+}

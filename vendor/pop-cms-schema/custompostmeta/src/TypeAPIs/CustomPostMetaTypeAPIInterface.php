@@ -20,4 +20,14 @@ interface CustomPostMetaTypeAPIInterface extends MetaTypeAPIInterface
      * @return mixed
      */
     public function getCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false, array $options = []);
+    /**
+     * @return array<string,mixed>
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getAllCustomPostMeta($customPostObjectOrID) : array;
+    /**
+     * @return string[]
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getCustomPostMetaKeys($customPostObjectOrID) : array;
 }

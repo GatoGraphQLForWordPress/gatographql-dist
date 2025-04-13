@@ -83,7 +83,8 @@ class Exporter
                     $properties = $serializeProperties;
                 } else {
                     foreach ($serializeProperties as $n => $v) {
-                        $c = $reflector->hasProperty($n) && ($p = $reflector->getProperty($n))->isReadOnly() ? $p->class : 'stdClass';
+                        $p = $reflector->hasProperty($n) ? $reflector->getProperty($n) : null;
+                        $c = $p && (\PHP_VERSION_ID >= 80400 ? $p->isProtectedSet() || $p->isPrivateSet() : $p->isReadOnly()) ? $p->class : 'stdClass';
                         $properties[$c][$n] = $v;
                     }
                 }
@@ -127,7 +128,8 @@ class Exporter
                 $i = 0;
                 $n = (string) $name;
                 if ('' === $n || "\x00" !== $n[0]) {
-                    $c = $reflector->hasProperty($n) && ($p = $reflector->getProperty($n))->isReadOnly() ? $p->class : 'stdClass';
+                    $p = $reflector->hasProperty($n) ? $reflector->getProperty($n) : null;
+                    $c = $p && (\PHP_VERSION_ID >= 80400 ? $p->isProtectedSet() || $p->isPrivateSet() : $p->isReadOnly()) ? $p->class : 'stdClass';
                 } elseif ('*' === $n[1]) {
                     $n = \substr($n, 3);
                     $c = $reflector->getProperty($n)->class;

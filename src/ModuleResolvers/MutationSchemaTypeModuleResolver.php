@@ -18,7 +18,10 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     }
 
     public const SCHEMA_USER_STATE_MUTATIONS = Plugin::NAMESPACE . '\schema-user-state-mutations';
+    public const SCHEMA_META_MUTATIONS = Plugin::NAMESPACE . '\schema-meta-mutations';
+    public const SCHEMA_USER_META_MUTATIONS = Plugin::NAMESPACE . '\schema-user-meta-mutations';
     public const SCHEMA_CUSTOMPOST_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-mutations';
+    public const SCHEMA_CUSTOMPOST_META_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-meta-mutations';
     public const SCHEMA_PAGE_MUTATIONS = Plugin::NAMESPACE . '\schema-page-mutations';
     public const SCHEMA_POST_MUTATIONS = Plugin::NAMESPACE . '\schema-post-mutations';
     public const SCHEMA_MEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-media-mutations';
@@ -32,7 +35,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-category-mutations';
     public const SCHEMA_CUSTOMPOST_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-category-mutations';
     public const SCHEMA_POST_CATEGORY_MUTATIONS = Plugin::NAMESPACE . '\schema-post-category-mutations';
+    public const SCHEMA_CATEGORY_META_MUTATIONS = Plugin::NAMESPACE . '\schema-category-meta-mutations';
+    public const SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-category-meta-mutations';
+    public const SCHEMA_POST_CATEGORY_META_MUTATIONS = Plugin::NAMESPACE . '\schema-post-category-meta-mutations';
+    public const SCHEMA_TAG_META_MUTATIONS = Plugin::NAMESPACE . '\schema-tag-meta-mutations';
+    public const SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-tag-meta-mutations';
+    public const SCHEMA_POST_TAG_META_MUTATIONS = Plugin::NAMESPACE . '\schema-post-tag-meta-mutations';
     public const SCHEMA_COMMENT_MUTATIONS = Plugin::NAMESPACE . '\schema-comment-mutations';
+    public const SCHEMA_COMMENT_META_MUTATIONS = Plugin::NAMESPACE . '\schema-comment-meta-mutations';
 
     /**
      * Setting options
@@ -61,7 +71,10 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     {
         return [
             self::SCHEMA_USER_STATE_MUTATIONS,
+            self::SCHEMA_META_MUTATIONS,
+            self::SCHEMA_USER_META_MUTATIONS,
             self::SCHEMA_CUSTOMPOST_MUTATIONS,
+            self::SCHEMA_CUSTOMPOST_META_MUTATIONS,
             self::SCHEMA_PAGE_MUTATIONS,
             self::SCHEMA_POST_MUTATIONS,
             self::SCHEMA_MEDIA_MUTATIONS,
@@ -75,7 +88,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_CATEGORY_MUTATIONS,
             self::SCHEMA_CUSTOMPOST_CATEGORY_MUTATIONS,
             self::SCHEMA_POST_CATEGORY_MUTATIONS,
+            self::SCHEMA_CATEGORY_META_MUTATIONS,
+            self::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS,
+            self::SCHEMA_POST_CATEGORY_META_MUTATIONS,
+            self::SCHEMA_TAG_META_MUTATIONS,
+            self::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS,
+            self::SCHEMA_POST_TAG_META_MUTATIONS,
             self::SCHEMA_COMMENT_MUTATIONS,
+            self::SCHEMA_COMMENT_META_MUTATIONS,
         ];
     }
 
@@ -96,6 +116,24 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                         SchemaConfigurationFunctionalityModuleResolver::MUTATIONS,
                     ],
                 ];
+            case self::SCHEMA_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_USER_STATE_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_USER_META_MUTATIONS:
+                return [
+                    [
+                        // @todo Re-enable when adding User Mutations
+                        // self::SCHEMA_USER_MUTATIONS,
+                        // @todo Remove temp code when adding User Mutations
+                        SchemaTypeModuleResolver::SCHEMA_USERS,
+                    ],
+                    [
+                        self::SCHEMA_META_MUTATIONS,
+                    ],
+                ];
             case self::SCHEMA_CUSTOMPOST_MUTATIONS:
                 return [
                     [
@@ -103,6 +141,15 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     ],
                     [
                         SchemaTypeModuleResolver::SCHEMA_CUSTOMPOSTS,
+                    ],
+                ];
+            case self::SCHEMA_CUSTOMPOST_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_CUSTOMPOST_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_META_MUTATIONS,
                     ],
                 ];
             case self::SCHEMA_PAGE_MUTATIONS:
@@ -165,6 +212,13 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                         self::SCHEMA_CUSTOMPOST_MUTATIONS,
                     ],
                 ];
+            case self::SCHEMA_TAG_MUTATIONS:
+            case self::SCHEMA_CATEGORY_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_META_MUTATIONS,
+                    ],
+                ];
             case self::SCHEMA_CUSTOMPOST_TAG_MUTATIONS:
                 return [
                     [
@@ -213,6 +267,60 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                         self::SCHEMA_CATEGORY_MUTATIONS,
                     ],
                 ];
+            case self::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_CUSTOMPOST_CATEGORY_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_CATEGORY_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_POST_CATEGORY_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_POST_CATEGORY_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_CATEGORY_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_CATEGORY_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_CATEGORY_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_TAG_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_TAG_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_CUSTOMPOST_TAG_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_TAG_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_POST_TAG_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_POST_TAG_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_TAG_META_MUTATIONS,
+                    ],
+                ];
             case self::SCHEMA_COMMENT_MUTATIONS:
                 return [
                     [
@@ -220,6 +328,15 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     ],
                     [
                         SchemaTypeModuleResolver::SCHEMA_COMMENTS,
+                    ],
+                ];
+            case self::SCHEMA_COMMENT_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_COMMENT_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_META_MUTATIONS,
                     ],
                 ];
         }
@@ -231,8 +348,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
         switch ($module) {
             case self::SCHEMA_USER_STATE_MUTATIONS:
                 return \__('User State Mutations', 'gatographql');
+            case self::SCHEMA_META_MUTATIONS:
+                return \__('Meta Mutations', 'gatographql');
+            case self::SCHEMA_USER_META_MUTATIONS:
+                return \__('User Meta Mutations', 'gatographql');
             case self::SCHEMA_CUSTOMPOST_MUTATIONS:
                 return \__('Custom Post Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_META_MUTATIONS:
+                return \__('Custom Post Meta Mutations', 'gatographql');
             case self::SCHEMA_PAGE_MUTATIONS:
                 return \__('Page Mutations', 'gatographql');
             case self::SCHEMA_POST_MUTATIONS:
@@ -259,8 +382,22 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Custom Post Category Mutations', 'gatographql');
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
                 return \__('Post Category Mutations', 'gatographql');
+            case self::SCHEMA_CATEGORY_META_MUTATIONS:
+                return \__('Category Meta Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS:
+                return \__('Custom Post Category Meta Mutations', 'gatographql');
+            case self::SCHEMA_POST_CATEGORY_META_MUTATIONS:
+                return \__('Post Category Meta Mutations', 'gatographql');
+            case self::SCHEMA_TAG_META_MUTATIONS:
+                return \__('Tag Meta Mutations', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS:
+                return \__('Custom Post Tag Meta Mutations', 'gatographql');
+            case self::SCHEMA_POST_TAG_META_MUTATIONS:
+                return \__('Post Tag Meta Mutations', 'gatographql');
             case self::SCHEMA_COMMENT_MUTATIONS:
                 return \__('Comment Mutations', 'gatographql');
+            case self::SCHEMA_COMMENT_META_MUTATIONS:
+                return \__('Comment Meta Mutations', 'gatographql');
             default:
                 return $module;
         }
@@ -271,8 +408,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
         switch ($module) {
             case self::SCHEMA_USER_STATE_MUTATIONS:
                 return \__('Have the user log-in, and be able to perform mutations', 'gatographql');
+            case self::SCHEMA_META_MUTATIONS:
+                return \__('Mutate meta', 'gatographql');
+            case self::SCHEMA_USER_META_MUTATIONS:
+                return \__('Mutate user meta', 'gatographql');
             case self::SCHEMA_CUSTOMPOST_MUTATIONS:
                 return \__('Base functionality to mutate custom posts', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_META_MUTATIONS:
+                return \__('Mutate custom post meta', 'gatographql');
             case self::SCHEMA_PAGE_MUTATIONS:
                 return \__('Execute mutations on pages', 'gatographql');
             case self::SCHEMA_POST_MUTATIONS:
@@ -299,8 +442,22 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Add categories to custom posts', 'gatographql');
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
                 return \__('Add categories to posts', 'gatographql');
+            case self::SCHEMA_CATEGORY_META_MUTATIONS:
+                return \__('Mutate category meta', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS:
+                return \__('Mutate category meta on custom posts', 'gatographql');
+            case self::SCHEMA_POST_CATEGORY_META_MUTATIONS:
+                return \__('Mutate category meta on posts', 'gatographql');
+            case self::SCHEMA_TAG_META_MUTATIONS:
+                return \__('Add tag meta', 'gatographql');
+            case self::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS:
+                return \__('Add tag meta on custom posts', 'gatographql');
+            case self::SCHEMA_POST_TAG_META_MUTATIONS:
+                return \__('Add tag meta on posts', 'gatographql');
             case self::SCHEMA_COMMENT_MUTATIONS:
                 return \__('Create comments', 'gatographql');
+            case self::SCHEMA_COMMENT_META_MUTATIONS:
+                return \__('Mutate comment meta', 'gatographql');
             default:
                 return parent::getDescription($module);
         }
@@ -312,7 +469,10 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     public function hasDocumentation(string $module): bool
     {
         switch ($module) {
+            case self::SCHEMA_USER_META_MUTATIONS:
             case self::SCHEMA_CUSTOMPOST_MUTATIONS:
+            case self::SCHEMA_CUSTOMPOST_META_MUTATIONS:
+            case self::SCHEMA_META_MUTATIONS:
             case self::SCHEMA_PAGE_MUTATIONS:
             case self::SCHEMA_POST_MUTATIONS:
             case self::SCHEMA_MEDIA_MUTATIONS:
@@ -326,7 +486,14 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_CATEGORY_MUTATIONS:
             case self::SCHEMA_CUSTOMPOST_CATEGORY_MUTATIONS:
             case self::SCHEMA_POST_CATEGORY_MUTATIONS:
+            case self::SCHEMA_CATEGORY_META_MUTATIONS:
+            case self::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS:
+            case self::SCHEMA_POST_CATEGORY_META_MUTATIONS:
+            case self::SCHEMA_TAG_META_MUTATIONS:
+            case self::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS:
+            case self::SCHEMA_POST_TAG_META_MUTATIONS:
             case self::SCHEMA_COMMENT_MUTATIONS:
+            case self::SCHEMA_COMMENT_META_MUTATIONS:
                 return false;
         }
         return $this->upstreamHasDocumentation($module);

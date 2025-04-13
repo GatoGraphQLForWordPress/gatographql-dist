@@ -197,7 +197,7 @@ trait ContainerBuilderFactoryTrait
         }
         // Save the container to disk
         $dumper = new PhpDumper($containerBuilder);
-        \file_put_contents($this->cacheFile, $dumper->dump([
+        @\file_put_contents($this->cacheFile, $dumper->dump([
             'class' => $this->getContainerClassName(),
             // Save under own namespace to avoid conflicts
             'namespace' => $this->getContainerNamespace(),
@@ -208,6 +208,6 @@ trait ContainerBuilderFactoryTrait
             'base_class' => '\\' . \PoP\Root\Container\Container::class,
         ]));
         // Change the permissions so it can be modified by external processes (eg: deployment)
-        \chmod($this->cacheFile, 0777);
+        @\chmod($this->cacheFile, 0777);
     }
 }

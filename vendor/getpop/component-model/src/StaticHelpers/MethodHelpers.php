@@ -97,4 +97,28 @@ class MethodHelpers
         }
         return $array;
     }
+    /**
+     * Convert an stdClass (and its inner elements) to associative arrays.
+     *
+     * @param stdClass|mixed[] $objectOrArray
+     * @return array<string,mixed>
+     *
+     * @see https://stackoverflow.com/a/4790485
+     */
+    public static function recursivelyConvertStdClassToAssociativeArray($objectOrArray, bool $skipConvertingEmptyObjects = \false) : array
+    {
+        $array = [];
+        foreach ((array) $objectOrArray as $key => $value) {
+            if ($value instanceof stdClass && (!$skipConvertingEmptyObjects || (array) $value !== [])) {
+                $array[$key] = static::recursivelyConvertStdClassToAssociativeArray($value, $skipConvertingEmptyObjects);
+                continue;
+            }
+            if (\is_array($value)) {
+                $array[$key] = static::recursivelyConvertStdClassToAssociativeArray($value, $skipConvertingEmptyObjects);
+                continue;
+            }
+            $array[$key] = $value;
+        }
+        return $array;
+    }
 }

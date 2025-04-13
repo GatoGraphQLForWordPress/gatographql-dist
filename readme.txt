@@ -1,9 +1,9 @@
 === Gato GraphQL ===
 Contributors: gatographql, leoloso
-Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, Next.js
+Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
-Tested up to: 6.7
-Stable tag: 11.2.0
+Tested up to: 6.8
+Stable tag: 11.3.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,12 @@ The plugins are:
 
 == Frequently Asked Questions ==
 
+= Can I use Gato GraphQL with popular plugins (WooCommerce, ACF, Yoast, etc)? =
+
+Yes, you can. Either there are specific integrations for them (eg: Polylang), of there are elements in the GraphQL schema to interact with generic elements.
+
+For instance, you can use field `customPost` to retrieve WooCommerce products, and field `metaValue` to retrieve Advanced Custom Fields and Yoast SEO metadata.
+
 = Does the plugin provide documentation? =
 
 The Gato GraphQL website contains extensive documentation:
@@ -100,7 +106,7 @@ The Gato GraphQL website contains extensive documentation:
 Sure you can. There are videos demonstrating how to use Gato GraphQL in:
 
 - The [Demos](https://gatographql.com/demos) page on gatographql.com
-- The [@GatoGraphQL YouTube channel](https://www.youtube.com/@GatoGraphQL)
+- The [@GatoPlugins YouTube channel](https://www.youtube.com/@GatoPlugins)
 
 = Can I extend the GraphQL schema with my custom types and fields? =
 
@@ -209,6 +215,23 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 11.3.0 =
+* Added fields `meta: ListValueJSONObject!` and `metaKeys: [String!]!` for types `Comment/CustomPost/TaxonomyTerm/User` (#3060)
+* Added meta mutations
+  * Custom posts (#3067)
+  * Categories (#3063)
+  * Tags (#3064)
+  * Users (#3072)
+  * Comments (#3072)
+* Added type `ListValueJSONObject` (#3060)
+* Added documentation for new field `_objectRecursiveReplace`, from the **Schema Functions** extension (#3074)
+* Made meta field `metaValue` handle any scalar type (previously only `String`) (#3061)
+* Made meta field `metaValues` handle any scalar type (previously only built-in ones), such as `JSONObject` (#3061)
+* Allow to hook inputs into tag/category mutations (#3062)
+* Tested up WordPress 6.8
+* Fixed: Passing a non-`post` CPT to `updatePost` will show an error (#3070)
+* Fixed: Translation loading error message in WordPress 6.8 (73a9f11)
 
 = 11.2.0 =
 * Support fetching Page Builders data in the GraphQL schema (#3051)

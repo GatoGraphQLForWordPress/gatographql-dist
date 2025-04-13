@@ -593,6 +593,31 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 'module' => SchemaTypeModuleResolver::SCHEMA_USER_ROLES,
                 'option' => SchemaTypeModuleResolver::OPTION_TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA,
             ],
+            // Meta keys
+            [
+                'class' => CommentMetaModule::class,
+                'envVariable' => CommentMetaEnvironment::TREAT_COMMENT_META_KEYS_AS_SENSITIVE_DATA,
+                'module' => MetaSchemaTypeModuleResolver::SCHEMA_COMMENT_META,
+                'option' => MetaSchemaTypeModuleResolver::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA,
+            ],
+            [
+                'class' => CustomPostMetaModule::class,
+                'envVariable' => CustomPostMetaEnvironment::TREAT_CUSTOMPOST_META_KEYS_AS_SENSITIVE_DATA,
+                'module' => MetaSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_META,
+                'option' => MetaSchemaTypeModuleResolver::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA,
+            ],
+            [
+                'class' => TaxonomyMetaModule::class,
+                'envVariable' => TaxonomyMetaEnvironment::TREAT_TAXONOMY_META_KEYS_AS_SENSITIVE_DATA,
+                'module' => MetaSchemaTypeModuleResolver::SCHEMA_TAXONOMY_META,
+                'option' => MetaSchemaTypeModuleResolver::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA,
+            ],
+            [
+                'class' => UserMetaModule::class,
+                'envVariable' => UserMetaEnvironment::TREAT_USER_META_KEYS_AS_SENSITIVE_DATA,
+                'module' => MetaSchemaTypeModuleResolver::SCHEMA_USER_META,
+                'option' => MetaSchemaTypeModuleResolver::OPTION_TREAT_META_KEYS_AS_SENSITIVE_DATA,
+            ],
             // Payloadable types for mutations
             [
                 'class' => \PoPCMSSchema\CommentMutations\Module::class,
@@ -1184,9 +1209,24 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
                 \PoPCMSSchema\UserStateMutations\Module::class,
                 \PoPCMSSchema\UserStateMutationsWP\Module::class,
             ],
+            MutationSchemaTypeModuleResolver::SCHEMA_USER_META_MUTATIONS => [
+                \PoPCMSSchema\UserMetaMutations\Module::class,
+                \PoPCMSSchema\UserMetaMutationsWP\Module::class,
+            ],
             MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_USER_MUTATIONS => [
+                \PoPCMSSchema\UserMutations\Module::class,
+                \PoPCMSSchema\UserMutationsWP\Module::class,
                 \PoPCMSSchema\CustomPostUserMutations\Module::class,
                 \PoPCMSSchema\CustomPostUserMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_MUTATIONS => [
+                \PoPCMSSchema\CustomPostMutations\Module::class,
+                \PoPCMSSchema\CustomPostMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_META_MUTATIONS => [
+                \PoPCMSSchema\CustomPostMetaMutations\Module::class,
+                \PoPCMSSchema\CustomPostMetaMutationsWP\Module::class,
+                \PoPCMSSchema\PostMetaMutations\Module::class,
             ],
             MutationSchemaTypeModuleResolver::SCHEMA_PAGE_MUTATIONS => [
                 \PoPCMSSchema\PageMutations\Module::class,
@@ -1231,9 +1271,33 @@ class PluginInitializationConfiguration extends AbstractMainPluginInitialization
             MutationSchemaTypeModuleResolver::SCHEMA_POST_CATEGORY_MUTATIONS => [
                 \PoPCMSSchema\PostCategoryMutations\Module::class,
             ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CATEGORY_META_MUTATIONS => [
+                \PoPCMSSchema\CategoryMetaMutations\Module::class,
+                \PoPCMSSchema\CategoryMetaMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_CATEGORY_META_MUTATIONS => [
+                \PoPCMSSchema\CustomPostCategoryMetaMutations\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_POST_CATEGORY_META_MUTATIONS => [
+                \PoPCMSSchema\PostCategoryMetaMutations\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_TAG_META_MUTATIONS => [
+                \PoPCMSSchema\TagMetaMutations\Module::class,
+                \PoPCMSSchema\TagMetaMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_TAG_META_MUTATIONS => [
+                \PoPCMSSchema\CustomPostTagMetaMutations\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_POST_TAG_META_MUTATIONS => [
+                \PoPCMSSchema\PostTagMetaMutations\Module::class,
+            ],
             MutationSchemaTypeModuleResolver::SCHEMA_COMMENT_MUTATIONS => [
                 \PoPCMSSchema\CommentMutations\Module::class,
                 \PoPCMSSchema\CommentMutationsWP\Module::class,
+            ],
+            MutationSchemaTypeModuleResolver::SCHEMA_COMMENT_META_MUTATIONS => [
+                \PoPCMSSchema\CommentMetaMutations\Module::class,
+                \PoPCMSSchema\CommentMetaMutationsWP\Module::class,
             ],
             MetaSchemaTypeModuleResolver::SCHEMA_CUSTOMPOST_META => [
                 CustomPostMetaModule::class,

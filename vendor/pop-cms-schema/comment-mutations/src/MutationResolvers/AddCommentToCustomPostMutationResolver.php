@@ -21,7 +21,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\App;
 use PoP\Root\Exception\AbstractException;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-use PoPCMSSchema\CommentMutations\Constants\HookNames;
+use PoPCMSSchema\CommentMutations\Constants\CommentCRUDHookNames;
 use stdClass;
 /**
  * Add a comment to a custom post. The user may be logged-in or not
@@ -97,6 +97,7 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
     }
     public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
+        $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $field = $fieldDataAccessor->getField();
         // Check that the user is logged-in
         /** @var ModuleConfiguration */
@@ -151,6 +152,14 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         if (!$commentAs->{MutationInputProperties::HTML}) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5), $field));
         }
+        if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
+            return;
+        }
+        $this->triggerValidateAddCommentHook($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+    }
+    protected function triggerValidateAddCommentHook(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        App::doAction(CommentCRUDHookNames::VALIDATE_ADD_COMMENT, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     protected function getUserNotLoggedInError() : FeedbackItemResolution
     {
@@ -159,9 +168,9 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
     /**
      * @param string|int $comment_id
      */
-    protected function additionals($comment_id, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function additionals($comment_id, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
-        App::doAction(HookNames::ADD_COMMENT, $comment_id, $fieldDataAccessor);
+        App::doAction(CommentCRUDHookNames::EXECUTE_ADD_COMMENT, $comment_id, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     /**
      * @return array<string,mixed>
@@ -206,7 +215,7 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
             $parentComment = $this->getCommentTypeAPI()->getComment($comment_data['parent']);
             $comment_data['customPostID'] = $this->getCommentTypeAPI()->getCommentPostID($parentComment);
         }
-        return $comment_data;
+        return App::applyFilters(CommentCRUDHookNames::GET_ADD_COMMENT_DATA, $comment_data, $fieldDataAccessor);
     }
     /**
      * @throws CommentCRUDMutationException In case of error
@@ -226,7 +235,7 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
         $comment_data = $this->getCommentData($fieldDataAccessor);
         $comment_id = $this->insertComment($comment_data);
         // Allow for additional operations (eg: set Action categories)
-        $this->additionals($comment_id, $fieldDataAccessor);
+        $this->additionals($comment_id, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         return $comment_id;
     }
 }

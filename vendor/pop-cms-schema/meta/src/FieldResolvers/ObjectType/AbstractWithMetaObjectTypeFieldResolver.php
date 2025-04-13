@@ -41,7 +41,7 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
      */
     public function getFieldNamesToResolve() : array
     {
-        return ['metaValue', 'metaValues'];
+        return ['metaKeys', 'metaValue', 'metaValues', 'meta'];
     }
     protected abstract function getMetaTypeAPI() : MetaTypeAPIInterface;
     /**
@@ -53,9 +53,30 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaValue':
             case 'metaValues':
-                if (!$this->getMetaTypeAPI()->validateIsMetaKeyAllowed($fieldDataAccessor->getValue('key'))) {
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->getMetaTypeAPI()->validateIsMetaKeyAllowed($key)) {
                     $field = $fieldDataAccessor->getField();
-                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$fieldDataAccessor->getValue('key')]), $field->getArgument('key') ?? $field));
+                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$key]), $field->getArgument('key') ?? $field));
+                }
+                break;
+            case 'meta':
+                $nonAllowedKeys = [];
+                $metaTypeAPI = $this->getMetaTypeAPI();
+                /** @var string[] */
+                $keys = $fieldDataAccessor->getValue('keys');
+                foreach ($keys as $key) {
+                    if ($metaTypeAPI->validateIsMetaKeyAllowed($key)) {
+                        continue;
+                    }
+                    $nonAllowedKeys[] = $key;
+                }
+                if ($nonAllowedKeys !== []) {
+                    $field = $fieldDataAccessor->getField();
+                    if (\count($nonAllowedKeys) === 1) {
+                        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$nonAllowedKeys[0]]), $field->getArgument('keys') ?? $field));
+                        break;
+                    }
+                    $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E2, [\implode($this->__('\', \'', 'gatographql'), $nonAllowedKeys)]), $field->getArgument('keys') ?? $field));
                 }
                 break;
         }

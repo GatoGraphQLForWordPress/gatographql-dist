@@ -17,12 +17,14 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     public const E7 = 'e7';
     public const E8 = 'e8';
     public const E9 = 'e9';
+    public const E10 = 'e10';
+    public const E11 = 'e11';
     /**
      * @return string[]
      */
     public function getCodes() : array
     {
-        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9];
+        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9, self::E10, self::E11];
     }
     public function getMessagePlaceholder(string $code) : string
     {
@@ -45,6 +47,10 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
                 return $this->__('Comments are not supported for custom post type \'%s\'', 'comment-mutations');
             case self::E9:
                 return $this->__('Comments are not open for custom post with ID \'%s\'', 'comment-mutations');
+            case self::E10:
+                return $this->__('There is no comment with ID \'%s\'', 'comment-mutations');
+            case self::E11:
+                return $this->__('The logged-in user doesn\'t have the ability to edit comment with ID \'%s\'', 'comment-mutations');
             default:
                 return parent::getMessagePlaceholder($code);
         }

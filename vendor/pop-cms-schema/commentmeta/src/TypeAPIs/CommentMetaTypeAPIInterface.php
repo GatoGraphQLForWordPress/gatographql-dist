@@ -20,4 +20,14 @@ interface CommentMetaTypeAPIInterface extends MetaTypeAPIInterface
      * @return mixed
      */
     public function getCommentMeta($commentObjectOrID, string $key, bool $single = \false, array $options = []);
+    /**
+     * @return array<string,mixed>
+     * @param string|int|object $commentObjectOrID
+     */
+    public function getAllCommentMeta($commentObjectOrID) : array;
+    /**
+     * @return string[]
+     * @param string|int|object $commentObjectOrID
+     */
+    public function getCommentMetaKeys($commentObjectOrID) : array;
 }

@@ -33,4 +33,42 @@ class CustomPostMetaTypeAPI extends AbstractCustomPostMetaTypeAPI
         }
         return $value;
     }
+
+    /**
+     * @return array<string,mixed>
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getAllCustomPostMeta($customPostObjectOrID): array
+    {
+        if (is_object($customPostObjectOrID)) {
+            /** @var WP_Post */
+            $customPost = $customPostObjectOrID;
+            $customPostID = $customPost->ID;
+        } else {
+            $customPostID = $customPostObjectOrID;
+        }
+
+        return array_map(
+            /**
+             * @param mixed[] $items
+             * @return mixed[]
+             */
+            function (array $items): array {
+                return array_map(
+                    \Closure::fromCallable('maybe_unserialize'),
+                    $items
+                );
+            },
+            \get_post_meta((int)$customPostID) ?? []
+        );
+    }
+
+    /**
+     * @return string[]
+     * @param string|int|object $customPostObjectOrID
+     */
+    public function getCustomPostMetaKeys($customPostObjectOrID): array
+    {
+        return array_keys($this->getAllCustomPostMeta($customPostObjectOrID));
+    }
 }

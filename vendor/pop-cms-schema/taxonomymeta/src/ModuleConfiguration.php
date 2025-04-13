@@ -25,4 +25,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $defaultValue = Behaviors::ALLOW;
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
     }
+    public function treatTaxonomyMetaKeysAsSensitiveData() : bool
+    {
+        $envVariable = \PoPCMSSchema\TaxonomyMeta\Environment::TREAT_TAXONOMY_META_KEYS_AS_SENSITIVE_DATA;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
 }
