@@ -11,15 +11,10 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
-use PoP\ComponentModel\TypeResolvers\ScalarType\AnyScalarScalarTypeResolver;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyScalarScalarTypeResolver|null
-     */
-    private $anyScalarScalarTypeResolver;
     /**
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
      */
@@ -32,15 +27,6 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
      * @var \PoPCMSSchema\Meta\TypeResolvers\InputObjectType\MetaKeysFilterInputObjectTypeResolver|null
      */
     private $metaKeysFilterInputObjectTypeResolver;
-    protected final function getAnyScalarScalarTypeResolver() : AnyScalarScalarTypeResolver
-    {
-        if ($this->anyScalarScalarTypeResolver === null) {
-            /** @var AnyScalarScalarTypeResolver */
-            $anyScalarScalarTypeResolver = $this->instanceManager->getInstance(AnyScalarScalarTypeResolver::class);
-            $this->anyScalarScalarTypeResolver = $anyScalarScalarTypeResolver;
-        }
-        return $this->anyScalarScalarTypeResolver;
-    }
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -89,7 +75,7 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
                 return $this->getStringScalarTypeResolver();
             case 'metaValue':
             case 'metaValues':
-                return $this->getAnyScalarScalarTypeResolver();
+                return $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver();
             case 'meta':
                 return $this->getListValueJSONObjectScalarTypeResolver();
             default:

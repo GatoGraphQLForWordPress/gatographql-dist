@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.8
-Stable tag: 11.3.0
+Stable tag: 11.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -215,6 +215,9 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 11.3.1 =
+* Use `DangerouslyNonSpecificScalar` instead of `AnyScalarScalar` type for `metaValue` field, to allow retrieving lists (eg: for ACF) (#3080)
 
 = 11.3.0 =
 * Added fields `meta: ListValueJSONObject!` and `metaKeys: [String!]!` for types `Comment/CustomPost/TaxonomyTerm/User` (#3060)

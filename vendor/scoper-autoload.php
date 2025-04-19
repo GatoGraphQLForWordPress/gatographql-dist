@@ -30,7 +30,7 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
     }
 }
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
-humbug_phpscoper_expose_class('ComposerAutoloaderInitab69ff52dcc68f48b3cae20895d82140', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitab69ff52dcc68f48b3cae20895d82140');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit04fdee4ea3b29e29084cfeac92719217', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit04fdee4ea3b29e29084cfeac92719217');
 humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedStringException');
 humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
