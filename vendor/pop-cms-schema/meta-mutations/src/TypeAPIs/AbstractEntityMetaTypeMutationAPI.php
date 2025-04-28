@@ -5,8 +5,10 @@ namespace PoPCMSSchema\MetaMutations\TypeAPIs;
 
 use PoPCMSSchema\MetaMutations\Exception\EntityMetaCRUDMutationException;
 use PoPCMSSchema\SchemaCommonsWP\TypeAPIs\TypeMutationAPITrait;
+use PoP\ComponentModel\StaticHelpers\MethodHelpers;
 use PoP\Root\Services\AbstractBasicService;
 use GatoExternalPrefixByGatoGraphQL\WP_Error;
+use stdClass;
 /** @internal */
 abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService implements \PoPCMSSchema\MetaMutations\TypeAPIs\EntityMetaTypeMutationAPIInterface
 {
@@ -84,6 +86,7 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
      */
     public function addEntityMeta($entityID, string $key, $value, bool $single = \false) : int
     {
+        $value = $this->maybeConvertStdClassToArray($value);
         $result = $this->executeAddEntityMeta($entityID, $key, $value, $single);
         if ($result === \false) {
             throw $this->getEntityMetaCRUDMutationException(\GatoExternalPrefixByGatoGraphQL\__('Error adding meta', 'meta-mutations'));
@@ -91,6 +94,18 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
         $this->handleMaybeError($result);
         /** @var int $result */
         return $result;
+    }
+    /**
+     * Do not store stdClass objects in the database, convert them to arrays
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function maybeConvertStdClassToArray($value)
+    {
+        if (!(\is_array($value) || $value instanceof stdClass)) {
+            return $value;
+        }
+        return MethodHelpers::recursivelyConvertStdClassToAssociativeArray($value);
     }
     /**
      * @param string|int $entityID
@@ -107,6 +122,7 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
      */
     public function updateEntityMeta($entityID, string $key, $value, $prevValue = null)
     {
+        $value = $this->maybeConvertStdClassToArray($value);
         $result = $this->executeUpdateEntityMeta($entityID, $key, $value, $prevValue ?? '');
         $this->handleMaybeError($result);
         if ($result === \false) {

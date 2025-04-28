@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.8
-Stable tag: 11.3.1
+Stable tag: 12.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -65,6 +65,8 @@ You can [purchase each premium extension separately](https://gatographql.com/pri
 The available premium extensions are:
 
 [Automation](https://gatographql.com/extensions/automation): Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron.
+
+[Elementor](https://gatographql.com/extensions/elementor): Integration with the Elementor plugin, to parse and update data in Elementor pages and templates.
 
 [Events Manager](https://gatographql.com/extensions/events-manager): Integration with the Events Manager plugin, to fetch event data.
 
@@ -215,6 +217,18 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 12.0.0 =
+* Added documentation for new Elementor Premium Extension (#3052)
+* Convert stdClass to associative array when storing meta in the DB (#3082)
+* Improve error message when casting to `NullableListValueJSONObject` fails (#3083)
+* Added `meta` input field to the `createPage` mutation (#3085)
+* Added "Post Meta Mutations" and "Page Meta Mutations" modules (#3086)
+* Breaking change: Plugin constructor signature receives nullable `commitHash` param (#3056)
+* Breaking change: Store the extension names whose license has just been activated (instead of a timestamp) to install setup data (#3057)
+* Breaking change: Renamed `getCommentPostID` to `getCommentCustomPostID` (#3073)
+* Fixed: Avoid `_load_textdomain_just_in_time` error message in WP 6.8 (#3084)
+* Fixed: Loading page entity in `customPost` field as result of mutation (#3087)
 
 = 11.3.1 =
 * Use `DangerouslyNonSpecificScalar` instead of `AnyScalarScalar` type for `metaValue` field, to allow retrieving lists (eg: for ACF) (#3080)

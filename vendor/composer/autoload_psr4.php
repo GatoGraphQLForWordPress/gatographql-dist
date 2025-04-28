@@ -97,6 +97,7 @@ return array(
     'PoPCMSSchema\\PagesWP\\' => array($vendorDir . '/pop-cms-schema/pages-wp/src'),
     'PoPCMSSchema\\PageMutations\\' => array($vendorDir . '/pop-cms-schema/page-mutations/src'),
     'PoPCMSSchema\\PageMutationsWP\\' => array($vendorDir . '/pop-cms-schema/page-mutations-wp/src'),
+    'PoPCMSSchema\\PageMetaMutations\\' => array($vendorDir . '/pop-cms-schema/pagemeta-mutations/src'),
     'PoPCMSSchema\\PageMediaMutations\\' => array($vendorDir . '/pop-cms-schema/pagemedia-mutations/src'),
     'PoPCMSSchema\\Meta\\' => array($vendorDir . '/pop-cms-schema/meta/src'),
     'PoPCMSSchema\\MetaQueryWP\\' => array($vendorDir . '/pop-cms-schema/metaquery-wp/src'),

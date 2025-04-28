@@ -41,7 +41,7 @@ interface CommentTypeAPIInterface
     /**
      * @return int|string
      */
-    public function getCommentPostID(object $comment);
+    public function getCommentCustomPostID(object $comment);
     public function isCommentApproved(object $comment) : bool;
     public function getCommentType(object $comment) : string;
     public function getCommentStatus(object $comment) : string;

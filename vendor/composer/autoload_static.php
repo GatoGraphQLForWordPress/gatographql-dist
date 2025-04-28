@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
+class ComposerStaticInite470fdb5c9624e154381a482e3d8680e
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -112,6 +112,7 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
             'PoPCMSSchema\\PagesWP\\' => 21,
             'PoPCMSSchema\\PageMutations\\' => 27,
             'PoPCMSSchema\\PageMutationsWP\\' => 29,
+            'PoPCMSSchema\\PageMetaMutations\\' => 31,
             'PoPCMSSchema\\PageMediaMutations\\' => 32,
             'PoPCMSSchema\\Meta\\' => 18,
             'PoPCMSSchema\\MetaQueryWP\\' => 25,
@@ -573,6 +574,10 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
         'PoPCMSSchema\\PageMutationsWP\\' => 
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/page-mutations-wp/src',
+        ),
+        'PoPCMSSchema\\PageMetaMutations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src',
         ),
         'PoPCMSSchema\\PageMediaMutations\\' => 
         array (
@@ -1823,6 +1828,7 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
         'GatoGraphQL\\GatoGraphQL\\Facades\\Request\\PrematureRequestServiceFacade' => __DIR__ . '/../..' . '/src/Facades/Request/PrematureRequestServiceFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Settings\\OptionNamespacerFacade' => __DIR__ . '/../..' . '/src/Facades/Settings/OptionNamespacerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\TimestampSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/TimestampSettingsManagerFacade.php',
+        'GatoGraphQL\\GatoGraphQL\\Facades\\TransientSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/TransientSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\UserSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/UserSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\WPDataModel\\WPDataModelProviderFacade' => __DIR__ . '/../..' . '/src/Facades/WPDataModel/WPDataModelProviderFacade.php',
         'GatoGraphQL\\GatoGraphQL\\FeedbackItemProviders\\ErrorFeedbackItemProvider' => __DIR__ . '/../..' . '/src/FeedbackItemProviders/ErrorFeedbackItemProvider.php',
@@ -2188,6 +2194,8 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
         'GatoGraphQL\\GatoGraphQL\\Settings\\SettingsNormalizerInterface' => __DIR__ . '/../..' . '/src/Settings/SettingsNormalizerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\TimestampSettingsManager' => __DIR__ . '/../..' . '/src/Settings/TimestampSettingsManager.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\TimestampSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/TimestampSettingsManagerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\TransientSettingsManager' => __DIR__ . '/../..' . '/src/Settings/TransientSettingsManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\TransientSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/TransientSettingsManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\UserSettingsManager' => __DIR__ . '/../..' . '/src/Settings/UserSettingsManager.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\UserSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/UserSettingsManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\StateManagers\\AppThreadContext' => __DIR__ . '/../..' . '/src/StateManagers/AppThreadContext.php',
@@ -3816,6 +3824,49 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
         'PoPCMSSchema\\Meta\\TypeResolvers\\InterfaceType\\WithMetaInterfaceTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/meta/src/TypeResolvers/InterfaceType/WithMetaInterfaceTypeResolver.php',
         'PoPCMSSchema\\PageMediaMutations\\ConditionalOnModule\\CustomPostMediaMutations\\FieldResolvers\\ObjectType\\WithFeaturedImagePageObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemedia-mutations/src/ConditionalOnModule/CustomPostMediaMutations/FieldResolvers/ObjectType/WithFeaturedImagePageObjectTypeFieldResolver.php',
         'PoPCMSSchema\\PageMediaMutations\\Module' => __DIR__ . '/..' . '/pop-cms-schema/pagemedia-mutations/src/Module.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageAddMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageAddMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageDeleteMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageDeleteMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageMutationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageMutationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageMutationTransientEntityOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageMutationTransientEntityOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageSetMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageSetMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\PageUpdateMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/PageUpdateMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\RootAddPageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/RootAddPageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\RootDeletePageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/RootDeletePageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\RootPageCRUDObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/RootPageCRUDObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\RootSetPageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/RootSetPageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\FieldResolvers\\ObjectType\\RootUpdatePageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/FieldResolvers/ObjectType/RootUpdatePageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\Hooks\\PageMetaMutationResolverHookSet' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/Hooks/PageMetaMutationResolverHookSet.php',
+        'PoPCMSSchema\\PageMetaMutations\\Module' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/Module.php',
+        'PoPCMSSchema\\PageMetaMutations\\ObjectTypeResolverPickers\\AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/ObjectTypeResolverPickers/AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\PageMetaMutations\\ObjectTypeResolverPickers\\EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/ObjectTypeResolverPickers/EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\PageAddMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/PageAddMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\PageDeleteMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/PageDeleteMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\PageSetMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/PageSetMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\PageUpdateMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/PageUpdateMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\RootAddPageMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/RootAddPageMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\RootDeletePageMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/RootDeletePageMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\RootSetPageMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/RootSetPageMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\RelationalTypeDataLoaders\\UnionType\\RootUpdatePageMetaMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/RelationalTypeDataLoaders/UnionType/RootUpdatePageMetaMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\PageMetaMutations\\SchemaHooks\\PageMutationResolverHookSet' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/SchemaHooks/PageMutationResolverHookSet.php',
+        'PoPCMSSchema\\PageMetaMutations\\SchemaHooks\\PageMutationResolverHookSetTrait' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/SchemaHooks/PageMutationResolverHookSetTrait.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\AbstractPageMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/AbstractPageMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\PageAddMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/PageAddMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\PageDeleteMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/PageDeleteMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\PageSetMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/PageSetMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\PageUpdateMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/PageUpdateMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\RootAddPageMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/RootAddPageMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\RootDeletePageMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/RootDeletePageMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\RootSetPageMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/RootSetPageMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\ObjectType\\RootUpdatePageMetaMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/ObjectType/RootUpdatePageMetaMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\PageAddMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/PageAddMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\PageDeleteMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/PageDeleteMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\PageSetMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/PageSetMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\PageUpdateMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/PageUpdateMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\RootAddPageMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/RootAddPageMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\RootDeletePageMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/RootDeletePageMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\RootSetPageMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/RootSetPageMetaMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\PageMetaMutations\\TypeResolvers\\UnionType\\RootUpdatePageMetaMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src/TypeResolvers/UnionType/RootUpdatePageMetaMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\PageMutationsWP\\LooseContracts\\LooseContractResolutionSet' => __DIR__ . '/..' . '/pop-cms-schema/page-mutations-wp/src/LooseContracts/LooseContractResolutionSet.php',
         'PoPCMSSchema\\PageMutationsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/page-mutations-wp/src/Module.php',
         'PoPCMSSchema\\PageMutations\\ComponentProcessors\\PageMutationFilterInputContainerComponentProcessor' => __DIR__ . '/..' . '/pop-cms-schema/page-mutations/src/ComponentProcessors/PageMutationFilterInputContainerComponentProcessor.php',
@@ -6096,9 +6147,9 @@ class ComposerStaticInit04fdee4ea3b29e29084cfeac92719217
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit04fdee4ea3b29e29084cfeac92719217::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit04fdee4ea3b29e29084cfeac92719217::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit04fdee4ea3b29e29084cfeac92719217::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite470fdb5c9624e154381a482e3d8680e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite470fdb5c9624e154381a482e3d8680e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite470fdb5c9624e154381a482e3d8680e::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -13,6 +13,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
     use PremiumExtensionModuleResolverTrait;
 
     public const AUTOMATION = Plugin::NAMESPACE . '\\bundle-extensions\\automation';
+    public const ELEMENTOR = Plugin::NAMESPACE . '\\bundle-extensions\\elementor';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\bundle-extensions\\events-manager';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\bundle-extensions\\multilingualpress';
     public const POLYLANG = Plugin::NAMESPACE . '\\bundle-extensions\\polylang';
@@ -28,6 +29,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         }
         return [
             self::AUTOMATION,
+            self::ELEMENTOR,
             self::EVENTS_MANAGER,
             self::MULTILINGUALPRESS,
             self::POLYLANG,
@@ -40,6 +42,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Automation', 'gatographql');
+            case self::ELEMENTOR:
+                return \__('Elementor', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Events Manager', 'gatographql');
             case self::MULTILINGUALPRESS:
@@ -58,6 +62,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
+            case self::ELEMENTOR:
+                return \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
             case self::MULTILINGUALPRESS:
@@ -83,6 +89,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return $imagePathURL . '/automation.svg';
+            case self::ELEMENTOR:
+                return $imagePathURL . '/elementor.svg';
             case self::EVENTS_MANAGER:
                 return $imagePathURL . '/events-manager.webp';
             case self::MULTILINGUALPRESS:
@@ -105,6 +113,10 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::AUTOMATION:
                 return [
                     PremiumExtensionModuleResolver::AUTOMATION,
+                ];
+            case self::ELEMENTOR:
+                return [
+                    PremiumExtensionModuleResolver::ELEMENTOR,
                 ];
             case self::EVENTS_MANAGER:
                 return [

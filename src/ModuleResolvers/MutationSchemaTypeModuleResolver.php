@@ -24,6 +24,8 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
     public const SCHEMA_CUSTOMPOST_META_MUTATIONS = Plugin::NAMESPACE . '\schema-custompost-meta-mutations';
     public const SCHEMA_PAGE_MUTATIONS = Plugin::NAMESPACE . '\schema-page-mutations';
     public const SCHEMA_POST_MUTATIONS = Plugin::NAMESPACE . '\schema-post-mutations';
+    public const SCHEMA_POST_META_MUTATIONS = Plugin::NAMESPACE . '\schema-post-meta-mutations';
+    public const SCHEMA_PAGE_META_MUTATIONS = Plugin::NAMESPACE . '\schema-page-meta-mutations';
     public const SCHEMA_MEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-media-mutations';
     public const SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-custompostmedia-mutations';
     public const SCHEMA_PAGEMEDIA_MUTATIONS = Plugin::NAMESPACE . '\schema-pagemedia-mutations';
@@ -77,6 +79,8 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             self::SCHEMA_CUSTOMPOST_META_MUTATIONS,
             self::SCHEMA_PAGE_MUTATIONS,
             self::SCHEMA_POST_MUTATIONS,
+            self::SCHEMA_POST_META_MUTATIONS,
+            self::SCHEMA_PAGE_META_MUTATIONS,
             self::SCHEMA_MEDIA_MUTATIONS,
             self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS,
             self::SCHEMA_PAGEMEDIA_MUTATIONS,
@@ -168,6 +172,24 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                     ],
                     [
                         self::SCHEMA_CUSTOMPOST_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_POST_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_POST_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_CUSTOMPOST_META_MUTATIONS,
+                    ],
+                ];
+            case self::SCHEMA_PAGE_META_MUTATIONS:
+                return [
+                    [
+                        self::SCHEMA_PAGE_MUTATIONS,
+                    ],
+                    [
+                        self::SCHEMA_CUSTOMPOST_META_MUTATIONS,
                     ],
                 ];
             case self::SCHEMA_MEDIA_MUTATIONS:
@@ -360,6 +382,10 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Page Mutations', 'gatographql');
             case self::SCHEMA_POST_MUTATIONS:
                 return \__('Post Mutations', 'gatographql');
+            case self::SCHEMA_POST_META_MUTATIONS:
+                return \__('Post Meta Mutations', 'gatographql');
+            case self::SCHEMA_PAGE_META_MUTATIONS:
+                return \__('Page Meta Mutations', 'gatographql');
             case self::SCHEMA_MEDIA_MUTATIONS:
                 return \__('Media Mutations', 'gatographql');
             case self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS:
@@ -420,6 +446,10 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
                 return \__('Execute mutations on pages', 'gatographql');
             case self::SCHEMA_POST_MUTATIONS:
                 return \__('Execute mutations on posts', 'gatographql');
+            case self::SCHEMA_POST_META_MUTATIONS:
+                return \__('Mutate post meta', 'gatographql');
+            case self::SCHEMA_PAGE_META_MUTATIONS:
+                return \__('Mutate page meta', 'gatographql');
             case self::SCHEMA_MEDIA_MUTATIONS:
                 return \__('Execute mutations concerning media items', 'gatographql');
             case self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS:
@@ -475,6 +505,8 @@ class MutationSchemaTypeModuleResolver extends AbstractModuleResolver
             case self::SCHEMA_META_MUTATIONS:
             case self::SCHEMA_PAGE_MUTATIONS:
             case self::SCHEMA_POST_MUTATIONS:
+            case self::SCHEMA_POST_META_MUTATIONS:
+            case self::SCHEMA_PAGE_META_MUTATIONS:
             case self::SCHEMA_MEDIA_MUTATIONS:
             case self::SCHEMA_CUSTOMPOSTMEDIA_MUTATIONS:
             case self::SCHEMA_PAGEMEDIA_MUTATIONS:

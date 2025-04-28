@@ -132,7 +132,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
                 );
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
-                    \__('Validating license for "%s" produced error: %s', 'gatographql'),
+                    /*\__(*/                    'Validating license for "%s" produced error: %s'/*, 'gatographql')*/,
                     $extensionName,
                     $e->getMessage()
                 );
@@ -159,7 +159,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
             );
 
             $successMessage = sprintf(
-                \__('The license for "%s" has status "%s". You have %s/%s instances activated.', 'gatographql'),
+                /*\__(*/                'The license for "%s" has status "%s". You have %s/%s instances activated.'/*, 'gatographql')*/,
                 $extensionName,
                 $commercialExtensionActivatedLicenseObjectProperties->status,
                 $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
@@ -200,7 +200,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
                 );
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
-                    \__('Deactivating license for "%s" produced error: %s', 'gatographql'),
+                    /*\__(*/                    'Deactivating license for "%s" produced error: %s'/*, 'gatographql')*/,
                     $extensionName,
                     $e->getMessage()
                 );
@@ -224,7 +224,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
             unset($commercialExtensionActivatedLicenseEntries[$extensionSlug]);
 
             $successMessage = sprintf(
-                \__('Deactivating license for "%s" succeeded. You now have %s/%s instances activated.', 'gatographql'),
+                /*\__(*/                'Deactivating license for "%s" succeeded. You now have %s/%s instances activated.'/*, 'gatographql')*/,
                 $extensionName,
                 $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
                 $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
@@ -254,7 +254,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
                 $commercialExtensionActivatedLicenseObjectProperties = $marketplaceProviderCommercialExtensionActivationService->activateLicense($licenseKey, $instanceName);
             } catch (HTTPRequestNotSuccessfulException | LicenseOperationNotSuccessfulException $e) {
                 $errorMessage = sprintf(
-                    \__('Activating license for "%s" produced error: %s', 'gatographql'),
+                    /*\__(*/                    'Activating license for "%s" produced error: %s'/*, 'gatographql')*/,
                     $extensionName,
                     $e->getMessage()
                 );
@@ -281,7 +281,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
             );
 
             $successMessage = sprintf(
-                \__('Activating license for "%s" succeeded. You have %s/%s instances activated.', 'gatographql'),
+                /*\__(*/                'Activating license for "%s" succeeded. You have %s/%s instances activated.'/*, 'gatographql')*/,
                 $extensionName,
                 $commercialExtensionActivatedLicenseObjectProperties->activationUsage,
                 $commercialExtensionActivatedLicenseObjectProperties->activationLimit,
@@ -319,7 +319,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
          * properly afterwards. This must be invoked right after. That's
          * why we use a timestamp as a flag to indicate this state.
          */
-        $this->getUserSettingsManager()->storeLicenseActivationTimestamp();
+        $this->getUserSettingsManager()->storeJustActivatedLicenseTransient($justActivatedCommercialExtensionSlugs);
     }
 
     /**
@@ -432,7 +432,7 @@ class LicenseValidationService extends AbstractBasicService implements LicenseVa
             $formSettingName,
             'license_activation_' . $extensionSlug,
             sprintf(
-                \__('The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'),
+                /*\__(*/                'The license key provided for "%1$s" is meant to be used with "%2$s". As such, "%1$s" has not been enabled. Please use the right license key to enable it.<br/>If you need help, send an email to support@gatographql.com (providing the purchased license keys).'/*, 'gatographql')*/,
                 $extensionName,
                 $commercialExtensionActivatedLicenseObjectProperties->productName,
             ),

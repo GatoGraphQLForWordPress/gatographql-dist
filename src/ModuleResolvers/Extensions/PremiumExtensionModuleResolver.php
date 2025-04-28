@@ -15,6 +15,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const CLAUDE_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\claude-translation';
     public const DEEPL = Plugin::NAMESPACE . '\\extensions\\deepl';
     public const DEEPSEEK_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\deepseek-translation';
+    public const ELEMENTOR = Plugin::NAMESPACE . '\\extensions\\elementor';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\extensions\\events-manager';
     public const GOOGLE_TRANSLATE = Plugin::NAMESPACE . '\\extensions\\google-translate';
     public const MISTRALAI_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\mistralai-translation';
@@ -33,6 +34,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::CLAUDE_TRANSLATION,
             self::DEEPL,
             self::DEEPSEEK_TRANSLATION,
+            self::ELEMENTOR,
             self::EVENTS_MANAGER,
             self::GOOGLE_TRANSLATE,
             self::MISTRALAI_TRANSLATION,
@@ -55,6 +57,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('DeepL', 'gatographql');
             case self::DEEPSEEK_TRANSLATION:
                 return \__('DeepSeek', 'gatographql');
+            case self::ELEMENTOR:
+                return \__('Elementor', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Events Manager', 'gatographql');
             case self::GOOGLE_TRANSLATE:
@@ -85,6 +89,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Translate content to multiple languages using the DeepL API.', 'gatographql');
             case self::DEEPSEEK_TRANSLATION:
                 return \__('Translate content to multiple languages using the DeepSeek API.', 'gatographql');
+            case self::ELEMENTOR:
+                return \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql');
             case self::EVENTS_MANAGER:
                 return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
             case self::GOOGLE_TRANSLATE:
