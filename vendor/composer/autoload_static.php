@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87
+class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1887,6 +1887,7 @@ class ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PerformanceFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/PerformanceFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginGeneralSettingsFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/PluginGeneralSettingsFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginGeneralSettingsFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/PluginGeneralSettingsFunctionalityModuleResolverTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginIntegrationConfigurationSettingsFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/PluginIntegrationConfigurationSettingsFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginManagementFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/PluginManagementFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginManagementFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/PluginManagementFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\SchemaConfigurationFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/SchemaConfigurationFunctionalityModuleResolver.php',
@@ -6147,9 +6148,9 @@ class ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9367c87c47f8bb2b2e3dd138d99b8c87::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$classMap;
 
         }, null, ClassLoader::class);
     }

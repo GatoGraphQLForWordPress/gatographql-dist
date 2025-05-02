@@ -946,6 +946,7 @@ return array(
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PerformanceFunctionalityModuleResolverTrait' => $baseDir . '/src/ModuleResolvers/PerformanceFunctionalityModuleResolverTrait.php',
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginGeneralSettingsFunctionalityModuleResolver' => $baseDir . '/src/ModuleResolvers/PluginGeneralSettingsFunctionalityModuleResolver.php',
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginGeneralSettingsFunctionalityModuleResolverTrait' => $baseDir . '/src/ModuleResolvers/PluginGeneralSettingsFunctionalityModuleResolverTrait.php',
+    'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginIntegrationConfigurationSettingsFunctionalityModuleResolverTrait' => $baseDir . '/src/ModuleResolvers/PluginIntegrationConfigurationSettingsFunctionalityModuleResolverTrait.php',
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginManagementFunctionalityModuleResolver' => $baseDir . '/src/ModuleResolvers/PluginManagementFunctionalityModuleResolver.php',
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\PluginManagementFunctionalityModuleResolverTrait' => $baseDir . '/src/ModuleResolvers/PluginManagementFunctionalityModuleResolverTrait.php',
     'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\SchemaConfigurationFunctionalityModuleResolver' => $baseDir . '/src/ModuleResolvers/SchemaConfigurationFunctionalityModuleResolver.php',

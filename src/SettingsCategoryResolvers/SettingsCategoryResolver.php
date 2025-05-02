@@ -16,6 +16,7 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
     public const SERVER_CONFIGURATION = Plugin::NAMESPACE . '\server-configuration';
     public const PLUGIN_CONFIGURATION = Plugin::NAMESPACE . '\plugin-configuration';
     public const SERVICE_CONFIGURATION = Plugin::NAMESPACE . '\service-configuration';
+    public const PLUGIN_INTEGRATION_CONFIGURATION = Plugin::NAMESPACE . '\plugin-integration-configuration';
     public const API_KEYS = Plugin::NAMESPACE . '\api-keys';
     public const PLUGIN_MANAGEMENT = Plugin::NAMESPACE . '\plugin-management';
 
@@ -46,6 +47,7 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
             self::SERVER_CONFIGURATION,
             self::PLUGIN_CONFIGURATION,
             self::SERVICE_CONFIGURATION,
+            self::PLUGIN_INTEGRATION_CONFIGURATION,
             self::API_KEYS,
             self::PLUGIN_MANAGEMENT,
         ];
@@ -66,6 +68,8 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
                 return $this->__('Plugin Configuration', 'gatographql');
             case self::SERVICE_CONFIGURATION:
                 return $this->__('Service Configuration', 'gatographql');
+            case self::PLUGIN_INTEGRATION_CONFIGURATION:
+                return $this->__('Plugin Integration Configuration', 'gatographql');
             case self::API_KEYS:
                 return $this->__('API Keys', 'gatographql');
             case self::PLUGIN_MANAGEMENT:
@@ -96,6 +100,9 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
             case self::SERVICE_CONFIGURATION:
                 $option = Options::SERVICE_CONFIGURATION;
                 break;
+            case self::PLUGIN_INTEGRATION_CONFIGURATION:
+                $option = Options::PLUGIN_INTEGRATION_CONFIGURATION;
+                break;
             case self::API_KEYS:
                 $option = Options::API_KEYS;
                 break;
@@ -124,6 +131,8 @@ class SettingsCategoryResolver extends AbstractSettingsCategoryResolver
                 return 60;
             case self::SERVICE_CONFIGURATION:
                 return 50;
+            case self::PLUGIN_INTEGRATION_CONFIGURATION:
+                return 45;
             case self::API_KEYS:
                 return 40;
             case self::PLUGIN_MANAGEMENT:

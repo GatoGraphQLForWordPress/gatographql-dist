@@ -288,14 +288,14 @@ if (!\function_exists('mb_str_pad')) {
 }
 if (!\function_exists('mb_ucfirst')) {
     /** @internal */
-    function mb_ucfirst($string, ?string $encoding = null) : string
+    function mb_ucfirst(string $string, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_ucfirst($string, $encoding);
     }
 }
 if (!\function_exists('mb_lcfirst')) {
     /** @internal */
-    function mb_lcfirst($string, ?string $encoding = null) : string
+    function mb_lcfirst(string $string, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_lcfirst($string, $encoding);
     }

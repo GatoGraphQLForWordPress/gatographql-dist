@@ -10,6 +10,7 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache;
 
+use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Log\LoggerInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\LogicException;
@@ -47,7 +48,7 @@ final class CacheItem implements ItemInterface
      */
     protected $newMetadata = [];
     /**
-     * @var \Symfony\Contracts\Cache\ItemInterface|null
+     * @var \Psr\Cache\CacheItemInterface|null
      */
     protected $innerItem;
     /**
