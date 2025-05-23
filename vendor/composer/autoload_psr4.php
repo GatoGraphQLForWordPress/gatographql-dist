@@ -39,6 +39,7 @@ return array(
     'PoPWPSchema\\Blocks\\' => array($vendorDir . '/pop-wp-schema/blocks/src'),
     'PoPWPSchema\\BlockContentParser\\' => array($vendorDir . '/pop-wp-schema/block-content-parser/src'),
     'PoPSchema\\SchemaCommons\\' => array($vendorDir . '/pop-schema/schema-commons/src'),
+    'PoPSchema\\Logger\\' => array($vendorDir . '/pop-schema/logger/src'),
     'PoPSchema\\HTTPRequests\\' => array($vendorDir . '/pop-schema/http-requests/src'),
     'PoPSchema\\ExtendedSchemaCommons\\' => array($vendorDir . '/pop-schema/extended-schema-commons/src'),
     'PoPSchema\\DirectiveCommons\\' => array($vendorDir . '/pop-schema/directive-commons/src'),

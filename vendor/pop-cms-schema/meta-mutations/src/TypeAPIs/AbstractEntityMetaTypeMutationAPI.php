@@ -91,7 +91,7 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
         $value = $this->maybeConvertStdClassToArray($value);
         $result = $this->executeAddEntityMeta($entityID, $key, $value, $single);
         if ($result === \false) {
-            throw $this->getEntityMetaCRUDMutationException(\GatoExternalPrefixByGatoGraphQL\__('Error adding meta', 'meta-mutations'));
+            throw $this->getEntityMetaCRUDMutationException($this->__('Error adding meta', 'meta-mutations'));
         }
         $this->handleMaybeError($result);
         /** @var int $result */
@@ -128,7 +128,7 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
         $result = $this->executeUpdateEntityMeta($entityID, $key, $value, $prevValue ?? '');
         $this->handleMaybeError($result);
         if ($result === \false) {
-            throw $this->getEntityMetaCRUDMutationException(\GatoExternalPrefixByGatoGraphQL\__('Error updating meta', 'meta-mutations'));
+            throw $this->getEntityMetaCRUDMutationException($this->__('Error updating meta', 'meta-mutations'));
         }
         /** @var int|bool $result */
         return $result;
@@ -150,7 +150,7 @@ abstract class AbstractEntityMetaTypeMutationAPI extends AbstractBasicService im
         $result = $this->executeDeleteEntityMeta($entityID, $key, $value);
         $this->handleMaybeError($result);
         if ($result === \false) {
-            throw $this->getEntityMetaCRUDMutationException(\GatoExternalPrefixByGatoGraphQL\__('Error deleting meta', 'meta-mutations'));
+            throw $this->getEntityMetaCRUDMutationException($this->__('Error deleting meta', 'meta-mutations'));
         }
     }
     /**

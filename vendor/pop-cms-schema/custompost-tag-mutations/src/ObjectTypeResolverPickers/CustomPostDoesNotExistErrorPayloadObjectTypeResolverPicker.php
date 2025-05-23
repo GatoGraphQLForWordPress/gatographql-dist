@@ -3,8 +3,9 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostTagMutations\ObjectTypeResolverPickers;
 
-use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers\AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker;
+use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class CustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker
@@ -14,6 +15,6 @@ class CustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker extends Abstrac
      */
     public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver::class];
+        return [RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver::class, GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver::class];
     }
 }

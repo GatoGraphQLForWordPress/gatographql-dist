@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.8
-Stable tag: 12.1.0
+Stable tag: 13.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -217,6 +217,21 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 13.0.0 =
+* Breaking change: Replaced methods in `Logger`: `logInfo` and `logError` => `log(severity: ...)` (#3093)
+* Breaking change: Split `Logger` service into `Logger` and `SystemLogger` (#3098)
+* Breaking change: Moved "Logs" from "General" tab to new "Logs" tab in the Settings (#3103)
+* Enable logs by severity in the Settings (#3095)
+* Add Logs page to the menu, to browse the logs (#3100)
+* Split Logs by sources and date (#3100)
+* Logs count badge in the Logs menu link (#3105)
+* Print the severity (`SUCCESS`/`INFO`/`WARNING`/`ERROR`) in the logs (#3099)
+* Use the Logger also when using plugin as standalone (without WordPress) (#3104)
+* Fixed: Error type for "Custom post does not exist" was missing from union types (#3109)
+
+= 12.2.0 =
+* Fixed: Exception when clicking on Extensions link (#3092)
 
 = 12.1.0 =
 * Added a Plugin Integration Configuration category on Settings (#3089)

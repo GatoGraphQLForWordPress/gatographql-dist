@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL;
 
+use PoPSchema\Logger\Constants\LoggerSeverity;
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
 
@@ -181,19 +182,6 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         );
     }
 
-    public function enableLogs(): bool
-    {
-        $envVariable = Environment::ENABLE_LOGS;
-        $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
-
-        return $this->retrieveConfigurationValueOrUseDefault(
-            $envVariable,
-            $defaultValue,
-            $callback,
-        );
-    }
-
     public function installPluginSetupData(): bool
     {
         $envVariable = Environment::INSTALL_PLUGIN_SETUP_DATA;
@@ -261,5 +249,37 @@ class ModuleConfiguration extends AbstractModuleConfiguration
             default:
                 return parent::enableHook($envVariable);
         }
+    }
+
+    public function enableLogCountBadges(): bool
+    {
+        $envVariable = Environment::ENABLE_LOG_COUNT_BADGES;
+        $defaultValue = false;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    public function enableLogCountBadgesBySeverity(): array
+    {
+        $envVariable = Environment::ENABLE_LOG_COUNT_BADGES_BY_SEVERITY;
+        $defaultValue = [
+            LoggerSeverity::ERROR,
+            LoggerSeverity::WARNING,
+        ];
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+
+        return $this->retrieveConfigurationValueOrUseDefault(
+            $envVariable,
+            $defaultValue,
+            $callback,
+        );
     }
 }

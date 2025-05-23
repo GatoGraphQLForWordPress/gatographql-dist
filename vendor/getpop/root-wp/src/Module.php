@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PoP\RootWP;
 
-use Brain\Cortex;
 use PoP\Root\App;
 use PoP\Root\Environment;
 use PoP\Root\Module as RootModule;
@@ -96,7 +95,9 @@ class Module extends AbstractModule
          *     "brain/cortex": "1.0.0-alpha.9"
          *   }
          *   ```
+         *
+         * @todo: Uncomment this line below if decide to use Cortex again
          */
-        Cortex::boot();
+        // Cortex::boot();
     }
 }

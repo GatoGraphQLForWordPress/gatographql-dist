@@ -647,6 +647,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             return;
         }
 
+        // Only for the actual plugin in PROD, not in DEV
+        if (RootEnvironment::isApplicationEnvironmentDev()) {
+            return;
+        }
+
         $instanceManager = InstanceManagerFacade::getInstance();
         /** @var MarketplaceProviderCommercialPluginUpdaterServiceInterface */
         $marketplaceProviderCommercialPluginUpdaterService = $instanceManager->getInstance(MarketplaceProviderCommercialPluginUpdaterServiceInterface::class);

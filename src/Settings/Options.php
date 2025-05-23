@@ -61,6 +61,10 @@ class Options
      */
     public const TIMESTAMPS = 'timestamps';
     /**
+     * Option name under which to store the Log entries count
+     */
+    public const LOG_COUNTS = 'log-counts';
+    /**
      * Option name under which to store transient data, to calculate
      * operations between request and request
      */

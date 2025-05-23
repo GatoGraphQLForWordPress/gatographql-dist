@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
+class ComposerStaticInit30bb833600d8327e445faff09a91a505
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -54,6 +54,7 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
             'PoPWPSchema\\Blocks\\' => 19,
             'PoPWPSchema\\BlockContentParser\\' => 31,
             'PoPSchema\\SchemaCommons\\' => 24,
+            'PoPSchema\\Logger\\' => 17,
             'PoPSchema\\HTTPRequests\\' => 23,
             'PoPSchema\\ExtendedSchemaCommons\\' => 32,
             'PoPSchema\\DirectiveCommons\\' => 27,
@@ -342,6 +343,10 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'PoPSchema\\SchemaCommons\\' => 
         array (
             0 => __DIR__ . '/..' . '/pop-schema/schema-commons/src',
+        ),
+        'PoPSchema\\Logger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pop-schema/logger/src',
         ),
         'PoPSchema\\HTTPRequests\\' => 
         array (
@@ -1754,7 +1759,6 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\Constants\\GlobalFieldsSchemaExposure' => __DIR__ . '/../..' . '/src/Constants/GlobalFieldsSchemaExposure.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HTMLCodes' => __DIR__ . '/../..' . '/src/Constants/HTMLCodes.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\HookNames' => __DIR__ . '/../..' . '/src/Constants/HookNames.php',
-        'GatoGraphQL\\GatoGraphQL\\Constants\\LoggerSigns' => __DIR__ . '/../..' . '/src/Constants/LoggerSigns.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptionValues' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptionValues.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\ModuleSettingOptions' => __DIR__ . '/../..' . '/src/Constants/ModuleSettingOptions.php',
         'GatoGraphQL\\GatoGraphQL\\Constants\\PluginSetupDataEntrySlugs' => __DIR__ . '/../..' . '/src/Constants/PluginSetupDataEntrySlugs.php',
@@ -1814,6 +1818,7 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\Facades\\Container\\ContainerManagerFacade' => __DIR__ . '/../..' . '/src/Facades/Container/ContainerManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\ContentProcessors\\MarkdownContentParserFacade' => __DIR__ . '/../..' . '/src/Facades/ContentProcessors/MarkdownContentParserFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\InternalGraphQLServerContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/InternalGraphQLServerContainerCacheConfigurationManagerFacade.php',
+        'GatoGraphQL\\GatoGraphQL\\Facades\\LogEntryCounterSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/LogEntryCounterSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\CustomPostTypeRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/CustomPostTypeRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\EndpointBlockRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/EndpointBlockRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\EndpointSchemaConfigurationExecuterRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/EndpointSchemaConfigurationExecuterRegistryFacade.php',
@@ -1835,9 +1840,15 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\GatoGraphQL' => __DIR__ . '/../..' . '/src/GatoGraphQL.php',
         'GatoGraphQL\\GatoGraphQL\\Hooks\\AbstractModuleEnabledHookSet' => __DIR__ . '/../..' . '/src/Hooks/AbstractModuleEnabledHookSet.php',
         'GatoGraphQL\\GatoGraphQL\\Hooks\\ApplicationPasswordAuthorizationHookSet' => __DIR__ . '/../..' . '/src/Hooks/ApplicationPasswordAuthorizationHookSet.php',
-        'GatoGraphQL\\GatoGraphQL\\Log\\Logger' => __DIR__ . '/../..' . '/src/Log/Logger.php',
-        'GatoGraphQL\\GatoGraphQL\\Log\\LoggerFiles' => __DIR__ . '/../..' . '/src/Log/LoggerFiles.php',
-        'GatoGraphQL\\GatoGraphQL\\Log\\LoggerInterface' => __DIR__ . '/../..' . '/src/Log/LoggerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\FileHandler\\File' => __DIR__ . '/../..' . '/src/Log/Controllers/FileHandler/File.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\FileHandler\\FileController' => __DIR__ . '/../..' . '/src/Log/Controllers/FileHandler/FileController.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\FileHandler\\FileExporter' => __DIR__ . '/../..' . '/src/Log/Controllers/FileHandler/FileExporter.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\FileHandler\\FileListTable' => __DIR__ . '/../..' . '/src/Log/Controllers/FileHandler/FileListTable.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\FileHandler\\SearchListTable' => __DIR__ . '/../..' . '/src/Log/Controllers/FileHandler/SearchListTable.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\Internal\\Caching\\CacheHelper' => __DIR__ . '/../..' . '/src/Log/Controllers/Internal/Caching/CacheHelper.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\Internal\\Caching\\CacheNameSpaceTrait' => __DIR__ . '/../..' . '/src/Log/Controllers/Internal/Caching/CacheNameSpaceTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\Internal\\Utilities\\FilesystemUtil' => __DIR__ . '/../..' . '/src/Log/Controllers/Internal/Utilities/FilesystemUtil.php',
+        'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\PageController' => __DIR__ . '/../..' . '/src/Log/Controllers/PageController.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\AbstractMarketplaceProviderCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/AbstractMarketplaceProviderCommercialPluginUpdaterService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseProperties' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseStatus' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseStatus.php',
@@ -1907,6 +1918,7 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\DependedOnInactiveWordPressPlugin' => __DIR__ . '/../..' . '/src/ObjectModels/DependedOnInactiveWordPressPlugin.php',
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\NullableGraphQLQueryVariablesEntry' => __DIR__ . '/../..' . '/src/ObjectModels/NullableGraphQLQueryVariablesEntry.php',
         'GatoGraphQL\\GatoGraphQL\\Overrides\\ConfigurationCache\\OperationalCacheConfigurationManager' => __DIR__ . '/../..' . '/src/Overrides/ConfigurationCache/OperationalCacheConfigurationManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Overrides\\Logger\\Log\\Logger' => __DIR__ . '/../..' . '/src/Overrides/Logger/Log/Logger.php',
         'GatoGraphQL\\GatoGraphQL\\Overrides\\State\\GraphQLEndpointHandlerAppStateProvider' => __DIR__ . '/../..' . '/src/Overrides/State/GraphQLEndpointHandlerAppStateProvider.php',
         'GatoGraphQL\\GatoGraphQL\\Plugin' => __DIR__ . '/../..' . '/src/Plugin.php',
         'GatoGraphQL\\GatoGraphQL\\PluginApp' => __DIR__ . '/../..' . '/src/PluginApp.php',
@@ -2106,6 +2118,7 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\ExtensionsMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/ExtensionsMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\GraphQLVoyagerMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/GraphQLVoyagerMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\GraphiQLMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/GraphiQLMenuPage.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\LogsMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/LogsMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\MenuPageInterface' => __DIR__ . '/../..' . '/src/Services/MenuPages/MenuPageInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\ModuleDocumentationMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/ModuleDocumentationMenuPage.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\ModulesMenuPage' => __DIR__ . '/../..' . '/src/Services/MenuPages/ModulesMenuPage.php',
@@ -2120,6 +2133,7 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\UseDocsMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/UseDocsMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\MenuPages\\UseTabpanelMenuPageTrait' => __DIR__ . '/../..' . '/src/Services/MenuPages/UseTabpanelMenuPageTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\Menus\\AbstractMenu' => __DIR__ . '/../..' . '/src/Services/Menus/AbstractMenu.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\Menus\\LogCountBadgeMenuTrait' => __DIR__ . '/../..' . '/src/Services/Menus/LogCountBadgeMenuTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\Menus\\MenuInterface' => __DIR__ . '/../..' . '/src/Services/Menus/MenuInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\Menus\\PluginMenu' => __DIR__ . '/../..' . '/src/Services/Menus/PluginMenu.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\ModuleTypeResolvers\\AbstractModuleTypeResolver' => __DIR__ . '/../..' . '/src/Services/ModuleTypeResolvers/AbstractModuleTypeResolver.php',
@@ -2188,6 +2202,8 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'GatoGraphQL\\GatoGraphQL\\SettingsCategoryResolvers\\AbstractSettingsCategoryResolver' => __DIR__ . '/../..' . '/src/SettingsCategoryResolvers/AbstractSettingsCategoryResolver.php',
         'GatoGraphQL\\GatoGraphQL\\SettingsCategoryResolvers\\SettingsCategoryResolver' => __DIR__ . '/../..' . '/src/SettingsCategoryResolvers/SettingsCategoryResolver.php',
         'GatoGraphQL\\GatoGraphQL\\SettingsCategoryResolvers\\SettingsCategoryResolverInterface' => __DIR__ . '/../..' . '/src/SettingsCategoryResolvers/SettingsCategoryResolverInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\LogEntryCounterSettingsManager' => __DIR__ . '/../..' . '/src/Settings/LogEntryCounterSettingsManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\LogEntryCounterSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/LogEntryCounterSettingsManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\OptionNamespacer' => __DIR__ . '/../..' . '/src/Settings/OptionNamespacer.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\OptionNamespacerInterface' => __DIR__ . '/../..' . '/src/Settings/OptionNamespacerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\Options' => __DIR__ . '/../..' . '/src/Settings/Options.php',
@@ -5154,6 +5170,17 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
         'PoPSchema\\HTTPRequests\\HelperServices\\HTTPRequestHelperServiceInterface' => __DIR__ . '/..' . '/pop-schema/http-requests/src/HelperServices/HTTPRequestHelperServiceInterface.php',
         'PoPSchema\\HTTPRequests\\Module' => __DIR__ . '/..' . '/pop-schema/http-requests/src/Module.php',
         'PoPSchema\\HTTPRequests\\TypeResolvers\\EnumType\\HTTPRequestMethodEnumTypeResolver' => __DIR__ . '/..' . '/pop-schema/http-requests/src/TypeResolvers/EnumType/HTTPRequestMethodEnumTypeResolver.php',
+        'PoPSchema\\Logger\\Constants\\LoggerContext' => __DIR__ . '/..' . '/pop-schema/logger/src/Constants/LoggerContext.php',
+        'PoPSchema\\Logger\\Constants\\LoggerSeverity' => __DIR__ . '/..' . '/pop-schema/logger/src/Constants/LoggerSeverity.php',
+        'PoPSchema\\Logger\\Constants\\LoggerSigns' => __DIR__ . '/..' . '/pop-schema/logger/src/Constants/LoggerSigns.php',
+        'PoPSchema\\Logger\\Environment' => __DIR__ . '/..' . '/pop-schema/logger/src/Environment.php',
+        'PoPSchema\\Logger\\Log\\Logger' => __DIR__ . '/..' . '/pop-schema/logger/src/Log/Logger.php',
+        'PoPSchema\\Logger\\Log\\LoggerInterface' => __DIR__ . '/..' . '/pop-schema/logger/src/Log/LoggerInterface.php',
+        'PoPSchema\\Logger\\Log\\LoggerSources' => __DIR__ . '/..' . '/pop-schema/logger/src/Log/LoggerSources.php',
+        'PoPSchema\\Logger\\Log\\SystemLogger' => __DIR__ . '/..' . '/pop-schema/logger/src/Log/SystemLogger.php',
+        'PoPSchema\\Logger\\Log\\SystemLoggerInterface' => __DIR__ . '/..' . '/pop-schema/logger/src/Log/SystemLoggerInterface.php',
+        'PoPSchema\\Logger\\Module' => __DIR__ . '/..' . '/pop-schema/logger/src/Module.php',
+        'PoPSchema\\Logger\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-schema/logger/src/ModuleConfiguration.php',
         'PoPSchema\\SchemaCommons\\Constants\\Behaviors' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/Constants/Behaviors.php',
         'PoPSchema\\SchemaCommons\\Constants\\Order' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/Constants/Order.php',
         'PoPSchema\\SchemaCommons\\Constants\\QueryOptions' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/Constants/QueryOptions.php',
@@ -6148,9 +6175,9 @@ class ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf1acc271f361c24e946ae6fbaad701d3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit30bb833600d8327e445faff09a91a505::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit30bb833600d8327e445faff09a91a505::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit30bb833600d8327e445faff09a91a505::$classMap;
 
         }, null, ClassLoader::class);
     }
