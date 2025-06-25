@@ -11,6 +11,8 @@ class SchemaFeedbackStore
     /** @var SchemaFeedbackInterface[] */
     private $errors = [];
     /** @var SchemaFeedbackInterface[] */
+    private $partialErrors = [];
+    /** @var SchemaFeedbackInterface[] */
     private $warnings = [];
     /** @var SchemaFeedbackInterface[] */
     private $deprecations = [];
@@ -23,6 +25,7 @@ class SchemaFeedbackStore
     public function incorporate(\PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $schemaFeedbackStore->getErrors());
+        $this->partialErrors = \array_merge($this->partialErrors, $schemaFeedbackStore->getPartialErrors());
         $this->warnings = \array_merge($this->warnings, $schemaFeedbackStore->getWarnings());
         $this->deprecations = \array_merge($this->deprecations, $schemaFeedbackStore->getDeprecations());
         $this->notices = \array_merge($this->notices, $schemaFeedbackStore->getNotices());
@@ -36,6 +39,9 @@ class SchemaFeedbackStore
     {
         foreach ($objectTypeFieldResolutionFeedbackStore->getErrors() as $objectTypeFieldResolutionFeedbackError) {
             $this->errors[] = \PoP\ComponentModel\Feedback\SchemaFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackError, $relationalTypeResolver, $fields);
+        }
+        foreach ($objectTypeFieldResolutionFeedbackStore->getPartialErrors() as $objectTypeFieldResolutionFeedbackPartialError) {
+            $this->partialErrors[] = \PoP\ComponentModel\Feedback\SchemaFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackPartialError, $relationalTypeResolver, $fields);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getWarnings() as $objectTypeFieldResolutionFeedbackWarning) {
             $this->warnings[] = \PoP\ComponentModel\Feedback\SchemaFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackWarning, $relationalTypeResolver, $fields);
@@ -74,6 +80,28 @@ class SchemaFeedbackStore
     public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
+    }
+    public function getPartialErrorCount() : int
+    {
+        return \count($this->getPartialErrors());
+    }
+    /**
+     * @return SchemaFeedbackInterface[]
+     */
+    public function getPartialErrors() : array
+    {
+        return $this->partialErrors;
+    }
+    public function addPartialError(\PoP\ComponentModel\Feedback\SchemaFeedbackInterface $partialError) : void
+    {
+        $this->partialErrors[] = $partialError;
+    }
+    /**
+     * @param SchemaFeedbackInterface[] $partialErrors
+     */
+    public function setPartialErrors(array $partialErrors) : void
+    {
+        $this->partialErrors = $partialErrors;
     }
     /**
      * @return SchemaFeedbackInterface[]

@@ -64,11 +64,11 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
         $sendFeedbackLogs = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::LOG, $enabledFeedbackCategoryExtensions);
         // Errors
         $generalFeedbackStore = App::getFeedbackStore()->generalFeedbackStore;
-        if ($generalErrors = $generalFeedbackStore->getErrors()) {
+        if ($generalErrors = \array_merge($generalFeedbackStore->getErrors(), $generalFeedbackStore->getPartialErrors())) {
             $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getGeneralFeedbackEntriesForOutput($generalErrors);
         }
         $documentFeedbackStore = App::getFeedbackStore()->documentFeedbackStore;
-        if ($documentErrors = $documentFeedbackStore->getErrors()) {
+        if ($documentErrors = \array_merge($documentFeedbackStore->getErrors(), $documentFeedbackStore->getPartialErrors())) {
             $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getDocumentFeedbackEntriesForOutput($documentErrors);
         }
         $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::ERROR, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
@@ -201,7 +201,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
     {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectErrors = new SplObjectStorage();
-        foreach ($objectResolutionFeedbackStore->getErrors() as $objectFeedbackError) {
+        foreach (\array_merge($objectResolutionFeedbackStore->getErrors(), $objectResolutionFeedbackStore->getPartialErrors()) as $objectFeedbackError) {
             $this->transferObjectFeedbackEntries($objectFeedbackError, $iterationObjectErrors);
         }
         $this->addFeedbackEntries($iterationObjectErrors, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
@@ -310,7 +310,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
     {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaErrors = new SplObjectStorage();
-        foreach ($schemaFeedbackStore->getErrors() as $schemaFeedbackError) {
+        foreach (\array_merge($schemaFeedbackStore->getErrors(), $schemaFeedbackStore->getPartialErrors()) as $schemaFeedbackError) {
             $this->transferSchemaFeedbackEntries($schemaFeedbackError, $iterationSchemaErrors);
         }
         $this->addFeedbackEntries($iterationSchemaErrors, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);

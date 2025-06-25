@@ -6,6 +6,7 @@ namespace GatoGraphQL\GatoGraphQL\ModuleResolvers;
 
 use GatoGraphQL\GatoGraphQL\ObjectModels\DependedOnActiveWordPressPlugin;
 use GatoGraphQL\GatoGraphQL\ObjectModels\DependedOnInactiveWordPressPlugin;
+use GatoGraphQL\GatoGraphQL\ObjectModels\DependedOnActiveWordPressTheme;
 use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use PoP\Root\Services\AbstractBasicService;
 
@@ -55,6 +56,14 @@ abstract class AbstractModuleResolver extends AbstractBasicService implements Mo
      * @return DependedOnInactiveWordPressPlugin[]
      */
     public function getDependentOnInactiveWordPressPlugins(string $module): array
+    {
+        return [];
+    }
+
+    /**
+     * @return DependedOnActiveWordPressTheme[]
+     */
+    public function getDependentOnActiveWordPressThemes(string $module): array
     {
         return [];
     }
@@ -219,6 +228,11 @@ abstract class AbstractModuleResolver extends AbstractBasicService implements Mo
     }
 
     public function areDependedPluginsActive(string $module): bool
+    {
+        return true;
+    }
+
+    public function areDependedThemesActive(string $module): bool
     {
         return true;
     }

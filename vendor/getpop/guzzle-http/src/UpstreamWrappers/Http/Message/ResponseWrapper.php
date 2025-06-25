@@ -21,6 +21,10 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
     {
         $this->response = $response;
     }
+    public function getUpstreamResponse() : UpstreamResponseInterface
+    {
+        return $this->response;
+    }
     /**
      * Retrieves the HTTP protocol version as a string.
      *

@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace PoPWPSchema\Blocks\TypeResolvers\InputObjectType;
+declare (strict_types=1);
+namespace PoPSchema\SchemaCommons\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeFilterInput;
 use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
@@ -11,8 +10,8 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofQueryableInputObjectTypeResolver;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
-
-class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
+/** @internal */
+class IncludeExcludeFilterInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
     /**
      * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
@@ -26,8 +25,7 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeFilterInput|null
      */
     private $excludeFilterInput;
-
-    final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
+    protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
             /** @var StringScalarTypeResolver */
@@ -36,7 +34,7 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
         }
         return $this->stringScalarTypeResolver;
     }
-    final protected function getIncludeFilterInput(): IncludeFilterInput
+    protected final function getIncludeFilterInput() : IncludeFilterInput
     {
         if ($this->includeFilterInput === null) {
             /** @var IncludeFilterInput */
@@ -45,7 +43,7 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
         }
         return $this->includeFilterInput;
     }
-    final protected function getExcludeFilterInput(): ExcludeFilterInput
+    protected final function getExcludeFilterInput() : ExcludeFilterInput
     {
         if ($this->excludeFilterInput === null) {
             /** @var ExcludeFilterInput */
@@ -54,46 +52,37 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
         }
         return $this->excludeFilterInput;
     }
-
-    public function getTypeName(): string
+    public function getTypeName() : string
     {
-        return 'BlockFilterByInput';
+        return 'IncludeExcludeFilterInput';
     }
-
-    public function getTypeDescription(): ?string
+    public function getTypeDescription() : ?string
     {
-        return $this->__('Oneof input to filter blocks', 'blocks');
+        return $this->__('Oneof input to filter by including or excluding items', 'schema-commons');
     }
-
-    protected function isOneInputValueMandatory(): bool
+    protected function isOneInputValueMandatory() : bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @return array<string,InputTypeResolverInterface>
      */
-    public function getInputFieldNameTypeResolvers(): array
+    public function getInputFieldNameTypeResolvers() : array
     {
-        return [
-            'include' => $this->getStringScalarTypeResolver(),
-            'exclude' => $this->getStringScalarTypeResolver(),
-        ];
+        return ['include' => $this->getStringScalarTypeResolver(), 'exclude' => $this->getStringScalarTypeResolver()];
     }
-
-    public function getInputFieldDescription(string $inputFieldName): ?string
+    public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         switch ($inputFieldName) {
             case 'include':
-                return $this->__('Names of blocks to be included', 'blocks');
+                return $this->__('Names to be included', 'schema-commons');
             case 'exclude':
-                return $this->__('Names of blocks to be excluded', 'blocks');
+                return $this->__('Names to be excluded', 'schema-commons');
             default:
                 return parent::getInputFieldDescription($inputFieldName);
         }
     }
-
-    public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
+    public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
         switch ($inputFieldName) {
             case 'include':
@@ -104,8 +93,7 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
                 return parent::getInputFieldFilterInput($inputFieldName);
         }
     }
-
-    public function getInputFieldTypeModifiers(string $inputFieldName): int
+    public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
         switch ($inputFieldName) {
             case 'include':
@@ -115,14 +103,12 @@ class BlockFilterByOneofInputObjectTypeResolver extends AbstractOneofQueryableIn
                 return parent::getInputFieldTypeModifiers($inputFieldName);
         }
     }
-
-    protected function isOneOfInputPropertyNullable(
-        string $propertyName
-    ): bool {
+    protected function isOneOfInputPropertyNullable(string $propertyName) : bool
+    {
         switch ($propertyName) {
             case 'include':
             case 'exclude':
-                return true;
+                return \true;
             default:
                 return parent::isOneOfInputPropertyNullable($propertyName);
         }

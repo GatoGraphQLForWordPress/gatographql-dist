@@ -9,6 +9,8 @@ class ObjectTypeFieldResolutionFeedbackStore
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
     private $errors = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
+    private $partialErrors = [];
+    /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
     private $warnings = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
     private $deprecations = [];
@@ -21,6 +23,7 @@ class ObjectTypeFieldResolutionFeedbackStore
     public function incorporate(\PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $objectTypeFieldResolutionFeedbackStore->getErrors());
+        $this->partialErrors = \array_merge($this->partialErrors, $objectTypeFieldResolutionFeedbackStore->getPartialErrors());
         $this->warnings = \array_merge($this->warnings, $objectTypeFieldResolutionFeedbackStore->getWarnings());
         $this->deprecations = \array_merge($this->deprecations, $objectTypeFieldResolutionFeedbackStore->getDeprecations());
         $this->notices = \array_merge($this->notices, $objectTypeFieldResolutionFeedbackStore->getNotices());
@@ -48,6 +51,28 @@ class ObjectTypeFieldResolutionFeedbackStore
     public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
+    }
+    public function getPartialErrorCount() : int
+    {
+        return \count($this->getPartialErrors());
+    }
+    /**
+     * @return ObjectTypeFieldResolutionFeedbackInterface[]
+     */
+    public function getPartialErrors() : array
+    {
+        return $this->partialErrors;
+    }
+    public function addPartialError(\PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackInterface $partialError) : void
+    {
+        $this->partialErrors[] = $partialError;
+    }
+    /**
+     * @param ObjectTypeFieldResolutionFeedbackInterface[] $partialErrors
+     */
+    public function setPartialErrors(array $partialErrors) : void
+    {
+        $this->partialErrors = $partialErrors;
     }
     /**
      * @return ObjectTypeFieldResolutionFeedbackInterface[]

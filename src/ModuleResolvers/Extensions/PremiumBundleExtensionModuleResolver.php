@@ -13,6 +13,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
     use PremiumExtensionModuleResolverTrait;
 
     public const AUTOMATION = Plugin::NAMESPACE . '\\bundle-extensions\\automation';
+    public const BRICKS = Plugin::NAMESPACE . '\\bundle-extensions\\bricks';
     public const ELEMENTOR = Plugin::NAMESPACE . '\\bundle-extensions\\elementor';
     public const EVENTS_MANAGER = Plugin::NAMESPACE . '\\bundle-extensions\\events-manager';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\bundle-extensions\\multilingualpress';
@@ -29,6 +30,7 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         }
         return [
             self::AUTOMATION,
+            self::BRICKS,
             self::ELEMENTOR,
             self::EVENTS_MANAGER,
             self::MULTILINGUALPRESS,
@@ -42,6 +44,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Automation', 'gatographql');
+            case self::BRICKS:
+                return \__('Bricks', 'gatographql');
             case self::ELEMENTOR:
                 return \__('Elementor', 'gatographql');
             case self::EVENTS_MANAGER:
@@ -62,6 +66,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
+            case self::BRICKS:
+                return \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql');
             case self::ELEMENTOR:
                 return \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql');
             case self::EVENTS_MANAGER:
@@ -89,6 +95,8 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
         switch ($module) {
             case self::AUTOMATION:
                 return $imagePathURL . '/automation.svg';
+            case self::BRICKS:
+                return $imagePathURL . '/bricks.svg';
             case self::ELEMENTOR:
                 return $imagePathURL . '/elementor.svg';
             case self::EVENTS_MANAGER:
@@ -113,6 +121,10 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
             case self::AUTOMATION:
                 return [
                     PremiumExtensionModuleResolver::AUTOMATION,
+                ];
+            case self::BRICKS:
+                return [
+                    PremiumExtensionModuleResolver::BRICKS,
                 ];
             case self::ELEMENTOR:
                 return [

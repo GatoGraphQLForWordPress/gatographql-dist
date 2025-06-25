@@ -9,6 +9,8 @@ class GeneralFeedbackStore
     /** @var GeneralFeedbackInterface[] */
     private $errors = [];
     /** @var GeneralFeedbackInterface[] */
+    private $partialErrors = [];
+    /** @var GeneralFeedbackInterface[] */
     private $warnings = [];
     /** @var GeneralFeedbackInterface[] */
     private $deprecations = [];
@@ -39,6 +41,28 @@ class GeneralFeedbackStore
     public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
+    }
+    public function getPartialErrorCount() : int
+    {
+        return \count($this->getPartialErrors());
+    }
+    /**
+     * @return GeneralFeedbackInterface[]
+     */
+    public function getPartialErrors() : array
+    {
+        return $this->partialErrors;
+    }
+    public function addPartialError(\PoP\ComponentModel\Feedback\GeneralFeedbackInterface $partialError) : void
+    {
+        $this->partialErrors[] = $partialError;
+    }
+    /**
+     * @param GeneralFeedbackInterface[] $partialErrors
+     */
+    public function setPartialErrors(array $partialErrors) : void
+    {
+        $this->partialErrors = $partialErrors;
     }
     /**
      * @return GeneralFeedbackInterface[]

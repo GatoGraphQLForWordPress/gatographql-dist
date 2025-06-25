@@ -14,4 +14,8 @@ class RootUpdateGenericCustomPostInputObjectTypeResolver extends \PoPCMSSchema\C
     {
         return \true;
     }
+    protected function isCustomPostTypeFieldMandatory() : bool
+    {
+        return \false;
+    }
 }

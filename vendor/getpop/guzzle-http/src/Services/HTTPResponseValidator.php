@@ -11,10 +11,9 @@ use stdClass;
 class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleHTTP\Services\HTTPResponseValidatorInterface
 {
     /**
-     * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException
      */
-    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false)
+    public function validateJSONResponse(ResponseInterface $response) : void
     {
         /**
          * Validate the response was successful, i.e. if its
@@ -25,8 +24,15 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
          */
         $statusCode = $response->getStatusCode();
         if (!($statusCode >= 200 && $statusCode <= 203)) {
-            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('Only status codes `200`, `201`, `202` and `203` are accepted, but the response has status code \'%s\'', 'guzzle-http'), $statusCode, 200));
+            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('Only status codes `200`, `201`, `202` and `203` are accepted, but the response has status code \'%s\'', 'guzzle-http'), $statusCode));
         }
+    }
+    /**
+     * @return array<string,mixed>|stdClass
+     * @throws GuzzleHTTPInvalidResponseException
+     */
+    public function decodeJSONResponse(ResponseInterface $response, bool $associative = \false)
+    {
         /**
          * It must be a JSON content type, for which it's either
          * `application/json` or one of its opinionated variants,
@@ -47,5 +53,14 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
             throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The body of the response could not be JSON-decoded: \'%s\'', 'guzzle-http'), $bodyResponse));
         }
         return $decodedJSON;
+    }
+    /**
+     * @return array<string,mixed>|stdClass
+     * @throws GuzzleHTTPInvalidResponseException
+     */
+    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false)
+    {
+        $this->validateJSONResponse($response);
+        return $this->decodeJSONResponse($response, $associative);
     }
 }

@@ -307,7 +307,12 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
         $value = $relationalTypeResolver->resolveValue($object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         // 2. Transfer the feedback
         $engineIterationFeedbackStore->objectResolutionFeedbackStore->incorporateFromObjectTypeFieldResolutionFeedbackStore($objectTypeFieldResolutionFeedbackStore, $relationalTypeResolver, $this->directive, [$id => new EngineIterationFieldSet([$field])]);
-        // 3. Add the output in the DB
+        /**
+         * 3. Add the output in the DB
+         *
+         * Please notice: this is only for Errors.
+         * Partial errors do not set the field to `null`!
+         */
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // Set the response for the failing field as null
             $resolvedIDFieldValues[$id][$field] = null;

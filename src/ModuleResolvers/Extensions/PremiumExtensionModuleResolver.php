@@ -11,6 +11,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
     use PremiumExtensionModuleResolverTrait;
 
     public const AUTOMATION = Plugin::NAMESPACE . '\\extensions\\automation';
+    public const BRICKS = Plugin::NAMESPACE . '\\extensions\\bricks';
     public const CHATGPT_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\chatgpt-translation';
     public const CLAUDE_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\claude-translation';
     public const DEEPL = Plugin::NAMESPACE . '\\extensions\\deepl';
@@ -30,6 +31,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
     {
         return [
             self::AUTOMATION,
+            self::BRICKS,
             self::CHATGPT_TRANSLATION,
             self::CLAUDE_TRANSLATION,
             self::DEEPL,
@@ -49,6 +51,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Automation', 'gatographql');
+            case self::BRICKS:
+                return \__('Bricks', 'gatographql');
             case self::CHATGPT_TRANSLATION:
                 return \__('ChatGPT Translation', 'gatographql');
             case self::CLAUDE_TRANSLATION:
@@ -81,6 +85,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
         switch ($module) {
             case self::AUTOMATION:
                 return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
+            case self::BRICKS:
+                return \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql');
             case self::CHATGPT_TRANSLATION:
                 return \__('Translate content to multiple languages using the ChatGPT API.', 'gatographql');
             case self::CLAUDE_TRANSLATION:

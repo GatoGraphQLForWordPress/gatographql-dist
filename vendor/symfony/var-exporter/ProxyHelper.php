@@ -67,7 +67,7 @@ final class ProxyHelper
             }
             $p = $propertyScopes[$k][4] ?? (Hydrator::$propertyScopes[$class->name][$k][4] = new \ReflectionProperty($scope, $name));
             $type = self::exportType($p);
-            $hooks .= "\n    " . ($p->isProtected() ? 'protected' : 'public') . ($p->isProtectedSet() ? ' protected(set)' : '') . " {$type} \${$name}" . ($p->hasDefaultValue() ? ' = ' . $p->getDefaultValue() : '') . " {\n";
+            $hooks .= "\n    " . ($p->isProtected() ? 'protected' : 'public') . ($p->isProtectedSet() ? ' protected(set)' : '') . " {$type} \${$name}" . ($p->hasDefaultValue() ? ' = ' . VarExporter::export($p->getDefaultValue()) : '') . " {\n";
             foreach ($p->getHooks() as $hook => $method) {
                 if ('get' === $hook) {
                     $ref = $method->returnsReference() ? '&' : '';

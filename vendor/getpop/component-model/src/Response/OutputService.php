@@ -15,6 +15,6 @@ class OutputService extends AbstractBasicService implements \PoP\ComponentModel\
      */
     public function jsonEncodeArrayOrStdClassValue($value) : string
     {
-        return \mb_strimwidth((string) \json_encode($value, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE), 0, 500, $this->__('...', 'graphql-parser'));
+        return \mb_strimwidth(\str_replace(["\r", "\n"], ['\\r', '\\n'], (string) \json_encode($value, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)), 0, 500, $this->__('...', 'graphql-parser'));
     }
 }

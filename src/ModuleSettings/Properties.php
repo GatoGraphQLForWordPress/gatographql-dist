@@ -12,6 +12,7 @@ class Properties
     public const DESCRIPTION = 'description';
     public const POSSIBLE_VALUES = 'possibleValues';
     public const CAN_BE_EMPTY = 'canBeEmpty';
+    public const DEFAULT_VALUE = 'defaultValue';
     // Used for Property Array
     public const KEY_LABELS = 'keyLabels';
     // Used for Select inputs

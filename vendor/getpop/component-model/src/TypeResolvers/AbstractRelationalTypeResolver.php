@@ -817,8 +817,12 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
             $separateEngineIterationFeedbackStore = new EngineIterationFeedbackStore();
             $directivePipelineData = $this->resolveDirectivesIntoPipelineData($directives, $directiveFields, $separateEngineIterationFeedbackStore);
             $engineIterationFeedbackStore->incorporate($separateEngineIterationFeedbackStore);
-            // If any directive failed validation and the field must be set to `null`,
-            // then skip processing that field altogether
+            /**
+             * If any directive failed validation and the field must be set to `null`,
+             * then skip processing that field altogether.
+             *
+             * Notice this does not apply to "partial" errors.
+             */
             /** @var array<string|int,FieldInterface[]> */
             $errorIDFields = [];
             if ($separateEngineIterationFeedbackStore->objectResolutionFeedbackStore->getErrors() !== []) {

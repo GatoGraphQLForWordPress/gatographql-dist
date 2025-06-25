@@ -20,7 +20,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\CustomPosts\Module::class, \PoPCMSSchema\UserRoles\Module::class, \PoPCMSSchema\UserStateMutations\Module::class];
+        return [\PoPCMSSchema\CustomPosts\Module::class, \PoPCMSSchema\UserRoles\Module::class, \PoPCMSSchema\UserStateMutations\Module::class, \PoPSchema\ExtendedSchemaCommons\Module::class];
     }
     /**
      * Initialize services

@@ -134,7 +134,7 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-        $customPostType = $this->getCustomPostType();
+        $customPostType = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_TYPE) ?? $this->getCustomPostType();
         if ($customPostType !== '') {
             $this->validateIsCustomPostType($customPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
@@ -145,8 +145,10 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
-        /** @var string */
-        $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
+        if ($customPostType === '') {
+            /** @var string */
+            $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
+        }
         $this->triggerValidateUpdateHook($customPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
     /**

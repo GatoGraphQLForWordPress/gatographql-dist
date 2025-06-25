@@ -27,10 +27,6 @@ trait ServiceLocatorTrait
     /**
      * @var mixed[]
      */
-    private $factories;
-    /**
-     * @var mixed[]
-     */
     private $loading = [];
     /**
      * @var mixed[]
@@ -39,9 +35,8 @@ trait ServiceLocatorTrait
     /**
      * @param array<string, callable> $factories
      */
-    public function __construct(array $factories)
+    public function __construct(private array $factories)
     {
-        $this->factories = $factories;
     }
     public function has(string $id) : bool
     {

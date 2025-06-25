@@ -8,6 +8,7 @@ use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\BodySummarizer;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Client;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\Utils;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Request;
 use PoP\ComponentModel\App;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\Module;
@@ -15,6 +16,9 @@ use PoP\GuzzleHTTP\ModuleConfiguration;
 use PoP\GuzzleHTTP\ObjectModels\RequestInput;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface;
 use PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseWrapper;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
+use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
+use Throwable;
 /** @internal */
 class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
 {
@@ -118,7 +122,7 @@ class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
         if (!$exception instanceof RequestException) {
             return $exception;
         }
-        return RequestException::create($exception->getRequest(), $exception->getResponse(), $exception->getPrevious(), $exception->getHandlerContext(), new BodySummarizer(1200));
+        return $this->createRequestException($exception->getRequest(), $exception->getResponse(), $exception->getPrevious(), $exception->getHandlerContext());
     }
     /**
      * @throws GuzzleHTTPRequestException
@@ -127,5 +131,16 @@ class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
     {
         $exception = $this->maybeReplaceException($exception);
         throw new GuzzleHTTPRequestException($exception->getMessage(), 0, $exception);
+    }
+    /**
+     * @param mixed[] $handlerContext
+     */
+    public function createRequestException(RequestInterface $request, ?UpstreamResponseInterface $response = null, ?Throwable $previous = null, array $handlerContext = []) : RequestException
+    {
+        return RequestException::create($request, $response instanceof ResponseInterface ? $response->getUpstreamResponse() : $response, $previous, $handlerContext, new BodySummarizer(1200));
+    }
+    public function createRequest(RequestInput $requestInput) : RequestInterface
+    {
+        return new Request($requestInput->method, $requestInput->url);
     }
 }

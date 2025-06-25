@@ -12,6 +12,8 @@ class ObjectResolutionFeedbackStore
     /** @var ObjectResolutionFeedbackInterface[] */
     private $errors = [];
     /** @var ObjectResolutionFeedbackInterface[] */
+    private $partialErrors = [];
+    /** @var ObjectResolutionFeedbackInterface[] */
     private $warnings = [];
     /** @var ObjectResolutionFeedbackInterface[] */
     private $deprecations = [];
@@ -24,6 +26,7 @@ class ObjectResolutionFeedbackStore
     public function incorporate(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $objectResolutionFeedbackStore->getErrors());
+        $this->partialErrors = \array_merge($this->partialErrors, $objectResolutionFeedbackStore->getPartialErrors());
         $this->warnings = \array_merge($this->warnings, $objectResolutionFeedbackStore->getWarnings());
         $this->deprecations = \array_merge($this->deprecations, $objectResolutionFeedbackStore->getDeprecations());
         $this->notices = \array_merge($this->notices, $objectResolutionFeedbackStore->getNotices());
@@ -37,6 +40,9 @@ class ObjectResolutionFeedbackStore
     {
         foreach ($objectTypeFieldResolutionFeedbackStore->getErrors() as $objectTypeFieldResolutionFeedbackError) {
             $this->errors[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackError, $relationalTypeResolver, $directive, $idFieldSet);
+        }
+        foreach ($objectTypeFieldResolutionFeedbackStore->getPartialErrors() as $objectTypeFieldResolutionFeedbackPartialError) {
+            $this->errors[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackPartialError, $relationalTypeResolver, $directive, $idFieldSet);
         }
         foreach ($objectTypeFieldResolutionFeedbackStore->getWarnings() as $objectTypeFieldResolutionFeedbackWarning) {
             $this->warnings[] = \PoP\ComponentModel\Feedback\ObjectResolutionFeedback::fromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedbackWarning, $relationalTypeResolver, $directive, $idFieldSet);
@@ -75,6 +81,28 @@ class ObjectResolutionFeedbackStore
     public function setErrors(array $errors) : void
     {
         $this->errors = $errors;
+    }
+    public function getPartialErrorCount() : int
+    {
+        return \count($this->getPartialErrors());
+    }
+    /**
+     * @return ObjectResolutionFeedbackInterface[]
+     */
+    public function getPartialErrors() : array
+    {
+        return $this->partialErrors;
+    }
+    public function addPartialError(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface $partialError) : void
+    {
+        $this->partialErrors[] = $partialError;
+    }
+    /**
+     * @param ObjectResolutionFeedbackInterface[] $partialErrors
+     */
+    public function setPartialErrors(array $partialErrors) : void
+    {
+        $this->partialErrors = $partialErrors;
     }
     /**
      * @return ObjectResolutionFeedbackInterface[]

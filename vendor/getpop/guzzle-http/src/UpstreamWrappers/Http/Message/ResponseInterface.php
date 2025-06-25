@@ -27,4 +27,5 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface as Upstre
  */
 interface ResponseInterface extends UpstreamResponseInterface
 {
+    public function getUpstreamResponse() : UpstreamResponseInterface;
 }

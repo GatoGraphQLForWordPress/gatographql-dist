@@ -31,6 +31,9 @@ class ExtensionManager extends AbstractPluginManager
     /** @var string[] */
     private $inactiveExtensionDependedUponPluginFiles = [];
 
+    /** @var string[] */
+    private $inactiveExtensionDependedUponThemeSlugs = [];
+
     /** @var array<string,BundleExtensionInterface> */
     private $bundledExtensionClassBundlingExtensionClasses = [];
 
@@ -293,6 +296,31 @@ class ExtensionManager extends AbstractPluginManager
     public function getInactiveExtensionsDependedUponPluginFiles(): array
     {
         return $this->inactiveExtensionDependedUponPluginFiles;
+    }
+
+    /**
+     * Register the depended-upon theme main file(s), so that
+     * when the theme is activated, the container is regenerated
+     *
+     * @param string[] $inactiveExtensionDependedUponThemeSlugs
+     */
+    public function registerInactiveExtensionDependedUponThemeFiles(array $inactiveExtensionDependedUponThemeSlugs): void
+    {
+        $this->inactiveExtensionDependedUponThemeSlugs = array_merge(
+            $this->inactiveExtensionDependedUponThemeSlugs,
+            $inactiveExtensionDependedUponThemeSlugs
+        );
+    }
+
+    /**
+     * Theme theme slugs that need to be activated in order
+     * for some Gato GraphQL extension to become active.
+     *
+     * @return string[]
+     */
+    public function getInactiveExtensionsDependedUponThemeSlugs(): array
+    {
+        return $this->inactiveExtensionDependedUponThemeSlugs;
     }
 
     public function isExtensionBundled(string $bundledExtensionClass): bool

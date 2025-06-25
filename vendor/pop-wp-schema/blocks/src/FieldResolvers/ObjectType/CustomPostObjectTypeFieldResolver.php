@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace PoPWPSchema\Blocks\FieldResolvers\ObjectType;
 
 use GatoGraphQL\GatoGraphQL\App;
-use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
-use PoPWPSchema\BlockContentParser\BlockContentParserInterface;
-use PoPWPSchema\BlockContentParser\Exception\BlockContentParserException;
-use PoPWPSchema\Blocks\Constants\HookNames;
-use PoPWPSchema\Blocks\ObjectModels\BlockInterface;
-use PoPWPSchema\Blocks\ObjectModels\GeneralBlock;
-use PoPWPSchema\Blocks\TypeHelpers\BlockUnionTypeHelpers;
-use PoPWPSchema\Blocks\TypeResolvers\InputObjectType\BlockFilterByOneofInputObjectTypeResolver;
-use PoP\ComponentModel\FeedbackItemProviders\GenericFeedbackItemProvider;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
+use PoP\ComponentModel\FeedbackItemProviders\GenericFeedbackItemProvider;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
@@ -24,9 +17,16 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
-use WP_Post;
+use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver;
+use PoPSchema\SchemaCommons\TypeResolvers\InputObjectType\IncludeExcludeFilterInputObjectTypeResolver;
+use PoPWPSchema\BlockContentParser\BlockContentParserInterface;
+use PoPWPSchema\BlockContentParser\Exception\BlockContentParserException;
+use PoPWPSchema\Blocks\Constants\HookNames;
+use PoPWPSchema\Blocks\ObjectModels\BlockInterface;
+use PoPWPSchema\Blocks\ObjectModels\GeneralBlock;
+use PoPWPSchema\Blocks\TypeHelpers\BlockUnionTypeHelpers;
 use stdClass;
+use WP_Post;
 
 class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
@@ -35,13 +35,13 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      */
     private $blockContentParser;
     /**
-     * @var \PoPWPSchema\Blocks\TypeResolvers\InputObjectType\BlockFilterByOneofInputObjectTypeResolver|null
-     */
-    private $blockFilterByOneofInputObjectTypeResolver;
-    /**
      * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
      */
     private $jsonObjectScalarTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\InputObjectType\IncludeExcludeFilterInputObjectTypeResolver|null
+     */
+    private $includeExcludeFilterInputObjectTypeResolver;
 
     final protected function getBlockContentParser(): BlockContentParserInterface
     {
@@ -52,15 +52,6 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
         }
         return $this->blockContentParser;
     }
-    final protected function getBlockFilterByOneofInputObjectTypeResolver(): BlockFilterByOneofInputObjectTypeResolver
-    {
-        if ($this->blockFilterByOneofInputObjectTypeResolver === null) {
-            /** @var BlockFilterByOneofInputObjectTypeResolver */
-            $blockFilterByOneofInputObjectTypeResolver = $this->instanceManager->getInstance(BlockFilterByOneofInputObjectTypeResolver::class);
-            $this->blockFilterByOneofInputObjectTypeResolver = $blockFilterByOneofInputObjectTypeResolver;
-        }
-        return $this->blockFilterByOneofInputObjectTypeResolver;
-    }
     final protected function getJSONObjectScalarTypeResolver(): JSONObjectScalarTypeResolver
     {
         if ($this->jsonObjectScalarTypeResolver === null) {
@@ -69,6 +60,15 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
             $this->jsonObjectScalarTypeResolver = $jsonObjectScalarTypeResolver;
         }
         return $this->jsonObjectScalarTypeResolver;
+    }
+    final protected function getIncludeExcludeFilterInputObjectTypeResolver(): IncludeExcludeFilterInputObjectTypeResolver
+    {
+        if ($this->includeExcludeFilterInputObjectTypeResolver === null) {
+            /** @var IncludeExcludeFilterInputObjectTypeResolver */
+            $includeExcludeFilterInputObjectTypeResolver = $this->instanceManager->getInstance(IncludeExcludeFilterInputObjectTypeResolver::class);
+            $this->includeExcludeFilterInputObjectTypeResolver = $includeExcludeFilterInputObjectTypeResolver;
+        }
+        return $this->includeExcludeFilterInputObjectTypeResolver;
     }
 
     /**
@@ -145,7 +145,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                 return array_merge(
                     $fieldArgNameTypeResolvers,
                     [
-                        'filterBy' => $this->getBlockFilterByOneofInputObjectTypeResolver(),
+                        'filterBy' => $this->getIncludeExcludeFilterInputObjectTypeResolver(),
                     ]
                 );
             default:
