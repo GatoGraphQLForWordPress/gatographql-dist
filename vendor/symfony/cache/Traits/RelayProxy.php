@@ -10,6 +10,7 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
 
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\BgsaveTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\CopyTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\GeosearchTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\GetrangeTrait;
@@ -29,6 +30,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
  */
 class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements ResetInterface, LazyObjectInterface
 {
+    use BgsaveTrait;
     use CopyTrait;
     use GeosearchTrait;
     use GetrangeTrait;
@@ -390,13 +392,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function lcs($key1, $key2, $options = null)
     {
         return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lcs(...\func_get_args());
-    }
-    /**
-     * @return \Relay\Relay|bool
-     */
-    public function bgsave($schedule = \false)
-    {
-        return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->bgsave(...\func_get_args());
     }
     /**
      * @return \Relay\Relay|bool

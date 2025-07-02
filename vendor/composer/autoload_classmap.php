@@ -245,6 +245,7 @@ return array(
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisTrait' => $vendorDir . '/symfony/cache/Traits/RedisTrait.php',
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxy' => $vendorDir . '/symfony/cache/Traits/RelayProxy.php',
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxyTrait' => $vendorDir . '/symfony/cache/Traits/RelayProxyTrait.php',
+    'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\BgsaveTrait' => $vendorDir . '/symfony/cache/Traits/Relay/BgsaveTrait.php',
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\CopyTrait' => $vendorDir . '/symfony/cache/Traits/Relay/CopyTrait.php',
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GeosearchTrait' => $vendorDir . '/symfony/cache/Traits/Relay/GeosearchTrait.php',
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GetrangeTrait' => $vendorDir . '/symfony/cache/Traits/Relay/GetrangeTrait.php',

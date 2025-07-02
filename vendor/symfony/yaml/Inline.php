@@ -660,7 +660,7 @@ class Inline
                             if (\false !== ($scalar = $time->getTimestamp())) {
                                 return $scalar;
                             }
-                        } catch (\ValueError $exception) {
+                        } catch (\GatoExternalPrefixByGatoGraphQL\DateRangeError|\ValueError $exception) {
                             // no-op
                         }
                         return $time->format('U');

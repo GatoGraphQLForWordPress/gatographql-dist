@@ -29,6 +29,19 @@ class EnvironmentValueHelpers
         return (int) $value;
     }
     /**
+     * Convert the environment value from string to int
+     *
+     * @param string $value environment value
+     */
+    public static function toPositiveIntOrNull(string $value) : ?int
+    {
+        $intValue = (int) $value;
+        if ($intValue <= 0) {
+            return null;
+        }
+        return $intValue;
+    }
+    /**
      * Convert the environment value from a comma separated string to array
      *
      * @param string $value environment value

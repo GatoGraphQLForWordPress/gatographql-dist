@@ -47,7 +47,7 @@ humbug_phpscoper_expose_class('DateError', 'GatoExternalPrefixByGatoGraphQL\Date
 humbug_phpscoper_expose_class('DateObjectError', 'GatoExternalPrefixByGatoGraphQL\DateObjectError');
 humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
 humbug_phpscoper_expose_class('©', 'GatoExternalPrefixByGatoGraphQL\©');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit57cf43cdb00720501b3b386dcbfcb4c4', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit57cf43cdb00720501b3b386dcbfcb4c4');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit7f8c7e69f8b2853a06c64de49e3f2ab9', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit7f8c7e69f8b2853a06c64de49e3f2ab9');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

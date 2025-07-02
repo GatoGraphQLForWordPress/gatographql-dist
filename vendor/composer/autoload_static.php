@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4
+class ComposerStaticInit7f8c7e69f8b2853a06c64de49e3f2ab9
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1191,6 +1191,7 @@ class ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RelayProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RelayProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\BgsaveTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/BgsaveTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\CopyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/CopyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GeosearchTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/GeosearchTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\GetrangeTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/GetrangeTrait.php',
@@ -6180,9 +6181,9 @@ class ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit57cf43cdb00720501b3b386dcbfcb4c4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7f8c7e69f8b2853a06c64de49e3f2ab9::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7f8c7e69f8b2853a06c64de49e3f2ab9::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit7f8c7e69f8b2853a06c64de49e3f2ab9::$classMap;
 
         }, null, ClassLoader::class);
     }
