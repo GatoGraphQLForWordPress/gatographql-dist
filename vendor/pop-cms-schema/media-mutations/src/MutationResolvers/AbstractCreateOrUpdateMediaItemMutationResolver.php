@@ -3,6 +3,8 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\MutationResolvers;
 
+use DateTime;
+use DateTimeInterface;
 use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\MediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
@@ -180,6 +182,20 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
     protected function getMediaItemData(FieldDataAccessorInterface $fieldDataAccessor) : array
     {
         $mediaItemData = ['authorID' => $fieldDataAccessor->getValue(MutationInputProperties::AUTHOR_ID), 'title' => $fieldDataAccessor->getValue(MutationInputProperties::TITLE), 'slug' => $fieldDataAccessor->getValue(MutationInputProperties::SLUG), 'caption' => $fieldDataAccessor->getValue(MutationInputProperties::CAPTION), 'description' => $fieldDataAccessor->getValue(MutationInputProperties::DESCRIPTION), 'altText' => $fieldDataAccessor->getValue(MutationInputProperties::ALT_TEXT), 'mimeType' => $fieldDataAccessor->getValue(MutationInputProperties::MIME_TYPE)];
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::DATE)) {
+            /** @var DateTime|null */
+            $dateTime = $fieldDataAccessor->getValue(MutationInputProperties::DATE);
+            if ($dateTime !== null) {
+                $mediaItemData['date'] = $dateTime->format(DateTimeInterface::ATOM);
+            }
+        }
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::GMT_DATE)) {
+            /** @var DateTime|null */
+            $gmtDateTime = $fieldDataAccessor->getValue(MutationInputProperties::GMT_DATE);
+            if ($gmtDateTime !== null) {
+                $mediaItemData['gmtDate'] = $gmtDateTime->format(DateTimeInterface::ATOM);
+            }
+        }
         if ($this->addMediaItemInputField()) {
             $mediaItemData['id'] = $fieldDataAccessor->getValue(MutationInputProperties::ID);
         }

@@ -244,4 +244,13 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
         $this->consolidatedEnumValueExtensionsCache[$enumValue] = App::applyFilters(\PoP\ComponentModel\TypeResolvers\EnumType\HookNames::ENUM_VALUE_EXTENSIONS, $this->getEnumValueExtensionsSchemaDefinition($enumValue), $this, $enumValue);
         return $this->consolidatedEnumValueExtensionsCache[$enumValue];
     }
+    /**
+     * Check if the input value is already coerced.
+     *
+     * @param object $inputValue the object value, of any type other than stdClass
+     */
+    public function isAlreadyCoercedValue(object $inputValue) : bool
+    {
+        return \false;
+    }
 }

@@ -13,6 +13,9 @@ use WP_Plugin_Install_List_Table;
 use stdClass;
 
 use function get_plugin_data;
+use function remove_all_filters;
+use function add_filter;
+use function remove_filter;
 
 // The file containing class WP_Plugin_Install_List_Table is not
 // loaded by default in WordPress.
@@ -41,17 +44,28 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      */
     public function prepare_items()
     {
-        \add_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']), PHP_INT_MAX);
-        \add_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']), PHP_INT_MAX);
-        \add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']), PHP_INT_MAX);
-        \add_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']), PHP_INT_MAX);
-        \add_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), PHP_INT_MAX, 2);
+        /**
+         * Remove all hooks from all other plugins, to avoid conflicts.
+         *
+         * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/3151
+         */
+        remove_all_filters('install_plugins_tabs');
+        remove_all_filters('install_plugins_nonmenu_tabs');
+        remove_all_filters('plugins_api');
+        remove_all_filters('plugins_api_result');
+        remove_all_filters('plugin_install_action_links');
+
+        add_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
+        add_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
+        add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
+        add_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
+        add_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), 10, 2);
         parent::prepare_items();
-        \remove_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), PHP_INT_MAX);
-        \remove_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']), PHP_INT_MAX);
-        \remove_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']), PHP_INT_MAX);
-        \remove_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']), PHP_INT_MAX);
-        \remove_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']), PHP_INT_MAX);
+        remove_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), 10);
+        remove_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
+        remove_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
+        remove_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
+        remove_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
     }
 
     /**

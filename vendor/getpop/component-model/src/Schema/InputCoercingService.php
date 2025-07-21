@@ -3,9 +3,10 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Schema;
 
+use PoP\ComponentModel\FeedbackItemProviders\InputValueCoercionGraphQLSpecErrorFeedbackItemProvider;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
-use PoP\ComponentModel\FeedbackItemProviders\InputValueCoercionGraphQLSpecErrorFeedbackItemProvider;
 use PoP\ComponentModel\Module;
 use PoP\ComponentModel\ModuleConfiguration;
 use PoP\ComponentModel\Response\OutputServiceInterface;
@@ -14,7 +15,6 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
 use PoP\Root\App;
-use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use PoP\Root\Services\AbstractBasicService;
 use stdClass;
 /** @internal */
@@ -137,8 +137,8 @@ class InputCoercingService extends AbstractBasicService implements \PoP\Componen
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_12, [$inputName, \json_encode($inputValue)]), $astNode));
             return;
         }
-        if ($inputIsNonNullArrayOfArraysItemsType && \is_array($inputValue) && \array_filter($inputValue, function (?array $arrayItem) {
-            return $arrayItem === null ? \false : \array_filter($arrayItem, function ($arrayItemItem) {
+        if ($inputIsNonNullArrayOfArraysItemsType && \is_array($inputValue) && \array_filter($inputValue, function ($arrayItem) {
+            return $arrayItem === null || $arrayItem instanceof ValueResolutionPromiseInterface ? \false : \array_filter($arrayItem, function ($arrayItemItem) {
                 return $arrayItemItem === null;
             }) !== [];
         })) {
@@ -208,6 +208,44 @@ class InputCoercingService extends AbstractBasicService implements \PoP\Componen
     protected function validateAndCoerceInputValue(InputTypeResolverInterface $inputTypeResolver, $inputValue, string $inputName, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
     {
         if (\is_object($inputValue) && !$inputValue instanceof stdClass) {
+            /**
+             * Watch out! Here we can also receive an already-coerced value.
+             * That happens when the input contains a promise, and a
+             * custom scalar that resolves to an object.
+             *
+             * For instance:
+             *
+             *   query ExportData {
+             *     limit: _echo(value: 3)
+             *       @export(as: "limit")
+             *   }
+             *
+             *   query GetPosts($date: Date!)
+             *     @depends(on: "ExportData")
+             *   {
+             *     posts(
+             *       pagination: {
+             *         limit: $limit # This is a promise
+             *       }
+             *       filter: {
+             *         dateQuery: {
+             *           after: $date # This is a custom scalar that resolves to an object (DateTime)
+             *         }
+             *       }
+             *     ) {
+             *       id
+             *       title
+             *     }
+             *   }
+             *
+             * @see tests/Unit/Faker/fixture/success/coerce-date-input-from-variable.gql
+             *
+             * In that case, check if the inputValue is already the expected type,
+             * and if so, return it as is.
+             */
+            if ($inputTypeResolver->isAlreadyCoercedValue($inputValue)) {
+                return $inputValue;
+            }
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_20, [$inputName, $inputTypeResolver->getMaybeNamespacedTypeName()]), $astNode));
             return null;
         }

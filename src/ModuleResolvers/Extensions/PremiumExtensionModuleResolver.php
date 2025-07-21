@@ -21,6 +21,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
     public const GOOGLE_TRANSLATE = Plugin::NAMESPACE . '\\extensions\\google-translate';
     public const MISTRALAI_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\mistralai-translation';
     public const MULTILINGUALPRESS = Plugin::NAMESPACE . '\\extensions\\multilingualpress';
+    public const OPENROUTER_TRANSLATION = Plugin::NAMESPACE . '\\extensions\\openrouter-translation';
     public const POLYLANG = Plugin::NAMESPACE . '\\extensions\\polylang';
     public const TRANSLATION = Plugin::NAMESPACE . '\\extensions\\translation';
 
@@ -41,6 +42,7 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
             self::GOOGLE_TRANSLATE,
             self::MISTRALAI_TRANSLATION,
             self::MULTILINGUALPRESS,
+            self::OPENROUTER_TRANSLATION,
             self::POLYLANG,
             self::TRANSLATION,
         ];
@@ -71,6 +73,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Mistral AI Translation', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('MultilingualPress', 'gatographql');
+            case self::OPENROUTER_TRANSLATION:
+                return \__('OpenRouter Translation', 'gatographql');
             case self::POLYLANG:
                 return \__('Polylang', 'gatographql');
             case self::TRANSLATION:
@@ -105,6 +109,8 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
                 return \__('Translate content to multiple languages using the Mistral AI API.', 'gatographql');
             case self::MULTILINGUALPRESS:
                 return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
+            case self::OPENROUTER_TRANSLATION:
+                return \__('Translate content to multiple languages using the OpenRouter API.', 'gatographql');
             case self::POLYLANG:
                 return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
             case self::TRANSLATION:

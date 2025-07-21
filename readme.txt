@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.8
-Stable tag: 13.1.1
+Stable tag: 13.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -219,6 +219,19 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 13.2.0 =
+* Added field `CustomPost.rawStatus` (as it exists in the database, eg: `publish` instead of `future`) (#3142)
+* Added `future` and `inherit` statuses to the `CustomPostStatus` enum (#3142)
+* Added - Filter custom posts and media items by "slugs" (#3143)
+* Added - Date parameter to `createMediaItem` mutation (#3146)
+* Added - Option to create media items from unsafe URLs (#3149)
+* Added - Fields `srcs`, `widths`, and `heights` (to fetch data for several `sizes`) to type `Media` (#3149)
+* Added documentation for new field `_arrayDeepFlatten` from the **Helper Function Collection** extension (#3153)
+* Updated dependencies to latest version (#3145)
+* Fixed - Don't validate promises inside array of arrays (#3144)
+* Fixed - Don't fail validation for already-coerced values on inputs containing both a dynamic variable and a custom scalar (#3150)
+* Fixed exception in Extensions page (#3151)
 
 = 13.1.1 =
 * Handle empty response when LemonSqueezy service is down (#3139)

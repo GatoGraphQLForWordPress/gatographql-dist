@@ -5,6 +5,7 @@ namespace PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
+use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver;
@@ -26,6 +27,10 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
      * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver|null
      */
     private $createMediaItemFromOneofInputObjectTypeResolver;
+    /**
+     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver|null
+     */
+    private $dateScalarTypeResolver;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -53,12 +58,21 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
         }
         return $this->createMediaItemFromOneofInputObjectTypeResolver;
     }
+    protected final function getDateScalarTypeResolver() : DateScalarTypeResolver
+    {
+        if ($this->dateScalarTypeResolver === null) {
+            /** @var DateScalarTypeResolver */
+            $dateScalarTypeResolver = $this->instanceManager->getInstance(DateScalarTypeResolver::class);
+            $this->dateScalarTypeResolver = $dateScalarTypeResolver;
+        }
+        return $this->dateScalarTypeResolver;
+    }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        $inputFieldNameTypeResolvers = \array_merge($this->addMediaItemInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], $this->canUploadAttachment() ? [MutationInputProperties::FROM => $this->getCreateMediaItemFromOneofInputObjectTypeResolver()] : [], [MutationInputProperties::AUTHOR_ID => $this->getIDScalarTypeResolver(), MutationInputProperties::TITLE => $this->getStringScalarTypeResolver(), MutationInputProperties::SLUG => $this->getStringScalarTypeResolver(), MutationInputProperties::CAPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::DESCRIPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::ALT_TEXT => $this->getStringScalarTypeResolver(), MutationInputProperties::MIME_TYPE => $this->getStringScalarTypeResolver()]);
+        $inputFieldNameTypeResolvers = \array_merge($this->addMediaItemInputField() ? [MutationInputProperties::ID => $this->getIDScalarTypeResolver()] : [], $this->canUploadAttachment() ? [MutationInputProperties::FROM => $this->getCreateMediaItemFromOneofInputObjectTypeResolver()] : [], [MutationInputProperties::AUTHOR_ID => $this->getIDScalarTypeResolver(), MutationInputProperties::TITLE => $this->getStringScalarTypeResolver(), MutationInputProperties::SLUG => $this->getStringScalarTypeResolver(), MutationInputProperties::CAPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::DESCRIPTION => $this->getStringScalarTypeResolver(), MutationInputProperties::ALT_TEXT => $this->getStringScalarTypeResolver(), MutationInputProperties::MIME_TYPE => $this->getStringScalarTypeResolver(), MutationInputProperties::DATE => $this->getDateScalarTypeResolver(), MutationInputProperties::GMT_DATE => $this->getDateScalarTypeResolver()]);
         // Inject custom post ID, etc
         $inputFieldNameTypeResolvers = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, $inputFieldNameTypeResolvers, $this);
         return $inputFieldNameTypeResolvers;
@@ -94,6 +108,12 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
                 break;
             case MutationInputProperties::MIME_TYPE:
                 $inputFieldDescription = $this->__('Mime type to use for the attachment, when this information can\'t be deduced from the filename (because it has no extension)', 'media-mutations');
+                break;
+            case MutationInputProperties::DATE:
+                $inputFieldDescription = $this->__('Date to use for the attachment', 'media-mutations');
+                break;
+            case MutationInputProperties::GMT_DATE:
+                $inputFieldDescription = $this->__('GMT date to use for the attachment', 'media-mutations');
                 break;
             default:
                 $inputFieldDescription = parent::getInputFieldDefaultValue($inputFieldName);

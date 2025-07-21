@@ -505,4 +505,13 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     protected function validateInputFieldValue(string $inputFieldName, $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
+    /**
+     * Check if the input value is already coerced.
+     *
+     * @param object $inputValue the object value, of any type other than stdClass
+     */
+    public function isAlreadyCoercedValue(object $inputValue) : bool
+    {
+        return \false;
+    }
 }

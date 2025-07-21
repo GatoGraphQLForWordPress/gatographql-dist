@@ -29,25 +29,25 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
-humbug_phpscoper_expose_class('Stringable', 'GatoExternalPrefixByGatoGraphQL\Stringable');
-humbug_phpscoper_expose_class('Attribute', 'GatoExternalPrefixByGatoGraphQL\Attribute');
-humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
-humbug_phpscoper_expose_class('PhpToken', 'GatoExternalPrefixByGatoGraphQL\PhpToken');
-humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
-humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedPeriodStringException');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateRangeError', 'GatoExternalPrefixByGatoGraphQL\DateRangeError');
+humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
 humbug_phpscoper_expose_class('SQLite3Exception', 'GatoExternalPrefixByGatoGraphQL\SQLite3Exception');
 humbug_phpscoper_expose_class('DateInvalidOperationException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidOperationException');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateObjectError', 'GatoExternalPrefixByGatoGraphQL\DateObjectError');
+humbug_phpscoper_expose_class('DateError', 'GatoExternalPrefixByGatoGraphQL\DateError');
+humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedStringException');
+humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('Override', 'GatoExternalPrefixByGatoGraphQL\Override');
 humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedIntervalStringException');
-humbug_phpscoper_expose_class('DateRangeError', 'GatoExternalPrefixByGatoGraphQL\DateRangeError');
-humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedStringException');
-humbug_phpscoper_expose_class('DateError', 'GatoExternalPrefixByGatoGraphQL\DateError');
-humbug_phpscoper_expose_class('DateObjectError', 'GatoExternalPrefixByGatoGraphQL\DateObjectError');
-humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
 humbug_phpscoper_expose_class('©', 'GatoExternalPrefixByGatoGraphQL\©');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit7f8c7e69f8b2853a06c64de49e3f2ab9', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit7f8c7e69f8b2853a06c64de49e3f2ab9');
+humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
+humbug_phpscoper_expose_class('Attribute', 'GatoExternalPrefixByGatoGraphQL\Attribute');
+humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
+humbug_phpscoper_expose_class('Stringable', 'GatoExternalPrefixByGatoGraphQL\Stringable');
+humbug_phpscoper_expose_class('PhpToken', 'GatoExternalPrefixByGatoGraphQL\PhpToken');
+humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitba8bdecb89f93538b49d73a0736d3e70', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitba8bdecb89f93538b49d73a0736d3e70');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases

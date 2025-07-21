@@ -14,6 +14,8 @@ class MutationInputProperties
     public const DESCRIPTION = 'description';
     public const ALT_TEXT = 'altText';
     public const MIME_TYPE = 'mimeType';
+    public const DATE = 'date';
+    public const GMT_DATE = 'gmtDate';
     public const FILENAME = 'filename';
     public const ID = 'id';
     public const MEDIAITEM_BY = 'mediaItemBy';

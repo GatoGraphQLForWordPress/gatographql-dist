@@ -29,4 +29,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
+    public function rejectUnsafeURLs() : bool
+    {
+        $envVariable = \PoPCMSSchema\MediaMutations\Environment::REJECT_UNSAFE_URLS;
+        $defaultValue = \true;
+        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
 }

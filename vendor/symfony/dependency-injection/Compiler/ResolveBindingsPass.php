@@ -177,7 +177,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
                     continue;
                 }
                 $typeHint = \ltrim(ProxyHelper::exportType($parameter) ?? '', '?');
-                $name = Target::parseName($parameter);
+                $name = Target::parseName($parameter, null, $parsedName);
                 if ($typeHint && (\array_key_exists($k = \preg_replace('/(^|[(|&])\\\\/', '\\1', $typeHint) . ' $' . $name, $bindings) || \array_key_exists($k = \preg_replace('/(^|[(|&])\\\\/', '\\1', $typeHint) . ' $' . $parsedName, $bindings))) {
                     $arguments[$key] = $this->getBindingValue($bindings[$k]);
                     continue;

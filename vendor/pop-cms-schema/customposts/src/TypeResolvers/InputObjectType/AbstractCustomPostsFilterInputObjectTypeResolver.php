@@ -3,11 +3,6 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType;
 
-use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
-use PoP\ComponentModel\FilterInputs\FilterInputInterface;
-use PoP\ComponentModel\Schema\SchemaTypeModifiers;
-use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
-use PoP\Root\App;
 use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
 use PoPCMSSchema\CustomPosts\FilterInputs\CustomPostStatusFilterInput;
 use PoPCMSSchema\CustomPosts\FilterInputs\UnionCustomPostTypesFilterInput;
@@ -16,8 +11,14 @@ use PoPCMSSchema\CustomPosts\ModuleConfiguration;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
 use PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput;
+use PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilterInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver;
+use PoP\ComponentModel\FilterInputs\FilterInputInterface;
+use PoP\ComponentModel\Schema\SchemaTypeModifiers;
+use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
+use PoP\Root\App;
 /** @internal */
 abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
@@ -49,6 +50,10 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
      * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
      */
     private $searchFilterInput;
+    /**
+     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
+     */
+    private $slugsFilterInput;
     protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
@@ -112,6 +117,15 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
         }
         return $this->searchFilterInput;
     }
+    protected final function getSlugsFilterInput() : SlugsFilterInput
+    {
+        if ($this->slugsFilterInput === null) {
+            /** @var SlugsFilterInput */
+            $slugsFilterInput = $this->instanceManager->getInstance(SlugsFilterInput::class);
+            $this->slugsFilterInput = $slugsFilterInput;
+        }
+        return $this->slugsFilterInput;
+    }
     /**
      * @return string[]
      */
@@ -138,7 +152,7 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
      */
     public function getInputFieldNameTypeResolvers() : array
     {
-        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['status' => $this->getFilterCustomPostStatusEnumTypeResolver(), 'search' => $this->getStringScalarTypeResolver(), 'dateQuery' => $this->getDateQueryInputObjectTypeResolver()], $this->addCustomPostInputFields() ? ['customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()] : []);
+        return \array_merge(parent::getInputFieldNameTypeResolvers(), ['status' => $this->getFilterCustomPostStatusEnumTypeResolver(), 'search' => $this->getStringScalarTypeResolver(), 'slugs' => $this->getStringScalarTypeResolver(), 'dateQuery' => $this->getDateQueryInputObjectTypeResolver()], $this->addCustomPostInputFields() ? ['customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()] : []);
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
@@ -147,6 +161,8 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
                 return $this->__('Custom post status', 'customposts');
             case 'search':
                 return $this->__('Search for custom posts containing the given string', 'customposts');
+            case 'slugs':
+                return $this->__('Search for custom posts with the given slugs', 'customposts');
             case 'dateQuery':
                 return $this->__('Filter custom posts based on date', 'customposts');
             case 'customPostTypes':
@@ -172,6 +188,7 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
         switch ($inputFieldName) {
+            case 'slugs':
             case 'status':
             case 'customPostTypes':
                 return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
@@ -186,6 +203,8 @@ abstract class AbstractCustomPostsFilterInputObjectTypeResolver extends Abstract
                 return $this->getCustomPostStatusFilterInput();
             case 'search':
                 return $this->getSearchFilterInput();
+            case 'slugs':
+                return $this->getSlugsFilterInput();
             case 'customPostTypes':
                 return $this->getUnionCustomPostTypesFilterInput();
             default:

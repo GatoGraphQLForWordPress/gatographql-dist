@@ -5,7 +5,7 @@
  *
  * @package   php-markdown
  * @author    Michel Fortin <michel.fortin@michelf.com>
- * @copyright 2004-2021 Michel Fortin <https://michelf.com/projects/php-markdown/>
+ * @copyright 2004-2022 Michel Fortin <https://michelf.com/projects/php-markdown/>
  * @copyright (Original Markdown) 2004-2006 John Gruber <https://daringfireball.net/projects/markdown/>
  */
 namespace GatoExternalPrefixByGatoGraphQL\Michelf;
@@ -34,6 +34,9 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
      * @var string
      */
     public $fn_link_class = "footnote-ref";
+    /**
+     * @var string
+     */
     public $fn_backlink_class = "footnote-backref";
     /**
      * Content to be displayed within footnote backlinks. The default is '↩';
@@ -52,6 +55,9 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
      * @var string
      */
     public $fn_backlink_title = "";
+    /**
+     * @var string
+     */
     public $fn_backlink_label = "";
     /**
      * Class name for table cell alignment (%% replaced left/center/right)
@@ -68,23 +74,23 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
     /**
      * Class attribute for code blocks goes on the `code` tag;
      * setting this to true will put attributes on the `pre` tag instead.
-     * @var boolean
+     * @var bool
      */
     public $code_attr_on_pre = \false;
     /**
      * Predefined abbreviations.
-     * @var array
+     * @var mixed[]
      */
     public $predef_abbr = array();
     /**
      * Only convert atx-style headers if there's a space between the header and #
-     * @var boolean
+     * @var bool
      */
     public $hashtag_protection = \false;
     /**
      * Determines whether footnotes should be appended to the end of the document.
      * If true, footnote html can be retrieved from $this->footnotes_assembled.
-     * @var boolean
+     * @var bool
      */
     public $omit_footnotes = \false;
     /**
@@ -96,9 +102,9 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
      * `section` that will enclose the list of footnotes so they are
      * reachable to accessibility tools the same way they would be with the
      * default HTML output.
-     * @var null|string
+     * @var string|null
      */
-    public $footnotes_assembled = null;
+    public $footnotes_assembled;
     /**
      * Parser implementation
      */
@@ -121,23 +127,37 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
     }
     /**
      * Extra variables used during extra transformations.
-     * @var array
+     * @var mixed[]
      */
     protected $footnotes = array();
+    /**
+     * @var mixed[]
+     */
     protected $footnotes_ordered = array();
+    /**
+     * @var mixed[]
+     */
     protected $footnotes_ref_count = array();
+    /**
+     * @var mixed[]
+     */
     protected $footnotes_numbers = array();
+    /**
+     * @var mixed[]
+     */
     protected $abbr_desciptions = array();
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $abbr_word_re = '';
     /**
      * Give the current footnote number.
-     * @var integer
+     * @var int
      */
     protected $footnote_counter = 1;
     /**
      * Ref attribute for links
-     * @var array
+     * @var mixed[]
      */
     protected $ref_attr = array();
     /**
@@ -550,6 +570,7 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
                     }
                 }
             }
+            // @phpstan-ignore-next-line
         } while ($depth >= 0);
         return array($parsed, $text);
     }
@@ -630,7 +651,7 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
             // pattern will be at the end, and between will be any catches made
             // by the pattern.
             $parts = \preg_split($tag_re, $text, 2, \PREG_SPLIT_DELIM_CAPTURE);
-            if (\count($parts) < 3) {
+            if ($parts === \false || \count($parts) < 3) {
                 // End of $text reached with unbalenced tag(s).
                 // In that case, we return original text unchanged and pass the
                 // first character as filtered to prevent an infinite loop in the
@@ -1112,6 +1133,7 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
         $head = $matches[1];
         $underline = $matches[2];
         $content = $matches[3];
+        $attr = [];
         // Remove any tailing pipes for each line.
         $head = \preg_replace('/[|] *$/m', '', $head);
         $underline = \preg_replace('/[|] *$/m', '', $underline);
@@ -1386,7 +1408,13 @@ class MarkdownExtra extends \GatoExternalPrefixByGatoGraphQL\Michelf\Markdown
      * @var array
      */
     protected $em_relist = array('' => '(?:(?<!\\*)\\*(?!\\*)|(?<![a-zA-Z0-9_])_(?!_))(?![\\.,:;]?\\s)', '*' => '(?<![\\s*])\\*(?!\\*)', '_' => '(?<![\\s_])_(?![a-zA-Z0-9_])');
+    /**
+     * @var mixed[]
+     */
     protected $strong_relist = array('' => '(?:(?<!\\*)\\*\\*(?!\\*)|(?<![a-zA-Z0-9_])__(?!_))(?![\\.,:;]?\\s)', '**' => '(?<![\\s*])\\*\\*(?!\\*)', '__' => '(?<![\\s_])__(?![a-zA-Z0-9_])');
+    /**
+     * @var mixed[]
+     */
     protected $em_strong_relist = array('' => '(?:(?<!\\*)\\*\\*\\*(?!\\*)|(?<![a-zA-Z0-9_])___(?!_))(?![\\.,:;]?\\s)', '***' => '(?<![\\s*])\\*\\*\\*(?!\\*)', '___' => '(?<![\\s_])___(?![a-zA-Z0-9_])');
     /**
      * Parse text into paragraphs

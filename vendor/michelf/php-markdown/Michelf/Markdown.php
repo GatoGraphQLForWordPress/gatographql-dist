@@ -5,7 +5,7 @@
  *
  * @package   php-markdown
  * @author    Michel Fortin <michel.fortin@michelf.com>
- * @copyright 2004-2021 Michel Fortin <https://michelf.com/projects/php-markdown/>
+ * @copyright 2004-2022 Michel Fortin <https://michelf.com/projects/php-markdown/>
  * @copyright (Original Markdown) 2004-2006 John Gruber <https://daringfireball.net/projects/markdown/>
  */
 namespace GatoExternalPrefixByGatoGraphQL\Michelf;
@@ -20,7 +20,7 @@ class Markdown implements MarkdownInterface
      * Define the package version
      * @var string
      */
-    const MARKDOWNLIB_VERSION = "1.9.1";
+    const MARKDOWNLIB_VERSION = "2.0.0";
     /**
      * Simple function interface - Initialize the parser and return the result
      * of its transform method. This will work fine for derived classes too.
@@ -30,10 +30,10 @@ class Markdown implements MarkdownInterface
      * @param  string $text
      * @return string
      */
-    public static function defaultTransform($text)
+    public static function defaultTransform(string $text) : string
     {
         // Take parser class on which this function was called.
-        $parser_class = \get_called_class();
+        $parser_class = static::class;
         // Try to take parser from the static parser list
         static $parser_list;
         $parser =& $parser_list[$parser_class];
@@ -59,9 +59,12 @@ class Markdown implements MarkdownInterface
     public $tab_width = 4;
     /**
      * Change to `true` to disallow markup or entities.
-     * @var boolean
+     * @var bool
      */
     public $no_markup = \false;
+    /**
+     * @var bool
+     */
     public $no_entities = \false;
     /**
      * Change to `true` to enable line breaks on \n without two trailling spaces
@@ -70,9 +73,12 @@ class Markdown implements MarkdownInterface
     public $hard_wrap = \false;
     /**
      * Predefined URLs and titles for reference links and images.
-     * @var array
+     * @var mixed[]
      */
     public $predef_urls = array();
+    /**
+     * @var mixed[]
+     */
     public $predef_titles = array();
     /**
      * Optional filter function for URLs
@@ -108,7 +114,6 @@ class Markdown implements MarkdownInterface
      * <li>List item two</li>
      * <li>List item three</li>
      * </ol>
-     *
      * @var bool
      */
     public $enhanced_ordered_list = \false;
@@ -121,14 +126,26 @@ class Markdown implements MarkdownInterface
      * @var int
      */
     protected $nested_brackets_depth = 6;
+    /**
+     * @var string
+     */
     protected $nested_brackets_re;
+    /**
+     * @var int
+     */
     protected $nested_url_parenthesis_depth = 4;
+    /**
+     * @var string
+     */
     protected $nested_url_parenthesis_re;
     /**
      * Table of hash values for escaped characters:
      * @var string
      */
     protected $escape_chars = '\\`*_{}[]()>#+-.!';
+    /**
+     * @var string
+     */
     protected $escape_chars_re;
     /**
      * Constructor function. Initialize appropriate member variables.
@@ -148,19 +165,25 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Internal hashes used during transformation.
-     * @var array
+     * @var mixed[]
      */
     protected $urls = array();
+    /**
+     * @var mixed[]
+     */
     protected $titles = array();
+    /**
+     * @var mixed[]
+     */
     protected $html_hashes = array();
     /**
      * Status flag to avoid invalid nesting.
-     * @var boolean
+     * @var bool
      */
     protected $in_anchor = \false;
     /**
      * Status flag to avoid invalid nesting.
-     * @var boolean
+     * @var bool
      */
     protected $in_emphasis_processing = \false;
     /**
@@ -196,7 +219,7 @@ class Markdown implements MarkdownInterface
      * @param  string $text
      * @return string
      */
-    public function transform($text)
+    public function transform(string $text) : string
     {
         $this->setup();
         # Remove UTF-8 BOM and marker character in input, if present.
@@ -224,7 +247,7 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Define the document gamut
-     * @var array
+     * @var mixed[]
      */
     protected $document_gamut = array(
         // Strip link definitions, store in hashes.
@@ -466,7 +489,7 @@ class Markdown implements MarkdownInterface
     /**
      * Define the block gamut - these are all the transformations that form
      * block-level tags like paragraphs, headers, and list items.
-     * @var array
+     * @var mixed[]
      */
     protected $block_gamut = array("doHeaders" => 10, "doHorizontalRules" => 20, "doLists" => 40, "doCodeBlocks" => 50, "doBlockQuotes" => 60);
     /**
@@ -524,7 +547,7 @@ class Markdown implements MarkdownInterface
     /**
      * These are all the transformations that occur *within* block-level
      * tags like paragraphs, headers, and list items.
-     * @var array
+     * @var mixed[]
      */
     protected $span_gamut = array(
         // Process character escapes, code spans, and inline HTML
@@ -640,7 +663,7 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Callback method to parse referenced anchors
-     * @param  string $matches
+     * @param  array $matches
      * @return string
      */
     protected function _doAnchors_reference_callback($matches)
@@ -674,7 +697,7 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Callback method to parse inline anchors
-     * @param  string $matches
+     * @param  array $matches
      * @return string
      */
     protected function _doAnchors_inline_callback($matches)
@@ -691,7 +714,7 @@ class Markdown implements MarkdownInterface
         }
         $url = $this->encodeURLAttribute($url);
         $result = "<a href=\"{$url}\"";
-        if (isset($title)) {
+        if ($title) {
             $title = $this->encodeAttribute($title);
             $result .= " title=\"{$title}\"";
         }
@@ -980,7 +1003,7 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Nesting tracker for list levels
-     * @var integer
+     * @var int
      */
     protected $list_level = 0;
     /**
@@ -1122,7 +1145,7 @@ class Markdown implements MarkdownInterface
     protected $em_strong_relist = array('' => '(?:(?<!\\*)\\*\\*\\*(?!\\*)|(?<!_)___(?!_))(?![\\.,:;]?\\s)', '***' => '(?<![\\s*])\\*\\*\\*(?!\\*)', '___' => '(?<![\\s_])___(?!_)');
     /**
      * Container for prepared regular expressions
-     * @var array
+     * @var mixed[]|null
      */
     protected $em_strong_prepared_relist;
     /**
@@ -1652,7 +1675,7 @@ class Markdown implements MarkdownInterface
     /**
      * String length function for detab. `_initDetab` will create a function to
      * handle UTF-8 if the default function does not exist.
-     * @var string
+     * can be a string or function
      */
     protected $utf8_strlen = 'mb_strlen';
     /**
@@ -1705,7 +1728,7 @@ class Markdown implements MarkdownInterface
         if (\function_exists($this->utf8_strlen)) {
             return;
         }
-        $this->utf8_strlen = function ($text) {
+        $this->utf8_strlen = function ($text) use($m) {
             return \preg_match_all('/[\\x00-\\xBF]|[\\xC0-\\xFF][\\x80-\\xBF]*/', $text, $m);
         };
     }
