@@ -25,10 +25,7 @@ interface ObjectTypeResolverInterface extends RelationalTypeResolverInterface, O
     public function getFieldTypeResolver(FieldInterface $field) : ?ConcreteTypeResolverInterface;
     public function getFieldTypeModifiers(FieldInterface $field) : ?int;
     public function getFieldMutationResolver(FieldInterface $field) : ?MutationResolverInterface;
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
-     */
-    public function isFieldAMutation($fieldOrFieldName) : ?bool;
+    public function isFieldAMutation(FieldInterface|string $fieldOrFieldName) : ?bool;
     /**
      * @return array<string,Directive[]>
      */
@@ -49,9 +46,8 @@ interface ObjectTypeResolverInterface extends RelationalTypeResolverInterface, O
     public function getObjectTypeFieldResolversByField(bool $global) : array;
     /**
      * Get the first FieldResolver that resolves the field
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
      */
-    public function getExecutableObjectTypeFieldResolverForField($fieldOrFieldName) : ?ObjectTypeFieldResolverInterface;
+    public function getExecutableObjectTypeFieldResolverForField(FieldInterface|string $fieldOrFieldName) : ?ObjectTypeFieldResolverInterface;
     /**
      * @param array<string,mixed> $fieldArgs
      */

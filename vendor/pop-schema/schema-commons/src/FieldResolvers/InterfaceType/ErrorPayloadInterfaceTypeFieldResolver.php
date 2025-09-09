@@ -12,10 +12,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -41,29 +38,23 @@ class ErrorPayloadInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldR
     }
     public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'message':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
     public function getFieldTypeModifiers(string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'message':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($fieldName),
+        };
     }
     public function getFieldDescription(string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'message':
-                return $this->__('Error message', 'schema-commons');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'message' => $this->__('Error message', 'schema-commons'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

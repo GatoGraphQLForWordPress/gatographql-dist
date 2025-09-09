@@ -20,20 +20,20 @@ trait PayloadableCategoryMutationResolverTrait
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [$this->getUserNotLoggedInErrorFeedbackItemProviderClass(), $this->getUserNotLoggedInErrorFeedbackItemProviderCode()]:
-                return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return App::applyFilters(CategoryCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [$this->getUserNotLoggedInErrorFeedbackItemProviderClass(), $this->getUserNotLoggedInErrorFeedbackItemProviderCode()] => new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage()),
+            // [
+            //     MutationErrorFeedbackItemProvider::class,
+            //     MutationErrorFeedbackItemProvider::E5,
+            // ] => new TaxonomyDoesNotExistErrorPayload(
+            //     $feedbackItemResolution->getMessage(),
+            // ),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            default => App::applyFilters(CategoryCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback),
+        };
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string
     {

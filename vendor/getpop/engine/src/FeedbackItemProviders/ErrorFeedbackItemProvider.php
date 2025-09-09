@@ -8,12 +8,12 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E1A = 'e1a';
-    public const E2 = 'e2';
-    public const E4 = 'e4';
-    public const E5 = 'e5';
-    public const E6 = 'e6';
+    public final const E1 = 'e1';
+    public final const E1A = 'e1a';
+    public final const E2 = 'e2';
+    public final const E4 = 'e4';
+    public final const E5 = 'e5';
+    public final const E6 = 'e6';
     /**
      * @return string[]
      */
@@ -23,22 +23,15 @@ class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('Operation \'%s\' is not available', 'engine');
-            case self::E1A:
-                return $this->__('The operation is not available', 'engine');
-            case self::E2:
-                return $this->__('Field \'%s\' hadn\'t been set for object with ID \'%s\', so it can\'t be transformed', 'engine');
-            case self::E4:
-                return $this->__('The value to which the directive is applied is not an array or object', 'engine');
-            case self::E5:
-                return $this->__('No composed directives were provided to \'%s\'', 'engine');
-            case self::E6:
-                return $this->__('There is no property \'%s\' in the application state', 'engine');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('Operation \'%s\' is not available', 'engine'),
+            self::E1A => $this->__('The operation is not available', 'engine'),
+            self::E2 => $this->__('Field \'%s\' hadn\'t been set for object with ID \'%s\', so it can\'t be transformed', 'engine'),
+            self::E4 => $this->__('The value to which the directive is applied is not an array or object', 'engine'),
+            self::E5 => $this->__('No composed directives were provided to \'%s\'', 'engine'),
+            self::E6 => $this->__('There is no property \'%s\' in the application state', 'engine'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

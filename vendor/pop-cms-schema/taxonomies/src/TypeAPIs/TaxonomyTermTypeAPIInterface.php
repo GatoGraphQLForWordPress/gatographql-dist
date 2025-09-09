@@ -13,36 +13,14 @@ interface TaxonomyTermTypeAPIInterface
      * Retrieves the taxonomy name of the object ("post_tag", "category", etc)
      */
     public function getTermTaxonomyName(object $taxonomyTerm) : string;
-    /**
-     * @param int|string $id
-     */
-    public function taxonomyTermExists($id, ?string $taxonomy = null) : bool;
-    /**
-     * @return string|int|null
-     */
-    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null);
-    /**
-     * @param int|string $taxonomyTermID
-     */
-    public function getTaxonomyTermTaxonomy($taxonomyTermID) : ?string;
-    /**
-     * @param int|string $taxonomyTermID
-     */
-    public function getTaxonomyTerm($taxonomyTermID, ?string $taxonomy = null) : ?object;
-    /**
-     * @param string|int $userID
-     */
-    public function canUserEditTaxonomy($userID, string $taxonomyName) : bool;
-    /**
-     * @param string|int $userID
-     */
-    public function canUserAssignTermsToTaxonomy($userID, string $taxonomyName) : bool;
-    /**
-     * @param string|int $userID
-     * @param string|int $taxonomyTermID
-     */
-    public function canUserDeleteTaxonomyTerm($userID, $taxonomyTermID) : bool;
-    public function getTaxonomy(string $taxonomyName) : ?object;
+    public function taxonomyTermExists(int|string $id, ?string $taxonomy = null) : bool;
+    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null) : string|int|null;
+    public function getTaxonomyTermTaxonomy(int|string $taxonomyTermID) : string|null;
+    public function getTaxonomyTerm(int|string $taxonomyTermID, ?string $taxonomy = null) : object|null;
+    public function canUserEditTaxonomy(string|int $userID, string $taxonomyName) : bool;
+    public function canUserAssignTermsToTaxonomy(string|int $userID, string $taxonomyName) : bool;
+    public function canUserDeleteTaxonomyTerm(string|int $userID, string|int $taxonomyTermID) : bool;
+    public function getTaxonomy(string $taxonomyName) : object|null;
     public function taxonomyExists(string $taxonomyName) : bool;
     /**
      * @return string[]

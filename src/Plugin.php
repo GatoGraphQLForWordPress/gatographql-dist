@@ -31,7 +31,7 @@ class Plugin extends AbstractMainPlugin
     /**
      * Plugin's namespace
      */
-    public const NAMESPACE = __NAMESPACE__;
+    public final const NAMESPACE = __NAMESPACE__;
 
     /**
      * When updating the plugin:
@@ -257,7 +257,7 @@ class Plugin extends AbstractMainPlugin
          */
         add_action(
             'enqueue_block_editor_assets',
-            \Closure::fromCallable([$this, 'enqueueImageWidthsAssets'])
+            $this->enqueueImageWidthsAssets(...)
         );
     }
 
@@ -282,12 +282,15 @@ class Plugin extends AbstractMainPlugin
         }
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        return array_merge([sprintf(
-            '<a href="%s" target="_blank">%s%s</a>',
-            $moduleConfiguration->getGatoGraphQLWebsiteURL(),
-            __('Go PRO', 'gatographql'),
-            HTMLCodes::OPEN_IN_NEW_WINDOW,
-        )], $actions);
+        return [
+            sprintf(
+                '<a href="%s" target="_blank">%s%s</a>',
+                $moduleConfiguration->getGatoGraphQLWebsiteURL(),
+                __('Go PRO', 'gatographql'),
+                HTMLCodes::OPEN_IN_NEW_WINDOW,
+            ),
+            ...$actions,
+        ];
     }
 
     protected function addGoPROPluginActionLink(): bool

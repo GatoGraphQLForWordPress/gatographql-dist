@@ -14,10 +14,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractTransientEntityOperationPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -40,26 +37,19 @@ abstract class AbstractTransientEntityOperationPayloadObjectTypeFieldResolver ex
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case $this->getObjectIDFieldName():
-                return $this->getIDScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            $this->getObjectIDFieldName() => $this->getIDScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case $this->getObjectIDFieldName():
-                return $this->__('ID of the entity, if the operation was successful', 'schema-commons');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            $this->getObjectIDFieldName() => $this->__('ID of the entity, if the operation was successful', 'schema-commons'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var AbstractObjectMutationTransientOperationPayload */
         $objectMutationTransientOperationPayload = $object;

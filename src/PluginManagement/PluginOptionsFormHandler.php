@@ -15,22 +15,24 @@ use PoP\Root\Facades\Instances\SystemInstanceManagerFacade;
 /**
  * Helper class with functions to set the configuration in PoP components.
  */
-class PluginOptionsFormHandler
+class PluginOptionsFormHandler implements PluginOptionsFormHandlerInterface
 {
     /**
      * Cache the options after normalizing them
      *
      * @var array<string,array<string,array<string,mixed>|null>>
      */
-    protected $normalizedModuleOptionValuesCache = [];
+    protected array $normalizedModuleOptionValuesCache = [];
 
     /**
      * Get the values from the form submitted to options.php, and normalize them
      *
      * @return array<string,mixed>
      */
-    protected function getNormalizedModuleOptionValues(string $settingsCategory, string $module): array
-    {
+    protected function getNormalizedModuleOptionValues(
+        string $settingsCategory,
+        string $module,
+    ): array {
         if (($this->normalizedModuleOptionValuesCache[$settingsCategory][$module] ?? null) === null) {
             $instanceManager = SystemInstanceManagerFacade::getInstance();
             /** @var SettingsNormalizerInterface */
@@ -65,12 +67,14 @@ class PluginOptionsFormHandler
      *
      * @return array<string,mixed>
      */
-    protected function getSubmittedFormOptionValues(string $settingsCategory): array
-    {
+    protected function getSubmittedFormOptionValues(
+        string $settingsCategory,
+    ): array {
         $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
         $settingsCategoryResolver = $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory);
         $optionsFormName = $settingsCategoryResolver->getOptionsFormName($settingsCategory);
-        return App::getRequest()->request->all()[$optionsFormName] ?? [];
+        $submittedFormOptionValues = App::getRequest()->request->all();
+        return $submittedFormOptionValues[$optionsFormName] ?? [];
     }
 
     /**
@@ -82,27 +86,55 @@ class PluginOptionsFormHandler
      * Hidden input "form-origin" is used to only execute for this plugin,
      * since options.php is used everywhere, including WP core and other plugins.
      * Otherwise, it may thrown an exception!
-     * @param mixed $value
-     * @return mixed
      */
-    public function maybeOverrideValueFromForm($value, string $module, string $option)
-    {
+    public function maybeOverrideValueFromForm(
+        mixed $value,
+        string $module,
+        string $option,
+    ): mixed {
         global $pagenow;
         if ($pagenow !== 'options.php') {
             return $value;
         }
-        $moduleRegistry = SystemModuleRegistryFacade::getInstance();
-        $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
-        $moduleResolver = $moduleRegistry->getModuleResolver($module);
-        $settingsCategory = $moduleResolver->getSettingsCategory($module);
-        $formOrigin = App::request(SettingsMenuPage::FORM_ORIGIN);
-        if ($formOrigin !== $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory)) {
+
+        if (!$this->checkIsExpectedSubmittedForm($module, $option)) {
             return $value;
         }
+
+        return $this->doOverrideValueFromForm($value, $module, $option);
+    }
+
+    protected function checkIsExpectedSubmittedForm(string $module, string $option): bool
+    {
+        $formOrigin = App::request(SettingsMenuPage::FORM_ORIGIN);
+        return $formOrigin === $this->getSettingsCategoryOptionsFormName($module);
+    }
+
+    protected function getSettingsCategoryOptionsFormName(string $module): string
+    {
+        $moduleRegistry = SystemModuleRegistryFacade::getInstance();
+        $settingsCategoryRegistry = SystemSettingsCategoryRegistryFacade::getInstance();
+
+        $moduleResolver = $moduleRegistry->getModuleResolver($module);
+        $settingsCategory = $moduleResolver->getSettingsCategory($module);
+
+        return $settingsCategoryRegistry->getSettingsCategoryResolver($settingsCategory)->getOptionsFormName($settingsCategory);
+    }
+
+    protected function doOverrideValueFromForm(
+        mixed $value,
+        string $module,
+        string $option,
+    ): mixed {
+        $moduleRegistry = SystemModuleRegistryFacade::getInstance();
+        $moduleResolver = $moduleRegistry->getModuleResolver($module);
+        $settingsCategory = $moduleResolver->getSettingsCategory($module);
+
         $value = $this->getNormalizedModuleOptionValues(
             $settingsCategory,
             $module,
         );
+
         // Return the specific value to this module/option
         $optionName = $moduleResolver->getSettingOptionName($module, $option);
         return $value[$optionName];

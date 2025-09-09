@@ -30,18 +30,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage;
  */
 class ExpressionFunction
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var \Closure
-     */
-    private $compiler;
-    /**
-     * @var \Closure
-     */
-    private $evaluator;
+    private string $name;
+    private \Closure $compiler;
+    private \Closure $evaluator;
     /**
      * @param string   $name      The function name
      * @param callable $compiler  A callable able to compile the function
@@ -50,8 +41,8 @@ class ExpressionFunction
     public function __construct(string $name, callable $compiler, callable $evaluator)
     {
         $this->name = $name;
-        $this->compiler = \Closure::fromCallable($compiler);
-        $this->evaluator = \Closure::fromCallable($evaluator);
+        $this->compiler = $compiler(...);
+        $this->evaluator = $evaluator(...);
     }
     public function getName() : string
     {
@@ -84,12 +75,8 @@ class ExpressionFunction
         if (!$expressionFunctionName && \count($parts) > 1) {
             throw new \InvalidArgumentException(\sprintf('An expression function name must be defined when PHP function "%s" is namespaced.', $phpFunctionName));
         }
-        $compiler = function (...$args) use($phpFunctionName) {
-            return \sprintf('\\%s(%s)', $phpFunctionName, \implode(', ', $args));
-        };
-        $evaluator = function ($p, ...$args) use($phpFunctionName) {
-            return $phpFunctionName(...$args);
-        };
+        $compiler = fn(...$args) => \sprintf('\\%s(%s)', $phpFunctionName, \implode(', ', $args));
+        $evaluator = fn($p, ...$args) => $phpFunctionName(...$args);
         return new self($expressionFunctionName ?: \end($parts), $compiler, $evaluator);
     }
 }

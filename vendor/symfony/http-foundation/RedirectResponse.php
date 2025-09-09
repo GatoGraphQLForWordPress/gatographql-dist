@@ -56,7 +56,7 @@ class RedirectResponse extends Response
      *
      * @throws \InvalidArgumentException
      */
-    public function setTargetUrl(string $url)
+    public function setTargetUrl(string $url) : static
     {
         if ('' === $url) {
             throw new \InvalidArgumentException('Cannot redirect to an empty URL.');

@@ -19,14 +19,8 @@ use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 /** @internal */
 abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagTermUpdateInputObjectTypeResolver|null
-     */
-    private $tagTermUpdateInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?TagTermUpdateInputObjectTypeResolver $tagTermUpdateInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getTagTermUpdateInputObjectTypeResolver() : TagTermUpdateInputObjectTypeResolver
     {
         if ($this->tagTermUpdateInputObjectTypeResolver === null) {
@@ -54,14 +48,11 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the tag', 'tag-mutations');
-            case 'delete':
-                return $this->__('Delete the tag', 'tag-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the tag', 'tag-mutations'),
+            'delete' => $this->__('Delete the tag', 'tag-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -69,44 +60,33 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
         if (!$usePayloadableTagMutations) {
-            switch ($fieldName) {
-                case 'update':
-                case 'delete':
-                    return SchemaTypeModifiers::NONE;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'update', 'delete' => SchemaTypeModifiers::NONE,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'update':
-            case 'delete':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update', 'delete' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getTagTermUpdateInputObjectTypeResolver()];
-            case 'delete':
-                return [];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getTagTermUpdateInputObjectTypeResolver()],
+            'delete' => [],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['update' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['update' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID
@@ -129,12 +109,10 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
      */
     public function getFieldArgsInputObjectSubpropertyName(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : ?string
     {
-        switch ($field->getName()) {
-            case 'delete':
-                return 'input';
-            default:
-                return parent::getFieldArgsInputObjectSubpropertyName($objectTypeResolver, $field);
-        }
+        return match ($field->getName()) {
+            'delete' => 'input',
+            default => parent::getFieldArgsInputObjectSubpropertyName($objectTypeResolver, $field),
+        };
     }
     /**
      * @param array<string,mixed> $fieldArgsForMutationForObject

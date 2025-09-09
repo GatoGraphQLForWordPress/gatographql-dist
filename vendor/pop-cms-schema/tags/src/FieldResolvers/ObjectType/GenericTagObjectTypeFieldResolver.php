@@ -14,18 +14,9 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
-     */
-    private $queryableTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
+    private ?QueryableTagTypeAPIInterface $queryableTagTypeAPI = null;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagTypeAPI === null) {

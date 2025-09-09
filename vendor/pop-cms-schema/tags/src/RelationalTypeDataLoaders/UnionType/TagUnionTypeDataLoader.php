@@ -9,10 +9,7 @@ use PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver;
 /** @internal */
 class TagUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver|null
-     */
-    private $tagUnionTypeResolver;
+    private ?TagUnionTypeResolver $tagUnionTypeResolver = null;
     protected final function getTagUnionTypeResolver() : TagUnionTypeResolver
     {
         if ($this->tagUnionTypeResolver === null) {

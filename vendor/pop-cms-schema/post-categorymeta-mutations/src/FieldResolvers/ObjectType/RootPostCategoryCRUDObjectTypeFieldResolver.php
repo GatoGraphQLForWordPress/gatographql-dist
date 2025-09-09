@@ -17,26 +17,11 @@ use PoP\Root\App;
 /** @internal */
 class RootPostCategoryCRUDObjectTypeFieldResolver extends AbstractRootCategoryCRUDObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\RootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\RootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\RootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\RootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?RootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver $rootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver $rootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver $rootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver $rootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
@@ -93,39 +78,17 @@ class RootPostCategoryCRUDObjectTypeFieldResolver extends AbstractRootCategoryCR
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCategoryMetaMutations = $moduleConfiguration->usePayloadableCategoryMetaMutations();
         if ($usePayloadableCategoryMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $categoryEntityName . 'Meta':
-                case 'add' . $categoryEntityName . 'Metas':
-                case 'add' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'update' . $categoryEntityName . 'Meta':
-                case 'update' . $categoryEntityName . 'Metas':
-                case 'update' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'delete' . $categoryEntityName . 'Meta':
-                case 'delete' . $categoryEntityName . 'Metas':
-                case 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'set' . $categoryEntityName . 'Meta':
-                case 'set' . $categoryEntityName . 'Metas':
-                case 'set' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $categoryEntityName . 'Meta', 'add' . $categoryEntityName . 'Metas', 'add' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootAddPostCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'update' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootUpdatePostCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'delete' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootDeletePostCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'set' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-            case 'add' . $categoryEntityName . 'Metas':
-            case 'update' . $categoryEntityName . 'Meta':
-            case 'update' . $categoryEntityName . 'Metas':
-            case 'delete' . $categoryEntityName . 'Meta':
-            case 'delete' . $categoryEntityName . 'Metas':
-            case 'set' . $categoryEntityName . 'Meta':
-            case 'set' . $categoryEntityName . 'Metas':
-                return $this->getPostCategoryObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta', 'add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Metas' => $this->getPostCategoryObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

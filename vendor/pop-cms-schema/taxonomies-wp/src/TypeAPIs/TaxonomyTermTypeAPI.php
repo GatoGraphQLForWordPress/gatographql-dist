@@ -24,18 +24,12 @@ class TaxonomyTermTypeAPI extends AbstractBasicService implements TaxonomyTermTy
         /** @var WP_Term $taxonomyTerm */
         return $taxonomyTerm->taxonomy;
     }
-    /**
-     * @param int|string $taxonomyTermIDOrSlug
-     */
-    public function taxonomyTermExists($taxonomyTermIDOrSlug, ?string $taxonomy = null): bool
+    public function taxonomyTermExists(int|string $taxonomyTermIDOrSlug, ?string $taxonomy = null): bool
     {
         $taxonomyTermExists = term_exists($taxonomyTermIDOrSlug, $taxonomy ?? '');
         return $taxonomyTermExists !==  null;
     }
-    /**
-     * @return string|int|null
-     */
-    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null)
+    public function getTaxonomyTermID(string $taxonomyTermSlug, ?string $taxonomy = null): string|int|null
     {
         /** @var array<string,string|int>|string|int|null */
         $taxonomyTerm = term_exists($taxonomyTermSlug, $taxonomy ?? '');
@@ -53,10 +47,7 @@ class TaxonomyTermTypeAPI extends AbstractBasicService implements TaxonomyTermTy
         return (int) $taxonomyTerm;
     }
 
-    /**
-     * @param int|string $taxonomyTermID
-     */
-    public function getTaxonomyTermTaxonomy($taxonomyTermID): ?string
+    public function getTaxonomyTermTaxonomy(int|string $taxonomyTermID): string|null
     {
         /** @var WP_Term|null */
         $taxonomyTerm = $this->getTaxonomyTerm($taxonomyTermID);
@@ -66,10 +57,7 @@ class TaxonomyTermTypeAPI extends AbstractBasicService implements TaxonomyTermTy
         return $taxonomyTerm->taxonomy;
     }
 
-    /**
-     * @param int|string $taxonomyTermID
-     */
-    public function getTaxonomyTerm($taxonomyTermID, ?string $taxonomy = null): ?object
+    public function getTaxonomyTerm(int|string $taxonomyTermID, ?string $taxonomy = null): object|null
     {
         /** @var WP_Term|WP_Error|null */
         $taxonomyTerm = get_term((int) $taxonomyTermID, $taxonomy ?? '');
@@ -79,36 +67,26 @@ class TaxonomyTermTypeAPI extends AbstractBasicService implements TaxonomyTermTy
         return $taxonomyTerm;
     }
 
-    /**
-     * @param string|int $userID
-     */
-    public function canUserEditTaxonomy($userID, string $taxonomyName): bool
+    public function canUserEditTaxonomy(string|int $userID, string $taxonomyName): bool
     {
         /** @var WP_Taxonomy */
         $taxonomy = $this->getTaxonomy($taxonomyName);
         return isset($taxonomy->cap->edit_terms) && user_can((int) $userID, $taxonomy->cap->edit_terms);
     }
 
-    /**
-     * @param string|int $userID
-     */
-    public function canUserAssignTermsToTaxonomy($userID, string $taxonomyName): bool
+    public function canUserAssignTermsToTaxonomy(string|int $userID, string $taxonomyName): bool
     {
         /** @var WP_Taxonomy */
         $taxonomy = $this->getTaxonomy($taxonomyName);
         return isset($taxonomy->cap->assign_terms) && user_can((int) $userID, $taxonomy->cap->assign_terms);
     }
 
-    /**
-     * @param string|int $userID
-     * @param string|int $taxonomyTermID
-     */
-    public function canUserDeleteTaxonomyTerm($userID, $taxonomyTermID): bool
+    public function canUserDeleteTaxonomyTerm(string|int $userID, string|int $taxonomyTermID): bool
     {
         return user_can((int) $userID, 'delete_term', $taxonomyTermID);
     }
 
-    public function getTaxonomy(string $taxonomyName): ?object
+    public function getTaxonomy(string $taxonomyName): object|null
     {
         $taxonomy = get_taxonomy($taxonomyName);
         if ($taxonomy === false) {

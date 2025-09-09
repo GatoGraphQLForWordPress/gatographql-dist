@@ -14,7 +14,7 @@ class ModulesMenuPage extends AbstractItemListTableMenuPage
 {
     use OpenInModalTriggerMenuPageTrait;
 
-    public const SCREEN_OPTION_NAME = 'gatographql_modules_per_page';
+    public final const SCREEN_OPTION_NAME = 'gatographql_modules_per_page';
 
     public function getMenuPageSlug(): string
     {

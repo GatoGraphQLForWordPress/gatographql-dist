@@ -35,11 +35,8 @@ class ConfigBuilderGenerator implements ConfigBuilderGeneratorInterface
     /**
      * @var ClassBuilder[]
      */
-    private $classes = [];
-    /**
-     * @var string
-     */
-    private $outputDir;
+    private array $classes = [];
+    private string $outputDir;
     public function __construct(string $outputDir)
     {
         $this->outputDir = $outputDir;
@@ -98,22 +95,13 @@ public function NAME(): string
             throw new \LogicException('The node was expected to be an ArrayNode. This Configuration includes an edge case not supported yet.');
         }
         foreach ($node->getChildren() as $child) {
-            switch (\true) {
-                case $child instanceof ScalarNode:
-                    $this->handleScalarNode($child, $class);
-                    break;
-                case $child instanceof PrototypedArrayNode:
-                    $this->handlePrototypedArrayNode($child, $class, $namespace);
-                    break;
-                case $child instanceof VariableNode:
-                    $this->handleVariableNode($child, $class);
-                    break;
-                case $child instanceof ArrayNode:
-                    $this->handleArrayNode($child, $class, $namespace);
-                    break;
-                default:
-                    throw new \RuntimeException(\sprintf('Unknown node "%s".', \get_class($child)));
-            }
+            match (\true) {
+                $child instanceof ScalarNode => $this->handleScalarNode($child, $class),
+                $child instanceof PrototypedArrayNode => $this->handlePrototypedArrayNode($child, $class, $namespace),
+                $child instanceof VariableNode => $this->handleVariableNode($child, $class),
+                $child instanceof ArrayNode => $this->handleArrayNode($child, $class, $namespace),
+                default => throw new \RuntimeException(\sprintf('Unknown node "%s".', $child::class)),
+            };
         }
     }
     private function handleArrayNode(ArrayNode $node, ClassBuilder $class, string $namespace) : void
@@ -122,10 +110,12 @@ public function NAME(): string
         $childClass->setAllowExtraKeys($node->shouldIgnoreExtraKeys());
         $class->addRequire($childClass);
         $this->classes[] = $childClass;
+        $nodeTypes = $this->getParameterTypes($node);
+        $paramType = $this->getParamType($nodeTypes);
         $hasNormalizationClosures = $this->hasNormalizationClosures($node);
         $comment = $this->getComment($node);
-        if ($hasNormalizationClosures) {
-            $comment = \sprintf(" * @template TValue\n * @param TValue \$value\n%s", $comment);
+        if ($hasNormalizationClosures && 'array' !== $paramType) {
+            $comment = \sprintf(" * @template TValue of %s\n * @param TValue \$value\n%s", $paramType, $comment);
             $comment .= \sprintf(' * @return %s|$this' . "\n", $childClass->getFqcn());
             $comment .= \sprintf(' * @psalm-return (TValue is array ? %s : static)' . "\n ", $childClass->getFqcn());
         }
@@ -133,8 +123,7 @@ public function NAME(): string
             $comment = "/**\n{$comment}*/\n";
         }
         $property = $class->addProperty($node->getName(), $this->getType($childClass->getFqcn(), $hasNormalizationClosures));
-        $nodeTypes = $this->getParameterTypes($node);
-        $body = $hasNormalizationClosures ? '
+        $body = $hasNormalizationClosures && 'array' !== $paramType ? '
 COMMENTpublic function NAME(PARAM_TYPE $value = []): CLASS|static
 {
     if (!\\is_array($value)) {
@@ -165,7 +154,7 @@ COMMENTpublic function NAME(array $value = []): CLASS
     return $this->PROPERTY;
 }';
         $class->addUse(InvalidConfigurationException::class);
-        $class->addMethod($node->getName(), $body, ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'PARAM_TYPE' => \in_array('mixed', $nodeTypes, \true) ? 'mixed' : \implode('|', $nodeTypes)]);
+        $class->addMethod($node->getName(), $body, ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'PARAM_TYPE' => $paramType]);
         $this->buildNode($node, $childClass, $this->getSubNamespace($childClass));
     }
     private function handleVariableNode(VariableNode $node, ClassBuilder $class) : void
@@ -195,14 +184,13 @@ public function NAME(mixed $valueDEFAULT): static
         $hasNormalizationClosures = $this->hasNormalizationClosures($node) || $this->hasNormalizationClosures($prototype);
         $nodeParameterTypes = $this->getParameterTypes($node);
         $prototypeParameterTypes = $this->getParameterTypes($prototype);
+        $noKey = null === ($key = $node->getKeyAttribute());
         if (!$prototype instanceof ArrayNode || $prototype instanceof PrototypedArrayNode && $prototype->getPrototype() instanceof ScalarNode) {
             $class->addUse(ParamConfigurator::class);
             $property = $class->addProperty($node->getName());
-            if (null === ($key = $node->getKeyAttribute())) {
+            if ($noKey) {
                 // This is an array of values; don't use singular name
-                $nodeTypesWithoutArray = \array_filter($nodeParameterTypes, static function ($type) {
-                    return 'array' !== $type;
-                });
+                $nodeTypesWithoutArray = \array_filter($nodeParameterTypes, static fn($type) => 'array' !== $type);
                 $body = '
 /**
  * @param ParamConfigurator|list<ParamConfigurator|PROTOTYPE_TYPE>EXTRA_TYPE $value
@@ -216,7 +204,7 @@ public function NAME(PARAM_TYPE $value): static
 
     return $this;
 }';
-                $class->addMethod($node->getName(), $body, ['PROPERTY' => $property->getName(), 'PROTOTYPE_TYPE' => \implode('|', $prototypeParameterTypes), 'EXTRA_TYPE' => $nodeTypesWithoutArray ? '|' . \implode('|', $nodeTypesWithoutArray) : '', 'PARAM_TYPE' => \in_array('mixed', $nodeParameterTypes, \true) ? 'mixed' : 'ParamConfigurator|' . \implode('|', $nodeParameterTypes)]);
+                $class->addMethod($node->getName(), $body, ['PROPERTY' => $property->getName(), 'PROTOTYPE_TYPE' => \implode('|', $prototypeParameterTypes), 'EXTRA_TYPE' => $nodeTypesWithoutArray ? '|' . \implode('|', $nodeTypesWithoutArray) : '', 'PARAM_TYPE' => $this->getParamType($nodeParameterTypes, \true)]);
             } else {
                 $body = '
 /**
@@ -229,7 +217,7 @@ public function NAME(string $VAR, TYPE $VALUE): static
 
     return $this;
 }';
-                $class->addMethod($methodName, $body, ['PROPERTY' => $property->getName(), 'TYPE' => \in_array('mixed', $prototypeParameterTypes, \true) ? 'mixed' : 'ParamConfigurator|' . \implode('|', $prototypeParameterTypes), 'VAR' => '' === $key ? 'key' : $key, 'VALUE' => 'value' === $key ? 'data' : 'value']);
+                $class->addMethod($methodName, $body, ['PROPERTY' => $property->getName(), 'TYPE' => $this->getParamType($prototypeParameterTypes, \true), 'VAR' => '' === $key ? 'key' : $key, 'VALUE' => 'value' === $key ? 'data' : 'value']);
             }
             return;
         }
@@ -240,17 +228,18 @@ public function NAME(string $VAR, TYPE $VALUE): static
         $class->addRequire($childClass);
         $this->classes[] = $childClass;
         $property = $class->addProperty($node->getName(), $this->getType($childClass->getFqcn() . '[]', $hasNormalizationClosures));
+        $paramType = $this->getParamType($noKey ? $nodeParameterTypes : $prototypeParameterTypes);
         $comment = $this->getComment($node);
-        if ($hasNormalizationClosures) {
-            $comment = \sprintf(" * @template TValue\n * @param TValue \$value\n%s", $comment);
+        if ($hasNormalizationClosures && 'array' !== $paramType) {
+            $comment = \sprintf(" * @template TValue of %s\n * @param TValue \$value\n%s", $paramType, $comment);
             $comment .= \sprintf(' * @return %s|$this' . "\n", $childClass->getFqcn());
             $comment .= \sprintf(' * @psalm-return (TValue is array ? %s : static)' . "\n ", $childClass->getFqcn());
         }
         if ('' !== $comment) {
             $comment = "/**\n{$comment}*/\n";
         }
-        if (null === ($key = $node->getKeyAttribute())) {
-            $body = $hasNormalizationClosures ? '
+        if ($noKey) {
+            $body = $hasNormalizationClosures && 'array' !== $paramType ? '
 COMMENTpublic function NAME(PARAM_TYPE $value = []): CLASS|static
 {
     $this->_usedProperties[\'PROPERTY\'] = true;
@@ -268,9 +257,9 @@ COMMENTpublic function NAME(array $value = []): CLASS
 
     return $this->PROPERTY[] = new CLASS($value);
 }';
-            $class->addMethod($methodName, $body, ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'PARAM_TYPE' => \in_array('mixed', $nodeParameterTypes, \true) ? 'mixed' : \implode('|', $nodeParameterTypes)]);
+            $class->addMethod($methodName, $body, ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'PARAM_TYPE' => $paramType]);
         } else {
-            $body = $hasNormalizationClosures ? '
+            $body = $hasNormalizationClosures && 'array' !== $paramType ? '
 COMMENTpublic function NAME(string $VAR, PARAM_TYPE $VALUE = []): CLASS|static
 {
     if (!\\is_array($VALUE)) {
@@ -301,7 +290,7 @@ COMMENTpublic function NAME(string $VAR, array $VALUE = []): CLASS
     return $this->PROPERTY[$VAR];
 }';
             $class->addUse(InvalidConfigurationException::class);
-            $class->addMethod($methodName, \str_replace('$value', '$VAR', $body), ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'VAR' => '' === $key ? 'key' : $key, 'VALUE' => 'value' === $key ? 'data' : 'value', 'PARAM_TYPE' => \in_array('mixed', $prototypeParameterTypes, \true) ? 'mixed' : \implode('|', $prototypeParameterTypes)]);
+            $class->addMethod($methodName, \str_replace('$value', '$VAR', $body), ['COMMENT' => $comment, 'PROPERTY' => $property->getName(), 'CLASS' => $childClass->getFqcn(), 'VAR' => '' === $key ? 'key' : $key, 'VALUE' => 'value' === $key ? 'data' : 'value', 'PARAM_TYPE' => $paramType]);
         }
         $this->buildNode($prototype, $childClass, $namespace . '\\' . $childClass->getName());
     }
@@ -364,9 +353,7 @@ public function NAME($value): static
                 $comment .= '@default ' . (null === $default ? 'null' : \var_export($default, \true)) . "\n";
             }
             if ($node instanceof EnumNode) {
-                $comment .= \sprintf('@param ParamConfigurator|%s $value', \implode('|', \array_unique(\array_map(function ($a) {
-                    return !$a instanceof \UnitEnum ? \var_export($a, \true) : '\\' . \ltrim(\var_export($a, \true), '\\');
-                }, $node->getValues())))) . "\n";
+                $comment .= \sprintf('@param ParamConfigurator|%s $value', \implode('|', \array_unique(\array_map(fn($a) => !$a instanceof \UnitEnum ? \var_export($a, \true) : '\\' . \ltrim(\var_export($a, \true), '\\'), $node->getValues())))) . "\n";
             } else {
                 $parameterTypes = $this->getParameterTypes($node);
                 $comment .= '@param ParamConfigurator|' . \implode('|', $parameterTypes) . ' $value' . "\n";
@@ -390,7 +377,7 @@ public function NAME($value): static
     private function getSingularName(PrototypedArrayNode $node) : string
     {
         $name = $node->getName();
-        if (\substr_compare($name, 's', -\strlen('s')) !== 0) {
+        if (!\str_ends_with($name, 's')) {
             return $name;
         }
         $parent = $node->getParent();
@@ -493,8 +480,7 @@ public function NAME(string $key, mixed $value): static
     {
         try {
             $r = new \ReflectionProperty($node, 'normalizationClosures');
-            $r->setAccessible(\true);
-        } catch (\ReflectionException $exception) {
+        } catch (\ReflectionException) {
             return \false;
         }
         return [] !== $r->getValue($node);
@@ -502,5 +488,9 @@ public function NAME(string $key, mixed $value): static
     private function getType(string $classType, bool $hasNormalizationClosures) : string
     {
         return $classType . ($hasNormalizationClosures ? '|scalar' : '');
+    }
+    private function getParamType(array $types, bool $withParamConfigurator = \false) : string
+    {
+        return \in_array('mixed', $types, \true) ? 'mixed' : ($withParamConfigurator ? 'ParamConfigurator|' : '') . \implode('|', $types);
     }
 }

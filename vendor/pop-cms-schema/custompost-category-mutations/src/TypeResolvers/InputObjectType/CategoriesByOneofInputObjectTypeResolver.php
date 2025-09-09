@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class CategoriesByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -55,23 +49,17 @@ class CategoriesByOneofInputObjectTypeResolver extends AbstractOneofInputObjectT
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::IDS:
-                return $this->__('Input the category IDs', 'custompost-category-mutations');
-            case MutationInputProperties::SLUGS:
-                return $this->__('Input the category slugs', 'custompost-category-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::IDS => $this->__('Input the category IDs', 'custompost-category-mutations'),
+            MutationInputProperties::SLUGS => $this->__('Input the category slugs', 'custompost-category-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::IDS:
-            case MutationInputProperties::SLUGS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::IDS, MutationInputProperties::SLUGS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

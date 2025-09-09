@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractEntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\TypeResolvers\ObjectType\EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver|null
-     */
-    private $entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver;
+    private ?EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver $entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver = null;
     protected final function getEntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver() : EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver
     {
         if ($this->entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver === null) {

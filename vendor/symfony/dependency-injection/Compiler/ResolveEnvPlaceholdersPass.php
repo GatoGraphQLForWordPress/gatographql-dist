@@ -17,15 +17,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Defini
  */
 class ResolveEnvPlaceholdersPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \false;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \false;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (\is_string($value)) {
             return $this->container->resolveEnvPlaceholders($value, \true);

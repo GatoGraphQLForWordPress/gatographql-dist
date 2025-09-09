@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootUpdateMediaItemMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\MediaMutations\TypeResolvers\UnionType\AbstractUpdateMediaItemMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\UnionType\RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader $rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader() : RootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdateMediaItemMutationErrorPayloadUnionTypeDataLoader === null) {

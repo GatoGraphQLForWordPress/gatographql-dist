@@ -26,14 +26,8 @@ use PoP\Root\State\AbstractAppStateProvider;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
-     */
-    private $graphQLParserHelperService;
-    /**
-     * @var \PoPAPI\API\PersistedQueries\PersistedQueryManagerInterface|null
-     */
-    private $persistedQueryManager;
+    private ?GraphQLParserHelperServiceInterface $graphQLParserHelperService = null;
+    private ?PersistedQueryManagerInterface $persistedQueryManager = null;
     protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {

@@ -29,21 +29,17 @@ use function wp_remote_retrieve_response_code;
  */
 abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends AbstractBasicService implements MarketplaceProviderCommercialPluginUpdaterServiceInterface
 {
-    /**
-     * @var bool
-     */
-    protected $initialized = false;
+    protected bool $initialized = false;
 
     /**
      * @var array<string,CommercialPluginUpdatedPluginData> Key: plugin slug, Value: CommercialPluginUpdatedPluginData
      */
-    protected $pluginSlugDataEntries = [];
+    protected array $pluginSlugDataEntries = [];
 
     /**
      * Only disable this for debugging
-     * @var bool
      */
-    protected $cacheAllowed = true;
+    protected bool $cacheAllowed = true;
 
     /**
      * Use the Marketplace provider's service to
@@ -53,15 +49,18 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
      *
      * @throws ShouldNotHappenException If initializing the service more than once
      */
-    public function setupMarketplacePluginUpdaterForExtensions(array $licenseKeys): void
-    {
+    public function setupMarketplacePluginUpdaterForExtensions(
+        array $licenseKeys,
+    ): void {
         if ($this->initialized) {
             throw new ShouldNotHappenException('This service must not be initialized more than once');
         }
         $this->initialized = true;
+
         if ($licenseKeys === []) {
             return;
         }
+
         /**
          * Generate the entries for all the commercial plugins,
          * possibly including the main Plugin too.
@@ -88,9 +87,10 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
                 str_replace('-', '_', $pluginSlug) . '_updater',
             );
         }
-        add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginInfo']), 20, 3);
-        add_filter('site_transient_update_plugins', \Closure::fromCallable([$this, 'overridePluginUpdate']));
-        add_action('upgrader_process_complete', \Closure::fromCallable([$this, 'overridePluginPurge']), 10, 2);
+
+        add_filter('plugins_api', $this->overridePluginInfo(...), 20, 3);
+        add_filter('site_transient_update_plugins', $this->overridePluginUpdate(...));
+        add_action('upgrader_process_complete', $this->overridePluginPurge(...), 10, 2);
     }
 
     abstract protected function providePluginUpdatesAPIURL(string $pluginUpdatesServerURL): string;
@@ -104,10 +104,10 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
      * @return false|object|array<string,mixed>
      */
     public function overridePluginInfo(
-        $result,
+        false|object|array $result,
         string $action,
         object $args
-    ) {
+    ): false|object|array {
         if ($action !== 'plugin_information') {
             return $result;
         }
@@ -137,9 +137,8 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
 
     /**
      * Fetch the update info from the remote server running the Marketplace provider's plugin.
-     * @return object|bool
      */
-    protected function requestPluginDataFromServer(CommercialPluginUpdatedPluginData $pluginData)
+    protected function requestPluginDataFromServer(CommercialPluginUpdatedPluginData $pluginData): object|bool
     {
         $remote = get_transient($pluginData->cacheKey);
         if ($remote !== false && $this->cacheAllowed) {
@@ -171,16 +170,14 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
      *
      * @return array<string,mixed>|WP_Error
      */
-    abstract protected function getRemotePluginData(CommercialPluginUpdatedPluginData $pluginData);
+    abstract protected function getRemotePluginData(CommercialPluginUpdatedPluginData $pluginData): array|WP_Error;
 
     /**
      * Override the WordPress request to check if an update is available.
      *
      * @see https://make.wordpress.org/core/2020/07/30/recommended-usage-of-the-updates-api-to-support-the-auto-updates-ui-for-plugins-and-themes-in-wordpress-5-5/
-     * @param \stdClass|false $transient
-     * @return object|false
      */
-    public function overridePluginUpdate($transient)
+    public function overridePluginUpdate(stdClass|false $transient): object|false
     {
         if ($transient === false || empty($transient->checked)) {
             return $transient;
@@ -219,10 +216,10 @@ abstract class AbstractMarketplaceProviderCommercialPluginUpdaterService extends
                 $res->new_version = $remote->update->version;
                 $res->package     = $remote->update->download_link;
 
-                $transient->response = $transient->response ?? [];
+                $transient->response ??= [];
                 $transient->response[$res->plugin] = $res;
             } else {
-                $transient->no_update = $transient->no_update ?? [];
+                $transient->no_update ??= [];
                 $transient->no_update[$res->plugin] = $res;
             }
         }

@@ -26,10 +26,7 @@ class NullCoalesceNode extends Node
     {
         $compiler->raw('((')->compile($this->nodes['expr1'])->raw(') ?? (')->compile($this->nodes['expr2'])->raw('))');
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         if ($this->nodes['expr1'] instanceof GetAttrNode) {
             $this->addNullCoalesceAttributeToGetAttrNodes($this->nodes['expr1']);

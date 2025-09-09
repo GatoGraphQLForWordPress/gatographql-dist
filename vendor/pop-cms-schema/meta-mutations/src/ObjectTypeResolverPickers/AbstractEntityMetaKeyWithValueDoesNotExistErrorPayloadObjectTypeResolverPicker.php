@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractEntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\TypeResolvers\ObjectType\EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver $entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getEntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver() : EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver === null) {

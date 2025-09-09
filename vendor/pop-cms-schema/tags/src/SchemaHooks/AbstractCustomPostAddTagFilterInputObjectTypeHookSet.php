@@ -8,10 +8,7 @@ use PoPCMSSchema\Tags\TypeResolvers\InputObjectType\FilterCustomPostsByTagsInput
 /** @internal */
 abstract class AbstractCustomPostAddTagFilterInputObjectTypeHookSet extends \PoPCMSSchema\Tags\SchemaHooks\AbstractAddTagFilterInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver|null
-     */
-    private $customPostsFilterCustomPostsByTagsInputObjectTypeResolver;
+    private ?CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver $customPostsFilterCustomPostsByTagsInputObjectTypeResolver = null;
     protected final function getCustomPostsFilterCustomPostsByTagsInputObjectTypeResolver() : CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver
     {
         if ($this->customPostsFilterCustomPostsByTagsInputObjectTypeResolver === null) {

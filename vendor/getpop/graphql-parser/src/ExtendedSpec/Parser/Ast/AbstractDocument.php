@@ -53,9 +53,7 @@ abstract class AbstractDocument extends UpstreamDocument
     {
         $variableReferences = parent::getVariableReferencesInDirectives($directives);
         /** @var MetaDirective[] */
-        $metaDirectives = \array_filter($directives, function (Directive $directive) {
-            return $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective;
-        });
+        $metaDirectives = \array_filter($directives, fn(Directive $directive) => $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective);
         foreach ($metaDirectives as $metaDirective) {
             $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInDirectives($metaDirective->getNestedDirectives()));
         }
@@ -69,9 +67,7 @@ abstract class AbstractDocument extends UpstreamDocument
     {
         parent::assertArgumentsUniqueInDirectives($directives);
         /** @var MetaDirective[] */
-        $metaDirectives = \array_filter($directives, function (Directive $directive) {
-            return $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective;
-        });
+        $metaDirectives = \array_filter($directives, fn(Directive $directive) => $directive instanceof \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\MetaDirective);
         foreach ($metaDirectives as $metaDirective) {
             $this->assertArgumentsUniqueInDirectives($metaDirective->getNestedDirectives());
         }
@@ -344,7 +340,7 @@ abstract class AbstractDocument extends UpstreamDocument
      * @param WithValueInterface|array<WithValueInterface|array<mixed>> $argumentValue
      * @return ObjectResolvedFieldValueReference[]
      */
-    protected function getObjectResolvedFieldValueReferencesInArgumentValue($argumentValue) : array
+    protected function getObjectResolvedFieldValueReferencesInArgumentValue(WithValueInterface|array $argumentValue) : array
     {
         if ($argumentValue instanceof ObjectResolvedFieldValueReference) {
             return [$argumentValue];
@@ -365,6 +361,7 @@ abstract class AbstractDocument extends UpstreamDocument
          */
         if (\is_array($argumentValue)) {
             foreach ($argumentValue as $listValue) {
+                // @phpstan-ignore-next-line
                 if (!(\is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
                     continue;
                 }
@@ -374,6 +371,7 @@ abstract class AbstractDocument extends UpstreamDocument
             return $objectResolvedFieldValueReferences;
         }
         /** @var WithAstValueInterface $argumentValue */
+        // @phpstan-ignore-next-line
         $listValues = (array) $argumentValue->getAstValue();
         foreach ($listValues as $listValue) {
             if (!(\is_array($listValue) || $listValue instanceof ObjectResolvedFieldValueReference || $listValue instanceof WithValueInterface)) {
@@ -618,7 +616,7 @@ abstract class AbstractDocument extends UpstreamDocument
         $dependedUponOperations = [];
         $operationDependencyDefinitionArguments = $this->getOperationDependencyDefinitionArgumentsInOperation($operation);
         foreach ($operationDependencyDefinitionArguments as $operationDependencyDefinitionArgument) {
-            $dependedUponOperations = \array_merge($dependedUponOperations, $this->getDependedUponOperationsInArgument($operationDependencyDefinitionArgument));
+            $dependedUponOperations = [...$dependedUponOperations, ...$this->getDependedUponOperationsInArgument($operationDependencyDefinitionArgument)];
         }
         return $dependedUponOperations;
     }
@@ -629,7 +627,7 @@ abstract class AbstractDocument extends UpstreamDocument
     protected function getDependedUponOperationsInArgument(Argument $argument) : array
     {
         /** @var OperationInterface[] */
-        return \array_map(\Closure::fromCallable([$this, 'getOperation']), $this->getDependedUponOperationNamesInArgument($argument));
+        return \array_map($this->getOperation(...), $this->getDependedUponOperationNamesInArgument($argument));
     }
     public function getOperation(string $name) : ?OperationInterface
     {

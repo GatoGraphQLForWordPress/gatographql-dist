@@ -10,7 +10,7 @@ class AttachExtensionService implements \PoP\ComponentModel\AttachableExtensions
     /**
      * @var array<string,array<string,AttachableExtensionInterface[]>>
      */
-    protected $classGroups = [];
+    protected array $classGroups = [];
     public function enqueueExtension(string $event, string $group, \PoP\ComponentModel\AttachableExtensions\AttachableExtensionInterface $extension) : void
     {
         $this->classGroups[$event][$group][] = $extension;
@@ -19,9 +19,7 @@ class AttachExtensionService implements \PoP\ComponentModel\AttachableExtensions
     {
         foreach ($this->classGroups[$event] ?? [] as $group => $extensions) {
             // Only attach the enabled thervices
-            $extensions = \array_filter($extensions, function (ActivableServiceInterface $extension) {
-                return $extension->isServiceEnabled();
-            });
+            $extensions = \array_filter($extensions, fn(ActivableServiceInterface $extension) => $extension->isServiceEnabled());
             foreach ($extensions as $extension) {
                 $extension->attach($group);
             }

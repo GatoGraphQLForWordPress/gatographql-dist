@@ -13,10 +13,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
  */
 abstract class AbstractCustomPostContentAsOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
-     */
-    private $htmlScalarTypeResolver;
+    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
     protected final function getHTMLScalarTypeResolver() : HTMLScalarTypeResolver
     {
         if ($this->htmlScalarTypeResolver === null) {
@@ -39,11 +36,9 @@ abstract class AbstractCustomPostContentAsOneofInputObjectTypeResolver extends A
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::HTML:
-                return $this->__('Use HTML as content for the custom post', 'custompost-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::HTML => $this->__('Use HTML as content for the custom post', 'custompost-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

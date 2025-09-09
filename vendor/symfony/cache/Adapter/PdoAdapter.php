@@ -18,62 +18,20 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
 class PdoAdapter extends AbstractAdapter implements PruneableInterface
 {
     private const MAX_KEY_LENGTH = 255;
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
-    /**
-     * @var \PDO
-     */
-    private $conn;
-    /**
-     * @var string
-     */
-    private $dsn;
-    /**
-     * @var string
-     */
-    private $driver;
-    /**
-     * @var string
-     */
-    private $serverVersion;
-    /**
-     * @var string
-     */
-    private $table = 'cache_items';
-    /**
-     * @var string
-     */
-    private $idCol = 'item_id';
-    /**
-     * @var string
-     */
-    private $dataCol = 'item_data';
-    /**
-     * @var string
-     */
-    private $lifetimeCol = 'item_lifetime';
-    /**
-     * @var string
-     */
-    private $timeCol = 'item_time';
-    /**
-     * @var string|null
-     */
-    private $username;
-    /**
-     * @var string|null
-     */
-    private $password;
-    /**
-     * @var mixed[]
-     */
-    private $connectionOptions = [];
-    /**
-     * @var string
-     */
-    private $namespace;
+    private MarshallerInterface $marshaller;
+    private \PDO $conn;
+    private string $dsn;
+    private string $driver;
+    private string $serverVersion;
+    private string $table = 'cache_items';
+    private string $idCol = 'item_id';
+    private string $dataCol = 'item_data';
+    private string $lifetimeCol = 'item_lifetime';
+    private string $timeCol = 'item_time';
+    private ?string $username = null;
+    private ?string $password = null;
+    private array $connectionOptions = [];
+    private string $namespace;
     /**
      * You can either pass an existing database connection as PDO instance or
      * a DSN string that will be used to lazy-connect to the database when the
@@ -92,11 +50,10 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
      * @throws InvalidArgumentException When first argument is not PDO nor Connection nor string
      * @throws InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      * @throws InvalidArgumentException When namespace contains invalid characters
-     * @param \PDO|string $connOrDsn
      */
-    public function __construct($connOrDsn, string $namespace = '', int $defaultLifetime = 0, array $options = [], ?MarshallerInterface $marshaller = null)
+    public function __construct(#[\SensitiveParameter] \PDO|string $connOrDsn, string $namespace = '', int $defaultLifetime = 0, array $options = [], ?MarshallerInterface $marshaller = null)
     {
-        if (\is_string($connOrDsn) && \strpos($connOrDsn, '://') !== \false) {
+        if (\is_string($connOrDsn) && \str_contains($connOrDsn, '://')) {
             throw new InvalidArgumentException(\sprintf('Usage of Doctrine DBAL URL with "%s" is not supported. Use a PDO DSN or "%s" instead.', __CLASS__, DoctrineDbalAdapter::class));
         }
         if (isset($namespace[0]) && \preg_match('#[^-+.A-Za-z0-9]#', $namespace, $match)) {
@@ -136,25 +93,19 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
      */
     public function createTable()
     {
-        switch ($driver = $this->getDriver()) {
-            case 'mysql':
-                $sql = "CREATE TABLE {$this->table} ({$this->idCol} VARBINARY(255) NOT NULL PRIMARY KEY, {$this->dataCol} MEDIUMBLOB NOT NULL, {$this->lifetimeCol} INTEGER UNSIGNED, {$this->timeCol} INTEGER UNSIGNED NOT NULL) COLLATE utf8mb4_bin, ENGINE = InnoDB";
-                break;
-            case 'sqlite':
-                $sql = "CREATE TABLE {$this->table} ({$this->idCol} TEXT NOT NULL PRIMARY KEY, {$this->dataCol} BLOB NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)";
-                break;
-            case 'pgsql':
-                $sql = "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR(255) NOT NULL PRIMARY KEY, {$this->dataCol} BYTEA NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)";
-                break;
-            case 'oci':
-                $sql = "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR2(255) NOT NULL PRIMARY KEY, {$this->dataCol} BLOB NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)";
-                break;
-            case 'sqlsrv':
-                $sql = "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR(255) NOT NULL PRIMARY KEY, {$this->dataCol} VARBINARY(MAX) NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)";
-                break;
-            default:
-                throw new \DomainException(\sprintf('Creating the cache table is currently not implemented for PDO driver "%s".', $driver));
-        }
+        $sql = match ($driver = $this->getDriver()) {
+            // We use varbinary for the ID column because it prevents unwanted conversions:
+            // - character set conversions between server and client
+            // - trailing space removal
+            // - case-insensitivity
+            // - language processing like é == e
+            'mysql' => "CREATE TABLE {$this->table} ({$this->idCol} VARBINARY(255) NOT NULL PRIMARY KEY, {$this->dataCol} MEDIUMBLOB NOT NULL, {$this->lifetimeCol} INTEGER UNSIGNED, {$this->timeCol} INTEGER UNSIGNED NOT NULL) COLLATE utf8mb4_bin, ENGINE = InnoDB",
+            'sqlite' => "CREATE TABLE {$this->table} ({$this->idCol} TEXT NOT NULL PRIMARY KEY, {$this->dataCol} BLOB NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)",
+            'pgsql' => "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR(255) NOT NULL PRIMARY KEY, {$this->dataCol} BYTEA NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)",
+            'oci' => "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR2(255) NOT NULL PRIMARY KEY, {$this->dataCol} BLOB NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)",
+            'sqlsrv' => "CREATE TABLE {$this->table} ({$this->idCol} VARCHAR(255) NOT NULL PRIMARY KEY, {$this->dataCol} VARBINARY(MAX) NOT NULL, {$this->lifetimeCol} INTEGER, {$this->timeCol} INTEGER NOT NULL)",
+            default => throw new \DomainException(\sprintf('Creating the cache table is currently not implemented for PDO driver "%s".', $driver)),
+        };
         $this->getConnection()->exec($sql);
     }
     public function prune() : bool
@@ -166,7 +117,7 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
         $connection = $this->getConnection();
         try {
             $delete = $connection->prepare($deleteSql);
-        } catch (\PDOException $exception) {
+        } catch (\PDOException) {
             return \true;
         }
         $delete->bindValue(':time', \time(), \PDO::PARAM_INT);
@@ -175,7 +126,7 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
         }
         try {
             return $delete->execute();
-        } catch (\PDOException $exception) {
+        } catch (\PDOException) {
             return \true;
         }
     }
@@ -240,7 +191,7 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
         }
         try {
             $conn->exec($sql);
-        } catch (\PDOException $exception) {
+        } catch (\PDOException) {
         }
         return \true;
     }
@@ -251,14 +202,11 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
         try {
             $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute(\array_values($ids));
-        } catch (\PDOException $exception) {
+        } catch (\PDOException) {
         }
         return \true;
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         if (!($values = $this->marshaller->marshall($values, $failed))) {
             return $failed;
@@ -335,7 +283,7 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
             if (null === $driver && !$stmt->rowCount()) {
                 try {
                     $insertStmt->execute();
-                } catch (\PDOException $exception) {
+                } catch (\PDOException) {
                     // A concurrent write won, let it be
                 }
             }
@@ -344,14 +292,13 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
     }
     /**
      * @internal
-     * @param mixed $key
      */
-    protected function getId($key) : string
+    protected function getId(mixed $key) : string
     {
         if ('pgsql' !== $this->getDriver()) {
             return parent::getId($key);
         }
-        if (\strpos($key, "\x00") !== \false || \strpos($key, '%') !== \false || !\preg_match('//u', $key)) {
+        if (\str_contains($key, "\x00") || \str_contains($key, '%') || !\preg_match('//u', $key)) {
             $key = \rawurlencode($key);
         }
         return parent::getId($key);
@@ -366,29 +313,23 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
     }
     private function getDriver() : string
     {
-        return $this->driver = $this->driver ?? $this->getConnection()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        return $this->driver ??= $this->getConnection()->getAttribute(\PDO::ATTR_DRIVER_NAME);
     }
     private function getServerVersion() : string
     {
-        return $this->serverVersion = $this->serverVersion ?? $this->getConnection()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        return $this->serverVersion ??= $this->getConnection()->getAttribute(\PDO::ATTR_SERVER_VERSION);
     }
     private function isTableMissing(\PDOException $exception) : bool
     {
         $driver = $this->getDriver();
         [$sqlState, $code] = $exception->errorInfo ?? [null, $exception->getCode()];
-        switch ($driver) {
-            case 'pgsql':
-                return '42P01' === $sqlState;
-            case 'sqlite':
-                return \strpos($exception->getMessage(), 'no such table:') !== \false;
-            case 'oci':
-                return 942 === $code;
-            case 'sqlsrv':
-                return 208 === $code;
-            case 'mysql':
-                return 1146 === $code;
-            default:
-                return \false;
-        }
+        return match ($driver) {
+            'pgsql' => '42P01' === $sqlState,
+            'sqlite' => \str_contains($exception->getMessage(), 'no such table:'),
+            'oci' => 942 === $code,
+            'sqlsrv' => 208 === $code,
+            'mysql' => 1146 === $code,
+            default => \false,
+        };
     }
 }

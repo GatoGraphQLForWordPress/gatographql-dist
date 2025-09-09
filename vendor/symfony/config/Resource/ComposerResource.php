@@ -20,14 +20,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
  */
 class ComposerResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $vendors;
-    /**
-     * @var mixed[]
-     */
-    private static $runtimeVendors;
+    private array $vendors;
+    private static array $runtimeVendors;
     public function __construct()
     {
         self::refresh();
@@ -50,7 +44,7 @@ class ComposerResource implements SelfCheckingResourceInterface
     {
         self::$runtimeVendors = [];
         foreach (\get_declared_classes() as $class) {
-            if ('C' === $class[0] && \strncmp($class, 'ComposerAutoloaderInit', \strlen('ComposerAutoloaderInit')) === 0) {
+            if ('C' === $class[0] && \str_starts_with($class, 'ComposerAutoloaderInit')) {
                 $r = new \ReflectionClass($class);
                 $v = \dirname($r->getFileName(), 2);
                 if (\is_file($v . '/composer/installed.json')) {

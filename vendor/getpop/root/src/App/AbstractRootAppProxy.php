@@ -132,18 +132,16 @@ abstract class AbstractRootAppProxy implements RootAppInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static final function getState($keyOrPath)
+    public static final function getState(string|array $keyOrPath) : mixed
     {
         return RootApp::getState($keyOrPath);
     }
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static final function hasState($keyOrPath)
+    public static final function hasState(string|array $keyOrPath) : mixed
     {
         return RootApp::hasState($keyOrPath);
     }
@@ -163,11 +161,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
     }
     /**
      * Shortcut function.
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
      */
-    public static function applyFilters(string $tag, $value, ...$args)
+    public static function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed
     {
         return RootApp::applyFilters($tag, $value, ...$args);
     }
@@ -187,9 +182,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
     }
     /**
      * Shortcut function.
-     * @param mixed ...$args
      */
-    public static function doAction(string $tag, ...$args) : void
+    public static function doAction(string $tag, mixed ...$args) : void
     {
         RootApp::doAction($tag, ...$args);
     }
@@ -197,10 +191,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Equivalent of $_POST[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function request(string $key, $default = null)
+    public static final function request(string $key, mixed $default = null) : mixed
     {
         return RootApp::request($key, $default);
     }
@@ -208,10 +200,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Equivalent of $_GET[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function query(string $key, $default = null)
+    public static final function query(string $key, mixed $default = null) : mixed
     {
         return RootApp::query($key, $default);
     }
@@ -219,10 +209,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Equivalent of $_COOKIES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function cookies(string $key, $default = null)
+    public static final function cookies(string $key, mixed $default = null) : mixed
     {
         return RootApp::cookies($key, $default);
     }
@@ -230,10 +218,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Equivalent of $_FILES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function files(string $key, $default = null)
+    public static final function files(string $key, mixed $default = null) : mixed
     {
         return RootApp::files($key, $default);
     }
@@ -241,10 +227,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Equivalent of $_SERVER[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function server(string $key, $default = null)
+    public static final function server(string $key, mixed $default = null) : mixed
     {
         return RootApp::server($key, $default);
     }
@@ -252,10 +236,8 @@ abstract class AbstractRootAppProxy implements RootAppInterface
      * Shortcut function.
      *
      * Mostly equivalent to a subset of $_SERVER
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function headers(string $key, $default = null)
+    public static final function headers(string $key, mixed $default = null) : mixed
     {
         return RootApp::headers($key, $default);
     }

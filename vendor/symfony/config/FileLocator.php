@@ -23,7 +23,7 @@ class FileLocator implements FileLocatorInterface
     /**
      * @param string|string[] $paths A path or an array of paths where to look for resources
      */
-    public function __construct($paths = [])
+    public function __construct(string|array $paths = [])
     {
         $this->paths = (array) $paths;
     }
@@ -69,7 +69,7 @@ class FileLocator implements FileLocatorInterface
      */
     private function isAbsolutePath(string $file) : bool
     {
-        if ('/' === $file[0] || '\\' === $file[0] || \strlen($file) > 3 && \ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2]) || \parse_url($file, \PHP_URL_SCHEME) || \strncmp($file, 'phar:///', \strlen('phar:///')) === 0) {
+        if ('/' === $file[0] || '\\' === $file[0] || \strlen($file) > 3 && \ctype_alpha($file[0]) && ':' === $file[1] && ('\\' === $file[2] || '/' === $file[2]) || \parse_url($file, \PHP_URL_SCHEME) || \str_starts_with($file, 'phar:///')) {
             return \true;
         }
         return \false;

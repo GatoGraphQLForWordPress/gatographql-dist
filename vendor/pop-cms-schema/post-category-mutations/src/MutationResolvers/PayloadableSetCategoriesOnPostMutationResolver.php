@@ -18,19 +18,18 @@ class PayloadableSetCategoriesOnPostMutationResolver extends \PoPCMSSchema\PostC
      * return them in the Payload.
      *
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $separateObjectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         parent::validate($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
         }
         /** @var string|int */
         $postID = parent::executeMutation($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $postID)->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $postID)->getID();
         }
         /** @var string|int $postID */
         return $this->createSuccessObjectMutationPayload($postID)->getID();

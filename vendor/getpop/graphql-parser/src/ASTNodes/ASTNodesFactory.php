@@ -15,14 +15,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
  */
 class ASTNodesFactory
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\RuntimeLocation|null
-     */
-    public static $nonSpecificLocation;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|null
-     */
-    public static $wildcardField;
+    public static ?RuntimeLocation $nonSpecificLocation = null;
+    public static ?FieldInterface $wildcardField = null;
     /**
      * Use a non-existing location to indicate that the
      * AST node was created on runtime, and is not to be

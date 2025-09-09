@@ -7,13 +7,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractComponentFieldNode implements \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\ComponentFieldNodeInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    protected $field;
-    public function __construct(FieldInterface $field)
+    public function __construct(protected FieldInterface $field)
     {
-        $this->field = $field;
     }
     /**
      * Allow doing `array_unique` based on the underlying Field

@@ -17,21 +17,14 @@ trait PayloadableMetaMutationResolverTrait
     protected function createMetaMutationErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ?ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
-                return new EntityMetaAlreadyHasSingleEntryErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new AccessToMetaKeyIsNotAllowedErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
-                return new AccessToMetaKeyIsNotAllowedErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new EntityMetaKeyDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new EntityMetaKeyWithValueDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
-                return new EntityMetaEntryAlreadyHasValueErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return null;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1] => new EntityMetaAlreadyHasSingleEntryErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2] => new AccessToMetaKeyIsNotAllowedErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3] => new AccessToMetaKeyIsNotAllowedErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4] => new EntityMetaKeyDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5] => new EntityMetaKeyWithValueDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6] => new EntityMetaEntryAlreadyHasValueErrorPayload($feedbackItemResolution->getMessage()),
+            default => null,
+        };
     }
 }

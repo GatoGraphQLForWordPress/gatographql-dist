@@ -7,18 +7,12 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\WithNameInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsTrait;
     /**
      * @param Argument[] $arguments
      */
-    public function __construct(string $name, array $arguments, Location $location)
+    public function __construct(protected readonly string $name, array $arguments, Location $location)
     {
-        $this->name = $name;
         parent::__construct($location);
         $this->setArguments($arguments);
     }
@@ -81,12 +75,8 @@ class Directive extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implement
          *
          * So first sort them as to compare apples to apples.
          */
-        \usort($thisArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
-        \usort($againstArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
+        \usort($thisArguments, fn(\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
+        \usort($againstArguments, fn(\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
         for ($i = 0; $i < $argumentCount; $i++) {
             $thisArgument = $thisArguments[$i];
             $againstArgument = $againstArguments[$i];

@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Users\Routing;
 /** @internal */
 class RequestNature
 {
-    public const USER = 'user';
+    public final const USER = 'user';
 }

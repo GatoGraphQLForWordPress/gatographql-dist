@@ -14,14 +14,8 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 class InputObjectTypeHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCommentAuthorInputObjectTypeResolver|null
-     */
-    private $filterCommentsByCommentAuthorInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\FilterCommentsByCustomPostAuthorInputObjectTypeResolver|null
-     */
-    private $filterCommentsByCustomPostAuthorInputObjectTypeResolver;
+    private ?FilterCommentsByCommentAuthorInputObjectTypeResolver $filterCommentsByCommentAuthorInputObjectTypeResolver = null;
+    private ?FilterCommentsByCustomPostAuthorInputObjectTypeResolver $filterCommentsByCustomPostAuthorInputObjectTypeResolver = null;
     protected final function getFilterCommentsByCommentAuthorInputObjectTypeResolver() : FilterCommentsByCommentAuthorInputObjectTypeResolver
     {
         if ($this->filterCommentsByCommentAuthorInputObjectTypeResolver === null) {
@@ -42,8 +36,8 @@ class InputObjectTypeHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
@@ -61,13 +55,10 @@ class InputObjectTypeHookSet extends AbstractHookSet
         if (!$inputObjectTypeResolver instanceof RootCommentsFilterInputObjectTypeResolver) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'author':
-                return $this->__('Filter comments by author', 'comments');
-            case 'customPostAuthor':
-                return $this->__('Filter comments added to custom posts from the given authors', 'comments');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'author' => $this->__('Filter comments by author', 'comments'),
+            'customPostAuthor' => $this->__('Filter comments added to custom posts from the given authors', 'comments'),
+            default => $inputFieldDescription,
+        };
     }
 }

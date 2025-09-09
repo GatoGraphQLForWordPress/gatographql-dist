@@ -35,9 +35,8 @@ trait PriorityTaggedServiceTrait
      * @see https://bugs.php.net/60926
      *
      * @return Reference[]
-     * @param string|\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument $tagName
      */
-    private function findAndSortTaggedServices($tagName, ContainerBuilder $container, array $exclude = []) : array
+    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container, array $exclude = []) : array
     {
         $indexAttribute = $defaultIndexMethod = $needsIndexes = $defaultPriorityMethod = null;
         if ($tagName instanceof TaggedIteratorArgument) {
@@ -67,7 +66,7 @@ trait PriorityTaggedServiceTrait
                 } elseif (null === $defaultPriority && $defaultPriorityMethod && $class) {
                     $defaultPriority = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultPriorityMethod, $tagName, 'priority', $checkTaggedItem);
                 }
-                $priority = $priority ?? ($defaultPriority = $defaultPriority ?? 0);
+                $priority ??= $defaultPriority ??= 0;
                 if (null === $indexAttribute && !$defaultIndexMethod && !$needsIndexes) {
                     $services[] = [$priority, ++$i, null, $serviceId, null];
                     continue 2;
@@ -82,9 +81,7 @@ trait PriorityTaggedServiceTrait
                 $services[] = [$priority, ++$i, $index, $serviceId, $class];
             }
         }
-        \uasort($services, static function ($a, $b) {
-            return $b[0] <=> $a[0] ?: $a[1] <=> $b[1];
-        });
+        \uasort($services, static fn($a, $b) => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
         $refs = [];
         foreach ($services as [, , $index, $serviceId, $class]) {
             if (!$class) {
@@ -108,16 +105,13 @@ trait PriorityTaggedServiceTrait
  */
 class PriorityTaggedServiceUtil
 {
-    /**
-     * @return string|int|null
-     */
-    public static function getDefault(ContainerBuilder $container, string $serviceId, string $class, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem)
+    public static function getDefault(ContainerBuilder $container, string $serviceId, string $class, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem) : string|int|null
     {
         if (!($r = $container->getReflectionClass($class)) || !$checkTaggedItem && !$r->hasMethod($defaultMethod)) {
             return null;
         }
         if ($checkTaggedItem && !$r->hasMethod($defaultMethod)) {
-            foreach (\method_exists($r, 'getAttributes') ? $r->getAttributes(AsTaggedItem::class) : [] as $attribute) {
+            foreach ($r->getAttributes(AsTaggedItem::class) as $attribute) {
                 return 'priority' === $indexAttribute ? $attribute->newInstance()->priority : $attribute->newInstance()->index;
             }
             return null;

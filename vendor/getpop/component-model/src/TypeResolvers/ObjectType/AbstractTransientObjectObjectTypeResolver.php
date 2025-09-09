@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfac
 abstract class AbstractTransientObjectObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-    /**
-     * @return string|int|null
-     */
-    public final function getID(object $object)
+    public final function getID(object $object) : string|int|null
     {
         /** @var TransientObjectInterface */
         $transientObject = $object;

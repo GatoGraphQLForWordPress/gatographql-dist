@@ -20,13 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatc
  */
 class HostRequestMatcher implements RequestMatcherInterface
 {
-    /**
-     * @var string
-     */
-    private $regexp;
-    public function __construct(string $regexp)
+    public function __construct(private string $regexp)
     {
-        $this->regexp = $regexp;
     }
     public function matches(Request $request) : bool
     {

@@ -28,8 +28,10 @@ class Module extends AbstractModule
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
-    {
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
         /**
          * Do not enable services when running PHPUnit tests
          * (the needed methods, such as `__`, will be satisfied
@@ -37,7 +39,8 @@ class Module extends AbstractModule
          */
         if (Environment::isApplicationEnvironmentDevPHPUnit()) {
             return;
-        }
+        };
+
         $this->initServices(dirname(__DIR__), '', 'hybrid-services.yaml');
         $this->initServices(dirname(__DIR__));
     }

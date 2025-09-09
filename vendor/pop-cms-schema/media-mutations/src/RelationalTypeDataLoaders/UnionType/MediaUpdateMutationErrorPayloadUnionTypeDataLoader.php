@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class MediaUpdateMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\UnionType\MediaUpdateMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $mediaUpdateMutationErrorPayloadUnionTypeResolver;
+    private ?MediaUpdateMutationErrorPayloadUnionTypeResolver $mediaUpdateMutationErrorPayloadUnionTypeResolver = null;
     protected final function getMediaUpdateMutationErrorPayloadUnionTypeResolver() : MediaUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->mediaUpdateMutationErrorPayloadUnionTypeResolver === null) {

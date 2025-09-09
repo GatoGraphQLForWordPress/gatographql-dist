@@ -17,24 +17,12 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_CATEGORY_IDS = 'filterinput-category-ids';
-    public const COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY = 'filterinput-generic-category-taxonomy';
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\FilterInputs\CategoryIDsFilterInput|null
-     */
-    private $categoryIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\FilterInputs\TaxonomyFilterInput|null
-     */
-    private $taxonomyFilterInput;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
+    public final const COMPONENT_FILTERINPUT_CATEGORY_IDS = 'filterinput-category-ids';
+    public final const COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY = 'filterinput-generic-category-taxonomy';
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?CategoryIDsFilterInput $categoryIDsFilterInput = null;
+    private ?TaxonomyFilterInput $taxonomyFilterInput = null;
+    private ?CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -80,14 +68,11 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
-                return $this->getCategoryIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY:
-                return $this->getTaxonomyFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CATEGORY_IDS => $this->getCategoryIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY => $this->getTaxonomyFilterInput(),
+            default => null,
+        };
     }
     public function getInputClass(Component $component) : string
     {
@@ -99,44 +84,34 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
-                return 'categoryIDs';
-            case self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY:
-                return 'taxonomy';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CATEGORY_IDS => 'categoryIDs',
+            self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY => 'taxonomy',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY:
-                return $this->getCategoryTaxonomyEnumStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CATEGORY_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY => $this->getCategoryTaxonomyEnumStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CATEGORY_IDS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            // self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY => SchemaTypeModifiers::MANDATORY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CATEGORY_IDS:
-                return $this->__('Limit results to elements with the given ids', 'categories');
-            case self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY:
-                return $this->__('Category taxonomy', 'categories');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CATEGORY_IDS => $this->__('Limit results to elements with the given ids', 'categories'),
+            self::COMPONENT_FILTERINPUT_GENERIC_CATEGORY_TAXONOMY => $this->__('Category taxonomy', 'categories'),
+            default => null,
+        };
     }
 }

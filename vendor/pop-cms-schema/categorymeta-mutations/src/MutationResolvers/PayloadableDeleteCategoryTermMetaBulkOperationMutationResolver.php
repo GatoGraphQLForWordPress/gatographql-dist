@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableDeleteCategoryTermMetaBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableDeleteCategoryTermMetaMutationResolver|null
-     */
-    private $payloadableDeleteCategoryTermMetaMutationResolver;
+    private ?\PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableDeleteCategoryTermMetaMutationResolver $payloadableDeleteCategoryTermMetaMutationResolver = null;
     protected final function getPayloadableDeleteCategoryTermMetaMutationResolver() : \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableDeleteCategoryTermMetaMutationResolver
     {
         if ($this->payloadableDeleteCategoryTermMetaMutationResolver === null) {

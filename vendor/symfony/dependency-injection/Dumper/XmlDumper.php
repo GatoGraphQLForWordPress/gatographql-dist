@@ -31,10 +31,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Express
  */
 class XmlDumper extends Dumper
 {
-    /**
-     * @var \DOMDocument
-     */
-    private $document;
+    private \DOMDocument $document;
     /**
      * Dumps the service container as an XML string.
      */
@@ -86,7 +83,7 @@ class XmlDumper extends Dumper
             $service->setAttribute('id', $id);
         }
         if ($class = $definition->getClass()) {
-            if (\strncmp($class, '\\', \strlen('\\')) === 0) {
+            if (\str_starts_with($class, '\\')) {
                 $class = \substr($class, 1);
             }
             $service->setAttribute('class', $class);
@@ -119,14 +116,12 @@ class XmlDumper extends Dumper
             }
         }
         $tags = $definition->getTags();
-        $tags['container.error'] = \array_map(function ($e) {
-            return ['message' => $e];
-        }, $definition->getErrors());
+        $tags['container.error'] = \array_map(fn($e) => ['message' => $e], $definition->getErrors());
         foreach ($tags as $name => $tags) {
             foreach ($tags as $attributes) {
                 $tag = $this->document->createElement('tag');
                 // Check if we have recursive attributes
-                if (\array_filter($attributes, \Closure::fromCallable('is_array'))) {
+                if (\array_filter($attributes, \is_array(...))) {
                     $tag->setAttribute('name', $name);
                     $this->addTagRecursiveAttributes($tag, $attributes);
                 } else {
@@ -257,23 +252,7 @@ class XmlDumper extends Dumper
     }
     private function convertParameters(array $parameters, string $type, \DOMElement $parent, string $keyAttribute = 'key') : void
     {
-        $arrayIsListFunction = function (array $array) : bool {
-            if (\function_exists('array_is_list')) {
-                return \array_is_list($array);
-            }
-            if ($array === []) {
-                return \true;
-            }
-            $current_key = 0;
-            foreach ($array as $key => $noop) {
-                if ($key !== $current_key) {
-                    return \false;
-                }
-                ++$current_key;
-            }
-            return \true;
-        };
-        $withKeys = !$arrayIsListFunction($parameters);
+        $withKeys = !\array_is_list($parameters);
         foreach ($parameters as $key => $value) {
             $element = $this->document->createElement($type);
             if ($withKeys) {
@@ -382,9 +361,8 @@ class XmlDumper extends Dumper
      * Converts php types to xml types.
      *
      * @throws RuntimeException When trying to dump object or resource
-     * @param mixed $value
      */
-    public static function phpToXml($value) : string
+    public static function phpToXml(mixed $value) : string
     {
         switch (\true) {
             case null === $value:
@@ -396,7 +374,7 @@ class XmlDumper extends Dumper
             case $value instanceof Parameter:
                 return '%' . $value . '%';
             case $value instanceof \UnitEnum:
-                return \sprintf('%s::%s', \get_class($value), $value->name);
+                return \sprintf('%s::%s', $value::class, $value->name);
             case \is_object($value) || \is_resource($value):
                 throw new RuntimeException(\sprintf('Unable to dump a service container if a parameter is an object or a resource, got "%s".', \get_debug_type($value)));
             default:

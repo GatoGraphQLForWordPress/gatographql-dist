@@ -15,16 +15,10 @@ abstract class AbstractEndpointFunctionalityModuleResolver extends AbstractFunct
     use EndpointFunctionalityModuleResolverTrait;
 
     /** @var WP_Post[]|null */
-    protected $schemaConfigurationCustomPosts;
+    protected ?array $schemaConfigurationCustomPosts = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
-     */
-    private $graphQLSchemaConfigurationCustomPostType;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    private ?GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {

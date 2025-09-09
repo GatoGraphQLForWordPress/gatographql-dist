@@ -11,14 +11,8 @@ use PoPWPSchema\Menus\TypeResolvers\ScalarType\MenuLocationEnumStringScalarTypeR
 
 class MenuByInputObjectTypeResolver extends UpstreamMenuByInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPWPSchema\Menus\TypeResolvers\ScalarType\MenuLocationEnumStringScalarTypeResolver|null
-     */
-    private $menuLocationEnumStringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?MenuLocationEnumStringScalarTypeResolver $menuLocationEnumStringScalarTypeResolver = null;
 
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
@@ -55,13 +49,10 @@ class MenuByInputObjectTypeResolver extends UpstreamMenuByInputObjectTypeResolve
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'slug':
-                return $this->__('Query by slug', 'menus');
-            case 'location':
-                return $this->__('Query by location', 'menus');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'slug' => $this->__('Query by slug', 'menus'),
+            'location' => $this->__('Query by location', 'menus'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

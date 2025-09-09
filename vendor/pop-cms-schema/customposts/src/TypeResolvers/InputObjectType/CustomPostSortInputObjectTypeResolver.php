@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectType
 /** @internal */
 class CustomPostSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver|null
-     */
-    private $customPostSortByEnumTypeResolver;
+    private ?CustomPostOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
     protected final function getCustomPostOrderByEnumTypeResolver() : CustomPostOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
@@ -34,16 +31,11 @@ class CustomPostSortInputObjectTypeResolver extends SortInputObjectTypeResolver
     {
         return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getCustomPostOrderByEnumTypeResolver()]);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return CustomPostOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => CustomPostOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

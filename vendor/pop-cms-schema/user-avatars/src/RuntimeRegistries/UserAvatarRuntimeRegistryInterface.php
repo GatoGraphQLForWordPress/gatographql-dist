@@ -8,8 +8,5 @@ use PoPCMSSchema\UserAvatars\ObjectModels\UserAvatar;
 interface UserAvatarRuntimeRegistryInterface
 {
     public function storeUserAvatar(UserAvatar $userAvatar) : void;
-    /**
-     * @param string|int $id
-     */
-    public function getUserAvatar($id) : ?UserAvatar;
+    public function getUserAvatar(string|int $id) : ?UserAvatar;
 }

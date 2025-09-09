@@ -29,7 +29,7 @@ interface ContainerBagInterface extends ContainerInterface
      *
      * @template TValue of array<array|scalar>|scalar
      *
-     * @param mixed $value
+     * @param TValue $value
      *
      * @return mixed
      *
@@ -37,17 +37,13 @@ interface ContainerBagInterface extends ContainerInterface
      *
      * @throws ParameterNotFoundException if a placeholder references a parameter that does not exist
      */
-    public function resolveValue($value);
+    public function resolveValue(mixed $value);
     /**
      * Escape parameter placeholders %.
-     * @param mixed $value
-     * @return mixed
      */
-    public function escapeValue($value);
+    public function escapeValue(mixed $value) : mixed;
     /**
      * Unescape parameter placeholders %.
-     * @param mixed $value
-     * @return mixed
      */
-    public function unescapeValue($value);
+    public function unescapeValue(mixed $value) : mixed;
 }

@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableUpdateGenericCategoryTermBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableUpdateGenericCategoryTermMutationResolver|null
-     */
-    private $payloadableUpdateGenericCategoryTermMutationResolver;
+    private ?\PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableUpdateGenericCategoryTermMutationResolver $payloadableUpdateGenericCategoryTermMutationResolver = null;
     protected final function getPayloadableUpdateGenericCategoryTermMutationResolver() : \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableUpdateGenericCategoryTermMutationResolver
     {
         if ($this->payloadableUpdateGenericCategoryTermMutationResolver === null) {

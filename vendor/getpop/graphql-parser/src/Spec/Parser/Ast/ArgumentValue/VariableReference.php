@@ -13,21 +13,9 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /** @internal */
 class VariableReference extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReferenceInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Variable|null
-     */
-    protected $variable;
     use StandaloneServiceTrait;
-    public function __construct(string $name, ?Variable $variable, Location $location)
+    public function __construct(protected readonly string $name, protected readonly ?Variable $variable, Location $location)
     {
-        $this->name = $name;
-        $this->variable = $variable;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -50,9 +38,8 @@ class VariableReference extends AbstractAst implements \PoP\GraphQLParser\Spec\P
      * Get the value from the context or from the variable
      *
      * @throws InvalidRequestException
-     * @return mixed
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         if ($this->variable === null) {
             throw new InvalidRequestException(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_8_3, [$this->name]), $this);

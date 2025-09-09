@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableUpdateGenericCustomPostBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver|null
-     */
-    private $payloadableUpdateGenericCustomPostMutationResolver;
+    private ?\PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver $payloadableUpdateGenericCustomPostMutationResolver = null;
     protected final function getPayloadableUpdateGenericCustomPostMutationResolver() : \PoPCMSSchema\CustomPostMutations\MutationResolvers\PayloadableUpdateGenericCustomPostMutationResolver
     {
         if ($this->payloadableUpdateGenericCustomPostMutationResolver === null) {

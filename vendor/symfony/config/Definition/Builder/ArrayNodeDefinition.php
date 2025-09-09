@@ -96,7 +96,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function addDefaultsIfNotSet()
+    public function addDefaultsIfNotSet() : static
     {
         $this->addDefaults = \true;
         return $this;
@@ -110,7 +110,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function addDefaultChildrenIfNoneSet($children = null)
+    public function addDefaultChildrenIfNoneSet(int|string|array|null $children = null) : static
     {
         $this->addDefaultChildren = $children;
         return $this;
@@ -122,7 +122,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function requiresAtLeastOneElement()
+    public function requiresAtLeastOneElement() : static
     {
         $this->atLeastOne = \true;
         return $this;
@@ -134,7 +134,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function disallowNewKeysInSubsequentConfigs()
+    public function disallowNewKeysInSubsequentConfigs() : static
     {
         $this->allowNewKeys = \false;
         return $this;
@@ -147,7 +147,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function fixXmlConfig(string $singular, ?string $plural = null)
+    public function fixXmlConfig(string $singular, ?string $plural = null) : static
     {
         $this->normalization()->remap($singular, $plural);
         return $this;
@@ -180,7 +180,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function useAttributeAsKey(string $name, bool $removeKeyItem = \true)
+    public function useAttributeAsKey(string $name, bool $removeKeyItem = \true) : static
     {
         $this->key = $name;
         $this->removeKeyItem = $removeKeyItem;
@@ -191,7 +191,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function canBeUnset(bool $allow = \true)
+    public function canBeUnset(bool $allow = \true) : static
     {
         $this->merge()->allowUnset($allow);
         return $this;
@@ -211,10 +211,10 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function canBeEnabled()
+    public function canBeEnabled() : static
     {
         $this->addDefaultsIfNotSet()->treatFalseLike(['enabled' => \false])->treatTrueLike(['enabled' => \true])->treatNullLike(['enabled' => \true])->beforeNormalization()->ifArray()->then(function (array $v) {
-            $v['enabled'] = $v['enabled'] ?? \true;
+            $v['enabled'] ??= \true;
             return $v;
         })->end()->children()->booleanNode('enabled')->defaultFalse();
         return $this;
@@ -226,7 +226,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function canBeDisabled()
+    public function canBeDisabled() : static
     {
         $this->addDefaultsIfNotSet()->treatFalseLike(['enabled' => \false])->treatTrueLike(['enabled' => \true])->treatNullLike(['enabled' => \true])->children()->booleanNode('enabled')->defaultTrue();
         return $this;
@@ -236,7 +236,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function performNoDeepMerging()
+    public function performNoDeepMerging() : static
     {
         $this->performDeepMerging = \false;
         return $this;
@@ -254,7 +254,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function ignoreExtraKeys(bool $remove = \true)
+    public function ignoreExtraKeys(bool $remove = \true) : static
     {
         $this->ignoreExtraKeys = \true;
         $this->removeExtraKeys = $remove;
@@ -265,15 +265,12 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *
      * @return $this
      */
-    public function normalizeKeys(bool $bool)
+    public function normalizeKeys(bool $bool) : static
     {
         $this->normalizeKeys = $bool;
         return $this;
     }
-    /**
-     * @return static
-     */
-    public function append(NodeDefinition $node)
+    public function append(NodeDefinition $node) : static
     {
         $this->children[$node->name] = $node->setParent($this);
         return $this;
@@ -283,7 +280,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      */
     protected function getNodeBuilder() : NodeBuilder
     {
-        $this->nodeBuilder = $this->nodeBuilder ?? new NodeBuilder();
+        $this->nodeBuilder ??= new NodeBuilder();
         return $this->nodeBuilder->setParent($this);
     }
     protected function createNode() : NodeInterface

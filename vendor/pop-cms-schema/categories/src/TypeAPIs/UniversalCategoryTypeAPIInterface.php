@@ -7,37 +7,18 @@ use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTypeAPIInterface;
 /** @internal */
 interface UniversalCategoryTypeAPIInterface extends TaxonomyTypeAPIInterface
 {
+    public function getCategorySlug(string|int|object $catObjectOrID) : ?string;
+    public function getCategorySlugPath(string|int|object $catObjectOrID) : ?string;
+    public function getCategoryName(string|int|object $catObjectOrID) : ?string;
+    public function getCategoryParentID(string|int|object $catObjectOrID) : string|int|null;
     /**
-     * @param string|int|object $catObjectOrID
+     * Get the list of ancestor IDs (parent, grandparent, etc.)
+     *
+     * @return array<int|string>|null
      */
-    public function getCategorySlug($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategorySlugPath($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryName($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     * @return string|int|null
-     */
-    public function getCategoryParentID($catObjectOrID);
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryURL($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryURLPath($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryDescription($catObjectOrID) : ?string;
-    /**
-     * @param string|int|object $catObjectOrID
-     */
-    public function getCategoryItemCount($catObjectOrID) : ?int;
+    public function getCategoryAncestorIDs(string|int|object $catObjectOrID) : ?array;
+    public function getCategoryURL(string|int|object $catObjectOrID) : ?string;
+    public function getCategoryURLPath(string|int|object $catObjectOrID) : ?string;
+    public function getCategoryDescription(string|int|object $catObjectOrID) : ?string;
+    public function getCategoryItemCount(string|int|object $catObjectOrID) : ?int;
 }

@@ -8,8 +8,8 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class DeprecationFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const D1 = 'd1';
-    public const D2 = 'd2';
+    public final const D1 = 'd1';
+    public final const D2 = 'd2';
     /**
      * @return string[]
      */
@@ -19,14 +19,11 @@ class DeprecationFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::D1:
-                return $this->__('Field \'%s\' is deprecated: %s', 'component-model');
-            case self::D2:
-                return $this->__('Directive \'%s\' is deprecated: %s', 'component-model');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::D1 => $this->__('Field \'%s\' is deprecated: %s', 'component-model'),
+            self::D2 => $this->__('Directive \'%s\' is deprecated: %s', 'component-model'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

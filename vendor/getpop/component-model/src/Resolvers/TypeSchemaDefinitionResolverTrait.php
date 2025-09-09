@@ -11,9 +11,8 @@ trait TypeSchemaDefinitionResolverTrait
 {
     /**
      * @return array<string,mixed>
-     * @param mixed $defaultValue
      */
-    public final function getTypeSchemaDefinition(string $name, TypeResolverInterface $typeResolver, ?string $description, $defaultValue, int $typeModifiers, ?string $deprecationMessage = null) : array
+    public final function getTypeSchemaDefinition(string $name, TypeResolverInterface $typeResolver, ?string $description, mixed $defaultValue, int $typeModifiers, ?string $deprecationMessage = null) : array
     {
         $schemaDefinition = [SchemaDefinition::NAME => $name, SchemaDefinition::TYPE_RESOLVER => $typeResolver];
         if ($description !== null) {

@@ -22,10 +22,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 trait ReferenceSetArgumentTrait
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
+    private array $values;
     /**
      * @param Reference[] $values
      */

@@ -14,10 +14,7 @@ use PoP\Root\Services\StandaloneServiceTrait;
 abstract class AbstractTransientObject implements \PoP\ComponentModel\ObjectModels\TransientObjectInterface
 {
     use StandaloneServiceTrait;
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
@@ -30,21 +27,15 @@ abstract class AbstractTransientObject implements \PoP\ComponentModel\ObjectMode
     /**
      * Static ID generator: all Transient Objects, from whatever class,
      * will have different IDs.
-     * @var int
      */
-    public static $counter = 0;
-    /**
-     * @readonly
-     * @var string|int
-     */
-    public $id;
+    public static int $counter = 0;
+    public readonly string|int $id;
     /**
      * Allow to specify the ID of the object or,
      * if not provided, it will be automatically
      * generated using a counter.
-     * @param string|int|null $id
      */
-    public function __construct($id = null)
+    public function __construct(string|int|null $id = null)
     {
         if ($id === null) {
             self::$counter++;
@@ -53,10 +44,7 @@ abstract class AbstractTransientObject implements \PoP\ComponentModel\ObjectMode
         // Register the object in the registry
         $this->getObjectDictionary()->set(\get_called_class(), $this->getID(), $this);
     }
-    /**
-     * @return int|string
-     */
-    public function getID()
+    public function getID() : int|string
     {
         return $this->id;
     }

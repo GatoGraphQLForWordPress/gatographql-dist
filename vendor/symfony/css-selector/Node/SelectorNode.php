@@ -22,14 +22,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 class SelectorNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $tree;
-    /**
-     * @var string|null
-     */
-    private $pseudoElement;
+    private NodeInterface $tree;
+    private ?string $pseudoElement;
     public function __construct(NodeInterface $tree, ?string $pseudoElement = null)
     {
         $this->tree = $tree;

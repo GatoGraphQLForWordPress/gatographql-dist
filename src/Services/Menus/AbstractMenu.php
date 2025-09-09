@@ -24,7 +24,7 @@ abstract class AbstractMenu extends AbstractAutomaticallyInstantiatedService imp
     {
         \add_action(
             'admin_menu',
-            \Closure::fromCallable([$this, 'addMenuPage']),
+            $this->addMenuPage(...),
             5
         );
     }

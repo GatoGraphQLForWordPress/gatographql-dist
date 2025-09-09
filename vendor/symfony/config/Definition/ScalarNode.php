@@ -28,9 +28,8 @@ class ScalarNode extends VariableNode
 {
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
         if (!\is_scalar($value) && null !== $value) {
             $ex = new InvalidTypeException(\sprintf('Invalid type for path "%s". Expected "scalar", but got "%s".', $this->getPath(), \get_debug_type($value)));
@@ -41,10 +40,7 @@ class ScalarNode extends VariableNode
             throw $ex;
         }
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isValueEmpty($value) : bool
+    protected function isValueEmpty(mixed $value) : bool
     {
         // assume environment variables are never empty (which in practice is likely to be true during runtime)
         // not doing so breaks many configs that are valid today

@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class CustomPostAddCommentMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $customPostAddCommentMutationErrorPayloadUnionTypeResolver;
+    private ?CustomPostAddCommentMutationErrorPayloadUnionTypeResolver $customPostAddCommentMutationErrorPayloadUnionTypeResolver = null;
     protected final function getCustomPostAddCommentMutationErrorPayloadUnionTypeResolver() : CustomPostAddCommentMutationErrorPayloadUnionTypeResolver
     {
         if ($this->customPostAddCommentMutationErrorPayloadUnionTypeResolver === null) {

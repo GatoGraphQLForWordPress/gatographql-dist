@@ -16,18 +16,14 @@ interface UserMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    public function getUserMeta($userObjectOrID, string $key, bool $single = \false, array $options = []);
+    public function getUserMeta(string|int|object $userObjectOrID, string $key, bool $single = \false, array $options = []) : mixed;
     /**
      * @return array<string,mixed>
-     * @param string|int|object $userObjectOrID
      */
-    public function getAllUserMeta($userObjectOrID) : array;
+    public function getAllUserMeta(string|int|object $userObjectOrID) : array;
     /**
      * @return string[]
-     * @param string|int|object $userObjectOrID
      */
-    public function getUserMetaKeys($userObjectOrID) : array;
+    public function getUserMetaKeys(string|int|object $userObjectOrID) : array;
 }

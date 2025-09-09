@@ -11,7 +11,7 @@ use PoP\Engine\ModuleConfiguration;
 /** @internal */
 class CacheUtils
 {
-    public const HOOK_SCHEMA_CACHE_KEY_ELEMENTS = __CLASS__ . ':schema-cache-key-elements';
+    public final const HOOK_SCHEMA_CACHE_KEY_ELEMENTS = __CLASS__ . ':schema-cache-key-elements';
     /**
      * @return array<string,mixed>
      */

@@ -92,10 +92,7 @@ trait ObjectTypeOrFieldDirectiveResolverTrait
         // The current field for which to retrieve the dynamic variable for.
         $appStateManager->override('object-resolved-dynamic-variables-current-field', null);
     }
-    /**
-     * @param string|int $id
-     */
-    protected function loadObjectResolvedDynamicVariablesInAppState(FieldInterface $field, $id) : void
+    protected function loadObjectResolvedDynamicVariablesInAppState(FieldInterface $field, string|int $id) : void
     {
         $appStateManager = App::getAppStateManager();
         // The current object ID for which to retrieve the dynamic variable for.

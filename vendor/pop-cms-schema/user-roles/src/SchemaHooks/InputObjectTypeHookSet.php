@@ -19,18 +19,9 @@ use PoPCMSSchema\Users\TypeResolvers\InputObjectType\AbstractUsersFilterInputObj
 /** @internal */
 class InputObjectTypeHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\FilterInputs\UserRolesFilterInput|null
-     */
-    private $userRolesFilterInput;
-    /**
-     * @var \PoPCMSSchema\UserRoles\FilterInputs\ExcludeUserRolesFilterInput|null
-     */
-    private $excludeUserRolesFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?UserRolesFilterInput $userRolesFilterInput = null;
+    private ?ExcludeUserRolesFilterInput $excludeUserRolesFilterInput = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -60,11 +51,11 @@ class InputObjectTypeHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
-        App::addFilter(HookNames::SENSITIVE_INPUT_FIELD_NAMES, \Closure::fromCallable([$this, 'getSensitiveInputFieldNames']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_TYPE_MODIFIERS, \Closure::fromCallable([$this, 'getInputFieldTypeModifiers']), 10, 3);
-        App::addFilter(HookNames::INPUT_FIELD_FILTER_INPUT, \Closure::fromCallable([$this, 'getInputFieldFilterInput']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 3);
+        App::addFilter(HookNames::SENSITIVE_INPUT_FIELD_NAMES, $this->getSensitiveInputFieldNames(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_TYPE_MODIFIERS, $this->getInputFieldTypeModifiers(...), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_FILTER_INPUT, $this->getInputFieldFilterInput(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
@@ -99,40 +90,31 @@ class InputObjectTypeHookSet extends AbstractHookSet
         if (!$inputObjectTypeResolver instanceof AbstractUsersFilterInputObjectTypeResolver) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'roles':
-                return $this->__('Filter users by role(s)', 'user-roles');
-            case 'excludeRoles':
-                return $this->__('Filter users by excluding role(s)', 'user-roles');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'roles' => $this->__('Filter users by role(s)', 'user-roles'),
+            'excludeRoles' => $this->__('Filter users by excluding role(s)', 'user-roles'),
+            default => $inputFieldDescription,
+        };
     }
     public function getInputFieldTypeModifiers(int $inputFieldTypeModifiers, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : int
     {
         if (!$inputObjectTypeResolver instanceof AbstractUsersFilterInputObjectTypeResolver) {
             return $inputFieldTypeModifiers;
         }
-        switch ($inputFieldName) {
-            case 'roles':
-            case 'excludeRoles':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return $inputFieldTypeModifiers;
-        }
+        return match ($inputFieldName) {
+            'roles', 'excludeRoles' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => $inputFieldTypeModifiers,
+        };
     }
     public function getInputFieldFilterInput(?FilterInputInterface $inputFieldFilterInput, InputObjectTypeResolverInterface $inputObjectTypeResolver, string $inputFieldName) : ?FilterInputInterface
     {
         if (!$inputObjectTypeResolver instanceof AbstractUsersFilterInputObjectTypeResolver) {
             return $inputFieldFilterInput;
         }
-        switch ($inputFieldName) {
-            case 'roles':
-                return $this->getUserRolesFilterInput();
-            case 'excludeRoles':
-                return $this->getExcludeUserRolesFilterInput();
-            default:
-                return $inputFieldFilterInput;
-        }
+        return match ($inputFieldName) {
+            'roles' => $this->getUserRolesFilterInput(),
+            'excludeRoles' => $this->getExcludeUserRolesFilterInput(),
+            default => $inputFieldFilterInput,
+        };
     }
 }

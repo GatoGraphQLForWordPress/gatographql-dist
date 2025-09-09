@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Media\ConditionalOnModule\Users\Constants;
 /** @internal */
 class MediaItemOrderBy
 {
-    public const AUTHOR = 'AUTHOR';
+    public final const AUTHOR = 'AUTHOR';
 }

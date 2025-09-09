@@ -38,63 +38,23 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\InputBag;
  */
 class AppThread implements \PoP\Root\AppThreadInterface
 {
-    /**
-     * @var string|null
-     */
-    private $name;
-    /**
-     * @var array<string, mixed>
-     */
-    private $context = [];
-    /**
-     * @var \PoP\Root\AppLoaderInterface
-     */
-    protected $appLoader;
-    /**
-     * @var \PoP\Root\StateManagers\HookManagerInterface
-     */
-    protected $hookManager;
-    /**
-     * @var \PoP\Root\HttpFoundation\Request
-     */
-    protected $request;
-    /**
-     * @var \PoP\Root\HttpFoundation\Response
-     */
-    protected $response;
-    /**
-     * @var \PoP\Root\Container\ContainerBuilderFactory
-     */
-    protected $containerBuilderFactory;
-    /**
-     * @var \PoP\Root\Container\SystemContainerBuilderFactory
-     */
-    protected $systemContainerBuilderFactory;
-    /**
-     * @var \PoP\Root\StateManagers\ModuleManagerInterface
-     */
-    protected $moduleManager;
-    /**
-     * @var \PoP\Root\StateManagers\AppStateManagerInterface
-     */
-    protected $appStateManager;
+    protected \PoP\Root\AppLoaderInterface $appLoader;
+    protected HookManagerInterface $hookManager;
+    protected Request $request;
+    protected Response $response;
+    protected ContainerBuilderFactory $containerBuilderFactory;
+    protected SystemContainerBuilderFactory $systemContainerBuilderFactory;
+    protected ModuleManagerInterface $moduleManager;
+    protected AppStateManagerInterface $appStateManager;
     /** @var array<class-string<ModuleInterface>> */
-    protected $moduleClassesToInitialize = [];
-    /**
-     * @var bool
-     */
-    protected $isHTTPRequest;
-    /**
-     * @var string|null
-     */
-    protected $uniqueID;
+    protected array $moduleClassesToInitialize = [];
+    protected bool $isHTTPRequest;
+    protected ?string $uniqueID = null;
     /**
      * @param array<string,mixed> $context
      */
-    public function __construct(?string $name = null, array $context = [])
+    public function __construct(private ?string $name = null, private array $context = [])
     {
-        $this->name = $name;
-        $this->context = $context;
     }
     /**
      * This function must be invoked at the very beginning,
@@ -192,7 +152,7 @@ class AppThread implements \PoP\Root\AppThreadInterface
             // @see vendor/symfony/http-foundation/File/File.php `__construct`
             $_SERVER
         );
-        if (\strncmp($request->headers->get('CONTENT_TYPE', '') ?? '', 'application/x-www-form-urlencoded', \strlen('application/x-www-form-urlencoded')) === 0 && \in_array(\strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
+        if (\str_starts_with($request->headers->get('CONTENT_TYPE', '') ?? '', 'application/x-www-form-urlencoded') && \in_array(\strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
             \parse_str($request->getContent(), $data);
             $request->request = new InputBag($data);
         }
@@ -298,9 +258,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public final function getState($keyOrPath)
+    public final function getState(string|array $keyOrPath) : mixed
     {
         $appStateManager = $this->appStateManager;
         if (\is_array($keyOrPath)) {
@@ -315,9 +274,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public final function hasState($keyOrPath)
+    public final function hasState(string|array $keyOrPath) : mixed
     {
         $appStateManager = $this->appStateManager;
         if (\is_array($keyOrPath)) {
@@ -345,11 +303,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
     }
     /**
      * Shortcut function.
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
      */
-    public final function applyFilters(string $tag, $value, ...$args)
+    public final function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed
     {
         return $this->hookManager->applyFilters($tag, $value, ...$args);
     }
@@ -369,9 +324,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
     }
     /**
      * Shortcut function.
-     * @param mixed ...$args
      */
-    public final function doAction(string $tag, ...$args) : void
+    public final function doAction(string $tag, mixed ...$args) : void
     {
         $this->hookManager->doAction($tag, ...$args);
     }
@@ -379,10 +333,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Equivalent of $_POST[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public final function request(string $key, $default = null)
+    public final function request(string $key, mixed $default = null) : mixed
     {
         /**
          * `get` doesn't support arrays, then use ->all for that case
@@ -391,7 +343,7 @@ class AppThread implements \PoP\Root\AppThreadInterface
          */
         try {
             return $this->request->request->get($key, $default);
-        } catch (BadRequestException $exception) {
+        } catch (BadRequestException) {
             return $this->request->request->all($key);
         }
     }
@@ -399,10 +351,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Equivalent of $_GET[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public final function query(string $key, $default = null)
+    public final function query(string $key, mixed $default = null) : mixed
     {
         /**
          * `get` doesn't support arrays, then use ->all for that case
@@ -420,14 +370,14 @@ class AppThread implements \PoP\Root\AppThreadInterface
             if (\is_string($item)) {
                 // Handle multiple layers of escaping
                 // 1. Remove JSON wrapping quotes if present
-                if (\strncmp($item, '"', \strlen('"')) === 0 && \substr_compare($item, '"', -\strlen('"')) === 0) {
+                if (\str_starts_with($item, '"') && \str_ends_with($item, '"')) {
                     $item = \substr($item, 1, -1);
                 }
                 // 2. Unescape backslashes multiple times to handle all layers
                 $item = \stripslashes(\stripslashes(\stripslashes($item)));
             }
             return $item;
-        } catch (BadRequestException $exception) {
+        } catch (BadRequestException) {
             return $this->request->query->all($key);
         }
     }
@@ -435,10 +385,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Equivalent of $_COOKIES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public final function cookies(string $key, $default = null)
+    public final function cookies(string $key, mixed $default = null) : mixed
     {
         return $this->request->cookies->get($key, $default);
     }
@@ -446,10 +394,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Equivalent of $_FILES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public final function files(string $key, $default = null)
+    public final function files(string $key, mixed $default = null) : mixed
     {
         return $this->request->files->get($key, $default);
     }
@@ -457,10 +403,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Equivalent of $_SERVER[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public final function server(string $key, $default = null)
+    public final function server(string $key, mixed $default = null) : mixed
     {
         return $this->request->server->get($key, $default);
     }
@@ -468,10 +412,8 @@ class AppThread implements \PoP\Root\AppThreadInterface
      * Shortcut function.
      *
      * Mostly equivalent to a subset of $_SERVER
-     * @param mixed $default
-     * @return mixed
      */
-    public final function headers(string $key, $default = null)
+    public final function headers(string $key, mixed $default = null) : mixed
     {
         return $this->request->headers->get($key, $default);
     }

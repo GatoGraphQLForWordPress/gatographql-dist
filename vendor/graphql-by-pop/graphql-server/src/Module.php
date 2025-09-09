@@ -79,13 +79,13 @@ class Module extends AbstractModule
             if (\class_exists(AccessControlModule::class) && App::getModule(AccessControlModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/AccessControl/Overrides');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(CacheControlModule::class) && App::getModule(CacheControlModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/CacheControl/Overrides');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(AccessControlModule::class) && App::getModule(AccessControlModule::class)->isEnabled()) {
@@ -95,10 +95,10 @@ class Module extends AbstractModule
                     if (\class_exists(CacheControlModule::class) && App::getModule(CacheControlModule::class)->isEnabled() && $moduleConfiguration->canSchemaBePrivate()) {
                         $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(CacheControlModule::class, $skipSchemaModuleClasses) || \in_array(AccessControlModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/CacheControl/ConditionalOnModule/AccessControl/ConditionalOnContext/PrivateSchema');
                     }
-                } catch (ComponentNotExistsException $exception) {
+                } catch (ComponentNotExistsException) {
                 }
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

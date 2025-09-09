@@ -16,10 +16,7 @@ use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 /** @internal */
 abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Meta\FieldResolvers\InterfaceType\WithMetaInterfaceTypeFieldResolver|null
-     */
-    private $withMetaInterfaceTypeFieldResolver;
+    private ?WithMetaInterfaceTypeFieldResolver $withMetaInterfaceTypeFieldResolver = null;
     protected final function getWithMetaInterfaceTypeFieldResolver() : WithMetaInterfaceTypeFieldResolver
     {
         if ($this->withMetaInterfaceTypeFieldResolver === null) {

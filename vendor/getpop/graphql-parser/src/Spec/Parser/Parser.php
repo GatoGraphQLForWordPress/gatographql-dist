@@ -36,11 +36,11 @@ use stdClass;
 class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\GraphQLParser\Spec\Parser\ParserInterface
 {
     /** @var OperationInterface[] */
-    protected $operations;
+    protected array $operations;
     /** @var Fragment[] */
-    protected $fragments;
+    protected array $fragments;
     /** @var Variable[] */
-    protected $variables;
+    protected array $variables;
     /**
      * @throws SyntaxErrorParserException
      * @throws FeatureNotSupportedException
@@ -345,9 +345,8 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
     }
     /**
      * @throws SyntaxErrorParserException
-     * @return \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface
      */
-    protected function parseBodyItem(string $type)
+    protected function parseBodyItem(string $type) : FieldInterface|FragmentBondInterface
     {
         $nameToken = $this->eatIdentifierToken();
         $alias = null;
@@ -489,9 +488,8 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
     }
     /**
      * @throws SyntaxErrorParserException
-     * @return \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReference
      */
-    protected function parseValue()
+    protected function parseValue() : InputList|InputObject|Literal|Enum|VariableReference
     {
         switch ($this->lookAhead->getType()) {
             case \PoP\GraphQLParser\Spec\Parser\Token::TYPE_LSQUARE_BRACE:
@@ -514,10 +512,7 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
         }
         throw $this->createUnexpectedException($this->lookAhead);
     }
-    /**
-     * @param string|int|float|bool|null $value
-     */
-    public function createLiteral($value, \PoP\GraphQLParser\Spec\Parser\Location $location) : Literal
+    public function createLiteral(string|int|float|bool|null $value, \PoP\GraphQLParser\Spec\Parser\Location $location) : Literal
     {
         return new Literal($value, $location);
     }

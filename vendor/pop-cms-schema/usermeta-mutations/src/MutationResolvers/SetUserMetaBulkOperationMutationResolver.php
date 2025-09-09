@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class SetUserMetaBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\SetUserMetaMutationResolver|null
-     */
-    private $setUserMetaMutationResolver;
+    private ?\PoPCMSSchema\UserMetaMutations\MutationResolvers\SetUserMetaMutationResolver $setUserMetaMutationResolver = null;
     protected final function getSetUserMetaMutationResolver() : \PoPCMSSchema\UserMetaMutations\MutationResolvers\SetUserMetaMutationResolver
     {
         if ($this->setUserMetaMutationResolver === null) {

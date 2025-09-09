@@ -44,15 +44,6 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
  */
 class StreamedJsonResponse extends StreamedResponse
 {
-    /**
-     * @var mixed[]
-     * @readonly
-     */
-    private $data;
-    /**
-     * @var int
-     */
-    private $encodingOptions = JsonResponse::DEFAULT_ENCODING_OPTIONS;
     private const PLACEHOLDER = '__symfony_json__';
     /**
      * @param mixed[]                        $data            JSON Data containing PHP generators which will be streamed as list of data or a Generator
@@ -60,11 +51,9 @@ class StreamedJsonResponse extends StreamedResponse
      * @param array<string, string|string[]> $headers         An array of HTTP headers
      * @param int                            $encodingOptions Flags for the json_encode() function
      */
-    public function __construct(iterable $data, int $status = 200, array $headers = [], int $encodingOptions = JsonResponse::DEFAULT_ENCODING_OPTIONS)
+    public function __construct(private readonly iterable $data, int $status = 200, array $headers = [], private int $encodingOptions = JsonResponse::DEFAULT_ENCODING_OPTIONS)
     {
-        $this->data = $data;
-        $this->encodingOptions = $encodingOptions;
-        parent::__construct(\Closure::fromCallable([$this, 'stream']), $status, $headers);
+        parent::__construct($this->stream(...), $status, $headers);
         if (!$this->headers->get('Content-Type')) {
             $this->headers->set('Content-Type', 'application/json');
         }
@@ -75,10 +64,7 @@ class StreamedJsonResponse extends StreamedResponse
         $keyEncodingOptions = $jsonEncodingOptions & ~\JSON_NUMERIC_CHECK;
         $this->streamData($this->data, $jsonEncodingOptions, $keyEncodingOptions);
     }
-    /**
-     * @param mixed $data
-     */
-    private function streamData($data, int $jsonEncodingOptions, int $keyEncodingOptions) : void
+    private function streamData(mixed $data, int $jsonEncodingOptions, int $keyEncodingOptions) : void
     {
         if (\is_array($data)) {
             $this->streamArray($data, $jsonEncodingOptions, $keyEncodingOptions);

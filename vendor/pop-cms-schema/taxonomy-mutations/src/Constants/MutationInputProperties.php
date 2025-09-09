@@ -6,10 +6,10 @@ namespace PoPCMSSchema\TaxonomyMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const ID = 'id';
-    public const TAXONOMY = 'taxonomy';
-    public const NAME = 'name';
-    public const SLUG = 'slug';
-    public const PARENT_BY = 'parentBy';
-    public const DESCRIPTION = 'description';
+    public final const ID = 'id';
+    public final const TAXONOMY = 'taxonomy';
+    public final const NAME = 'name';
+    public final const SLUG = 'slug';
+    public final const PARENT_BY = 'parentBy';
+    public final const DESCRIPTION = 'description';
 }

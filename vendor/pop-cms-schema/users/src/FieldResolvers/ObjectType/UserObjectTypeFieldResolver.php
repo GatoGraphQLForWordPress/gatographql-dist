@@ -23,26 +23,11 @@ use PoP\Root\App;
 /** @internal */
 class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
-     */
-    private $emailScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -124,71 +109,43 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'username':
-                return $this->getStringScalarTypeResolver();
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'displayName':
-                return $this->getStringScalarTypeResolver();
-            case 'firstName':
-                return $this->getStringScalarTypeResolver();
-            case 'lastName':
-                return $this->getStringScalarTypeResolver();
-            case 'email':
-                return $this->getEmailScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'websiteURL':
-                return $this->getURLScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'username' => $this->getStringScalarTypeResolver(),
+            'name' => $this->getStringScalarTypeResolver(),
+            'displayName' => $this->getStringScalarTypeResolver(),
+            'firstName' => $this->getStringScalarTypeResolver(),
+            'lastName' => $this->getStringScalarTypeResolver(),
+            'email' => $this->getEmailScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'websiteURL' => $this->getURLScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'username':
-            case 'name':
-            case 'displayName':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'username', 'name', 'displayName' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('URL of the user\'s profile in the website', 'pop-users');
-            case 'urlPath':
-                return $this->__('URL path of the user\'s profile in the website', 'pop-users');
-            case 'slug':
-                return $this->__('Slug of the URL of the user\'s profile in the website', 'pop-users');
-            case 'username':
-                return $this->__('User\'s username handle', 'pop-users');
-            case 'name':
-                return $this->__('Name of the user', 'pop-users');
-            case 'displayName':
-                return $this->__('Name of the user as displayed on the website', 'pop-users');
-            case 'firstName':
-                return $this->__('User\'s first name', 'pop-users');
-            case 'lastName':
-                return $this->__('User\'s last name', 'pop-users');
-            case 'email':
-                return $this->__('User\'s email', 'pop-users');
-            case 'description':
-                return $this->__('Description of the user', 'pop-users');
-            case 'websiteURL':
-                return $this->__('User\'s own website\'s URL', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('URL of the user\'s profile in the website', 'pop-users'),
+            'urlPath' => $this->__('URL path of the user\'s profile in the website', 'pop-users'),
+            'slug' => $this->__('Slug of the URL of the user\'s profile in the website', 'pop-users'),
+            'username' => $this->__('User\'s username handle', 'pop-users'),
+            'name' => $this->__('Name of the user', 'pop-users'),
+            'displayName' => $this->__('Name of the user as displayed on the website', 'pop-users'),
+            'firstName' => $this->__('User\'s first name', 'pop-users'),
+            'lastName' => $this->__('User\'s last name', 'pop-users'),
+            'email' => $this->__('User\'s email', 'pop-users'),
+            'description' => $this->__('Description of the user', 'pop-users'),
+            'websiteURL' => $this->__('User\'s own website\'s URL', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {

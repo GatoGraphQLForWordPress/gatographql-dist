@@ -14,18 +14,9 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements \PoPCMSSchema\CustomPosts\ObjectTypeResolverPickers\CustomPostObjectTypeResolverPickerInterface
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\Registries\CustomPostObjectTypeResolverPickerRegistryInterface|null
-     */
-    private $customPostObjectTypeResolverPickerRegistry;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostObjectTypeResolverPickerRegistryInterface $customPostObjectTypeResolverPickerRegistry = null;
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
@@ -61,10 +52,7 @@ abstract class AbstractGenericCustomPostObjectTypeResolverPicker extends Abstrac
     {
         return $this->getCustomPostTypeAPI()->isInstanceOfCustomPostType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getCustomPostTypeAPI()->customPostExists($objectID);
     }

@@ -12,14 +12,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\UserRoles\Environment::TREAT_USER_ROLE_AS_SENSITIVE_DATA;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function treatUserCapabilityAsSensitiveData() : bool
     {
         $envVariable = \PoPCMSSchema\UserRoles\Environment::TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

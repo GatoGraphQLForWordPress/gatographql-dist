@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostCategoryListObjectTypeFieldResolver extends AbstractPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
     {
         if ($this->taxonomyTermTypeAPI === null) {
@@ -33,14 +30,11 @@ class PostCategoryListObjectTypeFieldResolver extends AbstractPostObjectTypeFiel
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'posts':
-                return $this->__('Posts which contain this category', 'post-categories');
-            case 'postCount':
-                return $this->__('Number of posts which contain this category', 'post-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'posts' => $this->__('Posts which contain this category', 'post-categories'),
+            'postCount' => $this->__('Number of posts which contain this category', 'post-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,mixed>

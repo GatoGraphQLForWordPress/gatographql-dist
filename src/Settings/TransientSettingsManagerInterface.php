@@ -6,15 +6,8 @@ namespace GatoGraphQL\GatoGraphQL\Settings;
 
 interface TransientSettingsManagerInterface
 {
-    /**
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    public function getTransient(string $name, $defaultValue = null);
-    /**
-     * @param mixed $transient
-     */
-    public function storeTransient(string $name, $transient): void;
+    public function getTransient(string $name, mixed $defaultValue = null): mixed;
+    public function storeTransient(string $name, mixed $transient): void;
     /**
      * @param array<string,mixed> $nameTransients Key: name, Value: transient data
      */

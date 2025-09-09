@@ -10,23 +10,20 @@ class DefinitionManager implements \PoP\Definitions\DefinitionManagerInterface
     /**
      * @var array<string,array<string,string>>
      */
-    protected $names = [];
+    protected array $names = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $name_definitions = [];
+    protected array $name_definitions = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $definition_names = [];
+    protected array $definition_names = [];
     /**
      * @var array<string,DefinitionResolverInterface>
      */
-    protected $definition_resolvers = [];
-    /**
-     * @var \PoP\Definitions\DefinitionPersistenceInterface|null
-     */
-    private $definition_persistence;
+    protected array $definition_resolvers = [];
+    private ?\PoP\Definitions\DefinitionPersistenceInterface $definition_persistence = null;
     public function isEnabled() : bool
     {
         return !\PoP\Definitions\Environment::disableDefinitions() && Request::isMangled();

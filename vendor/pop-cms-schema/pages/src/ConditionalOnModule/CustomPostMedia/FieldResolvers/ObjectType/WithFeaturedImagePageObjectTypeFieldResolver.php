@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {

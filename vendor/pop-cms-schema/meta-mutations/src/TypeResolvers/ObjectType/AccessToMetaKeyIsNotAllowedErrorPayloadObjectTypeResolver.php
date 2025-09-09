@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\RelationalTypeDataLoaders\ObjectType\AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader|null
-     */
-    private $accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader;
+    private ?AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader $accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader = null;
     protected final function getAccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader() : AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader
     {
         if ($this->accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeDataLoader === null) {

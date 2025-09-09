@@ -20,12 +20,9 @@ class ExtensionsMenuPage extends AbstractTableMenuPage
     use OpenInModalTriggerMenuPageTrait;
     use ExtensionsMenuPageTrait;
 
-    public const SCREEN_OPTION_NAME = 'gatographql_extensions_per_page';
+    public final const SCREEN_OPTION_NAME = 'gatographql_extensions_per_page';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionDocsMenuPage|null
-     */
-    private $extensionDocsMenuPage;
+    private ?ExtensionDocsMenuPage $extensionDocsMenuPage = null;
 
     final protected function getExtensionDocsMenuPage(): ExtensionDocsMenuPage
     {

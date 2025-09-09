@@ -6,11 +6,7 @@ namespace PoPCMSSchema\SchemaCommons\CMS;
 /** @internal */
 interface CMSServiceInterface
 {
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getOption(string $option, $default = \false);
+    public function getOption(string $option, mixed $default = \false) : mixed;
     public function getHomeURL(string $path = '') : string;
     public function getSiteURL() : string;
 }

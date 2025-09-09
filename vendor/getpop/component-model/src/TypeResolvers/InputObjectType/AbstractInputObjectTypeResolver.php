@@ -26,27 +26,21 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
 {
     use TypeSchemaDefinitionResolverTrait;
     /** @var array<string,array<string,mixed>> */
-    protected $schemaDefinitionForInputFieldCache = [];
+    protected array $schemaDefinitionForInputFieldCache = [];
     /** @var array<string,InputTypeResolverInterface>|null */
-    private $consolidatedInputFieldNameTypeResolversCache;
+    private ?array $consolidatedInputFieldNameTypeResolversCache = null;
     /** @var array<string,?string> */
-    private $consolidatedInputFieldDescriptionCache = [];
+    private array $consolidatedInputFieldDescriptionCache = [];
     /** @var array<string,mixed> */
-    private $consolidatedInputFieldDefaultValueCache = [];
+    private array $consolidatedInputFieldDefaultValueCache = [];
     /** @var array<string,int> */
-    private $consolidatedInputFieldTypeModifiersCache = [];
+    private array $consolidatedInputFieldTypeModifiersCache = [];
     /** @var array<string,array<string,mixed>> */
-    private $consolidatedInputFieldExtensionsCache = [];
+    private array $consolidatedInputFieldExtensionsCache = [];
     /** @var string[]|null */
-    private $consolidatedSensitiveInputFieldNames;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Schema\InputCoercingServiceInterface|null
-     */
-    private $inputCoercingService;
+    private ?array $consolidatedSensitiveInputFieldNames = null;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+    private ?InputCoercingServiceInterface $inputCoercingService = null;
     protected final function getDangerouslyNonSpecificScalarTypeScalarTypeResolver() : DangerouslyNonSpecificScalarTypeScalarTypeResolver
     {
         if ($this->dangerouslyNonSpecificScalarTypeScalarTypeResolver === null) {
@@ -76,10 +70,7 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     {
         return null;
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
         return null;
     }
@@ -98,15 +89,13 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
         if ($this->consolidatedInputFieldNameTypeResolversCache !== null) {
             return $this->consolidatedInputFieldNameTypeResolversCache;
         }
-        $consolidatedInputFieldNameTypeResolvers = App::applyFilters(\PoP\ComponentModel\TypeResolvers\InputObjectType\HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(), $this);
+        $consolidatedInputFieldNameTypeResolvers = App::applyFilters(\PoP\ComponentModel\TypeResolvers\InputObjectType\HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(), $this) ?? [];
         // Maybe exclude the sensitive input fields
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->exposeSensitiveDataInSchema()) {
             $sensitiveInputFieldNames = $this->getConsolidatedSensitiveInputFieldNames();
-            $consolidatedInputFieldNameTypeResolvers = \array_filter($consolidatedInputFieldNameTypeResolvers, function (string $inputFieldName) use($sensitiveInputFieldNames) {
-                return !\in_array($inputFieldName, $sensitiveInputFieldNames);
-            }, \ARRAY_FILTER_USE_KEY);
+            $consolidatedInputFieldNameTypeResolvers = \array_filter($consolidatedInputFieldNameTypeResolvers, fn(string $inputFieldName) => !\in_array($inputFieldName, $sensitiveInputFieldNames), \ARRAY_FILTER_USE_KEY);
         }
         $this->consolidatedInputFieldNameTypeResolversCache = $consolidatedInputFieldNameTypeResolvers;
         return $this->consolidatedInputFieldNameTypeResolversCache;
@@ -120,7 +109,7 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
         if ($this->consolidatedSensitiveInputFieldNames !== null) {
             return $this->consolidatedSensitiveInputFieldNames;
         }
-        $this->consolidatedSensitiveInputFieldNames = App::applyFilters(\PoP\ComponentModel\TypeResolvers\InputObjectType\HookNames::SENSITIVE_INPUT_FIELD_NAMES, $this->getSensitiveInputFieldNames(), $this);
+        $this->consolidatedSensitiveInputFieldNames = App::applyFilters(\PoP\ComponentModel\TypeResolvers\InputObjectType\HookNames::SENSITIVE_INPUT_FIELD_NAMES, $this->getSensitiveInputFieldNames(), $this) ?? [];
         return $this->consolidatedSensitiveInputFieldNames;
     }
     /**
@@ -138,9 +127,8 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     /**
      * Consolidation of the schema inputs. Call this function to read the data
      * instead of the individual functions, since it applies hooks to override/extend.
-     * @return mixed
      */
-    public final function getConsolidatedInputFieldDefaultValue(string $inputFieldName)
+    public final function getConsolidatedInputFieldDefaultValue(string $inputFieldName) : mixed
     {
         if (\array_key_exists($inputFieldName, $this->consolidatedInputFieldDefaultValueCache)) {
             return $this->consolidatedInputFieldDefaultValueCache[$inputFieldName];
@@ -161,10 +149,9 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
         return $this->consolidatedInputFieldTypeModifiersCache[$inputFieldName];
     }
     /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
+     * @phpstan-ignore-next-line
      */
-    public final function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public final function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         if (!$inputValue instanceof stdClass) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_15, [$this->getMaybeNamespacedTypeName(), $inputValue]), $astNode));
@@ -358,9 +345,8 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     }
     /**
      * Custom validations to execute on the input field.
-     * @param mixed $coercedInputFieldValue
      */
-    protected function validateCoercedInputFieldValue(InputTypeResolverInterface $inputFieldTypeResolver, string $inputFieldName, $coercedInputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCoercedInputFieldValue(InputTypeResolverInterface $inputFieldTypeResolver, string $inputFieldName, mixed $coercedInputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
     /**
@@ -369,7 +355,7 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
      * @param string|int|float|bool|stdClass $inputValue the (custom) scalar in any format: itself (eg: an object) or its representation (eg: as a string)
      * @return string[] The deprecation messages
      */
-    public final function getInputValueDeprecationMessages($inputValue) : array
+    public final function getInputValueDeprecationMessages(string|int|float|bool|stdClass $inputValue) : array
     {
         $inputValueDeprecationMessages = [];
         $inputFieldNameTypeResolvers = $this->getConsolidatedInputFieldNameTypeResolvers();
@@ -500,9 +486,8 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     }
     /**
      * Validate constraints on the input field's value
-     * @param mixed $inputFieldValue
      */
-    protected function validateInputFieldValue(string $inputFieldName, $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateInputFieldValue(string $inputFieldName, mixed $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
     /**

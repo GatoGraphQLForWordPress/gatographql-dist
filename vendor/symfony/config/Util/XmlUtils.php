@@ -40,7 +40,7 @@ class XmlUtils
      * @throws InvalidXmlException When parsing of XML with schema or callable produces any errors unrelated to the XML parsing itself
      * @throws \RuntimeException   When DOM extension is missing
      */
-    public static function parse(string $content, $schemaOrCallable = null) : \DOMDocument
+    public static function parse(string $content, string|callable|null $schemaOrCallable = null) : \DOMDocument
     {
         if (!\extension_loaded('dom')) {
             throw new \LogicException('Extension DOM is required.');
@@ -98,7 +98,7 @@ class XmlUtils
      * @throws XmlParsingException       When XML parsing returns any errors
      * @throws \RuntimeException         When DOM extension is missing
      */
-    public static function loadFile(string $file, $schemaOrCallable = null) : \DOMDocument
+    public static function loadFile(string $file, string|callable|null $schemaOrCallable = null) : \DOMDocument
     {
         if (!\is_file($file)) {
             throw new \InvalidArgumentException(\sprintf('Resource "%s" is not a file.', $file));
@@ -133,9 +133,8 @@ class XmlUtils
      *
      * @param \DOMElement $element     A \DOMElement instance
      * @param bool        $checkPrefix Check prefix in an element or an attribute name
-     * @return mixed
      */
-    public static function convertDomElementToArray(\DOMElement $element, bool $checkPrefix = \true)
+    public static function convertDomElementToArray(\DOMElement $element, bool $checkPrefix = \true) : mixed
     {
         $prefix = (string) $element->prefix;
         $empty = \true;
@@ -182,10 +181,8 @@ class XmlUtils
     }
     /**
      * Converts an xml value to a PHP type.
-     * @param string|\Stringable $value
-     * @return mixed
      */
-    public static function phpize($value)
+    public static function phpize(string|\Stringable $value) : mixed
     {
         $value = (string) $value;
         $lowercaseValue = \strtolower($value);

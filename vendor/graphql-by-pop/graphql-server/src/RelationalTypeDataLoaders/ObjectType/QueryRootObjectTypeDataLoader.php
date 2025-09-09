@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDa
 /** @internal */
 class QueryRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\QueryRoot|null
-     */
-    private $queryRoot;
+    private ?QueryRoot $queryRoot = null;
     protected final function getQueryRoot() : QueryRoot
     {
         if ($this->queryRoot === null) {

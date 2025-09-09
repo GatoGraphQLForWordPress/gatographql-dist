@@ -8,14 +8,8 @@ use PoP\Root\Feedback\FeedbackItemResolution;
 /** @internal */
 final class ObjectFieldValuePromiseException extends \PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    private $field;
-    public function __construct(FeedbackItemResolution $feedbackItemResolution, FieldInterface $field)
+    public function __construct(FeedbackItemResolution $feedbackItemResolution, private readonly FieldInterface $field)
     {
-        $this->field = $field;
         parent::__construct($feedbackItemResolution, $field);
     }
     public function getField() : FieldInterface

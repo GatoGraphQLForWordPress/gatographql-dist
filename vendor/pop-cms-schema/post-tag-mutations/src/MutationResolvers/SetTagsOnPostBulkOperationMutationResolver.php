@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class SetTagsOnPostBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver|null
-     */
-    private $setTagsOnPostMutationResolver;
+    private ?\PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver $setTagsOnPostMutationResolver = null;
     protected final function getSetTagsOnPostMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver
     {
         if ($this->setTagsOnPostMutationResolver === null) {

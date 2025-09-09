@@ -28,9 +28,7 @@ abstract class AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet extend
             return;
         }
         $hookName = ModuleConfigurationHelpers::getHookName(Module::class, Environment::QUERYABLE_CUSTOMPOST_TYPES);
-        App::addFilter($hookName, function (array $queryableCustomPostTypes) {
-            return \array_values(\array_unique(\array_merge($queryableCustomPostTypes, [$this->getCustomPostType()])));
-        });
+        App::addFilter($hookName, fn(array $queryableCustomPostTypes) => \array_values(\array_unique([...$queryableCustomPostTypes, $this->getCustomPostType()])));
     }
     protected abstract function getCustomPostType() : string;
 }

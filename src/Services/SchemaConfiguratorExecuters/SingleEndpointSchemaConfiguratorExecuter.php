@@ -15,26 +15,14 @@ use GraphQLByPoP\GraphQLEndpointForWP\EndpointHandlers\GraphQLEndpointHandler;
 
 class SingleEndpointSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\SchemaConfigurators\SingleEndpointSchemaConfigurator|null
-     */
-    private $singleEndpointSchemaConfigurator;
-    /**
-     * @var \GraphQLByPoP\GraphQLEndpointForWP\EndpointHandlers\GraphQLEndpointHandler|null
-     */
-    private $graphQLEndpointHandler;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
-     */
-    private $endpointBlockHelpers;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    private ?SingleEndpointSchemaConfigurator $singleEndpointSchemaConfigurator = null;
+    private ?GraphQLEndpointHandler $graphQLEndpointHandler = null;
+    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
 
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
     final protected function getSingleEndpointSchemaConfigurator(): SingleEndpointSchemaConfigurator
     {

@@ -49,59 +49,41 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     use CheckDangerouslyNonSpecificScalarTypeFieldOrFieldDirectiveResolverTrait;
     use FieldOrDirectiveSchemaDefinitionResolverTrait;
     /** @var array<string,array<string,mixed>> */
-    protected $schemaDefinitionForFieldCache = [];
+    protected array $schemaDefinitionForFieldCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldDescriptionCache = [];
+    protected array $consolidatedFieldDescriptionCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $consolidatedFieldExtensionsCache = [];
+    protected array $consolidatedFieldExtensionsCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldDeprecationMessageCache = [];
+    protected array $consolidatedFieldDeprecationMessageCache = [];
     /** @var array<string,array<string,InputTypeResolverInterface>> */
-    protected $consolidatedFieldArgNameTypeResolversCache = [];
+    protected array $consolidatedFieldArgNameTypeResolversCache = [];
     /** @var array<string,string[]> */
-    protected $consolidatedSensitiveFieldArgNamesCache = [];
+    protected array $consolidatedSensitiveFieldArgNamesCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldArgDescriptionCache = [];
+    protected array $consolidatedFieldArgDescriptionCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldArgDeprecationMessageCache = [];
+    protected array $consolidatedFieldArgDeprecationMessageCache = [];
     /** @var array<string,mixed> */
-    protected $consolidatedFieldArgDefaultValueCache = [];
+    protected array $consolidatedFieldArgDefaultValueCache = [];
     /** @var array<string,int> */
-    protected $consolidatedFieldArgTypeModifiersCache = [];
+    protected array $consolidatedFieldArgTypeModifiersCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $schemaFieldArgsCache = [];
+    protected array $schemaFieldArgsCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $schemaFieldArgExtensionsCache = [];
+    protected array $schemaFieldArgExtensionsCache = [];
     /**
      * @var array<string,ObjectTypeFieldSchemaDefinitionResolverInterface>
      */
-    protected $interfaceTypeFieldSchemaDefinitionResolverCache = [];
+    protected array $interfaceTypeFieldSchemaDefinitionResolverCache = [];
     /** @var SplObjectStorage<FieldInterface,FieldDataAccessorInterface> */
-    protected $fieldFieldDataAccessorCache;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\SemverHelperServiceInterface|null
-     */
-    private $semverHelperService;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Versioning\VersioningServiceInterface|null
-     */
-    private $versioningService;
+    protected SplObjectStorage $fieldFieldDataAccessorCache;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?SemverHelperServiceInterface $semverHelperService = null;
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+    private ?VersioningServiceInterface $versioningService = null;
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -239,12 +221,12 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
      * By default, the resolver is this same object, unless function
      * `getInterfaceTypeFieldSchemaDefinitionResolver` is
      * implemented
-     * @return \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldSchemaDefinitionResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldSchemaDefinitionResolverInterface
      */
-    protected function doGetSchemaDefinitionResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName)
+    protected function doGetSchemaDefinitionResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldSchemaDefinitionResolverInterface|InterfaceTypeFieldSchemaDefinitionResolverInterface
     {
         if ($interfaceTypeFieldSchemaDefinitionResolver = $this->getInterfaceTypeFieldSchemaDefinitionResolver($objectTypeResolver, $fieldName)) {
             /** @var InterfaceTypeFieldSchemaDefinitionResolverInterface */
+            // @phpstan-ignore-next-line
             return $interfaceTypeFieldSchemaDefinitionResolver;
         }
         return $this;
@@ -287,7 +269,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->consolidatedFieldDescriptionCache)) {
             return $this->consolidatedFieldDescriptionCache[$cacheKey];
         }
@@ -301,7 +283,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedFieldDeprecationMessage(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->consolidatedFieldDeprecationMessageCache)) {
             return $this->consolidatedFieldDeprecationMessageCache[$cacheKey];
         }
@@ -342,10 +324,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
         }
         return null;
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($objectTypeResolver, $fieldName);
         if ($schemaDefinitionResolver !== $this) {
@@ -368,7 +347,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->consolidatedFieldArgNameTypeResolversCache)) {
             return $this->consolidatedFieldArgNameTypeResolversCache[$cacheKey];
         }
@@ -382,9 +361,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->exposeSensitiveDataInSchema()) {
             $sensitiveFieldArgNames = $this->getConsolidatedSensitiveFieldArgNames($objectTypeResolver, $fieldName);
-            $consolidatedFieldArgNameTypeResolvers = \array_filter($consolidatedFieldArgNameTypeResolvers, function (string $fieldArgName) use($sensitiveFieldArgNames) {
-                return !\in_array($fieldArgName, $sensitiveFieldArgNames);
-            }, \ARRAY_FILTER_USE_KEY);
+            $consolidatedFieldArgNameTypeResolvers = \array_filter($consolidatedFieldArgNameTypeResolvers, fn(string $fieldArgName) => !\in_array($fieldArgName, $sensitiveFieldArgNames), \ARRAY_FILTER_USE_KEY);
         }
         /**
          * Add the version constraint (if enabled)
@@ -415,7 +392,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedSensitiveFieldArgNames(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->consolidatedSensitiveFieldArgNamesCache)) {
             return $this->consolidatedSensitiveFieldArgNamesCache[$cacheKey];
         }
@@ -429,7 +406,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName . '(' . $fieldArgName . ':)';
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName . '(' . $fieldArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedFieldArgDescriptionCache)) {
             return $this->consolidatedFieldArgDescriptionCache[$cacheKey];
         }
@@ -439,12 +416,11 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     /**
      * Consolidation of the schema field arguments. Call this function to read the data
      * instead of the individual functions, since it applies hooks to override/extend.
-     * @return mixed
      */
-    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName . '(' . $fieldArgName . ':)';
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName . '(' . $fieldArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedFieldArgDefaultValueCache)) {
             return $this->consolidatedFieldArgDefaultValueCache[$cacheKey];
         }
@@ -458,7 +434,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public function getConsolidatedFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName . '(' . $fieldArgName . ':)';
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName . '(' . $fieldArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedFieldArgTypeModifiersCache)) {
             return $this->consolidatedFieldArgTypeModifiersCache[$cacheKey];
         }
@@ -474,7 +450,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     public final function getFieldArgsSchemaDefinition(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->schemaFieldArgsCache)) {
             return $this->schemaFieldArgsCache[$cacheKey];
         }
@@ -505,7 +481,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     protected final function getConsolidatedFieldArgExtensionsSchemaDefinition(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName . '(' . $fieldArgName . ':)';
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName . '(' . $fieldArgName . ':)';
         if (\array_key_exists($cacheKey, $this->schemaFieldArgExtensionsCache)) {
             return $this->schemaFieldArgExtensionsCache[$cacheKey];
         }
@@ -531,9 +507,8 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     /**
      * Validate the constraints for a field argument
      * @param array<string,mixed> $fieldArgs
-     * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, mixed $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($objectTypeResolver, $fieldName);
         if ($schemaDefinitionResolver !== $this) {
@@ -727,7 +702,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     protected final function getConsolidatedFieldExtensionsSchemaDefinition(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($objectTypeResolver) . '.' . $fieldName;
+        $cacheKey = $objectTypeResolver::class . '.' . $fieldName;
         if (\array_key_exists($cacheKey, $this->consolidatedFieldExtensionsCache)) {
             return $this->consolidatedFieldExtensionsCache[$cacheKey];
         }
@@ -820,10 +795,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
     {
         return \false;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $this->addValueResolutionFeedback($objectTypeResolver, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         // If a MutationResolver is declared, let it resolve the value
@@ -837,10 +809,7 @@ abstract class AbstractObjectTypeFieldResolver extends AbstractFieldResolver imp
         }
         return null;
     }
-    /**
-     * @return mixed
-     */
-    private function executeMutation(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    private function executeMutation(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var MutationResolverInterface */
         $mutationResolver = $this->getFieldMutationResolver($objectTypeResolver, $fieldDataAccessor->getFieldName());

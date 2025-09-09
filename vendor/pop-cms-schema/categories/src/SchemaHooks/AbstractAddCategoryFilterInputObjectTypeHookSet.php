@@ -14,8 +14,8 @@ abstract class AbstractAddCategoryFilterInputObjectTypeHookSet extends AbstractH
 {
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
@@ -35,11 +35,9 @@ abstract class AbstractAddCategoryFilterInputObjectTypeHookSet extends AbstractH
         if (!\is_a($inputObjectTypeResolver, $this->getInputObjectTypeResolverClass(), \true)) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'categories':
-                return $this->__('Filter by categories', 'categories');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'categories' => $this->__('Filter by categories', 'categories'),
+            default => $inputFieldDescription,
+        };
     }
 }

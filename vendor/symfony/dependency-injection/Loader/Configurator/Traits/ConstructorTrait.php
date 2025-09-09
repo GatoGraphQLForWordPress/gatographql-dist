@@ -18,7 +18,7 @@ trait ConstructorTrait
      *
      * @return $this
      */
-    public final function constructor(string $constructor)
+    public final function constructor(string $constructor) : static
     {
         $this->definition->setFactory([null, $constructor]);
         return $this;

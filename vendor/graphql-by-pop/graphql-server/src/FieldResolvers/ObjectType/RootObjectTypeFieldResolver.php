@@ -22,22 +22,10 @@ use PoP\Root\App;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaObjectTypeResolver|null
-     */
-    private $schemaObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
-     */
-    private $typeObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaObjectTypeDataLoader|null
-     */
-    private $schemaObjectTypeDataLoader;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?SchemaObjectTypeResolver $schemaObjectTypeResolver = null;
+    private ?TypeObjectTypeResolver $typeObjectTypeResolver = null;
+    private ?SchemaObjectTypeDataLoader $schemaObjectTypeDataLoader = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getSchemaObjectTypeResolver() : SchemaObjectTypeResolver
     {
         if ($this->schemaObjectTypeResolver === null) {
@@ -93,59 +81,44 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case '__schema':
-            case '__type':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '__schema', '__type' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case '__schema':
-                return $this->__('The GraphQL schema, exposing what fields can be queried', 'graphql-server');
-            case '__type':
-                return $this->__('Obtain a specific type from the schema', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '__schema' => $this->__('The GraphQL schema, exposing what fields can be queried', 'graphql-server'),
+            '__type' => $this->__('Obtain a specific type from the schema', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case '__type':
-                return ['name' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '__type' => ['name' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['__type' => 'name']:
-                return $this->__('The name of the type', 'graphql-server');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['__type' => 'name'] => $this->__('The name of the type', 'graphql-server'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['__type' => 'name']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['__type' => 'name'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $root = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -175,13 +148,10 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case '__schema':
-                return $this->getSchemaObjectTypeResolver();
-            case '__type':
-                return $this->getTypeObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '__schema' => $this->getSchemaObjectTypeResolver(),
+            '__type' => $this->getTypeObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

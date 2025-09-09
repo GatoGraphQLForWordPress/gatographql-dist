@@ -12,10 +12,8 @@ class CommentMetaTypeAPI extends AbstractCommentMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $commentObjectOrID
-     * @return mixed
      */
-    protected function doGetCommentMeta($commentObjectOrID, string $key, bool $single = false)
+    protected function doGetCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = false): mixed
     {
         if (is_object($commentObjectOrID)) {
             /** @var WP_Comment */
@@ -36,9 +34,8 @@ class CommentMetaTypeAPI extends AbstractCommentMetaTypeAPI
 
     /**
      * @return array<string,mixed>
-     * @param string|int|object $commentObjectOrID
      */
-    public function getAllCommentMeta($commentObjectOrID): array
+    public function getAllCommentMeta(string|int|object $commentObjectOrID): array
     {
         if (is_object($commentObjectOrID)) {
             /** @var WP_Comment */
@@ -55,7 +52,7 @@ class CommentMetaTypeAPI extends AbstractCommentMetaTypeAPI
              */
             function (array $items): array {
                 return array_map(
-                    \Closure::fromCallable('maybe_unserialize'),
+                    \maybe_unserialize(...),
                     $items
                 );
             },
@@ -65,9 +62,8 @@ class CommentMetaTypeAPI extends AbstractCommentMetaTypeAPI
 
     /**
      * @return string[]
-     * @param string|int|object $commentObjectOrID
      */
-    public function getCommentMetaKeys($commentObjectOrID): array
+    public function getCommentMetaKeys(string|int|object $commentObjectOrID): array
     {
         return array_keys($this->getAllCommentMeta($commentObjectOrID));
     }

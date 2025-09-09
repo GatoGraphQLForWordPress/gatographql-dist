@@ -10,7 +10,7 @@ class OperationDependencyDefinerDirectiveRegistry implements \PoP\ComponentModel
     /**
      * @var array<string,OperationDependencyDefinerFieldDirectiveResolverInterface>
      */
-    protected $operationDependencyDefinerFieldDirectiveResolvers = [];
+    protected array $operationDependencyDefinerFieldDirectiveResolvers = [];
     public function addOperationDependencyDefinerFieldDirectiveResolver(OperationDependencyDefinerFieldDirectiveResolverInterface $operationDependencyDefinerFieldDirectiveResolver) : void
     {
         $this->operationDependencyDefinerFieldDirectiveResolvers[$operationDependencyDefinerFieldDirectiveResolver->getDirectiveName()] = $operationDependencyDefinerFieldDirectiveResolver;

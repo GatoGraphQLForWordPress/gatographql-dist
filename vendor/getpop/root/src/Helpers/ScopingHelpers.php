@@ -62,7 +62,7 @@ class ScopingHelpers
     }
     protected static function isNamespaceScoped(string $prefix, string $class) : bool
     {
-        return \strncmp($class, $prefix, \strlen($prefix)) === 0;
+        return \str_starts_with($class, $prefix);
     }
     public static function isNamespaceExternallyScoped(string $class) : bool
     {

@@ -17,21 +17,24 @@ class CategoryMetaTypeMutationAPI extends TaxonomyMetaTypeMutationAPI implements
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws CategoryTermMetaCRUDMutationException If there was an error
-     * @param string|int $taxonomyTermID
      */
-    public function setCategoryTermMeta($taxonomyTermID, array $entries): void
-    {
+    public function setCategoryTermMeta(
+        string|int $taxonomyTermID,
+        array $entries,
+    ): void {
         $this->setTaxonomyTermMeta($taxonomyTermID, $entries);
     }
 
     /**
      * @return int The term_id of the newly created term
      * @throws CategoryTermMetaCRUDMutationException If there was an error
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
      */
-    public function addCategoryTermMeta($taxonomyTermID, string $key, $value, bool $single = false): int
-    {
+    public function addCategoryTermMeta(
+        string|int $taxonomyTermID,
+        string $key,
+        mixed $value,
+        bool $single = false,
+    ): int {
         return $this->addTaxonomyTermMeta($taxonomyTermID, $key, $value, $single);
     }
 
@@ -46,21 +49,21 @@ class CategoryMetaTypeMutationAPI extends TaxonomyMetaTypeMutationAPI implements
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws CategoryTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    public function updateCategoryTermMeta($taxonomyTermID, string $key, $value, $prevValue = null)
-    {
+    public function updateCategoryTermMeta(
+        string|int $taxonomyTermID,
+        string $key,
+        mixed $value,
+        mixed $prevValue = null,
+    ): string|int|bool {
         return $this->updateTaxonomyTermMeta($taxonomyTermID, $key, $value, $prevValue);
     }
 
-    /**
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
-     */
-    public function deleteCategoryTermMeta($taxonomyTermID, string $key, $value = null): void
-    {
+    public function deleteCategoryTermMeta(
+        string|int $taxonomyTermID,
+        string $key,
+        mixed $value = null,
+    ): void {
         $this->deleteTaxonomyTermMeta($taxonomyTermID, $key, $value);
     }
 }

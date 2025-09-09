@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GatoGraphQL\GatoGraphQL\Hooks;
 
 use GatoGraphQL\GatoGraphQL\App;
+use GatoGraphQL\GatoGraphQL\AppHelpers;
+use GatoGraphQL\GatoGraphQL\ContainerLess\BeforeAppIsLoadedStaticHelpers;
 use GatoGraphQL\GatoGraphQL\FeedbackItemProviders\ErrorFeedbackItemProvider;
 use GatoGraphQL\GatoGraphQL\Request\PrematureRequestServiceInterface;
 use PoP\ComponentModel\Engine\EngineHookNames;
@@ -31,10 +33,7 @@ class ApplicationPasswordAuthorizationHookSet extends AbstractHookSet
 {
     use WPErrorDataProcessorTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Request\PrematureRequestServiceInterface|null
-     */
-    private $prematureRequestService;
+    private ?PrematureRequestServiceInterface $prematureRequestService = null;
 
     final protected function getPrematureRequestService(): PrematureRequestServiceInterface
     {
@@ -46,18 +45,31 @@ class ApplicationPasswordAuthorizationHookSet extends AbstractHookSet
         return $this->prematureRequestService;
     }
 
+    public function isServiceEnabled(): bool
+    {
+        if (!AppHelpers::isMainAppThread()) {
+            return false;
+        }
+        return parent::isServiceEnabled();
+    }
+
     protected function init(): void
     {
         add_filter(
             'application_password_is_api_request',
-            \Closure::fromCallable([$this, 'isGraphQLAPIRequest']),
+            $this->isGraphQLAPIRequest(...),
             PHP_INT_MAX // Execute last
         );
 
         add_action(
             'application_password_failed_authentication',
-            \Closure::fromCallable([$this, 'handleError'])
+            $this->handleError(...)
         );
+
+        /**
+         * As we've now loaded the proper logic, we can remove the workaround hooks
+         */
+        BeforeAppIsLoadedStaticHelpers::removeApplicationPasswordHooks();
     }
 
     /**

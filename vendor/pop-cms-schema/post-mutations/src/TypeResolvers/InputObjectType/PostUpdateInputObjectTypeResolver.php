@@ -4,14 +4,11 @@ declare (strict_types=1);
 namespace PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType;
 
 use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostContentAsOneofInputObjectTypeResolver;
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostUpdateInputObjectTypeResolver;
 /** @internal */
-class PostUpdateInputObjectTypeResolver extends CustomPostUpdateInputObjectTypeResolver implements \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\UpdatePostInputObjectTypeResolverInterface
+class PostUpdateInputObjectTypeResolver extends AbstractCustomPostUpdateInputObjectTypeResolver implements \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\UpdatePostInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver|null
-     */
-    private $postContentAsOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver $postContentAsOneofInputObjectTypeResolver = null;
     protected final function getPostContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostContentAsOneofInputObjectTypeResolver
     {
         if ($this->postContentAsOneofInputObjectTypeResolver === null) {
@@ -24,6 +21,10 @@ class PostUpdateInputObjectTypeResolver extends CustomPostUpdateInputObjectTypeR
     public function getTypeName() : string
     {
         return 'PostUpdateInput';
+    }
+    protected function addCustomPostParentInputField() : bool
+    {
+        return \false;
     }
     protected function getContentAsOneofInputObjectTypeResolver() : AbstractCustomPostContentAsOneofInputObjectTypeResolver
     {

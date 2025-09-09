@@ -23,22 +23,10 @@ use PoP\Root\App;
 /** @internal */
 class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserAvatars\TypeAPIs\UserAvatarTypeAPIInterface|null
-     */
-    private $userAvatarTypeAPI;
-    /**
-     * @var \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface|null
-     */
-    private $userAvatarRuntimeRegistry;
-    /**
-     * @var \PoPCMSSchema\UserAvatars\TypeResolvers\ObjectType\UserAvatarObjectTypeResolver|null
-     */
-    private $userAvatarObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
+    private ?UserAvatarTypeAPIInterface $userAvatarTypeAPI = null;
+    private ?UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry = null;
+    private ?UserAvatarObjectTypeResolver $userAvatarObjectTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     protected final function getUserAvatarTypeAPI() : UserAvatarTypeAPIInterface
     {
         if ($this->userAvatarTypeAPI === null) {
@@ -91,61 +79,45 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'avatar':
-                return $this->__('User avatar', 'user-avatars');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'avatar' => $this->__('User avatar', 'user-avatars'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'avatar':
-                return ['size' => $this->getIntScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'avatar' => ['size' => $this->getIntScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['avatar' => 'size']:
-                return $this->__('Avatar size', 'user-avatars');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['avatar' => 'size'] => $this->__('Avatar size', 'user-avatars'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        switch ([$fieldName => $fieldArgName]) {
-            case ['avatar' => 'size']:
-                return $moduleConfiguration->getUserAvatarDefaultSize();
-            default:
-                return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['avatar' => 'size'] => $moduleConfiguration->getUserAvatarDefaultSize(),
+            default => parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['avatar' => 'size']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['avatar' => 'size'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $user = $object;
         /** @var ModuleConfiguration */
@@ -176,11 +148,9 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'avatar':
-                return $this->getUserAvatarObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'avatar' => $this->getUserAvatarObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

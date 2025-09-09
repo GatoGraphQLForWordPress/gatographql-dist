@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CategoryTermDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CategoryMutations\RelationalTypeDataLoaders\ObjectType\CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $categoryDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader $categoryDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getCategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader() : CategoryTermDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->categoryDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

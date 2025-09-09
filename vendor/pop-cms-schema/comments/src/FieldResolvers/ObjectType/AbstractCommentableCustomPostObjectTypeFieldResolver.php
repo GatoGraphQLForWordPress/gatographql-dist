@@ -18,14 +18,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\LeafField;
 abstract class AbstractCommentableCustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use \PoPCMSSchema\Comments\FieldResolvers\ObjectType\MaybeCommentableCustomPostObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Comments\FieldResolvers\InterfaceType\CommentableInterfaceTypeFieldResolver|null
-     */
-    private $commentableInterfaceTypeFieldResolver;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?CommentableInterfaceTypeFieldResolver $commentableInterfaceTypeFieldResolver = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -58,10 +52,7 @@ abstract class AbstractCommentableCustomPostObjectTypeFieldResolver extends Abst
     {
         return ['areCommentsOpen', 'hasComments', 'commentCount', 'comments'];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPost = $object;
         switch ($fieldDataAccessor->getFieldName()) {

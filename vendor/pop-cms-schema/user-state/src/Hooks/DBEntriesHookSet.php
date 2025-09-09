@@ -11,10 +11,7 @@ use PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver;
 /** @internal */
 class DBEntriesHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\UserState\FieldResolvers\ObjectType\ObjectTypeFieldResolver|null
-     */
-    private $globalObjectTypeFieldResolver;
+    private ?ObjectTypeFieldResolver $globalObjectTypeFieldResolver = null;
     protected final function getObjectTypeFieldResolver() : ObjectTypeFieldResolver
     {
         if ($this->globalObjectTypeFieldResolver === null) {
@@ -26,7 +23,7 @@ class DBEntriesHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES, \Closure::fromCallable([$this, 'moveEntriesUnderDBName']), 10, 1);
+        App::addFilter(DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES, $this->moveEntriesUnderDBName(...), 10, 1);
     }
     /**
      * @param array<string,string[]> $dbNameToFieldNames

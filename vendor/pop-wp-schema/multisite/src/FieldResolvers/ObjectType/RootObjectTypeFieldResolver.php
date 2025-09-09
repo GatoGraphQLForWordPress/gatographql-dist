@@ -20,18 +20,9 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPWPSchema\Multisite\TypeResolvers\ObjectType\NetworkSiteObjectTypeResolver|null
-     */
-    private $networkSiteObjectTypeResolver;
-    /**
-     * @var \PoPWPSchema\Multisite\TypeAPIs\MultisiteTypeAPIInterface|null
-     */
-    private $multisiteTypeAPI;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?NetworkSiteObjectTypeResolver $networkSiteObjectTypeResolver = null;
+    private ?MultisiteTypeAPIInterface $multisiteTypeAPI = null;
 
     final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
@@ -84,55 +75,46 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'networkSites':
-                return $this->__('Sites in the WordPress multisite network', 'multisite');
-            case 'networkSiteCount':
-                return $this->__('Number of sites in the WordPress multisite network', 'multisite');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'networkSites' => $this->__('Sites in the WordPress multisite network', 'multisite'),
+            'networkSiteCount' => $this->__('Number of sites in the WordPress multisite network', 'multisite'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'networkSites':
-                return $this->getNetworkSiteObjectTypeResolver();
-            case 'networkSiteCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'networkSites' => $this->getNetworkSiteObjectTypeResolver(),
+            'networkSiteCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'networkSites':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case 'networkSiteCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'networkSites' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'networkSiteCount' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'networkSites':
                 /** @var int[] */
                 $siteIDs = $this->getMultisiteTypeAPI()->getNetworkSites([], [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
                 return $siteIDs;
             case 'networkSiteCount':
-                /** @var int[] */
-                $siteIDs = $this->getMultisiteTypeAPI()->getNetworkSiteCount([], [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
-                return $siteIDs;
+                return $this->getMultisiteTypeAPI()->getNetworkSiteCount([], [QueryOptions::RETURN_TYPE => ReturnTypes::IDS]);
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -140,8 +122,10 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

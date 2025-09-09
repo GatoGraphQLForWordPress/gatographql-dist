@@ -10,10 +10,7 @@ use PoPCMSSchema\TagMetaMutations\SchemaHooks\AbstractTagMutationResolverHookSet
 class PostTagMutationResolverHookSet extends AbstractTagMutationResolverHookSet
 {
     use \PoPCMSSchema\PostTagMetaMutations\SchemaHooks\PostTagMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {

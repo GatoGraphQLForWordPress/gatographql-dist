@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdateGenericCategoryTermInputObjectTypeResolver extends AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver implements \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\UpdateGenericCategoryTermInputObjectTypeResolverInterface, \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CreateGenericCategoryTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
+    private ?CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getCategoryTaxonomyEnumStringScalarTypeResolver() : CategoryTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->categoryTaxonomyEnumStringScalarTypeResolver === null) {
@@ -26,10 +23,7 @@ abstract class AbstractCreateOrUpdateGenericCategoryTermInputObjectTypeResolver 
     {
         return $this->getCategoryTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getTaxonomyInputFieldDefaultValue()
+    protected function getTaxonomyInputFieldDefaultValue() : mixed
     {
         return null;
     }

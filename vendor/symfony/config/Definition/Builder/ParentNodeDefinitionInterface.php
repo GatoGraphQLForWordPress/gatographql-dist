@@ -37,7 +37,7 @@ interface ParentNodeDefinitionInterface extends BuilderAwareInterface
      *
      * @return $this
      */
-    public function append(NodeDefinition $node);
+    public function append(NodeDefinition $node) : static;
     /**
      * Gets the child node definitions.
      *

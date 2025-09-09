@@ -46,90 +46,27 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\RootDeleteGenericTagTermMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeleteGenericTagTermMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\RootUpdateGenericTagTermMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdateGenericTagTermMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\RootCreateGenericTagTermMutationPayloadObjectTypeResolver|null
-     */
-    private $rootCreateGenericTagTermMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\CreateGenericTagTermMutationResolver|null
-     */
-    private $createGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\CreateGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $createGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\DeleteGenericTagTermMutationResolver|null
-     */
-    private $deleteGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\DeleteGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $deleteGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\UpdateGenericTagTermMutationResolver|null
-     */
-    private $updateGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\UpdateGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $updateGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableDeleteGenericTagTermMutationResolver|null
-     */
-    private $payloadableDeleteGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableDeleteGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $payloadableDeleteGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableUpdateGenericTagTermMutationResolver|null
-     */
-    private $payloadableUpdateGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableUpdateGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdateGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableCreateGenericTagTermMutationResolver|null
-     */
-    private $payloadableCreateGenericTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableCreateGenericTagTermBulkOperationMutationResolver|null
-     */
-    private $payloadableCreateGenericTagTermBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\RootDeleteGenericTagTermInputObjectTypeResolver|null
-     */
-    private $rootDeleteGenericTagTermInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\RootUpdateGenericTagTermInputObjectTypeResolver|null
-     */
-    private $rootUpdateGenericTagTermInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\RootCreateGenericTagTermInputObjectTypeResolver|null
-     */
-    private $rootCreateGenericTagTermInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?RootDeleteGenericTagTermMutationPayloadObjectTypeResolver $rootDeleteGenericTagTermMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdateGenericTagTermMutationPayloadObjectTypeResolver $rootUpdateGenericTagTermMutationPayloadObjectTypeResolver = null;
+    private ?RootCreateGenericTagTermMutationPayloadObjectTypeResolver $rootCreateGenericTagTermMutationPayloadObjectTypeResolver = null;
+    private ?CreateGenericTagTermMutationResolver $createGenericTagTermMutationResolver = null;
+    private ?CreateGenericTagTermBulkOperationMutationResolver $createGenericTagTermBulkOperationMutationResolver = null;
+    private ?DeleteGenericTagTermMutationResolver $deleteGenericTagTermMutationResolver = null;
+    private ?DeleteGenericTagTermBulkOperationMutationResolver $deleteGenericTagTermBulkOperationMutationResolver = null;
+    private ?UpdateGenericTagTermMutationResolver $updateGenericTagTermMutationResolver = null;
+    private ?UpdateGenericTagTermBulkOperationMutationResolver $updateGenericTagTermBulkOperationMutationResolver = null;
+    private ?PayloadableDeleteGenericTagTermMutationResolver $payloadableDeleteGenericTagTermMutationResolver = null;
+    private ?PayloadableDeleteGenericTagTermBulkOperationMutationResolver $payloadableDeleteGenericTagTermBulkOperationMutationResolver = null;
+    private ?PayloadableUpdateGenericTagTermMutationResolver $payloadableUpdateGenericTagTermMutationResolver = null;
+    private ?PayloadableUpdateGenericTagTermBulkOperationMutationResolver $payloadableUpdateGenericTagTermBulkOperationMutationResolver = null;
+    private ?PayloadableCreateGenericTagTermMutationResolver $payloadableCreateGenericTagTermMutationResolver = null;
+    private ?PayloadableCreateGenericTagTermBulkOperationMutationResolver $payloadableCreateGenericTagTermBulkOperationMutationResolver = null;
+    private ?RootDeleteGenericTagTermInputObjectTypeResolver $rootDeleteGenericTagTermInputObjectTypeResolver = null;
+    private ?RootUpdateGenericTagTermInputObjectTypeResolver $rootUpdateGenericTagTermInputObjectTypeResolver = null;
+    private ?RootCreateGenericTagTermInputObjectTypeResolver $rootCreateGenericTagTermInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -341,28 +278,18 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'createTag':
-                return $this->__('Create a tag', 'tag-mutations');
-            case 'createTags':
-                return $this->__('Create tags', 'tag-mutations');
-            case 'updateTag':
-                return $this->__('Update a tag', 'tag-mutations');
-            case 'updateTags':
-                return $this->__('Update tags', 'tag-mutations');
-            case 'deleteTag':
-                return $this->__('Delete a tag', 'tag-mutations');
-            case 'deleteTags':
-                return $this->__('Delete tags', 'tag-mutations');
-            case 'createTagMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `createTag` mutation', 'tag-mutations');
-            case 'updateTagMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updateTag` mutation', 'tag-mutations');
-            case 'deleteTagMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `deleteTag` mutation', 'tag-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createTag' => $this->__('Create a tag', 'tag-mutations'),
+            'createTags' => $this->__('Create tags', 'tag-mutations'),
+            'updateTag' => $this->__('Update a tag', 'tag-mutations'),
+            'updateTags' => $this->__('Update tags', 'tag-mutations'),
+            'deleteTag' => $this->__('Delete a tag', 'tag-mutations'),
+            'deleteTags' => $this->__('Delete tags', 'tag-mutations'),
+            'createTagMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `createTag` mutation', 'tag-mutations'),
+            'updateTagMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updateTag` mutation', 'tag-mutations'),
+            'deleteTagMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `deleteTag` mutation', 'tag-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -370,60 +297,36 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
         if (!$usePayloadableTagMutations) {
-            switch ($fieldName) {
-                case 'createTag':
-                case 'updateTag':
-                case 'deleteTag':
-                    return SchemaTypeModifiers::NONE;
-                case 'createTags':
-                case 'updateTags':
-                case 'deleteTags':
-                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createTag', 'updateTag', 'deleteTag' => SchemaTypeModifiers::NONE,
+                'createTags', 'updateTags', 'deleteTags' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['createTagMutationPayloadObjects', 'updateTagMutationPayloadObjects', 'deleteTagMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'createTag':
-            case 'updateTag':
-            case 'deleteTag':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'createTags':
-            case 'updateTags':
-            case 'deleteTags':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createTag', 'updateTag', 'deleteTag' => SchemaTypeModifiers::NON_NULLABLE,
+            'createTags', 'updateTags', 'deleteTags' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'createTag':
-                return ['input' => $this->getRootCreateGenericTagTermInputObjectTypeResolver()];
-            case 'createTags':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreateGenericTagTermInputObjectTypeResolver());
-            case 'updateTag':
-                return ['input' => $this->getRootUpdateGenericTagTermInputObjectTypeResolver()];
-            case 'updateTags':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateGenericTagTermInputObjectTypeResolver());
-            case 'deleteTag':
-                return ['input' => $this->getRootDeleteGenericTagTermInputObjectTypeResolver()];
-            case 'deleteTags':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteGenericTagTermInputObjectTypeResolver());
-            case 'createTagMutationPayloadObjects':
-            case 'updateTagMutationPayloadObjects':
-            case 'deleteTagMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createTag' => ['input' => $this->getRootCreateGenericTagTermInputObjectTypeResolver()],
+            'createTags' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreateGenericTagTermInputObjectTypeResolver()),
+            'updateTag' => ['input' => $this->getRootUpdateGenericTagTermInputObjectTypeResolver()],
+            'updateTags' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateGenericTagTermInputObjectTypeResolver()),
+            'deleteTag' => ['input' => $this->getRootDeleteGenericTagTermInputObjectTypeResolver()],
+            'deleteTags' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteGenericTagTermInputObjectTypeResolver()),
+            'createTagMutationPayloadObjects', 'updateTagMutationPayloadObjects', 'deleteTagMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -433,19 +336,12 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         if (\in_array($fieldName, ['createTags', 'updateTags', 'deleteTags'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['createTag' => 'input']:
-            case ['updateTag' => 'input']:
-            case ['deleteTag' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['createTag' => 'input'], ['updateTag' => 'input'], ['deleteTag' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         if (\in_array($fieldName, ['createTags', 'updateTags', 'deleteTags'])) {
             return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
@@ -457,22 +353,15 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
-        switch ($fieldName) {
-            case 'createTag':
-                return $usePayloadableTagMutations ? $this->getPayloadableCreateGenericTagTermMutationResolver() : $this->getCreateGenericTagTermMutationResolver();
-            case 'createTags':
-                return $usePayloadableTagMutations ? $this->getPayloadableCreateGenericTagTermBulkOperationMutationResolver() : $this->getCreateGenericTagTermBulkOperationMutationResolver();
-            case 'updateTag':
-                return $usePayloadableTagMutations ? $this->getPayloadableUpdateGenericTagTermMutationResolver() : $this->getUpdateGenericTagTermMutationResolver();
-            case 'updateTags':
-                return $usePayloadableTagMutations ? $this->getPayloadableUpdateGenericTagTermBulkOperationMutationResolver() : $this->getUpdateGenericTagTermBulkOperationMutationResolver();
-            case 'deleteTag':
-                return $usePayloadableTagMutations ? $this->getPayloadableDeleteGenericTagTermMutationResolver() : $this->getDeleteGenericTagTermMutationResolver();
-            case 'deleteTags':
-                return $usePayloadableTagMutations ? $this->getPayloadableDeleteGenericTagTermBulkOperationMutationResolver() : $this->getDeleteGenericTagTermBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createTag' => $usePayloadableTagMutations ? $this->getPayloadableCreateGenericTagTermMutationResolver() : $this->getCreateGenericTagTermMutationResolver(),
+            'createTags' => $usePayloadableTagMutations ? $this->getPayloadableCreateGenericTagTermBulkOperationMutationResolver() : $this->getCreateGenericTagTermBulkOperationMutationResolver(),
+            'updateTag' => $usePayloadableTagMutations ? $this->getPayloadableUpdateGenericTagTermMutationResolver() : $this->getUpdateGenericTagTermMutationResolver(),
+            'updateTags' => $usePayloadableTagMutations ? $this->getPayloadableUpdateGenericTagTermBulkOperationMutationResolver() : $this->getUpdateGenericTagTermBulkOperationMutationResolver(),
+            'deleteTag' => $usePayloadableTagMutations ? $this->getPayloadableDeleteGenericTagTermMutationResolver() : $this->getDeleteGenericTagTermMutationResolver(),
+            'deleteTags' => $usePayloadableTagMutations ? $this->getPayloadableDeleteGenericTagTermBulkOperationMutationResolver() : $this->getDeleteGenericTagTermBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -480,35 +369,18 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
         if ($usePayloadableTagMutations) {
-            switch ($fieldName) {
-                case 'createTag':
-                case 'createTags':
-                case 'createTagMutationPayloadObjects':
-                    return $this->getRootCreateGenericTagTermMutationPayloadObjectTypeResolver();
-                case 'updateTag':
-                case 'updateTags':
-                case 'updateTagMutationPayloadObjects':
-                    return $this->getRootUpdateGenericTagTermMutationPayloadObjectTypeResolver();
-                case 'deleteTag':
-                case 'deleteTags':
-                case 'deleteTagMutationPayloadObjects':
-                    return $this->getRootDeleteGenericTagTermMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createTag', 'createTags', 'createTagMutationPayloadObjects' => $this->getRootCreateGenericTagTermMutationPayloadObjectTypeResolver(),
+                'updateTag', 'updateTags', 'updateTagMutationPayloadObjects' => $this->getRootUpdateGenericTagTermMutationPayloadObjectTypeResolver(),
+                'deleteTag', 'deleteTags', 'deleteTagMutationPayloadObjects' => $this->getRootDeleteGenericTagTermMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'createTag':
-            case 'createTags':
-            case 'updateTag':
-            case 'updateTags':
-                return $this->getGenericTagObjectTypeResolver();
-            case 'deleteTag':
-            case 'deleteTags':
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createTag', 'createTags', 'updateTag', 'updateTags' => $this->getGenericTagObjectTypeResolver(),
+            'deleteTag', 'deleteTags' => $this->getBooleanScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -540,10 +412,7 @@ class RootGenericTagCRUDObjectTypeFieldResolver extends AbstractObjectTypeFieldR
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $fieldName = $fieldDataAccessor->getFieldName();
         switch ($fieldName) {

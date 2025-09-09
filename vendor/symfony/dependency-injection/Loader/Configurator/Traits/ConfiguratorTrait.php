@@ -18,9 +18,8 @@ trait ConfiguratorTrait
      * Sets a configurator to call after the service is fully initialized.
      *
      * @return $this
-     * @param string|mixed[]|\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator $configurator
      */
-    public final function configurator($configurator)
+    public final function configurator(string|array|ReferenceConfigurator $configurator) : static
     {
         $this->definition->setConfigurator(static::processValue($configurator, \true));
         return $this;

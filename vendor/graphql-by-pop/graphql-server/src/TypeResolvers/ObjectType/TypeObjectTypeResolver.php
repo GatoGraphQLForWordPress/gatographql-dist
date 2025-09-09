@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class TypeObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader|null
-     */
-    private $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader;
+    private ?WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader $wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader = null;
     protected final function getWrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader() : WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->wrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader === null) {
@@ -30,10 +27,7 @@ class TypeObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\O
     {
         return $this->__('Representation of each GraphQL type in the graph', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var TypeInterface */
         $type = $object;

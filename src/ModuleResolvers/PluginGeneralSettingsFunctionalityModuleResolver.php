@@ -23,33 +23,27 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
     use ModuleResolverTrait;
     use PluginGeneralSettingsFunctionalityModuleResolverTrait;
 
-    public const GENERAL = Plugin::NAMESPACE . '\general';
-    public const LOGS = Plugin::NAMESPACE . '\logs';
-    public const SERVER_IP_CONFIGURATION = Plugin::NAMESPACE . '\server-ip-configuration';
-    public const SCHEMA_EDITING_ACCESS = Plugin::NAMESPACE . '\schema-editing-access';
+    public final const GENERAL = Plugin::NAMESPACE . '\general';
+    public final const LOGS = Plugin::NAMESPACE . '\logs';
+    public final const SERVER_IP_CONFIGURATION = Plugin::NAMESPACE . '\server-ip-configuration';
+    public final const SCHEMA_EDITING_ACCESS = Plugin::NAMESPACE . '\schema-editing-access';
 
     /**
      * Setting options
      */
-    public const OPTION_ENABLE_SCHEMA_TUTORIAL = 'hide-tutorial-page';
-    public const OPTION_INSTALL_PLUGIN_SETUP_DATA = 'install-plugin-setup-data';
-    public const OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE = 'add-release-notes-admin-notice';
-    public const OPTION_PRINT_SETTINGS_WITH_TABS = 'print-settings-with-tabs';
-    public const OPTION_ENABLE_LOGS = 'enable-logs';
-    public const OPTION_ENABLE_LOGS_BY_SEVERITY = 'enable-logs-by-severity';
-    public const OPTION_ENABLE_LOG_COUNT_BADGES = 'enable-log-count-badges';
-    public const OPTION_ENABLE_LOG_COUNT_BADGES_BY_SEVERITY = 'enable-log-count-badges-by-severity';
-    public const OPTION_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME = 'client-ip-address-server-property-name';
-    public const OPTION_EDITING_ACCESS_SCHEME = 'editing-access-scheme';
+    public final const OPTION_ENABLE_SCHEMA_TUTORIAL = 'hide-tutorial-page';
+    public final const OPTION_INSTALL_PLUGIN_SETUP_DATA = 'install-plugin-setup-data';
+    public final const OPTION_ADD_RELEASE_NOTES_ADMIN_NOTICE = 'add-release-notes-admin-notice';
+    public final const OPTION_PRINT_SETTINGS_WITH_TABS = 'print-settings-with-tabs';
+    public final const OPTION_ENABLE_LOGS = 'enable-logs';
+    public final const OPTION_ENABLE_LOGS_BY_SEVERITY = 'enable-logs-by-severity';
+    public final const OPTION_ENABLE_LOG_COUNT_BADGES = 'enable-log-count-badges';
+    public final const OPTION_ENABLE_LOG_COUNT_BADGES_BY_SEVERITY = 'enable-log-count-badges-by-severity';
+    public final const OPTION_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME = 'client-ip-address-server-property-name';
+    public final const OPTION_EDITING_ACCESS_SCHEME = 'editing-access-scheme';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface|null
-     */
-    private $userAuthorizationSchemeRegistry;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    private ?UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -85,65 +79,52 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        switch ($module) {
-            case self::GENERAL:
-            case self::LOGS:
-            case self::SERVER_IP_CONFIGURATION:
-                return true;
-            default:
-                return parent::isPredefinedEnabledOrDisabled($module);
-        }
+        return match ($module) {
+            self::GENERAL,
+            self::LOGS,
+            self::SERVER_IP_CONFIGURATION
+                => true,
+            default => parent::isPredefinedEnabledOrDisabled($module),
+        };
     }
 
     public function isHidden(string $module): bool
     {
-        switch ($module) {
-            case self::GENERAL:
-            case self::LOGS:
-            case self::SERVER_IP_CONFIGURATION:
-                return true;
-            default:
-                return parent::isHidden($module);
-        }
+        return match ($module) {
+            self::GENERAL,
+            self::LOGS,
+            self::SERVER_IP_CONFIGURATION
+                => true,
+            default => parent::isHidden($module),
+        };
     }
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::GENERAL:
-                return \__('General', 'gatographql');
-            case self::LOGS:
-                return \__('Logs', 'gatographql');
-            case self::SERVER_IP_CONFIGURATION:
-                return \__('Server IP Configuration', 'gatographql');
-            case self::SCHEMA_EDITING_ACCESS:
-                return \__('Schema Editing Access', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::GENERAL => \__('General', 'gatographql'),
+            self::LOGS => \__('Logs', 'gatographql'),
+            self::SERVER_IP_CONFIGURATION => \__('Server IP Configuration', 'gatographql'),
+            self::SCHEMA_EDITING_ACCESS => \__('Schema Editing Access', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::GENERAL:
-                return \__('General options for the plugin', 'gatographql');
-            case self::LOGS:
-                return \__('Store and browse plugin logs', 'gatographql');
-            case self::SERVER_IP_CONFIGURATION:
-                return \__('Configure retrieving the Client IP depending on the platform/environment', 'gatographql');
-            case self::SCHEMA_EDITING_ACCESS:
-                return \__('Grant access to users other than admins to edit the GraphQL schema', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::GENERAL => \__('General options for the plugin', 'gatographql'),
+            self::LOGS => \__('Store and browse plugin logs', 'gatographql'),
+            self::SERVER_IP_CONFIGURATION => \__('Configure retrieving the Client IP depending on the platform/environment', 'gatographql'),
+            self::SCHEMA_EDITING_ACCESS => \__('Grant access to users other than admins to edit the GraphQL schema', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         if ($module === self::SCHEMA_EDITING_ACCESS && $option === self::OPTION_EDITING_ACCESS_SCHEME) {
             $defaultUserAuthorizationScheme = $this->getUserAuthorizationSchemeRegistry()->getDefaultUserAuthorizationScheme();
@@ -170,7 +151,7 @@ class PluginGeneralSettingsFunctionalityModuleResolver extends AbstractFunctiona
                 self::OPTION_ENABLE_LOG_COUNT_BADGES => true,
                 self::OPTION_ENABLE_LOG_COUNT_BADGES_BY_SEVERITY => [
                     LoggerSeverity::ERROR => true,
-                    LoggerSeverity::WARNING => false,
+                    LoggerSeverity::WARNING => true,
                     LoggerSeverity::INFO => false,
                     LoggerSeverity::DEBUG => false,
                 ],

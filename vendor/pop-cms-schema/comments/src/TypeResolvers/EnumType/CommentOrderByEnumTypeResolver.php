@@ -21,23 +21,15 @@ class CommentOrderByEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case CommentOrderBy::ID:
-                return $this->__('Order by ID', 'comments');
-            case CommentOrderBy::DATE:
-                return $this->__('Order by date', 'comments');
-            case CommentOrderBy::CONTENT:
-                return $this->__('Order by content', 'comments');
-            case CommentOrderBy::PARENT:
-                return $this->__('Order by parent comment', 'comments');
-            case CommentOrderBy::CUSTOM_POST:
-                return $this->__('Order by ID of the custom post', 'comments');
-            case CommentOrderBy::TYPE:
-                return $this->__('Order by type', 'comments');
-            case CommentOrderBy::STATUS:
-                return $this->__('Order by status (approved or not)', 'comments');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            CommentOrderBy::ID => $this->__('Order by ID', 'comments'),
+            CommentOrderBy::DATE => $this->__('Order by date', 'comments'),
+            CommentOrderBy::CONTENT => $this->__('Order by content', 'comments'),
+            CommentOrderBy::PARENT => $this->__('Order by parent comment', 'comments'),
+            CommentOrderBy::CUSTOM_POST => $this->__('Order by ID of the custom post', 'comments'),
+            CommentOrderBy::TYPE => $this->__('Order by type', 'comments'),
+            CommentOrderBy::STATUS => $this->__('Order by status (approved or not)', 'comments'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

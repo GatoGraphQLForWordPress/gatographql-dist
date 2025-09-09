@@ -11,5 +11,5 @@ namespace PoP\ComponentModel\Constants;
  */
 class ConfigurationValues
 {
-    public const ANY = '*';
+    public final const ANY = '*';
 }

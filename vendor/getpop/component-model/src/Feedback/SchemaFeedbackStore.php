@@ -9,19 +9,19 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class SchemaFeedbackStore
 {
     /** @var SchemaFeedbackInterface[] */
-    private $errors = [];
+    private array $errors = [];
     /** @var SchemaFeedbackInterface[] */
-    private $partialErrors = [];
+    private array $partialErrors = [];
     /** @var SchemaFeedbackInterface[] */
-    private $warnings = [];
+    private array $warnings = [];
     /** @var SchemaFeedbackInterface[] */
-    private $deprecations = [];
+    private array $deprecations = [];
     /** @var SchemaFeedbackInterface[] */
-    private $notices = [];
+    private array $notices = [];
     /** @var SchemaFeedbackInterface[] */
-    private $suggestions = [];
+    private array $suggestions = [];
     /** @var SchemaFeedbackInterface[] */
-    private $logs = [];
+    private array $logs = [];
     public function incorporate(\PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $schemaFeedbackStore->getErrors());

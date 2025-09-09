@@ -8,10 +8,7 @@ use PoP\Engine\ObjectModels\Root;
 /** @internal */
 class RootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoP\Engine\ObjectModels\Root|null
-     */
-    private $root;
+    private ?Root $root = null;
     protected final function getRoot() : Root
     {
         if ($this->root === null) {

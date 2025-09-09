@@ -16,12 +16,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait PfcountTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function pfcount($key_or_keys)
+        public function pfcount($key_or_keys) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->pfcount(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->pfcount(...\func_get_args());
         }
     }
 } else {
@@ -30,12 +27,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait PfcountTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function pfcount($key)
+        public function pfcount($key) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->pfcount(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->pfcount(...\func_get_args());
         }
     }
 }

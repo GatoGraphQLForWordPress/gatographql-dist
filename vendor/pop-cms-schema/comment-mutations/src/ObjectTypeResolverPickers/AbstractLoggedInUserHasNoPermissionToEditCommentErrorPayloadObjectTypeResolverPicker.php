@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoPermissionToEditComment;
+    private ?LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolver $loggedInUserHasNoPermissionToEditComment = null;
     protected final function getLoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPermissionToEditComment === null) {

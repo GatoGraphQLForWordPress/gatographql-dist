@@ -18,16 +18,11 @@ use PoPAPI\API\Schema\TypeKinds;
 class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
     /**
-     * @var \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
-     */
-    protected $objectTypeResolver;
-    /**
      * @var InterfaceTypeResolverInterface[] List of the implemented interfaces, to add this Type to the InterfaceType's POSSIBLE_TYPES
      */
-    protected $implementedInterfaceTypeResolvers = [];
-    public function __construct(ObjectTypeResolverInterface $objectTypeResolver)
+    protected array $implementedInterfaceTypeResolvers = [];
+    public function __construct(protected ObjectTypeResolverInterface $objectTypeResolver)
     {
-        $this->objectTypeResolver = $objectTypeResolver;
         parent::__construct($objectTypeResolver);
     }
     /**
@@ -69,8 +64,8 @@ class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\Schema
                 continue;
             }
             $schemaDefinition[SchemaDefinition::DIRECTIVES][] = $directiveName;
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($directiveResolver)] = $directiveResolver;
-            $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[\get_class($directiveResolver)] = $this->objectTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$directiveResolver::class] = $directiveResolver;
+            $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[$directiveResolver::class] = $this->objectTypeResolver;
         }
     }
     /**
@@ -98,7 +93,7 @@ class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\Schema
             // Extract the typeResolvers
             /** @var TypeResolverInterface */
             $fieldTypeResolver = $fieldSchemaDefinition[SchemaDefinition::TYPE_RESOLVER];
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($fieldTypeResolver)] = $fieldTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$fieldTypeResolver::class] = $fieldTypeResolver;
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($fieldSchemaDefinition);
             foreach ($fieldSchemaDefinition[SchemaDefinition::ARGS] ?? [] as $fieldArgName => &$fieldArgSchemaDefinition) {
                 /** @var TypeResolverInterface */
@@ -111,7 +106,7 @@ class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\Schema
                     unset($fieldSchemaDefinition[SchemaDefinition::ARGS][$fieldArgName]);
                     continue;
                 }
-                $this->accessedTypeAndFieldDirectiveResolvers[\get_class($fieldArgTypeResolver)] = $fieldArgTypeResolver;
+                $this->accessedTypeAndFieldDirectiveResolvers[$fieldArgTypeResolver::class] = $fieldArgTypeResolver;
                 SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($fieldSchemaDefinition[SchemaDefinition::ARGS][$fieldArgName]);
             }
             $schemaDefinition[SchemaDefinition::FIELDS][$fieldName] = $fieldSchemaDefinition;
@@ -132,7 +127,7 @@ class ObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\Schema
             $interfaceTypeSchemaDefinition = [SchemaDefinition::TYPE_RESOLVER => $interfaceTypeResolver];
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($interfaceTypeSchemaDefinition);
             $schemaDefinition[SchemaDefinition::INTERFACES][$interfaceTypeName] = $interfaceTypeSchemaDefinition;
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($interfaceTypeResolver)] = $interfaceTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$interfaceTypeResolver::class] = $interfaceTypeResolver;
         }
     }
 }

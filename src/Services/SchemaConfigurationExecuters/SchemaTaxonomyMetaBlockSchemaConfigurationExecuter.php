@@ -13,10 +13,7 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaTaxonomyMetaBlockSchemaConfigurationExecuter extends AbstractSchemaMetaBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaTaxonomyMetaBlock|null
-     */
-    private $schemaConfigSchemaTaxonomyMetaBlock;
+    private ?SchemaConfigSchemaTaxonomyMetaBlock $schemaConfigSchemaTaxonomyMetaBlock = null;
 
     final protected function getSchemaConfigSchemaTaxonomyMetaBlock(): SchemaConfigSchemaTaxonomyMetaBlock
     {

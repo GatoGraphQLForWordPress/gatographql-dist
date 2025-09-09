@@ -23,42 +23,15 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 /** @internal */
 class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\PostTagUpdateMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagUpdateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\PostTagDeleteMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagDeleteMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\UpdatePostTagTermMutationResolver|null
-     */
-    private $updatePostTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver|null
-     */
-    private $deletePostTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableUpdatePostTagTermMutationResolver|null
-     */
-    private $payloadableUpdatePostTagTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableDeletePostTagTermMutationResolver|null
-     */
-    private $payloadableDeletePostTagTermMutationResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\PostTagTermUpdateInputObjectTypeResolver|null
-     */
-    private $postTagTermUpdateInputObjectTypeResolver;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?PostTagUpdateMutationPayloadObjectTypeResolver $postTagUpdateMutationPayloadObjectTypeResolver = null;
+    private ?PostTagDeleteMutationPayloadObjectTypeResolver $postTagDeleteMutationPayloadObjectTypeResolver = null;
+    private ?UpdatePostTagTermMutationResolver $updatePostTagTermMutationResolver = null;
+    private ?DeletePostTagTermMutationResolver $deletePostTagTermMutationResolver = null;
+    private ?PayloadableUpdatePostTagTermMutationResolver $payloadableUpdatePostTagTermMutationResolver = null;
+    private ?PayloadableDeletePostTagTermMutationResolver $payloadableDeletePostTagTermMutationResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?PostTagTermUpdateInputObjectTypeResolver $postTagTermUpdateInputObjectTypeResolver = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -149,42 +122,33 @@ class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the post tag', 'tag-mutations');
-            case 'delete':
-                return $this->__('Delete the post tag', 'tag-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the post tag', 'tag-mutations'),
+            'delete' => $this->__('Delete the post tag', 'tag-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getPostTagTermUpdateInputObjectTypeResolver()];
-            case 'delete':
-                return [];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getPostTagTermUpdateInputObjectTypeResolver()],
+            'delete' => [],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
     {
         /** @var TagMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(TagMutationsModule::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableTagMutations ? $this->getPayloadableUpdatePostTagTermMutationResolver() : $this->getUpdatePostTagTermMutationResolver();
-            case 'delete':
-                return $usePayloadableTagMutations ? $this->getPayloadableDeletePostTagTermMutationResolver() : $this->getDeletePostTagTermMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableTagMutations ? $this->getPayloadableUpdatePostTagTermMutationResolver() : $this->getUpdatePostTagTermMutationResolver(),
+            'delete' => $usePayloadableTagMutations ? $this->getPayloadableDeletePostTagTermMutationResolver() : $this->getDeletePostTagTermMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -192,22 +156,16 @@ class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(TagMutationsModule::class)->getConfiguration();
         $usePayloadableTagMutations = $moduleConfiguration->usePayloadableTagMutations();
         if (!$usePayloadableTagMutations) {
-            switch ($fieldName) {
-                case 'update':
-                    return $this->getPostTagObjectTypeResolver();
-                case 'delete':
-                    return $this->getBooleanScalarTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'update' => $this->getPostTagObjectTypeResolver(),
+                'delete' => $this->getBooleanScalarTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'update':
-                return $this->getPostTagUpdateMutationPayloadObjectTypeResolver();
-            case 'delete':
-                return $this->getPostTagDeleteMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->getPostTagUpdateMutationPayloadObjectTypeResolver(),
+            'delete' => $this->getPostTagDeleteMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

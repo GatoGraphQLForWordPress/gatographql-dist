@@ -10,10 +10,10 @@ use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputC
 abstract class AbstractPageFilterInputContainerComponentProcessor extends CustomPostFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST = 'filterinputcontainer-pagelist';
-    public const COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT = 'filterinputcontainer-pagecount';
-    public const COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTLIST = 'filterinputcontainer-adminpagelist';
-    public const COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTCOUNT = 'filterinputcontainer-adminpagecount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST = 'filterinputcontainer-pagelist';
+    public final const COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT = 'filterinputcontainer-pagecount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTLIST = 'filterinputcontainer-adminpagelist';
+    public final const COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTCOUNT = 'filterinputcontainer-adminpagecount';
     /**
      * @return string[]
      */
@@ -26,23 +26,14 @@ abstract class AbstractPageFilterInputContainerComponentProcessor extends Custom
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTLISTLIST);
-                break;
-            case self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTLISTCOUNT);
-                break;
-            case self::COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTLIST:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_ADMINCUSTOMPOSTLISTLIST);
-                break;
-            case self::COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTCOUNT:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_ADMINCUSTOMPOSTLISTCOUNT);
-                break;
-            default:
-                $targetComponent = null;
-                break;
-        }
+        // Get the original config from above
+        $targetComponent = match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTLISTLIST),
+            self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_CUSTOMPOSTLISTCOUNT),
+            self::COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTLIST => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_ADMINCUSTOMPOSTLISTLIST),
+            self::COMPONENT_FILTERINPUTCONTAINER_ADMINPAGELISTCOUNT => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_ADMINCUSTOMPOSTLISTCOUNT),
+            default => null,
+        };
         if ($targetComponent === null) {
             return [];
         }
@@ -58,6 +49,6 @@ abstract class AbstractPageFilterInputContainerComponentProcessor extends Custom
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

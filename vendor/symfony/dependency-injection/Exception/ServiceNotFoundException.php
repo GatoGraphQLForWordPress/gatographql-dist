@@ -19,18 +19,9 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Container\NotFoundExceptionInterface;
  */
 class ServiceNotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface
 {
-    /**
-     * @var string
-     */
-    private $id;
-    /**
-     * @var string|null
-     */
-    private $sourceId;
-    /**
-     * @var mixed[]
-     */
-    private $alternatives;
+    private string $id;
+    private ?string $sourceId;
+    private array $alternatives;
     public function __construct(string $id, ?string $sourceId = null, ?\Throwable $previous = null, array $alternatives = [], ?string $msg = null)
     {
         if (null !== $msg) {

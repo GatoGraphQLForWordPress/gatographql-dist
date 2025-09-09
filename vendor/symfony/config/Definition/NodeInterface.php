@@ -44,34 +44,26 @@ interface NodeInterface
      * Returns the default value of the node.
      *
      * @throws \RuntimeException if the node has no default value
-     * @return mixed
      */
-    public function getDefaultValue();
+    public function getDefaultValue() : mixed;
     /**
      * Normalizes a value.
      *
      * @throws InvalidTypeException if the value type is invalid
-     * @param mixed $value
-     * @return mixed
      */
-    public function normalize($value);
+    public function normalize(mixed $value) : mixed;
     /**
      * Merges two values together.
      *
      * @throws ForbiddenOverwriteException if the configuration path cannot be overwritten
      * @throws InvalidTypeException        if the value type is invalid
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
      */
-    public function merge($leftSide, $rightSide);
+    public function merge(mixed $leftSide, mixed $rightSide) : mixed;
     /**
      * Finalizes a value.
      *
      * @throws InvalidTypeException          if the value type is invalid
      * @throws InvalidConfigurationException if the value is invalid configuration
-     * @param mixed $value
-     * @return mixed
      */
-    public function finalize($value);
+    public function finalize(mixed $value) : mixed;
 }

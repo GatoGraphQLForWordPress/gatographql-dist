@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\UnionType\RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver;
+    private ?RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver $rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver() : RootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdateGenericCustomPostMutationErrorPayloadUnionTypeResolver === null) {

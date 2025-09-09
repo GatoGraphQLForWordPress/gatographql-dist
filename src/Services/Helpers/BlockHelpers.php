@@ -7,30 +7,33 @@ namespace GatoGraphQL\GatoGraphQL\Services\Helpers;
 use GatoGraphQL\GatoGraphQL\Services\Blocks\BlockInterface;
 use WP_Post;
 
+use function parse_blocks;
+use function is_object;
+use function get_post;
+
 class BlockHelpers
 {
     /**
      * After parsing a post, cache its blocks
      *
-     * @var array<int,array<string,mixed>>
+     * @var array<int,array<mixed>>
      */
-    protected $blockCache = [];
+    protected array $blockCache = [];
 
     /**
      * Extract the blocks from the post
      *
      * @return array<string,mixed> The block stores its data as property => value
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getBlocksFromCustomPost(
-        $configurationPostOrID
+        WP_Post|int $configurationPostOrID
     ): array {
-        if (\is_object($configurationPostOrID)) {
+        if (is_object($configurationPostOrID)) {
             $configurationPost = $configurationPostOrID;
             $configurationPostID = $configurationPost->ID;
         } else {
             $configurationPostID = $configurationPostOrID;
-            $configurationPost = \get_post($configurationPostID);
+            $configurationPost = get_post($configurationPostID);
         }
         /**
          * If there's either no post or ID, then that object
@@ -48,7 +51,7 @@ class BlockHelpers
         if (isset($this->blockCache[$configurationPostID])) {
             $blocks = $this->blockCache[$configurationPostID];
         } else {
-            $blocks = \parse_blocks($configurationPost->post_content);
+            $blocks = parse_blocks($configurationPost->post_content);
             $this->blockCache[$configurationPostID] = $blocks;
         }
 
@@ -59,10 +62,9 @@ class BlockHelpers
      * Read the configuration post, and extract the configuration, contained through the specified block
      *
      * @return array<array<string,mixed>> A list of block data, each as an array
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getBlocksOfTypeFromCustomPost(
-        $configurationPostOrID,
+        WP_Post|int $configurationPostOrID,
         BlockInterface $block
     ): array {
         $blocks = $this->getBlocksFromCustomPost($configurationPostOrID);
@@ -71,9 +73,7 @@ class BlockHelpers
         $blockFullName = $block->getBlockFullName();
         return array_values(array_filter(
             $blocks,
-            function ($block) use ($blockFullName) {
-                return $block['blockName'] === $blockFullName;
-            }
+            fn ($block) => $block['blockName'] === $blockFullName
         ));
     }
 
@@ -82,10 +82,9 @@ class BlockHelpers
      * If there are more than 1, or none, return null
      *
      * @return array<string,mixed>|null Data inside the block is saved as key (string) => value
-     * @param \WP_Post|int $configurationPostOrID
      */
     public function getSingleBlockOfTypeFromCustomPost(
-        $configurationPostOrID,
+        WP_Post|int $configurationPostOrID,
         BlockInterface $block
     ): ?array {
         $blocks = $this->getBlocksOfTypeFromCustomPost($configurationPostOrID, $block);

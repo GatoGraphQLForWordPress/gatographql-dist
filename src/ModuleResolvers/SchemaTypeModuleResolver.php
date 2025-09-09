@@ -41,41 +41,41 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
     }
     use SchemaTypeModuleResolverTrait;
 
-    public const SCHEMA_CUSTOMPOSTS = Plugin::NAMESPACE . '\schema-customposts';
-    public const SCHEMA_POSTS = Plugin::NAMESPACE . '\schema-posts';
-    public const SCHEMA_BLOCKS = Plugin::NAMESPACE . '\schema-blocks';
-    public const SCHEMA_COMMENTS = Plugin::NAMESPACE . '\schema-comments';
-    public const SCHEMA_USERS = Plugin::NAMESPACE . '\schema-users';
-    public const SCHEMA_USER_ROLES = Plugin::NAMESPACE . '\schema-user-roles';
-    public const SCHEMA_USER_AVATARS = Plugin::NAMESPACE . '\schema-user-avatars';
-    public const SCHEMA_PAGES = Plugin::NAMESPACE . '\schema-pages';
-    public const SCHEMA_MEDIA = Plugin::NAMESPACE . '\schema-media';
-    public const SCHEMA_SITE = Plugin::NAMESPACE . '\schema-site';
-    public const SCHEMA_MULTISITE = Plugin::NAMESPACE . '\schema-multisite';
-    public const SCHEMA_PAGEBUILDER = Plugin::NAMESPACE . '\schema-pagebuilder';
-    public const SCHEMA_TAGS = Plugin::NAMESPACE . '\schema-tags';
-    public const SCHEMA_POST_TAGS = Plugin::NAMESPACE . '\schema-post-tags';
-    public const SCHEMA_CATEGORIES = Plugin::NAMESPACE . '\schema-categories';
-    public const SCHEMA_POST_CATEGORIES = Plugin::NAMESPACE . '\schema-post-categories';
-    public const SCHEMA_MENUS = Plugin::NAMESPACE . '\schema-menus';
-    public const SCHEMA_SETTINGS = Plugin::NAMESPACE . '\schema-settings';
+    public final const SCHEMA_CUSTOMPOSTS = Plugin::NAMESPACE . '\schema-customposts';
+    public final const SCHEMA_POSTS = Plugin::NAMESPACE . '\schema-posts';
+    public final const SCHEMA_BLOCKS = Plugin::NAMESPACE . '\schema-blocks';
+    public final const SCHEMA_COMMENTS = Plugin::NAMESPACE . '\schema-comments';
+    public final const SCHEMA_USERS = Plugin::NAMESPACE . '\schema-users';
+    public final const SCHEMA_USER_ROLES = Plugin::NAMESPACE . '\schema-user-roles';
+    public final const SCHEMA_USER_AVATARS = Plugin::NAMESPACE . '\schema-user-avatars';
+    public final const SCHEMA_PAGES = Plugin::NAMESPACE . '\schema-pages';
+    public final const SCHEMA_MEDIA = Plugin::NAMESPACE . '\schema-media';
+    public final const SCHEMA_SITE = Plugin::NAMESPACE . '\schema-site';
+    public final const SCHEMA_MULTISITE = Plugin::NAMESPACE . '\schema-multisite';
+    public final const SCHEMA_PAGEBUILDER = Plugin::NAMESPACE . '\schema-pagebuilder';
+    public final const SCHEMA_TAGS = Plugin::NAMESPACE . '\schema-tags';
+    public final const SCHEMA_POST_TAGS = Plugin::NAMESPACE . '\schema-post-tags';
+    public final const SCHEMA_CATEGORIES = Plugin::NAMESPACE . '\schema-categories';
+    public final const SCHEMA_POST_CATEGORIES = Plugin::NAMESPACE . '\schema-post-categories';
+    public final const SCHEMA_MENUS = Plugin::NAMESPACE . '\schema-menus';
+    public final const SCHEMA_SETTINGS = Plugin::NAMESPACE . '\schema-settings';
 
     /**
      * Setting options
      */
-    public const OPTION_USE_SINGLE_TYPE_INSTEAD_OF_UNION_TYPE = 'use-single-type-instead-of-union-type';
-    public const OPTION_DEFAULT_AVATAR_SIZE = 'default-avatar-size';
-    public const OPTION_ROOT_COMMENT_LIST_DEFAULT_LIMIT = 'root-comment-list-default-limit';
-    public const OPTION_CUSTOMPOST_COMMENT_OR_COMMENT_RESPONSE_LIST_DEFAULT_LIMIT = 'custompost-comment-list-default-limit';
-    public const OPTION_TREAT_CUSTOMPOST_STATUS_AS_SENSITIVE_DATA = 'treat-custompost-status-as-sensitive-data';
-    public const OPTION_TREAT_CUSTOMPOST_RAW_CONTENT_FIELDS_AS_SENSITIVE_DATA = 'treat-custompost-raw-content-fields-as-sensitive-data';
-    public const OPTION_TREAT_CUSTOMPOST_EDIT_URL_AS_SENSITIVE_DATA = 'treat-custompost-edit-url-as-sensitive-data';
-    public const OPTION_TREAT_COMMENT_STATUS_AS_SENSITIVE_DATA = 'treat-comment-status-as-sensitive-data';
-    public const OPTION_TREAT_COMMENT_RAW_CONTENT_AS_SENSITIVE_DATA = 'treat-comment-raw-content-as-sensitive-data';
-    public const OPTION_TREAT_USER_EMAIL_AS_SENSITIVE_DATA = 'treat-user-email-as-sensitive-data';
-    public const OPTION_TREAT_USER_ROLE_AS_SENSITIVE_DATA = 'treat-user-role-as-sensitive-data';
-    public const OPTION_TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA = 'treat-user-capability-as-sensitive-data';
-    public const OPTION_TREAT_MENUITEM_RAW_TITLE_AS_SENSITIVE_DATA = 'treat-menuitem-raw-title-as-sensitive-data';
+    public final const OPTION_USE_SINGLE_TYPE_INSTEAD_OF_UNION_TYPE = 'use-single-type-instead-of-union-type';
+    public final const OPTION_DEFAULT_AVATAR_SIZE = 'default-avatar-size';
+    public final const OPTION_ROOT_COMMENT_LIST_DEFAULT_LIMIT = 'root-comment-list-default-limit';
+    public final const OPTION_CUSTOMPOST_COMMENT_OR_COMMENT_RESPONSE_LIST_DEFAULT_LIMIT = 'custompost-comment-list-default-limit';
+    public final const OPTION_TREAT_CUSTOMPOST_STATUS_AS_SENSITIVE_DATA = 'treat-custompost-status-as-sensitive-data';
+    public final const OPTION_TREAT_CUSTOMPOST_RAW_CONTENT_FIELDS_AS_SENSITIVE_DATA = 'treat-custompost-raw-content-fields-as-sensitive-data';
+    public final const OPTION_TREAT_CUSTOMPOST_EDIT_URL_AS_SENSITIVE_DATA = 'treat-custompost-edit-url-as-sensitive-data';
+    public final const OPTION_TREAT_COMMENT_STATUS_AS_SENSITIVE_DATA = 'treat-comment-status-as-sensitive-data';
+    public final const OPTION_TREAT_COMMENT_RAW_CONTENT_AS_SENSITIVE_DATA = 'treat-comment-raw-content-as-sensitive-data';
+    public final const OPTION_TREAT_USER_EMAIL_AS_SENSITIVE_DATA = 'treat-user-email-as-sensitive-data';
+    public final const OPTION_TREAT_USER_ROLE_AS_SENSITIVE_DATA = 'treat-user-role-as-sensitive-data';
+    public final const OPTION_TREAT_USER_CAPABILITY_AS_SENSITIVE_DATA = 'treat-user-capability-as-sensitive-data';
+    public final const OPTION_TREAT_MENUITEM_RAW_TITLE_AS_SENSITIVE_DATA = 'treat-menuitem-raw-title-as-sensitive-data';
 
     /**
      * This comment used to be valid when using `autowire` functions
@@ -88,85 +88,27 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
      * and which does have all the typeResolvers.
      * Function `getDescription` will only be accessed from the Application Container,
      * so the properties will not be null in that situation.
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
      */
-    private $commentObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
-     */
-    private $customPostUnionTypeResolver;
-    /**
-     * @var \PoPWPSchema\Blocks\TypeResolvers\UnionType\BlockUnionTypeResolver|null
-     */
-    private $blockUnionTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver|null
-     */
-    private $tagUnionTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver|null
-     */
-    private $categoryUnionTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
-     */
-    private $mediaObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuObjectTypeResolver|null
-     */
-    private $menuObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPWPSchema\Blocks\TypeResolvers\ObjectType\GeneralBlockObjectTypeResolver|null
-     */
-    private $generalBlockObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserRolesWP\TypeResolvers\ObjectType\UserRoleObjectTypeResolver|null
-     */
-    private $userRoleObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserAvatars\TypeResolvers\ObjectType\UserAvatarObjectTypeResolver|null
-     */
-    private $userAvatarObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\WPDataModel\WPDataModelProviderInterface|null
-     */
-    private $wpDataModelProvider;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
+    private ?CustomPostUnionTypeResolver $customPostUnionTypeResolver = null;
+    private ?BlockUnionTypeResolver $blockUnionTypeResolver = null;
+    private ?TagUnionTypeResolver $tagUnionTypeResolver = null;
+    private ?CategoryUnionTypeResolver $categoryUnionTypeResolver = null;
+    private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?MenuObjectTypeResolver $menuObjectTypeResolver = null;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?GeneralBlockObjectTypeResolver $generalBlockObjectTypeResolver = null;
+    private ?UserRoleObjectTypeResolver $userRoleObjectTypeResolver = null;
+    private ?UserAvatarObjectTypeResolver $userAvatarObjectTypeResolver = null;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+    private ?WPDataModelProviderInterface $wpDataModelProvider = null;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final protected function getCommentObjectTypeResolver(): CommentObjectTypeResolver
     {
@@ -424,130 +366,92 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::SCHEMA_POSTS:
-                return \__('Posts', 'gatographql');
-            case self::SCHEMA_BLOCKS:
-                return \__('Blocks', 'gatographql');
-            case self::SCHEMA_COMMENTS:
-                return \__('Comments', 'gatographql');
-            case self::SCHEMA_USERS:
-                return \__('Users', 'gatographql');
-            case self::SCHEMA_USER_ROLES:
-                return \__('User Roles', 'gatographql');
-            case self::SCHEMA_USER_AVATARS:
-                return \__('User Avatars', 'gatographql');
-            case self::SCHEMA_PAGES:
-                return \__('Pages', 'gatographql');
-            case self::SCHEMA_MEDIA:
-                return \__('Media', 'gatographql');
-            case self::SCHEMA_SITE:
-                return \__('Site', 'gatographql');
-            case self::SCHEMA_MULTISITE:
-                return \__('Multisite', 'gatographql');
-            case self::SCHEMA_PAGEBUILDER:
-                return \__('Page Builder', 'gatographql');
-            case self::SCHEMA_TAGS:
-                return \__('Tags', 'gatographql');
-            case self::SCHEMA_POST_TAGS:
-                return \__('Post Tags', 'gatographql');
-            case self::SCHEMA_CATEGORIES:
-                return \__('Categories', 'gatographql');
-            case self::SCHEMA_POST_CATEGORIES:
-                return \__('Post Categories', 'gatographql');
-            case self::SCHEMA_MENUS:
-                return \__('Menus', 'gatographql');
-            case self::SCHEMA_SETTINGS:
-                return \__('Settings', 'gatographql');
-            case self::SCHEMA_CUSTOMPOSTS:
-                return \__('Custom Posts', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::SCHEMA_POSTS => \__('Posts', 'gatographql'),
+            self::SCHEMA_BLOCKS => \__('Blocks', 'gatographql'),
+            self::SCHEMA_COMMENTS => \__('Comments', 'gatographql'),
+            self::SCHEMA_USERS => \__('Users', 'gatographql'),
+            self::SCHEMA_USER_ROLES => \__('User Roles', 'gatographql'),
+            self::SCHEMA_USER_AVATARS => \__('User Avatars', 'gatographql'),
+            self::SCHEMA_PAGES => \__('Pages', 'gatographql'),
+            self::SCHEMA_MEDIA => \__('Media', 'gatographql'),
+            self::SCHEMA_SITE => \__('Site', 'gatographql'),
+            self::SCHEMA_MULTISITE => \__('Multisite', 'gatographql'),
+            self::SCHEMA_PAGEBUILDER => \__('Page Builder', 'gatographql'),
+            self::SCHEMA_TAGS => \__('Tags', 'gatographql'),
+            self::SCHEMA_POST_TAGS => \__('Post Tags', 'gatographql'),
+            self::SCHEMA_CATEGORIES => \__('Categories', 'gatographql'),
+            self::SCHEMA_POST_CATEGORIES => \__('Post Categories', 'gatographql'),
+            self::SCHEMA_MENUS => \__('Menus', 'gatographql'),
+            self::SCHEMA_SETTINGS => \__('Settings', 'gatographql'),
+            self::SCHEMA_CUSTOMPOSTS => \__('Custom Posts', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::SCHEMA_POSTS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('posts', 'gatographql'),
-                    $this->getPostObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_BLOCKS:
-                return \__('Retrieve the (Gutenberg) blocks contained in the custom post', 'gatographql');
-            case self::SCHEMA_USERS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('users', 'gatographql'),
-                    $this->getUserObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_USER_ROLES:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('user roles', 'gatographql'),
-                    $this->getUserRoleObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_USER_AVATARS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('user avatars', 'gatographql'),
-                    $this->getUserAvatarObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_PAGES:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('pages', 'gatographql'),
-                    $this->getPageObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_MEDIA:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('media elements', 'gatographql'),
-                    $this->getMediaObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_COMMENTS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('comments', 'gatographql'),
-                    $this->getCommentObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_POST_TAGS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('post tags', 'gatographql'),
-                    $this->getPostTagObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_POST_CATEGORIES:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('post categories', 'gatographql'),
-                    $this->getPostCategoryObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_MENUS:
-                return sprintf(
-                    \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
-                    \__('menus', 'gatographql'),
-                    $this->getMenuObjectTypeResolver()->getTypeName()
-                );
-            case self::SCHEMA_SETTINGS:
-                return \__('Fetch settings from the site', 'gatographql');
-            case self::SCHEMA_CUSTOMPOSTS:
-                return \__('Base functionality for all custom posts', 'gatographql');
-            case self::SCHEMA_SITE:
-                return \__('Fetch site information', 'gatographql');
-            case self::SCHEMA_MULTISITE:
-                return \__('Fetch site information in a WordPress multisite network', 'gatographql');
-            case self::SCHEMA_PAGEBUILDER:
-                return \__('Fetch data from Page Builders installed on the site', 'gatographql');
-            case self::SCHEMA_TAGS:
-                return \__('Base functionality for all tags', 'gatographql');
-            case self::SCHEMA_CATEGORIES:
-                return \__('Base functionality for all categories', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::SCHEMA_POSTS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('posts', 'gatographql'),
+                $this->getPostObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_BLOCKS => \__('Retrieve the (Gutenberg) blocks contained in the custom post', 'gatographql'),
+            self::SCHEMA_USERS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('users', 'gatographql'),
+                $this->getUserObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_USER_ROLES => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('user roles', 'gatographql'),
+                $this->getUserRoleObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_USER_AVATARS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('user avatars', 'gatographql'),
+                $this->getUserAvatarObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_PAGES => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('pages', 'gatographql'),
+                $this->getPageObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_MEDIA => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('media elements', 'gatographql'),
+                $this->getMediaObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_COMMENTS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('comments', 'gatographql'),
+                $this->getCommentObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_POST_TAGS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('post tags', 'gatographql'),
+                $this->getPostTagObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_POST_CATEGORIES => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('post categories', 'gatographql'),
+                $this->getPostCategoryObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_MENUS => sprintf(
+                \__('Query %1$s, through type <code>%2$s</code> added to the schema', 'gatographql'),
+                \__('menus', 'gatographql'),
+                $this->getMenuObjectTypeResolver()->getTypeName()
+            ),
+            self::SCHEMA_SETTINGS => \__('Fetch settings from the site', 'gatographql'),
+            self::SCHEMA_CUSTOMPOSTS => \__('Base functionality for all custom posts', 'gatographql'),
+            self::SCHEMA_SITE => \__('Fetch site information', 'gatographql'),
+            self::SCHEMA_MULTISITE => \__('Fetch site information in a WordPress multisite network', 'gatographql'),
+            self::SCHEMA_PAGEBUILDER => \__('Fetch data from Page Builders installed on the site', 'gatographql'),
+            self::SCHEMA_TAGS => \__('Base functionality for all tags', 'gatographql'),
+            self::SCHEMA_CATEGORIES => \__('Base functionality for all categories', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     /**
@@ -557,17 +461,15 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
      */
     public function getDependentOnInactiveWordPressPlugins(string $module): array
     {
-        switch ($module) {
-            case self::SCHEMA_BLOCKS:
-                return [
-                    new DependedOnInactiveWordPressPlugin(
-                        'Classic Editor',
-                        'classic-editor/classic-editor.php',
-                    ),
-                ];
-            default:
-                return parent::getDependentOnInactiveWordPressPlugins($module);
-        }
+        return match ($module) {
+            self::SCHEMA_BLOCKS => [
+                new DependedOnInactiveWordPressPlugin(
+                    'Classic Editor',
+                    'classic-editor/classic-editor.php',
+                ),
+            ],
+            default => parent::getDependentOnInactiveWordPressPlugins($module),
+        };
     }
 
     public function areRequirementsSatisfied(string $module): bool
@@ -605,9 +507,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
 
     /**
      * Indicate if the given value is valid for that option
-     * @param mixed $value
      */
-    public function isValidValue(string $module, string $option, $value): bool
+    public function isValidValue(string $module, string $option, mixed $value): bool
     {
         if (
             (
@@ -652,9 +553,8 @@ class SchemaTypeModuleResolver extends AbstractModuleResolver
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $useRestrictiveDefaults = BehaviorHelpers::areRestrictiveDefaultsEnabled();
 

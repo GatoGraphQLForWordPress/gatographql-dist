@@ -14,22 +14,10 @@ use PoPSchema\SchemaCommons\Constants\Order;
 /** @internal */
 class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\EnumType\OrderEnumTypeResolver|null
-     */
-    private $orderEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OrderByFilterInput|null
-     */
-    private $excludeIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OrderFilterInput|null
-     */
-    private $includeFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?OrderEnumTypeResolver $orderEnumTypeResolver = null;
+    private ?OrderByFilterInput $excludeIDsFilterInput = null;
+    private ?OrderFilterInput $includeFilterInput = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -83,36 +71,25 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return $this->__('Sorting direction', 'schema-commons');
-            case 'by':
-                return $this->__('Property to order by', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => $this->__('Sorting direction', 'schema-commons'),
+            'by' => $this->__('Property to order by', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return Order::DESC;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => Order::DESC,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'order':
-                return $this->getOrderFilterInput();
-            case 'by':
-                return $this->getOrderByFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'order' => $this->getOrderFilterInput(),
+            'by' => $this->getOrderByFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 /** @internal */
-interface FieldInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithNameInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface
+interface FieldInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface, \PoP\GraphQLParser\Spec\Parser\Ast\LocatableInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithNameInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsInterface
 {
     public function getName() : string;
     public function getAlias() : ?string;

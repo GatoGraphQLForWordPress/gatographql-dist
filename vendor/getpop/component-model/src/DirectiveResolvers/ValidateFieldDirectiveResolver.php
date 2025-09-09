@@ -21,10 +21,7 @@ use SplObjectStorage;
 /** @internal */
 final class ValidateFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
-     */
-    private $typeSerializationService;
+    private ?TypeSerializationServiceInterface $typeSerializationService = null;
     protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {

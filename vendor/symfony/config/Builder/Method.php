@@ -19,10 +19,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder;
  */
 class Method
 {
-    /**
-     * @var string
-     */
-    private $content;
+    private string $content;
     public function __construct(string $content)
     {
         $this->content = $content;

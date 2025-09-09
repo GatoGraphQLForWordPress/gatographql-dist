@@ -20,18 +20,9 @@ use stdClass;
 abstract class AbstractMutationResolverHookSet extends AbstractHookSet
 {
     use SetTagsOnCustomPostMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeAPIs\CustomPostTagTypeMutationAPIInterface|null
-     */
-    private $customPostTagTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostTagTypeMutationAPIInterface $customPostTagTypeMutationAPI = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -61,10 +52,10 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction($this->getValidateCreateHookName(), \Closure::fromCallable([$this, 'maybeValidateTags']), 10, 3);
-        App::addAction($this->getValidateUpdateHookName(), \Closure::fromCallable([$this, 'maybeValidateTags']), 10, 3);
-        App::addAction($this->getExecuteCreateOrUpdateHookName(), \Closure::fromCallable([$this, 'maybeSetTags']), 10, 3);
-        App::addFilter($this->getErrorPayloadHookName(), \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction($this->getValidateCreateHookName(), $this->maybeValidateTags(...), 10, 3);
+        App::addAction($this->getValidateUpdateHookName(), $this->maybeValidateTags(...), 10, 3);
+        App::addAction($this->getExecuteCreateOrUpdateHookName(), $this->maybeSetTags(...), 10, 3);
+        App::addFilter($this->getErrorPayloadHookName(), $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     protected abstract function getValidateCreateHookName() : string;
     protected abstract function getValidateUpdateHookName() : string;
@@ -97,10 +88,7 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         }
         return \true;
     }
-    /**
-     * @param int|string $customPostID
-     */
-    public function maybeSetTags($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function maybeSetTags(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;

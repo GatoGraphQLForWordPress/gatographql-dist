@@ -18,14 +18,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Countable
 {
-    /**
-     * @var string
-     */
-    private $name = 'attributes';
-    /**
-     * @var string
-     */
-    private $storageKey;
+    private string $name = 'attributes';
+    private string $storageKey;
     protected $attributes = [];
     /**
      * @param string $storageKey The key used to store attributes in the session
@@ -60,19 +54,14 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
     {
         return \array_key_exists($name, $this->attributes);
     }
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $name, $default = null)
+    public function get(string $name, mixed $default = null) : mixed
     {
         return \array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    public function set(string $name, $value)
+    public function set(string $name, mixed $value)
     {
         $this->attributes[$name] = $value;
     }
@@ -90,10 +79,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
             $this->set($key, $value);
         }
     }
-    /**
-     * @return mixed
-     */
-    public function remove(string $name)
+    public function remove(string $name) : mixed
     {
         $retval = null;
         if (\array_key_exists($name, $this->attributes)) {
@@ -102,10 +88,7 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         }
         return $retval;
     }
-    /**
-     * @return mixed
-     */
-    public function clear()
+    public function clear() : mixed
     {
         $return = $this->attributes;
         $this->attributes = [];

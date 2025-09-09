@@ -10,16 +10,11 @@ use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 abstract class AbstractTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectModels\SchemaDefinition\TypeSchemaDefinitionProviderInterface
 {
     /**
-     * @var \PoP\ComponentModel\TypeResolvers\TypeResolverInterface
-     */
-    protected $typeResolver;
-    /**
      * @var array<string,RelationalTypeResolverInterface> Key: directive resolver class, Value: The Type Resolver Class which loads the directive
      */
-    protected $accessedFieldDirectiveResolverClassRelationalTypeResolvers = [];
-    public function __construct(TypeResolverInterface $typeResolver)
+    protected array $accessedFieldDirectiveResolverClassRelationalTypeResolvers = [];
+    public function __construct(protected TypeResolverInterface $typeResolver)
     {
-        $this->typeResolver = $typeResolver;
     }
     /**
      * @return array<string,RelationalTypeResolverInterface> Key: directive resolver class, Value: The Type Resolver Class which loads the directive

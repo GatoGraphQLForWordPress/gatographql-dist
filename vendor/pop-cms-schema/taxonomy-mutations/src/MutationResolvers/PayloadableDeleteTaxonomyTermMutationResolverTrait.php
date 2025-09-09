@@ -8,7 +8,10 @@ use PoPSchema\SchemaCommons\MutationResolvers\PayloadableMutationResolverTrait;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
-/** @internal */
+/**
+ * @phpstan-ignore-next-line
+ * @internal
+ */
 trait PayloadableDeleteTaxonomyTermMutationResolverTrait
 {
     use PayloadableMutationResolverTrait, \PoPCMSSchema\TaxonomyMutations\MutationResolvers\DeleteTaxonomyTermMutationResolverTrait {
@@ -21,14 +24,13 @@ trait PayloadableDeleteTaxonomyTermMutationResolverTrait
      * return them in the Payload.
      *
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $separateObjectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         $this->validateDeleteErrors($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
         }
         $taxonomyTermID = null;
         try {
@@ -38,7 +40,7 @@ trait PayloadableDeleteTaxonomyTermMutationResolverTrait
             return $this->createFailureObjectMutationPayload([$this->createGenericErrorPayloadFromPayloadClientException($customPostCRUDMutationException)])->getID();
         }
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $taxonomyTermID)->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $taxonomyTermID)->getID();
         }
         /** @var string|int $taxonomyTermID */
         return $this->createSuccessObjectMutationPayload($taxonomyTermID)->getID();

@@ -13,40 +13,20 @@ interface MediaTypeAPIInterface
      * Indicates if the passed object is of type Media
      */
     public function isInstanceOfMediaType(object $object) : bool;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getMediaItemSrc($mediaItemObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getMediaItemSrcPath($mediaItemObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrc($mediaItemObjectOrID, ?string $size = null) : ?string;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrcPath($mediaItemObjectOrID, ?string $size = null) : ?string;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSrcSet($mediaItemObjectOrID, ?string $size = null) : ?string;
-    /**
-     * @param string|int|object $mediaItemObjectOrID
-     */
-    public function getImageSizes($mediaItemObjectOrID, ?string $size = null) : ?string;
+    public function getMediaItemSrc(string|int|object $mediaItemObjectOrID) : ?string;
+    public function getMediaItemSrcPath(string|int|object $mediaItemObjectOrID) : ?string;
+    public function getImageSrc(string|int|object $mediaItemObjectOrID, ?string $size = null) : ?string;
+    public function getImageSrcPath(string|int|object $mediaItemObjectOrID, ?string $size = null) : ?string;
+    public function getImageSrcSet(string|int|object $mediaItemObjectOrID, ?string $size = null) : ?string;
+    public function getImageSizes(string|int|object $mediaItemObjectOrID, ?string $size = null) : ?string;
     /**
      * @return array{src:string,width:?int,height:?int}
-     * @param string|int|object $mediaItemObjectOrID
      */
-    public function getImageProperties($mediaItemObjectOrID, ?string $size = null) : ?array;
+    public function getImageProperties(string|int|object $mediaItemObjectOrID, ?string $size = null) : ?array;
     /**
      * Get the media item with provided ID or, if it doesn't exist, null
-     * @param int|string $id
      */
-    public function getMediaItemByID($id) : ?object;
+    public function getMediaItemByID(int|string $id) : ?object;
     /**
      * Get the media item with provided slug or, if it doesn't exist, null
      */
@@ -57,46 +37,19 @@ interface MediaTypeAPIInterface
      * @param array<string,mixed> $options
      */
     public function getMediaItems(array $query, array $options = []) : array;
-    /**
-     * @param int|string $id
-     */
-    public function mediaItemByIDExists($id) : bool;
+    public function mediaItemByIDExists(int|string $id) : bool;
     public function mediaItemBySlugExists(string $slug) : bool;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      */
     public function getMediaItemCount(array $query, array $options = []) : int;
-    /**
-     * @return string|int
-     */
-    public function getMediaItemID(object $media);
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getTitle($mediaObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getCaption($mediaObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getAltText($mediaObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getDescription($mediaObjectOrID) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getDate($mediaObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getModified($mediaObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $mediaObjectOrID
-     */
-    public function getMimeType($mediaObjectOrID) : ?string;
+    public function getMediaItemID(object $media) : string|int;
+    public function getTitle(string|int|object $mediaObjectOrID) : ?string;
+    public function getCaption(string|int|object $mediaObjectOrID) : ?string;
+    public function getAltText(string|int|object $mediaObjectOrID) : ?string;
+    public function getDescription(string|int|object $mediaObjectOrID) : ?string;
+    public function getDate(string|int|object $mediaObjectOrID, bool $gmt = \false) : ?string;
+    public function getModified(string|int|object $mediaObjectOrID, bool $gmt = \false) : ?string;
+    public function getMimeType(string|int|object $mediaObjectOrID) : ?string;
 }

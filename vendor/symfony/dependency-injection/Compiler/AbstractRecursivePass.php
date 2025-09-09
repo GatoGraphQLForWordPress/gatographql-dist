@@ -30,22 +30,10 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
      */
     protected $container;
     protected $currentId;
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \false;
-    /**
-     * @var bool
-     */
-    private $processExpressions = \false;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ExpressionLanguage
-     */
-    private $expressionLanguage;
-    /**
-     * @var bool
-     */
-    private $inExpression = \false;
+    protected bool $skipScalars = \false;
+    private bool $processExpressions = \false;
+    private ExpressionLanguage $expressionLanguage;
+    private bool $inExpression = \false;
     /**
      * @return void
      */
@@ -77,9 +65,8 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
      * Processes a value found in a definition tree.
      *
      * @return mixed
-     * @param mixed $value
      */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false)
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {
@@ -106,7 +93,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
             $value->setMethodCalls($this->processValue($value->getMethodCalls()));
             $changes = $value->getChanges();
             if (isset($changes['factory'])) {
-                if (\is_string($factory = $value->getFactory()) && \strncmp($factory, '@=', \strlen('@=')) === 0) {
+                if (\is_string($factory = $value->getFactory()) && \str_starts_with($factory, '@=')) {
                     if (!\class_exists(Expression::class)) {
                         throw new LogicException('Expressions cannot be used in service factories without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
                     }
@@ -132,7 +119,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
             return null;
         }
         if (\is_string($factory = $definition->getFactory())) {
-            if (\strncmp($factory, '@=', \strlen('@=')) === 0) {
+            if (\str_starts_with($factory, '@=')) {
                 return new \ReflectionFunction(static function (...$args) {
                 });
             }
@@ -158,7 +145,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
             } elseif ($class instanceof Definition) {
                 $class = $class->getClass();
             } else {
-                $class = $class ?? $definition->getClass();
+                $class ??= $definition->getClass();
             }
             return $this->getReflectionMethod(new Definition($class), $method);
         }

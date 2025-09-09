@@ -52,9 +52,7 @@ abstract class AbstractDefaultEnableDisableFunctionalityBlockSchemaConfiguration
         );
         App::addFilter(
             $hookName,
-            function () use ($enableFunctionality) {
-                return $enableFunctionality === BlockAttributeValues::ENABLED;
-            },
+            fn () => $enableFunctionality === BlockAttributeValues::ENABLED,
             PHP_INT_MAX
         );
     }

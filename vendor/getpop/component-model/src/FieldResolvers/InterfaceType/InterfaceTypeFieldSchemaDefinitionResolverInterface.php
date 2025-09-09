@@ -28,10 +28,7 @@ interface InterfaceTypeFieldSchemaDefinitionResolverInterface
      */
     public function getSensitiveFieldArgNames(string $fieldName) : array;
     public function getFieldArgDescription(string $fieldName, string $fieldArgName) : ?string;
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName);
+    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName) : mixed;
     public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int;
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -42,23 +39,13 @@ interface InterfaceTypeFieldSchemaDefinitionResolverInterface
      */
     public function getConsolidatedSensitiveFieldArgNames(string $fieldName) : array;
     public function getConsolidatedFieldArgDescription(string $fieldName, string $fieldArgName) : ?string;
-    /**
-     * @return mixed
-     */
-    public function getConsolidatedFieldArgDefaultValue(string $fieldName, string $fieldArgName);
+    public function getConsolidatedFieldArgDefaultValue(string $fieldName, string $fieldArgName) : mixed;
     public function getConsolidatedFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int;
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
-     */
-    public function isFieldGlobal($fieldOrFieldName) : bool;
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
-     */
-    public function isFieldAMutation($fieldOrFieldName) : bool;
+    public function isFieldGlobal(FieldInterface|string $fieldOrFieldName) : bool;
+    public function isFieldAMutation(FieldInterface|string $fieldOrFieldName) : bool;
     /**
      * Validate the constraints for a field argument
      * @param array<string,mixed> $fieldArgs
-     * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
+    public function validateFieldArgValue(string $fieldName, string $fieldArgName, mixed $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
 }

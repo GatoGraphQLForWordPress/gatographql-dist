@@ -11,10 +11,7 @@ use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 /** @internal */
 abstract class AbstractUserStateObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {

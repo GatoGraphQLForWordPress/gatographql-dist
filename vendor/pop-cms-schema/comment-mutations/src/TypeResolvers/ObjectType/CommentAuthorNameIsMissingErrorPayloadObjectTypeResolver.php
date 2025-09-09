@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CommentAuthorNameIsMissingErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader|null
-     */
-    private $commentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader;
+    private ?CommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader $commentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader = null;
     protected final function getCommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader() : CommentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentAuthorNameIsMissingErrorPayloadObjectTypeDataLoader === null) {

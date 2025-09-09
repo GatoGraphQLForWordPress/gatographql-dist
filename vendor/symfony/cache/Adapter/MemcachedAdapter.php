@@ -24,23 +24,14 @@ class MemcachedAdapter extends AbstractAdapter
     /**
      * We are replacing characters that are illegal in Memcached keys with reserved characters from
      * {@see \Symfony\Contracts\Cache\ItemInterface::RESERVED_CHARACTERS} that are legal in Memcached.
-     * Note: don’t use {@see \Symfony\Component\Cache\Adapter\AbstractAdapter::NS_SEPARATOR}.
+     * Note: don’t use {@see AbstractAdapter::NS_SEPARATOR}.
      */
     private const RESERVED_MEMCACHED = " \n\r\t\v\f\x00";
     private const RESERVED_PSR6 = '@()\\{}/';
     private const MAX_KEY_LENGTH = 250;
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
-    /**
-     * @var \Memcached
-     */
-    private $client;
-    /**
-     * @var \Memcached
-     */
-    private $lazyClient;
+    private MarshallerInterface $marshaller;
+    private \Memcached $client;
+    private \Memcached $lazyClient;
     /**
      * Using a MemcachedAdapter with a TagAwareAdapter for storing tags is discouraged.
      * Using a RedisAdapter is recommended instead. If you cannot do otherwise, be aware that:
@@ -57,7 +48,7 @@ class MemcachedAdapter extends AbstractAdapter
             throw new CacheException('Memcached > 3.1.5 is required.');
         }
         $this->maxIdLength = self::MAX_KEY_LENGTH;
-        if ('Memcached' === \get_class($client)) {
+        if ('Memcached' === $client::class) {
             $opt = $client->getOption(\Memcached::OPT_SERIALIZER);
             if (\Memcached::SERIALIZER_PHP !== $opt && \Memcached::SERIALIZER_IGBINARY !== $opt) {
                 throw new CacheException('MemcachedAdapter: "serializer" option must be "php" or "igbinary".');
@@ -91,7 +82,7 @@ class MemcachedAdapter extends AbstractAdapter
      *
      * @throws \ErrorException When invalid options or servers are provided
      */
-    public static function createConnection($servers, array $options = []) : \Memcached
+    public static function createConnection(#[\SensitiveParameter] array|string $servers, array $options = []) : \Memcached
     {
         if (\is_string($servers)) {
             $servers = [$servers];
@@ -99,9 +90,7 @@ class MemcachedAdapter extends AbstractAdapter
         if (!static::isSupported()) {
             throw new CacheException('Memcached > 3.1.5 is required.');
         }
-        \set_error_handler(static function ($type, $msg, $file, $line) {
-            throw new \ErrorException($msg, 0, $type, $file, $line);
-        });
+        \set_error_handler(static fn($type, $msg, $file, $line) => throw new \ErrorException($msg, 0, $type, $file, $line));
         try {
             $client = new \Memcached($options['persistent_id'] ?? null);
             $username = $options['username'] ?? null;
@@ -111,7 +100,7 @@ class MemcachedAdapter extends AbstractAdapter
                 if (\is_array($dsn)) {
                     continue;
                 }
-                if (\strncmp($dsn, 'memcached:', \strlen('memcached:')) !== 0) {
+                if (!\str_starts_with($dsn, 'memcached:')) {
                     throw new InvalidArgumentException('Invalid Memcached DSN: it does not start with "memcached:".');
                 }
                 $params = \preg_replace_callback('#^memcached:(//)?(?:([^@]*+)@)?#', function ($m) use(&$username, &$password) {
@@ -220,10 +209,7 @@ class MemcachedAdapter extends AbstractAdapter
             \restore_error_handler();
         }
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         if (!($values = $this->marshaller->marshall($values, $failed))) {
             return $failed;
@@ -270,11 +256,7 @@ class MemcachedAdapter extends AbstractAdapter
     {
         return '' === $namespace && $this->getClient()->flush();
     }
-    /**
-     * @param mixed $result
-     * @return mixed
-     */
-    private function checkResultCode($result)
+    private function checkResultCode(mixed $result) : mixed
     {
         $code = $this->client->getResultCode();
         if (\Memcached::RES_SUCCESS === $code || \Memcached::RES_NOTFOUND === $code) {

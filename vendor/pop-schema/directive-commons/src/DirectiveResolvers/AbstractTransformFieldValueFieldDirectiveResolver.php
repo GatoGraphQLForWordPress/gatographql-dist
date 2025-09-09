@@ -75,9 +75,6 @@ abstract class AbstractTransformFieldValueFieldDirectiveResolver extends Abstrac
     /**
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
-     * @param mixed $value
-     * @return mixed
      */
-    protected abstract function transformValue($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore);
+    protected abstract function transformValue(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : mixed;
 }

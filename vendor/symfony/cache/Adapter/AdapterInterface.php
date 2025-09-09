@@ -22,10 +22,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\CacheItem;
  */
 interface AdapterInterface extends CacheItemPoolInterface
 {
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface;
+    public function getItem(mixed $key) : CacheItem;
     /**
      * @return iterable<string, CacheItem>
      */

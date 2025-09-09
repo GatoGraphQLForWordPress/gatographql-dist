@@ -36,34 +36,13 @@ use PoP\Root\App;
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentByOneofInputObjectTypeResolver|null
-     */
-    private $commentByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\RootCommentsFilterInputObjectTypeResolver|null
-     */
-    private $rootCommentsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\RootCommentPaginationInputObjectTypeResolver|null
-     */
-    private $rootCommentPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentSortInputObjectTypeResolver|null
-     */
-    private $commentSortInputObjectTypeResolver;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
+    private ?CommentByOneofInputObjectTypeResolver $commentByOneofInputObjectTypeResolver = null;
+    private ?RootCommentsFilterInputObjectTypeResolver $rootCommentsFilterInputObjectTypeResolver = null;
+    private ?RootCommentPaginationInputObjectTypeResolver $rootCommentPaginationInputObjectTypeResolver = null;
+    private ?CommentSortInputObjectTypeResolver $commentSortInputObjectTypeResolver = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -143,48 +122,35 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'commentCount':
-                return $this->getIntScalarTypeResolver();
-            case 'comment':
-            case 'comments':
-                return $this->getCommentObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'commentCount' => $this->getIntScalarTypeResolver(),
+            'comment', 'comments' => $this->getCommentObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'commentCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'comments':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'commentCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'comments' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'comment':
-                return $this->__('Retrieve a single comment', 'pop-comments');
-            case 'commentCount':
-                return $this->__('Number of comments on the site', 'pop-comments');
-            case 'comments':
-                return $this->__('Comments on the site', 'pop-comments');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'comment' => $this->__('Retrieve a single comment', 'pop-comments'),
+            'commentCount' => $this->__('Number of comments on the site', 'pop-comments'),
+            'comments' => $this->__('Comments on the site', 'pop-comments'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        switch ($fieldName) {
-            case 'comment':
-                return new Component(SingleCommentFilterInputContainerComponentProcessor::class, SingleCommentFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_COMMENT_STATUS);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'comment' => new Component(SingleCommentFilterInputContainerComponentProcessor::class, SingleCommentFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_COMMENT_STATUS),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -192,25 +158,19 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'comment':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getCommentByOneofInputObjectTypeResolver()]);
-            case 'comments':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootCommentsFilterInputObjectTypeResolver(), 'pagination' => $this->getRootCommentPaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]);
-            case 'commentCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootCommentsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'comment' => \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getCommentByOneofInputObjectTypeResolver()]),
+            'comments' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootCommentsFilterInputObjectTypeResolver(), 'pagination' => $this->getRootCommentPaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]),
+            'commentCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootCommentsFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['comment' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['comment' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * @return string[]
@@ -230,10 +190,7 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         }
         return $sensitiveFieldArgNames;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
         /**

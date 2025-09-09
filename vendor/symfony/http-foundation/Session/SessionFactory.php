@@ -20,23 +20,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Sto
  */
 class SessionFactory implements SessionFactoryInterface
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface
-     */
-    private $storageFactory;
-    /**
-     * @var \Closure|null
-     */
-    private $usageReporter;
+    private RequestStack $requestStack;
+    private SessionStorageFactoryInterface $storageFactory;
+    private ?\Closure $usageReporter;
     public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, ?callable $usageReporter = null)
     {
         $this->requestStack = $requestStack;
         $this->storageFactory = $storageFactory;
-        $this->usageReporter = null === $usageReporter ? null : \Closure::fromCallable($usageReporter);
+        $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
     }
     public function createSession() : SessionInterface
     {

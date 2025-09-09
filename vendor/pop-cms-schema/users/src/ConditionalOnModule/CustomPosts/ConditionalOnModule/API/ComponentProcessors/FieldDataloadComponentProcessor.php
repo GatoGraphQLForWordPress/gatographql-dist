@@ -14,15 +14,9 @@ use PoPCMSSchema\Posts\ComponentProcessors\PostFilterInputContainerComponentProc
 /** @internal */
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORCUSTOMPOSTLIST = 'dataload-relationalfields-authorcustompostlist';
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
-     */
-    private $customPostUnionTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
-     */
-    private $listQueryInputOutputHandler;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_AUTHORCUSTOMPOSTLIST = 'dataload-relationalfields-authorcustompostlist';
+    private ?CustomPostUnionTypeResolver $customPostUnionTypeResolver = null;
+    private ?ListQueryInputOutputHandler $listQueryInputOutputHandler = null;
     protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {

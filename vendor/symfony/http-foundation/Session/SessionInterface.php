@@ -84,17 +84,14 @@ interface SessionInterface
     public function has(string $name) : bool;
     /**
      * Returns an attribute.
-     * @param mixed $default
-     * @return mixed
      */
-    public function get(string $name, $default = null);
+    public function get(string $name, mixed $default = null) : mixed;
     /**
      * Sets an attribute.
      *
      * @return void
-     * @param mixed $value
      */
-    public function set(string $name, $value);
+    public function set(string $name, mixed $value);
     /**
      * Returns attributes.
      */
@@ -110,7 +107,7 @@ interface SessionInterface
      *
      * @return mixed The removed value or null when it does not exist
      */
-    public function remove(string $name);
+    public function remove(string $name) : mixed;
     /**
      * Clears all attributes.
      *

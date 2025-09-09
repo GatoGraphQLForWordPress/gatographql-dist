@@ -29,9 +29,7 @@ trait ConfigurableMandatoryDirectivesForFieldsTrait
             // or [typeOrInterfaceTypeFieldResolverClass, fieldName | "*", $role]
             // or [typeOrInterfaceTypeFieldResolverClass, fieldName | "*", $capability]
             // So, in position [1], will always be the $fieldName or "*" (for any field)
-            function (array $entry) {
-                return $entry[1];
-            },
+            fn(array $entry) => $entry[1],
             $this->getConfigurationEntries()
         )));
     }
@@ -39,10 +37,8 @@ trait ConfigurableMandatoryDirectivesForFieldsTrait
      * Configuration entries
      *
      * @return array<mixed[]>
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
-     * @param \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver
      */
-    protected final function getEntries($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : array
+    protected final function getEntries(ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, ObjectTypeFieldResolverInterface|InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : array
     {
         return $this->getEntriesByTypeAndInterfaces(
             $objectTypeOrInterfaceTypeResolver,
@@ -63,9 +59,8 @@ trait ConfigurableMandatoryDirectivesForFieldsTrait
      * @param InterfaceTypeResolverInterface[] $interfaceTypeResolvers
      *
      * @return array<mixed[]>
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
      */
-    protected final function getEntriesByTypeAndInterfaces($objectTypeOrInterfaceTypeResolver, array $interfaceTypeResolvers, string $fieldName) : array
+    protected final function getEntriesByTypeAndInterfaces(ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, array $interfaceTypeResolvers, string $fieldName) : array
     {
         $entryList = $this->getConfigurationEntries();
         if ($entryList === []) {
@@ -80,14 +75,11 @@ trait ConfigurableMandatoryDirectivesForFieldsTrait
      *
      * @return array<mixed[]>
      * @param array<mixed[]> $entryList
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
      */
-    protected final function getMatchingEntries(array $entryList, $objectTypeOrInterfaceTypeResolver, array $interfaceTypeResolvers, string $fieldName) : array
+    protected final function getMatchingEntries(array $entryList, ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, array $interfaceTypeResolvers, string $fieldName) : array
     {
         $objectTypeOrInterfaceTypeResolverClass = \get_class($objectTypeOrInterfaceTypeResolver);
-        $interfaceTypeResolverClasses = \array_map(\Closure::fromCallable('get_class'), $interfaceTypeResolvers);
-        return \array_values(\array_filter($entryList, function (array $entry) use($objectTypeOrInterfaceTypeResolverClass, $interfaceTypeResolverClasses, $fieldName) {
-            return ($entry[0] === $objectTypeOrInterfaceTypeResolverClass || \in_array($entry[0], $interfaceTypeResolverClasses) || $entry[0] === ConfigurationValues::ANY) && ($entry[1] === $fieldName || $entry[1] === ConfigurationValues::ANY);
-        }));
+        $interfaceTypeResolverClasses = \array_map(\get_class(...), $interfaceTypeResolvers);
+        return \array_values(\array_filter($entryList, fn(array $entry) => ($entry[0] === $objectTypeOrInterfaceTypeResolverClass || \in_array($entry[0], $interfaceTypeResolverClasses) || $entry[0] === ConfigurationValues::ANY) && ($entry[1] === $fieldName || $entry[1] === ConfigurationValues::ANY)));
     }
 }

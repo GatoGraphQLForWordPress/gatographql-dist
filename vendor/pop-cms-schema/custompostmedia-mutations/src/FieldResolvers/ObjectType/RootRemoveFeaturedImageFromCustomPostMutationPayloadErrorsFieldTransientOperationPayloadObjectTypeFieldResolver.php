@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class RootRemoveFeaturedImageFromCustomPostMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver;
+    private ?RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver $rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver() : RootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootRemoveFeaturedImageFromCustomPostMutationErrorPayloadUnionTypeResolver === null) {

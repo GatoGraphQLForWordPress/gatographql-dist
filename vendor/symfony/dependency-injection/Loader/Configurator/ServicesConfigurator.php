@@ -24,34 +24,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader
 class ServicesConfigurator extends AbstractConfigurator
 {
     public const FACTORY = 'services';
-    /**
-     * @var \Symfony\Component\DependencyInjection\Definition
-     */
-    private $defaults;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
-     */
-    private $loader;
-    /**
-     * @var mixed[]
-     */
-    private $instanceof;
-    /**
-     * @var string|null
-     */
-    private $path;
-    /**
-     * @var string
-     */
-    private $anonymousHash;
-    /**
-     * @var int
-     */
-    private $anonymousCount;
+    private Definition $defaults;
+    private ContainerBuilder $container;
+    private PhpFileLoader $loader;
+    private array $instanceof;
+    private ?string $path;
+    private string $anonymousHash;
+    private int $anonymousCount;
     public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, ?string $path = null, int &$anonymousCount = 0)
     {
         $this->defaults = new Definition();
@@ -109,7 +88,7 @@ class ServicesConfigurator extends AbstractConfigurator
      *
      * @return $this
      */
-    public final function remove(string $id)
+    public final function remove(string $id) : static
     {
         $this->container->removeDefinition($id);
         $this->container->removeAlias($id);

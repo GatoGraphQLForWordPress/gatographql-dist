@@ -10,10 +10,7 @@ use PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuItemObjectTypeDa
 /** @internal */
 class MenuItemObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuItemObjectTypeDataLoader|null
-     */
-    private $menuItemObjectTypeDataLoader;
+    private ?MenuItemObjectTypeDataLoader $menuItemObjectTypeDataLoader = null;
     protected final function getMenuItemObjectTypeDataLoader() : MenuItemObjectTypeDataLoader
     {
         if ($this->menuItemObjectTypeDataLoader === null) {
@@ -31,10 +28,7 @@ class MenuItemObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return $this->__('Items (links, pages, etc) added to a menu', 'menus');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var MenuItem */
         $menuItem = $object;

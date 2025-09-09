@@ -21,9 +21,8 @@ class BooleanNode extends ScalarNode
 {
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
         if (!\is_bool($value)) {
             $ex = new InvalidTypeException(\sprintf('Invalid type for path "%s". Expected "bool", but got "%s".', $this->getPath(), \get_debug_type($value)));
@@ -34,10 +33,7 @@ class BooleanNode extends ScalarNode
             throw $ex;
         }
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isValueEmpty($value) : bool
+    protected function isValueEmpty(mixed $value) : bool
     {
         // a boolean value cannot be empty
         return \false;

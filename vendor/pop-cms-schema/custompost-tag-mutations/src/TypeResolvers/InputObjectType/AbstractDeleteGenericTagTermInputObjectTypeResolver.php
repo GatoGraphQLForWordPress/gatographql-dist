@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractDeleteGenericTagTermInputObjectTypeResolver extends AbstractDeleteTagTermInputObjectTypeResolver implements \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\DeleteGenericTagTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {

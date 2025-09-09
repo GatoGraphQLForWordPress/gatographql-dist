@@ -12,9 +12,8 @@ trait DeleteTagTermMutationResolverTrait
 {
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         return $this->delete($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }

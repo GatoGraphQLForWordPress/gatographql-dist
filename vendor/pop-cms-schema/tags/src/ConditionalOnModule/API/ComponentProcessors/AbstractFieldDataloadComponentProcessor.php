@@ -15,17 +15,11 @@ use PoPCMSSchema\Tags\ComponentProcessors\TagFilterInputContainerComponentProces
 abstract class AbstractFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_TAG = 'dataload-relationalfields-tag';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_TAGLIST = 'dataload-relationalfields-taglist';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_TAGCOUNT = 'dataload-relationalfields-tagcount';
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
-     */
-    private $listQueryInputOutputHandler;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_TAG = 'dataload-relationalfields-tag';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_TAGLIST = 'dataload-relationalfields-taglist';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_TAGCOUNT = 'dataload-relationalfields-tagcount';
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?ListQueryInputOutputHandler $listQueryInputOutputHandler = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -56,7 +50,7 @@ abstract class AbstractFieldDataloadComponentProcessor extends AbstractRelationa
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_TAG:

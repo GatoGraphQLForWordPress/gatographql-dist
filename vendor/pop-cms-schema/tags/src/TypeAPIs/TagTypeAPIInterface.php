@@ -11,18 +11,9 @@ interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
      * Indicates if the passed object is of type Tag
      */
     public function isInstanceOfTagType(object $object) : bool;
-    /**
-     * @return string|int
-     */
-    public function getTagID(object $tag);
-    /**
-     * @param string|int $tagID
-     */
-    public function getTag($tagID) : ?object;
-    /**
-     * @param int|string $id
-     */
-    public function tagExists($id) : bool;
+    public function getTagID(object $tag) : string|int;
+    public function getTag(string|int $tagID) : ?object;
+    public function tagExists(int|string $id) : bool;
     /**
      * @return array<string|int>|object[]
      * @param array<string,mixed> $query
@@ -38,13 +29,11 @@ interface TagTypeAPIInterface extends TaxonomyTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostTags($customPostObjectOrID, array $query = [], array $options = []) : array;
+    public function getCustomPostTags(string|int|object $customPostObjectOrID, array $query = [], array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostTagCount($customPostObjectOrID, array $query = [], array $options = []) : ?int;
+    public function getCustomPostTagCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []) : ?int;
 }

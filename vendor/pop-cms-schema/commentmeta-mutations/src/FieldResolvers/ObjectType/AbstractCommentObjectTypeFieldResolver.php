@@ -31,58 +31,19 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractCommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\InputObjectType\CommentAddMetaInputObjectTypeResolver|null
-     */
-    private $commentAddMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\InputObjectType\CommentDeleteMetaInputObjectTypeResolver|null
-     */
-    private $commentDeleteMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\InputObjectType\CommentSetMetaInputObjectTypeResolver|null
-     */
-    private $commentSetMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\InputObjectType\CommentUpdateMetaInputObjectTypeResolver|null
-     */
-    private $commentUpdateMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\AddCommentMetaMutationResolver|null
-     */
-    private $addCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\DeleteCommentMetaMutationResolver|null
-     */
-    private $deleteCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\SetCommentMetaMutationResolver|null
-     */
-    private $setCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\UpdateCommentMetaMutationResolver|null
-     */
-    private $updateCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableDeleteCommentMetaMutationResolver|null
-     */
-    private $payloadableDeleteCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableSetCommentMetaMutationResolver|null
-     */
-    private $payloadableSetCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableUpdateCommentMetaMutationResolver|null
-     */
-    private $payloadableUpdateCommentMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\PayloadableAddCommentMetaMutationResolver|null
-     */
-    private $payloadableAddCommentMetaMutationResolver;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
+    private ?CommentAddMetaInputObjectTypeResolver $commentAddMetaInputObjectTypeResolver = null;
+    private ?CommentDeleteMetaInputObjectTypeResolver $commentDeleteMetaInputObjectTypeResolver = null;
+    private ?CommentSetMetaInputObjectTypeResolver $commentSetMetaInputObjectTypeResolver = null;
+    private ?CommentUpdateMetaInputObjectTypeResolver $commentUpdateMetaInputObjectTypeResolver = null;
+    private ?AddCommentMetaMutationResolver $addCommentMetaMutationResolver = null;
+    private ?DeleteCommentMetaMutationResolver $deleteCommentMetaMutationResolver = null;
+    private ?SetCommentMetaMutationResolver $setCommentMetaMutationResolver = null;
+    private ?UpdateCommentMetaMutationResolver $updateCommentMetaMutationResolver = null;
+    private ?PayloadableDeleteCommentMetaMutationResolver $payloadableDeleteCommentMetaMutationResolver = null;
+    private ?PayloadableSetCommentMetaMutationResolver $payloadableSetCommentMetaMutationResolver = null;
+    private ?PayloadableUpdateCommentMetaMutationResolver $payloadableUpdateCommentMetaMutationResolver = null;
+    private ?PayloadableAddCommentMetaMutationResolver $payloadableAddCommentMetaMutationResolver = null;
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -209,18 +170,13 @@ abstract class AbstractCommentObjectTypeFieldResolver extends AbstractObjectType
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->__('Add a comment meta entry', 'commentmeta-mutations');
-            case 'deleteMeta':
-                return $this->__('Delete a comment meta entry', 'commentmeta-mutations');
-            case 'setMeta':
-                return $this->__('Set meta entries to a a comment', 'commentmeta-mutations');
-            case 'updateMeta':
-                return $this->__('Update a comment meta entry', 'commentmeta-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->__('Add a comment meta entry', 'commentmeta-mutations'),
+            'deleteMeta' => $this->__('Delete a comment meta entry', 'commentmeta-mutations'),
+            'setMeta' => $this->__('Set meta entries to a a comment', 'commentmeta-mutations'),
+            'updateMeta' => $this->__('Update a comment meta entry', 'commentmeta-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -228,55 +184,35 @@ abstract class AbstractCommentObjectTypeFieldResolver extends AbstractObjectType
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCommentMetaMutations = $moduleConfiguration->usePayloadableCommentMetaMutations();
         if (!$usePayloadableCommentMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return SchemaTypeModifiers::NONE;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => SchemaTypeModifiers::NONE,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-            case 'deleteMeta':
-            case 'setMeta':
-            case 'updateMeta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'addMeta':
-                return ['input' => $this->getCommentAddMetaInputObjectTypeResolver()];
-            case 'deleteMeta':
-                return ['input' => $this->getCommentDeleteMetaInputObjectTypeResolver()];
-            case 'setMeta':
-                return ['input' => $this->getCommentSetMetaInputObjectTypeResolver()];
-            case 'updateMeta':
-                return ['input' => $this->getCommentUpdateMetaInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => ['input' => $this->getCommentAddMetaInputObjectTypeResolver()],
+            'deleteMeta' => ['input' => $this->getCommentDeleteMetaInputObjectTypeResolver()],
+            'setMeta' => ['input' => $this->getCommentSetMetaInputObjectTypeResolver()],
+            'updateMeta' => ['input' => $this->getCommentUpdateMetaInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['addMeta' => 'input']:
-            case ['deleteMeta' => 'input']:
-            case ['setMeta' => 'input']:
-            case ['updateMeta' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['addMeta' => 'input'], ['deleteMeta' => 'input'], ['setMeta' => 'input'], ['updateMeta' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID
@@ -317,18 +253,13 @@ abstract class AbstractCommentObjectTypeFieldResolver extends AbstractObjectType
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCommentMetaMutations = $moduleConfiguration->usePayloadableCommentMetaMutations();
-        switch ($fieldName) {
-            case 'addMeta':
-                return $usePayloadableCommentMetaMutations ? $this->getPayloadableAddCommentMetaMutationResolver() : $this->getAddCommentMetaMutationResolver();
-            case 'updateMeta':
-                return $usePayloadableCommentMetaMutations ? $this->getPayloadableUpdateCommentMetaMutationResolver() : $this->getUpdateCommentMetaMutationResolver();
-            case 'deleteMeta':
-                return $usePayloadableCommentMetaMutations ? $this->getPayloadableDeleteCommentMetaMutationResolver() : $this->getDeleteCommentMetaMutationResolver();
-            case 'setMeta':
-                return $usePayloadableCommentMetaMutations ? $this->getPayloadableSetCommentMetaMutationResolver() : $this->getSetCommentMetaMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $usePayloadableCommentMetaMutations ? $this->getPayloadableAddCommentMetaMutationResolver() : $this->getAddCommentMetaMutationResolver(),
+            'updateMeta' => $usePayloadableCommentMetaMutations ? $this->getPayloadableUpdateCommentMetaMutationResolver() : $this->getUpdateCommentMetaMutationResolver(),
+            'deleteMeta' => $usePayloadableCommentMetaMutations ? $this->getPayloadableDeleteCommentMetaMutationResolver() : $this->getDeleteCommentMetaMutationResolver(),
+            'setMeta' => $usePayloadableCommentMetaMutations ? $this->getPayloadableSetCommentMetaMutationResolver() : $this->getSetCommentMetaMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]

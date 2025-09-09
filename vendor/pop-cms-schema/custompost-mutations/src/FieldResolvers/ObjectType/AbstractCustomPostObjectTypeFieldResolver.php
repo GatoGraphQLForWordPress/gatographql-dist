@@ -3,6 +3,11 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\FieldResolvers\ObjectType;
 
+use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
+use PoPCMSSchema\CustomPostMutations\Module;
+use PoPCMSSchema\CustomPostMutations\ModuleConfiguration;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostUpdateInputObjectTypeResolver;
+use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver;
@@ -11,31 +16,10 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
-use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
-use PoPCMSSchema\CustomPostMutations\Module;
-use PoPCMSSchema\CustomPostMutations\ModuleConfiguration;
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver;
-use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 /** @internal */
 abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CustomPostUpdateInputObjectTypeResolver|null
-     */
-    private $customPostUpdateInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
-    protected final function getCustomPostUpdateInputObjectTypeResolver() : CustomPostUpdateInputObjectTypeResolver
-    {
-        if ($this->customPostUpdateInputObjectTypeResolver === null) {
-            /** @var CustomPostUpdateInputObjectTypeResolver */
-            $customPostUpdateInputObjectTypeResolver = $this->instanceManager->getInstance(CustomPostUpdateInputObjectTypeResolver::class);
-            $this->customPostUpdateInputObjectTypeResolver = $customPostUpdateInputObjectTypeResolver;
-        }
-        return $this->customPostUpdateInputObjectTypeResolver;
-    }
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -54,12 +38,10 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the custom post', 'custompost-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the custom post', 'custompost-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -67,40 +49,33 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if (!$usePayloadableCustomPostMutations) {
-            switch ($fieldName) {
-                case 'update':
-                    return SchemaTypeModifiers::NONE;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'update' => SchemaTypeModifiers::NONE,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'update':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getCustomPostUpdateInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getCustomPostUpdateInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
+    protected abstract function getCustomPostUpdateInputObjectTypeResolver() : AbstractCustomPostUpdateInputObjectTypeResolver;
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['update' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['update' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID

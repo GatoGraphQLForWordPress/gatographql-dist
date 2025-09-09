@@ -18,24 +18,12 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTy
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS = 'filterinput-custompoststatus';
-    public const COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES = 'filterinput-unioncustomposttypes';
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
-     */
-    private $filterCustomPostStatusEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
-     */
-    private $customPostEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\FilterInputs\CustomPostStatusFilterInput|null
-     */
-    private $customPostStatusFilterInput;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\FilterInputs\UnionCustomPostTypesFilterInput|null
-     */
-    private $unionCustomPostTypesFilterInput;
+    public final const COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS = 'filterinput-custompoststatus';
+    public final const COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES = 'filterinput-unioncustomposttypes';
+    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
+    private ?CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver = null;
+    private ?CustomPostStatusFilterInput $customPostStatusFilterInput = null;
+    private ?UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput = null;
     protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
     {
         if ($this->filterCustomPostStatusEnumTypeResolver === null) {
@@ -81,14 +69,11 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS:
-                return $this->getCustomPostStatusFilterInput();
-            case self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES:
-                return $this->getUnionCustomPostTypesFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS => $this->getCustomPostStatusFilterInput(),
+            self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES => $this->getUnionCustomPostTypesFilterInput(),
+            default => null,
+        };
     }
     public function getInputClass(Component $component) : string
     {
@@ -112,48 +97,33 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS:
-                return $this->getFilterCustomPostStatusEnumTypeResolver();
-            case self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES:
-                return $this->getCustomPostEnumStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS => $this->getFilterCustomPostStatusEnumTypeResolver(),
+            self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES => $this->getCustomPostEnumStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS:
-            case self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS, self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component)
+    public function getFilterInputDefaultValue(Component $component) : mixed
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS:
-                return [CustomPostStatus::PUBLISH];
-            case self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES:
-                return $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS => [CustomPostStatus::PUBLISH],
+            self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES => $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues(),
+            default => null,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS:
-                return $this->__('Custom Post Status', 'customposts');
-            case self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES:
-                return $this->__('Return results from Union of the Custom Post Types', 'customposts');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS => $this->__('Custom Post Status', 'customposts'),
+            self::COMPONENT_FILTERINPUT_UNIONCUSTOMPOSTTYPES => $this->__('Return results from Union of the Custom Post Types', 'customposts'),
+            default => null,
+        };
     }
 }

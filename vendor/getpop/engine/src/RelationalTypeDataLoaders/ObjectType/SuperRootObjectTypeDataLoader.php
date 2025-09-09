@@ -8,10 +8,7 @@ use PoP\Engine\ObjectModels\SuperRoot;
 /** @internal */
 class SuperRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoP\Engine\ObjectModels\SuperRoot|null
-     */
-    private $superRoot;
+    private ?SuperRoot $superRoot = null;
     protected final function getSuperRoot() : SuperRoot
     {
         if ($this->superRoot === null) {

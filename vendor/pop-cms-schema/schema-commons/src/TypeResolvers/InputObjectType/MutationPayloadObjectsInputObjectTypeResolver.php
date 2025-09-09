@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 class MutationPayloadObjectsInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -36,20 +33,16 @@ class MutationPayloadObjectsInputObjectTypeResolver extends AbstractQueryableInp
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'ids':
-                return $this->__('IDs of the payload objects for the recently-executed mutations', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids' => $this->__('IDs of the payload objects for the recently-executed mutations', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'ids':
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids' => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

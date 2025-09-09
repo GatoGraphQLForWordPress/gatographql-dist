@@ -19,21 +19,11 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 class SchemaFeedback extends \PoP\ComponentModel\Feedback\AbstractQueryFeedback implements \PoP\ComponentModel\Feedback\SchemaFeedbackInterface
 {
     /**
-     * @var \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
-     */
-    protected $relationalTypeResolver;
-    /**
-     * @var FieldInterface[]
-     */
-    protected $fields;
-    /**
      * @param FieldInterface[] $fields All the affected fields (eg: those to be resolved as `null` in case of error)
      * @param array<string,mixed> $extensions
      */
-    public function __construct(FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, RelationalTypeResolverInterface $relationalTypeResolver, array $fields, array $extensions = [])
+    public function __construct(FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, protected RelationalTypeResolverInterface $relationalTypeResolver, protected array $fields, array $extensions = [])
     {
-        $this->relationalTypeResolver = $relationalTypeResolver;
-        $this->fields = $fields;
         parent::__construct($feedbackItemResolution, $astNode, $extensions);
     }
     /**

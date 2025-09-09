@@ -12,10 +12,7 @@ use PoP\ComponentModel\Environment as ComponentModelEnvironment;
 
 class SelfFieldsBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSelfFieldsBlock|null
-     */
-    private $schemaConfigSelfFieldsBlock;
+    private ?SchemaConfigSelfFieldsBlock $schemaConfigSelfFieldsBlock = null;
 
     final protected function getSchemaConfigSelfFieldsBlock(): SchemaConfigSelfFieldsBlock
     {

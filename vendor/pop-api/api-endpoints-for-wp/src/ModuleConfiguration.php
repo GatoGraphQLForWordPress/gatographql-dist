@@ -14,7 +14,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::DISABLE_NATIVE_API_ENDPOINT;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -27,7 +27,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::NATIVE_API_ENDPOINT;
         $defaultValue = '/api/';
-        $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
+        $callback = EndpointUtils::slashURI(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,

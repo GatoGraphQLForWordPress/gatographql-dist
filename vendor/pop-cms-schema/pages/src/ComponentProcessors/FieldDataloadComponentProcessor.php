@@ -12,11 +12,8 @@ use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProce
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_PAGE = 'dataload-relationalfields-page';
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_PAGE = 'dataload-relationalfields-page';
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -38,7 +35,7 @@ class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadCom
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         switch ($component->name) {
             case self::COMPONENT_DATALOAD_RELATIONALFIELDS_PAGE:

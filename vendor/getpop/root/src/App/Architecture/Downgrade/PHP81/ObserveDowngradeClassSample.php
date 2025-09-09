@@ -15,9 +15,5 @@ namespace PoP\Root\App\Architecture\Downgrade\PHP81;
 class ObserveDowngradeClassSample
 {
     // @phpstan-ignore-next-line
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $property;
+    protected readonly string $property;
 }

@@ -9,10 +9,7 @@ use GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface;
 
 class MainPluginManager extends AbstractPluginManager
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface|null
-     */
-    private $mainPlugin;
+    private ?MainPluginInterface $mainPlugin = null;
 
     public function register(MainPluginInterface $mainPlugin): MainPluginInterface
     {

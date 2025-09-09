@@ -23,7 +23,7 @@ abstract class AbstractExecutableDocument extends ExecutableDocument implements 
      *
      * @var OperationInterface[]|null
      */
-    protected $multipleOperationsToExecute;
+    protected ?array $multipleOperationsToExecute = null;
     /**
      * @throws InvalidRequestException
      * @throws FeatureNotSupportedException

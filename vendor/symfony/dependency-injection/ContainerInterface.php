@@ -59,7 +59,6 @@ interface ContainerInterface extends PsrContainerInterface
     public function hasParameter(string $name) : bool;
     /**
      * @return void
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function setParameter(string $name, $value);
+    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value);
 }

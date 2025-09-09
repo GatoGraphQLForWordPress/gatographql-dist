@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class GenericErrorPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\GenericErrorPayloadObjectTypeDataLoader|null
-     */
-    private $genericErrorPayloadObjectTypeDataLoader;
+    private ?GenericErrorPayloadObjectTypeDataLoader $genericErrorPayloadObjectTypeDataLoader = null;
     protected final function getGenericErrorPayloadObjectTypeDataLoader() : GenericErrorPayloadObjectTypeDataLoader
     {
         if ($this->genericErrorPayloadObjectTypeDataLoader === null) {

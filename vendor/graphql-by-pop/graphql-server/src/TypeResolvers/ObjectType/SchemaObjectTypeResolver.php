@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class SchemaObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaObjectTypeDataLoader|null
-     */
-    private $schemaObjectTypeDataLoader;
+    private ?SchemaObjectTypeDataLoader $schemaObjectTypeDataLoader = null;
     protected final function getSchemaObjectTypeDataLoader() : SchemaObjectTypeDataLoader
     {
         if ($this->schemaObjectTypeDataLoader === null) {
@@ -30,10 +27,7 @@ class SchemaObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers
     {
         return $this->__('Schema type, to implement the introspection fields', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var Schema */
         $schema = $object;

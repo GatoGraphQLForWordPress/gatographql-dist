@@ -24,34 +24,13 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuObjectTypeResolver|null
-     */
-    private $menuObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
-     */
-    private $menuTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\MenuByInputObjectTypeResolver|null
-     */
-    private $menuByInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\RootMenusFilterInputObjectTypeResolver|null
-     */
-    private $rootMenusFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\RootMenuPaginationInputObjectTypeResolver|null
-     */
-    private $rootMenuPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\InputObjectType\MenuSortInputObjectTypeResolver|null
-     */
-    private $menuSortInputObjectTypeResolver;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?MenuObjectTypeResolver $menuObjectTypeResolver = null;
+    private ?MenuTypeAPIInterface $menuTypeAPI = null;
+    private ?MenuByInputObjectTypeResolver $menuByInputObjectTypeResolver = null;
+    private ?RootMenusFilterInputObjectTypeResolver $rootMenusFilterInputObjectTypeResolver = null;
+    private ?RootMenuPaginationInputObjectTypeResolver $rootMenuPaginationInputObjectTypeResolver = null;
+    private ?MenuSortInputObjectTypeResolver $menuSortInputObjectTypeResolver = null;
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -131,40 +110,29 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'menu':
-                return $this->__('Get a menu', 'menus');
-            case 'menus':
-                return $this->__('Get all menus', 'menus');
-            case 'menuCount':
-                return $this->__('Count the number of menus', 'menus');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'menu' => $this->__('Get a menu', 'menus'),
+            'menus' => $this->__('Get all menus', 'menus'),
+            'menuCount' => $this->__('Count the number of menus', 'menus'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'menu':
-                return $this->getMenuObjectTypeResolver();
-            case 'menus':
-                return $this->getMenuObjectTypeResolver();
-            case 'menuCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'menu' => $this->getMenuObjectTypeResolver(),
+            'menus' => $this->getMenuObjectTypeResolver(),
+            'menuCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'menus':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case 'menuCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'menus' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'menuCount' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -172,30 +140,21 @@ class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'menu':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getMenuByInputObjectTypeResolver()]);
-            case 'menus':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMenusFilterInputObjectTypeResolver(), 'pagination' => $this->getRootMenuPaginationInputObjectTypeResolver(), 'sort' => $this->getMenuSortInputObjectTypeResolver()]);
-            case 'menuCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMenusFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'menu' => \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getMenuByInputObjectTypeResolver()]),
+            'menus' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMenusFilterInputObjectTypeResolver(), 'pagination' => $this->getRootMenuPaginationInputObjectTypeResolver(), 'sort' => $this->getMenuSortInputObjectTypeResolver()]),
+            'menuCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMenusFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['menu' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['menu' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'menu':

@@ -10,10 +10,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 class CacheControlHeadersHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\CacheControl\Managers\CacheControlEngineInterface|null
-     */
-    private $cacheControlEngine;
+    private ?CacheControlEngineInterface $cacheControlEngine = null;
     protected final function getCacheControlEngine() : CacheControlEngineInterface
     {
         if ($this->cacheControlEngine === null) {
@@ -25,7 +22,7 @@ class CacheControlHeadersHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(EngineHookNames::HEADERS, \Closure::fromCallable([$this, 'addHeaders']));
+        App::addFilter(EngineHookNames::HEADERS, $this->addHeaders(...));
     }
     /**
      * @param array<string,string> $headers

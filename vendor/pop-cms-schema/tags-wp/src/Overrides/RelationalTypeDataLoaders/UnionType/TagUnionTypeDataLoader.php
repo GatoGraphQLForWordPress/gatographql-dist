@@ -18,10 +18,7 @@ class TagUnionTypeDataLoader extends UpstreamTagUnionTypeDataLoader
 {
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
 
-    /**
-     * @var \PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType\QueryableTagListObjectTypeDataLoader|null
-     */
-    private $queryableTagListObjectTypeDataLoader;
+    private ?QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader = null;
 
     final protected function getQueryableTagListObjectTypeDataLoader(): QueryableTagListObjectTypeDataLoader
     {

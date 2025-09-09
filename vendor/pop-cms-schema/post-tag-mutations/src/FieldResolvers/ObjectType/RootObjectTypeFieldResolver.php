@@ -18,34 +18,13 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostMutationResolver|null
-     */
-    private $setTagsOnPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\SetTagsOnPostBulkOperationMutationResolver|null
-     */
-    private $setTagsOnPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\RootSetTagsOnPostInputObjectTypeResolver|null
-     */
-    private $rootSetTagsOnPostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver|null
-     */
-    private $payloadableSetTagsOnPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostBulkOperationMutationResolver|null
-     */
-    private $payloadableSetTagsOnPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnPostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetTagsOnPostMutationPayloadObjectTypeResolver;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?SetTagsOnPostMutationResolver $setTagsOnPostMutationResolver = null;
+    private ?SetTagsOnPostBulkOperationMutationResolver $setTagsOnPostBulkOperationMutationResolver = null;
+    private ?RootSetTagsOnPostInputObjectTypeResolver $rootSetTagsOnPostInputObjectTypeResolver = null;
+    private ?PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver = null;
+    private ?PayloadableSetTagsOnPostBulkOperationMutationResolver $payloadableSetTagsOnPostBulkOperationMutationResolver = null;
+    private ?RootSetTagsOnPostMutationPayloadObjectTypeResolver $rootSetTagsOnPostMutationPayloadObjectTypeResolver = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {

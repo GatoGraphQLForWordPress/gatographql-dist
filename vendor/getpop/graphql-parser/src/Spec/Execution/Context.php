@@ -6,22 +6,12 @@ namespace PoP\GraphQLParser\Spec\Execution;
 /** @internal */
 class Context
 {
-    /**
-     * @var array<string, mixed>
-     * @readonly
-     */
-    private $variableValues = [];
-    /**
-     * @readonly
-     * @var string
-     */
-    private $operationName;
+    private readonly string $operationName;
     /**
      * @param array<string,mixed> $variableValues
      */
-    public function __construct(?string $operationName = null, array $variableValues = [])
+    public function __construct(?string $operationName = null, private readonly array $variableValues = [])
     {
-        $this->variableValues = $variableValues;
         $this->operationName = $operationName !== null ? \trim($operationName) : '';
     }
     public function getOperationName() : string
@@ -39,10 +29,7 @@ class Context
     {
         return \array_key_exists($variableName, $this->variableValues);
     }
-    /**
-     * @return mixed
-     */
-    public function getVariableValue(string $variableName)
+    public function getVariableValue(string $variableName) : mixed
     {
         return $this->variableValues[$variableName] ?? null;
     }

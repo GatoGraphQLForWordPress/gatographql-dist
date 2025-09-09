@@ -10,10 +10,7 @@ use PoPCMSSchema\CustomPostMetaMutations\SchemaHooks\AbstractCustomPostMutationR
 class PostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use \PoPCMSSchema\PostMetaMutations\SchemaHooks\PostMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {

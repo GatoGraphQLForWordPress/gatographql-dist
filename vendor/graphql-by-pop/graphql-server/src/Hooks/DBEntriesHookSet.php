@@ -11,7 +11,7 @@ class DBEntriesHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(HookNames::MOVE_ENTRIES_UNDER_DB_NAME_META_FIELDS, \Closure::fromCallable([$this, 'moveEntriesUnderDBName']));
+        App::addFilter(HookNames::MOVE_ENTRIES_UNDER_DB_NAME_META_FIELDS, $this->moveEntriesUnderDBName(...));
     }
     /**
      * All fields starting with "__" (such as "__schema") are meta

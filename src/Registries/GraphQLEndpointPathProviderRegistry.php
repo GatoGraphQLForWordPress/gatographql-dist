@@ -11,7 +11,7 @@ class GraphQLEndpointPathProviderRegistry implements GraphQLEndpointPathProvider
     /**
      * @var GraphQLEndpointPathProviderInterface[]
      */
-    protected $graphQLEndpointPathProviders = [];
+    protected array $graphQLEndpointPathProviders = [];
 
     public function addGraphQLEndpointPathProvider(GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider, string $serviceDefinitionID): void
     {
@@ -26,9 +26,7 @@ class GraphQLEndpointPathProviderRegistry implements GraphQLEndpointPathProvider
         if ($isPublic !== null) {
             return array_values(array_filter(
                 $this->graphQLEndpointPathProviders,
-                function (GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider) use ($isPublic) {
-                    return ($isPublic && $graphQLEndpointPathProvider->isPublic()) || (!$isPublic && !$graphQLEndpointPathProvider->isPublic());
-                }
+                fn (GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider) => ($isPublic && $graphQLEndpointPathProvider->isPublic()) || (!$isPublic && !$graphQLEndpointPathProvider->isPublic())
             ));
         }
         return $this->graphQLEndpointPathProviders;

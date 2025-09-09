@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class CreateMediaItemFromURLInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getURLScalarTypeResolver() : URLScalarTypeResolver
     {
         if ($this->urlScalarTypeResolver === null) {
@@ -55,22 +49,17 @@ class CreateMediaItemFromURLInputObjectTypeResolver extends AbstractInputObjectT
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::SOURCE:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::SOURCE => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::FILENAME:
-                return $this->__('File name (to override the one from the URL source)', 'media-mutations');
-            case MutationInputProperties::SOURCE:
-                return $this->__('URL source', 'media-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::FILENAME => $this->__('File name (to override the one from the URL source)', 'media-mutations'),
+            MutationInputProperties::SOURCE => $this->__('URL source', 'media-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

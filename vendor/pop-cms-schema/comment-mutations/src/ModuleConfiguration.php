@@ -17,14 +17,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoPCMSSchema\CommentMutations\Environment::MUST_USER_BE_LOGGED_IN_TO_ADD_COMMENT;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function requireCommenterNameAndEmail() : bool
     {
         $envVariable = \PoPCMSSchema\CommentMutations\Environment::REQUIRE_COMMENTER_NAME_AND_EMAIL;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -35,7 +35,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\CommentMutations\Environment::USE_PAYLOADABLE_COMMENT_MUTATIONS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function addFieldsToQueryPayloadableCommentMutations() : bool
@@ -45,7 +45,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoPCMSSchema\CommentMutations\Environment::ADD_FIELDS_TO_QUERY_PAYLOADABLE_COMMENT_MUTATIONS;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

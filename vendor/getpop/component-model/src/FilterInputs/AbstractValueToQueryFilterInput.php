@@ -8,9 +8,8 @@ abstract class AbstractValueToQueryFilterInput extends \PoP\ComponentModel\Filte
 {
     /**
      * @param array<string,mixed> $query
-     * @param mixed $value
      */
-    public final function filterDataloadQueryArgs(array &$query, $value) : void
+    public final function filterDataloadQueryArgs(array &$query, mixed $value) : void
     {
         if ($value !== null) {
             $value = $this->getValue($value);
@@ -21,11 +20,7 @@ abstract class AbstractValueToQueryFilterInput extends \PoP\ComponentModel\Filte
         $query[$this->getQueryArgKey()] = $value;
     }
     protected abstract function getQueryArgKey() : string;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function getValue($value)
+    protected function getValue(mixed $value) : mixed
     {
         return $value;
     }

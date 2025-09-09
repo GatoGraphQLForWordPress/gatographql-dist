@@ -8,12 +8,12 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E2 = 'e2';
-    public const E3 = 'e3';
-    public const E4 = 'e4';
-    public const E5 = 'e5';
-    public const E6 = 'e6';
+    public final const E1 = 'e1';
+    public final const E2 = 'e2';
+    public final const E3 = 'e3';
+    public final const E4 = 'e4';
+    public final const E5 = 'e5';
+    public final const E6 = 'e6';
     /**
      * @return string[]
      */
@@ -23,22 +23,15 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('The entity with ID \'%s\' already has meta entry for key \'%s\'', 'taxonomymeta-mutations');
-            case self::E2:
-                return $this->__('Meta key \'%s\' is not allowed', 'taxonomymeta-mutations');
-            case self::E3:
-                return $this->__('Meta keys \'%s\' are not allowed', 'taxonomymeta-mutations');
-            case self::E4:
-                return $this->__('The entity with ID \'%s\' has no entry with meta key \'%s\'', 'taxonomymeta-mutations');
-            case self::E5:
-                return $this->__('The entity with ID \'%s\' has no entry with meta key \'%s\' and value \'%s\'', 'taxonomymeta-mutations');
-            case self::E6:
-                return $this->__('The entity with ID \'%s\' already has entry with meta key \'%s\' and value \'%s\'', 'taxonomymeta-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('The entity with ID \'%s\' already has meta entry for key \'%s\'', 'taxonomymeta-mutations'),
+            self::E2 => $this->__('Meta key \'%s\' is not allowed', 'taxonomymeta-mutations'),
+            self::E3 => $this->__('Meta keys \'%s\' are not allowed', 'taxonomymeta-mutations'),
+            self::E4 => $this->__('The entity with ID \'%s\' has no entry with meta key \'%s\'', 'taxonomymeta-mutations'),
+            self::E5 => $this->__('The entity with ID \'%s\' has no entry with meta key \'%s\' and value \'%s\'', 'taxonomymeta-mutations'),
+            self::E6 => $this->__('The entity with ID \'%s\' already has entry with meta key \'%s\' and value \'%s\'', 'taxonomymeta-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

@@ -22,14 +22,13 @@ class PayloadableCreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMuta
      * return them in the Payload.
      *
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $separateObjectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         parent::validate($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
         }
         $mediaItemID = null;
         try {
@@ -39,7 +38,7 @@ class PayloadableCreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMuta
             return $this->createFailureObjectMutationPayload([$this->createGenericErrorPayloadFromPayloadClientException($mediaItemCRUDMutationException)])->getID();
         }
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $mediaItemID)->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $mediaItemID)->getID();
         }
         /** @var string|int $mediaItemID */
         return $this->createSuccessObjectMutationPayload($mediaItemID)->getID();

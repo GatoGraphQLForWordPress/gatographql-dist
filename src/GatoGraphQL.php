@@ -9,10 +9,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 
 class GatoGraphQL
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private static $endpointHelpers;
+    private static ?EndpointHelpers $endpointHelpers = null;
 
     final protected static function getEndpointHelpers(): EndpointHelpers
     {

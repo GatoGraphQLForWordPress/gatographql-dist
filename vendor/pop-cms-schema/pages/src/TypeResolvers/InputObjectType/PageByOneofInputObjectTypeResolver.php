@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput;
 /** @internal */
 class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\PathOrPathsFilterInput|null
-     */
-    private $pathOrPathsFilterInput;
+    private ?PathOrPathsFilterInput $pathOrPathsFilterInput = null;
     protected final function getPathOrPathsFilterInput() : PathOrPathsFilterInput
     {
         if ($this->pathOrPathsFilterInput === null) {
@@ -40,20 +37,16 @@ class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'path':
-                return $this->__('Query by page path', 'pages');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'path' => $this->__('Query by page path', 'pages'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'path':
-                return $this->getPathOrPathsFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'path' => $this->getPathOrPathsFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

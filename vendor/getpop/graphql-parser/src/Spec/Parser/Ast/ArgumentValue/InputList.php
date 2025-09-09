@@ -13,15 +13,10 @@ use stdClass;
 class InputList extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface, WithAstValueInterface
 {
     /**
-     * @var mixed[]
-     */
-    protected $list;
-    /**
      * @param mixed[] $list Elements inside can be WithValueInterface or native types (array, int, string, etc)
      */
-    public function __construct(array $list, Location $location)
+    public function __construct(protected array $list, Location $location)
     {
-        $this->list = $list;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -39,7 +34,7 @@ class InputList extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\As
      *
      * @return mixed[]
      */
-    public final function getValue()
+    public final function getValue() : mixed
     {
         $list = [];
         foreach ($this->list as $key => $value) {
@@ -54,7 +49,7 @@ class InputList extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\As
     /**
      * @return mixed[]
      */
-    public function getAstValue()
+    public function getAstValue() : mixed
     {
         return $this->list;
     }

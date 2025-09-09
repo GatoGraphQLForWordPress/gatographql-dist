@@ -20,7 +20,7 @@ class CategoryTypeMutationAPI extends TaxonomyTypeMutationAPI implements Categor
      * @return string|int the ID of the created category
      * @throws CategoryTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    public function createCategoryTerm(string $taxonomyName, array $data)
+    public function createCategoryTerm(string $taxonomyName, array $data): string|int
     {
         return $this->createTaxonomyTerm($taxonomyName, $data);
     }
@@ -38,17 +38,13 @@ class CategoryTypeMutationAPI extends TaxonomyTypeMutationAPI implements Categor
      * @param array<string,mixed> $data
      * @return string|int the ID of the updated category
      * @throws CategoryTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    public function updateCategoryTerm($taxonomyTermID, string $taxonomyName, array $data)
+    public function updateCategoryTerm(string|int $taxonomyTermID, string $taxonomyName, array $data): string|int
     {
         return $this->updateTaxonomyTerm($taxonomyTermID, $taxonomyName, $data);
     }
 
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    public function deleteCategoryTerm($taxonomyTermID, string $taxonomyName): bool
+    public function deleteCategoryTerm(string|int $taxonomyTermID, string $taxonomyName): bool
     {
         return $this->deleteTaxonomyTerm($taxonomyTermID, $taxonomyName);
     }

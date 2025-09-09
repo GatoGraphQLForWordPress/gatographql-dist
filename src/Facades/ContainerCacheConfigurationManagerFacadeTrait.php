@@ -12,7 +12,7 @@ trait ContainerCacheConfigurationManagerFacadeTrait
     /**
      * @var array<string,CacheConfigurationManagerInterface> instances organized by context ID
      */
-    protected static $instances = [];
+    protected static array $instances = [];
 
     /**
      * @param array<string,mixed> $pluginAppGraphQLServerContext

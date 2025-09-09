@@ -15,21 +15,12 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class RewindableGenerator implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var \Closure
-     */
-    private $generator;
-    /**
-     * @var \Closure|int
-     */
-    private $count;
-    /**
-     * @param int|callable $count
-     */
-    public function __construct(callable $generator, $count)
+    private \Closure $generator;
+    private \Closure|int $count;
+    public function __construct(callable $generator, int|callable $count)
     {
-        $this->generator = \Closure::fromCallable($generator);
-        $this->count = \is_int($count) ? $count : \Closure::fromCallable($count);
+        $this->generator = $generator(...);
+        $this->count = \is_int($count) ? $count : $count(...);
     }
     public function getIterator() : \Traversable
     {

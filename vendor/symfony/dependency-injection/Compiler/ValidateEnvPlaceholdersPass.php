@@ -26,10 +26,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Parame
 class ValidateEnvPlaceholdersPass implements CompilerPassInterface
 {
     private const TYPE_FIXTURES = ['array' => [], 'bool' => \false, 'float' => 0.0, 'int' => 0, 'string' => ''];
-    /**
-     * @var mixed[]
-     */
-    private $extensionConfig = [];
+    private array $extensionConfig = [];
     /**
      * @return void
      */
@@ -97,7 +94,7 @@ class ValidateEnvPlaceholdersPass implements CompilerPassInterface
             $parameter = \array_shift($parts);
             // Retrieve and remove parameter
             [$defaultParameter, $defaultParameterType] = $this->getParameterDefaultAndDefaultType($parameter, $defaultBag);
-            return \array_merge([$defaultParameterType => $defaultParameter], $this->getPlaceholderValues(\implode(':', $parts), $defaultBag, $envTypes));
+            return [$defaultParameterType => $defaultParameter, ...$this->getPlaceholderValues(\implode(':', $parts), $defaultBag, $envTypes)];
         }
         $values = [];
         foreach ($envTypes[$prefix] ?? ['string'] as $type) {

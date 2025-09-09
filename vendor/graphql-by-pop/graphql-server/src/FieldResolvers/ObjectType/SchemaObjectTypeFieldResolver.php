@@ -20,22 +20,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
-     */
-    private $typeObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\DirectiveObjectTypeResolver|null
-     */
-    private $directiveObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaExtensionsObjectTypeResolver|null
-     */
-    private $schemaExtensionsObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?TypeObjectTypeResolver $typeObjectTypeResolver = null;
+    private ?DirectiveObjectTypeResolver $directiveObjectTypeResolver = null;
+    private ?SchemaExtensionsObjectTypeResolver $schemaExtensionsObjectTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getTypeObjectTypeResolver() : TypeObjectTypeResolver
     {
         if ($this->typeObjectTypeResolver === null) {
@@ -88,93 +76,63 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'queryType':
-            case 'extensions':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'types':
-            case 'directives':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'queryType', 'extensions' => SchemaTypeModifiers::NON_NULLABLE,
+            'types', 'directives' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'queryType':
-                return $this->__('The type, accessible from the root, that resolves queries', 'graphql-server');
-            case 'mutationType':
-                return $this->__('The type, accessible from the root, that resolves mutations', 'graphql-server');
-            case 'subscriptionType':
-                return $this->__('The type, accessible from the root, that resolves subscriptions', 'graphql-server');
-            case 'types':
-                return $this->__('All types registered in the data graph', 'graphql-server');
-            case 'directives':
-                return $this->__('All directives registered in the data graph', 'graphql-server');
-            case 'type':
-                return $this->__('Obtain a specific type from the schema', 'graphql-server');
-            case 'extensions':
-                return $this->__('Extensions (custom metadata) added to the GraphQL schema', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'queryType' => $this->__('The type, accessible from the root, that resolves queries', 'graphql-server'),
+            'mutationType' => $this->__('The type, accessible from the root, that resolves mutations', 'graphql-server'),
+            'subscriptionType' => $this->__('The type, accessible from the root, that resolves subscriptions', 'graphql-server'),
+            'types' => $this->__('All types registered in the data graph', 'graphql-server'),
+            'directives' => $this->__('All directives registered in the data graph', 'graphql-server'),
+            'type' => $this->__('Obtain a specific type from the schema', 'graphql-server'),
+            'extensions' => $this->__('Extensions (custom metadata) added to the GraphQL schema', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'type':
-                return ['name' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'type' => ['name' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['type' => 'name']:
-                return $this->__('The name of the type', 'graphql-server');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['type' => 'name'] => $this->__('The name of the type', 'graphql-server'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['type' => 'name']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['type' => 'name'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Schema */
         $schema = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'queryType':
-                return $schema->getQueryRootObjectTypeID();
-            case 'mutationType':
-                return $schema->getMutationRootObjectTypeID();
-            case 'subscriptionType':
-                return $schema->getSubscriptionRootObjectTypeID();
-            case 'types':
-                return $schema->getTypeIDs();
-            case 'directives':
-                return $schema->getDirectiveIDs();
-            case 'type':
-                return $schema->getTypeID($fieldDataAccessor->getValue('name'));
-            case 'extensions':
-                return $schema->getExtensions()->getID();
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'queryType' => $schema->getQueryRootObjectTypeID(),
+            'mutationType' => $schema->getMutationRootObjectTypeID(),
+            'subscriptionType' => $schema->getSubscriptionRootObjectTypeID(),
+            'types' => $schema->getTypeIDs(),
+            'directives' => $schema->getDirectiveIDs(),
+            'type' => $schema->getTypeID($fieldDataAccessor->getValue('name')),
+            'extensions' => $schema->getExtensions()->getID(),
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
     /**
      * Since the return type is known for all the fields in this
@@ -186,19 +144,11 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'queryType':
-            case 'mutationType':
-            case 'subscriptionType':
-            case 'types':
-            case 'type':
-                return $this->getTypeObjectTypeResolver();
-            case 'directives':
-                return $this->getDirectiveObjectTypeResolver();
-            case 'extensions':
-                return $this->getSchemaExtensionsObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'queryType', 'mutationType', 'subscriptionType', 'types', 'type' => $this->getTypeObjectTypeResolver(),
+            'directives' => $this->getDirectiveObjectTypeResolver(),
+            'extensions' => $this->getSchemaExtensionsObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

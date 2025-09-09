@@ -26,21 +26,14 @@ class DelegatingLoader extends Loader
     {
         $this->resolver = $resolver;
     }
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         if (\false === ($loader = $this->resolver->resolve($resource, $type))) {
             throw new LoaderLoadException($resource, null, 0, null, $type);
         }
         return $loader->load($resource, $type);
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         return \false !== $this->resolver->resolve($resource, $type);
     }

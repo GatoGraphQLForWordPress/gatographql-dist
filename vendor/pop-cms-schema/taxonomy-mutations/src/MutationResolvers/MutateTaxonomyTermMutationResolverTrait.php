@@ -34,47 +34,35 @@ trait MutateTaxonomyTermMutationResolverTrait
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$taxonomyName]);
     }
-    /**
-     * @param string|int|null $taxonomyTermID
-     */
-    protected function validateTaxonomyTermIDNotEmpty($taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateTaxonomyTermIDNotEmpty(string|int|null $taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!($taxonomyTermID === null || $taxonomyTermID === '')) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function validateTaxonomyTermByIDExists($taxonomyTermID, ?string $taxonomyName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateTaxonomyTermByIDExists(string|int $taxonomyTermID, string|null $taxonomyName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->getTaxonomyTermTypeAPI()->taxonomyTermExists($taxonomyTermID, $taxonomyName)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getTaxonomyTermDoesNotExistError($taxonomyName, $taxonomyTermID), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, $taxonomyTermID) : FeedbackItemResolution
+    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermID) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$taxonomyName, $taxonomyTermID]);
         }
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$taxonomyTermID]);
     }
-    protected function validateTaxonomyTermBySlugExists(string $taxonomyTermSlug, ?string $taxonomyName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateTaxonomyTermBySlugExists(string $taxonomyTermSlug, string|null $taxonomyName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->getTaxonomyTermTypeAPI()->taxonomyTermExists($taxonomyTermSlug, $taxonomyName)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getTaxonomyTermBySlugDoesNotExistError($taxonomyName, $taxonomyTermSlug), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $taxonomyTermSlug
-     */
-    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, $taxonomyTermSlug) : FeedbackItemResolution
+    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermSlug) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9, [$taxonomyName, $taxonomyTermSlug]);
@@ -94,10 +82,7 @@ trait MutateTaxonomyTermMutationResolverTrait
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2, [$taxonomyName]);
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function validateCanLoggedInUserDeleteTaxonomyTerm($taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCanLoggedInUserDeleteTaxonomyTerm(string|int $taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         // Validate user permission
         $userID = App::getState('current-user-id');
@@ -106,10 +91,7 @@ trait MutateTaxonomyTermMutationResolverTrait
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getLoggedInUserHasNoPermissionToDeleteTaxonomyTermError($taxonomyTermID), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function getLoggedInUserHasNoPermissionToDeleteTaxonomyTermError($taxonomyTermID) : FeedbackItemResolution
+    protected function getLoggedInUserHasNoPermissionToDeleteTaxonomyTermError(string|int $taxonomyTermID) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3, [$taxonomyTermID]);
     }

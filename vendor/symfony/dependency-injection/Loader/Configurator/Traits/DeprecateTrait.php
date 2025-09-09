@@ -25,7 +25,7 @@ trait DeprecateTrait
      *
      * @throws InvalidArgumentException when the message template is invalid
      */
-    public final function deprecate(string $package, string $version, string $message)
+    public final function deprecate(string $package, string $version, string $message) : static
     {
         $this->definition->setDeprecated($package, $version, $message);
         return $this;

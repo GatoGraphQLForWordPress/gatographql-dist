@@ -13,7 +13,6 @@ interface CommentTypeMutationAPIInterface
     /**
      * @throws CommentCRUDMutationException In case of error
      * @param array<string,mixed> $comment_data
-     * @return string|int
      */
-    public function insertComment(array $comment_data);
+    public function insertComment(array $comment_data) : string|int;
 }

@@ -24,71 +24,32 @@ use function flush_rewrite_rules;
 
 abstract class AbstractPlugin implements PluginInterface
 {
-    /**
-     * @var string
-     */
-    protected $pluginFile;
-    /**
-     * @var string
-     */
-    protected $pluginVersion;
-    /**
-     * @var string|null
-     */
-    protected $commitHash;
     public const PLUGIN_VERSION_COMMIT_HASH_IDENTIFIER = '#';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\PluginInfoInterface|null
-     */
-    protected $pluginInfo;
+    protected ?PluginInfoInterface $pluginInfo = null;
 
-    /**
-     * @var string
-     */
-    protected $pluginBaseName;
-    /**
-     * @var string
-     */
-    protected $pluginSlug;
-    /**
-     * @var string
-     */
-    protected $pluginName;
-    /**
-     * @var string
-     */
-    protected $pluginFolder;
-    /**
-     * @var string
-     */
-    protected $pluginURL;
-    /**
-     * @var string
-     */
-    protected $pluginScopingTopLevelNamespace;
+    protected string $pluginBaseName;
+    protected string $pluginSlug;
+    protected string $pluginName;
+    protected string $pluginFolder;
+    protected string $pluginURL;
+    protected string $pluginScopingTopLevelNamespace;
 
     public function __construct(
-        string $pluginFile,
-        string $pluginVersion,
+        protected string $pluginFile, /** The main plugin file */
+        protected string $pluginVersion,
         ?string $pluginName = null,
-        ?string $commitHash = null,
-        /** Useful for development to regenerate the container when testing the generated plugin */
-        ?string $pluginFolder = null,
-        /** Useful to override by standalone plugins */
-        ?string $pluginURL = null
-    )
-    {
-        $this->pluginFile = $pluginFile;
-        /** The main plugin file */
-        $this->pluginVersion = $pluginVersion;
-        $this->commitHash = $commitHash;
+        protected ?string $commitHash = null, /** Useful for development to regenerate the container when testing the generated plugin */
+        ?string $pluginFolder = null, /** Useful to override by standalone plugins */
+        ?string $pluginURL = null, /** Useful to override by standalone plugins */
+    ) {
         $this->pluginBaseName = \plugin_basename($pluginFile);
         $this->pluginSlug = dirname($this->pluginBaseName);
         $this->pluginName = $pluginName ?? $this->pluginBaseName;
         $this->pluginFolder = $pluginFolder ?? dirname($this->pluginFile);
         $this->pluginURL = $pluginURL ?? \plugin_dir_url($this->pluginFile);
         $this->pluginScopingTopLevelNamespace = ScopingHelpers::getPluginInternalScopingTopLevelNamespace($this->pluginName);
+
         // Have the Plugin set its own info on the corresponding PluginInfo
         $this->initializeInfo();
     }
@@ -389,9 +350,10 @@ abstract class AbstractPlugin implements PluginInterface
         // Use $serviceDefinitionID for if the class is overridden
         return array_values(array_filter(
             $customPostTypeRegistry->getCustomPostTypes(),
-            function (string $serviceDefinitionID) {
-                return strncmp($serviceDefinitionID, $this->getPluginClassPSR4Namespace() . '\\', strlen($this->getPluginClassPSR4Namespace() . '\\')) === 0;
-            },
+            fn (string $serviceDefinitionID) => str_starts_with(
+                $serviceDefinitionID,
+                $this->getPluginClassPSR4Namespace() . '\\'
+            ),
             ARRAY_FILTER_USE_KEY
         ));
     }
@@ -410,7 +372,7 @@ abstract class AbstractPlugin implements PluginInterface
     public function setup(): void
     {
         // Functions to execute when activating/deactivating the plugin
-        \register_deactivation_hook($this->getPluginFile(), \Closure::fromCallable([$this, 'deactivate']));
+        \register_deactivation_hook($this->getPluginFile(), $this->deactivate(...));
 
         /**
          * PoP depends on hook "init" to set-up the endpoint rewrite,

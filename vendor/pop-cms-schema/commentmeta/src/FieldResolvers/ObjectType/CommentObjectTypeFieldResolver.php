@@ -19,10 +19,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     use EntityObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface|null
-     */
-    private $commentMetaTypeAPI;
+    private ?CommentMetaTypeAPIInterface $commentMetaTypeAPI = null;
     protected final function getCommentMetaTypeAPI() : CommentMetaTypeAPIInterface
     {
         if ($this->commentMetaTypeAPI === null) {
@@ -56,10 +53,7 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
         }
         return $sensitiveFieldArgNames;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $comment = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -73,7 +67,7 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
                     }
                     $metaKeys[] = $key;
                 }
-                return $this->resolveMetaKeysValue($metaKeys, $fieldDataAccessor);
+                return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
                 $metaValue = $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $fieldDataAccessor->getValue('key'), \true);
                 // If it's an array, it must be a JSON object

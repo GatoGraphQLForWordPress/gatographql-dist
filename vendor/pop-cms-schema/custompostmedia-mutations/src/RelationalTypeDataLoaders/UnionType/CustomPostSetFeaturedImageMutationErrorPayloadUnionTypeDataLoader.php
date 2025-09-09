@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $customPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver;
+    private ?CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver $customPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver = null;
     protected final function getCustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver() : CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver
     {
         if ($this->customPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver === null) {

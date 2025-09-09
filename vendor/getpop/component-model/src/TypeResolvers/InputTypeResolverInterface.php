@@ -32,7 +32,7 @@ interface InputTypeResolverInterface extends \PoP\ComponentModel\TypeResolvers\T
      *
      * @see https://spec.graphql.org/draft/#sec-Input-Values
      */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null;
     /**
      * Check if the input value is already coerced.
      *

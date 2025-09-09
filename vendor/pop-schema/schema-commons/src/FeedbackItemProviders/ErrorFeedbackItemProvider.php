@@ -8,7 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
+    public final const E1 = 'e1';
     /**
      * @return string[]
      */
@@ -18,12 +18,10 @@ class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('The execution of the regex replace produced error: \'%s\'', 'function-directives');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('The execution of the regex replace produced error: \'%s\'', 'function-directives'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

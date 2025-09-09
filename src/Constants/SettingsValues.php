@@ -6,10 +6,10 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class SettingsValues
 {
-    public const ENABLED = 'enabled';
-    public const DISABLED = 'disabled';
+    public final const ENABLED = 'enabled';
+    public final const DISABLED = 'disabled';
 
-    public const DEFAULT = 'default';
-    public const NONE = 'none';
-    public const CURRENT = 'current';
+    public final const DEFAULT = 'default';
+    public final const NONE = 'none';
+    public final const CURRENT = 'current';
 }

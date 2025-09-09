@@ -9,10 +9,7 @@ use PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLo
 /** @internal */
 class PostObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\RelationalTypeDataLoaders\ObjectType\PostObjectTypeDataLoader|null
-     */
-    private $postObjectTypeDataLoader;
+    private ?PostObjectTypeDataLoader $postObjectTypeDataLoader = null;
     protected final function getPostObjectTypeDataLoader() : PostObjectTypeDataLoader
     {
         if ($this->postObjectTypeDataLoader === null) {

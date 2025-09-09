@@ -18,13 +18,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
  */
 class RuntimeLocation extends \PoP\GraphQLParser\Spec\Parser\Location
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface|null
-     */
-    protected $staticASTNode;
-    public function __construct(?AstInterface $staticASTNode = null, int $line = -1, int $column = -1)
+    public function __construct(protected ?AstInterface $staticASTNode = null, int $line = -1, int $column = -1)
     {
-        $this->staticASTNode = $staticASTNode;
         parent::__construct($line, $column);
     }
     public function getStaticASTNode() : ?AstInterface

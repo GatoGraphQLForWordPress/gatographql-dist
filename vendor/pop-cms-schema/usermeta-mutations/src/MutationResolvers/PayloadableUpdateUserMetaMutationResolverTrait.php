@@ -21,14 +21,13 @@ trait PayloadableUpdateUserMetaMutationResolverTrait
      * return them in the Payload.
      *
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $separateObjectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
         $this->validateUpdateMetaErrors($fieldDataAccessor, $separateObjectTypeFieldResolutionFeedbackStore);
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()))->getID();
         }
         $userID = null;
         try {
@@ -38,7 +37,7 @@ trait PayloadableUpdateUserMetaMutationResolverTrait
             return $this->createFailureObjectMutationPayload([$this->createGenericErrorPayloadFromPayloadClientException($userMetaCRUDMutationException)])->getID();
         }
         if ($separateObjectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
-            return $this->createFailureObjectMutationPayload(\array_map(\Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $userID)->getID();
+            return $this->createFailureObjectMutationPayload(\array_map($this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), $separateObjectTypeFieldResolutionFeedbackStore->getErrors()), $userID)->getID();
         }
         /** @var string|int $userID */
         return $this->createSuccessObjectMutationPayload($userID)->getID();

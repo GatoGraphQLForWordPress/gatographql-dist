@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableCreatePostBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableCreatePostMutationResolver|null
-     */
-    private $payloadableCreatePostMutationResolver;
+    private ?\PoPCMSSchema\PostMutations\MutationResolvers\PayloadableCreatePostMutationResolver $payloadableCreatePostMutationResolver = null;
     protected final function getPayloadableCreatePostMutationResolver() : \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableCreatePostMutationResolver
     {
         if ($this->payloadableCreatePostMutationResolver === null) {

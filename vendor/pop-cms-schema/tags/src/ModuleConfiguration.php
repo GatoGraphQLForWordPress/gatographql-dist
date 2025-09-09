@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Tags\Environment::TAG_LIST_DEFAULT_LIMIT;
         $defaultValue = 10;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getTagListMaxLimit() : ?int
@@ -20,7 +20,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = \PoPCMSSchema\Tags\Environment::TAG_LIST_MAX_LIMIT;
         $defaultValue = -1;
         // Unlimited
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -30,7 +30,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Tags\Environment::QUERYABLE_TAG_TAXONOMIES;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

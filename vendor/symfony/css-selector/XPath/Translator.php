@@ -28,38 +28,20 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\ParserI
  */
 class Translator implements TranslatorInterface
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\ParserInterface
-     */
-    private $mainParser;
+    private ParserInterface $mainParser;
     /**
      * @var ParserInterface[]
      */
-    private $shortcutParsers = [];
+    private array $shortcutParsers = [];
     /**
      * @var Extension\ExtensionInterface[]
      */
-    private $extensions = [];
-    /**
-     * @var mixed[]
-     */
-    private $nodeTranslators = [];
-    /**
-     * @var mixed[]
-     */
-    private $combinationTranslators = [];
-    /**
-     * @var mixed[]
-     */
-    private $functionTranslators = [];
-    /**
-     * @var mixed[]
-     */
-    private $pseudoClassTranslators = [];
-    /**
-     * @var mixed[]
-     */
-    private $attributeMatchingTranslators = [];
+    private array $extensions = [];
+    private array $nodeTranslators = [];
+    private array $combinationTranslators = [];
+    private array $functionTranslators = [];
+    private array $pseudoClassTranslators = [];
+    private array $attributeMatchingTranslators = [];
     public function __construct(?ParserInterface $parser = null)
     {
         $this->mainParser = $parser ?? new Parser();
@@ -67,10 +49,10 @@ class Translator implements TranslatorInterface
     }
     public static function getXpathLiteral(string $element) : string
     {
-        if (\strpos($element, "'") === \false) {
+        if (!\str_contains($element, "'")) {
             return "'" . $element . "'";
         }
-        if (\strpos($element, '"') === \false) {
+        if (!\str_contains($element, '"')) {
             return '"' . $element . '"';
         }
         $string = $element;
@@ -106,7 +88,7 @@ class Translator implements TranslatorInterface
     /**
      * @return $this
      */
-    public function registerExtension(Extension\ExtensionInterface $extension)
+    public function registerExtension(Extension\ExtensionInterface $extension) : static
     {
         $this->extensions[$extension->getName()] = $extension;
         $this->nodeTranslators = \array_merge($this->nodeTranslators, $extension->getNodeTranslators());
@@ -129,7 +111,7 @@ class Translator implements TranslatorInterface
     /**
      * @return $this
      */
-    public function registerParserShortcut(ParserInterface $shortcut)
+    public function registerParserShortcut(ParserInterface $shortcut) : static
     {
         $this->shortcutParsers[] = $shortcut;
         return $this;

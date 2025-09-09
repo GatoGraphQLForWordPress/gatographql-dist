@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheExcep
  */
 class DeflateMarshaller implements MarshallerInterface
 {
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
+    private MarshallerInterface $marshaller;
     public function __construct(MarshallerInterface $marshaller)
     {
         if (!\function_exists('gzdeflate')) {
@@ -34,10 +31,7 @@ class DeflateMarshaller implements MarshallerInterface
     {
         return \array_map('gzdeflate', $this->marshaller->marshall($values, $failed));
     }
-    /**
-     * @return mixed
-     */
-    public function unmarshall(string $value)
+    public function unmarshall(string $value) : mixed
     {
         if (\false !== ($inflatedValue = @\gzinflate($value))) {
             $value = $inflatedValue;

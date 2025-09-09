@@ -86,9 +86,8 @@ class ResponseHeaderBag extends HeaderBag
     }
     /**
      * @return void
-     * @param string|mixed[]|null $values
      */
-    public function set(string $key, $values, bool $replace = \true)
+    public function set(string $key, string|array|null $values, bool $replace = \true)
     {
         $uniqueKey = \strtr($key, self::UPPER, self::LOWER);
         if ('set-cookie' === $uniqueKey) {
@@ -133,10 +132,7 @@ class ResponseHeaderBag extends HeaderBag
     {
         return \array_key_exists($key, $this->computedCacheControl);
     }
-    /**
-     * @return bool|string|null
-     */
-    public function getCacheControlDirective(string $key)
+    public function getCacheControlDirective(string $key) : bool|string|null
     {
         return $this->computedCacheControl[$key] ?? null;
     }
@@ -155,7 +151,7 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function removeCookie(string $name, ?string $path = '/', ?string $domain = null)
     {
-        $path = $path ?? '/';
+        $path ??= '/';
         unset($this->cookies[$domain][$path][$name]);
         if (empty($this->cookies[$domain][$path])) {
             unset($this->cookies[$domain][$path]);

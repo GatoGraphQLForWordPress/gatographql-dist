@@ -25,16 +25,13 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 class MockFileSessionStorage extends MockArraySessionStorage
 {
-    /**
-     * @var string
-     */
-    private $savePath;
+    private string $savePath;
     /**
      * @param string|null $savePath Path of directory to save session files
      */
     public function __construct(?string $savePath = null, string $name = 'MOCKSESSID', ?MetadataBag $metaBag = null)
     {
-        $savePath = $savePath ?? \sys_get_temp_dir();
+        $savePath ??= \sys_get_temp_dir();
         if (!\is_dir($savePath) && !@\mkdir($savePath, 0777, \true) && !\is_dir($savePath)) {
             throw new \RuntimeException(\sprintf('Session Storage was not able to create directory "%s".', $savePath));
         }

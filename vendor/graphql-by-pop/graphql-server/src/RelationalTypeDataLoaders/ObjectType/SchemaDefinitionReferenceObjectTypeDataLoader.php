@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDa
 /** @internal */
 class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
-     */
-    private $schemaDefinitionReferenceRegistry;
+    private ?SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry = null;
     protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {
@@ -28,6 +25,6 @@ class SchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDa
     public function getObjects(array $ids) : array
     {
         /** @var string[] $ids */
-        return \array_map(\Closure::fromCallable([$this->getSchemaDefinitionReferenceRegistry(), 'getSchemaDefinitionReferenceObject']), $ids);
+        return \array_map($this->getSchemaDefinitionReferenceRegistry()->getSchemaDefinitionReferenceObject(...), $ids);
     }
 }

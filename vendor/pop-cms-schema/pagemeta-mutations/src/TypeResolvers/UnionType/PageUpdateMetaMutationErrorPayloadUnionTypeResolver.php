@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class PageUpdateMetaMutationErrorPayloadUnionTypeResolver extends AbstractCustomPostUpdateMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\RelationalTypeDataLoaders\UnionType\PageUpdateMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $pageUpdateMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?PageUpdateMetaMutationErrorPayloadUnionTypeDataLoader $pageUpdateMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getPageUpdateMetaMutationErrorPayloadUnionTypeDataLoader() : PageUpdateMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->pageUpdateMetaMutationErrorPayloadUnionTypeDataLoader === null) {

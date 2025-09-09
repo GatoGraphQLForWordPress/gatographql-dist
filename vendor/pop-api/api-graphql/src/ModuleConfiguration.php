@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPAPI\GraphQLAPI\Environment::PRINT_DYNAMIC_FIELD_IN_EXTENSIONS_OUTPUT;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

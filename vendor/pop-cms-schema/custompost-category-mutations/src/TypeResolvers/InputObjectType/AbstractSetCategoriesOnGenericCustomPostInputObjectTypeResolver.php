@@ -9,10 +9,7 @@ use PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeRe
 /** @internal */
 abstract class AbstractSetCategoriesOnGenericCustomPostInputObjectTypeResolver extends AbstractSetCategoriesOnCustomPostInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {

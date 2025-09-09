@@ -7,16 +7,15 @@ namespace GatoGraphQL\GatoGraphQL\ObjectModels;
 final class DependedOnActiveWordPressTheme extends AbstractDependedOnWordPressTheme
 {
     /**
-     * @readonly
-     * @var string|null
-     */
-    public $versionConstraint;
-    /**
      * @param string[] $alternativeSlugs
      */
-    public function __construct(string $name, string $slug, ?string $versionConstraint = null, array $alternativeSlugs = [], ?string $url = null)
-    {
-        $this->versionConstraint = $versionConstraint;
+    public function __construct(
+        string $name,
+        string $slug,
+        public readonly ?string $versionConstraint = null,
+        array $alternativeSlugs = [],
+        ?string $url = null,
+    ) {
         parent::__construct(
             $name,
             $slug,

@@ -6,14 +6,8 @@ namespace GatoGraphQL\GatoGraphQL\Admin\Tables;
 
 trait ItemListTableTrait
 {
-    /**
-     * @var string
-     */
-    protected $itemsPerPageOptionName = '';
-    /**
-     * @var int
-     */
-    protected $defaultItemsPerPage = 10;
+    protected string $itemsPerPageOptionName = '';
+    protected int $defaultItemsPerPage = 10;
 
     public function setItemsPerPageOptionName(string $itemsPerPageOptionName): void
     {

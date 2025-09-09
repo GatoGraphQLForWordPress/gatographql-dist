@@ -51,7 +51,7 @@ class UriResolver
             return $baseUriCleaned . $uri;
         }
         // absolute URL with relative schema
-        if (\strncmp($uri, '//', \strlen('//')) === 0) {
+        if (\str_starts_with($uri, '//')) {
             return \preg_replace('#^([^/]*)//.*$#', '$1', $baseUriCleaned) . $uri;
         }
         $baseUriCleaned = \preg_replace('#^(.*?//[^/]*)(?:\\/.*)?$#', '$1', $baseUriCleaned);
@@ -72,7 +72,7 @@ class UriResolver
         if ('' === $path || '/' === $path) {
             return $path;
         }
-        if (\substr_compare($path, '.', -\strlen('.')) === 0) {
+        if (\str_ends_with($path, '.')) {
             $path .= '/';
         }
         $output = [];

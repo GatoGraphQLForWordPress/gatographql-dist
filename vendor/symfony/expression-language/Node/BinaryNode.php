@@ -44,10 +44,7 @@ class BinaryNode extends Node
         }
         $compiler->raw('(')->compile($this->nodes['left'])->raw(' ')->raw($operator)->raw(' ')->compile($this->nodes['right'])->raw(')');
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         $operator = $this->attributes['operator'];
         $left = $this->nodes['left']->evaluate($functions, $values);
@@ -136,9 +133,7 @@ class BinaryNode extends Node
     }
     private function evaluateMatches(string $regexp, ?string $str) : int
     {
-        \set_error_handler(static function ($t, $m) use($regexp) {
-            throw new SyntaxError(\sprintf('Regexp "%s" passed to "matches" is not valid', $regexp) . \substr($m, 12));
-        });
+        \set_error_handler(static fn($t, $m) => throw new SyntaxError(\sprintf('Regexp "%s" passed to "matches" is not valid', $regexp) . \substr($m, 12)));
         try {
             return \preg_match($regexp, (string) $str);
         } finally {

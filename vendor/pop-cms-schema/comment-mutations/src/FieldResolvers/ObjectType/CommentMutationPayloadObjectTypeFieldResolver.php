@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class CommentMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
     protected final function getCommentObjectTypeResolver() : CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {
@@ -37,11 +34,9 @@ class CommentMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutati
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case $this->getObjectFieldName():
-                return $this->getCommentObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            $this->getObjectFieldName() => $this->getCommentObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

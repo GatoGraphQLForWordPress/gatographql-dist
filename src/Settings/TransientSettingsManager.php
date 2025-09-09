@@ -12,21 +12,14 @@ use function update_option;
 
 class TransientSettingsManager implements TransientSettingsManagerInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
-     */
-    private $optionNamespacer;
+    private ?OptionNamespacerInterface $optionNamespacer = null;
 
     final protected function getOptionNamespacer(): OptionNamespacerInterface
     {
-        return $this->optionNamespacer = $this->optionNamespacer ?? OptionNamespacerFacade::getInstance();
+        return $this->optionNamespacer ??= OptionNamespacerFacade::getInstance();
     }
 
-    /**
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    public function getTransient(string $name, $defaultValue = null)
+    public function getTransient(string $name, mixed $defaultValue = null): mixed
     {
         /** @var array<string,mixed> */
         $transients = get_option($this->namespaceOption(Options::TRANSIENTS), []);
@@ -41,10 +34,7 @@ class TransientSettingsManager implements TransientSettingsManagerInterface
         return $this->getOptionNamespacer()->namespaceOption($option);
     }
 
-    /**
-     * @param mixed $transient
-     */
-    public function storeTransient(string $name, $transient): void
+    public function storeTransient(string $name, mixed $transient): void
     {
         $this->storeTransients([$name => $transient]);
     }

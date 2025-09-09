@@ -27,14 +27,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\TokenSt
  */
 class HashHandler implements HandlerInterface
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns
-     */
-    private $patterns;
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping
-     */
-    private $escaping;
+    private TokenizerPatterns $patterns;
+    private TokenizerEscaping $escaping;
     public function __construct(TokenizerPatterns $patterns, TokenizerEscaping $escaping)
     {
         $this->patterns = $patterns;

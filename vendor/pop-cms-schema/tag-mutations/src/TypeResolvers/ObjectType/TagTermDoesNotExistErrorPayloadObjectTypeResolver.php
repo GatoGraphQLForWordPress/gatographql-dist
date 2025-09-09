@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class TagTermDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\TagMutations\RelationalTypeDataLoaders\ObjectType\TagTermDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $tagDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?TagTermDoesNotExistErrorPayloadObjectTypeDataLoader $tagDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getTagTermDoesNotExistErrorPayloadObjectTypeDataLoader() : TagTermDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->tagDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

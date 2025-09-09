@@ -27,30 +27,12 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
         doClear as private doCommonClear;
         doDelete as private doCommonDelete;
     }
-    /**
-     * @var \Closure
-     */
-    private $includeHandler;
-    /**
-     * @var bool
-     */
-    private $appendOnly;
-    /**
-     * @var mixed[]
-     */
-    private $values = [];
-    /**
-     * @var mixed[]
-     */
-    private $files = [];
-    /**
-     * @var int
-     */
-    private static $startTime;
-    /**
-     * @var mixed[]
-     */
-    private static $valuesCache = [];
+    private \Closure $includeHandler;
+    private bool $appendOnly;
+    private array $values = [];
+    private array $files = [];
+    private static int $startTime;
+    private static array $valuesCache = [];
     /**
      * @param $appendOnly Set to `true` to gain extra performance when the items stored in this pool never expire.
      *                    Doing so is encouraged because it fits perfectly OPcache's memory model.
@@ -60,7 +42,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
     public function __construct(string $namespace = '', int $defaultLifetime = 0, ?string $directory = null, bool $appendOnly = \false)
     {
         $this->appendOnly = $appendOnly;
-        self::$startTime = self::$startTime ?? $_SERVER['REQUEST_TIME'] ?? \time();
+        self::$startTime ??= $_SERVER['REQUEST_TIME'] ?? \time();
         parent::__construct('', $defaultLifetime);
         $this->init($namespace, $directory);
         $this->includeHandler = static function ($type, $msg, $file, $line) {
@@ -72,7 +54,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
      */
     public static function isSupported()
     {
-        self::$startTime = self::$startTime ?? $_SERVER['REQUEST_TIME'] ?? \time();
+        self::$startTime ??= $_SERVER['REQUEST_TIME'] ?? \time();
         return \function_exists('opcache_invalidate') && \filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], \true) || \filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL));
     }
     public function prune() : bool
@@ -137,7 +119,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
             $getExpiry = \true;
             foreach ($missingIds as $k => $id) {
                 try {
-                    $file = $this->files[$id] = $this->files[$id] ?? $this->getFile($id);
+                    $file = $this->files[$id] ??= $this->getFile($id);
                     if (isset(self::$valuesCache[$file])) {
                         [$expiresAt, $this->values[$id]] = self::$valuesCache[$file];
                     } elseif (\is_array($expiresAt = (include $file))) {
@@ -169,7 +151,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
         }
         \set_error_handler($this->includeHandler);
         try {
-            $file = $this->files[$id] = $this->files[$id] ?? $this->getFile($id);
+            $file = $this->files[$id] ??= $this->getFile($id);
             $getExpiry = \true;
             if (isset(self::$valuesCache[$file])) {
                 [$expiresAt, $value] = self::$valuesCache[$file];
@@ -181,7 +163,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
             } elseif ($this->appendOnly) {
                 $value = new LazyValue($file);
             }
-        } catch (\ErrorException $exception) {
+        } catch (\ErrorException) {
             return \false;
         } finally {
             \restore_error_handler();
@@ -194,10 +176,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
         }
         return $now < $expiresAt;
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         $ok = \true;
         $expiry = $lifetime ? \time() + $lifetime : 'PHP_INT_MAX';
@@ -286,10 +265,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
  */
 class LazyValue
 {
-    /**
-     * @var string
-     */
-    public $file;
+    public string $file;
     public function __construct(string $file)
     {
         $this->file = $file;

@@ -12,10 +12,7 @@ use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
 /** @internal */
 class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\TypeResolvers\InputObjectType\UserCustomPostsFilterInputObjectTypeResolver|null
-     */
-    private $userCustomPostsFilterInputObjectTypeResolver;
+    private ?UserCustomPostsFilterInputObjectTypeResolver $userCustomPostsFilterInputObjectTypeResolver = null;
     protected final function getUserCustomPostsFilterInputObjectTypeResolver() : UserCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->userCustomPostsFilterInputObjectTypeResolver === null) {
@@ -38,14 +35,11 @@ class CustomPostListUserObjectTypeFieldResolver extends AbstractCustomPostListOb
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return $this->__('Custom posts by the user', 'pop-users');
-            case 'customPostCount':
-                return $this->__('Number of custom posts by the user', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => $this->__('Custom posts by the user', 'pop-users'),
+            'customPostCount' => $this->__('Number of custom posts by the user', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,mixed>

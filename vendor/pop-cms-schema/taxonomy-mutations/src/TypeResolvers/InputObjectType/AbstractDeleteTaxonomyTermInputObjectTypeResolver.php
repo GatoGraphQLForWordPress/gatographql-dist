@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 abstract class AbstractDeleteTaxonomyTermInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\TaxonomyMutations\TypeResolvers\InputObjectType\DeleteTaxonomyTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -39,20 +36,16 @@ abstract class AbstractDeleteTaxonomyTermInputObjectTypeResolver extends Abstrac
     protected abstract function getTaxonomyInputObjectTypeResolver() : InputTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the taxonomy to delete', 'taxonomy-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the taxonomy to delete', 'taxonomy-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

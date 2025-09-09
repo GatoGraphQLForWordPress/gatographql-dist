@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 class MenuByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -39,11 +36,9 @@ class MenuByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->__('Query by menu ID', 'menus');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->__('Query by menu ID', 'menus'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

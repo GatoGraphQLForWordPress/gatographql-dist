@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableSetTagsOnPostBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver|null
-     */
-    private $payloadableSetTagsOnPostMutationResolver;
+    private ?\PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver $payloadableSetTagsOnPostMutationResolver = null;
     protected final function getPayloadableSetTagsOnPostMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\PayloadableSetTagsOnPostMutationResolver
     {
         if ($this->payloadableSetTagsOnPostMutationResolver === null) {

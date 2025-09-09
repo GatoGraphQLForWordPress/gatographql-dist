@@ -58,7 +58,7 @@ class ASTNodeDuplicatorService extends AbstractBasicService implements \PoP\Grap
     /**
      * @var SplObjectStorage<FragmentReference,Fragment>
      */
-    protected $fragmentReferenceFragments;
+    protected SplObjectStorage $fragmentReferenceFragments;
     public function __construct()
     {
         /**

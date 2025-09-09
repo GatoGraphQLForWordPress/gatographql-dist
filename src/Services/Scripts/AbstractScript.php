@@ -10,6 +10,11 @@ use GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface;
 use GatoGraphQL\PluginUtils\Services\Helpers\StringConversion;
 use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 
+use function wp_register_style;
+use function wp_enqueue_style;
+use function wp_localize_script;
+use function add_action;
+
 /**
  * Base class for a Gutenberg script.
  * The JS/CSS assets for each block is contained in folder {pluginDir}/scripts/{scriptName}, and follows
@@ -19,14 +24,8 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
  */
 abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\PluginUtils\Services\Helpers\StringConversion|null
-     */
-    private $stringConversion;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?StringConversion $stringConversion = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -52,9 +51,9 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
      */
     final public function initialize(): void
     {
-        \add_action(
+        add_action(
             $this->loadScriptsInWPAdminOnly() ? 'admin_init' : 'init',
-            \Closure::fromCallable([$this, 'initScript'])
+            $this->initScript(...)
         );
     }
 
@@ -221,15 +220,14 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
          */
         if ($this->registerScriptCSS()) {
             $style_css = 'build/style.css';
-            /** @var string */
             $modificationTime = filemtime("$dir/$style_css");
-            \wp_register_style(
+            wp_register_style(
                 $scriptName,
                 $url . $style_css,
                 $this->getStyleDependencies(),
-                $modificationTime
+                (string) $modificationTime
             );
-            \wp_enqueue_style($scriptName);
+            wp_enqueue_style($scriptName);
         }
 
         /**
@@ -237,15 +235,14 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
          */
         if ($this->registerStyleIndexCSS()) {
             $style_index_css = 'build/style-index.css';
-            /** @var string */
             $modificationTime = filemtime("$dir/$style_index_css");
-            \wp_register_style(
+            wp_register_style(
                 $scriptName . 'style-index',
                 $url . $style_index_css,
                 $this->getStyleIndexDependencies(),
-                $modificationTime
+                (string) $modificationTime
             );
-            \wp_enqueue_style($scriptName . 'style-index');
+            wp_enqueue_style($scriptName . 'style-index');
         }
 
         /**
@@ -255,9 +252,9 @@ abstract class AbstractScript extends AbstractAutomaticallyInstantiatedService
          * which calls ScriptModelScriptConfiguration::mustNamespaceTypes(),
          * which is initialized during "wp"
          */
-        \add_action('wp_print_scripts', function () use ($scriptName): void {
+        add_action('wp_print_scripts', function () use ($scriptName): void {
             if ($localizedData = $this->getLocalizedData()) {
-                \wp_localize_script(
+                wp_localize_script(
                     $scriptName,
                     $this->getScriptLocalizationName(),
                     $localizedData

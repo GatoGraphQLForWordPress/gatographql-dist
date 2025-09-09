@@ -19,7 +19,7 @@ trait FieldOrDirectiveDataAccessorTrait
      *
      * @var array<string,mixed>|null
      */
-    protected $resolvedFieldOrDirectiveArgs;
+    protected ?array $resolvedFieldOrDirectiveArgs = null;
     /**
      * When the Args contain a "Resolved on Object" Promise,
      * then caching the results will not work across objects,
@@ -123,9 +123,8 @@ trait FieldOrDirectiveDataAccessorTrait
     }
     /**
      * @throws AbstractValueResolutionPromiseException
-     * @return mixed
      */
-    public function getValue(string $propertyName)
+    public function getValue(string $propertyName) : mixed
     {
         return $this->getResolvedFieldOrDirectiveArgs()[$propertyName] ?? null;
     }

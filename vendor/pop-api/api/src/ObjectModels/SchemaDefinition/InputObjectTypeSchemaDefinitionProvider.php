@@ -3,21 +3,17 @@
 declare (strict_types=1);
 namespace PoPAPI\API\ObjectModels\SchemaDefinition;
 
-use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
-use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoPAPI\API\Schema\SchemaDefinition;
 use PoPAPI\API\Schema\SchemaDefinitionHelpers;
 use PoPAPI\API\Schema\TypeKinds;
+use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\InputObjectType\OneofInputObjectTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 /** @internal */
 class InputObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface
-     */
-    protected $inputObjectTypeResolver;
-    public function __construct(InputObjectTypeResolverInterface $inputObjectTypeResolver)
+    public function __construct(protected InputObjectTypeResolverInterface $inputObjectTypeResolver)
     {
-        $this->inputObjectTypeResolver = $inputObjectTypeResolver;
         parent::__construct($inputObjectTypeResolver);
     }
     public function getTypeKind() : string
@@ -31,6 +27,7 @@ class InputObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\S
     {
         $schemaDefinition = parent::getSchemaDefinition();
         $this->addInputFieldSchemaDefinitions($schemaDefinition);
+        $this->addIsOneOfSchemaDefinitions($schemaDefinition);
         return $schemaDefinition;
     }
     /**
@@ -50,9 +47,18 @@ class InputObjectTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\S
             // Extract the typeResolvers
             /** @var TypeResolverInterface */
             $inputFieldTypeResolver = $inputFieldSchemaDefinition[SchemaDefinition::TYPE_RESOLVER];
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($inputFieldTypeResolver)] = $inputFieldTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$inputFieldTypeResolver::class] = $inputFieldTypeResolver;
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($inputFieldSchemaDefinition);
             $schemaDefinition[SchemaDefinition::INPUT_FIELDS][$inputFieldName] = $inputFieldSchemaDefinition;
         }
+    }
+    /**
+     * "oneOf" Input Objects
+     *
+     * @param array<string,mixed> $schemaDefinition
+     */
+    protected final function addIsOneOfSchemaDefinitions(array &$schemaDefinition) : void
+    {
+        $schemaDefinition[SchemaDefinition::IS_ONE_OF] = $this->inputObjectTypeResolver instanceof OneofInputObjectTypeResolverInterface;
     }
 }

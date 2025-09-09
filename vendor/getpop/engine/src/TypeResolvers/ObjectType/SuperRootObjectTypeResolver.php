@@ -19,14 +19,8 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;
-    /**
-     * @var \PoP\Engine\RelationalTypeDataLoaders\ObjectType\SuperRootObjectTypeDataLoader|null
-     */
-    private $superRootObjectTypeDataLoader;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Registries\MandatoryOperationDirectiveResolverRegistryInterface|null
-     */
-    private $mandatoryOperationDirectiveResolverRegistry;
+    private ?SuperRootObjectTypeDataLoader $superRootObjectTypeDataLoader = null;
+    private ?MandatoryOperationDirectiveResolverRegistryInterface $mandatoryOperationDirectiveResolverRegistry = null;
     protected final function getSuperRootObjectTypeDataLoader() : SuperRootObjectTypeDataLoader
     {
         if ($this->superRootObjectTypeDataLoader === null) {
@@ -53,10 +47,7 @@ class SuperRootObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return $this->__('(Internal) Super Root type, starting from which the query is executed', 'engine');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var SuperRoot */
         $superRoot = $object;

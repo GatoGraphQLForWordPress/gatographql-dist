@@ -22,35 +22,32 @@ class LazyObjectRegistry
     /**
      * @var array<class-string, \ReflectionClass>
      */
-    public static $classReflectors = [];
+    public static array $classReflectors = [];
     /**
      * @var array<class-string, array<string, mixed>>
      */
-    public static $defaultProperties = [];
+    public static array $defaultProperties = [];
     /**
      * @var array<class-string, list<\Closure>>
      */
-    public static $classResetters = [];
+    public static array $classResetters = [];
     /**
      * @var array<class-string, array{get: \Closure, set: \Closure, isset: \Closure, unset: \Closure}>
      */
-    public static $classAccessors = [];
+    public static array $classAccessors = [];
     /**
      * @var array<class-string, array{set: bool, isset: bool, unset: bool, clone: bool, serialize: bool, unserialize: bool, sleep: bool, wakeup: bool, destruct: bool, get: int}>
      */
-    public static $parentMethods = [];
-    /**
-     * @var \Closure|null
-     */
-    public static $noInitializerState;
+    public static array $parentMethods = [];
+    public static ?\Closure $noInitializerState = null;
     public static function getClassResetters($class)
     {
         $classProperties = [];
         $hookedProperties = [];
-        if ((self::$classReflectors[$class] = self::$classReflectors[$class] ?? new \ReflectionClass($class))->isInternal()) {
+        if ((self::$classReflectors[$class] ??= new \ReflectionClass($class))->isInternal()) {
             $propertyScopes = [];
         } else {
-            $propertyScopes = Hydrator::$propertyScopes[$class] = Hydrator::$propertyScopes[$class] ?? Hydrator::getPropertyScopes($class);
+            $propertyScopes = Hydrator::$propertyScopes[$class] ??= Hydrator::getPropertyScopes($class);
         }
         foreach ($propertyScopes as $key => [$scope, $name, $writeScope, $access]) {
             $propertyScopes[$k = "\x00{$scope}\x00{$name}"] ?? $propertyScopes[$k = "\x00*\x00{$name}"] ?? ($k = $name);
@@ -84,21 +81,17 @@ class LazyObjectRegistry
     }
     public static function getClassAccessors($class)
     {
-        return \Closure::bind(static function () {
-            return ['get' => static function &($instance, $name, $notByRef) {
-                if (!$notByRef) {
-                    return $instance->{$name};
-                }
-                $value = $instance->{$name};
-                return $value;
-            }, 'set' => static function ($instance, $name, $value) {
-                $instance->{$name} = $value;
-            }, 'isset' => static function ($instance, $name) {
-                return isset($instance->{$name});
-            }, 'unset' => static function ($instance, $name) {
-                unset($instance->{$name});
-            }];
-        }, null, \Closure::class === $class ? null : $class)();
+        return \Closure::bind(static fn() => ['get' => static function &($instance, $name, $notByRef) {
+            if (!$notByRef) {
+                return $instance->{$name};
+            }
+            $value = $instance->{$name};
+            return $value;
+        }, 'set' => static function ($instance, $name, $value) {
+            $instance->{$name} = $value;
+        }, 'isset' => static fn($instance, $name) => isset($instance->{$name}), 'unset' => static function ($instance, $name) {
+            unset($instance->{$name});
+        }], null, \Closure::class === $class ? null : $class)();
     }
     public static function getParentMethods($class)
     {

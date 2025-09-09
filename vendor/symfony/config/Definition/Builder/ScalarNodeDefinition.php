@@ -22,7 +22,7 @@ class ScalarNodeDefinition extends VariableNodeDefinition
     /**
      * Instantiate a Node.
      */
-    protected function instantiateNode() : \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\VariableNode
+    protected function instantiateNode() : ScalarNode
     {
         return new ScalarNode($this->name, $this->parent, $this->pathSeparator);
     }

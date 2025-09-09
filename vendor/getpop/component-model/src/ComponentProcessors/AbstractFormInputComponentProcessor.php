@@ -12,7 +12,7 @@ abstract class AbstractFormInputComponentProcessor extends \PoP\ComponentModel\C
     /**
      * @var array<string,FormInput>
      */
-    private $formInputs = [];
+    private array $formInputs = [];
     // This function CANNOT have $props, since multiple can change the value of the input (eg: from Select to MultiSelect => from '' to array())
     // Yet we do not always go through initModelProps to initialize it, then changing the multiple in the form through $props, and trying to retrieve the value in an actionexecuter will fail
     public function isMultiple(Component $component) : bool
@@ -52,33 +52,29 @@ abstract class AbstractFormInputComponentProcessor extends \PoP\ComponentModel\C
     }
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function getValue(Component $component, ?array $source = null)
+    public function getValue(Component $component, ?array $source = null) : mixed
     {
         return $this->getInput($component)->getValue($source);
     }
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function isInputSetInSource(Component $component, ?array $source = null)
+    public function isInputSetInSource(Component $component, ?array $source = null) : mixed
     {
         return $this->getInput($component)->isInputSetInSource($source);
     }
     /**
      * @param array<string,mixed> $props
-     * @return mixed
      */
-    public function getInputDefaultValue(Component $component, array &$props)
+    public function getInputDefaultValue(Component $component, array &$props) : mixed
     {
         return null;
     }
     /**
      * @param array<string,mixed> $props
-     * @return mixed
      */
-    public function getDefaultValue(Component $component, array &$props)
+    public function getDefaultValue(Component $component, array &$props) : mixed
     {
         $value = $this->getProp($component, $props, 'default-value');
         if (!\is_null($value)) {
@@ -86,10 +82,7 @@ abstract class AbstractFormInputComponentProcessor extends \PoP\ComponentModel\C
         }
         return $this->getInputDefaultValue($component, $props);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputSelectedValue(Component $component)
+    public function getInputSelectedValue(Component $component) : mixed
     {
         return null;
     }

@@ -26,10 +26,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class DecoratorServicePass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
+    protected bool $skipScalars = \true;
     /**
      * @return void
      */
@@ -54,7 +51,7 @@ class DecoratorServicePass extends AbstractRecursivePass
             if (!$renamedId) {
                 $renamedId = $id . '.inner';
             }
-            $decoratedIds[$inner] = $decoratedIds[$inner] ?? $renamedId;
+            $decoratedIds[$inner] ??= $renamedId;
             $this->currentId = $renamedId;
             $this->processValue($definition);
             $definition->innerServiceId = $renamedId;
@@ -81,7 +78,7 @@ class DecoratorServicePass extends AbstractRecursivePass
             } else {
                 throw new ServiceNotFoundException($inner, $id);
             }
-            if (($nullsafeVariable1 = $decoratedDefinition) ? $nullsafeVariable1->isSynthetic() : null) {
+            if ($decoratedDefinition?->isSynthetic()) {
                 throw new InvalidArgumentException(\sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
             }
             if (isset($decoratingDefinitions[$inner])) {
@@ -105,11 +102,7 @@ class DecoratorServicePass extends AbstractRecursivePass
             $definition->addTag('container.decorator', ['id' => $inner, 'inner' => $decoratedIds[$inner]]);
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Reference && '.inner' === (string) $value) {
             return new Reference($this->currentId, $value->getInvalidBehavior());

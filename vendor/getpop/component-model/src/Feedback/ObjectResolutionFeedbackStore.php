@@ -10,19 +10,19 @@ use PoP\GraphQLParser\Spec\Parser\Ast\Directive;
 class ObjectResolutionFeedbackStore
 {
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $errors = [];
+    private array $errors = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $partialErrors = [];
+    private array $partialErrors = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $warnings = [];
+    private array $warnings = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $deprecations = [];
+    private array $deprecations = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $notices = [];
+    private array $notices = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $suggestions = [];
+    private array $suggestions = [];
     /** @var ObjectResolutionFeedbackInterface[] */
-    private $logs = [];
+    private array $logs = [];
     public function incorporate(\PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $objectResolutionFeedbackStore->getErrors());

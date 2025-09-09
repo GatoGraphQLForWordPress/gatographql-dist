@@ -13,12 +13,9 @@ class PageBuilderService extends AbstractBasicService implements PageBuilderServ
     /**
      * @var array<string,PageBuilderProviderInterface>|null
      */
-    protected $providers;
+    protected ?array $providers = null;
 
-    /**
-     * @var \PoPWPSchema\PageBuilder\Registries\PageBuilderProviderRegistryInterface|null
-     */
-    private $pageBuilderProviderRegistry;
+    private ?PageBuilderProviderRegistryInterface $pageBuilderProviderRegistry = null;
 
     final protected function getPageBuilderProviderRegistry(): PageBuilderProviderRegistryInterface
     {

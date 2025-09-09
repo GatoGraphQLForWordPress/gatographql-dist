@@ -29,9 +29,8 @@ class CustomPostUnionTypeHelpers
      *   and not the Union (since it's more efficient)
      * - If there are none types, return `null`. As a consequence,
      *   the ID is returned as a field, not as a connection
-     * @return \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
      */
-    public static function getCustomPostUnionOrTargetObjectTypeResolver(?UnionTypeResolverInterface $unionTypeResolver = null)
+    public static function getCustomPostUnionOrTargetObjectTypeResolver(?UnionTypeResolverInterface $unionTypeResolver = null) : UnionTypeResolverInterface|ObjectTypeResolverInterface
     {
         if ($unionTypeResolver === null) {
             $instanceManager = InstanceManagerFacade::getInstance();

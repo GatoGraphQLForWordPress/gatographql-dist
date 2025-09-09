@@ -7,19 +7,19 @@ namespace PoP\ComponentModel\Feedback;
 class DocumentFeedbackStore
 {
     /** @var DocumentFeedbackInterface[] */
-    private $errors = [];
+    private array $errors = [];
     /** @var DocumentFeedbackInterface[] */
-    private $partialErrors = [];
+    private array $partialErrors = [];
     /** @var DocumentFeedbackInterface[] */
-    private $warnings = [];
+    private array $warnings = [];
     /** @var DocumentFeedbackInterface[] */
-    private $deprecations = [];
+    private array $deprecations = [];
     /** @var DocumentFeedbackInterface[] */
-    private $notices = [];
+    private array $notices = [];
     /** @var DocumentFeedbackInterface[] */
-    private $suggestions = [];
+    private array $suggestions = [];
     /** @var DocumentFeedbackInterface[] */
-    private $logs = [];
+    private array $logs = [];
     public function getErrorCount() : int
     {
         return \count($this->getErrors());

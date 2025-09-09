@@ -10,10 +10,7 @@ use PoPCMSSchema\CategoryMetaMutations\SchemaHooks\AbstractCategoryMutationResol
 class PostCategoryMutationResolverHookSet extends AbstractCategoryMutationResolverHookSet
 {
     use \PoPCMSSchema\PostCategoryMetaMutations\SchemaHooks\PostCategoryMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {

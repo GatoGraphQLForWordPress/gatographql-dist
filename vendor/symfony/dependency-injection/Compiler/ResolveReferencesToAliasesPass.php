@@ -21,10 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class ResolveReferencesToAliasesPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
+    protected bool $skipScalars = \true;
     /**
      * @return void
      */
@@ -39,11 +36,7 @@ class ResolveReferencesToAliasesPass extends AbstractRecursivePass
             }
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);

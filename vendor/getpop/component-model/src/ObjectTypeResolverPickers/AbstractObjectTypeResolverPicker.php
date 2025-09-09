@@ -10,10 +10,7 @@ use PoP\Root\Services\AbstractBasicService;
 abstract class AbstractObjectTypeResolverPicker extends AbstractBasicService implements \PoP\ComponentModel\ObjectTypeResolverPickers\ObjectTypeResolverPickerInterface
 {
     use AttachableExtensionTrait;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
     protected final function getAttachableExtensionManager() : AttachableExtensionManagerInterface
     {
         if ($this->attachableExtensionManager === null) {

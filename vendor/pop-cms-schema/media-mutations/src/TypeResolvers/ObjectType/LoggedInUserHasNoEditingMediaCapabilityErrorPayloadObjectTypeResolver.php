@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader|null
-     */
-    private $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader;
+    private ?LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader = null;
     protected final function getLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeDataLoader === null) {

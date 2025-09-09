@@ -14,11 +14,9 @@ abstract class AbstractAddCommentMetaInputObjectTypeResolver extends AbstractAdd
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the comment', 'commentmeta-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the comment', 'commentmeta-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

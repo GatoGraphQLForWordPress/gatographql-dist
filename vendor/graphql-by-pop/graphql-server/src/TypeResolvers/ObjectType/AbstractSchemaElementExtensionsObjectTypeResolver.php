@@ -12,10 +12,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\RemoveIdentifiableObjectInterfac
 abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader|null
-     */
-    private $schemaDefinitionReferenceObjectTypeDataLoader;
+    private ?SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader = null;
     protected final function getSchemaDefinitionReferenceObjectTypeDataLoader() : SchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->schemaDefinitionReferenceObjectTypeDataLoader === null) {
@@ -41,10 +38,7 @@ abstract class AbstractSchemaElementExtensionsObjectTypeResolver extends \GraphQ
         return '_' . $this->getIntrospectionTypeName();
     }
     protected abstract function getIntrospectionTypeName() : string;
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var SchemaDefinitionReferenceObjectInterface $object */
         return $object->getID();

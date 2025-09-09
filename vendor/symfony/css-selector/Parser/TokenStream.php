@@ -27,29 +27,20 @@ class TokenStream
     /**
      * @var Token[]
      */
-    private $tokens = [];
+    private array $tokens = [];
     /**
      * @var Token[]
      */
-    private $used = [];
-    /**
-     * @var int
-     */
-    private $cursor = 0;
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\Token|null
-     */
-    private $peeked;
-    /**
-     * @var bool
-     */
-    private $peeking = \false;
+    private array $used = [];
+    private int $cursor = 0;
+    private ?Token $peeked;
+    private bool $peeking = \false;
     /**
      * Pushes a token.
      *
      * @return $this
      */
-    public function push(Token $token)
+    public function push(Token $token) : static
     {
         $this->tokens[] = $token;
         return $this;
@@ -59,7 +50,7 @@ class TokenStream
      *
      * @return $this
      */
-    public function freeze()
+    public function freeze() : static
     {
         return $this;
     }

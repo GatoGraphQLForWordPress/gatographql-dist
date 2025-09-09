@@ -16,18 +16,8 @@ use PoPAPI\API\Schema\SchemaDefinitionHelpers;
 /** @internal */
 class DirectiveSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectModels\SchemaDefinition\SchemaDefinitionProviderInterface
 {
-    /**
-     * @var \PoP\ComponentModel\DirectiveResolvers\FieldDirectiveResolverInterface
-     */
-    protected $directiveResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
-     */
-    protected $relationalTypeResolver;
-    public function __construct(FieldDirectiveResolverInterface $directiveResolver, RelationalTypeResolverInterface $relationalTypeResolver)
+    public function __construct(protected FieldDirectiveResolverInterface $directiveResolver, protected RelationalTypeResolverInterface $relationalTypeResolver)
     {
-        $this->directiveResolver = $directiveResolver;
-        $this->relationalTypeResolver = $relationalTypeResolver;
     }
     /**
      * @return array<string,mixed>
@@ -54,7 +44,7 @@ class DirectiveSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaD
                 unset($schemaDefinition[SchemaDefinition::ARGS][$directiveArgName]);
                 continue;
             }
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($directiveArgTypeResolver)] = $directiveArgTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$directiveArgTypeResolver::class] = $directiveArgTypeResolver;
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($schemaDefinition[SchemaDefinition::ARGS][$directiveArgName]);
         }
         return $schemaDefinition;

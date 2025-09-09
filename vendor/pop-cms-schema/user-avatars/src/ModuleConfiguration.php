@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\UserAvatars\Environment::USER_AVATAR_DEFAULT_SIZE;
         $defaultValue = 96;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

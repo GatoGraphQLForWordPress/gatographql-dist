@@ -11,20 +11,12 @@ use PoP\Root\HttpFoundation\Response;
 /** @internal */
 abstract class AbstractAttachedGraphQLServer extends AbstractGraphQLServer
 {
-    /**
-     * @var int|null
-     */
-    protected $schemaConfigurationID;
-    /**
-     * @var \PoP\Root\AppThreadInterface
-     */
-    private $appThread;
+    private AppThreadInterface $appThread;
     /**
      * Initialize the App with a new AppThread
      */
-    public function __construct(?int $schemaConfigurationID)
+    public function __construct(protected ?int $schemaConfigurationID)
     {
-        $this->schemaConfigurationID = $schemaConfigurationID;
         /**
          * Steps:
          *
@@ -43,9 +35,8 @@ abstract class AbstractAttachedGraphQLServer extends AbstractGraphQLServer
      * build the AST, and generate and print the data.
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function execute($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
+    public function execute(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
     {
         /**
          * Keep the current AppThread, switch to the GraphQLServer's

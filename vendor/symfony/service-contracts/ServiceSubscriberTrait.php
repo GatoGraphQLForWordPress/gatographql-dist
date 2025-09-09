@@ -37,7 +37,7 @@ trait ServiceSubscriberTrait
             if (self::class !== $method->getDeclaringClass()->name) {
                 continue;
             }
-            if (!($attribute = (\method_exists($method, 'getAttributes') ? $method->getAttributes(SubscribedService::class) : [])[0] ?? null)) {
+            if (!($attribute = $method->getAttributes(SubscribedService::class)[0] ?? null)) {
                 continue;
             }
             if ($method->isStatic() || $method->isAbstract() || $method->isGenerator() || $method->isInternal() || $method->getNumberOfRequiredParameters()) {
@@ -48,8 +48,8 @@ trait ServiceSubscriberTrait
             }
             /* @var SubscribedService $attribute */
             $attribute = $attribute->newInstance();
-            $attribute->key = $attribute->key ?? self::class . '::' . $method->name;
-            $attribute->type = $attribute->type ?? ($returnType instanceof \ReflectionNamedType ? $returnType->getName() : (string) $returnType);
+            $attribute->key ??= self::class . '::' . $method->name;
+            $attribute->type ??= $returnType instanceof \ReflectionNamedType ? $returnType->getName() : (string) $returnType;
             $attribute->nullable = $attribute->nullable ?: $returnType->allowsNull();
             if ($attribute->attributes) {
                 $services[] = $attribute;
@@ -59,9 +59,7 @@ trait ServiceSubscriberTrait
         }
         return $services;
     }
-    /**
-     * @required
-     */
+    #[Required]
     public function setContainer(ContainerInterface $container) : ?ContainerInterface
     {
         $ret = null;

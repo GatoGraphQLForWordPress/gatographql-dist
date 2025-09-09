@@ -15,21 +15,14 @@ use SplObjectStorage;
 /** @internal */
 class ObjectResolvedDynamicVariableValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\ObjectResolvedDynamicVariableReference
-     */
-    public $objectResolvedDynamicVariableReference;
     use StandaloneServiceTrait;
-    public function __construct(ObjectResolvedDynamicVariableReference $objectResolvedDynamicVariableReference)
+    public function __construct(public readonly ObjectResolvedDynamicVariableReference $objectResolvedDynamicVariableReference)
     {
-        $this->objectResolvedDynamicVariableReference = $objectResolvedDynamicVariableReference;
     }
     /**
      * @throws RuntimeVariableReferenceException When accessing non-declared Dynamic Variables
-     * @return mixed
      */
-    public function resolveValue()
+    public function resolveValue() : mixed
     {
         /**
          * Retrieve which is the current object ID and Field

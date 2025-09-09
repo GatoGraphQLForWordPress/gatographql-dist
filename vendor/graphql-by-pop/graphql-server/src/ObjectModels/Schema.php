@@ -17,26 +17,18 @@ use PoP\Root\Exception\ImpossibleToHappenException;
 /** @internal */
 class Schema
 {
-    /**
-     * @var string
-     */
-    protected $id;
     use StandaloneServiceTrait;
     public const ID = 'schema';
     /** @var NamedTypeInterface[] */
-    protected $types;
+    protected array $types;
     /** @var Directive[] */
-    protected $directives;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\SchemaExtensions
-     */
-    protected $schemaExtensions;
+    protected array $directives;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\SchemaExtensions $schemaExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      */
-    public function __construct(array &$fullSchemaDefinition, string $id)
+    public function __construct(array &$fullSchemaDefinition, protected string $id)
     {
-        $this->id = $id;
         // Enable or not to add the global fields to the schema, since they may pollute the documentation
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
@@ -68,22 +60,16 @@ class Schema
     protected function getTypeInstance(array &$fullSchemaDefinition, string $typeKind, string $typeName) : \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
     {
         $typeSchemaDefinitionPath = [SchemaDefinition::TYPES, $typeKind, $typeName];
-        switch ($typeKind) {
-            case TypeKinds::OBJECT:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\ObjectType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            case TypeKinds::INTERFACE:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\InterfaceType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            case TypeKinds::UNION:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\UnionType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            case TypeKinds::SCALAR:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\ScalarType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            case TypeKinds::ENUM:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\EnumType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            case TypeKinds::INPUT_OBJECT:
-                return new \GraphQLByPoP\GraphQLServer\ObjectModels\InputObjectType($fullSchemaDefinition, $typeSchemaDefinitionPath);
-            default:
-                throw new ImpossibleToHappenException(\sprintf($this->__('Unknown type kind \'%s\'', 'graphql-server'), $typeKind));
-        }
+        // The type here can either be an ObjectType or a UnionType
+        return match ($typeKind) {
+            TypeKinds::OBJECT => new \GraphQLByPoP\GraphQLServer\ObjectModels\ObjectType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            TypeKinds::INTERFACE => new \GraphQLByPoP\GraphQLServer\ObjectModels\InterfaceType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            TypeKinds::UNION => new \GraphQLByPoP\GraphQLServer\ObjectModels\UnionType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            TypeKinds::SCALAR => new \GraphQLByPoP\GraphQLServer\ObjectModels\ScalarType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            TypeKinds::ENUM => new \GraphQLByPoP\GraphQLServer\ObjectModels\EnumType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            TypeKinds::INPUT_OBJECT => new \GraphQLByPoP\GraphQLServer\ObjectModels\InputObjectType($fullSchemaDefinition, $typeSchemaDefinitionPath),
+            default => throw new ImpossibleToHappenException(\sprintf($this->__('Unknown type kind \'%s\'', 'graphql-server'), $typeKind)),
+        };
     }
     /**
      * @param array<string,mixed> $fullSchemaDefinition
@@ -127,23 +113,19 @@ class Schema
      */
     public function getTypeIDs() : array
     {
-        return \array_map(function (\GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface $type) {
-            return $type->getID();
-        }, $this->types);
+        return \array_map(fn(\GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface $type) => $type->getID(), $this->types);
     }
     /**
      * @return string[]
      */
     public function getDirectiveIDs() : array
     {
-        return \array_map(function (\GraphQLByPoP\GraphQLServer\ObjectModels\Directive $directive) {
-            return $directive->getID();
-        }, $this->directives);
+        return \array_map(fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Directive $directive) => $directive->getID(), $this->directives);
     }
     public function getType(string $typeName) : ?\GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
     {
         // If the provided typeName contains the namespace separator, then compare by qualifiedType
-        $useQualifiedName = \strpos($typeName, SchemaDefinitionTokens::NAMESPACE_SEPARATOR) !== \false;
+        $useQualifiedName = \str_contains($typeName, SchemaDefinitionTokens::NAMESPACE_SEPARATOR);
         // From all the types, get the one that has this name
         foreach ($this->types as $type) {
             // The provided `$typeName` can include namespaces or not

@@ -11,10 +11,10 @@ class MutationInputProperties
      * will be exposed in the GraphQL schema, for any CPT
      * (post, event, etc)
      */
-    public const CUSTOMPOST_ID = 'id';
-    public const CATEGORIES_BY = 'categoriesBy';
-    public const APPEND = 'append';
-    public const TAXONOMY = 'taxonomy';
-    public const IDS = 'ids';
-    public const SLUGS = 'slugs';
+    public final const CUSTOMPOST_ID = 'id';
+    public final const CATEGORIES_BY = 'categoriesBy';
+    public final const APPEND = 'append';
+    public final const TAXONOMY = 'taxonomy';
+    public final const IDS = 'ids';
+    public final const SLUGS = 'slugs';
 }

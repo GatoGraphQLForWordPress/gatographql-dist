@@ -20,38 +20,14 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostMutationResolver|null
-     */
-    private $setTagsOnCustomPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\SetTagsOnCustomPostBulkOperationMutationResolver|null
-     */
-    private $setTagsOnCustomPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\InputObjectType\RootSetTagsOnCustomPostInputObjectTypeResolver|null
-     */
-    private $rootSetTagsOnCustomPostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableSetTagsOnCustomPostMutationResolver|null
-     */
-    private $payloadableSetTagsOnCustomPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\MutationResolvers\PayloadableSetTagsOnCustomPostBulkOperationMutationResolver|null
-     */
-    private $payloadableSetTagsOnCustomPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\ObjectType\RootSetTagsOnCustomPostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetTagsOnCustomPostMutationPayloadObjectTypeResolver;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
+    private ?SetTagsOnCustomPostMutationResolver $setTagsOnCustomPostMutationResolver = null;
+    private ?SetTagsOnCustomPostBulkOperationMutationResolver $setTagsOnCustomPostBulkOperationMutationResolver = null;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?RootSetTagsOnCustomPostInputObjectTypeResolver $rootSetTagsOnCustomPostInputObjectTypeResolver = null;
+    private ?PayloadableSetTagsOnCustomPostMutationResolver $payloadableSetTagsOnCustomPostMutationResolver = null;
+    private ?PayloadableSetTagsOnCustomPostBulkOperationMutationResolver $payloadableSetTagsOnCustomPostBulkOperationMutationResolver = null;
+    private ?RootSetTagsOnCustomPostMutationPayloadObjectTypeResolver $rootSetTagsOnCustomPostMutationPayloadObjectTypeResolver = null;
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {

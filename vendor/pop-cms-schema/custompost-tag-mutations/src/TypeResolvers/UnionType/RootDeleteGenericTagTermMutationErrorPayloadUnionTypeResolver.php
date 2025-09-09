@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootDeleteGenericTagTermMutationErrorPayloadUnionTypeResolver extends AbstractRootDeleteTagTermMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\RelationalTypeDataLoaders\UnionType\RootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader $rootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader() : RootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootDeleteGenericTagTermMutationErrorPayloadUnionTypeDataLoader === null) {

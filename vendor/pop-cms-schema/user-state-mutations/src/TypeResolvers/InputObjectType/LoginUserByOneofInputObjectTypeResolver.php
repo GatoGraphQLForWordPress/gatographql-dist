@@ -8,10 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTyp
 /** @internal */
 class LoginUserByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver|null
-     */
-    private $loginCredentialsInputObjectTypeResolver;
+    private ?\PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver $loginCredentialsInputObjectTypeResolver = null;
     protected final function getLoginCredentialsInputObjectTypeResolver() : \PoPCMSSchema\UserStateMutations\TypeResolvers\InputObjectType\LoginCredentialsInputObjectTypeResolver
     {
         if ($this->loginCredentialsInputObjectTypeResolver === null) {
@@ -34,11 +31,9 @@ class LoginUserByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTy
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'credentials':
-                return $this->__('Login using the website credentials', 'user-state-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'credentials' => $this->__('Login using the website credentials', 'user-state-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

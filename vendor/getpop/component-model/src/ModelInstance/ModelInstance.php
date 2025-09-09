@@ -10,17 +10,11 @@ use PoP\Definitions\DefinitionManagerInterface;
 /** @internal */
 class ModelInstance extends AbstractBasicService implements \PoP\ComponentModel\ModelInstance\ModelInstanceInterface
 {
-    public const HOOK_ELEMENTS_RESULT = __CLASS__ . ':elements:result';
-    public const HOOK_ELEMENTSFROMVARS_POSTORGETCHANGE = __CLASS__ . ':elementsFromVars:postOrGetChange';
-    public const HOOK_ELEMENTSFROMVARS_RESULT = __CLASS__ . ':elementsFromVars:result';
-    /**
-     * @var \PoP\ComponentModel\Info\ApplicationInfoInterface|null
-     */
-    private $applicationInfo;
-    /**
-     * @var \PoP\Definitions\DefinitionManagerInterface|null
-     */
-    private $definitionManager;
+    public final const HOOK_ELEMENTS_RESULT = __CLASS__ . ':elements:result';
+    public final const HOOK_ELEMENTSFROMVARS_POSTORGETCHANGE = __CLASS__ . ':elementsFromVars:postOrGetChange';
+    public final const HOOK_ELEMENTSFROMVARS_RESULT = __CLASS__ . ':elementsFromVars:result';
+    private ?ApplicationInfoInterface $applicationInfo = null;
+    private ?DefinitionManagerInterface $definitionManager = null;
     protected final function getApplicationInfo() : ApplicationInfoInterface
     {
         if ($this->applicationInfo === null) {

@@ -18,10 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File;
  */
 class Stream extends File
 {
-    /**
-     * @return int|false
-     */
-    public function getSize()
+    public function getSize() : int|false
     {
         return \false;
     }

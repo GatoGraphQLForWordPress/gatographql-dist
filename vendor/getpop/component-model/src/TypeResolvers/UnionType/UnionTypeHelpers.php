@@ -12,9 +12,8 @@ class UnionTypeHelpers
      * Extracts the DB key and ID from the object ID
      *
      * @return array{0:string,1:string|int}
-     * @param string|int $maybeComposedTypeOutputKeyObjectID
      */
-    public static function extractObjectTypeAndID($maybeComposedTypeOutputKeyObjectID) : array
+    public static function extractObjectTypeAndID(string|int $maybeComposedTypeOutputKeyObjectID) : array
     {
         if (\is_int($maybeComposedTypeOutputKeyObjectID)) {
             return ['', $maybeComposedTypeOutputKeyObjectID];
@@ -28,13 +27,12 @@ class UnionTypeHelpers
         }
         /** @var array{0:string,1:string|int} */
         return $parts;
+        // @phpstan-ignore-line
     }
     /**
      * Extracts the ID from the object ID
-     * @param string|int $maybeComposedDBObjectTypeAndID
-     * @return string|int
      */
-    public static function extractDBObjectID($maybeComposedDBObjectTypeAndID)
+    public static function extractDBObjectID(string|int $maybeComposedDBObjectTypeAndID) : string|int
     {
         if (\is_int($maybeComposedDBObjectTypeAndID)) {
             return $maybeComposedDBObjectTypeAndID;
@@ -48,9 +46,8 @@ class UnionTypeHelpers
     }
     /**
      * Creates a composed string containing the type and ID of the resolvedObject
-     * @param int|string $id
      */
-    public static function getObjectComposedTypeAndID(RelationalTypeResolverInterface $relationalTypeResolver, $id) : string
+    public static function getObjectComposedTypeAndID(RelationalTypeResolverInterface $relationalTypeResolver, int|string $id) : string
     {
         return $relationalTypeResolver->getTypeOutputKey() . \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeSymbols::OBJECT_COMPOSED_TYPE_ID_SEPARATOR . (string) $id;
     }

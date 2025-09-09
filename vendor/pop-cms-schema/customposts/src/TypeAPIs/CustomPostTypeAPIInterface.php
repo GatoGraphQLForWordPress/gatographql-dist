@@ -15,71 +15,44 @@ interface CustomPostTypeAPIInterface
     public function isInstanceOfCustomPostType(object $object) : bool;
     /**
      * Indicate if an post with provided ID exists
-     * @param int|string $id
      */
-    public function customPostExists($id) : bool;
+    public function customPostExists(int|string $id) : bool;
     /**
      * Return the object's ID
-     * @return string|int
      */
-    public function getID(object $customPostObject);
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getContent($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawContent($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPermalink($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPermalinkPath($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getSlug($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getStatus($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getPublishedDate($customPostObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getModifiedDate($customPostObjectOrID, bool $gmt = \false) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getTitle($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawTitle($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getExcerpt($customPostObjectOrID) : ?string;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function getRawExcerpt($customPostObjectOrID) : ?string;
+    public function getID(object $customPostObject) : string|int;
+    public function getContent(string|int|object $customPostObjectOrID) : ?string;
+    public function getRawContent(string|int|object $customPostObjectOrID) : ?string;
+    public function getPermalink(string|int|object $customPostObjectOrID) : ?string;
+    public function getPermalinkPath(string|int|object $customPostObjectOrID) : ?string;
+    public function getSlug(string|int|object $customPostObjectOrID) : ?string;
+    public function getSlugPath(string|int|object $customPostObjectOrID) : ?string;
+    public function getStatus(string|int|object $customPostObjectOrID) : ?string;
+    public function getPublishedDate(string|int|object $customPostObjectOrID, bool $gmt = \false) : ?string;
+    public function getModifiedDate(string|int|object $customPostObjectOrID, bool $gmt = \false) : ?string;
+    public function getTitle(string|int|object $customPostObjectOrID) : ?string;
+    public function getRawTitle(string|int|object $customPostObjectOrID) : ?string;
+    public function getExcerpt(string|int|object $customPostObjectOrID) : ?string;
+    public function getRawExcerpt(string|int|object $customPostObjectOrID) : ?string;
     /**
      * Get the custom post with provided ID or, if it doesn't exist, null
-     * @param int|string $id
      */
-    public function getCustomPost($id) : ?object;
+    public function getCustomPost(int|string $id) : ?object;
+    public function getCustomPostType(string|int|object $customPostObjectOrID) : ?string;
+    public function getCustomPostParentID(string|int|object $customPostObjectOrID) : int|string|null;
     /**
-     * @param string|int|object $customPostObjectOrID
+     * Get the list of ancestor IDs (parent, grandparent, etc.)
+     *
+     * @return array<int|string>|null
      */
-    public function getCustomPostType($customPostObjectOrID) : ?string;
+    public function getCustomPostAncestorIDs(string|int|object $customPostObjectOrID) : ?array;
+    /**
+     * Get the custom post with provided slug path or, if it doesn't exist, null
+     *
+     * @param string $slugPath The slug path (including all ancestor slugs, eg: "ancestor-slug/post-slug")
+     * @param string $customPostType The custom post type to search in
+     */
+    public function getCustomPostBySlugPath(string $slugPath, string $customPostType) : ?object;
     /**
      * If param "status" in $query is not passed, it defaults to "publish"
      *

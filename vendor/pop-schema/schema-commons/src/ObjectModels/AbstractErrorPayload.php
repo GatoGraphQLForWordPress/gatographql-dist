@@ -7,14 +7,8 @@ use PoP\ComponentModel\ObjectModels\AbstractTransientObject;
 /** @internal */
 abstract class AbstractErrorPayload extends AbstractTransientObject implements \PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $message;
-    public function __construct(string $message)
+    public function __construct(public readonly string $message)
     {
-        $this->message = $message;
         parent::__construct();
     }
     public function getMessage() : string

@@ -11,7 +11,7 @@ class ComponentPathManager implements \PoP\ComponentModel\ComponentPath\Componen
     /**
      * @var Component[]|null
      */
-    protected $propagation_current_path;
+    protected ?array $propagation_current_path = null;
     /**
      * @return Component[]|null
      */
@@ -32,7 +32,7 @@ class ComponentPathManager implements \PoP\ComponentModel\ComponentPath\Componen
      */
     public function prepareForPropagation(Component $component, array &$props) : void
     {
-        $this->propagation_current_path = $this->propagation_current_path ?? [];
+        $this->propagation_current_path ??= [];
         // Add the component to the path
         // Prepare for the subcomponent, going one level down, and adding it to the current path
         // We add $component instead of the first element from $this->propagation_unsettled_paths, so that calculating $this->propagation_current_path works also when not doing ?componentPaths=...

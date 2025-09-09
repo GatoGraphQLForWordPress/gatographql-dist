@@ -10,7 +10,7 @@ class EnumType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractNamedTyp
     /**
      * @var EnumValue[]
      */
-    protected $enumValues;
+    protected array $enumValues;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

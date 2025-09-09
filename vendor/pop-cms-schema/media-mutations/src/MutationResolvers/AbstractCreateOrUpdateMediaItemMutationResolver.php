@@ -4,7 +4,6 @@ declare (strict_types=1);
 namespace PoPCMSSchema\MediaMutations\MutationResolvers;
 
 use DateTime;
-use DateTimeInterface;
 use PoPCMSSchema\MediaMutations\Constants\MediaCRUDHookNames;
 use PoPCMSSchema\MediaMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\MediaMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
@@ -29,26 +28,11 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
 {
     use ValidateUserLoggedInMutationResolverTrait;
     use MediaItemCRUDMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
-     */
-    private $mediaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
+    private ?MediaTypeMutationAPIInterface $mediaTypeMutationAPI = null;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
     protected final function getMediaTypeMutationAPI() : MediaTypeMutationAPIInterface
     {
         if ($this->mediaTypeMutationAPI === null) {
@@ -169,10 +153,7 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
-    /**
-     * @param string|int $mediaItemID
-     */
-    protected function additionals($mediaItemID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function additionals(string|int $mediaItemID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
         App::doAction(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM, $mediaItemID, $fieldDataAccessor);
     }
@@ -186,14 +167,14 @@ abstract class AbstractCreateOrUpdateMediaItemMutationResolver extends AbstractM
             /** @var DateTime|null */
             $dateTime = $fieldDataAccessor->getValue(MutationInputProperties::DATE);
             if ($dateTime !== null) {
-                $mediaItemData['date'] = $dateTime->format(DateTimeInterface::ATOM);
+                $mediaItemData['date'] = $dateTime->format('Y-m-d H:i:s');
             }
         }
         if ($fieldDataAccessor->hasValue(MutationInputProperties::GMT_DATE)) {
             /** @var DateTime|null */
             $gmtDateTime = $fieldDataAccessor->getValue(MutationInputProperties::GMT_DATE);
             if ($gmtDateTime !== null) {
-                $mediaItemData['gmtDate'] = $gmtDateTime->format(DateTimeInterface::ATOM);
+                $mediaItemData['gmtDate'] = $gmtDateTime->format('Y-m-d H:i:s');
             }
         }
         if ($this->addMediaItemInputField()) {

@@ -12,10 +12,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
  */
 class GenericCustomPostObjectTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\AbstractCustomPostObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader|null
-     */
-    private $customPostObjectTypeDataLoader;
+    private ?CustomPostObjectTypeDataLoader $customPostObjectTypeDataLoader = null;
     protected final function getCustomPostObjectTypeDataLoader() : CustomPostObjectTypeDataLoader
     {
         if ($this->customPostObjectTypeDataLoader === null) {

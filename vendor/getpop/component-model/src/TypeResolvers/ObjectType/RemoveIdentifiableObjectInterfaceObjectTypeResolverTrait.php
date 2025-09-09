@@ -30,8 +30,6 @@ trait RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait
     protected function removeIdentifiableObjectInterfaceTypeFieldResolver(array $interfaceTypeFieldResolvers) : array
     {
         $identifiableObjectInterfaceTypeFieldResolver = $this->getIdentifiableObjectInterfaceTypeFieldResolver();
-        return \array_values(\array_filter($interfaceTypeFieldResolvers, function (InterfaceTypeFieldResolverInterface $interfaceTypeFieldResolver) use($identifiableObjectInterfaceTypeFieldResolver) {
-            return $interfaceTypeFieldResolver !== $identifiableObjectInterfaceTypeFieldResolver;
-        }));
+        return \array_values(\array_filter($interfaceTypeFieldResolvers, fn(InterfaceTypeFieldResolverInterface $interfaceTypeFieldResolver) => $interfaceTypeFieldResolver !== $identifiableObjectInterfaceTypeFieldResolver));
     }
 }

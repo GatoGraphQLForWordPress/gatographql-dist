@@ -7,11 +7,7 @@ use PoP\Root\Environment;
 /** @internal */
 class ApplicationInfo implements \PoP\ComponentModel\Info\ApplicationInfoInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    private $version;
+    private readonly string $version;
     /**
      * Inject the version from the environment
      */

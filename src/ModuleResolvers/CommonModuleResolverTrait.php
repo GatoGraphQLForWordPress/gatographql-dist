@@ -21,7 +21,7 @@ trait CommonModuleResolverTrait
         string $blockTitle,
         ?array $applicableItems = null
     ): string {
-        $applicableItems = $applicableItems ?? $this->getDefaultValueApplicableItems($blockTitle);
+        $applicableItems ??= $this->getDefaultValueApplicableItems($blockTitle);
         return $this->getSettingsInfoContent(
             sprintf(
                 \__('%s %s', 'gatographql'),

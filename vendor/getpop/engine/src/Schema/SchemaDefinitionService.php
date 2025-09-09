@@ -11,14 +11,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolv
 /** @internal */
 class SchemaDefinitionService extends AbstractBasicService implements \PoP\Engine\Schema\SchemaDefinitionServiceInterface
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
-     */
-    private $rootObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver|null
-     */
-    private $anyBuiltInScalarScalarTypeResolver;
+    private ?RootObjectTypeResolver $rootObjectTypeResolver = null;
+    private ?AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver = null;
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -55,7 +49,7 @@ class SchemaDefinitionService extends AbstractBasicService implements \PoP\Engin
     {
         return $this->getAnyBuiltInScalarScalarTypeResolver();
     }
-    public function getSchemaRootObjectTypeResolver() : \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
+    public function getSchemaRootObjectTypeResolver() : RootObjectTypeResolver
     {
         return $this->getRootObjectTypeResolver();
     }

@@ -24,7 +24,7 @@ class LoaderResolver implements LoaderResolverInterface
     /**
      * @var LoaderInterface[] An array of LoaderInterface objects
      */
-    private $loaders = [];
+    private array $loaders = [];
     /**
      * @param LoaderInterface[] $loaders An array of loaders
      */
@@ -34,11 +34,7 @@ class LoaderResolver implements LoaderResolverInterface
             $this->addLoader($loader);
         }
     }
-    /**
-     * @return \Symfony\Component\Config\Loader\LoaderInterface|false
-     * @param mixed $resource
-     */
-    public function resolve($resource, ?string $type = null)
+    public function resolve(mixed $resource, ?string $type = null) : LoaderInterface|false
     {
         foreach ($this->loaders as $loader) {
             if ($loader->supports($resource, $type)) {

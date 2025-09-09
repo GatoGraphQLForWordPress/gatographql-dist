@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class PostCategoryAddMetaMutationErrorPayloadUnionTypeResolver extends AbstractCategoryAddMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\RelationalTypeDataLoaders\UnionType\PostCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $postCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?PostCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader $postCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getPostCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader() : PostCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader === null) {

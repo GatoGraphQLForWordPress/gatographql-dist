@@ -16,30 +16,12 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractTaxonomiesFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput|null
-     */
-    private $parentIDFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
-     */
-    private $searchFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
-     */
-    private $slugsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\FilterInputs\HideEmptyFilterInput|null
-     */
-    private $hideEmptyFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?ParentIDFilterInput $parentIDFilterInput = null;
+    private ?SearchFilterInput $searchFilterInput = null;
+    private ?SlugsFilterInput $slugsFilterInput = null;
+    private ?HideEmptyFilterInput $hideEmptyFilterInput = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -104,55 +86,37 @@ abstract class AbstractTaxonomiesFilterInputObjectTypeResolver extends AbstractO
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->__('Search for taxonomies containing the given string', 'taxonomies');
-            case 'slugs':
-                return $this->__('Search for taxonomies with the given slugs', 'taxonomies');
-            case 'hideEmpty':
-                return $this->__('Hide empty taxonomies terms?', 'taxonomies');
-            case 'parentID':
-                return $this->__('Limit results to taxonomies with the given parent ID. \'0\' means \'no parent\'', 'taxonomies');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->__('Search for taxonomies containing the given string', 'taxonomies'),
+            'slugs' => $this->__('Search for taxonomies with the given slugs', 'taxonomies'),
+            'hideEmpty' => $this->__('Hide empty taxonomies terms?', 'taxonomies'),
+            'parentID' => $this->__('Limit results to taxonomies with the given parent ID. \'0\' means \'no parent\'', 'taxonomies'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'slugs':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case 'hideEmpty':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'slugs' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'hideEmpty' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'hideEmpty':
-                return \false;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'hideEmpty' => \false,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->getSearchFilterInput();
-            case 'slugs':
-                return $this->getSlugsFilterInput();
-            case 'hideEmpty':
-                return $this->getHideEmptyFilterInput();
-            case 'parentID':
-                return $this->getParentIDFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->getSearchFilterInput(),
+            'slugs' => $this->getSlugsFilterInput(),
+            'hideEmpty' => $this->getHideEmptyFilterInput(),
+            'parentID' => $this->getParentIDFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

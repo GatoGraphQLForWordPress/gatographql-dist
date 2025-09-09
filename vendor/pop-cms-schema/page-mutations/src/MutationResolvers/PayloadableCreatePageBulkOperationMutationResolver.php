@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableCreatePageBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver|null
-     */
-    private $payloadableCreatePageMutationResolver;
+    private ?\PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver $payloadableCreatePageMutationResolver = null;
     protected final function getPayloadableCreatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver
     {
         if ($this->payloadableCreatePageMutationResolver === null) {

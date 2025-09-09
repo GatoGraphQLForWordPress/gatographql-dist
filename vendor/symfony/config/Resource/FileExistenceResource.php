@@ -23,14 +23,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
  */
 class FileExistenceResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $resource;
-    /**
-     * @var bool
-     */
-    private $exists;
+    private string $resource;
+    private bool $exists;
     /**
      * @param string $resource The file path to the resource
      */

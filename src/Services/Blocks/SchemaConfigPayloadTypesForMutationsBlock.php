@@ -15,7 +15,7 @@ class SchemaConfigPayloadTypesForMutationsBlock extends AbstractSchemaConfigBloc
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public const ATTRIBUTE_NAME_USE_PAYLOAD_TYPE = 'usePayloadType';
+    public final const ATTRIBUTE_NAME_USE_PAYLOAD_TYPE = 'usePayloadType';
 
     protected function getBlockName(): string
     {

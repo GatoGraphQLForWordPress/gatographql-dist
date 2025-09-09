@@ -12,10 +12,7 @@ use PoPCMSSchema\Users\Routing\RequestNature;
 /** @internal */
 class VarsHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
     protected final function getUserRoleTypeAPI() : UserRoleTypeAPIInterface
     {
         if ($this->userRoleTypeAPI === null) {
@@ -27,7 +24,7 @@ class VarsHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
+        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, $this->getModelInstanceElementsFromAppState(...));
     }
     /**
      * @return string[]

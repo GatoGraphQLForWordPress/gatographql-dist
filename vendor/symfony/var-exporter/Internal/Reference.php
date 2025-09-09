@@ -17,26 +17,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Internal
  */
 class Reference
 {
-    /**
-     * @readonly
-     * @var int
-     */
-    public $id;
-    /**
-     * @readonly
-     * @var mixed
-     */
-    public $value = null;
-    /**
-     * @var int
-     */
-    public $count = 0;
-    /**
-     * @param mixed $value
-     */
-    public function __construct(int $id, $value = null)
+    public int $count = 0;
+    public function __construct(public readonly int $id, public readonly mixed $value = null)
     {
-        $this->id = $id;
-        $this->value = $value;
     }
 }

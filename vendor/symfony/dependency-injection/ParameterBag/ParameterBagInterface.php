@@ -44,9 +44,8 @@ interface ParameterBagInterface
      * Gets a service container parameter.
      *
      * @throws ParameterNotFoundException if the parameter is not defined
-     * @return mixed[]|bool|string|int|float|\UnitEnum|null
      */
-    public function get(string $name);
+    public function get(string $name) : array|bool|string|int|float|\UnitEnum|null;
     /**
      * Removes a parameter.
      *
@@ -59,9 +58,8 @@ interface ParameterBagInterface
      * @return void
      *
      * @throws LogicException if the parameter cannot be set
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function set(string $name, $value);
+    public function set(string $name, array|bool|string|int|float|\UnitEnum|null $value);
     /**
      * Returns true if a parameter name is defined.
      */
@@ -78,19 +76,14 @@ interface ParameterBagInterface
      * @return mixed
      *
      * @throws ParameterNotFoundException if a placeholder references a parameter that does not exist
-     * @param mixed $value
      */
-    public function resolveValue($value);
+    public function resolveValue(mixed $value);
     /**
      * Escape parameter placeholders %.
-     * @param mixed $value
-     * @return mixed
      */
-    public function escapeValue($value);
+    public function escapeValue(mixed $value) : mixed;
     /**
      * Unescape parameter placeholders %.
-     * @param mixed $value
-     * @return mixed
      */
-    public function unescapeValue($value);
+    public function unescapeValue(mixed $value) : mixed;
 }

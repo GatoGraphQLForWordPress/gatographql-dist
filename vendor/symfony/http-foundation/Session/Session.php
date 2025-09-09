@@ -31,34 +31,19 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Sto
 class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Countable
 {
     protected $storage;
-    /**
-     * @var string
-     */
-    private $flashName;
-    /**
-     * @var string
-     */
-    private $attributeName;
-    /**
-     * @var mixed[]
-     */
-    private $data = [];
-    /**
-     * @var int
-     */
-    private $usageIndex = 0;
-    /**
-     * @var \Closure|null
-     */
-    private $usageReporter;
+    private string $flashName;
+    private string $attributeName;
+    private array $data = [];
+    private int $usageIndex = 0;
+    private ?\Closure $usageReporter;
     public function __construct(?SessionStorageInterface $storage = null, ?AttributeBagInterface $attributes = null, ?FlashBagInterface $flashes = null, ?callable $usageReporter = null)
     {
         $this->storage = $storage ?? new NativeSessionStorage();
-        $this->usageReporter = null === $usageReporter ? null : \Closure::fromCallable($usageReporter);
-        $attributes = $attributes ?? new AttributeBag();
+        $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
+        $attributes ??= new AttributeBag();
         $this->attributeName = $attributes->getName();
         $this->registerBag($attributes);
-        $flashes = $flashes ?? new FlashBag();
+        $flashes ??= new FlashBag();
         $this->flashName = $flashes->getName();
         $this->registerBag($flashes);
     }
@@ -70,19 +55,14 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         return $this->getAttributeBag()->has($name);
     }
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $name, $default = null)
+    public function get(string $name, mixed $default = null) : mixed
     {
         return $this->getAttributeBag()->get($name, $default);
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    public function set(string $name, $value)
+    public function set(string $name, mixed $value)
     {
         $this->getAttributeBag()->set($name, $value);
     }
@@ -97,10 +77,7 @@ class Session implements FlashBagAwareSessionInterface, \IteratorAggregate, \Cou
     {
         $this->getAttributeBag()->replace($attributes);
     }
-    /**
-     * @return mixed
-     */
-    public function remove(string $name)
+    public function remove(string $name) : mixed
     {
         return $this->getAttributeBag()->remove($name);
     }

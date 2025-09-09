@@ -42,7 +42,7 @@ class Module extends AbstractModule
             if (\class_exists(APIModule::class) && App::getModule(APIModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/API');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
     /**

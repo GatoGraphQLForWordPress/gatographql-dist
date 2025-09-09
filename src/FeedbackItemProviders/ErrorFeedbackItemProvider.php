@@ -9,7 +9,7 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 
 class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
+    public final const E1 = 'e1';
 
     /**
      * @return string[]
@@ -23,12 +23,10 @@ class ErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 
     public function getMessagePlaceholder(string $code): string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('Application Password authentication error: %s', 'gatographql');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('Application Password authentication error: %s', 'gatographql'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
 
     public function getCategory(string $code): string

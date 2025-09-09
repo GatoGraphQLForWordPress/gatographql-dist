@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class CustomPostMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
-     */
-    private $customPostUnionTypeResolver;
+    private ?CustomPostUnionTypeResolver $customPostUnionTypeResolver = null;
     protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {
@@ -37,11 +34,9 @@ class CustomPostMutationPayloadObjectTypeFieldResolver extends AbstractObjectMut
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case $this->getObjectFieldName():
-                return $this->getCustomPostUnionTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            $this->getObjectFieldName() => $this->getCustomPostUnionTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

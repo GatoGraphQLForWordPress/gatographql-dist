@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeResolver extends AbstractRootCreateCategoryTermMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader $rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader() : RootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootCreateGenericCategoryTermMutationErrorPayloadUnionTypeDataLoader === null) {

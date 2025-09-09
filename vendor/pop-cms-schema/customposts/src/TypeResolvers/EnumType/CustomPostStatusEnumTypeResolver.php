@@ -21,17 +21,12 @@ class CustomPostStatusEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case CustomPostStatus::PUBLISH:
-                return $this->__('Published content', 'customposts');
-            case CustomPostStatus::PENDING:
-                return $this->__('Pending content', 'customposts');
-            case CustomPostStatus::DRAFT:
-                return $this->__('Draft content', 'customposts');
-            case CustomPostStatus::TRASH:
-                return $this->__('Trashed content', 'customposts');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            CustomPostStatus::PUBLISH => $this->__('Published content', 'customposts'),
+            CustomPostStatus::PENDING => $this->__('Pending content', 'customposts'),
+            CustomPostStatus::DRAFT => $this->__('Draft content', 'customposts'),
+            CustomPostStatus::TRASH => $this->__('Trashed content', 'customposts'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

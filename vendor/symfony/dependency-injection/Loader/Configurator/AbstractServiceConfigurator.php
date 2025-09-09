@@ -17,10 +17,7 @@ abstract class AbstractServiceConfigurator extends AbstractConfigurator
 {
     protected $parent;
     protected $id;
-    /**
-     * @var mixed[]
-     */
-    private $defaultTags = [];
+    private array $defaultTags = [];
     public function __construct(ServicesConfigurator $parent, Definition $definition, ?string $id = null, array $defaultTags = [])
     {
         $this->parent = $parent;

@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver extends LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader|null
-     */
-    private $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader;
+    private ?LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader = null;
     protected final function getLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeDataLoader === null) {

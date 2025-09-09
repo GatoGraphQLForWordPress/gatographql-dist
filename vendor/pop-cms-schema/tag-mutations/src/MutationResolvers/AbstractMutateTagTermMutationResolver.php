@@ -15,10 +15,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxonomyTermMutationResolver implements \PoPCMSSchema\TagMutations\MutationResolvers\TagTermMutationResolverInterface
 {
     use \PoPCMSSchema\TagMutations\MutationResolvers\MutateTagTermMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\TagMutations\TypeAPIs\TagTypeMutationAPIInterface|null
-     */
-    private $tagTypeMutationAPI;
+    private ?TagTypeMutationAPIInterface $tagTypeMutationAPI = null;
     protected final function getTagTypeMutationAPI() : TagTypeMutationAPIInterface
     {
         if ($this->tagTypeMutationAPI === null) {
@@ -32,9 +29,8 @@ abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxon
      * @param array<string,mixed> $taxonomyData
      * @return string|int the ID of the updated taxonomy
      * @throws TagTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeUpdateTaxonomyTerm($taxonomyTermID, string $taxonomyName, array $taxonomyData)
+    protected function executeUpdateTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getTagTypeMutationAPI()->updateTagTerm($taxonomyTermID, $taxonomyName, $taxonomyData);
     }
@@ -43,16 +39,15 @@ abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxon
      * @return string|int the ID of the created taxonomy
      * @throws TagTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData)
+    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getTagTypeMutationAPI()->createTagTerm($taxonomyName, $taxonomyData);
     }
     /**
      * @return bool `true` if the operation successful, `false` if the term does not exist
      * @throws TagTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeDeleteTaxonomyTerm($taxonomyTermID, string $taxonomyName) : bool
+    protected function executeDeleteTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName) : bool
     {
         return $this->getTagTypeMutationAPI()->deleteTagTerm($taxonomyTermID, $taxonomyName);
     }
@@ -103,7 +98,7 @@ abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxon
      * @return string|int The ID of the updated entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::update($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TagCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -114,7 +109,7 @@ abstract class AbstractMutateTagTermMutationResolver extends AbstractMutateTaxon
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::create($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TagCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

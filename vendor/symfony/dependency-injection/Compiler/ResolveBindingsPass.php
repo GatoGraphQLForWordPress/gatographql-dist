@@ -29,22 +29,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\ProxyHelper;
  */
 class ResolveBindingsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $usedBindings = [];
-    /**
-     * @var mixed[]
-     */
-    private $unusedBindings = [];
-    /**
-     * @var mixed[]
-     */
-    private $errorMessages = [];
+    protected bool $skipScalars = \true;
+    private array $usedBindings = [];
+    private array $unusedBindings = [];
+    private array $errorMessages = [];
     /**
      * @return void
      */
@@ -55,7 +43,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
             parent::process($container);
             foreach ($this->unusedBindings as [$key, $serviceId, $bindingType, $file]) {
                 $argumentType = $argumentName = $message = null;
-                if (\strpos($key, ' ') !== \false) {
+                if (\str_contains($key, ' ')) {
                     [$argumentType, $argumentName] = \explode(' ', $key, 2);
                 } elseif ('$' === $key[0]) {
                     $argumentName = $key;
@@ -93,11 +81,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
             $this->errorMessages = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof TypedReference && $value->getType() === (string) $value) {
             // Already checked
@@ -173,11 +157,11 @@ class ResolveBindingsPass extends AbstractRecursivePass
                 if (\array_key_exists($parameter->name, $arguments) && '' !== $arguments[$parameter->name] && !$arguments[$parameter->name] instanceof AbstractArgument) {
                     continue;
                 }
-                if ($value->isAutowired() && !$value->hasTag('container.ignore_attributes') && (\method_exists($parameter, 'getAttributes') ? $parameter->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF) : [])) {
+                if ($value->isAutowired() && !$value->hasTag('container.ignore_attributes') && $parameter->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF)) {
                     continue;
                 }
                 $typeHint = \ltrim(ProxyHelper::exportType($parameter) ?? '', '?');
-                $name = Target::parseName($parameter, null, $parsedName);
+                $name = Target::parseName($parameter, parsedName: $parsedName);
                 if ($typeHint && (\array_key_exists($k = \preg_replace('/(^|[(|&])\\\\/', '\\1', $typeHint) . ' $' . $name, $bindings) || \array_key_exists($k = \preg_replace('/(^|[(|&])\\\\/', '\\1', $typeHint) . ' $' . $parsedName, $bindings))) {
                     $arguments[$key] = $this->getBindingValue($bindings[$k]);
                     continue;
@@ -220,10 +204,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
         }
         return parent::processValue($value, $isRoot);
     }
-    /**
-     * @return mixed
-     */
-    private function getBindingValue(BoundArgument $binding)
+    private function getBindingValue(BoundArgument $binding) : mixed
     {
         [$bindingValue, $bindingId] = $binding->getValues();
         $this->usedBindings[$bindingId] = \true;

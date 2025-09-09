@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader|null
-     */
-    private $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
+    private ?FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = null;
     protected final function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader() : FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader === null) {

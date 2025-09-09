@@ -41,19 +41,10 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
     /**
      * @var SplObjectStorage<FieldInterface,array<string,FieldInterface>>
      */
-    protected $arrayItemFieldInstanceContainer;
-    /**
-     * @var \PoP\ComponentModel\DirectivePipeline\DirectivePipelineServiceInterface|null
-     */
-    private $directivePipelineService;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface|null
-     */
-    private $objectResolvedDynamicVariablesService;
+    protected SplObjectStorage $arrayItemFieldInstanceContainer;
+    private ?DirectivePipelineServiceInterface $directivePipelineService = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?ObjectResolvedDynamicVariablesServiceInterface $objectResolvedDynamicVariablesService = null;
     protected final function getDirectivePipelineService() : DirectivePipelineServiceInterface
     {
         if ($this->directivePipelineService === null) {
@@ -96,14 +87,11 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
     protected abstract function passKeyOnwardsAsVariable() : bool;
     public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
-        switch ($directiveArgName) {
-            case $this->getPassValueOnwardsAsVariableArgumentName():
-                return $this->__('The name of the dynamic variable under which to export the array element value from the current iteration', 'component-model');
-            case $this->getPassKeyOnwardsAsVariableArgumentName():
-                return $this->__('The name of the dynamic variable under which to export the array element key from the current iteration', 'component-model');
-            default:
-                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            $this->getPassValueOnwardsAsVariableArgumentName() => $this->__('The name of the dynamic variable under which to export the array element value from the current iteration', 'component-model'),
+            $this->getPassKeyOnwardsAsVariableArgumentName() => $this->__('The name of the dynamic variable under which to export the array element key from the current iteration', 'component-model'),
+            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
+        };
     }
     /**
      * Execute directive <transformProperty> to each of the elements on the affected field, which must be an array
@@ -223,7 +211,7 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
                         $currentFieldTypeModifiersByField[$field] = $this->decreaseFieldTypeModifiersForSerializationInAppState($fieldTypeModifiersByField, $targetObjectTypeResolver, $field);
                         $appStateManager->override('field-type-modifiers-for-serialization', $fieldTypeModifiersByField);
                     }
-                    $arrayItemIDsProperties[$id] = $arrayItemIDsProperties[$id] ?? new EngineIterationFieldSet();
+                    $arrayItemIDsProperties[$id] ??= new EngineIterationFieldSet();
                     foreach ($arrayItems as $key => &$value) {
                         /**
                          * Add into the $idFieldSet object for the array items.
@@ -408,9 +396,8 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
     /**
      * Validate that the value is an array or stdClass.
      * Can override for more-specific validation.
-     * @param mixed $value
      */
-    protected function validateInputValueType($value) : bool
+    protected function validateInputValueType(mixed $value) : bool
     {
         return \is_array($value) || $value instanceof stdClass;
     }
@@ -479,10 +466,7 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
      * - @underJSONObject(Nested)Property: do not decrease
      */
     protected abstract function decreaseFieldTypeModifiersCardinalityForSerialization() : bool;
-    /**
-     * @param string|int $id
-     */
-    protected function getItemValueValidationFailedFeedbackItemResolution(FieldInterface $field, $id) : FeedbackItemResolution
+    protected function getItemValueValidationFailedFeedbackItemResolution(FieldInterface $field, string|int $id) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(EngineErrorFeedbackItemProvider::class, EngineErrorFeedbackItemProvider::E4);
     }
@@ -503,9 +487,8 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
      * @param mixed[]|stdClass $arrayOrObject
      * @param array<string|int,object> $idObjects
      * @param array<string,mixed> $messages
-     * @param int|string $id
      */
-    protected final function getArrayItems(&$arrayOrObject, object $object, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array $idObjects, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array
+    protected final function getArrayItems(array|stdClass &$arrayOrObject, object $object, int|string $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array $idObjects, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array
     {
         $arrayItems = $this->doGetArrayItems($arrayOrObject, $id, $field, $relationalTypeResolver, $idObjects, $previouslyResolvedIDFieldValues, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $messages, $engineIterationFeedbackStore);
         // If something went wrong, this will be null, nothing to do
@@ -518,11 +501,8 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
      * Place the result for the array in the original property
      *
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
-     * @param int|string $arrayItemKey
-     * @param mixed $arrayItemValue
      */
-    protected function addProcessedItemBackToResolvedIDFieldValues(RelationalTypeResolverInterface $relationalTypeResolver, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore, $id, FieldInterface $field, $arrayItemKey, $arrayItemValue) : void
+    protected function addProcessedItemBackToResolvedIDFieldValues(RelationalTypeResolverInterface $relationalTypeResolver, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore, string|int $id, FieldInterface $field, int|string $arrayItemKey, mixed $arrayItemValue) : void
     {
         $value = $resolvedIDFieldValues[$id][$field];
         if (\is_array($value)) {
@@ -543,9 +523,8 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
      * @param array<string|int,object> $idObjects
      * @param array<string,mixed> $messages
      * @return mixed[]|null
-     * @param int|string $id
      */
-    protected abstract function doGetArrayItems(&$arrayOrObject, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array $idObjects, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?array;
+    protected abstract function doGetArrayItems(array|stdClass &$arrayOrObject, int|string $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array $idObjects, array $previouslyResolvedIDFieldValues, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?array;
     /**
      * Create a property for storing the array item in the current object.
      *

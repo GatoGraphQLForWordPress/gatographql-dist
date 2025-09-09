@@ -14,18 +14,11 @@ class StringValueJSONObjectScalarTypeResolver extends \PoPSchema\ExtendedSchemaC
     {
         return $this->__('Custom scalar representing a JSON Object where values are strings', 'extended-schema-commons');
     }
-    /**
-     * @param string|int|float|bool $value
-     */
-    protected function canCastJSONObjectPropertyValue($value) : bool
+    protected function canCastJSONObjectPropertyValue(string|int|float|bool $value) : bool
     {
         return \true;
     }
-    /**
-     * @param string|int|float|bool $value
-     * @return string|int|float|bool
-     */
-    protected function castJSONObjectPropertyValue($value)
+    protected function castJSONObjectPropertyValue(string|int|float|bool $value) : string|int|float|bool
     {
         return (string) $value;
     }

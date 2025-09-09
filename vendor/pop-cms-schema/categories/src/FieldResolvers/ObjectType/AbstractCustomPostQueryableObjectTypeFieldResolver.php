@@ -24,26 +24,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver implements CategoryAPIRequestedContractObjectTypeFieldResolverInterface
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostCategoriesFilterInputObjectTypeResolver|null
-     */
-    private $customPostCategoriesFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryPaginationInputObjectTypeResolver|null
-     */
-    private $categoryPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver|null
-     */
-    private $taxonomySortInputObjectTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CustomPostCategoriesFilterInputObjectTypeResolver $customPostCategoriesFilterInputObjectTypeResolver = null;
+    private ?CategoryPaginationInputObjectTypeResolver $categoryPaginationInputObjectTypeResolver = null;
+    private ?TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -98,41 +83,29 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'categories':
-                return $this->getCategoryTypeResolver();
-            case 'categoryCount':
-                return $this->getIntScalarTypeResolver();
-            case 'categoryNames':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categories' => $this->getCategoryTypeResolver(),
+            'categoryCount' => $this->getIntScalarTypeResolver(),
+            'categoryNames' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'categoryCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'categories':
-            case 'categoryNames':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categoryCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'categories', 'categoryNames' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'categories':
-                return $this->__('Categories added to this custom post', 'pop-categories');
-            case 'categoryCount':
-                return $this->__('Number of categories added to this custom post', 'pop-categories');
-            case 'categoryNames':
-                return $this->__('Names of the categories added to this custom post', 'pop-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categories' => $this->__('Categories added to this custom post', 'pop-categories'),
+            'categoryCount' => $this->__('Number of categories added to this custom post', 'pop-categories'),
+            'categoryNames' => $this->__('Names of the categories added to this custom post', 'pop-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -140,20 +113,13 @@ abstract class AbstractCustomPostQueryableObjectTypeFieldResolver extends Abstra
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'categories':
-            case 'categoryNames':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCategoriesFilterInputObjectTypeResolver(), 'pagination' => $this->getCategoryPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
-            case 'categoryCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCategoriesFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'categories', 'categoryNames' => [...$fieldArgNameTypeResolvers, 'filter' => $this->getCustomPostCategoriesFilterInputObjectTypeResolver(), 'pagination' => $this->getCategoryPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()],
+            'categoryCount' => [...$fieldArgNameTypeResolvers, 'filter' => $this->getCustomPostCategoriesFilterInputObjectTypeResolver()],
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPost = $object;
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);

@@ -20,26 +20,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\InputValueObjectTypeResolver|null
-     */
-    private $inputValueObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\DirectiveLocationEnumTypeResolver|null
-     */
-    private $directiveLocationEnumTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\DirectiveExtensionsObjectTypeResolver|null
-     */
-    private $directiveExtensionsObjectTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?InputValueObjectTypeResolver $inputValueObjectTypeResolver = null;
+    private ?DirectiveLocationEnumTypeResolver $directiveLocationEnumTypeResolver = null;
+    private ?DirectiveExtensionsObjectTypeResolver $directiveExtensionsObjectTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -101,60 +86,37 @@ class DirectiveObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'isRepeatable':
-                return $this->getBooleanScalarTypeResolver();
-            case 'args':
-                return $this->getInputValueObjectTypeResolver();
-            case 'locations':
-                return $this->getDirectiveLocationEnumTypeResolver();
-            case 'extensions':
-                return $this->getDirectiveExtensionsObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->getStringScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'isRepeatable' => $this->getBooleanScalarTypeResolver(),
+            'args' => $this->getInputValueObjectTypeResolver(),
+            'locations' => $this->getDirectiveLocationEnumTypeResolver(),
+            'extensions' => $this->getDirectiveExtensionsObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'name':
-            case 'isRepeatable':
-            case 'extensions':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'locations':
-            case 'args':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name', 'isRepeatable', 'extensions' => SchemaTypeModifiers::NON_NULLABLE,
+            'locations', 'args' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->__('Directive\'s name', 'graphql-server');
-            case 'description':
-                return $this->__('Directive\'s description', 'graphql-server');
-            case 'args':
-                return $this->__('Directive\'s arguments', 'graphql-server');
-            case 'locations':
-                return $this->__('The locations where the directive may be placed', 'graphql-server');
-            case 'isRepeatable':
-                return $this->__('Can the directive be executed more than once in the same field?', 'graphql-server');
-            case 'extensions':
-                return $this->__('Extensions (custom metadata) added to the directive (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->__('Directive\'s name', 'graphql-server'),
+            'description' => $this->__('Directive\'s description', 'graphql-server'),
+            'args' => $this->__('Directive\'s arguments', 'graphql-server'),
+            'locations' => $this->__('The locations where the directive may be placed', 'graphql-server'),
+            'isRepeatable' => $this->__('Can the directive be executed more than once in the same field?', 'graphql-server'),
+            'extensions' => $this->__('Extensions (custom metadata) added to the directive (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Directive */
         $directive = $object;

@@ -15,10 +15,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
  */
 abstract class AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver extends AbstractListOfCPTEntitiesRootObjectTypeFieldResolver
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
+    private ?UserAuthorizationInterface $userAuthorization = null;
 
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
@@ -30,8 +27,10 @@ abstract class AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolv
         return $this->userAuthorization;
     }
 
-    public function resolveCanProcessField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function resolveCanProcessField(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         if (
             !parent::resolveCanProcessField(
                 $objectTypeResolver,

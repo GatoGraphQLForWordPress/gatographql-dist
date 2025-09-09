@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 /** @internal */
 abstract class AbstractErrorPayloadUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\InterfaceType\ErrorPayloadInterfaceTypeResolver|null
-     */
-    private $errorPayloadInterfaceTypeResolver;
+    private ?ErrorPayloadInterfaceTypeResolver $errorPayloadInterfaceTypeResolver = null;
     protected final function getErrorPayloadInterfaceTypeResolver() : ErrorPayloadInterfaceTypeResolver
     {
         if ($this->errorPayloadInterfaceTypeResolver === null) {

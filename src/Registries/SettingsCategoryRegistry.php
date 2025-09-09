@@ -12,15 +12,15 @@ class SettingsCategoryRegistry implements SettingsCategoryRegistryInterface
     /**
      * @var SettingsCategoryResolverInterface[]
      */
-    protected $settingsCategoryResolvers = [];
+    protected array $settingsCategoryResolvers = [];
     /**
      * @var array<string,SettingsCategoryResolverInterface>
      */
-    protected $settingsCategorySettingsCategoryResolvers = [];
+    protected array $settingsCategorySettingsCategoryResolvers = [];
     /**
      * @var array<string,SettingsCategoryResolverInterface>|null
      */
-    protected $settingsCategorySettingsCategoryResolversByPriority;
+    protected ?array $settingsCategorySettingsCategoryResolversByPriority = null;
 
     public function addSettingsCategoryResolver(SettingsCategoryResolverInterface $settingsCategoryResolver): void
     {

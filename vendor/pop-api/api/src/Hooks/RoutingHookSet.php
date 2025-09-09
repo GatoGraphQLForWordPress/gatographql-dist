@@ -12,7 +12,7 @@ class RoutingHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(EngineHookNames::EXTRA_ROUTES, \Closure::fromCallable([$this, 'getExtraRoutes']), 10, 1);
+        App::addFilter(EngineHookNames::EXTRA_ROUTES, $this->getExtraRoutes(...), 10, 1);
     }
     /**
      * The API cannot use getExtraRoutes()!!!!!

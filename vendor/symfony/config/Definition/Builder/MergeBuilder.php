@@ -30,7 +30,7 @@ class MergeBuilder
      *
      * @return $this
      */
-    public function allowUnset(bool $allow = \true)
+    public function allowUnset(bool $allow = \true) : static
     {
         $this->allowFalse = $allow;
         return $this;
@@ -40,16 +40,15 @@ class MergeBuilder
      *
      * @return $this
      */
-    public function denyOverwrite(bool $deny = \true)
+    public function denyOverwrite(bool $deny = \true) : static
     {
         $this->allowOverwrite = !$deny;
         return $this;
     }
     /**
      * Returns the related node.
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition|\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\VariableNodeDefinition
      */
-    public function end()
+    public function end() : NodeDefinition|ArrayNodeDefinition|VariableNodeDefinition
     {
         return $this->node;
     }

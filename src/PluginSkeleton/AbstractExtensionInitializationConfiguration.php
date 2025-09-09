@@ -9,12 +9,8 @@ namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
  */
 abstract class AbstractExtensionInitializationConfiguration extends AbstractPluginInitializationConfiguration implements ExtensionInitializationConfigurationInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\ExtensionInterface
-     */
-    protected $extension;
-    public function __construct(ExtensionInterface $extension)
-    {
-        $this->extension = $extension;
+    public function __construct(
+        protected ExtensionInterface $extension
+    ) {
     }
 }

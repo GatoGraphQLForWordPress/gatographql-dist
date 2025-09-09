@@ -8,10 +8,7 @@ use PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface;
 /** @internal */
 class MenuItemObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface|null
-     */
-    private $menuItemRuntimeRegistry;
+    private ?MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry = null;
     protected final function getMenuItemRuntimeRegistry() : MenuItemRuntimeRegistryInterface
     {
         if ($this->menuItemRuntimeRegistry === null) {
@@ -28,6 +25,6 @@ class MenuItemObjectTypeDataLoader extends AbstractObjectTypeDataLoader
     public function getObjects(array $ids) : array
     {
         // Retrieve each item from the dynamic registry
-        return \array_map(\Closure::fromCallable([$this->getMenuItemRuntimeRegistry(), 'getMenuItem']), $ids);
+        return \array_map($this->getMenuItemRuntimeRegistry()->getMenuItem(...), $ids);
     }
 }

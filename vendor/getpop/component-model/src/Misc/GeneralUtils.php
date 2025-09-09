@@ -24,9 +24,8 @@ class GeneralUtils
      * @return mixed[]
      *
      * @see https://gist.github.com/SeanCannon/6585889
-     * @param mixed $items
      */
-    public static function arrayFlatten($items, bool $deep = \false) : array
+    public static function arrayFlatten(mixed $items, bool $deep = \false) : array
     {
         if (!\is_array($items)) {
             return [$items];
@@ -85,9 +84,7 @@ class GeneralUtils
             \parse_str($url_parts['query'], $params);
         }
         // Only keep the keys which must not be removed
-        $params = \array_filter($params, function (string $param) use($keys) : bool {
-            return !\in_array($param, $keys);
-        }, \ARRAY_FILTER_USE_KEY);
+        $params = \array_filter($params, fn(string|int $param): bool => !\in_array($param, $keys), \ARRAY_FILTER_USE_KEY);
         // Note that this will url_encode all values
         $query = \http_build_query($params);
         // Check if schema/host are present, because the URL can also be a relative path: /some-path/
@@ -161,7 +158,7 @@ class GeneralUtils
         if ($queryString = \parse_url($url, \PHP_URL_QUERY)) {
             \parse_str($queryString, $queryParams);
         }
-        /** @var array<string,mixed> */
+        // @phpstan-ignore-next-line
         return $queryParams;
     }
     public static function getURLWithoutQueryParams(string $url) : string

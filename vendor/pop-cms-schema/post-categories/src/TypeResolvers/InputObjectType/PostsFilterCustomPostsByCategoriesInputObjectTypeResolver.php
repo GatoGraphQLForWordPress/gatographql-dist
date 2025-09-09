@@ -10,14 +10,8 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postCategoryTaxonomyEnumStringScalarTypeResolver;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
+    private ?PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
@@ -44,10 +38,7 @@ class PostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends Abstract
     {
         return $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getCategoryTaxonomyFilterDefaultValue()
+    protected function getCategoryTaxonomyFilterDefaultValue() : mixed
     {
         $postCategoryTaxonomyName = $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
         if (!\in_array($postCategoryTaxonomyName, $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver()->getConsolidatedPossibleValues())) {

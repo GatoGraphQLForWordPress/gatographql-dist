@@ -17,14 +17,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class DirectiveExtensionsObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -59,41 +53,29 @@ class DirectiveExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'needsDataToExecute':
-                return $this->__('If no objects are returned in the field (eg: because they failed validation), does the directive still need to be executed?', 'graphql-server');
-            case 'fieldDirectiveSupportedTypeNamesOrDescriptions':
-                return $this->__('On field from which types can the directive be applied. `null` means all of them', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'needsDataToExecute' => $this->__('If no objects are returned in the field (eg: because they failed validation), does the directive still need to be executed?', 'graphql-server'),
+            'fieldDirectiveSupportedTypeNamesOrDescriptions' => $this->__('On field from which types can the directive be applied. `null` means all of them', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'needsDataToExecute':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'fieldDirectiveSupportedTypeNamesOrDescriptions':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'needsDataToExecute' => SchemaTypeModifiers::NON_NULLABLE,
+            'fieldDirectiveSupportedTypeNamesOrDescriptions' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var DirectiveExtensions */
         $directiveExtensions = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'needsDataToExecute':
-                return $directiveExtensions->needsDataToExecute();
-            case 'fieldDirectiveSupportedTypeNamesOrDescriptions':
-                return $directiveExtensions->getFieldDirectiveSupportedTypeNamesOrDescriptions();
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'needsDataToExecute' => $directiveExtensions->needsDataToExecute(),
+            'fieldDirectiveSupportedTypeNamesOrDescriptions' => $directiveExtensions->getFieldDirectiveSupportedTypeNamesOrDescriptions(),
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
     /**
      * Since the return type is known for all the fields in this
@@ -105,13 +87,10 @@ class DirectiveExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'needsDataToExecute':
-                return $this->getBooleanScalarTypeResolver();
-            case 'fieldDirectiveSupportedTypeNamesOrDescriptions':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'needsDataToExecute' => $this->getBooleanScalarTypeResolver(),
+            'fieldDirectiveSupportedTypeNamesOrDescriptions' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

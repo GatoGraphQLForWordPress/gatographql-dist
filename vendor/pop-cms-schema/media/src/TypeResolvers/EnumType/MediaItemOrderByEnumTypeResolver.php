@@ -21,15 +21,11 @@ class MediaItemOrderByEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case MediaItemOrderBy::ID:
-                return $this->__('Order by ID', 'media');
-            case MediaItemOrderBy::TITLE:
-                return $this->__('Order by title', 'media');
-            case MediaItemOrderBy::DATE:
-                return $this->__('Order by date', 'media');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            MediaItemOrderBy::ID => $this->__('Order by ID', 'media'),
+            MediaItemOrderBy::TITLE => $this->__('Order by title', 'media'),
+            MediaItemOrderBy::DATE => $this->__('Order by date', 'media'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

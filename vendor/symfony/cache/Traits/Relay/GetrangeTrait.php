@@ -16,12 +16,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait GetrangeTrait
     {
-        /**
-         * @return mixed
-         */
-        public function getrange($key, $start, $end)
+        public function getrange($key, $start, $end) : mixed
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->getrange(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->getrange(...\func_get_args());
         }
     }
 } else {
@@ -30,12 +27,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait GetrangeTrait
     {
-        /**
-         * @return \Relay\Relay|false|string
-         */
-        public function getrange($key, $start, $end)
+        public function getrange($key, $start, $end) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->getrange(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->getrange(...\func_get_args());
         }
     }
 }

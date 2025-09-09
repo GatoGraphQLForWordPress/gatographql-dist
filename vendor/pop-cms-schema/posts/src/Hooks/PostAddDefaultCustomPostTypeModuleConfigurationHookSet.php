@@ -8,10 +8,7 @@ use PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface;
 /** @internal */
 class PostAddDefaultCustomPostTypeModuleConfigurationHookSet extends AbstractAddDefaultCustomPostTypeModuleConfigurationHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
+    private ?PostTypeAPIInterface $postTypeAPI = null;
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {

@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class UserIsLoggedInErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\UserIsLoggedInErrorPayloadObjectTypeDataLoader|null
-     */
-    private $userIsLoggedInErrorPayloadObjectTypeDataLoader;
+    private ?UserIsLoggedInErrorPayloadObjectTypeDataLoader $userIsLoggedInErrorPayloadObjectTypeDataLoader = null;
     protected final function getUserIsLoggedInErrorPayloadObjectTypeDataLoader() : UserIsLoggedInErrorPayloadObjectTypeDataLoader
     {
         if ($this->userIsLoggedInErrorPayloadObjectTypeDataLoader === null) {

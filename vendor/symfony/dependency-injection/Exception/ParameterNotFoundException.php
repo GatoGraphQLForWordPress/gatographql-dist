@@ -19,26 +19,11 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Container\NotFoundExceptionInterface;
  */
 class ParameterNotFoundException extends InvalidArgumentException implements NotFoundExceptionInterface
 {
-    /**
-     * @var string
-     */
-    private $key;
-    /**
-     * @var string|null
-     */
-    private $sourceId;
-    /**
-     * @var string|null
-     */
-    private $sourceKey;
-    /**
-     * @var mixed[]
-     */
-    private $alternatives;
-    /**
-     * @var string|null
-     */
-    private $nonNestedAlternative;
+    private string $key;
+    private ?string $sourceId;
+    private ?string $sourceKey;
+    private array $alternatives;
+    private ?string $nonNestedAlternative;
     /**
      * @param string          $key                  The requested parameter key
      * @param string|null     $sourceId             The service id that references the non-existent parameter

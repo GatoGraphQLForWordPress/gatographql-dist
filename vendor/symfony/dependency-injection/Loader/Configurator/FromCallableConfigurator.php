@@ -28,10 +28,7 @@ class FromCallableConfigurator extends AbstractServiceConfigurator
     use Traits\ShareTrait;
     use Traits\TagTrait;
     public const FACTORY = 'services';
-    /**
-     * @var \Symfony\Component\DependencyInjection\Loader\Configurator\ServiceConfigurator
-     */
-    private $serviceConfigurator;
+    private ServiceConfigurator $serviceConfigurator;
     public function __construct(ServiceConfigurator $serviceConfigurator, Definition $definition)
     {
         $this->serviceConfigurator = $serviceConfigurator;

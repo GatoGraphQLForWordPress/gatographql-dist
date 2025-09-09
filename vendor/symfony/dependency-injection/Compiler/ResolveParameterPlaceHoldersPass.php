@@ -22,26 +22,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Parame
  */
 class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    private $resolveArrays = \true;
-    /**
-     * @var bool
-     */
-    private $throwOnResolveException = \true;
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \false;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
-     */
-    private $bag;
-    public function __construct(bool $resolveArrays = \true, bool $throwOnResolveException = \true)
+    protected bool $skipScalars = \false;
+    private ParameterBagInterface $bag;
+    public function __construct(private bool $resolveArrays = \true, private bool $throwOnResolveException = \true)
     {
-        $this->resolveArrays = $resolveArrays;
-        $this->throwOnResolveException = $throwOnResolveException;
     }
     /**
      * @return void
@@ -66,11 +50,7 @@ class ResolveParameterPlaceHoldersPass extends AbstractRecursivePass
         $this->bag->resolve();
         unset($this->bag);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (\is_string($value)) {
             try {

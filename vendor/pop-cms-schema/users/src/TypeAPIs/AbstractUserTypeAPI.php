@@ -8,10 +8,7 @@ use PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface;
 /** @internal */
 abstract class AbstractUserTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
     protected final function getCMSHelperService() : CMSHelperServiceInterface
     {
         if ($this->cmsHelperService === null) {
@@ -21,10 +18,7 @@ abstract class AbstractUserTypeAPI extends AbstractBasicService implements \PoPC
         }
         return $this->cmsHelperService;
     }
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserURLPath($userObjectOrID) : ?string
+    public function getUserURLPath(string|int|object $userObjectOrID) : ?string
     {
         $userURL = $this->getUserURL($userObjectOrID);
         if ($userURL === null) {

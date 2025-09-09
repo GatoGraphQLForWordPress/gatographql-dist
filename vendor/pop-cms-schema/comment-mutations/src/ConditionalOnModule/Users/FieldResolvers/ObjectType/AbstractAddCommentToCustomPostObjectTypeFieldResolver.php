@@ -17,10 +17,7 @@ use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 abstract class AbstractAddCommentToCustomPostObjectTypeFieldResolver extends UpstreamAbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
     use \PoPCMSSchema\CommentMutations\ConditionalOnModule\Users\FieldResolvers\ObjectType\AddCommentToCustomPostObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {

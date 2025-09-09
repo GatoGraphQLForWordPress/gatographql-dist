@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class PayloadableCreateMediaItemBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemMutationResolver|null
-     */
-    private $payloadableCreateMediaItemMutationResolver;
+    private ?\PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemMutationResolver $payloadableCreateMediaItemMutationResolver = null;
     protected final function getPayloadableCreateMediaItemMutationResolver() : \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableCreateMediaItemMutationResolver
     {
         if ($this->payloadableCreateMediaItemMutationResolver === null) {

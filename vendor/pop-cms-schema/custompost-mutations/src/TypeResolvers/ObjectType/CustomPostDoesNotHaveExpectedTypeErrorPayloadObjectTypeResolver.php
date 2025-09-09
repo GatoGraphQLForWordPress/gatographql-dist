@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\ObjectType\CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader|null
-     */
-    private $customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader;
+    private ?CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader $customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader = null;
     protected final function getCustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader() : CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeDataLoader === null) {

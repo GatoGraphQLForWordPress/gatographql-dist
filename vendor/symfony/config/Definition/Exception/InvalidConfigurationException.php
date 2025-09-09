@@ -19,14 +19,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Ex
  */
 class InvalidConfigurationException extends Exception
 {
-    /**
-     * @var string|null
-     */
-    private $path;
-    /**
-     * @var bool
-     */
-    private $containsHints = \false;
+    private ?string $path = null;
+    private bool $containsHints = \false;
     /**
      * @return void
      */

@@ -9,10 +9,7 @@ use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
 /** @internal */
 abstract class AbstractMetaTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
-     */
-    private $allowOrDenySettingsService;
+    private ?AllowOrDenySettingsServiceInterface $allowOrDenySettingsService = null;
     protected final function getAllowOrDenySettingsService() : AllowOrDenySettingsServiceInterface
     {
         if ($this->allowOrDenySettingsService === null) {

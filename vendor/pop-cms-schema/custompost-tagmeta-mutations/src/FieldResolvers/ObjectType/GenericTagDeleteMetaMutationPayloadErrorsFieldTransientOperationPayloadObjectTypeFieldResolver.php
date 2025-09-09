@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericTagDeleteMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\UnionType\GenericTagDeleteMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $genericTagDeleteMetaMutationErrorPayloadUnionTypeResolver;
+    private ?GenericTagDeleteMetaMutationErrorPayloadUnionTypeResolver $genericTagDeleteMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getGenericTagDeleteMetaMutationErrorPayloadUnionTypeResolver() : GenericTagDeleteMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericTagDeleteMetaMutationErrorPayloadUnionTypeResolver === null) {

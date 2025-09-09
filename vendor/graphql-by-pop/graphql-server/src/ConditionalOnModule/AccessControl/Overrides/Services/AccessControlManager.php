@@ -11,11 +11,8 @@ class AccessControlManager extends UpstreamAccessControlManager
     /**
      * @var array<string,array<mixed[]>>
      */
-    protected $overriddenFieldEntries = [];
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface|null
-     */
-    private $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
+    protected array $overriddenFieldEntries = [];
+    private ?MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator = null;
     protected final function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator() : MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
     {
         if ($this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator === null) {

@@ -6,5 +6,5 @@ namespace PoP\ComponentModel\Constants;
 /** @internal */
 class FieldOutputKeys
 {
-    public const ID = 'id';
+    public final const ID = 'id';
 }

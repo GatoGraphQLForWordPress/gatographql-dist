@@ -6,5 +6,8 @@ namespace GatoGraphQL\GatoGraphQL\Container;
 
 interface ContainerManagerInterface
 {
-    public function flushContainer(bool $flushRewriteRules, ?bool $regenerateContainer): void;
+    public function flushContainer(
+        bool $flushRewriteRules,
+        ?bool $regenerateContainer,
+    ): void;
 }

@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver;
+    private ?LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver = null;
     protected final function getLoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver === null) {

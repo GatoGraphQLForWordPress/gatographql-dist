@@ -18,10 +18,8 @@ trait ExcludeFieldNamesFromSchemaTypeResolverTrait
      *
      * @return string[]
      * @param string[] $fieldNames
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
-     * @param \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver
      */
-    protected function maybeExcludeFieldNamesFromSchema($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, array $fieldNames) : array
+    protected function maybeExcludeFieldNamesFromSchema(ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, ObjectTypeFieldResolverInterface|InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver, array $fieldNames) : array
     {
         // Enable to exclude fieldNames, so they are not added to the schema.
         $excludedFieldNames = [];
@@ -39,16 +37,10 @@ trait ExcludeFieldNamesFromSchemaTypeResolverTrait
         }
         // Execute a hook, allowing to filter them out (eg: removing fieldNames from a private schema)
         // Also pass the Interfaces defining the field
-        $fieldNames = \array_filter($fieldNames, function ($fieldName) use($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver) {
-            return $this->isFieldNameResolvedByObjectTypeFieldResolver($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, $fieldName);
-        });
+        $fieldNames = \array_filter($fieldNames, fn($fieldName) => $this->isFieldNameResolvedByObjectTypeFieldResolver($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, $fieldName));
         return $fieldNames;
     }
-    /**
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
-     * @param \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver
-     */
-    protected function isFieldNameResolvedByObjectTypeFieldResolver($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : bool
+    protected function isFieldNameResolvedByObjectTypeFieldResolver(ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, ObjectTypeFieldResolverInterface|InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : bool
     {
         // Execute 2 filters: a generic one, and a specific one
         if (App::applyFilters(\PoP\ComponentModel\TypeResolvers\HookHelpers::getHookNameToFilterField(), \true, $objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, $fieldName)) {

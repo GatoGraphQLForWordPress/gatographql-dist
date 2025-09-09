@@ -27,10 +27,7 @@ interface InputObjectTypeResolverInterface extends DeprecatableInputTypeResolver
      */
     public function getSensitiveInputFieldNames() : array;
     public function getInputFieldDescription(string $inputFieldName) : ?string;
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName);
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed;
     public function getInputFieldTypeModifiers(string $inputFieldName) : int;
     /**
      * Consolidation of the schema inputs. Call this function to read the data
@@ -44,10 +41,7 @@ interface InputObjectTypeResolverInterface extends DeprecatableInputTypeResolver
      */
     public function getConsolidatedSensitiveInputFieldNames() : array;
     public function getConsolidatedInputFieldDescription(string $inputFieldName) : ?string;
-    /**
-     * @return mixed
-     */
-    public function getConsolidatedInputFieldDefaultValue(string $inputFieldName);
+    public function getConsolidatedInputFieldDefaultValue(string $inputFieldName) : mixed;
     public function getConsolidatedInputFieldTypeModifiers(string $inputFieldName) : int;
     /**
      * Input fields may not be directly visible in the schema,

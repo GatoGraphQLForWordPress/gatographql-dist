@@ -15,7 +15,7 @@ class VariableManager implements \PoP\ComponentModel\Variables\VariableManagerIn
      *
      * @var array<string,mixed>|null
      */
-    private $variablesFromRequestCache;
+    private ?array $variablesFromRequestCache = null;
     /**
      * @return array<string,mixed>
      */

@@ -21,13 +21,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 final class Target
 {
-    /**
-     * @var string|null
-     */
-    public $name;
-    public function __construct(?string $name = null)
+    public function __construct(public ?string $name = null)
     {
-        $this->name = $name;
     }
     public function getParsedName() : string
     {
@@ -39,12 +34,12 @@ final class Target
     public static function parseName(\ReflectionParameter $parameter, ?self &$attribute = null, ?string &$parsedName = null) : string
     {
         $attribute = null;
-        if (!($target = (\method_exists($parameter, 'getAttributes') ? $parameter->getAttributes(self::class) : [])[0] ?? null)) {
+        if (!($target = $parameter->getAttributes(self::class)[0] ?? null)) {
             $parsedName = (new self($parameter->name))->getParsedName();
             return $parameter->name;
         }
         $attribute = $target->newInstance();
-        $name = $attribute->name = $attribute->name ?? $parameter->name;
+        $name = $attribute->name ??= $parameter->name;
         $parsedName = $attribute->getParsedName();
         if (!\preg_match('/^[a-zA-Z_\\x7f-\\xff]/', $parsedName)) {
             if (($function = $parameter->getDeclaringFunction()) instanceof \ReflectionMethod) {

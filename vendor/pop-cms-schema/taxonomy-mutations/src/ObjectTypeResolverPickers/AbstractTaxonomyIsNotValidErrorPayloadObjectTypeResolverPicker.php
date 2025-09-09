@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractTaxonomyIsNotValidErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\TaxonomyIsNotValidErrorPayloadObjectTypeResolver|null
-     */
-    private $taxonomyIsNotValidErrorPayloadObjectTypeResolver;
+    private ?TaxonomyIsNotValidErrorPayloadObjectTypeResolver $taxonomyIsNotValidErrorPayloadObjectTypeResolver = null;
     protected final function getTaxonomyIsNotValidErrorPayloadObjectTypeResolver() : TaxonomyIsNotValidErrorPayloadObjectTypeResolver
     {
         if ($this->taxonomyIsNotValidErrorPayloadObjectTypeResolver === null) {

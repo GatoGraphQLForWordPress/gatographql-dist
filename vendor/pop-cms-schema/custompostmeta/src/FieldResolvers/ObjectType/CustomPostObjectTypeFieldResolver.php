@@ -19,10 +19,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     use EntityObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface|null
-     */
-    private $customPostMetaTypeAPI;
+    private ?CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI = null;
     protected final function getCustomPostMetaTypeAPI() : CustomPostMetaTypeAPIInterface
     {
         if ($this->customPostMetaTypeAPI === null) {
@@ -56,10 +53,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
         }
         return $sensitiveFieldArgNames;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPost = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -73,7 +67,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
                     }
                     $metaKeys[] = $key;
                 }
-                return $this->resolveMetaKeysValue($metaKeys, $fieldDataAccessor);
+                return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
                 $metaValue = $this->getCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \true);
                 // If it's an array, it must be a JSON object

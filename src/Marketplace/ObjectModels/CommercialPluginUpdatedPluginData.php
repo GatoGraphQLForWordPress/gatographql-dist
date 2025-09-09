@@ -6,49 +6,14 @@ namespace GatoGraphQL\GatoGraphQL\Marketplace\ObjectModels;
 
 class CommercialPluginUpdatedPluginData
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $pluginName;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $pluginSlug;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $pluginBaseName;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $pluginVersion;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $pluginChangelogURL;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $licenseKey;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $cacheKey;
-    public function __construct(string $pluginName, string $pluginSlug, string $pluginBaseName, string $pluginVersion, string $pluginChangelogURL, string $licenseKey, string $cacheKey)
-    {
-        $this->pluginName = $pluginName;
-        $this->pluginSlug = $pluginSlug;
-        $this->pluginBaseName = $pluginBaseName;
-        $this->pluginVersion = $pluginVersion;
-        $this->pluginChangelogURL = $pluginChangelogURL;
-        $this->licenseKey = $licenseKey;
-        $this->cacheKey = $cacheKey;
+    public function __construct(
+        public readonly string $pluginName,
+        public readonly string $pluginSlug,
+        public readonly string $pluginBaseName,
+        public readonly string $pluginVersion,
+        public readonly string $pluginChangelogURL,
+        public readonly string $licenseKey,
+        public readonly string $cacheKey,
+    ) {
     }
 }

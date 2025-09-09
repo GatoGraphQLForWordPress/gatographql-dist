@@ -27,22 +27,10 @@ use MongoDB\Driver\Query;
  */
 class MongoDbSessionHandler extends AbstractSessionHandler
 {
-    /**
-     * @var \MongoDB\Driver\Manager
-     */
-    private $manager;
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var mixed[]
-     */
-    private $options;
-    /**
-     * @var int|\Closure|null
-     */
-    private $ttl;
+    private Manager $manager;
+    private string $namespace;
+    private array $options;
+    private int|\Closure|null $ttl;
     /**
      * Constructor.
      *
@@ -73,9 +61,8 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      * no garbage-collection is required.
      *
      * @throws \InvalidArgumentException When "database" or "collection" not provided
-     * @param \MongoDB\Client|\MongoDB\Driver\Manager $mongo
      */
-    public function __construct($mongo, array $options)
+    public function __construct(Client|Manager $mongo, array $options)
     {
         if (!isset($options['database']) || !isset($options['collection'])) {
             throw new \InvalidArgumentException('You must provide the "database" and "collection" option for MongoDBSessionHandler.');
@@ -92,24 +79,21 @@ class MongoDbSessionHandler extends AbstractSessionHandler
     {
         return \true;
     }
-    protected function doDestroy(string $sessionId) : bool
+    protected function doDestroy(#[\SensitiveParameter] string $sessionId) : bool
     {
         $write = new BulkWrite();
         $write->delete([$this->options['id_field'] => $sessionId], ['limit' => 1]);
         $this->manager->executeBulkWrite($this->namespace, $write);
         return \true;
     }
-    /**
-     * @return int|false
-     */
-    public function gc(int $maxlifetime)
+    public function gc(int $maxlifetime) : int|false
     {
         $write = new BulkWrite();
         $write->delete([$this->options['expiry_field'] => ['$lt' => $this->getUTCDateTime()]]);
         $result = $this->manager->executeBulkWrite($this->namespace, $write);
         return $result->getDeletedCount() ?? \false;
     }
-    protected function doWrite(string $sessionId, string $data) : bool
+    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data) : bool
     {
         $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
@@ -119,7 +103,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         $this->manager->executeBulkWrite($this->namespace, $write);
         return \true;
     }
-    public function updateTimestamp(string $sessionId, string $data) : bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data) : bool
     {
         $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
@@ -128,7 +112,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         $this->manager->executeBulkWrite($this->namespace, $write);
         return \true;
     }
-    protected function doRead(string $sessionId) : string
+    protected function doRead(#[\SensitiveParameter] string $sessionId) : string
     {
         $cursor = $this->manager->executeQuery($this->namespace, new Query([$this->options['id_field'] => $sessionId, $this->options['expiry_field'] => ['$gte' => $this->getUTCDateTime()]], ['projection' => ['_id' => \false, $this->options['data_field'] => \true], 'limit' => 1]));
         foreach ($cursor as $document) {

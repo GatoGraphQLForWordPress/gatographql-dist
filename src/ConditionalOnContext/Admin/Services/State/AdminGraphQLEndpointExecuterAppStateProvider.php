@@ -11,14 +11,8 @@ use GatoGraphQL\GatoGraphQL\State\AbstractGraphQLEndpointExecuterAppStateProvide
 
 class AdminGraphQLEndpointExecuterAppStateProvider extends AbstractGraphQLEndpointExecuterAppStateProvider
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ConditionalOnContext\Admin\Services\EndpointExecuters\AdminEndpointExecuter|null
-     */
-    private $adminEndpointExecuter;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
+    private ?AdminEndpointExecuter $adminEndpointExecuter = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
 
     final protected function getAdminEndpointExecuter(): AdminEndpointExecuter
     {

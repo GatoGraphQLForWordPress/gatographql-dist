@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class PostCategoryAddMetaMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\UnionType\PostCategoryAddMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $postCategoryAddMetaMutationErrorPayloadUnionTypeResolver;
+    private ?PostCategoryAddMetaMutationErrorPayloadUnionTypeResolver $postCategoryAddMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getPostCategoryAddMetaMutationErrorPayloadUnionTypeResolver() : PostCategoryAddMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->postCategoryAddMetaMutationErrorPayloadUnionTypeResolver === null) {

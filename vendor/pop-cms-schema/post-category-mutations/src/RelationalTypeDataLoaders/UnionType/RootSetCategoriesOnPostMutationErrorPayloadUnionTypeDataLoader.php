@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class RootSetCategoriesOnPostMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\UnionType\RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver;
+    private ?RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver $rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver() : RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver === null) {

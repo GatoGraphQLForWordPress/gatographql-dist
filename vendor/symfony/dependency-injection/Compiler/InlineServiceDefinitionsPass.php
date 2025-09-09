@@ -23,38 +23,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class InlineServiceDefinitionsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\AnalyzeServiceReferencesPass|null
-     */
-    private $analyzingPass;
-    /**
-     * @var mixed[]
-     */
-    private $cloningIds = [];
-    /**
-     * @var mixed[]
-     */
-    private $connectedIds = [];
-    /**
-     * @var mixed[]
-     */
-    private $notInlinedIds = [];
-    /**
-     * @var mixed[]
-     */
-    private $inlinedIds = [];
-    /**
-     * @var mixed[]
-     */
-    private $notInlinableIds = [];
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph|null
-     */
-    private $graph;
+    protected bool $skipScalars = \true;
+    private ?AnalyzeServiceReferencesPass $analyzingPass;
+    private array $cloningIds = [];
+    private array $connectedIds = [];
+    private array $notInlinedIds = [];
+    private array $inlinedIds = [];
+    private array $notInlinableIds = [];
+    private ?ServiceReferenceGraph $graph = null;
     public function __construct(?AnalyzeServiceReferencesPass $analyzingPass = null)
     {
         $this->analyzingPass = $analyzingPass;
@@ -128,11 +104,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass
             $this->graph = null;
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof ArgumentInterface) {
             // References found in ArgumentInterface::getValues() are not inlineable

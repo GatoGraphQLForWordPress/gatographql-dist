@@ -14,14 +14,8 @@ use PoP\Root\Services\StandaloneServiceTrait;
 abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Server\GraphQLServerInterface
 {
     use StandaloneServiceTrait;
-    /**
-     * @var \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface|null
-     */
-    private $applicationStateFillerService;
-    /**
-     * @var \PoP\ComponentModel\Engine\EngineInterface|null
-     */
-    private $engine;
+    private ?ApplicationStateFillerServiceInterface $applicationStateFillerService = null;
+    private ?EngineInterface $engine = null;
     protected final function getApplicationStateFillerService() : ApplicationStateFillerServiceInterface
     {
         if ($this->applicationStateFillerService === null) {
@@ -46,9 +40,8 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
      * build the AST, and generate and print the data.
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function execute($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
+    public function execute(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
     {
         // Keep the current response, to be restored later on
         $currentResponse = App::getResponse();

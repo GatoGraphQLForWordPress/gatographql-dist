@@ -3,7 +3,10 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType;
 
-/** @internal */
+/**
+ * @phpstan-ignore-next-line
+ * @internal
+ */
 trait CategoryTermDeleteInputObjectTypeResolverTrait
 {
     public function getTypeDescription() : ?string

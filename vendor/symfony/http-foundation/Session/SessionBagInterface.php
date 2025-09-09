@@ -37,5 +37,5 @@ interface SessionBagInterface
      *
      * @return mixed Whatever data was contained
      */
-    public function clear();
+    public function clear() : mixed;
 }

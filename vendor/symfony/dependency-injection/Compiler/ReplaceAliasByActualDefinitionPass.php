@@ -23,14 +23,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $replacements;
+    protected bool $skipScalars = \true;
+    private array $replacements;
     /**
      * Process the Container to replace aliases with service definitions.
      *
@@ -86,11 +80,7 @@ class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
         parent::process($container);
         $this->replacements = [];
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Reference && isset($this->replacements[$referenceId = (string) $value])) {
             // Perform the replacement

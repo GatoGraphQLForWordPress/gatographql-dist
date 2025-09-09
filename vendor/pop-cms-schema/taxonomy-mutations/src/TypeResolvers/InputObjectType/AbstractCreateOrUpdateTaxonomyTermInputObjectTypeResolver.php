@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractCreateOrUpdateTaxonomyTermInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\TaxonomyMutations\TypeResolvers\InputObjectType\UpdateTaxonomyTermInputObjectTypeResolverInterface, \PoPCMSSchema\TaxonomyMutations\TypeResolvers\InputObjectType\CreateTaxonomyTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -55,52 +49,33 @@ abstract class AbstractCreateOrUpdateTaxonomyTermInputObjectTypeResolver extends
     protected abstract function addParentIDInputField() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the taxonomy to update', 'taxonomy-mutations');
-            case MutationInputProperties::NAME:
-                return $this->__('The name of the taxonomy', 'taxonomy-mutations');
-            case MutationInputProperties::DESCRIPTION:
-                return $this->__('The description of the taxonomy', 'taxonomy-mutations');
-            case MutationInputProperties::SLUG:
-                return $this->__('The slug of the taxonomy', 'taxonomy-mutations');
-            case MutationInputProperties::TAXONOMY:
-                return $this->__('The taxonomy', 'taxonomy-mutations');
-            case MutationInputProperties::PARENT_BY:
-                return $this->__('The taxonomy\'s parent, or `null` to remove it', 'taxonomy-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the taxonomy to update', 'taxonomy-mutations'),
+            MutationInputProperties::NAME => $this->__('The name of the taxonomy', 'taxonomy-mutations'),
+            MutationInputProperties::DESCRIPTION => $this->__('The description of the taxonomy', 'taxonomy-mutations'),
+            MutationInputProperties::SLUG => $this->__('The slug of the taxonomy', 'taxonomy-mutations'),
+            MutationInputProperties::TAXONOMY => $this->__('The taxonomy', 'taxonomy-mutations'),
+            MutationInputProperties::PARENT_BY => $this->__('The taxonomy\'s parent, or `null` to remove it', 'taxonomy-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return SchemaTypeModifiers::MANDATORY;
-            case MutationInputProperties::NAME:
-                return $this->isNameInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE;
-            case MutationInputProperties::TAXONOMY:
-                return $this->isTaxonomyInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => SchemaTypeModifiers::MANDATORY,
+            MutationInputProperties::NAME => $this->isNameInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE,
+            MutationInputProperties::TAXONOMY => $this->isTaxonomyInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     protected abstract function isNameInputFieldMandatory() : bool;
     protected abstract function isTaxonomyInputFieldMandatory() : bool;
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::TAXONOMY:
-                return $this->getTaxonomyInputFieldDefaultValue();
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::TAXONOMY => $this->getTaxonomyInputFieldDefaultValue(),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    protected abstract function getTaxonomyInputFieldDefaultValue();
+    protected abstract function getTaxonomyInputFieldDefaultValue() : mixed;
 }

@@ -23,42 +23,15 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 /** @internal */
 class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\PostCategoryUpdateMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategoryUpdateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\PostCategoryDeleteMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategoryDeleteMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\UpdatePostCategoryTermMutationResolver|null
-     */
-    private $updatePostCategoryTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\DeletePostCategoryTermMutationResolver|null
-     */
-    private $deletePostCategoryTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableUpdatePostCategoryTermMutationResolver|null
-     */
-    private $payloadableUpdatePostCategoryTermMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableDeletePostCategoryTermMutationResolver|null
-     */
-    private $payloadableDeletePostCategoryTermMutationResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\PostCategoryTermUpdateInputObjectTypeResolver|null
-     */
-    private $postCategoryTermUpdateInputObjectTypeResolver;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?PostCategoryUpdateMutationPayloadObjectTypeResolver $postCategoryUpdateMutationPayloadObjectTypeResolver = null;
+    private ?PostCategoryDeleteMutationPayloadObjectTypeResolver $postCategoryDeleteMutationPayloadObjectTypeResolver = null;
+    private ?UpdatePostCategoryTermMutationResolver $updatePostCategoryTermMutationResolver = null;
+    private ?DeletePostCategoryTermMutationResolver $deletePostCategoryTermMutationResolver = null;
+    private ?PayloadableUpdatePostCategoryTermMutationResolver $payloadableUpdatePostCategoryTermMutationResolver = null;
+    private ?PayloadableDeletePostCategoryTermMutationResolver $payloadableDeletePostCategoryTermMutationResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?PostCategoryTermUpdateInputObjectTypeResolver $postCategoryTermUpdateInputObjectTypeResolver = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
@@ -149,42 +122,33 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the post category', 'category-mutations');
-            case 'delete':
-                return $this->__('Delete the post category', 'category-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the post category', 'category-mutations'),
+            'delete' => $this->__('Delete the post category', 'category-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getPostCategoryTermUpdateInputObjectTypeResolver()];
-            case 'delete':
-                return [];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getPostCategoryTermUpdateInputObjectTypeResolver()],
+            'delete' => [],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
     {
         /** @var CategoryMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(CategoryMutationsModule::class)->getConfiguration();
         $usePayloadableCategoryMutations = $moduleConfiguration->usePayloadableCategoryMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableCategoryMutations ? $this->getPayloadableUpdatePostCategoryTermMutationResolver() : $this->getUpdatePostCategoryTermMutationResolver();
-            case 'delete':
-                return $usePayloadableCategoryMutations ? $this->getPayloadableDeletePostCategoryTermMutationResolver() : $this->getDeletePostCategoryTermMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableCategoryMutations ? $this->getPayloadableUpdatePostCategoryTermMutationResolver() : $this->getUpdatePostCategoryTermMutationResolver(),
+            'delete' => $usePayloadableCategoryMutations ? $this->getPayloadableDeletePostCategoryTermMutationResolver() : $this->getDeletePostCategoryTermMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -192,22 +156,16 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
         $moduleConfiguration = App::getModule(CategoryMutationsModule::class)->getConfiguration();
         $usePayloadableCategoryMutations = $moduleConfiguration->usePayloadableCategoryMutations();
         if (!$usePayloadableCategoryMutations) {
-            switch ($fieldName) {
-                case 'update':
-                    return $this->getPostCategoryObjectTypeResolver();
-                case 'delete':
-                    return $this->getBooleanScalarTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'update' => $this->getPostCategoryObjectTypeResolver(),
+                'delete' => $this->getBooleanScalarTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'update':
-                return $this->getPostCategoryUpdateMutationPayloadObjectTypeResolver();
-            case 'delete':
-                return $this->getPostCategoryDeleteMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->getPostCategoryUpdateMutationPayloadObjectTypeResolver(),
+            'delete' => $this->getPostCategoryDeleteMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

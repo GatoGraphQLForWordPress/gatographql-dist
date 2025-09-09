@@ -12,5 +12,5 @@ class NonEnumerableCustomPostStatus
      *       but it's still referenced by `CustomPostObjectTypeDataLoader` to be able
      *       to fetch custom posts with this status
      */
-    public const AUTO_DRAFT = 'auto-draft';
+    public final const AUTO_DRAFT = 'auto-draft';
 }

@@ -43,17 +43,15 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
      *
      * If you have a mixed key like foo-bar_moo, it will not be altered.
      * The key will also not be altered if the target key already exists.
-     * @param mixed $value
-     * @return mixed
      */
-    protected function preNormalize($value)
+    protected function preNormalize(mixed $value) : mixed
     {
         if (!$this->normalizeKeys || !\is_array($value)) {
             return $value;
         }
         $normalized = [];
         foreach ($value as $k => $v) {
-            if (\strpos($k, '-') !== \false && \strpos($k, '_') === \false && !\array_key_exists($normalizedKey = \str_replace('-', '_', $k), $value)) {
+            if (\str_contains($k, '-') && !\str_contains($k, '_') && !\array_key_exists($normalizedKey = \str_replace('-', '_', $k), $value)) {
                 $normalized[$normalizedKey] = $v;
             } else {
                 $normalized[$k] = $v;
@@ -158,10 +156,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     {
         return $this->addIfNotSet;
     }
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : mixed
     {
         if (!$this->hasDefaultValue()) {
             throw new \RuntimeException(\sprintf('The node at path "%s" has no default value.', $this->getPath()));
@@ -196,10 +191,8 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     /**
      * @throws UnsetKeyException
      * @throws InvalidConfigurationException if the node doesn't have enough children
-     * @param mixed $value
-     * @return mixed
      */
-    protected function finalizeValue($value)
+    protected function finalizeValue(mixed $value) : mixed
     {
         if (\false === $value) {
             throw new UnsetKeyException(\sprintf('Unsetting key for path "%s", value: %s.', $this->getPath(), \json_encode($value)));
@@ -228,7 +221,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
             }
             try {
                 $value[$name] = $child->finalize($value[$name]);
-            } catch (UnsetKeyException $exception) {
+            } catch (UnsetKeyException) {
                 unset($value[$name]);
             }
         }
@@ -236,9 +229,8 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
         if (!\is_array($value) && (!$this->allowFalse || \false !== $value)) {
             $ex = new InvalidTypeException(\sprintf('Invalid type for path "%s". Expected "array", but got "%s"', $this->getPath(), \get_debug_type($value)));
@@ -251,10 +243,8 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     }
     /**
      * @throws InvalidConfigurationException
-     * @param mixed $value
-     * @return mixed
      */
-    protected function normalizeValue($value)
+    protected function normalizeValue(mixed $value) : mixed
     {
         if (\false === $value) {
             return $value;
@@ -265,7 +255,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
             if (isset($this->children[$name])) {
                 try {
                     $normalized[$name] = $this->children[$name]->normalize($val);
-                } catch (UnsetKeyException $exception) {
+                } catch (UnsetKeyException) {
                 }
                 unset($value[$name]);
             } elseif (!$this->removeExtraKeys) {
@@ -317,11 +307,8 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
     /**
      * @throws InvalidConfigurationException
      * @throws \RuntimeException
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
      */
-    protected function mergeValues($leftSide, $rightSide)
+    protected function mergeValues(mixed $leftSide, mixed $rightSide) : mixed
     {
         if (\false === $rightSide) {
             // if this is still false after the last config has been merged the

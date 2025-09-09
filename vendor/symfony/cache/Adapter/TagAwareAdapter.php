@@ -37,48 +37,21 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
     use ContractsTrait;
     use LoggerAwareTrait;
     public const TAGS_PREFIX = "\x01tags\x01";
-    /**
-     * @var mixed[]
-     */
-    private $deferred = [];
-    /**
-     * @var \Symfony\Component\Cache\Adapter\AdapterInterface
-     */
-    private $pool;
-    /**
-     * @var \Symfony\Component\Cache\Adapter\AdapterInterface
-     */
-    private $tags;
-    /**
-     * @var mixed[]
-     */
-    private $knownTagVersions = [];
-    /**
-     * @var float
-     */
-    private $knownTagVersionsTtl;
-    /**
-     * @var \Closure
-     */
-    private static $setCacheItemTags;
-    /**
-     * @var \Closure
-     */
-    private static $setTagVersions;
-    /**
-     * @var \Closure
-     */
-    private static $getTagsByKey;
-    /**
-     * @var \Closure
-     */
-    private static $saveTags;
+    private array $deferred = [];
+    private AdapterInterface $pool;
+    private AdapterInterface $tags;
+    private array $knownTagVersions = [];
+    private float $knownTagVersionsTtl;
+    private static \Closure $setCacheItemTags;
+    private static \Closure $setTagVersions;
+    private static \Closure $getTagsByKey;
+    private static \Closure $saveTags;
     public function __construct(AdapterInterface $itemsPool, ?AdapterInterface $tagsPool = null, float $knownTagVersionsTtl = 0.15)
     {
         $this->pool = $itemsPool;
         $this->tags = $tagsPool ?? $itemsPool;
         $this->knownTagVersionsTtl = $knownTagVersionsTtl;
-        self::$setCacheItemTags = self::$setCacheItemTags ?? \Closure::bind(static function (array $items, array $itemTags) {
+        self::$setCacheItemTags ??= \Closure::bind(static function (array $items, array $itemTags) {
             foreach ($items as $key => $item) {
                 $item->isTaggable = \true;
                 if (isset($itemTags[$key])) {
@@ -92,12 +65,12 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             }
             return $items;
         }, null, CacheItem::class);
-        self::$setTagVersions = self::$setTagVersions ?? \Closure::bind(static function (array $items, array $tagVersions) {
+        self::$setTagVersions ??= \Closure::bind(static function (array $items, array $tagVersions) {
             foreach ($items as $item) {
                 $item->newMetadata[CacheItem::METADATA_TAGS] = \array_intersect_key($tagVersions, $item->newMetadata[CacheItem::METADATA_TAGS] ?? []);
             }
         }, null, CacheItem::class);
-        self::$getTagsByKey = self::$getTagsByKey ?? \Closure::bind(static function ($deferred) {
+        self::$getTagsByKey ??= \Closure::bind(static function ($deferred) {
             $tagsByKey = [];
             foreach ($deferred as $key => $item) {
                 $tagsByKey[$key] = $item->newMetadata[CacheItem::METADATA_TAGS] ?? [];
@@ -105,7 +78,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             }
             return $tagsByKey;
         }, null, CacheItem::class);
-        self::$saveTags = self::$saveTags ?? \Closure::bind(static function (AdapterInterface $tagsAdapter, array $tags) {
+        self::$saveTags ??= \Closure::bind(static function (AdapterInterface $tagsAdapter, array $tags) {
             \ksort($tags);
             foreach ($tags as $v) {
                 $v->expiry = 0;
@@ -124,17 +97,11 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
         }
         return !$tags || $this->tags->deleteItems($ids);
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         return $this->getItem($key)->isHit();
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         foreach ($this->getItems([$key]) as $item) {
             return $item;
@@ -194,7 +161,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
     {
         if ('' !== $prefix) {
             foreach ($this->deferred as $key => $item) {
-                if (\strncmp($key, $prefix, \strlen($prefix)) === 0) {
+                if (\str_starts_with($key, $prefix)) {
                     unset($this->deferred[$key]);
                 }
             }
@@ -206,10 +173,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
         }
         return $this->pool->clear();
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         return $this->deleteItems([$key]);
     }
@@ -328,7 +292,7 @@ class TagAwareAdapter implements TagAwareAdapterInterface, TagAwareCacheInterfac
             if (null !== ($tagVersions[$tag] = $version->get())) {
                 $this->knownTagVersions[$tag] = [$expiration, $tagVersions[$tag]];
             } elseif ($persistTags) {
-                $newTags[$tag] = $version->set($newVersion = $newVersion ?? \random_bytes(6));
+                $newTags[$tag] = $version->set($newVersion ??= \random_bytes(6));
                 $tagVersions[$tag] = $newVersion;
                 $this->knownTagVersions[$tag] = [$expiration, $newVersion];
             }

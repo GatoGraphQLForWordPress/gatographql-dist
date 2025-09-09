@@ -20,34 +20,13 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class ServiceReferenceGraphEdge
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraphNode
-     */
-    private $sourceNode;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraphNode
-     */
-    private $destNode;
-    /**
-     * @var mixed
-     */
-    private $value;
-    /**
-     * @var bool
-     */
-    private $lazy;
-    /**
-     * @var bool
-     */
-    private $weak;
-    /**
-     * @var bool
-     */
-    private $byConstructor;
-    /**
-     * @param mixed $value
-     */
-    public function __construct(ServiceReferenceGraphNode $sourceNode, ServiceReferenceGraphNode $destNode, $value = null, bool $lazy = \false, bool $weak = \false, bool $byConstructor = \false)
+    private ServiceReferenceGraphNode $sourceNode;
+    private ServiceReferenceGraphNode $destNode;
+    private mixed $value;
+    private bool $lazy;
+    private bool $weak;
+    private bool $byConstructor;
+    public function __construct(ServiceReferenceGraphNode $sourceNode, ServiceReferenceGraphNode $destNode, mixed $value = null, bool $lazy = \false, bool $weak = \false, bool $byConstructor = \false)
     {
         $this->sourceNode = $sourceNode;
         $this->destNode = $destNode;
@@ -58,9 +37,8 @@ class ServiceReferenceGraphEdge
     }
     /**
      * Returns the value of the edge.
-     * @return mixed
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->value;
     }

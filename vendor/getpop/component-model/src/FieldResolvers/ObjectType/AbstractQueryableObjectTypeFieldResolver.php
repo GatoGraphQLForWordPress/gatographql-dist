@@ -19,10 +19,7 @@ use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
 abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\ObjectType\QueryableObjectTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -58,10 +55,7 @@ abstract class AbstractQueryableObjectTypeFieldResolver extends \PoP\ComponentMo
         }
         return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName)) {
             return $this->getFilterFieldArgDefaultValue($filterDataloadingComponent, $fieldArgName);

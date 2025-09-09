@@ -16,7 +16,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Settings\Environment::SETTINGS_ENTRIES;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getSettingsBehavior() : string

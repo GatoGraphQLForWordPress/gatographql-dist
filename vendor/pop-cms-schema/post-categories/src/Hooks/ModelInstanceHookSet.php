@@ -13,19 +13,10 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 class ModelInstanceHookSet extends AbstractHookSet
 {
-    public const HOOK_VARY_MODEL_INSTANCE_BY_CATEGORY = __CLASS__ . ':vary-model-instance-by-category';
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\UniversalCategoryTypeAPIInterface|null
-     */
-    private $universalCategoryTypeAPI;
+    public final const HOOK_VARY_MODEL_INSTANCE_BY_CATEGORY = __CLASS__ . ':vary-model-instance-by-category';
+    private ?PostTypeAPIInterface $postTypeAPI = null;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
+    private ?UniversalCategoryTypeAPIInterface $universalCategoryTypeAPI = null;
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
@@ -55,7 +46,7 @@ class ModelInstanceHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
+        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, $this->getModelInstanceElementsFromAppState(...));
     }
     /**
      * @return string[]

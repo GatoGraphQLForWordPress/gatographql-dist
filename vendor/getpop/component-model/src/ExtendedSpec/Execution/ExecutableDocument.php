@@ -34,19 +34,13 @@ class ExecutableDocument extends AbstractExecutableDocument
     /**
      * @var array<ObjectTypeResolverInterface|UnionTypeResolverInterface|InterfaceTypeResolverInterface>
      */
-    protected $compositeUnionTypeResolvers;
+    protected array $compositeUnionTypeResolvers;
     /**
      * @var array<EnumTypeResolverInterface|ScalarTypeResolverInterface>
      */
-    protected $nonCompositeUnionTypeResolvers;
-    /**
-     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
-     */
-    private $typeRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface|null
-     */
-    private $operationDependencyDefinerDirectiveRegistry;
+    protected array $nonCompositeUnionTypeResolvers;
+    private ?TypeRegistryInterface $typeRegistry = null;
+    private ?OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry = null;
     protected final function getTypeRegistry() : TypeRegistryInterface
     {
         if ($this->typeRegistry === null) {
@@ -68,8 +62,8 @@ class ExecutableDocument extends AbstractExecutableDocument
     public function __construct(Document $document, Context $context)
     {
         parent::__construct($document, $context);
-        $this->compositeUnionTypeResolvers = \array_merge($this->getTypeRegistry()->getObjectTypeResolvers(), $this->getTypeRegistry()->getUnionTypeResolvers(), $this->getTypeRegistry()->getInterfaceTypeResolvers());
-        $this->nonCompositeUnionTypeResolvers = \array_merge($this->getTypeRegistry()->getEnumTypeResolvers(), $this->getTypeRegistry()->getScalarTypeResolvers());
+        $this->compositeUnionTypeResolvers = [...$this->getTypeRegistry()->getObjectTypeResolvers(), ...$this->getTypeRegistry()->getUnionTypeResolvers(), ...$this->getTypeRegistry()->getInterfaceTypeResolvers()];
+        $this->nonCompositeUnionTypeResolvers = [...$this->getTypeRegistry()->getEnumTypeResolvers(), ...$this->getTypeRegistry()->getScalarTypeResolvers()];
     }
     /**
      * @throws InvalidRequestException
@@ -96,9 +90,8 @@ class ExecutableDocument extends AbstractExecutableDocument
     }
     /**
      * @throws InvalidRequestException
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\Fragment|\PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment $astNode
      */
-    protected function assertFragmentSpreadTypeExistsInSchema(string $fragmentSpreadType, $astNode) : void
+    protected function assertFragmentSpreadTypeExistsInSchema(string $fragmentSpreadType, Fragment|InlineFragment $astNode) : void
     {
         foreach ($this->compositeUnionTypeResolvers as $typeResolver) {
             if ($this->isTypeResolverForType($fragmentSpreadType, $typeResolver)) {

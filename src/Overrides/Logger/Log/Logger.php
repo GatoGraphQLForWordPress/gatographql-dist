@@ -11,14 +11,11 @@ use PoPSchema\Logger\Log\Logger as UpstreamLogger;
 
 class Logger extends UpstreamLogger
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\LogEntryCounterSettingsManagerInterface|null
-     */
-    private $logEntryCounterSettingsManager;
+    private ?LogEntryCounterSettingsManagerInterface $logEntryCounterSettingsManager = null;
 
     final protected function getLogEntryCounterSettingsManager(): LogEntryCounterSettingsManagerInterface
     {
-        return $this->logEntryCounterSettingsManager = $this->logEntryCounterSettingsManager ?? LogEntryCounterSettingsManagerFacade::getInstance();
+        return $this->logEntryCounterSettingsManager ??= LogEntryCounterSettingsManagerFacade::getInstance();
     }
 
     /**
@@ -41,9 +38,14 @@ class Logger extends UpstreamLogger
      *
      * @param array<string,mixed>|null $context
      */
-    protected function logMessage(string $logFile, string $message, string $severity, ?array $context = null): void
-    {
+    protected function logMessage(
+        string $logFile,
+        string $message,
+        string $severity,
+        ?array $context = null,
+    ): void {
         parent::logMessage($logFile, $message, $severity, $context);
+
         $this->getLogEntryCounterSettingsManager()->increaseLogCount($severity);
     }
 }

@@ -16,18 +16,14 @@ interface CommentMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $commentObjectOrID
-     * @return mixed
      */
-    public function getCommentMeta($commentObjectOrID, string $key, bool $single = \false, array $options = []);
+    public function getCommentMeta(string|int|object $commentObjectOrID, string $key, bool $single = \false, array $options = []) : mixed;
     /**
      * @return array<string,mixed>
-     * @param string|int|object $commentObjectOrID
      */
-    public function getAllCommentMeta($commentObjectOrID) : array;
+    public function getAllCommentMeta(string|int|object $commentObjectOrID) : array;
     /**
      * @return string[]
-     * @param string|int|object $commentObjectOrID
      */
-    public function getCommentMetaKeys($commentObjectOrID) : array;
+    public function getCommentMetaKeys(string|int|object $commentObjectOrID) : array;
 }

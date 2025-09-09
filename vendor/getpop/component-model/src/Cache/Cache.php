@@ -11,18 +11,10 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemPoolInterface;
 /** @internal */
 class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\PersistentCacheInterface, \PoP\ComponentModel\Cache\TransientCacheInterface
 {
-    /**
-     * @var \Psr\Cache\CacheItemPoolInterface
-     */
-    protected $cacheItemPool;
     use \PoP\ComponentModel\Cache\ReplaceCurrentExecutionDataWithPlaceholdersTrait;
-    /**
-     * @var \PoP\ComponentModel\ModelInstance\ModelInstanceInterface|null
-     */
-    private $modelInstance;
-    public function __construct(CacheItemPoolInterface $cacheItemPool)
+    private ?ModelInstanceInterface $modelInstance = null;
+    public function __construct(protected CacheItemPoolInterface $cacheItemPool)
     {
-        $this->cacheItemPool = $cacheItemPool;
     }
     protected final function getModelInstance() : ModelInstanceInterface
     {
@@ -64,17 +56,13 @@ class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\Pe
     /**
      * If the item is not cached, it will return `null`
      * @see https://www.php-fig.org/psr/psr-6/
-     * @return mixed
      */
-    public function getCache(string $id, string $type)
+    public function getCache(string $id, string $type) : mixed
     {
         $cacheItem = $this->getCacheItem($id, $type);
         return $cacheItem->get();
     }
-    /**
-     * @return mixed
-     */
-    public function getComponentModelCache(string $id, string $type)
+    public function getComponentModelCache(string $id, string $type) : mixed
     {
         $content = $this->getCache($id, $type);
         // Inject the current request data in place of the placeholders (pun not intended!)
@@ -88,7 +76,7 @@ class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\Pe
      * @param mixed $content the value to cache
      * @param int|DateInterval|null $time time after which the cache expires, in seconds
      */
-    public function storeCache(string $id, string $type, $content, $time = null) : void
+    public function storeCache(string $id, string $type, mixed $content, int|DateInterval|null $time = null) : void
     {
         $cacheItem = $this->getCacheItem($id, $type);
         $cacheItem->set($content);
@@ -97,10 +85,8 @@ class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\Pe
     }
     /**
      * Store the cache by component model
-     * @param int|\DateInterval|null $time
-     * @param mixed $content
      */
-    public function storeComponentModelCache(string $id, string $type, $content, $time = null) : void
+    public function storeComponentModelCache(string $id, string $type, mixed $content, int|DateInterval|null $time = null) : void
     {
         // Before saving the cache, replace the data specific to this execution with generic placeholders
         $content = $this->replaceCurrentExecutionDataWithPlaceholders($content);
@@ -113,17 +99,11 @@ class Cache extends AbstractBasicService implements \PoP\ComponentModel\Cache\Pe
     {
         $this->cacheItemPool->save($cacheItem);
     }
-    /**
-     * @return mixed
-     */
-    public function getCacheByModelInstance(string $type)
+    public function getCacheByModelInstance(string $type) : mixed
     {
         return $this->getComponentModelCache($this->getModelInstance()->getModelInstanceID(), $type);
     }
-    /**
-     * @param mixed $content
-     */
-    public function storeCacheByModelInstance(string $type, $content) : void
+    public function storeCacheByModelInstance(string $type, mixed $content) : void
     {
         $this->storeCache($this->getModelInstance()->getModelInstanceID(), $type, $content);
     }

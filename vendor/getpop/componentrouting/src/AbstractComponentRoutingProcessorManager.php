@@ -12,11 +12,11 @@ abstract class AbstractComponentRoutingProcessorManager implements \PoP\Componen
     /**
      * @var array<string,ComponentRoutingProcessorInterface[]>
      */
-    protected $processors = [];
+    protected array $processors = [];
     public function addComponentRoutingProcessor(\PoP\ComponentRouting\ComponentRoutingProcessorInterface $processor) : void
     {
         foreach ($processor->getGroups() as $group) {
-            $this->processors[$group] = $this->processors[$group] ?? [];
+            $this->processors[$group] ??= [];
             $this->processors[$group][] = $processor;
         }
     }
@@ -25,7 +25,7 @@ abstract class AbstractComponentRoutingProcessorManager implements \PoP\Componen
      */
     public function getComponentRoutingProcessors(string $group = null) : array
     {
-        $group = $group ?? $this->getDefaultGroup();
+        $group ??= $this->getDefaultGroup();
         return $this->processors[$group] ?? array();
     }
     public function getDefaultGroup() : string
@@ -34,7 +34,7 @@ abstract class AbstractComponentRoutingProcessorManager implements \PoP\Componen
     }
     public function getRoutingComponentByMostAllMatchingStateProperties(string $group = null) : ?Component
     {
-        $group = $group ?? $this->getDefaultGroup();
+        $group ??= $this->getDefaultGroup();
         $nature = App::getState('nature');
         $route = App::getState('route');
         $appState = App::getAppStateManager()->all();

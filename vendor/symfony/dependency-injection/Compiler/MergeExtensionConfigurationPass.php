@@ -90,10 +90,7 @@ class MergeExtensionConfigurationPass implements CompilerPassInterface
  */
 class MergeExtensionConfigurationParameterBag extends EnvPlaceholderParameterBag
 {
-    /**
-     * @var mixed[]
-     */
-    private $processedEnvPlaceholders;
+    private array $processedEnvPlaceholders;
     public function __construct(parent $parameterBag)
     {
         parent::__construct($parameterBag->all());
@@ -138,19 +135,13 @@ class MergeExtensionConfigurationParameterBag extends EnvPlaceholderParameterBag
  */
 class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
 {
-    /**
-     * @var string
-     */
-    private $extensionClass;
+    private string $extensionClass;
     public function __construct(ExtensionInterface $extension, ?ParameterBagInterface $parameterBag = null)
     {
         parent::__construct($parameterBag);
-        $this->extensionClass = \get_class($extension);
+        $this->extensionClass = $extension::class;
     }
-    /**
-     * @return static
-     */
-    public function addCompilerPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0)
+    public function addCompilerPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0) : static
     {
         throw new LogicException(\sprintf('You cannot add compiler pass "%s" from extension "%s". Compiler passes must be registered before the container is compiled.', \get_debug_type($pass), $this->extensionClass));
     }
@@ -162,12 +153,7 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
     {
         throw new LogicException(\sprintf('Cannot compile the container in extension "%s".', $this->extensionClass));
     }
-    /**
-     * @param string|bool|null $format
-     * @param mixed $value
-     * @return mixed
-     */
-    public function resolveEnvPlaceholders($value, $format = null, ?array &$usedEnvs = null)
+    public function resolveEnvPlaceholders(mixed $value, string|bool|null $format = null, ?array &$usedEnvs = null) : mixed
     {
         if (\true !== $format || !\is_string($value)) {
             return parent::resolveEnvPlaceholders($value, $format, $usedEnvs);
@@ -178,7 +164,7 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
             return parent::resolveEnvPlaceholders($value, $format, $usedEnvs);
         }
         foreach ($bag->getEnvPlaceholders() as $env => $placeholders) {
-            if (\strpos($env, ':') === \false) {
+            if (!\str_contains($env, ':')) {
                 continue;
             }
             foreach ($placeholders as $placeholder) {

@@ -6,14 +6,16 @@ namespace PoPCMSSchema\CustomPostMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const ID = 'id';
-    public const TITLE = 'title';
-    public const CONTENT_AS = 'contentAs';
-    public const EXCERPT = 'excerpt';
-    public const SLUG = 'slug';
-    public const STATUS = 'status';
-    public const CUSTOMPOST_TYPE = 'customPostType';
-    public const DATE = 'date';
-    public const GMT_DATE = 'gmtDate';
-    public const HTML = 'html';
+    public final const ID = 'id';
+    public final const PARENT_BY = 'parentBy';
+    public final const TITLE = 'title';
+    public final const CONTENT_AS = 'contentAs';
+    public final const EXCERPT = 'excerpt';
+    public final const SLUG = 'slug';
+    public final const STATUS = 'status';
+    public final const CUSTOMPOST_TYPE = 'customPostType';
+    public final const DATE = 'date';
+    public final const GMT_DATE = 'gmtDate';
+    public final const HTML = 'html';
+    public final const SLUG_PATH = 'slugPath';
 }

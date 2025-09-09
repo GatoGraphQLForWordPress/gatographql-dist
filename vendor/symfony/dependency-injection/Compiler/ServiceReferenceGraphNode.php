@@ -22,26 +22,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Defini
  */
 class ServiceReferenceGraphNode
 {
-    /**
-     * @var string
-     */
-    private $id;
-    /**
-     * @var mixed[]
-     */
-    private $inEdges = [];
-    /**
-     * @var mixed[]
-     */
-    private $outEdges = [];
-    /**
-     * @var mixed
-     */
-    private $value;
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $id, $value)
+    private string $id;
+    private array $inEdges = [];
+    private array $outEdges = [];
+    private mixed $value;
+    public function __construct(string $id, mixed $value)
     {
         $this->id = $id;
         $this->value = $value;
@@ -101,9 +86,8 @@ class ServiceReferenceGraphNode
     }
     /**
      * Returns the value of this Node.
-     * @return mixed
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->value;
     }

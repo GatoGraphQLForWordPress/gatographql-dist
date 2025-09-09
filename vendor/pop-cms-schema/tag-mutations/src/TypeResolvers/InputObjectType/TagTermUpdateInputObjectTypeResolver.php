@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 class TagTermUpdateInputObjectTypeResolver extends \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\AbstractCreateOrUpdateTagTermInputObjectTypeResolver implements \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\UpdateTagTermInputObjectTypeResolverInterface
 {
     use \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagTermUpdateInputObjectTypeResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {
@@ -34,10 +31,7 @@ class TagTermUpdateInputObjectTypeResolver extends \PoPCMSSchema\TagMutations\Ty
     {
         return \false;
     }
-    /**
-     * @return mixed
-     */
-    protected function getTaxonomyInputFieldDefaultValue()
+    protected function getTaxonomyInputFieldDefaultValue() : mixed
     {
         return null;
     }

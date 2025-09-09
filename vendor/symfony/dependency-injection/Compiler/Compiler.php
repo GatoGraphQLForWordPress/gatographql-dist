@@ -20,18 +20,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class Compiler
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\PassConfig
-     */
-    private $passConfig;
-    /**
-     * @var mixed[]
-     */
-    private $log = [];
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph
-     */
-    private $serviceReferenceGraph;
+    private PassConfig $passConfig;
+    private array $log = [];
+    private ServiceReferenceGraph $serviceReferenceGraph;
     public function __construct()
     {
         $this->passConfig = new PassConfig();
@@ -59,10 +50,10 @@ class Compiler
      */
     public function log(CompilerPassInterface $pass, string $message)
     {
-        if (\strpos($message, "\n") !== \false) {
-            $message = \str_replace("\n", "\n" . \get_class($pass) . ': ', \trim($message));
+        if (\str_contains($message, "\n")) {
+            $message = \str_replace("\n", "\n" . $pass::class . ': ', \trim($message));
         }
-        $this->log[] = \get_class($pass) . ': ' . $message;
+        $this->log[] = $pass::class . ': ' . $message;
     }
     public function getLog() : array
     {
@@ -86,7 +77,6 @@ class Compiler
                 $msg = $prev->getMessage();
                 if ($msg !== ($resolvedMsg = $container->resolveEnvPlaceholders($msg, null, $usedEnvs))) {
                     $r = new \ReflectionProperty($prev, 'message');
-                    $r->setAccessible(\true);
                     $r->setValue($prev, $resolvedMsg);
                 }
             } while ($prev = $prev->getPrevious());

@@ -13,12 +13,9 @@ use PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface;
 /** @internal */
 class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT = 'dataload-relationalfields-queryroot';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT = 'dataload-relationalfields-mutationroot';
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
-     */
-    private $graphQLSchemaDefinitionService;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_QUERYROOT = 'dataload-relationalfields-queryroot';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MUTATIONROOT = 'dataload-relationalfields-mutationroot';
+    private ?GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService = null;
     protected final function getGraphQLSchemaDefinitionService() : GraphQLSchemaDefinitionServiceInterface
     {
         if ($this->graphQLSchemaDefinitionService === null) {
@@ -40,7 +37,7 @@ class RootRelationalFieldDataloadComponentProcessor extends AbstractRelationalFi
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         if (App::getState('does-api-query-have-errors')) {
             return null;

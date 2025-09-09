@@ -13,7 +13,7 @@ class FilterInputHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(MediaFilterInputContainerComponentProcessor::HOOK_FILTER_INPUTS, \Closure::fromCallable([$this, 'getFilterInputComponents']));
+        App::addFilter(MediaFilterInputContainerComponentProcessor::HOOK_FILTER_INPUTS, $this->getFilterInputComponents(...));
     }
     /**
      * @param Component[] $filterInputComponents
@@ -21,7 +21,7 @@ class FilterInputHookSet extends AbstractHookSet
      */
     public function getFilterInputComponents(array $filterInputComponents) : array
     {
-        return \array_merge($filterInputComponents, $this->getAuthorFilterInputComponents());
+        return [...$filterInputComponents, ...$this->getAuthorFilterInputComponents()];
     }
     /**
      * @return Component[]

@@ -20,18 +20,9 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 /** @internal */
 class Parser extends AbstractParser
 {
-    /**
-     * @var \PoP\ComponentModel\Registries\MetaDirectiveRegistryInterface|null
-     */
-    private $metaDirectiveRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\DynamicVariableDefinerDirectiveRegistryInterface|null
-     */
-    private $dynamicVariableDefinerDirectiveRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface|null
-     */
-    private $fieldDirectiveResolverRegistry;
+    private ?MetaDirectiveRegistryInterface $metaDirectiveRegistry = null;
+    private ?DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry = null;
+    private ?FieldDirectiveResolverRegistryInterface $fieldDirectiveResolverRegistry = null;
     protected final function getMetaDirectiveRegistry() : MetaDirectiveRegistryInterface
     {
         if ($this->metaDirectiveRegistry === null) {
@@ -120,9 +111,7 @@ class Parser extends AbstractParser
             return null;
         }
         $exportUnderVariableNameArgumentNames = $dynamicVariableDefinerFieldDirectiveResolver->getExportUnderVariableNameArgumentNames();
-        return \array_values(\array_filter(\array_map(function (string $exportUnderVariableNameArgumentName) use($directive) {
-            return $directive->getArgument($exportUnderVariableNameArgumentName);
-        }, $exportUnderVariableNameArgumentNames)));
+        return \array_values(\array_filter(\array_map(fn(string $exportUnderVariableNameArgumentName) => $directive->getArgument($exportUnderVariableNameArgumentName), $exportUnderVariableNameArgumentNames)));
     }
     protected function getAffectAdditionalFieldsUnderPosArgumentName(Directive $directive) : ?string
     {

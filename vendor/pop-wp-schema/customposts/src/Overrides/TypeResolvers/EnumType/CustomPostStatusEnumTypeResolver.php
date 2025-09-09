@@ -17,20 +17,21 @@ class CustomPostStatusEnumTypeResolver extends UpstreamCustomPostStatusEnumTypeR
      */
     public function getEnumValues(): array
     {
-        return array_merge(parent::getEnumValues(), [CustomPostStatus::FUTURE, CustomPostStatus::PRIVATE, CustomPostStatus::INHERIT]);
+        return [
+            ...parent::getEnumValues(),
+            CustomPostStatus::FUTURE,
+            CustomPostStatus::PRIVATE,
+            CustomPostStatus::INHERIT,
+        ];
     }
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        switch ($enumValue) {
-            case CustomPostStatus::FUTURE:
-                return $this->__('Future content', 'customposts');
-            case CustomPostStatus::PRIVATE:
-                return $this->__('Private content', 'customposts');
-            case CustomPostStatus::INHERIT:
-                return $this->__('Inherit content', 'customposts');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            CustomPostStatus::FUTURE => $this->__('Future content', 'customposts'),
+            CustomPostStatus::PRIVATE => $this->__('Private content', 'customposts'),
+            CustomPostStatus::INHERIT => $this->__('Inherit content', 'customposts'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

@@ -17,10 +17,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class ApplicationStateFillerService extends AbstractBasicService implements \PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface
 {
-    /**
-     * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
-     */
-    private $graphQLParserHelperService;
+    private ?GraphQLParserHelperServiceInterface $graphQLParserHelperService = null;
     protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {
@@ -35,9 +32,8 @@ class ApplicationStateFillerService extends AbstractBasicService implements \PoP
      * the app state.
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function defineGraphQLQueryVarsInApplicationState($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : void
+    public function defineGraphQLQueryVarsInApplicationState(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : void
     {
         $passingQuery = \is_string($queryOrExecutableDocument);
         if ($passingQuery) {

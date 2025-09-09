@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader|null
-     */
-    private $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader;
+    private ?LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader = null;
     protected final function getLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeDataLoader === null) {

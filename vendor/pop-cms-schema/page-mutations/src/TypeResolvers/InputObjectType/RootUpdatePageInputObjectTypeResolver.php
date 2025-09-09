@@ -8,10 +8,7 @@ use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\RootUpdateCus
 /** @internal */
 class RootUpdatePageInputObjectTypeResolver extends RootUpdateCustomPostInputObjectTypeResolver implements \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\UpdatePageInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver|null
-     */
-    private $pageContentAsOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver $pageContentAsOneofInputObjectTypeResolver = null;
     protected final function getPageContentAsOneofInputObjectTypeResolver() : \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\PageContentAsOneofInputObjectTypeResolver
     {
         if ($this->pageContentAsOneofInputObjectTypeResolver === null) {

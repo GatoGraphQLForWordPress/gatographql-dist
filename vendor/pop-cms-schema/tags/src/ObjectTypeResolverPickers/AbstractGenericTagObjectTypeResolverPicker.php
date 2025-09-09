@@ -17,23 +17,14 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
     /**
      * @var string[]|null
      */
-    protected $genericTagTaxonomies;
+    protected ?array $genericTagTaxonomies = null;
     /**
      * @var string[]|null
      */
-    protected $nonGenericTagTaxonomies;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
-     */
-    private $queryableTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Tags\Registries\TagObjectTypeResolverPickerRegistryInterface|null
-     */
-    private $tagObjectTypeResolverPickerRegistry;
+    protected ?array $nonGenericTagTaxonomies = null;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?QueryableTagTypeAPIInterface $queryableTagTypeAPI = null;
+    private ?TagObjectTypeResolverPickerRegistryInterface $tagObjectTypeResolverPickerRegistry = null;
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -69,10 +60,7 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
     {
         return $this->getQueryableTagTypeAPI()->isInstanceOfTagType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getQueryableTagTypeAPI()->tagExists($objectID);
     }
@@ -134,7 +122,7 @@ abstract class AbstractGenericTagObjectTypeResolverPicker extends AbstractObject
             if ($tagObjectTypeResolverPicker === $this) {
                 continue;
             }
-            $nonGenericTagTaxonomies = \array_merge($nonGenericTagTaxonomies, $tagObjectTypeResolverPicker->getTagTaxonomies());
+            $nonGenericTagTaxonomies = [...$nonGenericTagTaxonomies, ...$tagObjectTypeResolverPicker->getTagTaxonomies()];
         }
         return $nonGenericTagTaxonomies;
     }

@@ -14,4 +14,8 @@ class RootCreateCustomPostInputObjectTypeResolver extends \PoPCMSSchema\CustomPo
     {
         return \false;
     }
+    protected function addCustomPostParentInputField() : bool
+    {
+        return \true;
+    }
 }

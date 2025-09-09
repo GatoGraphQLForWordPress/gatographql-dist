@@ -19,31 +19,22 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
  */
 class NullAdapter implements AdapterInterface, CacheInterface
 {
-    /**
-     * @var \Closure
-     */
-    private static $createCacheItem;
+    private static \Closure $createCacheItem;
     public function __construct()
     {
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key) {
             $item = new CacheItem();
             $item->key = $key;
             $item->isHit = \false;
             return $item;
         }, null, CacheItem::class);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         $save = \true;
         return $callback((self::$createCacheItem)($key), $save);
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         return (self::$createCacheItem)($key);
     }
@@ -51,10 +42,7 @@ class NullAdapter implements AdapterInterface, CacheInterface
     {
         return $this->generateItems($keys);
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         return \false;
     }
@@ -62,10 +50,7 @@ class NullAdapter implements AdapterInterface, CacheInterface
     {
         return \true;
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         return \true;
     }

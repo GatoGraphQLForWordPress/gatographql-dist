@@ -8,34 +8,16 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @readonly
-     * @var string|null
-     */
-    protected $alias;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithArgumentsTrait;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
-    /**
-     * @var string|null
-     */
-    protected $uniqueID;
-    /**
-     * @var string|null
-     */
-    protected $fieldOutputQueryString;
+    protected ?string $uniqueID = null;
+    protected ?string $fieldOutputQueryString = null;
     /**
      * @param Argument[] $arguments
      * @param Directive[] $directives
      */
-    public function __construct(string $name, ?string $alias, array $arguments, array $directives, Location $location)
+    public function __construct(protected readonly string $name, protected readonly ?string $alias, array $arguments, array $directives, Location $location)
     {
-        $this->name = $name;
-        $this->alias = $alias;
         parent::__construct($location);
         $this->setArguments($arguments);
         $this->setDirectives($directives);
@@ -183,12 +165,8 @@ abstract class AbstractField extends \PoP\GraphQLParser\Spec\Parser\Ast\Abstract
          *
          * So first sort them as to compare apples to apples.
          */
-        \usort($thisArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
-        \usort($againstArguments, function (\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2) : int {
-            return $argument1->getName() <=> $argument2->getName();
-        });
+        \usort($thisArguments, fn(\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
+        \usort($againstArguments, fn(\PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument1, \PoP\GraphQLParser\Spec\Parser\Ast\Argument $argument2): int => $argument1->getName() <=> $argument2->getName());
         for ($i = 0; $i < $argumentCount; $i++) {
             $thisArgument = $thisArguments[$i];
             $againstArgument = $againstArguments[$i];

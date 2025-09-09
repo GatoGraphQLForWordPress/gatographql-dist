@@ -16,12 +16,9 @@ if (\version_compare(\phpversion('relay'), '0.8.1', '>=')) {
      */
     trait CopyTrait
     {
-        /**
-         * @return \Relay\Relay|bool
-         */
-        public function copy($src, $dst, $options = null)
+        public function copy($src, $dst, $options = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|bool
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
         }
     }
 } else {
@@ -30,12 +27,9 @@ if (\version_compare(\phpversion('relay'), '0.8.1', '>=')) {
      */
     trait CopyTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function copy($src, $dst, $options = null)
+        public function copy($src, $dst, $options = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->copy(...\func_get_args());
         }
     }
 }

@@ -46,6 +46,6 @@ class DirectiveLocationEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\Type
          * @see https://spec.graphql.org/draft/#TypeSystemDirectiveLocation
          */
         $schemaTypeDirectiveLocations = [DirectiveLocations::SCHEMA, DirectiveLocations::SCALAR, DirectiveLocations::OBJECT, DirectiveLocations::FIELD_DEFINITION, DirectiveLocations::ARGUMENT_DEFINITION, DirectiveLocations::INTERFACE, DirectiveLocations::UNION, DirectiveLocations::ENUM, DirectiveLocations::ENUM_VALUE, DirectiveLocations::INPUT_OBJECT, DirectiveLocations::INPUT_FIELD_DEFINITION];
-        return \array_merge($queryTypeDirectiveLocations, $schemaTypeDirectiveLocations);
+        return [...$queryTypeDirectiveLocations, ...$schemaTypeDirectiveLocations];
     }
 }

@@ -18,27 +18,12 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 class ObjectResolutionFeedback extends \PoP\ComponentModel\Feedback\AbstractQueryFeedback implements \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface
 {
     /**
-     * @var \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
-     */
-    protected $relationalTypeResolver;
-    /**
-     * @var Directive
-     */
-    protected $directive;
-    /**
-     * @var array<(string | int), EngineIterationFieldSet>
-     */
-    protected $idFieldSet;
-    /**
      * @param Directive $directive At what stage from the Directive pipeline does the error happen
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      * @param array<string,mixed> $extensions
      */
-    public function __construct(FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, RelationalTypeResolverInterface $relationalTypeResolver, Directive $directive, array $idFieldSet, array $extensions = [])
+    public function __construct(FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, protected RelationalTypeResolverInterface $relationalTypeResolver, protected Directive $directive, protected array $idFieldSet, array $extensions = [])
     {
-        $this->relationalTypeResolver = $relationalTypeResolver;
-        $this->directive = $directive;
-        $this->idFieldSet = $idFieldSet;
         parent::__construct($feedbackItemResolution, $astNode, $extensions);
     }
     /**

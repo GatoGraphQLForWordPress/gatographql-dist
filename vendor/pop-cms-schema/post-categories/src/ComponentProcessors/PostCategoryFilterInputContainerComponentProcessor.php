@@ -10,7 +10,7 @@ use PoP\ComponentModel\Component\Component;
 class PostCategoryFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES = 'filterinputcontainer-postcategories';
+    public final const COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES = 'filterinputcontainer-postcategories';
     /**
      * @return string[]
      */
@@ -23,18 +23,16 @@ class PostCategoryFilterInputContainerComponentProcessor extends AbstractFilterI
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES:
-                return [new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY)];
-            default:
-                return [];
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES => [new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY)],
+            default => [],
+        };
     }
     /**
      * @return string[]
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

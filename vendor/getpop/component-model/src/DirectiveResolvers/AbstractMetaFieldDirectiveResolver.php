@@ -23,7 +23,7 @@ use SplObjectStorage;
 abstract class AbstractMetaFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractFieldDirectiveResolver implements \PoP\ComponentModel\DirectiveResolvers\MetaFieldDirectiveResolverInterface
 {
     /** @var SplObjectStorage<FieldDirectiveResolverInterface,FieldInterface[]> */
-    protected $nestedDirectivePipelineData;
+    protected SplObjectStorage $nestedDirectivePipelineData;
     public function isDirectiveEnabled() : bool
     {
         /** @var ModuleConfiguration */
@@ -194,32 +194,23 @@ abstract class AbstractMetaFieldDirectiveResolver extends \PoP\ComponentModel\Di
     }
     public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
-        switch ($directiveArgName) {
-            case $this->getAffectDirectivesUnderPosArgumentName():
-                return $this->__('Positions of the directives to be affected, relative from this one (as an array of positive integers)', 'graphql-server');
-            default:
-                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            $this->getAffectDirectivesUnderPosArgumentName() => $this->__('Positions of the directives to be affected, relative from this one (as an array of positive integers)', 'graphql-server'),
+            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
-        switch ($directiveArgName) {
-            case $this->getAffectDirectivesUnderPosArgumentName():
-                return $this->getAffectDirectivesUnderPosArgumentDefaultValue();
-            default:
-                return parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            $this->getAffectDirectivesUnderPosArgumentName() => $this->getAffectDirectivesUnderPosArgumentDefaultValue(),
+            default => parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName),
+        };
     }
     public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
-        switch ($directiveArgName) {
-            case $this->getAffectDirectivesUnderPosArgumentName():
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            $this->getAffectDirectivesUnderPosArgumentName() => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName),
+        };
     }
 }

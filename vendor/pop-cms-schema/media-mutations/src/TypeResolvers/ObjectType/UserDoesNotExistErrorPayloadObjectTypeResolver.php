@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class UserDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\UserDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $userDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?UserDoesNotExistErrorPayloadObjectTypeDataLoader $userDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getUserDoesNotExistErrorPayloadObjectTypeDataLoader() : UserDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->userDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

@@ -7,19 +7,19 @@ namespace PoP\ComponentModel\Feedback;
 class ObjectTypeFieldResolutionFeedbackStore
 {
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $errors = [];
+    private array $errors = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $partialErrors = [];
+    private array $partialErrors = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $warnings = [];
+    private array $warnings = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $deprecations = [];
+    private array $deprecations = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $notices = [];
+    private array $notices = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $suggestions = [];
+    private array $suggestions = [];
     /** @var ObjectTypeFieldResolutionFeedbackInterface[] */
-    private $logs = [];
+    private array $logs = [];
     public function incorporate(\PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->errors = \array_merge($this->errors, $objectTypeFieldResolutionFeedbackStore->getErrors());

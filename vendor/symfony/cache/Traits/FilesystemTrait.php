@@ -21,10 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\Marshalle
 trait FilesystemTrait
 {
     use FilesystemCommonTrait;
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
+    private MarshallerInterface $marshaller;
     public function prune() : bool
     {
         $time = \time();
@@ -70,10 +67,7 @@ trait FilesystemTrait
         $file = $this->getFile($id);
         return \is_file($file) && (@\filemtime($file) > \time() || $this->doFetch([$id]));
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         $expiresAt = $lifetime ? \time() + $lifetime : 0;
         $values = $this->marshaller->marshall($values, $failed);

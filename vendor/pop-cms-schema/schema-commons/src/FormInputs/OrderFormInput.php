@@ -7,12 +7,11 @@ use PoP\Engine\FormInputs\SelectFormInput;
 /** @internal */
 class OrderFormInput extends SelectFormInput
 {
-    public const SEPARATOR = '|';
+    public final const SEPARATOR = '|';
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function getValue(?array $source = null)
+    public function getValue(?array $source = null) : mixed
     {
         if ($value = parent::getValue($source)) {
             // There must be exactly 2 elements: orderby|order

@@ -3,17 +3,15 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\PageMetaMutations\SchemaHooks;
 
-use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface;
-use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoPCMSSchema\CustomPostMetaMutations\SchemaHooks\AbstractCustomPostMutationResolverHookSet;
+use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface;
+use PoPCMSSchema\PageMutations\SchemaHooks\PageMutationResolverHookSetTrait;
+use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 /** @internal */
 class PageMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
-    use \PoPCMSSchema\PageMetaMutations\SchemaHooks\PageMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
+    use PageMutationResolverHookSetTrait;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {

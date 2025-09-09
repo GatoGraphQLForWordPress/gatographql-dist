@@ -34,7 +34,7 @@ final class AutowireAsDecoratorPass implements CompilerPassInterface
     }
     private function processClass(Definition $definition, \ReflectionClass $reflectionClass) : void
     {
-        foreach (\method_exists($reflectionClass, 'getAttributes') ? $reflectionClass->getAttributes(AsDecorator::class, \ReflectionAttribute::IS_INSTANCEOF) : [] as $attribute) {
+        foreach ($reflectionClass->getAttributes(AsDecorator::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             $attribute = $attribute->newInstance();
             $definition->setDecoratedService($attribute->decorates, null, $attribute->priority, $attribute->onInvalid);
         }

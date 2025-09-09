@@ -10,24 +10,10 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /** @internal */
 abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Location
-     */
-    protected $location;
     use StandaloneServiceTrait;
-    /**
-     * @var string|null
-     */
-    protected $queryString;
-    /**
-     * @var string|null
-     */
-    protected $astNodeString;
-    /**
-     * @var \PoP\GraphQLParser\Query\GraphQLQueryStringFormatterInterface|null
-     */
-    private $graphQLQueryStringFormatter;
+    protected ?string $queryString = null;
+    protected ?string $astNodeString = null;
+    private ?GraphQLQueryStringFormatterInterface $graphQLQueryStringFormatter = null;
     protected final function getGraphQLQueryStringFormatter() : GraphQLQueryStringFormatterInterface
     {
         if ($this->graphQLQueryStringFormatter === null) {
@@ -37,9 +23,8 @@ abstract class AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\AstInte
         }
         return $this->graphQLQueryStringFormatter;
     }
-    public function __construct(Location $location)
+    public function __construct(protected readonly Location $location)
     {
-        $this->location = $location;
     }
     public function __toString() : string
     {

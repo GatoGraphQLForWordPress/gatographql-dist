@@ -16,13 +16,13 @@ abstract class AbstractMetaOrderByEnumTypeHookSet extends AbstractHookSet
     {
         App::addFilter(
             HookNames::ENUM_VALUES,
-            \Closure::fromCallable([$this, 'getEnumValues']),
+            $this->getEnumValues(...),
             10,
             2
         );
         App::addFilter(
             HookNames::ENUM_VALUE_DESCRIPTION,
-            \Closure::fromCallable([$this, 'getEnumValueDescription']),
+            $this->getEnumValueDescription(...),
             10,
             3
         );
@@ -32,8 +32,10 @@ abstract class AbstractMetaOrderByEnumTypeHookSet extends AbstractHookSet
      * @param string[] $enumValues
      * @return string[]
      */
-    public function getEnumValues(array $enumValues, EnumTypeResolverInterface $enumTypeResolver): array
-    {
+    public function getEnumValues(
+        array $enumValues,
+        EnumTypeResolverInterface $enumTypeResolver,
+    ): array {
         if (!$this->isEnumTypeResolver($enumTypeResolver)) {
             return $enumValues;
         }
@@ -45,7 +47,9 @@ abstract class AbstractMetaOrderByEnumTypeHookSet extends AbstractHookSet
         );
     }
 
-    abstract protected function isEnumTypeResolver(EnumTypeResolverInterface $enumTypeResolver): bool;
+    abstract protected function isEnumTypeResolver(
+        EnumTypeResolverInterface $enumTypeResolver,
+    ): bool;
 
     public function getEnumValueDescription(
         ?string $enumValueDescription,
@@ -55,11 +59,9 @@ abstract class AbstractMetaOrderByEnumTypeHookSet extends AbstractHookSet
         if (!$this->isEnumTypeResolver($enumTypeResolver)) {
             return $enumValueDescription;
         }
-        switch ($enumValue) {
-            case MetaOrderBy::META_VALUE:
-                return $this->__('Order by meta value. See description for ‘meta_value‘ in: https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters', 'comments');
-            default:
-                return $enumValueDescription;
-        }
+        return match ($enumValue) {
+            MetaOrderBy::META_VALUE => $this->__('Order by meta value. See description for ‘meta_value‘ in: https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters', 'comments'),
+            default => $enumValueDescription,
+        };
     }
 }

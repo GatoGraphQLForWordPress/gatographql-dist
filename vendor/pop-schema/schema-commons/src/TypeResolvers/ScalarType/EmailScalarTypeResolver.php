@@ -27,11 +27,7 @@ class EmailScalarTypeResolver extends AbstractScalarTypeResolver
     {
         return 'https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1';
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);

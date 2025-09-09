@@ -10,14 +10,8 @@ use PoPCMSSchema\UserState\Checkpoints\UserNotLoggedInCheckpoint;
 /** @internal */
 class DoingPostUserNotLoggedInAggregateCheckpoint extends AbstractAggregateCheckpoint
 {
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserNotLoggedInCheckpoint|null
-     */
-    private $userNotLoggedInCheckpoint;
-    /**
-     * @var \PoP\Engine\Checkpoints\DoingPostCheckpoint|null
-     */
-    private $doingPostCheckpoint;
+    private ?UserNotLoggedInCheckpoint $userNotLoggedInCheckpoint = null;
+    private ?DoingPostCheckpoint $doingPostCheckpoint = null;
     protected final function getUserNotLoggedInCheckpoint() : UserNotLoggedInCheckpoint
     {
         if ($this->userNotLoggedInCheckpoint === null) {

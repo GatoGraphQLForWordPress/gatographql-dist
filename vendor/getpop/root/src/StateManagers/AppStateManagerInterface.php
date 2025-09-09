@@ -43,20 +43,17 @@ interface AppStateManagerInterface
     public function all() : array;
     /**
      * To be called by Engine. Use with care!
-     * @param mixed $value
      */
-    public function override(string $key, $value) : void;
+    public function override(string $key, mixed $value) : void;
     /**
      * @throws AppStateNotExistsException If there is no state under the provided key
-     * @return mixed
      */
-    public function get(string $key);
+    public function get(string $key) : mixed;
     /**
      * @throws AppStateNotExistsException If there is no state under the provided path
      * @param string[] $path
-     * @return mixed
      */
-    public function getUnder(array $path);
+    public function getUnder(array $path) : mixed;
     public function has(string $key) : bool;
     /**
      * @param string[] $path

@@ -26,10 +26,7 @@ class ConditionalNode extends Node
     {
         $compiler->raw('((')->compile($this->nodes['expr1'])->raw(') ? (')->compile($this->nodes['expr2'])->raw(') : (')->compile($this->nodes['expr3'])->raw('))');
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         if ($this->nodes['expr1']->evaluate($functions, $values)) {
             return $this->nodes['expr2']->evaluate($functions, $values);

@@ -19,14 +19,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\EnumNode
  */
 class EnumNodeDefinition extends ScalarNodeDefinition
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
+    private array $values;
     /**
      * @return $this
      */
-    public function values(array $values)
+    public function values(array $values) : static
     {
         if (!$values) {
             throw new \InvalidArgumentException('->values() must be called with at least one value.');
@@ -39,7 +36,7 @@ class EnumNodeDefinition extends ScalarNodeDefinition
      *
      * @throws \RuntimeException
      */
-    protected function instantiateNode() : \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNode
+    protected function instantiateNode() : EnumNode
     {
         if (!isset($this->values)) {
             throw new \RuntimeException('You must call ->values() on enum nodes.');

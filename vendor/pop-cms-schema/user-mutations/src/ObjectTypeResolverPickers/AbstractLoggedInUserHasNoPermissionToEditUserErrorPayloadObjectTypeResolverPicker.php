@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoPermissionToEditUserErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\UserMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPermissionToEditUserErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoPermissionToEditUser;
+    private ?LoggedInUserHasNoPermissionToEditUserErrorPayloadObjectTypeResolver $loggedInUserHasNoPermissionToEditUser = null;
     protected final function getLoggedInUserHasNoPermissionToEditUserErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPermissionToEditUserErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPermissionToEditUser === null) {

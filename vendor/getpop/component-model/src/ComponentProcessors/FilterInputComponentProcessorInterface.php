@@ -10,9 +10,6 @@ interface FilterInputComponentProcessorInterface extends \PoP\ComponentModel\Com
 {
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface;
     public function getFilterInputDescription(Component $component) : ?string;
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component);
+    public function getFilterInputDefaultValue(Component $component) : mixed;
     public function getFilterInputTypeModifiers(Component $component) : int;
 }

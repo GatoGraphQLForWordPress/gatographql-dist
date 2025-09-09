@@ -17,12 +17,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class ReferenceConfigurator extends AbstractConfigurator
 {
-    /** @internal
-     * @var string */
-    protected $id;
-    /** @internal
-     * @var int */
-    protected $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+    /** @internal */
+    protected string $id;
+    /** @internal */
+    protected int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
     public function __construct(string $id)
     {
         $this->id = $id;
@@ -30,7 +28,7 @@ class ReferenceConfigurator extends AbstractConfigurator
     /**
      * @return $this
      */
-    public final function ignoreOnInvalid()
+    public final function ignoreOnInvalid() : static
     {
         $this->invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
         return $this;
@@ -38,7 +36,7 @@ class ReferenceConfigurator extends AbstractConfigurator
     /**
      * @return $this
      */
-    public final function nullOnInvalid()
+    public final function nullOnInvalid() : static
     {
         $this->invalidBehavior = ContainerInterface::NULL_ON_INVALID_REFERENCE;
         return $this;
@@ -46,7 +44,7 @@ class ReferenceConfigurator extends AbstractConfigurator
     /**
      * @return $this
      */
-    public final function ignoreOnUninitialized()
+    public final function ignoreOnUninitialized() : static
     {
         $this->invalidBehavior = ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE;
         return $this;

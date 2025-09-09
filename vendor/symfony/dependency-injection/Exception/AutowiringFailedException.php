@@ -16,18 +16,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class AutowiringFailedException extends RuntimeException
 {
-    /**
-     * @var string
-     */
-    private $serviceId;
-    /**
-     * @var \Closure|null
-     */
-    private $messageCallback;
-    /**
-     * @param string|\Closure $message
-     */
-    public function __construct(string $serviceId, $message = '', int $code = 0, ?\Throwable $previous = null)
+    private string $serviceId;
+    private ?\Closure $messageCallback = null;
+    public function __construct(string $serviceId, string|\Closure $message = '', int $code = 0, ?\Throwable $previous = null)
     {
         $this->serviceId = $serviceId;
         if ($message instanceof \Closure && \function_exists('xdebug_is_enabled') && \xdebug_is_enabled()) {
@@ -41,14 +32,8 @@ class AutowiringFailedException extends RuntimeException
         parent::__construct('', $code, $previous);
         $this->message = new class($this->message, $this->messageCallback)
         {
-            /**
-             * @var string|$this
-             */
-            private $message;
-            /**
-             * @var \Closure|null
-             */
-            private $messageCallback;
+            private string|self $message;
+            private ?\Closure $messageCallback;
             public function __construct(&$message, &$messageCallback)
             {
                 $this->message =& $message;

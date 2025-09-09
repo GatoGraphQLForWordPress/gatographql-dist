@@ -15,7 +15,7 @@ class SchemaCacheHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(CacheUtils::HOOK_SCHEMA_CACHE_KEY_ELEMENTS, \Closure::fromCallable([$this, 'getSchemaCacheKeyElements']));
+        App::addFilter(CacheUtils::HOOK_SCHEMA_CACHE_KEY_ELEMENTS, $this->getSchemaCacheKeyElements(...));
     }
     /**
      * @return array<string,mixed>

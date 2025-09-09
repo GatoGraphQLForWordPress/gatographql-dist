@@ -13,10 +13,7 @@ interface UserTypeAPIInterface
      * Indicates if the passed object is of type User
      */
     public function isInstanceOfUserType(object $object) : bool;
-    /**
-     * @param string|int $userID
-     */
-    public function getUserByID($userID) : ?object;
+    public function getUserByID(string|int $userID) : ?object;
     public function getUserByEmail(string $email) : ?object;
     public function getUserByLogin(string $login) : ?object;
     /**
@@ -30,48 +27,15 @@ interface UserTypeAPIInterface
      * @param array<string,mixed> $options
      */
     public function getUserCount(array $query, array $options = []) : int;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserDisplayName($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserEmail($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserFirstname($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserLastname($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserLogin($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserDescription($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserURL($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserURLPath($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserWebsiteURL($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserSlug($userObjectOrID) : ?string;
-    /**
-     * @return string|int
-     */
-    public function getUserID(object $user);
+    public function getUserDisplayName(string|int|object $userObjectOrID) : ?string;
+    public function getUserEmail(string|int|object $userObjectOrID) : ?string;
+    public function getUserFirstname(string|int|object $userObjectOrID) : ?string;
+    public function getUserLastname(string|int|object $userObjectOrID) : ?string;
+    public function getUserLogin(string|int|object $userObjectOrID) : ?string;
+    public function getUserDescription(string|int|object $userObjectOrID) : ?string;
+    public function getUserURL(string|int|object $userObjectOrID) : ?string;
+    public function getUserURLPath(string|int|object $userObjectOrID) : ?string;
+    public function getUserWebsiteURL(string|int|object $userObjectOrID) : ?string;
+    public function getUserSlug(string|int|object $userObjectOrID) : ?string;
+    public function getUserID(object $user) : string|int;
 }

@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractMediaItemDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\MediaItemDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $mediaItemDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?MediaItemDoesNotExistErrorPayloadObjectTypeResolver $mediaItemDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getMediaItemDoesNotExistErrorPayloadObjectTypeResolver() : MediaItemDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->mediaItemDoesNotExistErrorPayloadObjectTypeResolver === null) {

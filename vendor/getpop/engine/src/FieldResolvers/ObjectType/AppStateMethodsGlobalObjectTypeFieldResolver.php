@@ -21,14 +21,8 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 /** @internal */
 class AppStateMethodsGlobalObjectTypeFieldResolver extends AbstractGlobalObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
-     */
-    private $jsonObjectScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getJSONObjectScalarTypeResolver() : JSONObjectScalarTypeResolver
     {
         if ($this->jsonObjectScalarTypeResolver === null) {
@@ -80,70 +74,53 @@ class AppStateMethodsGlobalObjectTypeFieldResolver extends AbstractGlobalObjectT
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case '_appState':
-                return $this->getJSONObjectScalarTypeResolver();
-            case '_appStateKeys':
-                return $this->getStringScalarTypeResolver();
-            case '_appStateValue':
-                return $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_appState' => $this->getJSONObjectScalarTypeResolver(),
+            '_appStateKeys' => $this->getStringScalarTypeResolver(),
+            '_appStateValue' => $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case '_appState':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case '_appStateKeys':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_appState' => SchemaTypeModifiers::NON_NULLABLE,
+            '_appStateKeys' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case '_appState':
-                return $this->__('Retrieve the application state', 'component-model');
-            case '_appStateKeys':
-                return $this->__('Retrieve the keys in the application state', 'component-model');
-            case '_appStateValue':
-                return $this->__('Retrieve the value of a certain property from the application state', 'component-model');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_appState' => $this->__('Retrieve the application state', 'component-model'),
+            '_appStateKeys' => $this->__('Retrieve the keys in the application state', 'component-model'),
+            '_appStateValue' => $this->__('Retrieve the value of a certain property from the application state', 'component-model'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case '_appStateValue':
-                return ['name' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_appStateValue' => ['name' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['_appStateValue' => 'name']:
-                return $this->__('The name of the variable to retrieve from the application state', 'component-model');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['_appStateValue' => 'name'] => $this->__('The name of the variable to retrieve from the application state', 'component-model'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['_appStateValue' => 'name']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['_appStateValue' => 'name'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Custom validations
@@ -160,10 +137,7 @@ class AppStateMethodsGlobalObjectTypeFieldResolver extends AbstractGlobalObjectT
                 break;
         }
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         switch ($fieldDataAccessor->getFieldName()) {
             case '_appState':

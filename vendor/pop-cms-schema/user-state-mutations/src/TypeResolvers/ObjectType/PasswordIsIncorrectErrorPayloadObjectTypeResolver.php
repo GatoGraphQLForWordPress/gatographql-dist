@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class PasswordIsIncorrectErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\PasswordIsIncorrectErrorPayloadObjectTypeDataLoader|null
-     */
-    private $passwordIsIncorrectErrorPayloadObjectTypeDataLoader;
+    private ?PasswordIsIncorrectErrorPayloadObjectTypeDataLoader $passwordIsIncorrectErrorPayloadObjectTypeDataLoader = null;
     protected final function getPasswordIsIncorrectErrorPayloadObjectTypeDataLoader() : PasswordIsIncorrectErrorPayloadObjectTypeDataLoader
     {
         if ($this->passwordIsIncorrectErrorPayloadObjectTypeDataLoader === null) {

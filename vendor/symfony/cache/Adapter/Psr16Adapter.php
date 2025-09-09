@@ -27,10 +27,7 @@ class Psr16Adapter extends AbstractAdapter implements PruneableInterface, Resett
      * @internal
      */
     protected const NS_SEPARATOR = '_';
-    /**
-     * @var object
-     */
-    private $miss;
+    private object $miss;
     public function __construct(CacheInterface $pool, string $namespace = '', int $defaultLifetime = 0)
     {
         parent::__construct($namespace, $defaultLifetime);
@@ -57,10 +54,7 @@ class Psr16Adapter extends AbstractAdapter implements PruneableInterface, Resett
     {
         return $this->pool->deleteMultiple($ids);
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         return $this->pool->setMultiple($values, 0 === $lifetime ? null : $lifetime);
     }

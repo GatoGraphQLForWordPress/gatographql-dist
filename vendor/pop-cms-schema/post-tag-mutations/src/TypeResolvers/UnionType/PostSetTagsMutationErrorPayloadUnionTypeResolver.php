@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class PostSetTagsMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\AbstractPostTagsMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\RelationalTypeDataLoaders\UnionType\PostSetTagsMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $postSetTagsMutationErrorPayloadUnionTypeDataLoader;
+    private ?PostSetTagsMutationErrorPayloadUnionTypeDataLoader $postSetTagsMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getPostSetTagsMutationErrorPayloadUnionTypeDataLoader() : PostSetTagsMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->postSetTagsMutationErrorPayloadUnionTypeDataLoader === null) {

@@ -13,19 +13,8 @@ use PoP\Root\Exception\ShouldNotHappenException;
 /** @internal */
 class Argument extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface
-     */
-    protected $value;
-    public function __construct(string $name, \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface $value, Location $location)
+    public function __construct(protected readonly string $name, protected \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface $value, Location $location)
     {
-        $this->name = $name;
-        $this->value = $value;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -44,10 +33,7 @@ class Argument extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst
     {
         return $this->value;
     }
-    /**
-     * @return mixed
-     */
-    public final function getValue()
+    public final function getValue() : mixed
     {
         return $this->value->getValue();
     }

@@ -13,10 +13,7 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 class SchemaSettingsBlockSchemaConfigurationExecuter extends AbstractSchemaAllowAccessToEntriesBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigSchemaSettingsBlock|null
-     */
-    private $schemaConfigSchemaSettingsBlock;
+    private ?SchemaConfigSchemaSettingsBlock $schemaConfigSchemaSettingsBlock = null;
 
     final protected function getSchemaConfigSchemaSettingsBlock(): SchemaConfigSchemaSettingsBlock
     {

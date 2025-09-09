@@ -45,90 +45,27 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\AddCategoryTermMetaMutationResolver|null
-     */
-    private $addCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\AddCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $addCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\DeleteCategoryTermMetaMutationResolver|null
-     */
-    private $deleteCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\DeleteCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $deleteCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\SetCategoryTermMetaMutationResolver|null
-     */
-    private $setCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\SetCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $setCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\UpdateCategoryTermMetaMutationResolver|null
-     */
-    private $updateCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\UpdateCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $updateCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableDeleteCategoryTermMetaMutationResolver|null
-     */
-    private $payloadableDeleteCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableDeleteCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableDeleteCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableSetCategoryTermMetaMutationResolver|null
-     */
-    private $payloadableSetCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableSetCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableSetCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableUpdateCategoryTermMetaMutationResolver|null
-     */
-    private $payloadableUpdateCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableUpdateCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdateCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableAddCategoryTermMetaMutationResolver|null
-     */
-    private $payloadableAddCategoryTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\MutationResolvers\PayloadableAddCategoryTermMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableAddCategoryTermMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\TypeResolvers\InputObjectType\RootDeleteCategoryTermMetaInputObjectTypeResolver|null
-     */
-    private $rootDeleteCategoryTermMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\TypeResolvers\InputObjectType\RootSetCategoryTermMetaInputObjectTypeResolver|null
-     */
-    private $rootSetCategoryTermMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\TypeResolvers\InputObjectType\RootUpdateCategoryTermMetaInputObjectTypeResolver|null
-     */
-    private $rootUpdateCategoryTermMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CategoryMetaMutations\TypeResolvers\InputObjectType\RootAddCategoryTermMetaInputObjectTypeResolver|null
-     */
-    private $rootAddCategoryTermMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?AddCategoryTermMetaMutationResolver $addCategoryTermMetaMutationResolver = null;
+    private ?AddCategoryTermMetaBulkOperationMutationResolver $addCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?DeleteCategoryTermMetaMutationResolver $deleteCategoryTermMetaMutationResolver = null;
+    private ?DeleteCategoryTermMetaBulkOperationMutationResolver $deleteCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?SetCategoryTermMetaMutationResolver $setCategoryTermMetaMutationResolver = null;
+    private ?SetCategoryTermMetaBulkOperationMutationResolver $setCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?UpdateCategoryTermMetaMutationResolver $updateCategoryTermMetaMutationResolver = null;
+    private ?UpdateCategoryTermMetaBulkOperationMutationResolver $updateCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?PayloadableDeleteCategoryTermMetaMutationResolver $payloadableDeleteCategoryTermMetaMutationResolver = null;
+    private ?PayloadableDeleteCategoryTermMetaBulkOperationMutationResolver $payloadableDeleteCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?PayloadableSetCategoryTermMetaMutationResolver $payloadableSetCategoryTermMetaMutationResolver = null;
+    private ?PayloadableSetCategoryTermMetaBulkOperationMutationResolver $payloadableSetCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?PayloadableUpdateCategoryTermMetaMutationResolver $payloadableUpdateCategoryTermMetaMutationResolver = null;
+    private ?PayloadableUpdateCategoryTermMetaBulkOperationMutationResolver $payloadableUpdateCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?PayloadableAddCategoryTermMetaMutationResolver $payloadableAddCategoryTermMetaMutationResolver = null;
+    private ?PayloadableAddCategoryTermMetaBulkOperationMutationResolver $payloadableAddCategoryTermMetaBulkOperationMutationResolver = null;
+    private ?RootDeleteCategoryTermMetaInputObjectTypeResolver $rootDeleteCategoryTermMetaInputObjectTypeResolver = null;
+    private ?RootSetCategoryTermMetaInputObjectTypeResolver $rootSetCategoryTermMetaInputObjectTypeResolver = null;
+    private ?RootUpdateCategoryTermMetaInputObjectTypeResolver $rootUpdateCategoryTermMetaInputObjectTypeResolver = null;
+    private ?RootAddCategoryTermMetaInputObjectTypeResolver $rootAddCategoryTermMetaInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getAddCategoryTermMetaMutationResolver() : AddCategoryTermMetaMutationResolver
     {
         if ($this->addCategoryTermMetaMutationResolver === null) {
@@ -343,34 +280,21 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         $categoryEntityName = $this->getCategoryEntityName();
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-                return $this->__('Add meta to category', 'category-mutations');
-            case 'add' . $categoryEntityName . 'Metas':
-                return $this->__('Add meta to categories', 'category-mutations');
-            case 'update' . $categoryEntityName . 'Meta':
-                return $this->__('Update meta from category', 'category-mutations');
-            case 'update' . $categoryEntityName . 'Metas':
-                return $this->__('Update meta from categories', 'category-mutations');
-            case 'delete' . $categoryEntityName . 'Meta':
-                return $this->__('Delete meta from category', 'category-mutations');
-            case 'delete' . $categoryEntityName . 'Metas':
-                return $this->__('Delete meta from categories', 'category-mutations');
-            case 'set' . $categoryEntityName . 'Meta':
-                return $this->__('Set meta on category', 'category-mutations');
-            case 'set' . $categoryEntityName . 'Metas':
-                return $this->__('Set meta on categories', 'category-mutations');
-            case 'add' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `addCategoryMeta` mutation', 'category-mutations');
-            case 'update' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updateCategoryMeta` mutation', 'category-mutations');
-            case 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `deleteCategoryMeta` mutation', 'category-mutations');
-            case 'set' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `setCategoryMeta` mutation', 'category-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta' => $this->__('Add meta to category', 'category-mutations'),
+            'add' . $categoryEntityName . 'Metas' => $this->__('Add meta to categories', 'category-mutations'),
+            'update' . $categoryEntityName . 'Meta' => $this->__('Update meta from category', 'category-mutations'),
+            'update' . $categoryEntityName . 'Metas' => $this->__('Update meta from categories', 'category-mutations'),
+            'delete' . $categoryEntityName . 'Meta' => $this->__('Delete meta from category', 'category-mutations'),
+            'delete' . $categoryEntityName . 'Metas' => $this->__('Delete meta from categories', 'category-mutations'),
+            'set' . $categoryEntityName . 'Meta' => $this->__('Set meta on category', 'category-mutations'),
+            'set' . $categoryEntityName . 'Metas' => $this->__('Set meta on categories', 'category-mutations'),
+            'add' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `addCategoryMeta` mutation', 'category-mutations'),
+            'update' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updateCategoryMeta` mutation', 'category-mutations'),
+            'delete' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `deleteCategoryMeta` mutation', 'category-mutations'),
+            'set' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `setCategoryMeta` mutation', 'category-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -379,38 +303,20 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCategoryMetaMutations = $moduleConfiguration->usePayloadableCategoryMetaMutations();
         if (!$usePayloadableCategoryMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $categoryEntityName . 'Meta':
-                case 'update' . $categoryEntityName . 'Meta':
-                case 'delete' . $categoryEntityName . 'Meta':
-                case 'set' . $categoryEntityName . 'Meta':
-                    return SchemaTypeModifiers::NONE;
-                case 'add' . $categoryEntityName . 'Metas':
-                case 'update' . $categoryEntityName . 'Metas':
-                case 'delete' . $categoryEntityName . 'Metas':
-                case 'set' . $categoryEntityName . 'Metas':
-                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Meta' => SchemaTypeModifiers::NONE,
+                'add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Metas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['add' . $categoryEntityName . 'MetaMutationPayloadObjects', 'update' . $categoryEntityName . 'MetaMutationPayloadObjects', 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects', 'set' . $categoryEntityName . 'MetaMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-            case 'update' . $categoryEntityName . 'Meta':
-            case 'delete' . $categoryEntityName . 'Meta':
-            case 'set' . $categoryEntityName . 'Meta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'add' . $categoryEntityName . 'Metas':
-            case 'update' . $categoryEntityName . 'Metas':
-            case 'delete' . $categoryEntityName . 'Metas':
-            case 'set' . $categoryEntityName . 'Metas':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Meta' => SchemaTypeModifiers::NON_NULLABLE,
+            'add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Metas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -418,31 +324,18 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $categoryEntityName = $this->getCategoryEntityName();
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-                return ['input' => $this->getRootAddCategoryTermMetaInputObjectTypeResolver()];
-            case 'add' . $categoryEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddCategoryTermMetaInputObjectTypeResolver());
-            case 'update' . $categoryEntityName . 'Meta':
-                return ['input' => $this->getRootUpdateCategoryTermMetaInputObjectTypeResolver()];
-            case 'update' . $categoryEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateCategoryTermMetaInputObjectTypeResolver());
-            case 'delete' . $categoryEntityName . 'Meta':
-                return ['input' => $this->getRootDeleteCategoryTermMetaInputObjectTypeResolver()];
-            case 'delete' . $categoryEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteCategoryTermMetaInputObjectTypeResolver());
-            case 'set' . $categoryEntityName . 'Meta':
-                return ['input' => $this->getRootSetCategoryTermMetaInputObjectTypeResolver()];
-            case 'set' . $categoryEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetCategoryTermMetaInputObjectTypeResolver());
-            case 'add' . $categoryEntityName . 'MetaMutationPayloadObjects':
-            case 'update' . $categoryEntityName . 'MetaMutationPayloadObjects':
-            case 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects':
-            case 'set' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta' => ['input' => $this->getRootAddCategoryTermMetaInputObjectTypeResolver()],
+            'add' . $categoryEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddCategoryTermMetaInputObjectTypeResolver()),
+            'update' . $categoryEntityName . 'Meta' => ['input' => $this->getRootUpdateCategoryTermMetaInputObjectTypeResolver()],
+            'update' . $categoryEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateCategoryTermMetaInputObjectTypeResolver()),
+            'delete' . $categoryEntityName . 'Meta' => ['input' => $this->getRootDeleteCategoryTermMetaInputObjectTypeResolver()],
+            'delete' . $categoryEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteCategoryTermMetaInputObjectTypeResolver()),
+            'set' . $categoryEntityName . 'Meta' => ['input' => $this->getRootSetCategoryTermMetaInputObjectTypeResolver()],
+            'set' . $categoryEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetCategoryTermMetaInputObjectTypeResolver()),
+            'add' . $categoryEntityName . 'MetaMutationPayloadObjects', 'update' . $categoryEntityName . 'MetaMutationPayloadObjects', 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects', 'set' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -453,20 +346,12 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
         if (\in_array($fieldName, ['add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Metas'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['add' . $categoryEntityName . 'Meta' => 'input']:
-            case ['update' . $categoryEntityName . 'Meta' => 'input']:
-            case ['delete' . $categoryEntityName . 'Meta' => 'input']:
-            case ['set' . $categoryEntityName . 'Meta' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['add' . $categoryEntityName . 'Meta' => 'input'], ['update' . $categoryEntityName . 'Meta' => 'input'], ['delete' . $categoryEntityName . 'Meta' => 'input'], ['set' . $categoryEntityName . 'Meta' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         $categoryEntityName = $this->getCategoryEntityName();
         if (\in_array($fieldName, ['add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Metas'])) {
@@ -480,26 +365,17 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCategoryMetaMutations = $moduleConfiguration->usePayloadableCategoryMetaMutations();
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableAddCategoryTermMetaMutationResolver() : $this->getAddCategoryTermMetaMutationResolver();
-            case 'add' . $categoryEntityName . 'Metas':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableAddCategoryTermMetaBulkOperationMutationResolver() : $this->getAddCategoryTermMetaBulkOperationMutationResolver();
-            case 'update' . $categoryEntityName . 'Meta':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableUpdateCategoryTermMetaMutationResolver() : $this->getUpdateCategoryTermMetaMutationResolver();
-            case 'update' . $categoryEntityName . 'Metas':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableUpdateCategoryTermMetaBulkOperationMutationResolver() : $this->getUpdateCategoryTermMetaBulkOperationMutationResolver();
-            case 'delete' . $categoryEntityName . 'Meta':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableDeleteCategoryTermMetaMutationResolver() : $this->getDeleteCategoryTermMetaMutationResolver();
-            case 'delete' . $categoryEntityName . 'Metas':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableDeleteCategoryTermMetaBulkOperationMutationResolver() : $this->getDeleteCategoryTermMetaBulkOperationMutationResolver();
-            case 'set' . $categoryEntityName . 'Meta':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableSetCategoryTermMetaMutationResolver() : $this->getSetCategoryTermMetaMutationResolver();
-            case 'set' . $categoryEntityName . 'Metas':
-                return $usePayloadableCategoryMetaMutations ? $this->getPayloadableSetCategoryTermMetaBulkOperationMutationResolver() : $this->getSetCategoryTermMetaBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableAddCategoryTermMetaMutationResolver() : $this->getAddCategoryTermMetaMutationResolver(),
+            'add' . $categoryEntityName . 'Metas' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableAddCategoryTermMetaBulkOperationMutationResolver() : $this->getAddCategoryTermMetaBulkOperationMutationResolver(),
+            'update' . $categoryEntityName . 'Meta' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableUpdateCategoryTermMetaMutationResolver() : $this->getUpdateCategoryTermMetaMutationResolver(),
+            'update' . $categoryEntityName . 'Metas' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableUpdateCategoryTermMetaBulkOperationMutationResolver() : $this->getUpdateCategoryTermMetaBulkOperationMutationResolver(),
+            'delete' . $categoryEntityName . 'Meta' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableDeleteCategoryTermMetaMutationResolver() : $this->getDeleteCategoryTermMetaMutationResolver(),
+            'delete' . $categoryEntityName . 'Metas' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableDeleteCategoryTermMetaBulkOperationMutationResolver() : $this->getDeleteCategoryTermMetaBulkOperationMutationResolver(),
+            'set' . $categoryEntityName . 'Meta' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableSetCategoryTermMetaMutationResolver() : $this->getSetCategoryTermMetaMutationResolver(),
+            'set' . $categoryEntityName . 'Metas' => $usePayloadableCategoryMetaMutations ? $this->getPayloadableSetCategoryTermMetaBulkOperationMutationResolver() : $this->getSetCategoryTermMetaBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -534,10 +410,7 @@ abstract class AbstractRootCategoryCRUDObjectTypeFieldResolver extends AbstractO
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $categoryEntityName = $this->getCategoryEntityName();
         $fieldName = $fieldDataAccessor->getFieldName();

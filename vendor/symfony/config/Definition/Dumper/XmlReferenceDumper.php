@@ -28,10 +28,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNo
  */
 class XmlReferenceDumper
 {
-    /**
-     * @var string|null
-     */
-    private $reference;
+    private ?string $reference = null;
     /**
      * @return string
      */
@@ -56,9 +53,7 @@ class XmlReferenceDumper
         $rootNamespace = $namespace ?: ($root ? 'http://example.org/schema/dic/' . $node->getName() : null);
         // xml remapping
         if ($node->getParent()) {
-            $remapping = \array_filter($node->getParent()->getXmlRemappings(), function (array $mapping) use($rootName) {
-                return $rootName === $mapping[1];
-            });
+            $remapping = \array_filter($node->getParent()->getXmlRemappings(), fn(array $mapping) => $rootName === $mapping[1]);
             if (\count($remapping)) {
                 [$singular] = \current($remapping);
                 $rootName = $singular;
@@ -98,24 +93,13 @@ class XmlReferenceDumper
                     if ($prototype->hasDefaultValue()) {
                         $prototypeValue = $prototype->getDefaultValue();
                     } else {
-                        switch (\get_class($prototype)) {
-                            case ScalarNode::class:
-                                $prototypeValue = 'scalar value';
-                                break;
-                            case FloatNode::class:
-                            case IntegerNode::class:
-                                $prototypeValue = 'numeric value';
-                                break;
-                            case BooleanNode::class:
-                                $prototypeValue = 'true|false';
-                                break;
-                            case EnumNode::class:
-                                $prototypeValue = $prototype->getPermissibleValues('|');
-                                break;
-                            default:
-                                $prototypeValue = 'value';
-                                break;
-                        }
+                        $prototypeValue = match ($prototype::class) {
+                            ScalarNode::class => 'scalar value',
+                            FloatNode::class, IntegerNode::class => 'numeric value',
+                            BooleanNode::class => 'true|false',
+                            EnumNode::class => $prototype->getPermissibleValues('|'),
+                            default => 'value',
+                        };
                     }
                 }
             }
@@ -233,9 +217,8 @@ class XmlReferenceDumper
     }
     /**
      * Renders the string conversion of the value.
-     * @param mixed $value
      */
-    private function writeValue($value) : string
+    private function writeValue(mixed $value) : string
     {
         if ('%%%%not_defined%%%%' === $value) {
             return '';

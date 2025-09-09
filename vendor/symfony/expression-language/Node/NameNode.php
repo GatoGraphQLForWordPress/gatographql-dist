@@ -26,10 +26,7 @@ class NameNode extends Node
     {
         $compiler->raw('$' . $this->attributes['name']);
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         return $values[$this->attributes['name']];
     }

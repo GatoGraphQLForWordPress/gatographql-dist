@@ -19,16 +19,12 @@ class AuthorByOneofInputObjectTypeResolver extends UserByOneofInputObjectTypeRes
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->__('Provide author by ID', 'custompost-user-mutations');
-            case InputProperties::USERNAME:
-                return $this->__('Provide author by username', 'custompost-user-mutations');
-            case InputProperties::EMAIL:
-                return $this->__('Provide author by email', 'custompost-user-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->__('Provide author by ID', 'custompost-user-mutations'),
+            InputProperties::USERNAME => $this->__('Provide author by username', 'custompost-user-mutations'),
+            InputProperties::EMAIL => $this->__('Provide author by email', 'custompost-user-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {

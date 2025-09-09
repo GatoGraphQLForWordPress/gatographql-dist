@@ -14,10 +14,7 @@ use stdClass;
  */
 class FieldDataAccessWildcardObjectFactory
 {
-    /**
-     * @var object|null
-     */
-    private static $wildcardObject;
+    private static ?object $wildcardObject = null;
     public static function getWildcardObject() : object
     {
         if (self::$wildcardObject === null) {

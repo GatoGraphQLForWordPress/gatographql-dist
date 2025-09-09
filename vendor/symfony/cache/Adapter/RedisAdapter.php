@@ -16,10 +16,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\RedisTrait;
 class RedisAdapter extends AbstractAdapter
 {
     use RedisTrait;
-    /**
-     * @param \Redis|\RedisArray|\RedisCluster|\Predis\ClientInterface|\Relay\Relay $redis
-     */
-    public function __construct($redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
+    public function __construct(\Redis|\RedisArray|\RedisCluster|\GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface|\GatoExternalPrefixByGatoGraphQL\Relay\Relay $redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         $this->init($redis, $namespace, $defaultLifetime, $marshaller);
     }

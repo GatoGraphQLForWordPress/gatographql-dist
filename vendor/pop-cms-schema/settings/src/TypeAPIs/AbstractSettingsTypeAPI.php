@@ -12,10 +12,7 @@ use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
 /** @internal */
 abstract class AbstractSettingsTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface|null
-     */
-    private $allowOrDenySettingsService;
+    private ?AllowOrDenySettingsServiceInterface $allowOrDenySettingsService = null;
     protected final function getAllowOrDenySettingsService() : AllowOrDenySettingsServiceInterface
     {
         if ($this->allowOrDenySettingsService === null) {
@@ -31,9 +28,8 @@ abstract class AbstractSettingsTypeAPI extends AbstractBasicService implements \
      *
      * @param array<string,mixed> $options
      * @throws OptionNotAllowedException When the option name is not in the allowlist. Enabled by passing option "assert-is-option-allowed"
-     * @return mixed
      */
-    public final function getOption(string $name, array $options = [])
+    public final function getOption(string $name, array $options = []) : mixed
     {
         if ($options['assert-is-option-allowed'] ?? null) {
             $this->assertIsOptionAllowed($name);
@@ -73,7 +69,6 @@ abstract class AbstractSettingsTypeAPI extends AbstractBasicService implements \
     /**
      * If the name is non-existent, return `null`.
      * Otherwise, return the value.
-     * @return mixed
      */
-    protected abstract function doGetOption(string $name);
+    protected abstract function doGetOption(string $name) : mixed;
 }

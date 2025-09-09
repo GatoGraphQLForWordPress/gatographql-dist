@@ -7,20 +7,8 @@ use stdClass;
 /** @internal */
 final class GenericErrorPayload extends \PoPSchema\SchemaCommons\ObjectModels\AbstractErrorPayload implements \PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayloadInterface
 {
-    /**
-     * @readonly
-     * @var string|null
-     */
-    public $code;
-    /**
-     * @readonly
-     * @var \stdClass|null
-     */
-    public $data;
-    public function __construct(string $message, ?string $code = null, ?stdClass $data = null)
+    public function __construct(string $message, public readonly ?string $code = null, public readonly ?stdClass $data = null)
     {
-        $this->code = $code;
-        $this->data = $data;
         parent::__construct($message);
     }
     public function getCode() : ?string

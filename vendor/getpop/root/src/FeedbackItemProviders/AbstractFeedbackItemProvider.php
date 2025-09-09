@@ -22,10 +22,7 @@ abstract class AbstractFeedbackItemProvider extends AbstractBasicService impleme
     {
         return '@';
     }
-    /**
-     * @param string|int|float|bool|null ...$args
-     */
-    public final function getMessage(string $code, ...$args) : string
+    public final function getMessage(string $code, string|int|float|bool|null ...$args) : string
     {
         /**
          * Soft landing: If there's an error in passing arguments,

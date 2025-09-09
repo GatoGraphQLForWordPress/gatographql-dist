@@ -19,11 +19,8 @@ abstract class AbstractTransformTypedFieldValueFieldDirectiveResolver extends \P
     /**
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
-     * @param mixed $value
-     * @return mixed
      */
-    protected final function transformValue($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore)
+    protected final function transformValue(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : mixed
     {
         if ($value === null && $this->skipNullValue()) {
             return null;
@@ -57,30 +54,23 @@ abstract class AbstractTransformTypedFieldValueFieldDirectiveResolver extends \P
     {
         return \true;
     }
-    /**
-     * @param mixed $value
-     */
-    protected abstract function isMatchingType($value) : bool;
+    protected abstract function isMatchingType(mixed $value) : bool;
     /**
      * Validate the value against the directive args
-     * @param mixed $value
      */
-    protected function validateTypeData($value) : ?TypedDataValidationPayload
+    protected function validateTypeData(mixed $value) : ?TypedDataValidationPayload
     {
         return null;
     }
     /**
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
-     * @param mixed $value
      */
-    protected abstract function transformTypeValue($value);
+    protected abstract function transformTypeValue(mixed $value) : mixed;
     /**
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
-     * @param mixed $value
      */
-    private function handleError($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    private function handleError(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver, array &$succeedingPipelineIDFieldSet, array &$resolvedIDFieldValues, FeedbackItemResolution $feedbackItemResolution, AstInterface $astNode, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         /** @var array<string|int,EngineIterationFieldSet> */
         $idFieldSetToRemove = [$id => new EngineIterationFieldSet([$field])];
@@ -88,11 +78,7 @@ abstract class AbstractTransformTypedFieldValueFieldDirectiveResolver extends \P
         $this->setFieldResponseValueAsNull($resolvedIDFieldValues, $idFieldSetToRemove);
         $engineIterationFeedbackStore->objectResolutionFeedbackStore->addError(new ObjectResolutionFeedback($feedbackItemResolution, $astNode, $relationalTypeResolver, $this->directive, $idFieldSetToRemove));
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
+    protected function getNonMatchingTypeValueFeedbackItemResolution(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
     }

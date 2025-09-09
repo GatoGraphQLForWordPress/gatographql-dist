@@ -86,7 +86,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
         \set_error_handler(static function () {
         });
         $chars = '+-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $this->tmpSuffix = $this->tmpSuffix ?? \str_replace('/', '-', \base64_encode(\random_bytes(6)));
+        $this->tmpSuffix ??= \str_replace('/', '-', \base64_encode(\random_bytes(6)));
         try {
             foreach ($this->scanHashDir($this->directory . self::TAG_FOLDER . \DIRECTORY_SEPARATOR) as $dir) {
                 if (\rename($dir, $renamed = \substr_replace($dir, $this->tmpSuffix . '_', -9))) {
@@ -170,7 +170,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
                 }
                 try {
                     (yield $id => '' === $meta ? [] : $this->marshaller->unmarshall($meta));
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
                     (yield $id => []);
                 }
             }
@@ -193,7 +193,7 @@ class FilesystemTagAwareAdapter extends AbstractTagAwareAdapter implements Prune
             if (!\is_dir($tagFolder = $this->getTagFolder($tagId))) {
                 continue;
             }
-            $this->tmpSuffix = $this->tmpSuffix ?? \str_replace('/', '-', \base64_encode(\random_bytes(6)));
+            $this->tmpSuffix ??= \str_replace('/', '-', \base64_encode(\random_bytes(6)));
             \set_error_handler(static function () {
             });
             try {

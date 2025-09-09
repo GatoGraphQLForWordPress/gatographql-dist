@@ -10,14 +10,8 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class PostsFilterCustomPostsByTagsInputObjectTypeResolver extends AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\EnumType\PostTagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postTagTaxonomyEnumStringScalarTypeResolver;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
+    private ?PostTagTaxonomyEnumStringScalarTypeResolver $postTagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
@@ -44,10 +38,7 @@ class PostsFilterCustomPostsByTagsInputObjectTypeResolver extends AbstractFilter
     {
         return $this->getPostTagTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getTagTaxonomyFilterDefaultValue()
+    protected function getTagTaxonomyFilterDefaultValue() : mixed
     {
         $postTagTaxonomyName = $this->getPostTagTypeAPI()->getPostTagTaxonomyName();
         if (!\in_array($postTagTaxonomyName, $this->getPostTagTaxonomyEnumStringScalarTypeResolver()->getConsolidatedPossibleValues())) {

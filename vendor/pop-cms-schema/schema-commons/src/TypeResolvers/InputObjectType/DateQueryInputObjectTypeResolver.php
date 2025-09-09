@@ -10,10 +10,7 @@ use stdClass;
 /** @internal */
 class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver|null
-     */
-    private $dateScalarTypeResolver;
+    private ?DateScalarTypeResolver $dateScalarTypeResolver = null;
     protected final function getDateScalarTypeResolver() : DateScalarTypeResolver
     {
         if ($this->dateScalarTypeResolver === null) {
@@ -36,24 +33,21 @@ class DateQueryInputObjectTypeResolver extends AbstractQueryableInputObjectTypeR
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'after':
-                return $this->__('Retrieve entities from after this date', 'schema-commons');
-            case 'before':
-                return $this->__('Retrieve entities from before this date', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'after' => $this->__('Retrieve entities from after this date', 'schema-commons'),
+            'before' => $this->__('Retrieve entities from before this date', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     /**
      * Integrate parameters into the "date_query" WP_Query arg
      *
      * @see https://developer.wordpress.org/reference/classes/wp_query/#date-parameters
      *
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue) : void
     {
         if (\is_array($inputValue)) {
             parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);

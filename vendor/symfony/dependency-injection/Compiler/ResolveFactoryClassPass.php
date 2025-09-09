@@ -18,15 +18,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class ResolveFactoryClassPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Definition && \is_array($factory = $value->getFactory()) && null === $factory[0]) {
             if (null === ($class = $value->getClass())) {

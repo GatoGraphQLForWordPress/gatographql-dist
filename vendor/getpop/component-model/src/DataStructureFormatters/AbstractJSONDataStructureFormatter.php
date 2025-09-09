@@ -53,9 +53,11 @@ abstract class AbstractJSONDataStructureFormatter extends \PoP\ComponentModel\Da
              * "userstatedatabase", showing different fields on each.
              */
             foreach ($databases as $databaseName => $database) {
+                // @phpstan-ignore-next-line
                 $this->addDatabaseOutput($database, $outputDatabase);
             }
         } elseif ($dboutputmode === DatabasesOutputModes::COMBINED) {
+            // @phpstan-ignore-next-line
             $this->addDatabaseOutput($databases, $outputDatabase);
         }
         return $outputDatabase;
@@ -71,7 +73,7 @@ abstract class AbstractJSONDataStructureFormatter extends \PoP\ComponentModel\Da
     {
         foreach ($database as $dbKey => $dbObjectIDStorage) {
             foreach ($dbObjectIDStorage as $dbObjectID => $dbObjectStorage) {
-                $outputDatabase[$dbKey][$dbObjectID] = $outputDatabase[$dbKey][$dbObjectID] ?? new stdClass();
+                $outputDatabase[$dbKey][$dbObjectID] ??= new stdClass();
                 /** @var FieldInterface $field */
                 foreach ($dbObjectStorage as $field) {
                     /** @var mixed $field */

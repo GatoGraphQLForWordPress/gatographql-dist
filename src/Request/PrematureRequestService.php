@@ -22,14 +22,8 @@ use PoP\Root\Services\AbstractBasicService;
  */
 class PrematureRequestService extends AbstractBasicService implements PrematureRequestServiceInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\GraphQLEndpointPathProviderRegistryInterface|null
-     */
-    private $graphQLEndpointPathProviderRegistry;
-    /**
-     * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
-     */
-    private $routingHelperService;
+    private ?GraphQLEndpointPathProviderRegistryInterface $graphQLEndpointPathProviderRegistry = null;
+    private ?RoutingHelperServiceInterface $routingHelperService = null;
 
     final protected function getGraphQLEndpointPathProviderRegistry(): GraphQLEndpointPathProviderRegistryInterface
     {
@@ -79,7 +73,7 @@ class PrematureRequestService extends AbstractBasicService implements PrematureR
         $requestURI = EndpointUtils::slashURI($requestURI);
         foreach ($this->getGraphQLEndpointPaths() as $graphQLEndpointPath) {
             $graphQLEndpointPath = EndpointUtils::slashURI($graphQLEndpointPath);
-            if (strncmp($requestURI, $graphQLEndpointPath, strlen($graphQLEndpointPath)) === 0) {
+            if (str_starts_with($requestURI, $graphQLEndpointPath)) {
                 return true;
             }
         }
@@ -98,9 +92,7 @@ class PrematureRequestService extends AbstractBasicService implements PrematureR
     protected function getGraphQLEndpointPaths(): array
     {
         return array_map(
-            function (GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider) {
-                return $graphQLEndpointPathProvider->getPath();
-            },
+            fn (GraphQLEndpointPathProviderInterface $graphQLEndpointPathProvider) => $graphQLEndpointPathProvider->getPath(),
             $this->getGraphQLEndpointPathProviderRegistry()->getGraphQLEndpointPathProviders(true)
         );
     }

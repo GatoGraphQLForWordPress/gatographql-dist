@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Comments\Constants;
 /** @internal */
 class InputNames
 {
-    public const COMMENT_ID = 'cid';
+    public final const COMMENT_ID = 'cid';
 }

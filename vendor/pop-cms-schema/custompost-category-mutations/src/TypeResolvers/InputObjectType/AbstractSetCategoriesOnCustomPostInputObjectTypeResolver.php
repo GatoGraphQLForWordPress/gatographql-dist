@@ -14,22 +14,10 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CategoriesByOneofInputObjectTypeResolver|null
-     */
-    private $categoriesByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?\PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\CategoriesByOneofInputObjectTypeResolver $categoriesByOneofInputObjectTypeResolver = null;
+    private ?CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -83,41 +71,27 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
     protected abstract function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::TAXONOMY:
-                return $this->__('The category taxonomy', 'custompost-tag-mutations');
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return \sprintf($this->__('The ID of the %s', 'custompost-category-mutations'), $this->getEntityName());
-            case MutationInputProperties::CATEGORIES_BY:
-                return \sprintf($this->__('The categories to set, of type \'%s\'', 'custompost-category-mutations'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName());
-            case MutationInputProperties::APPEND:
-                return $this->__('Append the categories to the existing ones?', 'custompost-category-mutations');
-            default:
-                return null;
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::TAXONOMY => $this->__('The category taxonomy', 'custompost-tag-mutations'),
+            MutationInputProperties::CUSTOMPOST_ID => \sprintf($this->__('The ID of the %s', 'custompost-category-mutations'), $this->getEntityName()),
+            MutationInputProperties::CATEGORIES_BY => \sprintf($this->__('The categories to set, of type \'%s\'', 'custompost-category-mutations'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName()),
+            MutationInputProperties::APPEND => $this->__('Append the categories to the existing ones?', 'custompost-category-mutations'),
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::APPEND:
-                return \false;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::APPEND => \false,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::APPEND:
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case MutationInputProperties::CUSTOMPOST_ID:
-            case MutationInputProperties::CATEGORIES_BY:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::APPEND => SchemaTypeModifiers::NON_NULLABLE,
+            MutationInputProperties::CUSTOMPOST_ID, MutationInputProperties::CATEGORIES_BY => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

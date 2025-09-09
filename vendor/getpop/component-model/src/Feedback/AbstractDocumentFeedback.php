@@ -12,20 +12,15 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 abstract class AbstractDocumentFeedback extends \PoP\ComponentModel\Feedback\AbstractFeedback implements \PoP\ComponentModel\Feedback\DocumentFeedbackInterface
 {
     /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Location
-     */
-    protected $location;
-    /**
      * @param array<string,mixed> $extensions
      */
     public function __construct(
         FeedbackItemResolution $feedbackItemResolution,
-        Location $location,
+        protected Location $location,
         /** @var array<string,mixed> */
         array $extensions = []
     )
     {
-        $this->location = $location;
         parent::__construct($feedbackItemResolution, $extensions);
     }
     public function getLocation() : Location

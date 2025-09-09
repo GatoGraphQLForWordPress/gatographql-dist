@@ -21,40 +21,31 @@ trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is depreca
  */
 class RequestMatcher implements RequestMatcherInterface
 {
-    /**
-     * @var string|null
-     */
-    private $path;
-    /**
-     * @var string|null
-     */
-    private $host;
-    /**
-     * @var int|null
-     */
-    private $port;
+    private ?string $path = null;
+    private ?string $host = null;
+    private ?int $port = null;
     /**
      * @var string[]
      */
-    private $methods = [];
+    private array $methods = [];
     /**
      * @var string[]
      */
-    private $ips = [];
+    private array $ips = [];
     /**
      * @var string[]
      */
-    private $attributes = [];
+    private array $attributes = [];
     /**
      * @var string[]
      */
-    private $schemes = [];
+    private array $schemes = [];
     /**
      * @param string|string[]|null $methods
      * @param string|string[]|null $ips
      * @param string|string[]|null $schemes
      */
-    public function __construct(?string $path = null, ?string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, ?int $port = null)
+    public function __construct(?string $path = null, ?string $host = null, string|array|null $methods = null, string|array|null $ips = null, array $attributes = [], string|array|null $schemes = null, ?int $port = null)
     {
         $this->matchPath($path);
         $this->matchHost($host);
@@ -73,7 +64,7 @@ class RequestMatcher implements RequestMatcherInterface
      *
      * @return void
      */
-    public function matchScheme($scheme)
+    public function matchScheme(string|array|null $scheme)
     {
         $this->schemes = null !== $scheme ? \array_map('strtolower', (array) $scheme) : [];
     }
@@ -124,12 +115,10 @@ class RequestMatcher implements RequestMatcherInterface
      *
      * @return void
      */
-    public function matchIps($ips)
+    public function matchIps(string|array|null $ips)
     {
         $ips = null !== $ips ? (array) $ips : [];
-        $this->ips = \array_reduce($ips, static function (array $ips, string $ip) {
-            return \array_merge($ips, \preg_split('/\\s*,\\s*/', $ip));
-        }, []);
+        $this->ips = \array_reduce($ips, static fn(array $ips, string $ip) => \array_merge($ips, \preg_split('/\\s*,\\s*/', $ip)), []);
     }
     /**
      * Adds a check for the HTTP method.
@@ -138,7 +127,7 @@ class RequestMatcher implements RequestMatcherInterface
      *
      * @return void
      */
-    public function matchMethod($method)
+    public function matchMethod(string|array|null $method)
     {
         $this->methods = null !== $method ? \array_map('strtoupper', (array) $method) : [];
     }

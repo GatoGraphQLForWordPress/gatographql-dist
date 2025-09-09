@@ -29,10 +29,7 @@ class CreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMutations\Mutat
         // Allow components to inject their own validations
         App::doAction(MediaCRUDHookNames::VALIDATE_CREATE_MEDIA_ITEM, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $mediaItemID
-     */
-    protected function additionals($mediaItemID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function additionals(string|int $mediaItemID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
         parent::additionals($mediaItemID, $fieldDataAccessor);
         App::doAction(MediaCRUDHookNames::CREATE_MEDIA_ITEM, $mediaItemID, $fieldDataAccessor);
@@ -47,9 +44,8 @@ class CreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMutations\Mutat
     /**
      * @throws MediaItemCRUDMutationException In case of error
      * @param array<string,mixed> $mediaItemData
-     * @return string|int|null
      */
-    protected function createMediaItem(array $mediaItemData, FieldDataAccessorInterface $fieldDataAccessor)
+    protected function createMediaItem(array $mediaItemData, FieldDataAccessorInterface $fieldDataAccessor) : string|int|null
     {
         /** @var stdClass */
         $from = $fieldDataAccessor->getValue(MutationInputProperties::FROM);
@@ -84,9 +80,8 @@ class CreateMediaItemMutationResolver extends \PoPCMSSchema\MediaMutations\Mutat
     }
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $mediaItemData = $this->getMediaItemData($fieldDataAccessor);
         $mediaItemID = $this->createMediaItem($mediaItemData, $fieldDataAccessor);

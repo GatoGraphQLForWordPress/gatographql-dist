@@ -6,18 +6,8 @@ namespace PoP\GraphQLParser\Spec\Parser;
 /** @internal */
 class Location
 {
-    /**
-     * @var int
-     */
-    protected $line;
-    /**
-     * @var int
-     */
-    protected $column;
-    public function __construct(int $line, int $column)
+    public function __construct(protected int $line, protected int $column)
     {
-        $this->line = $line;
-        $this->column = $column;
     }
     public function getLine() : int
     {

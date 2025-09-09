@@ -21,11 +21,7 @@ abstract class AbstractListValueJSONObjectScalarTypeResolver extends JSONObjectS
     {
         return \sprintf($this->__('Custom scalar representing a JSON Object where values are lists (of anything)%s', 'extended-schema-commons'), $this->canValueBeNullable() ? $this->__(' or null', 'extended-schema-commons') : '');
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $inputValue = parent::coerceValue($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($inputValue === null) {

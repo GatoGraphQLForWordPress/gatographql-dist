@@ -72,60 +72,37 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     use CheckDangerouslyNonSpecificScalarTypeFieldOrFieldDirectiveResolverTrait;
     use ObjectTypeOrFieldDirectiveResolverTrait;
     /** @var array<string,array<string,InputTypeResolverInterface>> */
-    protected $consolidatedDirectiveArgNameTypeResolversCache = [];
+    protected array $consolidatedDirectiveArgNameTypeResolversCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedDirectiveArgDescriptionCache = [];
+    protected array $consolidatedDirectiveArgDescriptionCache = [];
     /** @var array<string,mixed> */
-    protected $consolidatedDirectiveArgDefaultValueCache = [];
+    protected array $consolidatedDirectiveArgDefaultValueCache = [];
     /** @var array<string,int> */
-    protected $consolidatedDirectiveArgTypeModifiersCache = [];
+    protected array $consolidatedDirectiveArgTypeModifiersCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $consolidatedDirectiveArgExtensionsCache = [];
+    protected array $consolidatedDirectiveArgExtensionsCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $schemaDirectiveArgsCache = [];
+    protected array $schemaDirectiveArgsCache = [];
     /**
      * To be set only if there were no validation errors.
-     * @var \PoP\ComponentModel\QueryResolution\DirectiveDataAccessorInterface
      */
-    protected $directiveDataAccessor;
-    /**
-     * @var bool
-     */
-    protected $hasValidationErrors;
+    protected DirectiveDataAccessorInterface $directiveDataAccessor;
+    protected bool $hasValidationErrors;
     /**
      * When the directive args have promises, they must be
      * validated. Cache the validation result.
-     * @var bool|null
      */
-    protected $validatedDirectiveArgsHaveErrors;
+    protected ?bool $validatedDirectiveArgsHaveErrors = null;
     /**
      * @var array<string,array<string,mixed>>
      */
-    protected $schemaDefinitionForDirectiveCache = [];
-    /**
-     * @var \PoP\ComponentModel\HelperServices\SemverHelperServiceInterface|null
-     */
-    private $semverHelperService;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Versioning\VersioningServiceInterface|null
-     */
-    private $versioningService;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaCastingServiceInterface|null
-     */
-    private $schemaCastingService;
+    protected array $schemaDefinitionForDirectiveCache = [];
+    private ?SemverHelperServiceInterface $semverHelperService = null;
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+    private ?VersioningServiceInterface $versioningService = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?SchemaCastingServiceInterface $schemaCastingService = null;
     protected final function getSemverHelperService() : SemverHelperServiceInterface
     {
         if ($this->semverHelperService === null) {
@@ -302,9 +279,8 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
      * performed for that object.
      *
      * @return array<string,mixed>|null Null if there was an error validating the directive
-     * @param string|int $id
      */
-    protected function getResolvedDirectiveArgsForObjectAndField(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, $id, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?array
+    protected function getResolvedDirectiveArgsForObjectAndField(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, string|int $id, EngineIterationFeedbackStore $engineIterationFeedbackStore) : ?array
     {
         $this->loadObjectResolvedDynamicVariablesInAppState($field, $id);
         $this->directiveDataAccessor->resetDirectiveArgs();
@@ -365,18 +341,14 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     private function validateNonMissingMandatoryDirectiveArguments(array $directiveArgs, array $directiveArgsSchemaDefinition, RelationalTypeResolverInterface $relationalTypeResolver, array $fields, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         $mandatoryDirectiveArgNames = $this->getFieldOrDirectiveMandatoryArgumentNames($directiveArgsSchemaDefinition);
-        $missingMandatoryDirectiveArgNames = \array_values(\array_filter($mandatoryDirectiveArgNames, function (string $directiveArgName) use($directiveArgs) {
-            return !\array_key_exists($directiveArgName, $directiveArgs);
-        }));
+        $missingMandatoryDirectiveArgNames = \array_values(\array_filter($mandatoryDirectiveArgNames, fn(string $directiveArgName) => !\array_key_exists($directiveArgName, $directiveArgs)));
         foreach ($missingMandatoryDirectiveArgNames as $missingMandatoryDirectiveArgName) {
-            $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_4_2_1_C, [$missingMandatoryDirectiveArgName, $this->directive->getName()]), (($nullsafeVariable1 = $this->directive->getArgument($missingMandatoryDirectiveArgName)) ? $nullsafeVariable1->getValueAST() : null) ?? $this->directive->getArgument($missingMandatoryDirectiveArgName) ?? $this->directive, $relationalTypeResolver, $fields));
+            $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_4_2_1_C, [$missingMandatoryDirectiveArgName, $this->directive->getName()]), $this->directive->getArgument($missingMandatoryDirectiveArgName)?->getValueAST() ?? $this->directive->getArgument($missingMandatoryDirectiveArgName) ?? $this->directive, $relationalTypeResolver, $fields));
         }
         $mandatoryButNullableDirectiveArgNames = $this->getFieldOrDirectiveMandatoryButNullableArgumentNames($directiveArgsSchemaDefinition);
-        $nullNonNullableDirectiveArgNames = \array_values(\array_filter($mandatoryDirectiveArgNames, function (string $directiveArgName) use($directiveArgs, $mandatoryButNullableDirectiveArgNames) {
-            return \array_key_exists($directiveArgName, $directiveArgs) && $directiveArgs[$directiveArgName] === null && !\in_array($directiveArgName, $mandatoryButNullableDirectiveArgNames);
-        }));
+        $nullNonNullableDirectiveArgNames = \array_values(\array_filter($mandatoryDirectiveArgNames, fn(string $directiveArgName) => \array_key_exists($directiveArgName, $directiveArgs) && $directiveArgs[$directiveArgName] === null && !\in_array($directiveArgName, $mandatoryButNullableDirectiveArgNames)));
         foreach ($nullNonNullableDirectiveArgNames as $nullNonNullableDirectiveArgName) {
-            $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_4_2_1_D, [$nullNonNullableDirectiveArgName, $this->directive->getName()]), (($nullsafeVariable2 = $this->directive->getArgument($nullNonNullableDirectiveArgName)) ? $nullsafeVariable2->getValueAST() : null) ?? $this->directive->getArgument($nullNonNullableDirectiveArgName) ?? $this->directive, $relationalTypeResolver, $fields));
+            $engineIterationFeedbackStore->schemaFeedbackStore->addError(new SchemaFeedback(new FeedbackItemResolution(GraphQLSpecErrorFeedbackItemProvider::class, GraphQLSpecErrorFeedbackItemProvider::E_5_4_2_1_D, [$nullNonNullableDirectiveArgName, $this->directive->getName()]), $this->directive->getArgument($nullNonNullableDirectiveArgName)?->getValueAST() ?? $this->directive->getArgument($nullNonNullableDirectiveArgName) ?? $this->directive, $relationalTypeResolver, $fields));
         }
     }
     /**
@@ -543,15 +515,11 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
             return \true;
         }
         $supportedFieldTypeResolverClasses = $this->getSupportedFieldTypeResolverClasses();
-        if ($supportedFieldTypeResolverClasses !== null && \array_filter($supportedFieldTypeResolverClasses, function (string $supportedFieldTypeResolverClass) use($fieldTypeResolver) {
-            return $fieldTypeResolver instanceof $supportedFieldTypeResolverClass;
-        }) === []) {
+        if ($supportedFieldTypeResolverClasses !== null && \array_filter($supportedFieldTypeResolverClasses, fn(string $supportedFieldTypeResolverClass) => $fieldTypeResolver instanceof $supportedFieldTypeResolverClass) === []) {
             return \false;
         }
         $excludedFieldTypeResolverClasses = $this->getExcludedFieldTypeResolverClasses();
-        if ($excludedFieldTypeResolverClasses !== null && \array_filter($excludedFieldTypeResolverClasses, function (string $excludedFieldTypeResolverClass) use($fieldTypeResolver) {
-            return $fieldTypeResolver instanceof $excludedFieldTypeResolverClass;
-        }) !== []) {
+        if ($excludedFieldTypeResolverClasses !== null && \array_filter($excludedFieldTypeResolverClasses, fn(string $excludedFieldTypeResolverClass) => $fieldTypeResolver instanceof $excludedFieldTypeResolverClass) !== []) {
             return \false;
         }
         return \true;
@@ -607,9 +575,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
      */
     protected function getConcreteTypeResolverNamesOrDescriptions(array $concreteTypeResolvers) : ?array
     {
-        return \array_map(function (ConcreteTypeResolverInterface $typeResolver) {
-            return $typeResolver->getMaybeNamespacedTypeName();
-        }, $concreteTypeResolvers);
+        return \array_map(fn(ConcreteTypeResolverInterface $typeResolver) => $typeResolver->getMaybeNamespacedTypeName(), $concreteTypeResolvers);
     }
     /**
      * @param string[] $supportedFieldTypeResolverContainerServiceIDs
@@ -649,9 +615,8 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
      *
      * @param FieldInterface[] $fields
      * @param array<string,mixed> $directiveArgs
-     * @param mixed $directiveArgValue
      */
-    protected function validateDirectiveArgValue(string $directiveArgName, $directiveArgValue, AstInterface $astNode, array $directiveArgs, RelationalTypeResolverInterface $relationalTypeResolver, array $fields, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateDirectiveArgValue(string $directiveArgName, mixed $directiveArgValue, AstInterface $astNode, array $directiveArgs, RelationalTypeResolverInterface $relationalTypeResolver, array $fields, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
     /**
@@ -732,30 +697,24 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
         if ($schemaDefinitionResolver !== $this) {
             return $schemaDefinitionResolver->getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
         }
-        switch ($directiveArgName) {
-            case SchemaDefinition::VERSION_CONSTRAINT:
-                return $this->getVersionConstraintFieldOrDirectiveArgDescription();
-            case $this->getAffectAdditionalFieldsUnderPosArgumentName():
-                return $this->__('Positions of the additional fields to be affected by the directive, relative from the directive (as an array of positive integers)', 'graphql-server');
-            default:
-                return null;
-        }
+        return match ($directiveArgName) {
+            // Version constraint (possibly enabled)
+            SchemaDefinition::VERSION_CONSTRAINT => $this->getVersionConstraintFieldOrDirectiveArgDescription(),
+            // Multi-Field Directives (possibly enabled)
+            $this->getAffectAdditionalFieldsUnderPosArgumentName() => $this->__('Positions of the additional fields to be affected by the directive, relative from the directive (as an array of positive integers)', 'graphql-server'),
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($relationalTypeResolver);
         if ($schemaDefinitionResolver !== $this) {
             return $schemaDefinitionResolver->getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
         }
-        switch ($directiveArgName) {
-            case $this->getAffectAdditionalFieldsUnderPosArgumentName():
-                return [];
-            default:
-                return null;
-        }
+        return match ($directiveArgName) {
+            $this->getAffectAdditionalFieldsUnderPosArgumentName() => [],
+            default => null,
+        };
     }
     public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
@@ -763,12 +722,10 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
         if ($schemaDefinitionResolver !== $this) {
             return $schemaDefinitionResolver->getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
         }
-        switch ($directiveArgName) {
-            case $this->getAffectAdditionalFieldsUnderPosArgumentName():
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($directiveArgName) {
+            $this->getAffectAdditionalFieldsUnderPosArgumentName() => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     /**
      * Consolidation of the schema directive arguments. Call this function to read the data
@@ -777,7 +734,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     public function getConsolidatedDirectiveArgNameTypeResolvers(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver);
+        $cacheKey = $relationalTypeResolver::class;
         if (\array_key_exists($cacheKey, $this->consolidatedDirectiveArgNameTypeResolversCache)) {
             return $this->consolidatedDirectiveArgNameTypeResolversCache[$cacheKey];
         }
@@ -816,7 +773,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     public function getConsolidatedDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver) . '(' . $directiveArgName . ':)';
+        $cacheKey = $relationalTypeResolver::class . '(' . $directiveArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedDirectiveArgDescriptionCache)) {
             return $this->consolidatedDirectiveArgDescriptionCache[$cacheKey];
         }
@@ -826,12 +783,11 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     /**
      * Consolidation of the schema directive arguments. Call this function to read the data
      * instead of the individual functions, since it applies hooks to override/extend.
-     * @return mixed
      */
-    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver) . '(' . $directiveArgName . ':)';
+        $cacheKey = $relationalTypeResolver::class . '(' . $directiveArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedDirectiveArgDefaultValueCache)) {
             return $this->consolidatedDirectiveArgDefaultValueCache[$cacheKey];
         }
@@ -845,7 +801,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     public function getConsolidatedDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver) . '(' . $directiveArgName . ':)';
+        $cacheKey = $relationalTypeResolver::class . '(' . $directiveArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedDirectiveArgTypeModifiersCache)) {
             return $this->consolidatedDirectiveArgTypeModifiersCache[$cacheKey];
         }
@@ -861,7 +817,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     public final function getDirectiveArgsSchemaDefinition(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver);
+        $cacheKey = $relationalTypeResolver::class;
         if (\array_key_exists($cacheKey, $this->schemaDirectiveArgsCache)) {
             return $this->schemaDirectiveArgsCache[$cacheKey];
         }
@@ -892,7 +848,7 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     protected final function getConsolidatedDirectiveArgExtensionsSchemaDefinition(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : array
     {
         // Cache the result
-        $cacheKey = \get_class($relationalTypeResolver) . '(' . $directiveArgName . ':)';
+        $cacheKey = $relationalTypeResolver::class . '(' . $directiveArgName . ':)';
         if (\array_key_exists($cacheKey, $this->consolidatedDirectiveArgExtensionsCache)) {
             return $this->consolidatedDirectiveArgExtensionsCache[$cacheKey];
         }
@@ -1006,9 +962,8 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
      * @param array<string|int,EngineIterationFieldSet> $idFieldSetToRemove
      * @param array<array<string|int,EngineIterationFieldSet>> $succeedingPipelineIDFieldSet
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore|\PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaOrObjectResolutionFeedbackStore
      */
-    private function processFailure(RelationalTypeResolverInterface $relationalTypeResolver, FeedbackItemResolution $feedbackItemResolution, array $idFieldSetToRemove, array &$succeedingPipelineIDFieldSet, AstInterface $astNode, array &$resolvedIDFieldValues, $schemaOrObjectResolutionFeedbackStore) : void
+    private function processFailure(RelationalTypeResolverInterface $relationalTypeResolver, FeedbackItemResolution $feedbackItemResolution, array $idFieldSetToRemove, array &$succeedingPipelineIDFieldSet, AstInterface $astNode, array &$resolvedIDFieldValues, ObjectResolutionFeedbackStore|SchemaFeedbackStore $schemaOrObjectResolutionFeedbackStore) : void
     {
         /**
          * Remove the fields from the directive pipeline
@@ -1208,12 +1163,12 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
                  *
                  * @see https://graphql.github.io/graphql-spec/draft/#sec--skip
                  */
-                $directiveLocations = \array_merge(\is_array($directiveLocations) ? $directiveLocations : \iterator_to_array($directiveLocations), [DirectiveLocations::FIELD, DirectiveLocations::FRAGMENT_SPREAD, DirectiveLocations::INLINE_FRAGMENT]);
+                $directiveLocations = [...$directiveLocations, DirectiveLocations::FIELD, DirectiveLocations::FRAGMENT_SPREAD, DirectiveLocations::INLINE_FRAGMENT];
             } elseif ($directiveKind === DirectiveKinds::SCHEMA) {
                 /** @var ModuleConfiguration */
                 $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
                 if ($moduleConfiguration->exposeSchemaTypeDirectiveLocations()) {
-                    $directiveLocations = \array_merge(\is_array($directiveLocations) ? $directiveLocations : \iterator_to_array($directiveLocations), [DirectiveLocations::FIELD_DEFINITION]);
+                    $directiveLocations = [...$directiveLocations, DirectiveLocations::FIELD_DEFINITION];
                 }
             }
         }

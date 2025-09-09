@@ -8,10 +8,7 @@ use PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface;
 /** @internal */
 class MenuObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
-     */
-    private $menuTypeAPI;
+    private ?MenuTypeAPIInterface $menuTypeAPI = null;
     protected final function getMenuTypeAPI() : MenuTypeAPIInterface
     {
         if ($this->menuTypeAPI === null) {
@@ -28,6 +25,6 @@ class MenuObjectTypeDataLoader extends AbstractObjectTypeDataLoader
     public function getObjects(array $ids) : array
     {
         // If the menu doesn't exist, remove the `null` entry
-        return \array_values(\array_filter(\array_map(\Closure::fromCallable([$this->getMenuTypeAPI(), 'getMenu']), $ids)));
+        return \array_values(\array_filter(\array_map($this->getMenuTypeAPI()->getMenu(...), $ids)));
     }
 }

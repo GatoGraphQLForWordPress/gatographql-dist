@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader|null
-     */
-    private $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader;
+    private ?CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader = null;
     protected final function getCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader() : CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeDataLoader === null) {

@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class LoginUserOneofMutationResolver extends AbstractOneofMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver|null
-     */
-    private $loginUserByCredentialsMutationResolver;
+    private ?\PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver $loginUserByCredentialsMutationResolver = null;
     protected final function getLoginUserByCredentialsMutationResolver() : \PoPCMSSchema\UserStateMutations\MutationResolvers\LoginUserByCredentialsMutationResolver
     {
         if ($this->loginUserByCredentialsMutationResolver === null) {

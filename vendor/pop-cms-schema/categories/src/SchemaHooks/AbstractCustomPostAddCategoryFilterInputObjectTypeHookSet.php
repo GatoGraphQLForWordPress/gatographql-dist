@@ -8,10 +8,7 @@ use PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCat
 /** @internal */
 abstract class AbstractCustomPostAddCategoryFilterInputObjectTypeHookSet extends \PoPCMSSchema\Categories\SchemaHooks\AbstractAddCategoryFilterInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver|null
-     */
-    private $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver;
+    private ?CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver $customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver = null;
     protected final function getCustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver() : CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver
     {
         if ($this->customPostsFilterCustomPostsByCategoriesInputObjectTypeResolver === null) {

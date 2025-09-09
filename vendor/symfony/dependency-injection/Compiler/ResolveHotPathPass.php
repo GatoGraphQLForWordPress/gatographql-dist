@@ -22,14 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class ResolveHotPathPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $resolvedIds = [];
+    protected bool $skipScalars = \true;
+    private array $resolvedIds = [];
     /**
      * @return void
      */
@@ -42,11 +36,7 @@ class ResolveHotPathPass extends AbstractRecursivePass
             $this->resolvedIds = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof ArgumentInterface) {
             return $value;

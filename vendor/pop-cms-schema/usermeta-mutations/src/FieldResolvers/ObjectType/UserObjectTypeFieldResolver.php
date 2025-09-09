@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class UserObjectTypeFieldResolver extends AbstractUserObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\UserDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $userDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\UserAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $userCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\UserUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $userUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\UserSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $userSetMetaMutationPayloadObjectTypeResolver;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+    private ?UserDeleteMetaMutationPayloadObjectTypeResolver $userDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?UserAddMetaMutationPayloadObjectTypeResolver $userCreateMutationPayloadObjectTypeResolver = null;
+    private ?UserUpdateMetaMutationPayloadObjectTypeResolver $userUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?UserSetMetaMutationPayloadObjectTypeResolver $userSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class UserObjectTypeFieldResolver extends AbstractUserObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(UserMetaMutationsModule::class)->getConfiguration();
         $usePayloadableUserMetaMutations = $moduleConfiguration->usePayloadableUserMetaMutations();
         if (!$usePayloadableUserMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getUserObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getUserObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getUserAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getUserDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getUserSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getUserUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getUserAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getUserDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getUserSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getUserUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

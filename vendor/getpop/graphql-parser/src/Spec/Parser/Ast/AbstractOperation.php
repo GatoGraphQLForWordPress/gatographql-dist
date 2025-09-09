@@ -7,16 +7,6 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 abstract class AbstractOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @var Variable[]
-     * @readonly
-     */
-    protected $variables;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
     /**
@@ -24,10 +14,8 @@ abstract class AbstractOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\Abst
      * @param Directive[] $directives
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      */
-    public function __construct(string $name, array $variables, array $directives, array $fieldsOrFragmentBonds, Location $location)
+    public function __construct(protected readonly string $name, protected readonly array $variables, array $directives, array $fieldsOrFragmentBonds, Location $location)
     {
-        $this->name = $name;
-        $this->variables = $variables;
         parent::__construct($location);
         $this->setDirectives($directives);
         $this->setFieldsOrFragmentBonds($fieldsOrFragmentBonds);
@@ -62,13 +50,7 @@ abstract class AbstractOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\Abst
             $strOperationFieldsOrFragmentBonds = \sprintf(' %s ', \implode(' ', $strFieldsOrFragmentBonds));
         }
         $operationDefinition = \sprintf('%s%s%s', $this->name, $strOperationVariables, $strOperationDirectives);
-        return \sprintf(
-            '%s%s{%s}',
-            $this->getOperationType(),
-            /** @phpstan-ignore-next-line */
-            $operationDefinition !== '' ? \sprintf(' %s ', $operationDefinition) : ' ',
-            $strOperationFieldsOrFragmentBonds
-        );
+        return \sprintf('%s%s{%s}', $this->getOperationType(), $operationDefinition !== '' ? \sprintf(' %s ', $operationDefinition) : ' ', $strOperationFieldsOrFragmentBonds);
     }
     protected function doAsASTNodeString() : string
     {
@@ -91,13 +73,7 @@ abstract class AbstractOperation extends \PoP\GraphQLParser\Spec\Parser\Ast\Abst
             $strOperationDirectives = \sprintf(' %s', \implode(' ', $strDirectives));
         }
         $operationDefinition = \sprintf('%s%s', $this->name, $strOperationVariables);
-        return \sprintf(
-            '%s%s%s { ... }',
-            $this->getOperationType(),
-            /** @phpstan-ignore-next-line */
-            $operationDefinition !== '' ? ' ' . $operationDefinition : '',
-            $strOperationDirectives
-        );
+        return \sprintf('%s%s%s { ... }', $this->getOperationType(), $operationDefinition !== '' ? ' ' . $operationDefinition : '', $strOperationDirectives);
     }
     public function getName() : string
     {

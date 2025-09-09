@@ -10,14 +10,11 @@ abstract class AbstractTagByOneofInputObjectTypeResolver extends AbstractTaxonom
 {
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->__('Query by tag ID', 'tags');
-            case InputProperties::SLUG:
-                return $this->__('Query by tag slug', 'tags');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->__('Query by tag ID', 'tags'),
+            InputProperties::SLUG => $this->__('Query by tag slug', 'tags'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     protected function getTypeDescriptionTaxonomyEntity() : string
     {

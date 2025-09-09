@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\PostCategoryDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategoryDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\PostCategoryAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategoryCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\PostCategoryUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategoryUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMetaMutations\TypeResolvers\ObjectType\PostCategorySetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postCategorySetMetaMutationPayloadObjectTypeResolver;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?PostCategoryDeleteMetaMutationPayloadObjectTypeResolver $postCategoryDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?PostCategoryAddMetaMutationPayloadObjectTypeResolver $postCategoryCreateMutationPayloadObjectTypeResolver = null;
+    private ?PostCategoryUpdateMetaMutationPayloadObjectTypeResolver $postCategoryUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?PostCategorySetMetaMutationPayloadObjectTypeResolver $postCategorySetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class PostCategoryObjectTypeFieldResolver extends AbstractCategoryObjectTypeFiel
         $moduleConfiguration = App::getModule(CategoryMetaMutationsModule::class)->getConfiguration();
         $usePayloadableCategoryMetaMutations = $moduleConfiguration->usePayloadableCategoryMetaMutations();
         if (!$usePayloadableCategoryMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getPostCategoryObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getPostCategoryObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getPostCategoryAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getPostCategoryDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getPostCategorySetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getPostCategoryUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getPostCategoryAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getPostCategoryDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getPostCategorySetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getPostCategoryUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

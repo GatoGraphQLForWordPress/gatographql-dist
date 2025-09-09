@@ -28,42 +28,15 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver|null
-     */
-    private $categoryUnionTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver|null
-     */
-    private $categoryByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\RootCategoriesFilterInputObjectTypeResolver|null
-     */
-    private $rootCategoriesFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\CategoryPaginationInputObjectTypeResolver|null
-     */
-    private $categoryPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver|null
-     */
-    private $taxonomySortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryTypeAPI;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?CategoryUnionTypeResolver $categoryUnionTypeResolver = null;
+    private ?CategoryByOneofInputObjectTypeResolver $categoryByOneofInputObjectTypeResolver = null;
+    private ?CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver = null;
+    private ?RootCategoriesFilterInputObjectTypeResolver $rootCategoriesFilterInputObjectTypeResolver = null;
+    private ?CategoryPaginationInputObjectTypeResolver $categoryPaginationInputObjectTypeResolver = null;
+    private ?TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver = null;
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI = null;
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -161,44 +134,30 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'category':
-            case 'categories':
-                return $this->getCategoryUnionTypeResolver();
-            case 'categoryCount':
-                return $this->getIntScalarTypeResolver();
-            case 'categoryNames':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'category', 'categories' => $this->getCategoryUnionTypeResolver(),
+            'categoryCount' => $this->getIntScalarTypeResolver(),
+            'categoryNames' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'categoryCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'categories':
-            case 'categoryNames':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categoryCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'categories', 'categoryNames' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'category':
-                return $this->__('Retrieve a single category', 'categories');
-            case 'categories':
-                return $this->__('Categories', 'categories');
-            case 'categoryCount':
-                return $this->__('Number of categories', 'categories');
-            case 'categoryNames':
-                return $this->__('Names of the categories', 'categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'category' => $this->__('Retrieve a single category', 'categories'),
+            'categories' => $this->__('Categories', 'categories'),
+            'categoryCount' => $this->__('Number of categories', 'categories'),
+            'categoryNames' => $this->__('Names of the categories', 'categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -207,38 +166,29 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         $commonFieldArgNameTypeResolvers = ['taxonomy' => $this->getCategoryTaxonomyEnumStringScalarTypeResolver()];
-        switch ($fieldName) {
-            case 'category':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['by' => $this->getCategoryByOneofInputObjectTypeResolver()]);
-            case 'categories':
-            case 'categoryNames':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootCategoriesFilterInputObjectTypeResolver(), 'pagination' => $this->getCategoryPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
-            case 'categoryCount':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootCategoriesFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'category' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['by' => $this->getCategoryByOneofInputObjectTypeResolver()]),
+            'categories', 'categoryNames' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootCategoriesFilterInputObjectTypeResolver(), 'pagination' => $this->getCategoryPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]),
+            'categoryCount' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootCategoriesFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['category' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['category' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
         if ($fieldArgName === 'taxonomy') {
             return $this->__('Taxonomy of the category', 'categories');
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['category' => 'by']:
-                return $this->__('Parameter by which to select the category', 'categories');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['category' => 'by'] => $this->__('Parameter by which to select the category', 'categories'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * @return array<string,mixed>
@@ -253,10 +203,7 @@ class RootCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFie
         }
         return $query;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor));
         switch ($fieldDataAccessor->getFieldName()) {

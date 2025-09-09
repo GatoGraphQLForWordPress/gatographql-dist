@@ -28,42 +28,15 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\UnionType\TagUnionTypeResolver|null
-     */
-    private $tagUnionTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver|null
-     */
-    private $tagByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\TagPaginationInputObjectTypeResolver|null
-     */
-    private $tagPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver|null
-     */
-    private $taxonomySortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\RootTagsFilterInputObjectTypeResolver|null
-     */
-    private $rootTagsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
-     */
-    private $queryableTagTypeAPI;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?TagUnionTypeResolver $tagUnionTypeResolver = null;
+    private ?TagByOneofInputObjectTypeResolver $tagByOneofInputObjectTypeResolver = null;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
+    private ?TagPaginationInputObjectTypeResolver $tagPaginationInputObjectTypeResolver = null;
+    private ?TaxonomySortInputObjectTypeResolver $taxonomySortInputObjectTypeResolver = null;
+    private ?RootTagsFilterInputObjectTypeResolver $rootTagsFilterInputObjectTypeResolver = null;
+    private ?QueryableTagTypeAPIInterface $queryableTagTypeAPI = null;
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -161,44 +134,30 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'tag':
-            case 'tags':
-                return $this->getTagUnionTypeResolver();
-            case 'tagCount':
-                return $this->getIntScalarTypeResolver();
-            case 'tagNames':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tag', 'tags' => $this->getTagUnionTypeResolver(),
+            'tagCount' => $this->getIntScalarTypeResolver(),
+            'tagNames' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'tagCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'tags':
-            case 'tagNames':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tagCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'tags', 'tagNames' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'tag':
-                return $this->__('Retrieve a single tag', 'tags');
-            case 'tags':
-                return $this->__(' tags', 'tags');
-            case 'tagCount':
-                return $this->__('Number of tags', 'tags');
-            case 'tagNames':
-                return $this->__('Names of the tags', 'tags');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tag' => $this->__('Retrieve a single tag', 'tags'),
+            'tags' => $this->__(' tags', 'tags'),
+            'tagCount' => $this->__('Number of tags', 'tags'),
+            'tagNames' => $this->__('Names of the tags', 'tags'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -207,38 +166,29 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
         $commonFieldArgNameTypeResolvers = ['taxonomy' => $this->getTagTaxonomyEnumStringScalarTypeResolver()];
-        switch ($fieldName) {
-            case 'tag':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['by' => $this->getTagByOneofInputObjectTypeResolver()]);
-            case 'tags':
-            case 'tagNames':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver(), 'pagination' => $this->getTagPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]);
-            case 'tagCount':
-                return \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'tag' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['by' => $this->getTagByOneofInputObjectTypeResolver()]),
+            'tags', 'tagNames' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver(), 'pagination' => $this->getTagPaginationInputObjectTypeResolver(), 'sort' => $this->getTaxonomySortInputObjectTypeResolver()]),
+            'tagCount' => \array_merge($fieldArgNameTypeResolvers, $commonFieldArgNameTypeResolvers, ['filter' => $this->getRootTagsFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['tag' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['tag' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
         if ($fieldArgName === 'taxonomy') {
             return $this->__('Taxonomy of the tag', 'tags');
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['tag' => 'by']:
-                return $this->__('Parameter by which to select the tag', 'tags');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['tag' => 'by'] => $this->__('Parameter by which to select the tag', 'tags'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * @return array<string,mixed>
@@ -253,10 +203,7 @@ class RootTagObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
         }
         return $query;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor));
         switch ($fieldDataAccessor->getFieldName()) {

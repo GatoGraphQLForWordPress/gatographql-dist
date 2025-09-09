@@ -8,19 +8,14 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class ConditionalRelationalComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
 {
     /**
-     * @var RelationalComponentFieldNode[]
-     */
-    protected $relationalComponentFieldNodes;
-    /**
      * The condition must be satisfied on the implicit field.
      * When the value of the field is `true`, load the conditional
      * domain switching fields.
      *
      * @param RelationalComponentFieldNode[] $relationalComponentFieldNodes
      */
-    public function __construct(FieldInterface $field, array $relationalComponentFieldNodes)
+    public function __construct(FieldInterface $field, protected array $relationalComponentFieldNodes)
     {
-        $this->relationalComponentFieldNodes = $relationalComponentFieldNodes;
         parent::__construct($field);
     }
     /**

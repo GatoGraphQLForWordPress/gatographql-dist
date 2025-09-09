@@ -6,7 +6,7 @@ namespace PoPCMSSchema\CustomPostMediaMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const CUSTOMPOST_ID = 'customPostID';
-    public const MEDIAITEM_BY = 'mediaItemBy';
-    public const FEATUREDIMAGE_BY = 'featuredImageBy';
+    public final const CUSTOMPOST_ID = 'customPostID';
+    public final const MEDIAITEM_BY = 'mediaItemBy';
+    public final const FEATUREDIMAGE_BY = 'featuredImageBy';
 }

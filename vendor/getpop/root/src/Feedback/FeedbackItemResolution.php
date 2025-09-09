@@ -9,29 +9,18 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /** @internal */
 class FeedbackItemResolution
 {
-    /**
-     * @var string
-     */
-    protected $feedbackProviderServiceClass;
-    /**
-     * @var string
-     */
-    protected $code;
-    /**
-     * @var array<(string | int | float | bool)>
-     */
-    protected $messageParams = [];
     use StandaloneServiceTrait;
     /**
      * @phpstan-param class-string<FeedbackItemProviderInterface> $feedbackProviderServiceClass
      * @param array<string|int|float|bool> $messageParams
      */
-    public function __construct(string $feedbackProviderServiceClass, string $code, array $messageParams = [])
-    {
-        $this->feedbackProviderServiceClass = $feedbackProviderServiceClass;
-        $this->code = $code;
+    public function __construct(
+        protected string $feedbackProviderServiceClass,
+        protected string $code,
         /** @var array<string|int|float|bool> */
-        $this->messageParams = $messageParams;
+        protected array $messageParams = []
+    )
+    {
     }
     /**
      * @return class-string<FeedbackItemProviderInterface>

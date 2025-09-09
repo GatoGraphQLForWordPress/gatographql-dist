@@ -13,7 +13,11 @@ interface LicenseValidationServiceInterface
      * @param array<string,string> $previousLicenseKeys Key: Extension Slug, Value: License Key
      * @param array<string,string> $submittedLicenseKeys Key: Extension Slug, Value: License Key
      */
-    public function activateDeactivateValidateGatoGraphQLCommercialExtensions(array $previousLicenseKeys, array $submittedLicenseKeys, ?string $formSettingName = null): void;
+    public function activateDeactivateValidateGatoGraphQLCommercialExtensions(
+        array $previousLicenseKeys,
+        array $submittedLicenseKeys,
+        ?string $formSettingName = null,
+    ): void;
 
     /**
      * Re-validate the Gato GraphQL Extensions against the
@@ -21,5 +25,8 @@ interface LicenseValidationServiceInterface
      *
      * @param array<string,string> $activeLicenseKeys Key: Extension Slug, Value: License Key
      */
-    public function validateGatoGraphQLCommercialExtensions(array $activeLicenseKeys, ?string $formSettingName = null): void;
+    public function validateGatoGraphQLCommercialExtensions(
+        array $activeLicenseKeys,
+        ?string $formSettingName = null,
+    ): void;
 }

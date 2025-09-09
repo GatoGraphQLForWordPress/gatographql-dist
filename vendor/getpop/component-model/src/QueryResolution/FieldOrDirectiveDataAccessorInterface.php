@@ -26,7 +26,6 @@ interface FieldOrDirectiveDataAccessorInterface
     public function hasValue(string $propertyName) : bool;
     /**
      * @throws AbstractValueResolutionPromiseException
-     * @return mixed
      */
-    public function getValue(string $propertyName);
+    public function getValue(string $propertyName) : mixed;
 }

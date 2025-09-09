@@ -20,19 +20,15 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Express
 class ParametersConfigurator extends AbstractConfigurator
 {
     public const FACTORY = 'parameters';
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
+    private ContainerBuilder $container;
     public function __construct(ContainerBuilder $container)
     {
         $this->container = $container;
     }
     /**
      * @return $this
-     * @param mixed $value
      */
-    public final function set(string $name, $value)
+    public final function set(string $name, mixed $value) : static
     {
         if ($value instanceof Expression) {
             throw new InvalidArgumentException(\sprintf('Using an expression in parameter "%s" is not allowed.', $name));
@@ -42,9 +38,8 @@ class ParametersConfigurator extends AbstractConfigurator
     }
     /**
      * @return $this
-     * @param mixed $value
      */
-    public final function __invoke(string $name, $value)
+    public final function __invoke(string $name, mixed $value) : static
     {
         return $this->set($name, $value);
     }

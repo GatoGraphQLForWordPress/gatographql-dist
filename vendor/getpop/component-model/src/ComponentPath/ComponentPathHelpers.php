@@ -15,14 +15,8 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class ComponentPathHelpers extends AbstractBasicService implements \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
-     */
-    private $componentPathManager;
-    /**
-     * @var \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface|null
-     */
-    private $componentHelpers;
+    private ?\PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface $componentPathManager = null;
+    private ?ComponentHelpersInterface $componentHelpers = null;
     protected final function getComponentPathManager() : \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {
@@ -52,14 +46,14 @@ class ComponentPathHelpers extends AbstractBasicService implements \PoP\Componen
      */
     public function stringifyComponentPath(array $componentPath) : string
     {
-        return \implode(ComponentPath::COMPONENT_SEPARATOR, \array_map(\Closure::fromCallable([$this->getComponentHelpers(), 'getComponentOutputName']), $componentPath));
+        return \implode(ComponentPath::COMPONENT_SEPARATOR, \array_map($this->getComponentHelpers()->getComponentOutputName(...), $componentPath));
     }
     /**
      * @return array<Component|null>
      */
     public function recastComponentPath(string $componentPath_as_string) : array
     {
-        return \array_map(\Closure::fromCallable([$this->getComponentHelpers(), 'getComponentFromOutputName']), \explode(ComponentPath::COMPONENT_SEPARATOR, $componentPath_as_string));
+        return \array_map($this->getComponentHelpers()->getComponentFromOutputName(...), \explode(ComponentPath::COMPONENT_SEPARATOR, $componentPath_as_string));
     }
     /**
      * @return array<array<Component|null>>
@@ -80,7 +74,7 @@ class ComponentPathHelpers extends AbstractBasicService implements \PoP\Componen
         // Check that the last character is ".", to avoid toplevel1 to be removed
         $paths = \array_filter($paths, function (string $item) use($paths) : bool {
             foreach ($paths as $path) {
-                if (\strlen($item) > \strlen($path) && \strncmp($item, $path, \strlen($path)) === 0 && $item[\strlen($path)] === ComponentPath::COMPONENT_SEPARATOR) {
+                if (\strlen($item) > \strlen($path) && \str_starts_with($item, $path) && $item[\strlen($path)] === ComponentPath::COMPONENT_SEPARATOR) {
                     return \false;
                 }
             }

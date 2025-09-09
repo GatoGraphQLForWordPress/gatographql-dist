@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class RootCreateMediaItemMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\UnionType\RootCreateMediaItemMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootCreateMediaItemMutationErrorPayloadUnionTypeResolver;
+    private ?RootCreateMediaItemMutationErrorPayloadUnionTypeResolver $rootCreateMediaItemMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootCreateMediaItemMutationErrorPayloadUnionTypeResolver() : RootCreateMediaItemMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootCreateMediaItemMutationErrorPayloadUnionTypeResolver === null) {

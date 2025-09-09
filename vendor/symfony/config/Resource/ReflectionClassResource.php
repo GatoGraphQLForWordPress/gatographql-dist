@@ -21,26 +21,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberI
  */
 class ReflectionClassResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $files = [];
-    /**
-     * @var string
-     */
-    private $className;
-    /**
-     * @var \ReflectionClass
-     */
-    private $classReflector;
-    /**
-     * @var mixed[]
-     */
-    private $excludedVendors = [];
-    /**
-     * @var string
-     */
-    private $hash;
+    private array $files = [];
+    private string $className;
+    private \ReflectionClass $classReflector;
+    private array $excludedVendors = [];
+    private string $hash;
     public function __construct(\ReflectionClass $classReflector, array $excludedVendors = [])
     {
         $this->className = $classReflector->name;
@@ -87,7 +72,7 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
             $file = $class->getFileName();
             if (\false !== $file && \is_file($file)) {
                 foreach ($this->excludedVendors as $vendor) {
-                    if (\strncmp($file, $vendor, \strlen($vendor)) === 0 && \false !== \strpbrk(\substr($file, \strlen($vendor), 1), '/' . \DIRECTORY_SEPARATOR)) {
+                    if (\str_starts_with($file, $vendor) && \false !== \strpbrk(\substr($file, \strlen($vendor), 1), '/' . \DIRECTORY_SEPARATOR)) {
                         $file = \false;
                         break;
                     }
@@ -104,8 +89,8 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
     private function computeHash() : string
     {
         try {
-            $this->classReflector = $this->classReflector ?? new \ReflectionClass($this->className);
-        } catch (\ReflectionException $exception) {
+            $this->classReflector ??= new \ReflectionClass($this->className);
+        } catch (\ReflectionException) {
             // the class does not exist anymore
             return \false;
         }
@@ -118,12 +103,12 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
     private function generateSignature(\ReflectionClass $class) : iterable
     {
         $attributes = [];
-        foreach (\method_exists($class, 'getAttributes') ? $class->getAttributes() : [] as $a) {
+        foreach ($class->getAttributes() as $a) {
             $attributes[] = [$a->getName(), (string) $a];
         }
         (yield \print_r($attributes, \true));
         $attributes = [];
-        (yield $class->getDocComment());
+        (yield $class->getDocComment() ?: '');
         (yield (int) $class->isFinal());
         (yield (int) $class->isAbstract());
         if ($class->isTrait()) {
@@ -133,15 +118,22 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
             (yield \print_r(\class_implements($class->name), \true));
             (yield \print_r($class->getConstants(), \true));
         }
+        foreach ($class->getReflectionConstants() as $constant) {
+            foreach ($constant->getAttributes() as $a) {
+                $attributes[] = [$a->getName(), (string) $a];
+            }
+            (yield $constant->name . \print_r($attributes, \true));
+            $attributes = [];
+        }
         if (!$class->isInterface()) {
             $defaults = $class->getDefaultProperties();
             foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED) as $p) {
-                foreach (\method_exists($p, 'getAttributes') ? $p->getAttributes() : [] as $a) {
+                foreach ($p->getAttributes() as $a) {
                     $attributes[] = [$a->getName(), (string) $a];
                 }
                 (yield \print_r($attributes, \true));
                 $attributes = [];
-                (yield $p->getDocComment());
+                (yield $p->getDocComment() ?: '');
                 (yield $p->isDefault() ? '<default>' : '');
                 (yield $p->isPublic() ? 'public' : 'protected');
                 (yield $p->isStatic() ? 'static' : '');
@@ -150,14 +142,14 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
             }
         }
         foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_PROTECTED) as $m) {
-            foreach (\method_exists($m, 'getAttributes') ? $m->getAttributes() : [] as $a) {
+            foreach ($m->getAttributes() as $a) {
                 $attributes[] = [$a->getName(), (string) $a];
             }
             (yield \print_r($attributes, \true));
             $attributes = [];
             $defaults = [];
             foreach ($m->getParameters() as $p) {
-                foreach (\method_exists($p, 'getAttributes') ? $p->getAttributes() : [] as $a) {
+                foreach ($p->getAttributes() as $a) {
                     $attributes[] = [$a->getName(), (string) $a];
                 }
                 (yield \print_r($attributes, \true));

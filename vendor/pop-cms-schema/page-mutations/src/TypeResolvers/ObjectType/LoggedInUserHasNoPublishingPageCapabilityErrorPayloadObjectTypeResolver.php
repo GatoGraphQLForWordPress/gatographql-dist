@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeResolver extends LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader|null
-     */
-    private $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader;
+    private ?LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader $loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader = null;
     protected final function getLoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoPublishingPageCapabilityErrorPayloadObjectTypeDataLoader === null) {

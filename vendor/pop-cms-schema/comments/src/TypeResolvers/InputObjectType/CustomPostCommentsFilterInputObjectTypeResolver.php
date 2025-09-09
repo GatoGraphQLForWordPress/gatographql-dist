@@ -22,16 +22,12 @@ class CustomPostCommentsFilterInputObjectTypeResolver extends \PoPCMSSchema\Comm
     {
         return \false;
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'parentID':
-                return 0;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            // By default fetch top-level comments
+            'parentID' => 0,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

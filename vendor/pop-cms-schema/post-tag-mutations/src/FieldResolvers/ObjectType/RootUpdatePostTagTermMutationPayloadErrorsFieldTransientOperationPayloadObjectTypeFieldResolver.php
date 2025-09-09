@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class RootUpdatePostTagTermMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\RootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver;
+    private ?RootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver $rootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver() : RootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdatePostTagTermMutationErrorPayloadUnionTypeResolver === null) {

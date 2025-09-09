@@ -15,10 +15,8 @@ class UserMetaTypeAPI extends AbstractUserMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    protected function doGetUserMeta($userObjectOrID, string $key, bool $single = false)
+    protected function doGetUserMeta(string|int|object $userObjectOrID, string $key, bool $single = false): mixed
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */
@@ -43,9 +41,8 @@ class UserMetaTypeAPI extends AbstractUserMetaTypeAPI
 
     /**
      * @return array<string,mixed>
-     * @param string|int|object $userObjectOrID
      */
-    public function getAllUserMeta($userObjectOrID): array
+    public function getAllUserMeta(string|int|object $userObjectOrID): array
     {
         if (is_object($userObjectOrID)) {
             /** @var WP_User */
@@ -62,7 +59,7 @@ class UserMetaTypeAPI extends AbstractUserMetaTypeAPI
              */
             function (array $items): array {
                 return array_map(
-                    \Closure::fromCallable('maybe_unserialize'),
+                    \maybe_unserialize(...),
                     $items
                 );
             },
@@ -72,9 +69,8 @@ class UserMetaTypeAPI extends AbstractUserMetaTypeAPI
 
     /**
      * @return string[]
-     * @param string|int|object $userObjectOrID
      */
-    public function getUserMetaKeys($userObjectOrID): array
+    public function getUserMetaKeys(string|int|object $userObjectOrID): array
     {
         return array_keys($this->getAllUserMeta($userObjectOrID));
     }

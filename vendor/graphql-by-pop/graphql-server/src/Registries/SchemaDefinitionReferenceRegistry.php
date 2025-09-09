@@ -31,27 +31,15 @@ class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements 
     /**
      * @var array<string,mixed>|null
      */
-    protected $fullSchemaDefinitionForGraphQL;
+    protected ?array $fullSchemaDefinitionForGraphQL = null;
     /**
      * @var array<string,SchemaDefinitionReferenceObjectInterface>
      */
-    protected $fullSchemaDefinitionReferenceDictionary = [];
-    /**
-     * @var \PoP\ComponentModel\Cache\PersistentCacheInterface|null
-     */
-    private $persistentCache;
-    /**
-     * @var \PoPAPI\API\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
-     */
-    private $graphQLSchemaDefinitionService;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
+    protected array $fullSchemaDefinitionReferenceDictionary = [];
+    private ?PersistentCacheInterface $persistentCache = null;
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
+    private ?GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     /**
      * Cannot autowire with "#[Required]" because its calling `getNamespace`
      * on services.yaml produces an exception of PHP properties not initialized

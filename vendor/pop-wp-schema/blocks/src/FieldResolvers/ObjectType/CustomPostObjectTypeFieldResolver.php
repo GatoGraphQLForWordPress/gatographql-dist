@@ -30,18 +30,9 @@ use WP_Post;
 
 class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPWPSchema\BlockContentParser\BlockContentParserInterface|null
-     */
-    private $blockContentParser;
-    /**
-     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
-     */
-    private $jsonObjectScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\InputObjectType\IncludeExcludeFilterInputObjectTypeResolver|null
-     */
-    private $includeExcludeFilterInputObjectTypeResolver;
+    private ?BlockContentParserInterface $blockContentParser = null;
+    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
+    private ?IncludeExcludeFilterInputObjectTypeResolver $includeExcludeFilterInputObjectTypeResolver = null;
 
     final protected function getBlockContentParser(): BlockContentParserInterface
     {
@@ -95,41 +86,37 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'blocks':
-                return $this->__('(Gutenberg) Blocks in a custom post', 'blocks');
-            case 'blockDataItems':
-                return $this->__('(Gutenberg) Block data items (as JSON objects) in a custom post', 'blocks');
-            case 'blockFlattenedDataItems':
-                return $this->__('(Gutenberg) Flattened array containing the block data items (as JSON objects) in a custom post, and replacing property \'innerBlocks\' with \'innerBlockPositions\', indicating the position of the inner blocks in the array (starting from 0)', 'blocks');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'blocks' => $this->__('(Gutenberg) Blocks in a custom post', 'blocks'),
+            'blockDataItems' => $this->__('(Gutenberg) Block data items (as JSON objects) in a custom post', 'blocks'),
+            'blockFlattenedDataItems' => $this->__('(Gutenberg) Flattened array containing the block data items (as JSON objects) in a custom post, and replacing property \'innerBlocks\' with \'innerBlockPositions\', indicating the position of the inner blocks in the array (starting from 0)', 'blocks'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'blocks':
-                return BlockUnionTypeHelpers::getBlockUnionOrTargetObjectTypeResolver();
-            case 'blockDataItems':
-            case 'blockFlattenedDataItems':
-                return $this->getJSONObjectScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'blocks'
+                => BlockUnionTypeHelpers::getBlockUnionOrTargetObjectTypeResolver(),
+            'blockDataItems',
+            'blockFlattenedDataItems'
+                => $this->getJSONObjectScalarTypeResolver(),
+            default
+                => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'blocks':
-            case 'blockDataItems':
-            case 'blockFlattenedDataItems':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'blocks',
+            'blockDataItems',
+            'blockFlattenedDataItems'
+                => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
     /**
@@ -138,26 +125,27 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'blocks':
-            case 'blockDataItems':
-            case 'blockFlattenedDataItems':
-                return array_merge(
+        return match ($fieldName) {
+            'blocks',
+            'blockDataItems',
+            'blockFlattenedDataItems'
+                => array_merge(
                     $fieldArgNameTypeResolvers,
                     [
                         'filterBy' => $this->getIncludeExcludeFilterInputObjectTypeResolver(),
                     ]
-                );
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+                ),
+            default
+                => $fieldArgNameTypeResolvers,
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Post */
         $customPost = $object;
         $fieldName = $fieldDataAccessor->getFieldName();
@@ -247,13 +235,11 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                 if ($fieldName === 'blocks') {
                     /** @var BlockInterface[] */
                     $blocks = array_map(
-                        \Closure::fromCallable([$this, 'createBlock']),
+                        $this->createBlock(...),
                         $blockContentParserPayload->blocks
                     );
                     return array_map(
-                        function (BlockInterface $block) {
-                            return $block->getID();
-                        },
+                        fn (BlockInterface $block) => $block->getID(),
                         $blocks
                     );
                 }
@@ -344,18 +330,14 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
                         $includeBlockNames = $filterBy->include;
                         $blockDataItems = array_values(array_filter(
                             $blockDataItems,
-                            function (stdClass $blockDataItemItem) use ($includeBlockNames) {
-                                return in_array($blockDataItemItem->name, $includeBlockNames);
-                            }
+                            fn (stdClass $blockDataItemItem) => in_array($blockDataItemItem->name, $includeBlockNames)
                         ));
                     } elseif (isset($filterBy->exclude)) {
                         /** @var string[] */
                         $excludeBlockNames = $filterBy->exclude;
                         $blockDataItems = array_values(array_filter(
                             $blockDataItems,
-                            function (stdClass $blockDataItemItem) use ($excludeBlockNames) {
-                                return !in_array($blockDataItemItem->name, $excludeBlockNames);
-                            }
+                            fn (stdClass $blockDataItemItem) => !in_array($blockDataItemItem->name, $excludeBlockNames)
                         ));
                     }
 
@@ -372,6 +354,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
 
                 return $blockDataItems;
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -394,7 +377,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
             /** @var array<stdClass> */
             $blockInnerBlocks = $blockItem->innerBlocks;
             $innerBlocks = array_map(
-                \Closure::fromCallable([$this, 'createBlock']),
+                $this->createBlock(...),
                 $blockInnerBlocks
             );
         }
@@ -421,8 +404,13 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      * @param array<string|null> $innerContent
      * @param BlockInterface[]|null $innerBlocks
      */
-    protected function createBlockObject(string $name, ?stdClass $attributes, ?array $innerBlocks, array $innerContent, stdClass $blockItem): BlockInterface
-    {
+    protected function createBlockObject(
+        string $name,
+        ?stdClass $attributes,
+        ?array $innerBlocks,
+        array $innerContent,
+        stdClass $blockItem,
+    ): BlockInterface {
         /** @var BlockInterface|null */
         $injectedBlockObject = App::applyFilters(
             HookNames::BLOCK_TYPE,
@@ -449,8 +437,10 @@ class CustomPostObjectTypeFieldResolver extends AbstractQueryableObjectTypeField
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

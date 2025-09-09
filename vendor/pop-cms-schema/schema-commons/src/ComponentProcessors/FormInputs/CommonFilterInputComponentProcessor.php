@@ -34,89 +34,38 @@ use PoPCMSSchema\SchemaCommons\FormInputs\OrderFormInput;
 /** @internal */
 class CommonFilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_SORT = 'filterinput-sort';
-    public const COMPONENT_FILTERINPUT_LIMIT = 'filterinput-limit';
-    public const COMPONENT_FILTERINPUT_OFFSET = 'filterinput-offset';
-    public const COMPONENT_FILTERINPUT_SEARCH = 'filterinput-search';
-    public const COMPONENT_FILTERINPUT_IDS = 'filterinput-ids';
-    public const COMPONENT_FILTERINPUT_ID = 'filterinput-id';
-    public const COMPONENT_FILTERINPUT_COMMASEPARATED_IDS = 'filterinput-commaseparated-ids';
-    public const COMPONENT_FILTERINPUT_EXCLUDE_IDS = 'filterinput-exclude-ids';
-    public const COMPONENT_FILTERINPUT_PARENT_IDS = 'filterinput-parent-ids';
-    public const COMPONENT_FILTERINPUT_PARENT_ID = 'filterinput-parent-id';
-    public const COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS = 'filterinput-exclude-parent-ids';
-    public const COMPONENT_FILTERINPUT_SLUGS = 'filterinput-slugs';
-    public const COMPONENT_FILTERINPUT_SLUG = 'filterinput-slug';
-    public const COMPONENT_FILTERINPUT_DATEFORMAT = 'filterinput-date-format';
-    public const COMPONENT_FILTERINPUT_GMT = 'filterinput-date-gmt';
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SortFilterInput|null
-     */
-    private $sortFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeIDsFilterInput|null
-     */
-    private $excludeIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput|null
-     */
-    private $excludeParentIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\FormatFilterInput|null
-     */
-    private $formatFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\GMTFilterInput|null
-     */
-    private $gmtFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\LimitFilterInput|null
-     */
-    private $limitFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OffsetFilterInput|null
-     */
-    private $offsetFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput|null
-     */
-    private $parentIDFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDsFilterInput|null
-     */
-    private $parentIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
-     */
-    private $searchFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
-     */
-    private $slugFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
-     */
-    private $slugsFilterInput;
+    public final const COMPONENT_FILTERINPUT_SORT = 'filterinput-sort';
+    public final const COMPONENT_FILTERINPUT_LIMIT = 'filterinput-limit';
+    public final const COMPONENT_FILTERINPUT_OFFSET = 'filterinput-offset';
+    public final const COMPONENT_FILTERINPUT_SEARCH = 'filterinput-search';
+    public final const COMPONENT_FILTERINPUT_IDS = 'filterinput-ids';
+    public final const COMPONENT_FILTERINPUT_ID = 'filterinput-id';
+    public final const COMPONENT_FILTERINPUT_COMMASEPARATED_IDS = 'filterinput-commaseparated-ids';
+    public final const COMPONENT_FILTERINPUT_EXCLUDE_IDS = 'filterinput-exclude-ids';
+    public final const COMPONENT_FILTERINPUT_PARENT_IDS = 'filterinput-parent-ids';
+    public final const COMPONENT_FILTERINPUT_PARENT_ID = 'filterinput-parent-id';
+    public final const COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS = 'filterinput-exclude-parent-ids';
+    public final const COMPONENT_FILTERINPUT_SLUGS = 'filterinput-slugs';
+    public final const COMPONENT_FILTERINPUT_SLUG = 'filterinput-slug';
+    public final const COMPONENT_FILTERINPUT_DATEFORMAT = 'filterinput-date-format';
+    public final const COMPONENT_FILTERINPUT_GMT = 'filterinput-date-gmt';
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?SortFilterInput $sortFilterInput = null;
+    private ?ExcludeIDsFilterInput $excludeIDsFilterInput = null;
+    private ?ExcludeParentIDsFilterInput $excludeParentIDsFilterInput = null;
+    private ?FormatFilterInput $formatFilterInput = null;
+    private ?GMTFilterInput $gmtFilterInput = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
+    private ?LimitFilterInput $limitFilterInput = null;
+    private ?OffsetFilterInput $offsetFilterInput = null;
+    private ?ParentIDFilterInput $parentIDFilterInput = null;
+    private ?ParentIDsFilterInput $parentIDsFilterInput = null;
+    private ?SearchFilterInput $searchFilterInput = null;
+    private ?SlugFilterInput $slugFilterInput = null;
+    private ?SlugsFilterInput $slugsFilterInput = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -279,40 +228,24 @@ class CommonFilterInputComponentProcessor extends AbstractFilterInputComponentPr
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_SORT:
-                return $this->getSortFilterInput();
-            case self::COMPONENT_FILTERINPUT_LIMIT:
-                return $this->getLimitFilterInput();
-            case self::COMPONENT_FILTERINPUT_OFFSET:
-                return $this->getOffsetFilterInput();
-            case self::COMPONENT_FILTERINPUT_SEARCH:
-                return $this->getSearchFilterInput();
-            case self::COMPONENT_FILTERINPUT_IDS:
-                return $this->getIncludeFilterInput();
-            case self::COMPONENT_FILTERINPUT_ID:
-                return $this->getIncludeFilterInput();
-            case self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS:
-                return $this->getIncludeFilterInput();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_IDS:
-                return $this->getExcludeIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_PARENT_IDS:
-                return $this->getParentIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_PARENT_ID:
-                return $this->getParentIDFilterInput();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS:
-                return $this->getExcludeParentIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return $this->getSlugsFilterInput();
-            case self::COMPONENT_FILTERINPUT_SLUG:
-                return $this->getSlugFilterInput();
-            case self::COMPONENT_FILTERINPUT_DATEFORMAT:
-                return $this->getFormatFilterInput();
-            case self::COMPONENT_FILTERINPUT_GMT:
-                return $this->getGMTFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_SORT => $this->getSortFilterInput(),
+            self::COMPONENT_FILTERINPUT_LIMIT => $this->getLimitFilterInput(),
+            self::COMPONENT_FILTERINPUT_OFFSET => $this->getOffsetFilterInput(),
+            self::COMPONENT_FILTERINPUT_SEARCH => $this->getSearchFilterInput(),
+            self::COMPONENT_FILTERINPUT_IDS => $this->getIncludeFilterInput(),
+            self::COMPONENT_FILTERINPUT_ID => $this->getIncludeFilterInput(),
+            self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS => $this->getIncludeFilterInput(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_IDS => $this->getExcludeIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_PARENT_IDS => $this->getParentIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_PARENT_ID => $this->getParentIDFilterInput(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS => $this->getExcludeParentIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_SLUGS => $this->getSlugsFilterInput(),
+            self::COMPONENT_FILTERINPUT_SLUG => $this->getSlugFilterInput(),
+            self::COMPONENT_FILTERINPUT_DATEFORMAT => $this->getFormatFilterInput(),
+            self::COMPONENT_FILTERINPUT_GMT => $this->getGMTFilterInput(),
+            default => null,
+        };
     }
     public function getInputClass(Component $component) : string
     {
@@ -334,126 +267,73 @@ class CommonFilterInputComponentProcessor extends AbstractFilterInputComponentPr
     }
     public function getName(Component $component) : string
     {
-        switch ((string) $component->name) {
-            case self::COMPONENT_FILTERINPUT_SORT:
-                return 'order';
-            case self::COMPONENT_FILTERINPUT_LIMIT:
-                return 'limit';
-            case self::COMPONENT_FILTERINPUT_OFFSET:
-                return 'offset';
-            case self::COMPONENT_FILTERINPUT_SEARCH:
-                return 'searchfor';
-            case self::COMPONENT_FILTERINPUT_IDS:
-                return 'ids';
-            case self::COMPONENT_FILTERINPUT_ID:
-                return 'id';
-            case self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS:
-                return 'id';
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_IDS:
-                return 'excludeIDs';
-            case self::COMPONENT_FILTERINPUT_PARENT_IDS:
-                return 'parentIDs';
-            case self::COMPONENT_FILTERINPUT_PARENT_ID:
-                return 'parentID';
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS:
-                return 'excludeParentIDs';
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return 'slugs';
-            case self::COMPONENT_FILTERINPUT_SLUG:
-                return 'slug';
-            case self::COMPONENT_FILTERINPUT_DATEFORMAT:
-                return 'format';
-            case self::COMPONENT_FILTERINPUT_GMT:
-                return 'gmt';
-            default:
-                return parent::getName($component);
-        }
+        // Add a nice name, so that the URL params when filtering make sense
+        return match ((string) $component->name) {
+            self::COMPONENT_FILTERINPUT_SORT => 'order',
+            self::COMPONENT_FILTERINPUT_LIMIT => 'limit',
+            self::COMPONENT_FILTERINPUT_OFFSET => 'offset',
+            self::COMPONENT_FILTERINPUT_SEARCH => 'searchfor',
+            self::COMPONENT_FILTERINPUT_IDS => 'ids',
+            self::COMPONENT_FILTERINPUT_ID => 'id',
+            self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS => 'id',
+            self::COMPONENT_FILTERINPUT_EXCLUDE_IDS => 'excludeIDs',
+            self::COMPONENT_FILTERINPUT_PARENT_IDS => 'parentIDs',
+            self::COMPONENT_FILTERINPUT_PARENT_ID => 'parentID',
+            self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS => 'excludeParentIDs',
+            self::COMPONENT_FILTERINPUT_SLUGS => 'slugs',
+            self::COMPONENT_FILTERINPUT_SLUG => 'slug',
+            self::COMPONENT_FILTERINPUT_DATEFORMAT => 'format',
+            self::COMPONENT_FILTERINPUT_GMT => 'gmt',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ((string) $component->name) {
-            case self::COMPONENT_FILTERINPUT_SORT:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_LIMIT:
-                return $this->getIntScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_OFFSET:
-                return $this->getIntScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_SEARCH:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_ID:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_PARENT_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_PARENT_ID:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_SLUG:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_DATEFORMAT:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_GMT:
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ((string) $component->name) {
+            self::COMPONENT_FILTERINPUT_SORT => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_LIMIT => $this->getIntScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_OFFSET => $this->getIntScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_SEARCH => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_ID => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_PARENT_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_PARENT_ID => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_SLUGS => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_SLUG => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_DATEFORMAT => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_GMT => $this->getBooleanScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_IDS:
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_IDS:
-            case self::COMPONENT_FILTERINPUT_PARENT_IDS:
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS:
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_IDS, self::COMPONENT_FILTERINPUT_EXCLUDE_IDS, self::COMPONENT_FILTERINPUT_PARENT_IDS, self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS, self::COMPONENT_FILTERINPUT_SLUGS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ((string) $component->name) {
-            case self::COMPONENT_FILTERINPUT_SORT:
-                return $this->__('Order the results. Specify the \'orderby\' and \'order\' (\'ASC\' or \'DESC\') fields in this format: \'orderby|order\'', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_LIMIT:
-                return $this->__('Limit the results. \'-1\' brings all the results (or the maximum amount allowed)', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_OFFSET:
-                return $this->__('Offset the results by how many positions', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_SEARCH:
-                return $this->__('Search for elements containing the given string', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_IDS:
-                return $this->__('Limit results to elements with the given IDs', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_ID:
-                return $this->__('Fetch the element with the given ID', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS:
-                return \sprintf($this->__('Limit results to elements with the given ID, or IDs (separated by \'%s\')', 'schema-commons'), Param::VALUE_SEPARATOR);
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_IDS:
-                return $this->__('Exclude elements with the given IDs', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_PARENT_IDS:
-                return $this->__('Limit results to elements with the given parent IDs. \'0\' means \'no parent\'', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_PARENT_ID:
-                return $this->__('Limit results to elements with the given parent ID. \'0\' means \'no parent\'', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS:
-                return $this->__('Exclude elements with the given parent IDs', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return $this->__('Limit results to elements with the given slug', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_SLUGS:
-                return $this->__('Limit results to elements with the given slug', 'schema-commons');
-            case self::COMPONENT_FILTERINPUT_DATEFORMAT:
-                return \sprintf($this->__('Date format, as defined in %s', 'schema-commons'), 'https://www.php.net/manual/en/function.date.php');
-            case self::COMPONENT_FILTERINPUT_GMT:
-                return $this->__('Whether to retrieve the date as UTC or GMT timezone', 'schema-commons');
-            default:
-                return null;
-        }
+        return match ((string) $component->name) {
+            self::COMPONENT_FILTERINPUT_SORT => $this->__('Order the results. Specify the \'orderby\' and \'order\' (\'ASC\' or \'DESC\') fields in this format: \'orderby|order\'', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_LIMIT => $this->__('Limit the results. \'-1\' brings all the results (or the maximum amount allowed)', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_OFFSET => $this->__('Offset the results by how many positions', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_SEARCH => $this->__('Search for elements containing the given string', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_IDS => $this->__('Limit results to elements with the given IDs', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_ID => $this->__('Fetch the element with the given ID', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_COMMASEPARATED_IDS => \sprintf($this->__('Limit results to elements with the given ID, or IDs (separated by \'%s\')', 'schema-commons'), Param::VALUE_SEPARATOR),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_IDS => $this->__('Exclude elements with the given IDs', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_PARENT_IDS => $this->__('Limit results to elements with the given parent IDs. \'0\' means \'no parent\'', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_PARENT_ID => $this->__('Limit results to elements with the given parent ID. \'0\' means \'no parent\'', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_PARENT_IDS => $this->__('Exclude elements with the given parent IDs', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_SLUGS => $this->__('Limit results to elements with the given slug', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_SLUGS => $this->__('Limit results to elements with the given slug', 'schema-commons'),
+            self::COMPONENT_FILTERINPUT_DATEFORMAT => \sprintf($this->__('Date format, as defined in %s', 'schema-commons'), 'https://www.php.net/manual/en/function.date.php'),
+            self::COMPONENT_FILTERINPUT_GMT => $this->__('Whether to retrieve the date as UTC or GMT timezone', 'schema-commons'),
+            default => null,
+        };
     }
 }

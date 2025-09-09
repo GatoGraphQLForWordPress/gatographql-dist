@@ -10,32 +10,20 @@ use PoP\Root\Module\ModuleInterface;
 abstract class AbstractModuleConfiguration implements \PoP\Root\Module\ModuleConfigurationInterface
 {
     /**
-     * @var array<string, mixed>
-     */
-    protected $configuration;
-    /**
      * @param array<string,mixed> $configuration
      */
-    public final function __construct(array $configuration)
+    public final function __construct(protected array $configuration)
     {
-        $this->configuration = $configuration;
     }
     public function hasConfigurationValue(string $envVariable) : bool
     {
         return \array_key_exists($envVariable, $this->configuration);
     }
-    /**
-     * @return mixed
-     */
-    public function getConfigurationValue(string $envVariable)
+    public function getConfigurationValue(string $envVariable) : mixed
     {
         return $this->configuration[$envVariable] ?? null;
     }
-    /**
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    protected function retrieveConfigurationValueOrUseDefault(string $envVariable, $defaultValue, ?callable $callback = null)
+    protected function retrieveConfigurationValueOrUseDefault(string $envVariable, mixed $defaultValue, ?callable $callback = null) : mixed
     {
         // Initialized from configuration? Then use that one directly.
         if ($this->hasConfigurationValue($envVariable)) {

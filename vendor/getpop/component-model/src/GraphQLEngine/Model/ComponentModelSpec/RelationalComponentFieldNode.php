@@ -10,15 +10,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\RelationalField;
 class RelationalComponentFieldNode extends \PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\AbstractComponentFieldNode
 {
     /**
-     * @var Component[]
-     */
-    protected $nestedComponents;
-    /**
      * @param Component[] $nestedComponents
      */
-    public function __construct(FieldInterface $field, array $nestedComponents)
+    public function __construct(FieldInterface $field, protected array $nestedComponents)
     {
-        $this->nestedComponents = $nestedComponents;
         parent::__construct($field);
     }
     /**

@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\CustomPostMedia\Environment::ENABLE_FEATURED_IMAGE_FOR_GENERIC_CUSTOMPOSTS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

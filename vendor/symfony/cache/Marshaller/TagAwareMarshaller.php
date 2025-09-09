@@ -18,10 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller;
  */
 class TagAwareMarshaller implements MarshallerInterface
 {
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
+    private MarshallerInterface $marshaller;
     public function __construct(?MarshallerInterface $marshaller = null)
     {
         $this->marshaller = $marshaller ?? new DefaultMarshaller();
@@ -55,10 +52,7 @@ class TagAwareMarshaller implements MarshallerInterface
         }
         return $serialized;
     }
-    /**
-     * @return mixed
-     */
-    public function unmarshall(string $value)
+    public function unmarshall(string $value) : mixed
     {
         // detect the compact format used in marshall() using magic numbers in the form 9D-..-..-..-..-00-..-..-..-5F
         if (13 >= \strlen($value) || "\x9d" !== $value[0] || "\x00" !== $value[5] || "_" !== $value[9]) {

@@ -19,22 +19,10 @@ use PoP\Root\App\AbstractRootAppProxy;
  */
 class App extends AbstractRootAppProxy implements \PoP\ComponentModel\AppInterface
 {
-    /**
-     * @var \PoP\ComponentModel\Feedback\FeedbackStore
-     */
-    protected static $feedbackStore;
-    /**
-     * @var \PoP\ComponentModel\Tracing\TracingStore
-     */
-    protected static $tracingStore;
-    /**
-     * @var \PoP\ComponentModel\Engine\EngineState
-     */
-    protected static $engineState;
-    /**
-     * @var \PoP\ComponentModel\Stores\MutationResolutionStoreInterface
-     */
-    protected static $mutationResolutionStore;
+    protected static FeedbackStore $feedbackStore;
+    protected static TracingStore $tracingStore;
+    protected static EngineState $engineState;
+    protected static MutationResolutionStoreInterface $mutationResolutionStore;
     public static function getFeedbackStore() : FeedbackStore
     {
         /** @var AppThreadInterface */

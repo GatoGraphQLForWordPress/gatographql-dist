@@ -21,20 +21,9 @@ class ©
 {
     private const EXPIRY_OFFSET = 1648206727;
     private const INT32_MAX = 2147483647;
-    /**
-     * @readonly
-     * @var mixed
-     */
-    public $value;
-    /**
-     * @readonly
-     * @var mixed[]
-     */
-    public $metadata;
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value, array $metadata)
+    public readonly mixed $value;
+    public readonly array $metadata;
+    public function __construct(mixed $value, array $metadata)
     {
         $this->value = $value;
         $this->metadata = $metadata;
@@ -43,17 +32,11 @@ class ©
     {
         // pack 31-bits ctime into 14bits
         $c = $this->metadata['ctime'] ?? 0;
-        switch (\true) {
-            case $c > self::INT32_MAX - 2:
-                $c = self::INT32_MAX;
-                break;
-            case $c > 0:
-                $c = 1 + $c;
-                break;
-            default:
-                $c = 1;
-                break;
-        }
+        $c = match (\true) {
+            $c > self::INT32_MAX - 2 => self::INT32_MAX,
+            $c > 0 => 1 + $c,
+            default => 1,
+        };
         $e = 0;
         while (!(0x40000000 & $c)) {
             $c <<= 1;

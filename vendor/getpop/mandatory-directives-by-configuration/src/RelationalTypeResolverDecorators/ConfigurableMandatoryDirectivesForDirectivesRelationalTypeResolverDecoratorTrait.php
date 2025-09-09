@@ -15,9 +15,8 @@ trait ConfigurableMandatoryDirectivesForDirectivesRelationalTypeResolverDecorato
     protected abstract function getInstanceManager() : InstanceManagerInterface;
     /**
      * @return Directive[]
-     * @param mixed $entryValue
      */
-    protected abstract function getMandatoryDirectives($entryValue = null) : array;
+    protected abstract function getMandatoryDirectives(mixed $entryValue = null) : array;
     /**
      * @return array<string,Directive[]>
      */

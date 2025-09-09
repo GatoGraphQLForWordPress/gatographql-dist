@@ -13,26 +13,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Dumper
 /** @internal */
 trait ContainerBuilderFactoryTrait
 {
-    /**
-     * @var \PoP\Root\Container\ContainerInterface
-     */
-    protected $instance;
-    /**
-     * @var bool
-     */
-    protected $cacheContainerConfiguration;
-    /**
-     * @var bool
-     */
-    protected $cached;
-    /**
-     * @var string
-     */
-    protected $cacheFile;
-    /**
-     * @var string
-     */
-    protected $applicationName;
+    protected \PoP\Root\Container\ContainerInterface $instance;
+    protected bool $cacheContainerConfiguration;
+    protected bool $cached;
+    protected string $cacheFile;
+    protected string $applicationName;
     /**
      * Initialize the Container Builder.
      * If the directory is not provided, store the cache in a system temp dir
@@ -45,8 +30,8 @@ trait ContainerBuilderFactoryTrait
     {
         $this->applicationName = $applicationName;
         $this->cacheContainerConfiguration = $cacheContainerConfiguration ?? Environment::cacheContainerConfiguration();
-        $namespace = $namespace ?? Environment::getCacheContainerConfigurationNamespace();
-        $directory = $directory ?? Environment::getCacheContainerConfigurationDirectory();
+        $namespace ??= Environment::getCacheContainerConfigurationNamespace();
+        $directory ??= Environment::getCacheContainerConfigurationDirectory();
         $throwExceptionIfCacheSetupError = Environment::throwExceptionIfCacheSetupError();
         $cacheSetupSuccess = \true;
         $containerClassName = $containerNamespace = null;

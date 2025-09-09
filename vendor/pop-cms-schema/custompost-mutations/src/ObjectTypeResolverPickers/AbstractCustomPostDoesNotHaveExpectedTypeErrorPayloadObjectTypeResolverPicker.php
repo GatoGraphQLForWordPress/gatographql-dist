@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver|null
-     */
-    private $customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver;
+    private ?CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver $customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver = null;
     protected final function getCustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver() : CustomPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver
     {
         if ($this->customPostDoesNotHaveExpectedTypeErrorPayloadObjectTypeResolver === null) {

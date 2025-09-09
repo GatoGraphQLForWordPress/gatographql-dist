@@ -11,7 +11,7 @@ class PageBuilderProviderRegistry implements PageBuilderProviderRegistryInterfac
     /**
      * @var PageBuilderProviderInterface[]
      */
-    protected $pageBuilderProviders = [];
+    protected array $pageBuilderProviders = [];
 
     public function addPageBuilderProvider(PageBuilderProviderInterface $pageBuilderFieldDirectiveResolver): void
     {

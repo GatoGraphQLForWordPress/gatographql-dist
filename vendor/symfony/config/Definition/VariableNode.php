@@ -27,9 +27,8 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
     protected $allowEmptyValue = \true;
     /**
      * @return void
-     * @param mixed $value
      */
-    public function setDefaultValue($value)
+    public function setDefaultValue(mixed $value)
     {
         $this->defaultValueSet = \true;
         $this->defaultValue = $value;
@@ -38,10 +37,7 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
     {
         return $this->defaultValueSet;
     }
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : mixed
     {
         $v = $this->defaultValue;
         return $v instanceof \Closure ? $v() : $v;
@@ -66,16 +62,11 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function finalizeValue($value)
+    protected function finalizeValue(mixed $value) : mixed
     {
         // deny environment variables only when using custom validators
         // this avoids ever passing an empty value to final validation closures
@@ -97,20 +88,11 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
         }
         return $value;
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function normalizeValue($value)
+    protected function normalizeValue(mixed $value) : mixed
     {
         return $value;
     }
-    /**
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
-     */
-    protected function mergeValues($leftSide, $rightSide)
+    protected function mergeValues(mixed $leftSide, mixed $rightSide) : mixed
     {
         return $rightSide;
     }
@@ -122,9 +104,8 @@ class VariableNode extends BaseNode implements PrototypeNodeInterface
      * of empty data.
      *
      * @see finalizeValue()
-     * @param mixed $value
      */
-    protected function isValueEmpty($value) : bool
+    protected function isValueEmpty(mixed $value) : bool
     {
         return empty($value);
     }

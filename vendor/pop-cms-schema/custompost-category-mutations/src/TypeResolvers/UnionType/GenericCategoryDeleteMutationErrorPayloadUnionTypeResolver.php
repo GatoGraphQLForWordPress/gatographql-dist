@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class GenericCategoryDeleteMutationErrorPayloadUnionTypeResolver extends AbstractCategoryDeleteMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\GenericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $genericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader;
+    private ?GenericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader $genericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getGenericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader() : GenericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCategoryDeleteMutationErrorPayloadUnionTypeDataLoader === null) {

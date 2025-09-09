@@ -16,10 +16,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 abstract class AbstractCategoryMutationResolverHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPSchema\ExtendedSchemaCommons\TypeResolvers\ScalarType\NullableListValueJSONObjectScalarTypeResolver|null
-     */
-    private $nullableListValueJSONObjectScalarTypeResolver;
+    private ?NullableListValueJSONObjectScalarTypeResolver $nullableListValueJSONObjectScalarTypeResolver = null;
     protected final function getNullableListValueJSONObjectScalarTypeResolver() : NullableListValueJSONObjectScalarTypeResolver
     {
         if ($this->nullableListValueJSONObjectScalarTypeResolver === null) {
@@ -31,8 +28,8 @@ abstract class AbstractCategoryMutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'maybeAddInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'maybeAddInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->maybeAddInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->maybeAddInputFieldDescription(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers

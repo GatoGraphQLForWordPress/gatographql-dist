@@ -70,10 +70,7 @@ use SplObjectStorage;
  */
 class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -113,33 +110,24 @@ class ConfigureWarningsOnExportingDuplicateVariableOperationsFieldDirectiveResol
     }
     public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
-        switch ($directiveArgName) {
-            case 'enabled':
-                return $this->__('Raise warnings in the response?', 'component-model');
-            default:
-                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'enabled' => $this->__('Raise warnings in the response?', 'component-model'),
+            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
+        };
     }
     public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
-        switch ($directiveArgName) {
-            case 'enabled':
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'enabled' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
-        switch ($directiveArgName) {
-            case 'enabled':
-                return \true;
-            default:
-                return parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'enabled' => \true,
+            default => parent::getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName),
+        };
     }
     public function isRepeatable() : bool
     {

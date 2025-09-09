@@ -10,14 +10,8 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 abstract class AbstractCacheHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\ComponentModel\Cache\PersistentCacheInterface|null
-     */
-    private $persistentCache;
-    /**
-     * @var \PoP\ComponentModel\Cache\TransientCacheInterface|null
-     */
-    private $transientCache;
+    private ?PersistentCacheInterface $persistentCache = null;
+    private ?TransientCacheInterface $transientCache = null;
     protected final function getPersistentCache() : PersistentCacheInterface
     {
         if ($this->persistentCache === null) {
@@ -48,7 +42,7 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
          * - 'deactivate_plugin'
          */
         foreach ($this->getClearHookNames() as $hookName) {
-            App::addAction($hookName, \Closure::fromCallable([$this, 'clear']));
+            App::addAction($hookName, $this->clear(...));
         }
         /**
          * Save all deferred cacheItems.
@@ -57,7 +51,7 @@ abstract class AbstractCacheHookSet extends AbstractHookSet
          *
          * - 'shutdown'
          */
-        App::addAction($this->getCommitHookName(), \Closure::fromCallable([$this, 'commit']));
+        App::addAction($this->getCommitHookName(), $this->commit(...));
     }
     /**
      * @return string[]

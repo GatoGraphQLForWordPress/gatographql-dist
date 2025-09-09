@@ -16,12 +16,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait GeosearchTrait
     {
-        /**
-         * @return \Relay\Relay|mixed[]|false
-         */
-        public function geosearch($key, $position, $shape, $unit, $options = [])
+        public function geosearch($key, $position, $shape, $unit, $options = []) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geosearch(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->geosearch(...\func_get_args());
         }
     }
 } else {
@@ -30,12 +27,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait GeosearchTrait
     {
-        /**
-         * @return \Relay\Relay|mixed[]
-         */
-        public function geosearch($key, $position, $shape, $unit, $options = [])
+        public function geosearch($key, $position, $shape, $unit, $options = []) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geosearch(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->geosearch(...\func_get_args());
         }
     }
 }

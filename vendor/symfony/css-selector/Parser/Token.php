@@ -29,18 +29,9 @@ class Token
     public const TYPE_HASH = 'hash';
     public const TYPE_NUMBER = 'number';
     public const TYPE_STRING = 'string';
-    /**
-     * @var string|null
-     */
-    private $type;
-    /**
-     * @var string|null
-     */
-    private $value;
-    /**
-     * @var int|null
-     */
-    private $position;
+    private ?string $type;
+    private ?string $value;
+    private ?int $position;
     public function __construct(?string $type, ?string $value, ?int $position)
     {
         $this->type = $type;

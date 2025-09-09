@@ -22,14 +22,14 @@ abstract class AbstractMetaMutationResolverHookSet extends AbstractHookSet
     protected abstract function getEntityMetaTypeMutationAPI() : EntityMetaTypeMutationAPIInterface;
     protected function init() : void
     {
-        App::addAction($this->getValidateCreateHookName(), \Closure::fromCallable([$this, 'maybeValidateSetMeta']), 10, 2);
+        App::addAction($this->getValidateCreateHookName(), $this->maybeValidateSetMeta(...), 10, 2);
         // Comments has create but not update
         $validateUpdateHookName = $this->getValidateUpdateHookName();
         if ($validateUpdateHookName !== null) {
-            App::addAction($validateUpdateHookName, \Closure::fromCallable([$this, 'maybeValidateSetMeta']), 10, 2);
+            App::addAction($validateUpdateHookName, $this->maybeValidateSetMeta(...), 10, 2);
         }
-        App::addAction($this->getExecuteCreateOrUpdateHookName(), \Closure::fromCallable([$this, 'maybeSetMeta']), 10, 3);
-        App::addFilter($this->getErrorPayloadHookName(), \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction($this->getExecuteCreateOrUpdateHookName(), $this->maybeSetMeta(...), 10, 3);
+        App::addFilter($this->getErrorPayloadHookName(), $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     protected abstract function getValidateCreateHookName() : string;
     protected abstract function getValidateUpdateHookName() : ?string;
@@ -57,10 +57,7 @@ abstract class AbstractMetaMutationResolverHookSet extends AbstractHookSet
         }
         return \true;
     }
-    /**
-     * @param int|string $entityID
-     */
-    public function maybeSetMeta($entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function maybeSetMeta(int|string $entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;

@@ -24,22 +24,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 abstract class AbstractCustomPostListObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostPaginationInputObjectTypeResolver|null
-     */
-    private $customPostPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver|null
-     */
-    private $customPostSortInputObjectTypeResolver;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver = null;
+    private ?CustomPostSortInputObjectTypeResolver $customPostSortInputObjectTypeResolver = null;
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -85,36 +73,27 @@ abstract class AbstractCustomPostListObjectTypeFieldResolver extends AbstractQue
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver();
-            case 'customPostCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver(),
+            'customPostCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'customPostCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'customPosts':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPostCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'customPosts' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return $this->__('Custom posts', 'pop-posts');
-            case 'customPostCount':
-                return $this->__('Number of custom posts', 'pop-posts');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => $this->__('Custom posts', 'pop-posts'),
+            'customPostCount' => $this->__('Number of custom posts', 'pop-posts'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getCustomPostsFilterInputObjectTypeResolver() : AbstractCustomPostsFilterInputObjectTypeResolver;
     /**
@@ -123,14 +102,11 @@ abstract class AbstractCustomPostListObjectTypeFieldResolver extends AbstractQue
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'customPosts':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostsFilterInputObjectTypeResolver(), 'pagination' => $this->getCustomPostPaginationInputObjectTypeResolver(), 'sort' => $this->getCustomPostSortInputObjectTypeResolver()]);
-            case 'customPostCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'customPosts' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostsFilterInputObjectTypeResolver(), 'pagination' => $this->getCustomPostPaginationInputObjectTypeResolver(), 'sort' => $this->getCustomPostSortInputObjectTypeResolver()]),
+            'customPostCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostsFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     /**
      * @return array<string,mixed>
@@ -139,10 +115,7 @@ abstract class AbstractCustomPostListObjectTypeFieldResolver extends AbstractQue
     {
         return [];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), $this->getQuery($objectTypeResolver, $object, $fieldDataAccessor));
         switch ($fieldDataAccessor->getFieldName()) {

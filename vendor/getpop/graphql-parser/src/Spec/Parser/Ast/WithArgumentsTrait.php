@@ -9,19 +9,13 @@ use stdClass;
 trait WithArgumentsTrait
 {
     /** @var Argument[] */
-    protected $arguments = [];
+    protected array $arguments = [];
     /** @var array<string,Argument> Keep separate to validate that no 2 Arguments have same name */
-    protected $nameArguments = [];
+    protected array $nameArguments = [];
     /** @var array<string,mixed>|null */
-    protected $argumentKeyValues;
-    /**
-     * @var bool|null
-     */
-    protected $hasArgumentReferencingPromise;
-    /**
-     * @var bool|null
-     */
-    protected $hasArgumentReferencingResolvedOnObjectPromise;
+    protected ?array $argumentKeyValues = null;
+    protected ?bool $hasArgumentReferencingPromise = null;
+    protected ?bool $hasArgumentReferencingResolvedOnObjectPromise = null;
     public function hasArguments() : bool
     {
         return $this->arguments !== [];
@@ -41,10 +35,7 @@ trait WithArgumentsTrait
     {
         return $this->nameArguments[$name] ?? null;
     }
-    /**
-     * @return mixed
-     */
-    public function getArgumentValue(string $name)
+    public function getArgumentValue(string $name) : mixed
     {
         if ($argument = $this->getArgument($name)) {
             return $argument->getValue();
@@ -85,9 +76,8 @@ trait WithArgumentsTrait
     }
     /**
      * @param array<string,mixed> $values
-     * @return mixed
      */
-    protected function doHasArgumentReferencingPromise(array $values)
+    protected function doHasArgumentReferencingPromise(array $values) : bool
     {
         foreach ($values as $value) {
             if ($value instanceof ValueResolutionPromiseInterface) {
@@ -111,9 +101,8 @@ trait WithArgumentsTrait
     }
     /**
      * @param array<string,mixed> $values
-     * @return mixed
      */
-    protected function doHasArgumentReferencingResolvedOnObjectPromise(array $values)
+    protected function doHasArgumentReferencingResolvedOnObjectPromise(array $values) : bool
     {
         foreach ($values as $value) {
             if ($value instanceof ValueResolutionPromiseInterface && $value->mustResolveOnObject()) {

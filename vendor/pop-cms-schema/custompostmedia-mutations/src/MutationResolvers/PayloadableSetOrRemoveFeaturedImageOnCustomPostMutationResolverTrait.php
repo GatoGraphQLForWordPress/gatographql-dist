@@ -19,12 +19,10 @@ trait PayloadableSetOrRemoveFeaturedImageOnCustomPostMutationResolverTrait
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new FeaturedImageIsNotSupportedByCustomPostTypeErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback);
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4] => new FeaturedImageIsNotSupportedByCustomPostTypeErrorPayload($feedbackItemResolution->getMessage()),
+            default => $this->createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback) ?? $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback),
+        };
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string
     {

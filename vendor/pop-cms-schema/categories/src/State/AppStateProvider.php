@@ -9,10 +9,7 @@ use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface
     {
         if ($this->taxonomyTermTypeAPI === null) {

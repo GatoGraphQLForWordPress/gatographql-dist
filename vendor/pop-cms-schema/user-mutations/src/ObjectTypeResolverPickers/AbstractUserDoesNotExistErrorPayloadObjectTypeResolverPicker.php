@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractUserDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\UserMutations\TypeResolvers\ObjectType\UserDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $userDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?UserDoesNotExistErrorPayloadObjectTypeResolver $userDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getUserDoesNotExistErrorPayloadObjectTypeResolver() : UserDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->userDoesNotExistErrorPayloadObjectTypeResolver === null) {

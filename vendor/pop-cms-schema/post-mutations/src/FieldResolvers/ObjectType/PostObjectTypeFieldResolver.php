@@ -6,6 +6,7 @@ namespace PoPCMSSchema\PostMutations\FieldResolvers\ObjectType;
 use PoPCMSSchema\CustomPostMutations\FieldResolvers\ObjectType\AbstractCustomPostObjectTypeFieldResolver;
 use PoPCMSSchema\CustomPostMutations\Module as CustomPostMutationsModule;
 use PoPCMSSchema\CustomPostMutations\ModuleConfiguration as CustomPostMutationsModuleConfiguration;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCustomPostUpdateInputObjectTypeResolver;
 use PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver;
 use PoPCMSSchema\PostMutations\MutationResolvers\UpdatePostMutationResolver;
 use PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostUpdateInputObjectTypeResolver;
@@ -19,26 +20,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\PostUpdateMutationPayloadObjectTypeResolver|null
-     */
-    private $postUpdateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\UpdatePostMutationResolver|null
-     */
-    private $updatePostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver|null
-     */
-    private $payloadableUpdatePostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\PostUpdateInputObjectTypeResolver|null
-     */
-    private $postUpdateInputObjectTypeResolver;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?PostUpdateMutationPayloadObjectTypeResolver $postUpdateMutationPayloadObjectTypeResolver = null;
+    private ?UpdatePostMutationResolver $updatePostMutationResolver = null;
+    private ?PayloadableUpdatePostMutationResolver $payloadableUpdatePostMutationResolver = null;
+    private ?PostUpdateInputObjectTypeResolver $postUpdateInputObjectTypeResolver = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -91,49 +77,45 @@ class PostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
     {
         return [PostObjectTypeResolver::class];
     }
+    protected function getCustomPostUpdateInputObjectTypeResolver() : AbstractCustomPostUpdateInputObjectTypeResolver
+    {
+        return $this->getPostUpdateInputObjectTypeResolver();
+    }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the post', 'post-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the post', 'post-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getPostUpdateInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getPostUpdateInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldMutationResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?MutationResolverInterface
     {
         /** @var CustomPostMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostMutationResolver() : $this->getUpdatePostMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostMutationResolver() : $this->getUpdatePostMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
         /** @var CustomPostMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableCustomPostMutations ? $this->getPostUpdateMutationPayloadObjectTypeResolver() : $this->getPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableCustomPostMutations ? $this->getPostUpdateMutationPayloadObjectTypeResolver() : $this->getPostObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

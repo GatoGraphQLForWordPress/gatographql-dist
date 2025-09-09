@@ -18,18 +18,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class ServiceLocatorArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument|null
-     */
-    private $taggedIteratorArgument;
-    /**
-     * @param mixed[]|\Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument $values
-     */
-    public function __construct($values = [])
+    private array $values;
+    private ?TaggedIteratorArgument $taggedIteratorArgument = null;
+    public function __construct(array|TaggedIteratorArgument $values = [])
     {
         if ($values instanceof TaggedIteratorArgument) {
             $this->taggedIteratorArgument = $values;

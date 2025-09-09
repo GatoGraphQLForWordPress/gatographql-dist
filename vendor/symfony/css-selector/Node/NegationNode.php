@@ -22,14 +22,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 class NegationNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $subSelector;
+    private NodeInterface $selector;
+    private NodeInterface $subSelector;
     public function __construct(NodeInterface $selector, NodeInterface $subSelector)
     {
         $this->selector = $selector;

@@ -22,14 +22,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Filesystem;
  */
 class ResourceCheckerConfigCache implements ConfigCacheInterface
 {
-    /**
-     * @var string
-     */
-    private $file;
+    private string $file;
     /**
      * @var iterable<mixed, ResourceCheckerInterface>
      */
-    private $resourceCheckers;
+    private iterable $resourceCheckers;
     /**
      * @param string                                    $file             The absolute cache path
      * @param iterable<mixed, ResourceCheckerInterface> $resourceCheckers The ResourceCheckers to use for the freshness check
@@ -108,14 +105,14 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
         $filesystem->dumpFile($this->file, $content);
         try {
             $filesystem->chmod($this->file, $mode, $umask);
-        } catch (IOException $exception) {
+        } catch (IOException) {
             // discard chmod failure (some filesystem may not support it)
         }
         if (null !== $metadata) {
             $filesystem->dumpFile($this->getMetaFile(), \serialize($metadata));
             try {
                 $filesystem->chmod($this->getMetaFile(), $mode, $umask);
-            } catch (IOException $exception) {
+            } catch (IOException) {
                 // discard chmod failure (some filesystem may not support it)
             }
         }
@@ -130,10 +127,7 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
     {
         return $this->file . '.meta';
     }
-    /**
-     * @return mixed
-     */
-    private function safelyUnserialize(string $file)
+    private function safelyUnserialize(string $file) : mixed
     {
         $meta = \false;
         $content = \file_get_contents($file);

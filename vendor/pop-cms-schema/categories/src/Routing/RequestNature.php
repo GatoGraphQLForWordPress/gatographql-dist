@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Categories\Routing;
 /** @internal */
 class RequestNature
 {
-    public const CATEGORY = 'category';
+    public final const CATEGORY = 'category';
 }

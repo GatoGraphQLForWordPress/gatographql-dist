@@ -7,10 +7,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 /** @internal */
 class EnumValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\EnumValueExtensions
-     */
-    protected $enumValueExtensions;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\EnumValueExtensions $enumValueExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

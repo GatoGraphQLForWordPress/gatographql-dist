@@ -10,10 +10,7 @@ use PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObje
 /** @internal */
 class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserAvatars\RelationalTypeDataLoaders\ObjectType\UserAvatarObjectTypeDataLoader|null
-     */
-    private $userAvatarObjectTypeDataLoader;
+    private ?UserAvatarObjectTypeDataLoader $userAvatarObjectTypeDataLoader = null;
     protected final function getUserAvatarObjectTypeDataLoader() : UserAvatarObjectTypeDataLoader
     {
         if ($this->userAvatarObjectTypeDataLoader === null) {
@@ -31,10 +28,7 @@ class UserAvatarObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return $this->__('User avatar', 'user-avatars');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var UserAvatar */
         $userAvatar = $object;

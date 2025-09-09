@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver;
+    private ?RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver $rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver() : RootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootSetTagsOnCustomPostMutationErrorPayloadUnionTypeResolver === null) {

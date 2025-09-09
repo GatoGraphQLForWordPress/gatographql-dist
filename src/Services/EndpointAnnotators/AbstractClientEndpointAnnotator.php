@@ -11,10 +11,7 @@ use WP_Post;
 
 abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator implements ClientEndpointAnnotatorInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
-     */
-    private $blockHelpers;
+    private ?BlockHelpers $blockHelpers = null;
 
     final protected function getBlockHelpers(): BlockHelpers
     {
@@ -28,9 +25,8 @@ abstract class AbstractClientEndpointAnnotator extends AbstractEndpointAnnotator
 
     /**
      * Read the options block and check the value of attribute "isEnabled"
-     * @param \WP_Post|int $postOrID
      */
-    public function isClientEnabled($postOrID): bool
+    public function isClientEnabled(WP_Post|int $postOrID): bool
     {
         // Check the endpoint in the post is not disabled
         if (!$this->getCustomPostType()->isEndpointEnabled($postOrID)) {

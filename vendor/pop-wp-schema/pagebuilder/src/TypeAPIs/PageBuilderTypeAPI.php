@@ -9,10 +9,7 @@ use PoP\Root\Services\AbstractBasicService;
 
 class PageBuilderTypeAPI extends AbstractBasicService implements PageBuilderTypeAPIInterface
 {
-    /**
-     * @var \PoPWPSchema\PageBuilder\Services\PageBuilderServiceInterface|null
-     */
-    private $pageBuilderService;
+    private ?PageBuilderServiceInterface $pageBuilderService = null;
 
     final protected function getPageBuilderService(): PageBuilderServiceInterface
     {

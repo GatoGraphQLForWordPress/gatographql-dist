@@ -21,10 +21,7 @@ use function is_super_admin;
  */
 class UserAuthorization extends AbstractBasicService implements UserAuthorizationInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\UserAuthorizationSchemeRegistryInterface|null
-     */
-    private $userAuthorizationSchemeRegistry;
+    private ?UserAuthorizationSchemeRegistryInterface $userAuthorizationSchemeRegistry = null;
 
     final protected function getUserAuthorizationSchemeRegistry(): UserAuthorizationSchemeRegistryInterface
     {
@@ -44,7 +41,7 @@ class UserAuthorization extends AbstractBasicService implements UserAuthorizatio
             // If the capability does not exist, catch the exception
             try {
                 return $this->getUserAuthorizationSchemeRegistry()->getUserAuthorizationScheme($accessScheme);
-            } catch (UserAuthorizationException $exception) {
+            } catch (UserAuthorizationException) {
             }
         }
 

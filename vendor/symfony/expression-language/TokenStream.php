@@ -19,18 +19,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage;
 class TokenStream
 {
     public $current;
-    /**
-     * @var mixed[]
-     */
-    private $tokens;
-    /**
-     * @var int
-     */
-    private $position = 0;
-    /**
-     * @var string
-     */
-    private $expression;
+    private array $tokens;
+    private int $position = 0;
+    private string $expression;
     public function __construct(array $tokens, string $expression = '')
     {
         $this->tokens = $tokens;

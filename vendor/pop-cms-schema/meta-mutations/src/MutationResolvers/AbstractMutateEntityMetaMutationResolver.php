@@ -56,14 +56,8 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
         }
         $this->validateUserCanEditEntity($entityID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $entityID
-     */
-    protected abstract function validateEntityExists($entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
-    /**
-     * @param string|int $entityID
-     */
-    protected abstract function validateUserCanEditEntity($entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
+    protected abstract function validateEntityExists(string|int $entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
+    protected abstract function validateUserCanEditEntity(string|int $entityID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
     protected function validateUpdateMetaErrors(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
@@ -134,7 +128,7 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
      * @return string|int The ID of the entity term
      * @throws EntityMetaCRUDMutationException If there was an error (eg: some entity term creation validation failed)
      */
-    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string|int */
         $entityID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
@@ -145,15 +139,13 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
     /**
      * @return string|int the ID of the created entity
      * @throws EntityMetaCRUDMutationException If there was an error (eg: some entity term creation validation failed)
-     * @param string|int $entityID
-     * @param mixed $value
      */
-    protected abstract function executeAddEntityMeta($entityID, string $key, $value, bool $single);
+    protected abstract function executeAddEntityMeta(string|int $entityID, string $key, mixed $value, bool $single) : string|int;
     /**
      * @return string|int The ID of the entity term
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
      */
-    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string|int */
         $entityID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
@@ -164,16 +156,13 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
-     * @param string|int $entityID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    protected abstract function executeUpdateEntityMeta($entityID, string $key, $value, $prevValue = null);
+    protected abstract function executeUpdateEntityMeta(string|int $entityID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool;
     /**
      * @return string|int The ID of the entity term
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
      */
-    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string|int */
         $entityID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
@@ -183,15 +172,13 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
     }
     /**
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
-     * @param string|int $entityID
-     * @param mixed $value
      */
-    protected abstract function executeDeleteEntityMeta($entityID, string $key, $value = null) : void;
+    protected abstract function executeDeleteEntityMeta(string|int $entityID, string $key, mixed $value = null) : void;
     /**
      * @return string|int The ID of the entity term
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
      */
-    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string|int */
         $entityID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
@@ -202,7 +189,6 @@ abstract class AbstractMutateEntityMetaMutationResolver extends AbstractMutation
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws EntityMetaCRUDMutationException If there was an error (eg: entity term does not exist)
-     * @param string|int $entityID
      */
-    protected abstract function executeSetEntityMeta($entityID, array $entries) : void;
+    protected abstract function executeSetEntityMeta(string|int $entityID, array $entries) : void;
 }

@@ -14,10 +14,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class ASTHelperService extends AbstractBasicService implements \PoP\GraphQLParser\AST\ASTHelperServiceInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
-     */
-    private $astNodeDuplicatorService;
+    private ?\PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
     protected final function getASTNodeDuplicatorService() : \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {

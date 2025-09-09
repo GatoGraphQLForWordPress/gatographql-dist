@@ -10,7 +10,7 @@ class CompilerPassRegistry implements \PoP\Root\Registries\CompilerPassRegistryI
     /**
      * @var CompilerPassInterface[]
      */
-    protected $compilerPasses = [];
+    protected array $compilerPasses = [];
     public function addCompilerPass(CompilerPassInterface $compilerPass) : void
     {
         $this->compilerPasses[] = $compilerPass;

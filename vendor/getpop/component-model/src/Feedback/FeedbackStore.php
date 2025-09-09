@@ -6,14 +6,8 @@ namespace PoP\ComponentModel\Feedback;
 /** @internal */
 class FeedbackStore
 {
-    /**
-     * @var \PoP\ComponentModel\Feedback\GeneralFeedbackStore
-     */
-    public $generalFeedbackStore;
-    /**
-     * @var \PoP\ComponentModel\Feedback\DocumentFeedbackStore
-     */
-    public $documentFeedbackStore;
+    public \PoP\ComponentModel\Feedback\GeneralFeedbackStore $generalFeedbackStore;
+    public \PoP\ComponentModel\Feedback\DocumentFeedbackStore $documentFeedbackStore;
     public function __construct()
     {
         $this->generateGeneralFeedbackStore();

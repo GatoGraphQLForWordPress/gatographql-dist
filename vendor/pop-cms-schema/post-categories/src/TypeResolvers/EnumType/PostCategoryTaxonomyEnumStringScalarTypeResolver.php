@@ -8,10 +8,7 @@ use PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface;
 /** @internal */
 class PostCategoryTaxonomyEnumStringScalarTypeResolver extends AbstractCategoryTaxonomyEnumStringScalarTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {

@@ -20,18 +20,9 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class SuperRootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
-     */
-    private $rootObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\QueryRootObjectTypeResolver|null
-     */
-    private $queryRootObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\MutationRootObjectTypeResolver|null
-     */
-    private $mutationRootObjectTypeResolver;
+    private ?RootObjectTypeResolver $rootObjectTypeResolver = null;
+    private ?QueryRootObjectTypeResolver $queryRootObjectTypeResolver = null;
+    private ?MutationRootObjectTypeResolver $mutationRootObjectTypeResolver = null;
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -87,51 +78,33 @@ class SuperRootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case '_rootForQueryRoot':
-                return $this->__('Get the Root type (as requested by a query operation)', 'engine');
-            case '_rootForMutationRoot':
-                return $this->__('Get the Root type (as requested by a mutation operation)', 'engine');
-            case '_queryRoot':
-                return $this->__('Get the Query Root type', 'engine');
-            case '_mutationRoot':
-                return $this->__('Get the Mutation Root type', 'engine');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_rootForQueryRoot' => $this->__('Get the Root type (as requested by a query operation)', 'engine'),
+            '_rootForMutationRoot' => $this->__('Get the Root type (as requested by a mutation operation)', 'engine'),
+            '_queryRoot' => $this->__('Get the Query Root type', 'engine'),
+            '_mutationRoot' => $this->__('Get the Mutation Root type', 'engine'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case '_rootForQueryRoot':
-            case '_rootForMutationRoot':
-                return $this->getRootObjectTypeResolver();
-            case '_queryRoot':
-                return $this->getQueryRootObjectTypeResolver();
-            case '_mutationRoot':
-                return $this->getMutationRootObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            '_rootForQueryRoot', '_rootForMutationRoot' => $this->getRootObjectTypeResolver(),
+            '_queryRoot' => $this->getQueryRootObjectTypeResolver(),
+            '_mutationRoot' => $this->getMutationRootObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var SuperRoot */
         $superRoot = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case '_rootForQueryRoot':
-            case '_rootForMutationRoot':
-                return Root::ID;
-            case '_queryRoot':
-                return QueryRoot::ID;
-            case '_mutationRoot':
-                return MutationRoot::ID;
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            '_rootForQueryRoot', '_rootForMutationRoot' => Root::ID,
+            '_queryRoot' => QueryRoot::ID,
+            '_mutationRoot' => MutationRoot::ID,
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
     /**
      * Since the return type is known for all the fields in this

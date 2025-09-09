@@ -16,10 +16,7 @@ use PoP\Root\Exception\AbstractException;
 /** @internal */
 abstract class AbstractBulkOperationDecoratorMutationResolver extends AbstractMutationResolver
 {
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
@@ -44,9 +41,8 @@ abstract class AbstractBulkOperationDecoratorMutationResolver extends AbstractMu
     }
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $decoratedOperationMutationResolver = $this->getDecoratedOperationMutationResolver();
         $inputObjectListItemSubpropertyFieldDataAccessors = $this->getInputObjectListItemSubpropertyFieldDataAccessors($fieldDataAccessor);

@@ -22,21 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatc
  */
 class ExpressionRequestMatcher implements RequestMatcherInterface
 {
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage
-     */
-    private $language;
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\Expression|string
-     */
-    private $expression;
-    /**
-     * @param \Symfony\Component\ExpressionLanguage\Expression|string $expression
-     */
-    public function __construct(ExpressionLanguage $language, $expression)
+    public function __construct(private ExpressionLanguage $language, private Expression|string $expression)
     {
-        $this->language = $language;
-        $this->expression = $expression;
     }
     public function matches(Request $request) : bool
     {

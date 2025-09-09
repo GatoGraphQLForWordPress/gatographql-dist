@@ -17,10 +17,10 @@ interface HTTPResponseValidatorInterface
      * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException
      */
-    public function decodeJSONResponse(ResponseInterface $response, bool $associative = \false);
+    public function decodeJSONResponse(ResponseInterface $response, bool $associative = \false) : array|stdClass;
     /**
      * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException
      */
-    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false);
+    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false) : array|stdClass;
 }

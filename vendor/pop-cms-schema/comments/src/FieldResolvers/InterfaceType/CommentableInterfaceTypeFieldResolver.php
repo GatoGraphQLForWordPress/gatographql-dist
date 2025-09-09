@@ -20,30 +20,12 @@ use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 class CommentableInterfaceTypeFieldResolver extends AbstractQueryableSchemaInterfaceTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CustomPostCommentsFilterInputObjectTypeResolver|null
-     */
-    private $customPostCommentsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CustomPostCommentPaginationInputObjectTypeResolver|null
-     */
-    private $customPostCommentPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentSortInputObjectTypeResolver|null
-     */
-    private $commentSortInputObjectTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
+    private ?CustomPostCommentsFilterInputObjectTypeResolver $customPostCommentsFilterInputObjectTypeResolver = null;
+    private ?CustomPostCommentPaginationInputObjectTypeResolver $customPostCommentPaginationInputObjectTypeResolver = null;
+    private ?CommentSortInputObjectTypeResolver $commentSortInputObjectTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -114,46 +96,31 @@ class CommentableInterfaceTypeFieldResolver extends AbstractQueryableSchemaInter
     }
     public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'comments':
-                return $this->getCommentObjectTypeResolver();
-            case 'areCommentsOpen':
-                return $this->getBooleanScalarTypeResolver();
-            case 'hasComments':
-                return $this->getBooleanScalarTypeResolver();
-            case 'commentCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'comments' => $this->getCommentObjectTypeResolver(),
+            'areCommentsOpen' => $this->getBooleanScalarTypeResolver(),
+            'hasComments' => $this->getBooleanScalarTypeResolver(),
+            'commentCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
     public function getFieldTypeModifiers(string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'areCommentsOpen':
-            case 'hasComments':
-            case 'commentCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'comments':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'areCommentsOpen', 'hasComments', 'commentCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'comments' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($fieldName),
+        };
     }
     public function getFieldDescription(string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'areCommentsOpen':
-                return $this->__('Are comments open to be added to the custom post', 'pop-comments');
-            case 'hasComments':
-                return $this->__('Does the custom post have comments?', 'pop-comments');
-            case 'commentCount':
-                return $this->__('Number of comments added to the custom post', 'pop-comments');
-            case 'comments':
-                return $this->__('Comments added to the custom post', 'pop-comments');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'areCommentsOpen' => $this->__('Are comments open to be added to the custom post', 'pop-comments'),
+            'hasComments' => $this->__('Does the custom post have comments?', 'pop-comments'),
+            'commentCount' => $this->__('Number of comments added to the custom post', 'pop-comments'),
+            'comments' => $this->__('Comments added to the custom post', 'pop-comments'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -161,13 +128,10 @@ class CommentableInterfaceTypeFieldResolver extends AbstractQueryableSchemaInter
     public function getFieldArgNameTypeResolvers(string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($fieldName);
-        switch ($fieldName) {
-            case 'comments':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCommentsFilterInputObjectTypeResolver(), 'pagination' => $this->getCustomPostCommentPaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]);
-            case 'commentCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCommentsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'comments' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCommentsFilterInputObjectTypeResolver(), 'pagination' => $this->getCustomPostCommentPaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]),
+            'commentCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCustomPostCommentsFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
 }

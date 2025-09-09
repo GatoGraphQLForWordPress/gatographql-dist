@@ -27,13 +27,9 @@ use stdClass;
 abstract class AbstractEnumStringScalarTypeResolver extends AbstractScalarTypeResolver implements \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EnumStringScalarTypeResolverInterface
 {
     /** @var string[]|null */
-    protected $consolidatedPossibleValuesCache;
-    public const HOOK_POSSIBLE_VALUES = __CLASS__ . ':possible-values';
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected ?array $consolidatedPossibleValuesCache = null;
+    public final const HOOK_POSSIBLE_VALUES = __CLASS__ . ':possible-values';
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsNotStdClass($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
@@ -62,7 +58,7 @@ abstract class AbstractEnumStringScalarTypeResolver extends AbstractScalarTypeRe
         /**
          * Allow to override/extend the enum values
          */
-        $this->consolidatedPossibleValuesCache = App::applyFilters(self::HOOK_POSSIBLE_VALUES, $this->getPossibleValues(), $this);
+        $this->consolidatedPossibleValuesCache = App::applyFilters(self::HOOK_POSSIBLE_VALUES, $this->getPossibleValues(), $this) ?? [];
         if ($this->sortPossibleValues()) {
             \sort($this->consolidatedPossibleValuesCache);
         }

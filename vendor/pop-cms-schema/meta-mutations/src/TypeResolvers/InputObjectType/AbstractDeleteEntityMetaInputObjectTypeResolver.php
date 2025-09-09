@@ -13,18 +13,9 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractDeleteEntityMetaInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\MetaMutations\TypeResolvers\InputObjectType\DeleteEntityMetaInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyScalarScalarTypeResolver|null
-     */
-    private $anyScalarScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?AnyScalarScalarTypeResolver $anyScalarScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -66,25 +57,18 @@ abstract class AbstractDeleteEntityMetaInputObjectTypeResolver extends AbstractI
     protected abstract function addIDInputField() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the entity', 'meta-mutations');
-            case MutationInputProperties::KEY:
-                return $this->__('The meta key', 'meta-mutations');
-            case MutationInputProperties::VALUE:
-                return $this->__('The specific meta value to delete, to avoid removing duplicate entries for that key', 'meta-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the entity', 'meta-mutations'),
+            MutationInputProperties::KEY => $this->__('The meta key', 'meta-mutations'),
+            MutationInputProperties::VALUE => $this->__('The specific meta value to delete, to avoid removing duplicate entries for that key', 'meta-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-            case MutationInputProperties::KEY:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID, MutationInputProperties::KEY => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

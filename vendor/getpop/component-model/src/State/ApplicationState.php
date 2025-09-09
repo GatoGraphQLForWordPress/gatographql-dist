@@ -9,7 +9,7 @@ class ApplicationState
     /**
      * @var array<string,mixed>
      */
-    public static $vars = [];
+    public static array $vars = [];
     /**
      * @return array<string,mixed>
      */

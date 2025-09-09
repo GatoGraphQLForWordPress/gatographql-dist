@@ -18,32 +18,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class EnvPlaceholderParameterBag extends ParameterBag
 {
-    /**
-     * @var string
-     */
-    private $envPlaceholderUniquePrefix;
-    /**
-     * @var mixed[]
-     */
-    private $envPlaceholders = [];
-    /**
-     * @var mixed[]
-     */
-    private $unusedEnvPlaceholders = [];
-    /**
-     * @var mixed[]
-     */
-    private $providedTypes = [];
-    /**
-     * @var int
-     */
-    private static $counter = 0;
-    /**
-     * @return mixed[]|bool|string|int|float|\UnitEnum|null
-     */
-    public function get(string $name)
+    private string $envPlaceholderUniquePrefix;
+    private array $envPlaceholders = [];
+    private array $unusedEnvPlaceholders = [];
+    private array $providedTypes = [];
+    private static int $counter = 0;
+    public function get(string $name) : array|bool|string|int|float|\UnitEnum|null
     {
-        if (\strncmp($name, 'env(', \strlen('env(')) === 0 && \substr_compare($name, ')', -\strlen(')')) === 0 && 'env()' !== $name) {
+        if (\str_starts_with($name, 'env(') && \str_ends_with($name, ')') && 'env()' !== $name) {
             $env = \substr($name, 4, -1);
             if (isset($this->envPlaceholders[$env])) {
                 foreach ($this->envPlaceholders[$env] as $placeholder) {
@@ -63,7 +45,7 @@ class EnvPlaceholderParameterBag extends ParameterBag
             if ($this->has($name) && null !== ($defaultValue = parent::get($name)) && !\is_string($defaultValue)) {
                 throw new RuntimeException(\sprintf('The default value of an env() parameter must be a string or null, but "%s" given to "%s".', \get_debug_type($defaultValue), $name));
             }
-            $uniqueName = \hash('md5', $name . '_' . self::$counter++);
+            $uniqueName = \hash('xxh128', $name . '_' . self::$counter++);
             $placeholder = \sprintf('%s_%s_%s', $this->getEnvPlaceholderUniquePrefix(), \strtr($env, ':-.\\', '____'), $uniqueName);
             $this->envPlaceholders[$env][$placeholder] = $placeholder;
             return $placeholder;
@@ -80,7 +62,7 @@ class EnvPlaceholderParameterBag extends ParameterBag
             \array_walk_recursive($reproducibleEntropy, function (&$v) {
                 $v = null;
             });
-            $this->envPlaceholderUniquePrefix = 'env_' . \substr(\hash('md5', \serialize($reproducibleEntropy)), -16);
+            $this->envPlaceholderUniquePrefix = 'env_' . \substr(\hash('xxh128', \serialize($reproducibleEntropy)), -16);
         }
         return $this->envPlaceholderUniquePrefix;
     }

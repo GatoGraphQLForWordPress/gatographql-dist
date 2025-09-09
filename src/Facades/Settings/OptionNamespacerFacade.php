@@ -15,10 +15,7 @@ use GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface;
  */
 class OptionNamespacerFacade
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
-     */
-    private static $instance;
+    private static ?OptionNamespacerInterface $instance = null;
 
     public static function getInstance(): OptionNamespacerInterface
     {

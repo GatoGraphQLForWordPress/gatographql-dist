@@ -29,19 +29,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class GraphvizDumper extends Dumper
 {
-    /**
-     * @var mixed[]
-     */
-    private $nodes;
-    /**
-     * @var mixed[]
-     */
-    private $edges;
+    private array $nodes;
+    private array $edges;
     // All values should be strings
-    /**
-     * @var mixed[]
-     */
-    private $options = ['graph' => ['ratio' => 'compress'], 'node' => ['fontsize' => '11', 'fontname' => 'Arial', 'shape' => 'record'], 'edge' => ['fontsize' => '9', 'fontname' => 'Arial', 'color' => 'grey', 'arrowhead' => 'open', 'arrowsize' => '0.5'], 'node.instance' => ['fillcolor' => '#9999ff', 'style' => 'filled'], 'node.definition' => ['fillcolor' => '#eeeeee'], 'node.missing' => ['fillcolor' => '#ff9999', 'style' => 'filled']];
+    private array $options = ['graph' => ['ratio' => 'compress'], 'node' => ['fontsize' => '11', 'fontname' => 'Arial', 'shape' => 'record'], 'edge' => ['fontsize' => '9', 'fontname' => 'Arial', 'color' => 'grey', 'arrowhead' => 'open', 'arrowsize' => '0.5'], 'node.instance' => ['fillcolor' => '#9999ff', 'style' => 'filled'], 'node.definition' => ['fillcolor' => '#eeeeee'], 'node.missing' => ['fillcolor' => '#ff9999', 'style' => 'filled']];
     /**
      * Dumps the service container as a graphviz graph.
      *
@@ -130,12 +121,12 @@ class GraphvizDumper extends Dumper
         $container = $this->cloneContainer();
         foreach ($container->getDefinitions() as $id => $definition) {
             $class = $definition->getClass();
-            if (\strncmp($class, '\\', \strlen('\\')) === 0) {
+            if (\str_starts_with($class, '\\')) {
                 $class = \substr($class, 1);
             }
             try {
                 $class = $this->container->getParameterBag()->resolveValue($class);
-            } catch (ParameterNotFoundException $exception) {
+            } catch (ParameterNotFoundException) {
             }
             $nodes[$id] = ['class' => \str_replace('\\', '\\\\', $class), 'attributes' => \array_merge($this->options['node.definition'], ['style' => $definition->isShared() ? 'filled' : 'dotted'])];
             $container->setDefinition($id, new Definition('stdClass'));
@@ -145,7 +136,7 @@ class GraphvizDumper extends Dumper
                 continue;
             }
             if (!$container->hasDefinition($id)) {
-                $nodes[$id] = ['class' => \str_replace('\\', '\\\\', \get_class($container->get($id))), 'attributes' => $this->options['node.instance']];
+                $nodes[$id] = ['class' => \str_replace('\\', '\\\\', $container->get($id)::class), 'attributes' => $this->options['node.instance']];
             }
         }
         return $nodes;

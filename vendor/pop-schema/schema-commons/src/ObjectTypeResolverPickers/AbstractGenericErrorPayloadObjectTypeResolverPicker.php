@@ -9,10 +9,7 @@ use PoPSchema\SchemaCommons\ObjectModels\GenericErrorPayload;
 /** @internal */
 abstract class AbstractGenericErrorPayloadObjectTypeResolverPicker extends \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\AbstractErrorPayloadObjectTypeResolverPicker implements \PoPSchema\SchemaCommons\ObjectTypeResolverPickers\GenericErrorPayloadObjectTypeResolverPickerInterface
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ObjectType\GenericErrorPayloadObjectTypeResolver|null
-     */
-    private $genericErrorPayloadObjectTypeResolver;
+    private ?GenericErrorPayloadObjectTypeResolver $genericErrorPayloadObjectTypeResolver = null;
     protected final function getGenericErrorPayloadObjectTypeResolver() : GenericErrorPayloadObjectTypeResolver
     {
         if ($this->genericErrorPayloadObjectTypeResolver === null) {

@@ -25,7 +25,6 @@ interface NamespacedPoolInterface
 {
     /**
      * @throws InvalidArgumentException If the namespace contains characters found in ItemInterface's RESERVED_CHARACTERS
-     * @return static
      */
-    public function withSubNamespace(string $namespace);
+    public function withSubNamespace(string $namespace) : static;
 }

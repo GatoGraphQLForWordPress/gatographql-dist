@@ -9,16 +9,11 @@ use PoP\Root\App;
 class DataStructureManager implements \PoP\ComponentModel\DataStructure\DataStructureManagerInterface
 {
     /**
-     * @var \PoP\ComponentModel\DataStructureFormatters\DataStructureFormatterInterface
-     */
-    protected $defaultFormatter;
-    /**
      * @var array<string,DataStructureFormatterInterface>
      */
-    public $formatters = [];
-    public function __construct(DataStructureFormatterInterface $defaultFormatter)
+    public array $formatters = [];
+    public function __construct(protected DataStructureFormatterInterface $defaultFormatter)
     {
-        $this->defaultFormatter = $defaultFormatter;
     }
     public function addDataStructureFormatter(DataStructureFormatterInterface $formatter) : void
     {

@@ -19,10 +19,7 @@ class ExtensionListTable extends AbstractExtensionListTable
 {
     use WithOpeningModuleDocInModalListTableTrait;
 
-    /**
-     * @return mixed
-     */
-    public function overridePluginsAPIResult()
+    public function overridePluginsAPIResult(): mixed
     {
         $plugins = $this->getAllItems();
         return (object) [
@@ -58,9 +55,17 @@ class ExtensionListTable extends AbstractExtensionListTable
             if (!$isBundleExtension && !$displayGatoGraphQLPROExtensionsOnExtensionsPage) {
                 continue;
             }
-            $item = array_merge(['name' => $moduleResolver->getName($module), 'slug' => $moduleResolver->getGatoGraphQLExtensionSlug($module), 'short_description' => $moduleResolver->getDescription($module), 'homepage' => $moduleResolver->getWebsiteURL($module), 'icons' => [
-                'default' => $moduleResolver->getLogoURL($module),
-            ]], $wordPressPluginAPIUnneededRequiredEntries, [
+            $item = [
+                'name' => $moduleResolver->getName($module),
+                'slug' => $moduleResolver->getGatoGraphQLExtensionSlug($module),
+                'short_description' => $moduleResolver->getDescription($module),
+                'homepage' => $moduleResolver->getWebsiteURL($module),
+                'icons' => [
+                    'default' => $moduleResolver->getLogoURL($module),
+                ],
+
+                ...$wordPressPluginAPIUnneededRequiredEntries,
+
                 /**
                  * These are custom properties, not required by the upstream class,
                  * but used internally to modify the generated HTML content
@@ -68,7 +73,7 @@ class ExtensionListTable extends AbstractExtensionListTable
                 'gato_extension_module' => $module,
                 'gato_extension_is_bundle' => $isBundleExtension,
                 'gato_extension_is_premium' => $moduleResolver->isPremium($module),
-            ]);
+            ];
             if ($isBundleExtension) {
                 /** @var BundleExtensionModuleResolverInterface */
                 $bundleExtensionModuleResolver = $moduleResolver;

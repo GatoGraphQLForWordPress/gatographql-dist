@@ -14,18 +14,9 @@ use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
 /** @internal */
 class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
-     */
-    private $mediaObjectTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -69,14 +60,11 @@ class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeF
     }
     public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'featuredImage':
-                return $this->getMediaObjectTypeResolver();
-            case 'hasFeaturedImage':
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'featuredImage' => $this->getMediaObjectTypeResolver(),
+            'hasFeaturedImage' => $this->getBooleanScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
     public function getFieldTypeModifiers(string $fieldName) : int
     {
@@ -88,13 +76,10 @@ class WithFeaturedImageInterfaceTypeFieldResolver extends AbstractInterfaceTypeF
     }
     public function getFieldDescription(string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'hasFeaturedImage':
-                return $this->__('Does the custom post have a featured image?', 'custompostmedia');
-            case 'featuredImage':
-                return $this->__('Featured image from the custom post', 'custompostmedia');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'hasFeaturedImage' => $this->__('Does the custom post have a featured image?', 'custompostmedia'),
+            'featuredImage' => $this->__('Featured image from the custom post', 'custompostmedia'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

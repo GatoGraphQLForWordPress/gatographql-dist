@@ -29,38 +29,14 @@ use PoP\Root\App;
 class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
-     */
-    private $mediaObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemByOneofInputObjectTypeResolver|null
-     */
-    private $mediaItemByOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\RootMyMediaItemsFilterInputObjectTypeResolver|null
-     */
-    private $rootMyMediaItemsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\RootMediaItemPaginationInputObjectTypeResolver|null
-     */
-    private $rootMediaItemPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemSortInputObjectTypeResolver|null
-     */
-    private $mediaItemSortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;
+    private ?MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver = null;
+    private ?RootMyMediaItemsFilterInputObjectTypeResolver $rootMyMediaItemsFilterInputObjectTypeResolver = null;
+    private ?RootMediaItemPaginationInputObjectTypeResolver $rootMediaItemPaginationInputObjectTypeResolver = null;
+    private ?MediaItemSortInputObjectTypeResolver $mediaItemSortInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -149,39 +125,28 @@ class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'myMediaItemCount':
-                return $this->getIntScalarTypeResolver();
-            case 'myMediaItems':
-            case 'myMediaItem':
-                return $this->getMediaObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myMediaItemCount' => $this->getIntScalarTypeResolver(),
+            'myMediaItems', 'myMediaItem' => $this->getMediaObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'myMediaItemCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'myMediaItems':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myMediaItemCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'myMediaItems' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'myMediaItem':
-                return $this->__('Media item by the logged-in user on the site with a specific ID', 'media-mutations');
-            case 'myMediaItemCount':
-                return $this->__('Number of media items by the logged-in user on the site', 'media-mutations');
-            case 'myMediaItems':
-                return $this->__('Media items by the logged-in user on the site', 'media-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'myMediaItem' => $this->__('Media item by the logged-in user on the site with a specific ID', 'media-mutations'),
+            'myMediaItemCount' => $this->__('Number of media items by the logged-in user on the site', 'media-mutations'),
+            'myMediaItems' => $this->__('Media items by the logged-in user on the site', 'media-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -189,30 +154,21 @@ class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFi
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'myMediaItem':
-                return \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getMediaItemByOneofInputObjectTypeResolver()]);
-            case 'myMediaItems':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyMediaItemsFilterInputObjectTypeResolver(), 'pagination' => $this->getRootMediaItemPaginationInputObjectTypeResolver(), 'sort' => $this->getMediaItemSortInputObjectTypeResolver()]);
-            case 'myMediaItemCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyMediaItemsFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'myMediaItem' => \array_merge($fieldArgNameTypeResolvers, ['by' => $this->getMediaItemByOneofInputObjectTypeResolver()]),
+            'myMediaItems' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyMediaItemsFilterInputObjectTypeResolver(), 'pagination' => $this->getRootMediaItemPaginationInputObjectTypeResolver(), 'sort' => $this->getMediaItemSortInputObjectTypeResolver()]),
+            'myMediaItemCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getRootMyMediaItemsFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['myMediaItem' => 'by']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['myMediaItem' => 'by'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = \array_merge($this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor), ['author-ids' => [App::getState('current-user-id')]]);
         switch ($fieldDataAccessor->getFieldName()) {

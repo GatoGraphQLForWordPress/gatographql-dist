@@ -32,26 +32,11 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
 {
     use ContractsTrait;
     use ProxyTrait;
-    /**
-     * @var string
-     */
-    private $file;
-    /**
-     * @var mixed[]
-     */
-    private $keys;
-    /**
-     * @var mixed[]
-     */
-    private $values;
-    /**
-     * @var \Closure
-     */
-    private static $createCacheItem;
-    /**
-     * @var mixed[]
-     */
-    private static $valuesCache = [];
+    private string $file;
+    private array $keys;
+    private array $values;
+    private static \Closure $createCacheItem;
+    private static array $valuesCache = [];
     /**
      * @param string           $file         The PHP file were values are cached
      * @param AdapterInterface $fallbackPool A pool to fallback on when an item is not hit
@@ -60,7 +45,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
     {
         $this->file = $file;
         $this->pool = $fallbackPool;
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key, $value, $isHit) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key, $value, $isHit) {
             $item = new CacheItem();
             $item->key = $key;
             $item->value = $value;
@@ -81,10 +66,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
         }
         return new static($file, $fallbackPool);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         if (!isset($this->values)) {
             $this->initialize();
@@ -104,16 +86,13 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
             if ($value instanceof \Closure) {
                 return $value();
             }
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             unset($this->keys[$key]);
             goto get_from_pool;
         }
         return $value;
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         if (!\is_string($key)) {
             throw new InvalidArgumentException(\sprintf('Cache key must be string, "%s" given.', \get_debug_type($key)));
@@ -131,7 +110,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
         } elseif ($value instanceof \Closure) {
             try {
                 $value = $value();
-            } catch (\Throwable $exception) {
+            } catch (\Throwable) {
                 $value = null;
                 $isHit = \false;
             }
@@ -150,10 +129,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
         }
         return $this->generateItems($keys);
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         if (!\is_string($key)) {
             throw new InvalidArgumentException(\sprintf('Cache key must be string, "%s" given.', \get_debug_type($key)));
@@ -163,10 +139,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
         }
         return isset($this->keys[$key]) || $this->pool->hasItem($key);
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         if (!\is_string($key)) {
             throw new InvalidArgumentException(\sprintf('Cache key must be string, "%s" given.', \get_debug_type($key)));
@@ -289,7 +262,7 @@ EOF;
                 $value = \str_replace("\n", "\n    ", $value);
                 $value = "static function () {\n    return {$value};\n}";
             }
-            $hash = \hash('md5', $value);
+            $hash = \hash('xxh128', $value);
             if (null === ($id = $dumpedMap[$hash] ?? null)) {
                 $id = $dumpedMap[$hash] = \count($dumpedMap);
                 $dumpedValues .= "{$id} => {$value},\n";
@@ -337,7 +310,7 @@ EOF;
                 } elseif ($value instanceof \Closure) {
                     try {
                         (yield $key => $f($key, $value(), \true));
-                    } catch (\Throwable $exception) {
+                    } catch (\Throwable) {
                         (yield $key => $f($key, null, \false));
                     }
                 } else {

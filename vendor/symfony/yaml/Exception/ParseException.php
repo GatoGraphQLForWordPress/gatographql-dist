@@ -18,22 +18,10 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Exception;
  */
 class ParseException extends RuntimeException
 {
-    /**
-     * @var string|null
-     */
-    private $parsedFile;
-    /**
-     * @var int
-     */
-    private $parsedLine;
-    /**
-     * @var string|null
-     */
-    private $snippet;
-    /**
-     * @var string
-     */
-    private $rawMessage;
+    private ?string $parsedFile;
+    private int $parsedLine;
+    private ?string $snippet;
+    private string $rawMessage;
     /**
      * @param string      $message    The error message
      * @param int         $parsedLine The line where the error occurred
@@ -106,7 +94,7 @@ class ParseException extends RuntimeException
     {
         $this->message = $this->rawMessage;
         $dot = \false;
-        if (\substr_compare($this->message, '.', -\strlen('.')) === 0) {
+        if (\str_ends_with($this->message, '.')) {
             $this->message = \substr($this->message, 0, -1);
             $dot = \true;
         }

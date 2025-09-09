@@ -40,7 +40,7 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
         if (null !== $this->maxIdLength && \strlen($namespace) > $this->maxIdLength - 24) {
             throw new InvalidArgumentException(\sprintf('Namespace must be %d chars max, %d given ("%s").', $this->maxIdLength - 24, \strlen($namespace), $namespace));
         }
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key, $value, $isHit) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key, $value, $isHit) {
             $item = new CacheItem();
             $item->key = $key;
             $item->isTaggable = \true;
@@ -60,7 +60,7 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
             }
             return $item;
         }, null, CacheItem::class);
-        self::$mergeByLifetime = self::$mergeByLifetime ?? \Closure::bind(static function ($deferred, &$expiredIds, $getId, $tagPrefix, $defaultLifetime) {
+        self::$mergeByLifetime ??= \Closure::bind(static function ($deferred, &$expiredIds, $getId, $tagPrefix, $defaultLifetime) {
             $byLifetime = [];
             $now = \microtime(\true);
             $expiredIds = [];
@@ -143,7 +143,7 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
     public function commit() : bool
     {
         $ok = \true;
-        $byLifetime = (self::$mergeByLifetime)($this->deferred, $expiredIds, \Closure::fromCallable([$this, 'getId']), self::TAGS_PREFIX, $this->defaultLifetime);
+        $byLifetime = (self::$mergeByLifetime)($this->deferred, $expiredIds, $this->getId(...), self::TAGS_PREFIX, $this->defaultLifetime);
         $retry = $this->deferred = [];
         if ($expiredIds) {
             // Tags are not cleaned up in this case, however that is done on invalidateTags().
@@ -215,14 +215,14 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
                     $tagData[$this->getId(self::TAGS_PREFIX . $tag)][] = $id;
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $ok = \false;
         }
         try {
             if ((!$tagData || $this->doDeleteTagRelations($tagData)) && $ok) {
                 return \true;
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
         // When bulk-delete failed, retry each item individually
         foreach ($ids as $key => $id) {

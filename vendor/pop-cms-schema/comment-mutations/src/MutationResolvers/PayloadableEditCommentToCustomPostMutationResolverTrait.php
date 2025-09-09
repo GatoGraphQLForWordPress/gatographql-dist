@@ -14,13 +14,10 @@ trait PayloadableEditCommentToCustomPostMutationResolverTrait
     protected function createEditCommentErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ?ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E10]:
-                return new CommentDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E11]:
-                return new LoggedInUserHasNoPermissionToEditCommentErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return null;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E10] => new CommentDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E11] => new LoggedInUserHasNoPermissionToEditCommentErrorPayload($feedbackItemResolution->getMessage()),
+            default => null,
+        };
     }
 }

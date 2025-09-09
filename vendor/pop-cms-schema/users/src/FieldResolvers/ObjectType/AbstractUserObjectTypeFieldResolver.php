@@ -24,30 +24,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 abstract class AbstractUserObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UsersFilterInputObjectTypeResolver|null
-     */
-    private $usersFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserPaginationInputObjectTypeResolver|null
-     */
-    private $userPaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSortInputObjectTypeResolver|null
-     */
-    private $userSortInputObjectTypeResolver;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+    private ?UsersFilterInputObjectTypeResolver $usersFilterInputObjectTypeResolver = null;
+    private ?UserPaginationInputObjectTypeResolver $userPaginationInputObjectTypeResolver = null;
+    private ?UserSortInputObjectTypeResolver $userSortInputObjectTypeResolver = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -111,36 +93,27 @@ abstract class AbstractUserObjectTypeFieldResolver extends AbstractQueryableObje
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'users':
-                return $this->getUserObjectTypeResolver();
-            case 'userCount':
-                return $this->getIntScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'users' => $this->getUserObjectTypeResolver(),
+            'userCount' => $this->getIntScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'userCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'users':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'userCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'users' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'users':
-                return $this->__('Users', 'pop-users');
-            case 'userCount':
-                return $this->__('Number of users', 'pop-users');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'users' => $this->__('Users', 'pop-users'),
+            'userCount' => $this->__('Number of users', 'pop-users'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -148,19 +121,13 @@ abstract class AbstractUserObjectTypeFieldResolver extends AbstractQueryableObje
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'users':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getUsersFilterInputObjectTypeResolver(), 'pagination' => $this->getUserPaginationInputObjectTypeResolver(), 'sort' => $this->getUserSortInputObjectTypeResolver()]);
-            case 'userCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getUsersFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'users' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getUsersFilterInputObjectTypeResolver(), 'pagination' => $this->getUserPaginationInputObjectTypeResolver(), 'sort' => $this->getUserSortInputObjectTypeResolver()]),
+            'userCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getUsersFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $query = $this->convertFieldArgsToFilteringQueryArgs($objectTypeResolver, $fieldDataAccessor);
         switch ($fieldDataAccessor->getFieldName()) {

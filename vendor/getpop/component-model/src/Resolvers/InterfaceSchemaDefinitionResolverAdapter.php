@@ -20,13 +20,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\AstInterface;
  */
 class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaDefinitionResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldSchemaDefinitionResolverInterface
-     */
-    protected $interfaceTypeFieldSchemaDefinitionResolver;
-    public function __construct(InterfaceTypeFieldSchemaDefinitionResolverInterface $interfaceTypeFieldSchemaDefinitionResolver)
+    public function __construct(protected InterfaceTypeFieldSchemaDefinitionResolverInterface $interfaceTypeFieldSchemaDefinitionResolver)
     {
-        $this->interfaceTypeFieldSchemaDefinitionResolver = $interfaceTypeFieldSchemaDefinitionResolver;
     }
     /**
      * This function will never be called for the Adapter,
@@ -74,10 +69,7 @@ class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaD
     {
         return $this->interfaceTypeFieldSchemaDefinitionResolver->getFieldArgDescription($fieldName, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         return $this->interfaceTypeFieldSchemaDefinitionResolver->getFieldArgDefaultValue($fieldName, $fieldArgName);
     }
@@ -103,10 +95,7 @@ class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaD
     {
         return $this->interfaceTypeFieldSchemaDefinitionResolver->getConsolidatedFieldArgDescription($fieldName, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         return $this->interfaceTypeFieldSchemaDefinitionResolver->getConsolidatedFieldArgDefaultValue($fieldName, $fieldArgName);
     }
@@ -125,9 +114,8 @@ class InterfaceSchemaDefinitionResolverAdapter implements ObjectTypeFieldSchemaD
     /**
      * Validate the constraints for a field argument
      * @param array<string,mixed> $fieldArgs
-     * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, mixed $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->interfaceTypeFieldSchemaDefinitionResolver->validateFieldArgValue($fieldName, $fieldArgName, $fieldArgValue, $astNode, $fieldArgs, $objectTypeFieldResolutionFeedbackStore);
     }

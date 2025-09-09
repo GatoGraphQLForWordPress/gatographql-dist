@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericTagDeleteMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\GenericTagDeleteMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $genericTagDeleteMutationErrorPayloadUnionTypeResolver;
+    private ?GenericTagDeleteMutationErrorPayloadUnionTypeResolver $genericTagDeleteMutationErrorPayloadUnionTypeResolver = null;
     protected final function getGenericTagDeleteMutationErrorPayloadUnionTypeResolver() : GenericTagDeleteMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericTagDeleteMutationErrorPayloadUnionTypeResolver === null) {

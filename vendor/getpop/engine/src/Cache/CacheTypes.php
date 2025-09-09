@@ -6,5 +6,5 @@ namespace PoP\Engine\Cache;
 /** @internal */
 class CacheTypes
 {
-    public const CACHE_DIRECTIVE = 'cache-directive';
+    public final const CACHE_DIRECTIVE = 'cache-directive';
 }

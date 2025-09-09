@@ -19,30 +19,12 @@ class TopMenuPageAttacher extends AbstractPluginMenuPageAttacher
 {
     use WithSettingsPageMenuPageAttacherTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
-     */
-    private $menuPageHelper;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphiQLMenuPage|null
-     */
-    private $graphiQLMenuPage;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphQLVoyagerMenuPage|null
-     */
-    private $graphQLVoyagerMenuPage;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\SettingsMenuPage|null
-     */
-    private $settingsMenuPage;
+    private ?MenuPageHelper $menuPageHelper = null;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?GraphiQLMenuPage $graphiQLMenuPage = null;
+    private ?GraphQLVoyagerMenuPage $graphQLVoyagerMenuPage = null;
+    private ?SettingsMenuPage $settingsMenuPage = null;
 
     final protected function getMenuPageHelper(): MenuPageHelper
     {

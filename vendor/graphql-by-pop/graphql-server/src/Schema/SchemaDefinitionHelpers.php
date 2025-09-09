@@ -8,7 +8,7 @@ use GraphQLByPoP\GraphQLServer\ObjectModels\Field;
 /** @internal */
 class SchemaDefinitionHelpers
 {
-    public const PATH_SEPARATOR = '.';
+    public final const PATH_SEPARATOR = '.';
     /**
      * @param string[] $schemaDefinitionPath
      */

@@ -87,15 +87,13 @@ interface AppThreadInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public function getState($keyOrPath);
+    public function getState(string|array $keyOrPath) : mixed;
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public function hasState($keyOrPath);
+    public function hasState(string|array $keyOrPath) : mixed;
     /**
      * Shortcut function.
      */
@@ -106,11 +104,8 @@ interface AppThreadInterface
     public function removeFilter(string $tag, callable $function_to_remove, int $priority = 10) : bool;
     /**
      * Shortcut function.
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
      */
-    public function applyFilters(string $tag, $value, ...$args);
+    public function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed;
     /**
      * Shortcut function.
      */
@@ -121,55 +116,42 @@ interface AppThreadInterface
     public function removeAction(string $tag, callable $function_to_remove, int $priority = 10) : bool;
     /**
      * Shortcut function.
-     * @param mixed ...$args
      */
-    public function doAction(string $tag, ...$args) : void;
+    public function doAction(string $tag, mixed ...$args) : void;
     /**
      * Shortcut function.
      *
      * Equivalent of $_POST[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public function request(string $key, $default = null);
+    public function request(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_GET[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public function query(string $key, $default = null);
+    public function query(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_COOKIES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public function cookies(string $key, $default = null);
+    public function cookies(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_FILES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public function files(string $key, $default = null);
+    public function files(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_SERVER[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public function server(string $key, $default = null);
+    public function server(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Mostly equivalent to a subset of $_SERVER
-     * @param mixed $default
-     * @return mixed
      */
-    public function headers(string $key, $default = null);
+    public function headers(string $key, mixed $default = null) : mixed;
 }

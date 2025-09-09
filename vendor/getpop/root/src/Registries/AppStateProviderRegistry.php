@@ -10,7 +10,7 @@ class AppStateProviderRegistry implements \PoP\Root\Registries\AppStateProviderR
     /**
      * @var AppStateProviderInterface[]
      */
-    protected $appStateProviders = [];
+    protected array $appStateProviders = [];
     public function addAppStateProvider(AppStateProviderInterface $appStateProvider) : void
     {
         $this->appStateProviders[] = $appStateProvider;
@@ -27,8 +27,6 @@ class AppStateProviderRegistry implements \PoP\Root\Registries\AppStateProviderR
      */
     public function getEnabledAppStateProviders() : array
     {
-        return \array_values(\array_filter($this->getAppStateProviders(), function (AppStateProviderInterface $service) {
-            return $service->isServiceEnabled();
-        }));
+        return \array_values(\array_filter($this->getAppStateProviders(), fn(AppStateProviderInterface $service) => $service->isServiceEnabled()));
     }
 }

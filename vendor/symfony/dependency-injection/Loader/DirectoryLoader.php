@@ -18,11 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class DirectoryLoader extends FileLoader
 {
-    /**
-     * @param mixed $file
-     * @return mixed
-     */
-    public function load($file, ?string $type = null)
+    public function load(mixed $file, ?string $type = null) : mixed
     {
         $file = \rtrim($file, '/');
         $path = $this->locator->locate($file);
@@ -39,14 +35,11 @@ class DirectoryLoader extends FileLoader
         }
         return null;
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if ('directory' === $type) {
             return \true;
         }
-        return null === $type && \is_string($resource) && \substr_compare($resource, '/', -\strlen('/')) === 0;
+        return null === $type && \is_string($resource) && \str_ends_with($resource, '/');
     }
 }

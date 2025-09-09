@@ -12,10 +12,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class DataloadHelperService extends AbstractBasicService implements \PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {

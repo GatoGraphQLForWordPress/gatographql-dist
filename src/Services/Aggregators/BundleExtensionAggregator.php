@@ -10,14 +10,8 @@ use PoP\Root\Services\AbstractBasicService;
 
 class BundleExtensionAggregator extends AbstractBasicService
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Aggregators\ModuleAggregator|null
-     */
-    private $moduleAggregator;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?ModuleAggregator $moduleAggregator = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

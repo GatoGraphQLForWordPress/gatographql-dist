@@ -8,7 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class FeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = '1';
+    public final const E1 = '1';
     /**
      * @return string[]
      */
@@ -18,20 +18,16 @@ class FeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('The query in the body is empty', 'api');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('The query in the body is empty', 'api'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return FeedbackCategories::ERROR;
-            default:
-                return parent::getCategory($code);
-        }
+        return match ($code) {
+            self::E1 => FeedbackCategories::ERROR,
+            default => parent::getCategory($code),
+        };
     }
 }

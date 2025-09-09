@@ -10,10 +10,7 @@ use PoPCMSSchema\CategoryMetaMutations\SchemaHooks\AbstractCategoryMutationResol
 class GenericCategoryMutationResolverHookSet extends AbstractCategoryMutationResolverHookSet
 {
     use \PoPCMSSchema\CustomPostCategoryMetaMutations\SchemaHooks\GenericCategoryMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {

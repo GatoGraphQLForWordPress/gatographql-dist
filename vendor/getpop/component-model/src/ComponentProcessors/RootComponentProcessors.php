@@ -6,7 +6,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 /** @internal */
 class RootComponentProcessors extends \PoP\ComponentModel\ComponentProcessors\AbstractComponentProcessor
 {
-    public const COMPONENT_EMPTY = 'empty';
+    public final const COMPONENT_EMPTY = 'empty';
     /**
      * @return string[]
      */

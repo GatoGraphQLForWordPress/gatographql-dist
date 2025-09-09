@@ -16,18 +16,9 @@ use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 
 class BlockInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
-     */
-    private $jsonObjectScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
-     */
-    private $htmlScalarTypeResolver;
+    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
 
     final protected function getJSONObjectScalarTypeResolver(): JSONObjectScalarTypeResolver
     {
@@ -83,46 +74,39 @@ class BlockInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 
     public function getFieldTypeResolver(string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'attributes':
-                return $this->getJSONObjectScalarTypeResolver();
-            case 'innerBlocks':
-                return BlockUnionTypeHelpers::getBlockUnionOrTargetObjectTypeResolver();
-            case 'contentSource':
-                return $this->getHTMLScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->getStringScalarTypeResolver(),
+            'attributes' => $this->getJSONObjectScalarTypeResolver(),
+            'innerBlocks' => BlockUnionTypeHelpers::getBlockUnionOrTargetObjectTypeResolver(),
+            // 'innerHTML' => $this->getHTMLScalarTypeResolver(),
+            'contentSource' => $this->getHTMLScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'name':
-            case 'contentSource':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'innerBlocks':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'name',
+            // 'innerHTML',
+            'contentSource'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            'innerBlocks'
+                => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default
+                => parent::getFieldTypeModifiers($fieldName),
+        };
     }
 
     public function getFieldDescription(string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->__('Block name', 'blocks');
-            case 'attributes':
-                return $this->__('Block attributes, parsed to the type declared in their block.json schema', 'blocks');
-            case 'innerBlocks':
-                return $this->__('Block\'s inner blocks (if suitable)', 'blocks');
-            case 'contentSource':
-                return $this->__('Block\'s whole HTML code, including the block comment delimiters', 'blocks');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->__('Block name', 'blocks'),
+            'attributes' => $this->__('Block attributes, parsed to the type declared in their block.json schema', 'blocks'),
+            'innerBlocks' => $this->__('Block\'s inner blocks (if suitable)', 'blocks'),
+            // 'innerHTML' => $this->__('Block\'s inner HTML code', 'blocks'),
+            'contentSource' => $this->__('Block\'s whole HTML code, including the block comment delimiters', 'blocks'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

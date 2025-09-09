@@ -7,10 +7,7 @@ use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 /** @internal */
 abstract class AbstractDictionaryObjectTypeDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\DictionaryObjectTypeDataLoaderInterface
 {
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
@@ -28,8 +25,6 @@ abstract class AbstractDictionaryObjectTypeDataLoader extends \PoP\ComponentMode
     {
         $objectClass = $this->getObjectClass();
         $objectDictionary = $this->getObjectDictionary();
-        return \array_map(function ($id) use($objectDictionary, $objectClass) {
-            return $objectDictionary->get($objectClass, $id);
-        }, $ids);
+        return \array_map(fn(string|int $id) => $objectDictionary->get($objectClass, $id), $ids);
     }
 }

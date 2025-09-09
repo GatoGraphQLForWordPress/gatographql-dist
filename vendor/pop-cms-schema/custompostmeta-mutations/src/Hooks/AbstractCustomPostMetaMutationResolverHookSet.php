@@ -14,14 +14,8 @@ use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 abstract class AbstractCustomPostMetaMutationResolverHookSet extends AbstractMetaMutationResolverHookSet
 {
     use MutateCustomPostMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeAPIs\CustomPostMetaTypeMutationAPIInterface|null
-     */
-    private $customPostMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface|null
-     */
-    private $customPostMetaTypeAPI;
+    private ?CustomPostMetaTypeMutationAPIInterface $customPostMetaTypeMutationAPI = null;
+    private ?CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI = null;
     protected final function getCustomPostMetaTypeMutationAPI() : CustomPostMetaTypeMutationAPIInterface
     {
         if ($this->customPostMetaTypeMutationAPI === null) {

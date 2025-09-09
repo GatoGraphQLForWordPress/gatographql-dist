@@ -14,8 +14,8 @@ class EnumTypeHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(HookNames::ENUM_VALUES, \Closure::fromCallable([$this, 'getEnumValues']), 10, 2);
-        App::addFilter(HookNames::ENUM_VALUE_DESCRIPTION, \Closure::fromCallable([$this, 'getEnumValueDescription']), 10, 3);
+        App::addFilter(HookNames::ENUM_VALUES, $this->getEnumValues(...), 10, 2);
+        App::addFilter(HookNames::ENUM_VALUE_DESCRIPTION, $this->getEnumValueDescription(...), 10, 3);
     }
     /**
      * @param string[] $enumValues
@@ -33,11 +33,9 @@ class EnumTypeHookSet extends AbstractHookSet
         if (!$enumTypeResolver instanceof MediaItemOrderByEnumTypeResolver) {
             return $enumValueDescription;
         }
-        switch ($enumValue) {
-            case MediaItemOrderBy::AUTHOR:
-                return $this->__('Order by media item author', 'media');
-            default:
-                return $enumValueDescription;
-        }
+        return match ($enumValue) {
+            MediaItemOrderBy::AUTHOR => $this->__('Order by media item author', 'media'),
+            default => $enumValueDescription,
+        };
     }
 }

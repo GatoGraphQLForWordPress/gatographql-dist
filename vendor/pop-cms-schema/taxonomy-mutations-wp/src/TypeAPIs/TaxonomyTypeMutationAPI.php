@@ -76,7 +76,7 @@ class TaxonomyTypeMutationAPI extends AbstractBasicService implements TaxonomyTy
      * @return string|int the ID of the created taxonomy
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    public function createTaxonomyTerm(string $taxonomyName, array $data)
+    public function createTaxonomyTerm(string $taxonomyName, array $data): string|int
     {
         // Convert the parameters
         $data = $this->convertTaxonomiesMutationQuery($data);
@@ -105,9 +105,8 @@ class TaxonomyTypeMutationAPI extends AbstractBasicService implements TaxonomyTy
      * @param array<string,mixed> $data
      * @return string|int the ID of the updated taxonomy
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: Custom Post does not exist)
-     * @param string|int $taxonomyTermID
      */
-    public function updateTaxonomyTerm($taxonomyTermID, string $taxonomyName, array $data)
+    public function updateTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName, array $data): string|int
     {
         // Convert the parameters
         $data = $this->convertTaxonomiesMutationQuery($data);
@@ -125,9 +124,8 @@ class TaxonomyTypeMutationAPI extends AbstractBasicService implements TaxonomyTy
     /**
      * @return bool `true` if the operation successful, `false` if the term does not exist
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy does not exist)
-     * @param string|int $taxonomyTermID
      */
-    public function deleteTaxonomyTerm($taxonomyTermID, string $taxonomyName): bool
+    public function deleteTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName): bool
     {
         $taxonomyDataOrError = wp_delete_term((int) $taxonomyTermID, $taxonomyName);
         if ($taxonomyDataOrError instanceof WP_Error) {

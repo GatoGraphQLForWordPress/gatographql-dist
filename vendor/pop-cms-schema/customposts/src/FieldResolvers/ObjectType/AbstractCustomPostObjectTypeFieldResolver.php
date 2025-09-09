@@ -17,22 +17,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface|null
-     */
-    private $dateFormatter;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\FieldResolvers\InterfaceType\CustomPostInterfaceTypeFieldResolver|null
-     */
-    private $customPostInterfaceTypeFieldResolver;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?DateFormatterInterface $dateFormatter = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
+    private ?CustomPostInterfaceTypeFieldResolver $customPostInterfaceTypeFieldResolver = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -83,10 +71,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     {
         return [$this->getQueryableInterfaceTypeFieldResolver(), $this->getCustomPostInterfaceTypeFieldResolver()];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPostTypeAPI = $this->getCustomPostTypeAPI();
         $customPost = $object;
@@ -98,6 +83,8 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
                 return $customPostTypeAPI->getPermalinkPath($customPost);
             case 'slug':
                 return $customPostTypeAPI->getSlug($customPost);
+            case 'slugPath':
+                return $customPostTypeAPI->getSlugPath($customPost);
             case 'content':
                 return $customPostTypeAPI->getContent($customPost);
             case 'rawContent':

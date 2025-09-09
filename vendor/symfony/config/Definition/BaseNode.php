@@ -24,14 +24,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Exceptio
 abstract class BaseNode implements NodeInterface
 {
     public const DEFAULT_PATH_SEPARATOR = '.';
-    /**
-     * @var mixed[]
-     */
-    private static $placeholderUniquePrefixes = [];
-    /**
-     * @var mixed[]
-     */
-    private static $placeholders = [];
+    private static array $placeholderUniquePrefixes = [];
+    private static array $placeholders = [];
     protected $name;
     protected $parent;
     protected $normalizationClosures = [];
@@ -43,16 +37,13 @@ abstract class BaseNode implements NodeInterface
     protected $equivalentValues = [];
     protected $attributes = [];
     protected $pathSeparator;
-    /**
-     * @var mixed
-     */
-    private $handlingPlaceholder = null;
+    private mixed $handlingPlaceholder = null;
     /**
      * @throws \InvalidArgumentException if the name contains a period
      */
     public function __construct(?string $name, ?NodeInterface $parent = null, string $pathSeparator = self::DEFAULT_PATH_SEPARATOR)
     {
-        if (\strpos($name = (string) $name, $pathSeparator) !== \false) {
+        if (\str_contains($name = (string) $name, $pathSeparator)) {
             throw new \InvalidArgumentException('The name must not contain ".' . $pathSeparator . '".');
         }
         $this->name = $name;
@@ -98,17 +89,12 @@ abstract class BaseNode implements NodeInterface
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    public function setAttribute(string $key, $value)
+    public function setAttribute(string $key, mixed $value)
     {
         $this->attributes[$key] = $value;
     }
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getAttribute(string $key, $default = null)
+    public function getAttribute(string $key, mixed $default = null) : mixed
     {
         return $this->attributes[$key] ?? $default;
     }
@@ -154,17 +140,15 @@ abstract class BaseNode implements NodeInterface
      * Sets the example configuration for this node.
      *
      * @return void
-     * @param string|mixed[] $example
      */
-    public function setExample($example)
+    public function setExample(string|array $example)
     {
         $this->setAttribute('example', $example);
     }
     /**
      * Retrieves the example configuration for this node.
-     * @return string|mixed[]|null
      */
-    public function getExample()
+    public function getExample() : string|array|null
     {
         return $this->getAttribute('example');
     }
@@ -172,10 +156,8 @@ abstract class BaseNode implements NodeInterface
      * Adds an equivalent value.
      *
      * @return void
-     * @param mixed $originalValue
-     * @param mixed $equivalentValue
      */
-    public function addEquivalentValue($originalValue, $equivalentValue)
+    public function addEquivalentValue(mixed $originalValue, mixed $equivalentValue)
     {
         $this->equivalentValues[] = [$originalValue, $equivalentValue];
     }
@@ -285,12 +267,7 @@ abstract class BaseNode implements NodeInterface
         }
         return $this->name;
     }
-    /**
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
-     */
-    public final function merge($leftSide, $rightSide)
+    public final function merge(mixed $leftSide, mixed $rightSide) : mixed
     {
         if (!$this->allowOverwrite) {
             throw new ForbiddenOverwriteException(\sprintf('Configuration path "%s" cannot be overwritten. You have to define all options for this path, and any of its sub-paths in one configuration section.', $this->getPath()));
@@ -321,11 +298,7 @@ abstract class BaseNode implements NodeInterface
         $this->doValidateType($rightSide);
         return $this->mergeValues($leftSide, $rightSide);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public final function normalize($value)
+    public final function normalize(mixed $value) : mixed
     {
         $value = $this->preNormalize($value);
         // run custom normalization closures
@@ -357,10 +330,8 @@ abstract class BaseNode implements NodeInterface
     }
     /**
      * Normalizes the value before any other normalization is applied.
-     * @param mixed $value
-     * @return mixed
      */
-    protected function preNormalize($value)
+    protected function preNormalize(mixed $value) : mixed
     {
         return $value;
     }
@@ -371,11 +342,7 @@ abstract class BaseNode implements NodeInterface
     {
         return $this->parent;
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public final function finalize($value)
+    public final function finalize(mixed $value) : mixed
     {
         if ($value !== ($placeholders = self::resolvePlaceholderValue($value))) {
             foreach ($placeholders as $placeholder) {
@@ -412,28 +379,20 @@ abstract class BaseNode implements NodeInterface
      * @return void
      *
      * @throws InvalidTypeException when the value is invalid
-     * @param mixed $value
      */
-    protected abstract function validateType($value);
+    protected abstract function validateType(mixed $value);
     /**
      * Normalizes the value.
-     * @param mixed $value
-     * @return mixed
      */
-    protected abstract function normalizeValue($value);
+    protected abstract function normalizeValue(mixed $value) : mixed;
     /**
      * Merges two values together.
-     * @param mixed $leftSide
-     * @param mixed $rightSide
-     * @return mixed
      */
-    protected abstract function mergeValues($leftSide, $rightSide);
+    protected abstract function mergeValues(mixed $leftSide, mixed $rightSide) : mixed;
     /**
      * Finalizes a value.
-     * @param mixed $value
-     * @return mixed
      */
-    protected abstract function finalizeValue($value);
+    protected abstract function finalizeValue(mixed $value) : mixed;
     /**
      * Tests if placeholder values are allowed for this node.
      */
@@ -455,28 +414,21 @@ abstract class BaseNode implements NodeInterface
     {
         return [];
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    private static function resolvePlaceholderValue($value)
+    private static function resolvePlaceholderValue(mixed $value) : mixed
     {
         if (\is_string($value)) {
             if (isset(self::$placeholders[$value])) {
                 return self::$placeholders[$value];
             }
             foreach (self::$placeholderUniquePrefixes as $placeholderUniquePrefix) {
-                if (\strncmp($value, $placeholderUniquePrefix, \strlen($placeholderUniquePrefix)) === 0) {
+                if (\str_starts_with($value, $placeholderUniquePrefix)) {
                     return [];
                 }
             }
         }
         return $value;
     }
-    /**
-     * @param mixed $value
-     */
-    private function doValidateType($value) : void
+    private function doValidateType(mixed $value) : void
     {
         if (null !== $this->handlingPlaceholder && !$this->allowPlaceholders()) {
             $e = new InvalidTypeException(\sprintf('A dynamic value is not compatible with a "%s" node type at path "%s".', static::class, $this->getPath()));

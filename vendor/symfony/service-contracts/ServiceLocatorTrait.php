@@ -24,14 +24,8 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Container\NotFoundExceptionInterface;
  */
 trait ServiceLocatorTrait
 {
-    /**
-     * @var mixed[]
-     */
-    private $loading = [];
-    /**
-     * @var mixed[]
-     */
-    private $providedTypes;
+    private array $loading = [];
+    private array $providedTypes;
     /**
      * @param array<string, callable> $factories
      */
@@ -42,10 +36,7 @@ trait ServiceLocatorTrait
     {
         return isset($this->factories[$id]);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $id)
+    public function get(string $id) : mixed
     {
         if (!isset($this->factories[$id])) {
             throw $this->createNotFoundException($id);

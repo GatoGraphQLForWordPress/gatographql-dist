@@ -19,16 +19,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class EnvVarProcessor implements EnvVarProcessorInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
     /** @var \Traversable<EnvVarLoaderInterface> */
-    private $loaders;
-    /**
-     * @var mixed[]
-     */
-    private $loadedVars = [];
+    private \Traversable $loaders;
+    private array $loadedVars = [];
     /**
      * @param \Traversable<EnvVarLoaderInterface>|null $loaders
      */
@@ -41,10 +35,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     {
         return ['base64' => 'string', 'bool' => 'bool', 'not' => 'bool', 'const' => 'bool|int|float|string|array', 'csv' => 'array', 'file' => 'string', 'float' => 'float', 'int' => 'int', 'json' => 'array', 'key' => 'bool|int|float|string|array', 'url' => 'array', 'query_string' => 'array', 'resolve' => 'string', 'default' => 'bool|int|float|string|array', 'string' => 'string', 'trim' => 'string', 'require' => 'bool|int|float|string|array', 'enum' => \BackedEnum::class, 'shuffle' => 'array', 'defined' => 'bool'];
     }
-    /**
-     * @return mixed
-     */
-    public function getEnv(string $prefix, string $name, \Closure $getEnv)
+    public function getEnv(string $prefix, string $name, \Closure $getEnv) : mixed
     {
         $i = \strpos($name, ':');
         if ('key' === $prefix) {
@@ -75,15 +66,12 @@ class EnvVarProcessor implements EnvVarProcessorInterface
             if (!\is_subclass_of($backedEnumClassName, \BackedEnum::class)) {
                 throw new RuntimeException(\sprintf('"%s" is not a "%s".', $backedEnumClassName, \BackedEnum::class));
             }
-            if ($backedEnumClassName::tryFrom($backedEnumValue) !== null) {
-                throw new RuntimeException(\sprintf('Enum value "%s" is not backed by "%s".', $backedEnumValue, $backedEnumClassName));
-            }
-            return $backedEnumClassName::tryFrom($backedEnumValue);
+            return $backedEnumClassName::tryFrom($backedEnumValue) ?? throw new RuntimeException(\sprintf('Enum value "%s" is not backed by "%s".', $backedEnumValue, $backedEnumClassName));
         }
         if ('defined' === $prefix) {
             try {
                 return '' !== ($getEnv($name) ?? '');
-            } catch (EnvNotFoundException $exception) {
+            } catch (EnvNotFoundException) {
                 return \false;
             }
         }
@@ -101,7 +89,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                 if ('' !== $env && null !== $env) {
                     return $env;
                 }
-            } catch (EnvNotFoundException $exception) {
+            } catch (EnvNotFoundException) {
                 // no-op
             }
             return '' === $default ? null : $this->container->getParameter($default);
@@ -129,7 +117,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         }
         if (\false !== $i || 'string' !== $prefix) {
             $env = $getEnv($name);
-        } elseif ('' === ($env = $_ENV[$name] ?? (\strncmp($name, 'HTTP_', \strlen('HTTP_')) === 0 ? null : $_SERVER[$name] ?? null)) || \false !== $env && \false === ($env = $env ?? \getenv($name) ?? \false)) {
+        } elseif ('' === ($env = $_ENV[$name] ?? (\str_starts_with($name, 'HTTP_') ? null : $_SERVER[$name] ?? null)) || \false !== $env && \false === ($env ??= \getenv($name) ?? \false)) {
             foreach ($this->loadedVars as $i => $vars) {
                 if (\false === ($env = $vars[$name] ?? $env)) {
                     continue;
@@ -167,7 +155,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                     if ($ended || $count === $i) {
                         $loaders = $this->loaders;
                     }
-                } catch (ParameterCircularReferenceException $exception) {
+                } catch (ParameterCircularReferenceException) {
                     // skip loaders that need an env var that is not defined
                 } finally {
                     $this->loaders = $loaders;
@@ -192,9 +180,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
             }
         }
         if ('shuffle' === $prefix) {
-            if (!\is_array($env)) {
-                throw new RuntimeException(\sprintf('Env var "%s" cannot be shuffled, expected array, got "%s".', $name, \get_debug_type($env)));
-            }
+            \is_array($env) ? \shuffle($env) : throw new RuntimeException(\sprintf('Env var "%s" cannot be shuffled, expected array, got "%s".', $name, \get_debug_type($env)));
             return $env;
         }
         if (null !== $env && !\is_scalar($env)) {
@@ -263,7 +249,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                 if (!isset($match[1])) {
                     return '%';
                 }
-                if (\strncmp($match[1], 'env(', \strlen('env(')) === 0 && \substr_compare($match[1], ')', -\strlen(')')) === 0 && 'env()' !== $match[1]) {
+                if (\str_starts_with($match[1], 'env(') && \str_ends_with($match[1], ')') && 'env()' !== $match[1]) {
                     $value = $getEnv(\substr($match[1], 4, -1));
                 } else {
                     $value = $this->container->getParameter($match[1]);

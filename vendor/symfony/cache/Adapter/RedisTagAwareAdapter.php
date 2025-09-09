@@ -53,23 +53,16 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
     private const DEFAULT_CACHE_TTL = 8640000;
     /**
      * detected eviction policy used on Redis server.
-     * @var string
      */
-    private $redisEvictionPolicy;
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @param \Redis|\Relay\Relay|\RedisArray|\RedisCluster|\Predis\ClientInterface $redis
-     */
-    public function __construct($redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
+    private string $redisEvictionPolicy;
+    private string $namespace;
+    public function __construct(\Redis|Relay|\RedisArray|\RedisCluster|\GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface $redis, string $namespace = '', int $defaultLifetime = 0, ?MarshallerInterface $marshaller = null)
     {
         if ($redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && $redis->getConnection() instanceof ClusterInterface && !$redis->getConnection() instanceof PredisCluster) {
             throw new InvalidArgumentException(\sprintf('Unsupported Predis cluster connection: only "%s" is, "%s" given.', PredisCluster::class, \get_debug_type($redis->getConnection())));
         }
         $isRelay = $redis instanceof Relay;
-        if ($isRelay || \defined('Redis::OPT_COMPRESSION') && \in_array(\get_class($redis), [\Redis::class, \RedisArray::class, \RedisCluster::class], \true)) {
+        if ($isRelay || \defined('Redis::OPT_COMPRESSION') && \in_array($redis::class, [\Redis::class, \RedisArray::class, \RedisCluster::class], \true)) {
             $compression = $redis->getOption($isRelay ? Relay::OPT_COMPRESSION : \Redis::OPT_COMPRESSION);
             foreach (\is_array($compression) ? $compression : [$compression] as $c) {
                 if ($isRelay ? Relay::COMPRESSION_NONE : \Redis::COMPRESSION_NONE !== $c) {
@@ -83,7 +76,7 @@ class RedisTagAwareAdapter extends AbstractTagAwareAdapter
     protected function doSave(array $values, int $lifetime, array $addTagData = [], array $delTagData = []) : array
     {
         $eviction = $this->getRedisEvictionPolicy();
-        if ('noeviction' !== $eviction && \strncmp($eviction, 'volatile-', \strlen('volatile-')) !== 0) {
+        if ('noeviction' !== $eviction && !\str_starts_with($eviction, 'volatile-')) {
             throw new LogicException(\sprintf('Redis maxmemory-policy setting "%s" is *not* supported by RedisTagAwareAdapter, use "noeviction" or "volatile-*" eviction policies.', $eviction));
         }
         // serialize values
@@ -148,7 +141,7 @@ EOLUA;
             }
             try {
                 (yield $id => !\is_string($result) || '' === $result ? [] : $this->marshaller->unmarshall($result));
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 (yield $id => []);
             }
         }

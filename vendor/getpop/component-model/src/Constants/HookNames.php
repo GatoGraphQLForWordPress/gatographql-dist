@@ -6,6 +6,6 @@ namespace PoP\ComponentModel\Constants;
 /** @internal */
 class HookNames
 {
-    public const QUERYDATA_WHITELISTEDPARAMS = __CLASS__ . ':request:whitelistedParams';
-    public const DATALOAD_INIT_MODEL_PROPS = __CLASS__ . ':dataload:initModelProps';
+    public final const QUERYDATA_WHITELISTEDPARAMS = __CLASS__ . ':request:whitelistedParams';
+    public final const DATALOAD_INIT_MODEL_PROPS = __CLASS__ . ':dataload:initModelProps';
 }

@@ -22,10 +22,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
  */
 class FileResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $resource;
+    private string $resource;
     /**
      * @param string $resource The file path to the resource
      *

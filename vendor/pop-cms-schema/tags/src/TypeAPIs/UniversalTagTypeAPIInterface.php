@@ -7,28 +7,10 @@ use PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTypeAPIInterface;
 /** @internal */
 interface UniversalTagTypeAPIInterface extends TaxonomyTypeAPIInterface
 {
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURL($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagURLPath($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagName($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagSlug($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagDescription($tagObjectOrID) : ?string;
-    /**
-     * @param string|int|object $tagObjectOrID
-     */
-    public function getTagItemCount($tagObjectOrID) : ?int;
+    public function getTagURL(string|int|object $tagObjectOrID) : ?string;
+    public function getTagURLPath(string|int|object $tagObjectOrID) : ?string;
+    public function getTagName(string|int|object $tagObjectOrID) : ?string;
+    public function getTagSlug(string|int|object $tagObjectOrID) : ?string;
+    public function getTagDescription(string|int|object $tagObjectOrID) : ?string;
+    public function getTagItemCount(string|int|object $tagObjectOrID) : ?int;
 }

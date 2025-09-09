@@ -11,14 +11,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\AbstractObjectTypeResolver;
 
 class NetworkSiteObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\Multisite\TypeAPIs\MultisiteTypeAPIInterface|null
-     */
-    private $multisiteTypeAPI;
-    /**
-     * @var \PoPWPSchema\Multisite\RelationalTypeDataLoaders\ObjectType\NetworkSiteObjectTypeDataLoader|null
-     */
-    private $networkSiteObjectTypeDataLoader;
+    private ?MultisiteTypeAPIInterface $multisiteTypeAPI = null;
+    private ?NetworkSiteObjectTypeDataLoader $networkSiteObjectTypeDataLoader = null;
 
     final protected function getMultisiteTypeAPI(): MultisiteTypeAPIInterface
     {
@@ -49,10 +43,7 @@ class NetworkSiteObjectTypeResolver extends AbstractObjectTypeResolver
         return $this->__('Site in a WordPress multisite network', 'multisite');
     }
 
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object): string|int|null
     {
         $networkSite = $object;
         return $this->getMultisiteTypeAPI()->getNetworkSiteID($networkSite);

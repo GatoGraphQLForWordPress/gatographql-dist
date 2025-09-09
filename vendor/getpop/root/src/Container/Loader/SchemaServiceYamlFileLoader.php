@@ -15,14 +15,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader
  */
 class SchemaServiceYamlFileLoader extends YamlFileLoader
 {
-    /**
-     * @var bool
-     */
-    protected $autoconfigure;
     use \PoP\Root\Container\Loader\ServiceYamlFileLoaderTrait;
-    public function __construct(ContainerBuilder $container, FileLocatorInterface $locator, bool $autoconfigure)
+    public function __construct(ContainerBuilder $container, FileLocatorInterface $locator, protected bool $autoconfigure)
     {
-        $this->autoconfigure = $autoconfigure;
         parent::__construct($container, $locator);
     }
     /**

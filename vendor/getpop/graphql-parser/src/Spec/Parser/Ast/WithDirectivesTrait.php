@@ -7,7 +7,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 trait WithDirectivesTrait
 {
     /** @var Directive[] */
-    protected $directives;
+    protected array $directives;
     public function hasDirectives() : bool
     {
         return \count($this->directives) > 0;

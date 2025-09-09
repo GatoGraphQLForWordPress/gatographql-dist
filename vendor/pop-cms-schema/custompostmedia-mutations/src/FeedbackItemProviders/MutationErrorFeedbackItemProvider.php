@@ -8,9 +8,9 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E3 = 'e3';
-    public const E4 = 'e4';
+    public final const E1 = 'e1';
+    public final const E3 = 'e3';
+    public final const E4 = 'e4';
     /**
      * @return string[]
      */
@@ -20,16 +20,12 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('The media item is missing', 'custompostmedia-mutations');
-            case self::E3:
-                return $this->__('You must be logged in to set or remove the featured image on custom posts', 'custompost-mutations');
-            case self::E4:
-                return $this->__('Setting a featured image is not supported for custom post type \'%s\'', 'custompostmedia-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('The media item is missing', 'custompostmedia-mutations'),
+            self::E3 => $this->__('You must be logged in to set or remove the featured image on custom posts', 'custompost-mutations'),
+            self::E4 => $this->__('Setting a featured image is not supported for custom post type \'%s\'', 'custompostmedia-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

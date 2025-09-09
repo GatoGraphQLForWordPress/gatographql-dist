@@ -8,10 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByTagsInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getTagTaxonomyEnumStringScalarTypeResolver() : TagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->tagTaxonomyEnumStringScalarTypeResolver === null) {
@@ -29,10 +26,7 @@ class CustomPostsFilterCustomPostsByTagsInputObjectTypeResolver extends \PoPCMSS
     {
         return $this->getTagTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getTagTaxonomyFilterDefaultValue()
+    protected function getTagTaxonomyFilterDefaultValue() : mixed
     {
         return null;
     }

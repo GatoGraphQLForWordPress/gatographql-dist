@@ -20,38 +20,14 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostMutationResolver|null
-     */
-    private $setCategoriesOnPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\SetCategoriesOnPostBulkOperationMutationResolver|null
-     */
-    private $setCategoriesOnPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\RootSetCategoriesOnPostInputObjectTypeResolver|null
-     */
-    private $rootSetCategoriesOnPostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostMutationResolver|null
-     */
-    private $payloadableSetCategoriesOnPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnPostBulkOperationMutationResolver|null
-     */
-    private $payloadableSetCategoriesOnPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategoryMutations\TypeResolvers\ObjectType\RootSetCategoriesOnPostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?SetCategoriesOnPostMutationResolver $setCategoriesOnPostMutationResolver = null;
+    private ?SetCategoriesOnPostBulkOperationMutationResolver $setCategoriesOnPostBulkOperationMutationResolver = null;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?RootSetCategoriesOnPostInputObjectTypeResolver $rootSetCategoriesOnPostInputObjectTypeResolver = null;
+    private ?PayloadableSetCategoriesOnPostMutationResolver $payloadableSetCategoriesOnPostMutationResolver = null;
+    private ?PayloadableSetCategoriesOnPostBulkOperationMutationResolver $payloadableSetCategoriesOnPostBulkOperationMutationResolver = null;
+    private ?RootSetCategoriesOnPostMutationPayloadObjectTypeResolver $rootSetCategoriesOnPostMutationPayloadObjectTypeResolver = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {

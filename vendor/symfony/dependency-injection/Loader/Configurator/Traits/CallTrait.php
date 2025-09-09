@@ -25,7 +25,7 @@ trait CallTrait
      *
      * @throws InvalidArgumentException on empty $method param
      */
-    public final function call(string $method, array $arguments = [], bool $returnsClone = \false)
+    public final function call(string $method, array $arguments = [], bool $returnsClone = \false) : static
     {
         $this->definition->addMethodCall($method, static::processValue($arguments, \true), $returnsClone);
         return $this;

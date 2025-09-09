@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Categories\Constants;
 /** @internal */
 class InputNames
 {
-    public const CATEGORY_ID = 'catid';
+    public final const CATEGORY_ID = 'catid';
 }

@@ -28,30 +28,17 @@ class Cookie
     protected $path;
     protected $secure;
     protected $httpOnly;
-    /**
-     * @var bool
-     */
-    private $raw;
-    /**
-     * @var string|null
-     */
-    private $sameSite;
-    /**
-     * @var bool
-     */
-    private $partitioned = \false;
-    /**
-     * @var bool
-     */
-    private $secureDefault = \false;
+    private bool $raw;
+    private ?string $sameSite = null;
+    private bool $partitioned = \false;
+    private bool $secureDefault = \false;
     private const RESERVED_CHARS_LIST = "=,; \t\r\n\v\f";
     private const RESERVED_CHARS_FROM = ['=', ',', ';', ' ', "\t", "\r", "\n", "\v", "\f"];
     private const RESERVED_CHARS_TO = ['%3D', '%2C', '%3B', '%20', '%09', '%0D', '%0A', '%0B', '%0C'];
     /**
      * Creates cookie from raw header string.
-     * @return static
      */
-    public static function fromString(string $cookie, bool $decode = \false)
+    public static function fromString(string $cookie, bool $decode = \false) : static
     {
         $data = ['expires' => 0, 'path' => '/', 'domain' => null, 'secure' => \false, 'httponly' => \false, 'raw' => !$decode, 'samesite' => null, 'partitioned' => \false];
         $parts = HeaderUtils::split($cookie, ';=');
@@ -70,9 +57,8 @@ class Cookie
      *
      * @param self::SAMESITE_*|''|null $sameSite
      * @param bool                     $partitioned
-     * @param int|string|\DateTimeInterface $expire
      */
-    public static function create(string $name, ?string $value = null, $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = \true, bool $raw = \false, ?string $sameSite = self::SAMESITE_LAX) : self
+    public static function create(string $name, ?string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = \true, bool $raw = \false, ?string $sameSite = self::SAMESITE_LAX) : self
     {
         $partitioned = 9 < \func_num_args() ? \func_get_arg(9) : \false;
         return new self($name, $value, $expire, $path, $domain, $secure, $httpOnly, $raw, $sameSite, $partitioned);
@@ -90,7 +76,7 @@ class Cookie
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $name, ?string $value = null, $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = \true, bool $raw = \false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = \false)
+    public function __construct(string $name, ?string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = \true, bool $raw = \false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = \false)
     {
         // from PHP source code
         if ($raw && \false !== \strpbrk($name, self::RESERVED_CHARS_LIST)) {
@@ -112,9 +98,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy with a new value.
-     * @return static
      */
-    public function withValue(?string $value)
+    public function withValue(?string $value) : static
     {
         $cookie = clone $this;
         $cookie->value = $value;
@@ -122,9 +107,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy with a new domain that the cookie is available to.
-     * @return static
      */
-    public function withDomain(?string $domain)
+    public function withDomain(?string $domain) : static
     {
         $cookie = clone $this;
         $cookie->domain = $domain;
@@ -132,10 +116,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy with a new time the cookie expires.
-     * @param int|string|\DateTimeInterface $expire
-     * @return static
      */
-    public function withExpires($expire = 0)
+    public function withExpires(int|string|\DateTimeInterface $expire = 0) : static
     {
         $cookie = clone $this;
         $cookie->expire = self::expiresTimestamp($expire);
@@ -143,9 +125,8 @@ class Cookie
     }
     /**
      * Converts expires formats to a unix timestamp.
-     * @param int|string|\DateTimeInterface $expire
      */
-    private static function expiresTimestamp($expire = 0) : int
+    private static function expiresTimestamp(int|string|\DateTimeInterface $expire = 0) : int
     {
         // convert expiration time to a Unix timestamp
         if ($expire instanceof \DateTimeInterface) {
@@ -160,9 +141,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy with a new path on the server in which the cookie will be available on.
-     * @return static
      */
-    public function withPath(string $path)
+    public function withPath(string $path) : static
     {
         $cookie = clone $this;
         $cookie->path = '' === $path ? '/' : $path;
@@ -170,9 +150,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy that only be transmitted over a secure HTTPS connection from the client.
-     * @return static
      */
-    public function withSecure(bool $secure = \true)
+    public function withSecure(bool $secure = \true) : static
     {
         $cookie = clone $this;
         $cookie->secure = $secure;
@@ -180,9 +159,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy that be accessible only through the HTTP protocol.
-     * @return static
      */
-    public function withHttpOnly(bool $httpOnly = \true)
+    public function withHttpOnly(bool $httpOnly = \true) : static
     {
         $cookie = clone $this;
         $cookie->httpOnly = $httpOnly;
@@ -190,9 +168,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy that uses no url encoding.
-     * @return static
      */
-    public function withRaw(bool $raw = \true)
+    public function withRaw(bool $raw = \true) : static
     {
         if ($raw && \false !== \strpbrk($this->name, self::RESERVED_CHARS_LIST)) {
             throw new \InvalidArgumentException(\sprintf('The cookie name "%s" contains invalid characters.', $this->name));
@@ -205,9 +182,8 @@ class Cookie
      * Creates a cookie copy with SameSite attribute.
      *
      * @param self::SAMESITE_*|''|null $sameSite
-     * @return static
      */
-    public function withSameSite(?string $sameSite)
+    public function withSameSite(?string $sameSite) : static
     {
         if ('' === $sameSite) {
             $sameSite = null;
@@ -223,9 +199,8 @@ class Cookie
     }
     /**
      * Creates a cookie copy that is tied to the top-level site in cross-site context.
-     * @return static
      */
-    public function withPartitioned(bool $partitioned = \true)
+    public function withPartitioned(bool $partitioned = \true) : static
     {
         $cookie = clone $this;
         $cookie->partitioned = $partitioned;

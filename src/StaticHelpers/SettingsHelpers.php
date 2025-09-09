@@ -14,7 +14,7 @@ class SettingsHelpers
     /**
      * @var array<string,CommercialExtensionActivatedLicenseObjectProperties>|null Extension Slug => License Data
      */
-    private static $commercialExtensionActivatedLicenseObjectProperties;
+    private static ?array $commercialExtensionActivatedLicenseObjectProperties = null;
 
     /**
      * Retrieve the license properties for all activated extensions

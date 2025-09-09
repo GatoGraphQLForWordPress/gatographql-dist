@@ -9,10 +9,7 @@ use PoP\Root\Services\AbstractBasicService;
 
 class ModuleAggregator extends AbstractBasicService
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

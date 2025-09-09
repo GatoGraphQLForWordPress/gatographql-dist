@@ -26,30 +26,12 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
 {
     use ContractsTrait;
     use ProxyTrait;
-    /**
-     * @var string
-     */
-    private $namespace = '';
-    /**
-     * @var int
-     */
-    private $namespaceLen;
-    /**
-     * @var string
-     */
-    private $poolHash;
-    /**
-     * @var int
-     */
-    private $defaultLifetime;
-    /**
-     * @var \Closure
-     */
-    private static $createCacheItem;
-    /**
-     * @var \Closure
-     */
-    private static $setInnerItem;
+    private string $namespace = '';
+    private int $namespaceLen;
+    private string $poolHash;
+    private int $defaultLifetime;
+    private static \Closure $createCacheItem;
+    private static \Closure $setInnerItem;
     public function __construct(CacheItemPoolInterface $pool, string $namespace = '', int $defaultLifetime = 0)
     {
         $this->pool = $pool;
@@ -60,7 +42,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
         $this->namespaceLen = \strlen($namespace);
         $this->defaultLifetime = $defaultLifetime;
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key, $innerItem, $poolHash) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key, $innerItem, $poolHash) {
             $item = new CacheItem();
             $item->key = $key;
             if (null === $innerItem) {
@@ -76,15 +58,12 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
             $innerItem->set(null);
             return $item;
         }, null, CacheItem::class);
-        self::$setInnerItem = self::$setInnerItem ?? \Closure::bind(static function (CacheItemInterface $innerItem, CacheItem $item, $expiry = null) {
+        self::$setInnerItem ??= \Closure::bind(static function (CacheItemInterface $innerItem, CacheItem $item, $expiry = null) {
             $innerItem->set($item->pack());
             $innerItem->expiresAt($expiry ?? $item->expiry ? \DateTimeImmutable::createFromFormat('U.u', \sprintf('%.6F', $expiry ?? $item->expiry)) : null);
         }, null, CacheItem::class);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         if (!$this->pool instanceof CacheInterface) {
             return $this->doGet($this, $key, $callback, $beta, $metadata);
@@ -96,10 +75,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
             return $value;
         }, $beta, $metadata);
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         $item = $this->pool->getItem($this->getId($key));
         return (self::$createCacheItem)($key, $item, $this->poolHash);
@@ -113,10 +89,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
         return $this->generateItems($this->pool->getItems($keys));
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         return $this->pool->hasItem($this->getId($key));
     }
@@ -127,10 +100,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
         return $this->pool->clear();
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         return $this->pool->deleteItem($this->getId($key));
     }
@@ -186,10 +156,7 @@ class ProxyAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
             (yield $key => $f($key, $item, $this->poolHash));
         }
     }
-    /**
-     * @param mixed $key
-     */
-    private function getId($key) : string
+    private function getId(mixed $key) : string
     {
         \assert('' !== CacheItem::validateKey($key));
         return $this->namespace . $key;

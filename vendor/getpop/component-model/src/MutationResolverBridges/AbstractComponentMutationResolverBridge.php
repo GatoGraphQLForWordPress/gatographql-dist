@@ -22,10 +22,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 abstract class AbstractComponentMutationResolverBridge extends AbstractBasicService implements \PoP\ComponentModel\MutationResolverBridges\ComponentMutationResolverBridgeInterface
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -35,18 +32,14 @@ abstract class AbstractComponentMutationResolverBridge extends AbstractBasicServ
         }
         return $this->componentProcessorManager;
     }
-    /**
-     * @param string|int $resultID
-     */
-    public function getSuccessString($resultID) : ?string
+    public function getSuccessString(string|int $resultID) : ?string
     {
         return null;
     }
     /**
      * @return string[]
-     * @param string|int $resultID
      */
-    public function getSuccessStrings($resultID) : array
+    public function getSuccessStrings(string|int $resultID) : array
     {
         $success_string = $this->getSuccessString($resultID);
         return $success_string !== null ? [$success_string] : [];
@@ -79,9 +72,7 @@ abstract class AbstractComponentMutationResolverBridge extends AbstractBasicServ
         $mutationResolver->validate($fieldDataAccessorForMutation, $objectTypeFieldResolutionFeedbackStore);
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // @todo Migrate from string to FeedbackItemProvider
-            $mutationResponse[$errorTypeKey] = \array_map(function (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) {
-                return $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage();
-            }, $objectTypeFieldResolutionFeedbackStore->getErrors());
+            $mutationResponse[$errorTypeKey] = \array_map(fn(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) => $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage(), $objectTypeFieldResolutionFeedbackStore->getErrors());
             if ($this->skipDataloadIfError()) {
                 // Bring no results
                 $data_properties[DataloadingConstants::SKIPDATALOAD] = \true;
@@ -107,9 +98,7 @@ abstract class AbstractComponentMutationResolverBridge extends AbstractBasicServ
         // @todo Make DRY! This code was copy/pasted from just above
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // @todo Migrate from string to FeedbackItemProvider
-            $mutationResponse[$errorTypeKey] = \array_map(function (ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) {
-                return $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage();
-            }, $objectTypeFieldResolutionFeedbackStore->getErrors());
+            $mutationResponse[$errorTypeKey] = \array_map(fn(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) => $objectTypeFieldResolutionFeedback->getFeedbackItemResolution()->getMessage(), $objectTypeFieldResolutionFeedbackStore->getErrors());
             if ($this->skipDataloadIfError()) {
                 // Bring no results
                 $data_properties[DataloadingConstants::SKIPDATALOAD] = \true;
@@ -152,9 +141,8 @@ abstract class AbstractComponentMutationResolverBridge extends AbstractBasicServ
     }
     /**
      * @param array<string,mixed> $data_properties
-     * @param string|int $resultID
      */
-    protected function modifyDataProperties(array &$data_properties, $resultID) : void
+    protected function modifyDataProperties(array &$data_properties, string|int $resultID) : void
     {
     }
 }

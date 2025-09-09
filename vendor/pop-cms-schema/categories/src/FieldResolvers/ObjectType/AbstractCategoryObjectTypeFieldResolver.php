@@ -21,30 +21,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver implements CategoryAPIRequestedContractObjectTypeFieldResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\QueriedObject\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldResolver|null
-     */
-    private $queryableInterfaceTypeFieldResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\FieldResolvers\InterfaceType\CategoryInterfaceTypeFieldResolver|null
-     */
-    private $categoryInterfaceTypeFieldResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\UniversalCategoryTypeAPIInterface|null
-     */
-    private $universalCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?QueryableInterfaceTypeFieldResolver $queryableInterfaceTypeFieldResolver = null;
+    private ?CategoryInterfaceTypeFieldResolver $categoryInterfaceTypeFieldResolver = null;
+    private ?UniversalCategoryTypeAPIInterface $universalCategoryTypeAPI = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -124,50 +106,39 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
             // Own
             'taxonomy',
             'parent',
+            'ancestors',
         ];
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'taxonomy':
-                return $this->getTaxonomyFieldTypeResolver();
-            case 'parent':
-                return $this->getCategoryTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'taxonomy' => $this->getTaxonomyFieldTypeResolver(),
+            'parent', 'ancestors' => $this->getCategoryTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getTaxonomyFieldTypeResolver() : ConcreteTypeResolverInterface;
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'url':
-                return $this->__('Category URL', 'pop-categories');
-            case 'urlPath':
-                return $this->__('Category URL path', 'pop-categories');
-            case 'slug':
-                return $this->__('Category slug', 'pop-categories');
-            case 'taxonomy':
-                return $this->__('Category taxonomy', 'pop-categories');
-            case 'parent':
-                return $this->__('Parent category (if this category is a child of another one)', 'pop-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'url' => $this->__('Category URL', 'pop-categories'),
+            'urlPath' => $this->__('Category URL path', 'pop-categories'),
+            'slug' => $this->__('Category slug', 'pop-categories'),
+            'taxonomy' => $this->__('Category taxonomy', 'pop-categories'),
+            'parent' => $this->__('Parent category (if this category is a child of another one)', 'pop-categories'),
+            'ancestors' => $this->__('List of all ancestor categories (parent, grandparent, etc.)', 'pop-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'taxonomy':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'taxonomy' => SchemaTypeModifiers::NON_NULLABLE,
+            'ancestors' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $category = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -193,6 +164,9 @@ abstract class AbstractCategoryObjectTypeFieldResolver extends AbstractObjectTyp
                 return $this->getUniversalCategoryTypeAPI()->getCategoryDescription($category);
             case 'parent':
                 return $this->getUniversalCategoryTypeAPI()->getCategoryParentID($category);
+            case 'ancestors':
+                /** @var array<int|string> */
+                return $this->getUniversalCategoryTypeAPI()->getCategoryAncestorIDs($category);
             case 'count':
                 /** @var int */
                 return $this->getUniversalCategoryTypeAPI()->getCategoryItemCount($category);

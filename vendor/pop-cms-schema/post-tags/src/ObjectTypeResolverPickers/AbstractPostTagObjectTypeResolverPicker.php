@@ -13,14 +13,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 abstract class AbstractPostTagObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements TagObjectTypeResolverPickerInterface
 {
     use TagObjectTypeResolverPickerTrait;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -47,10 +41,7 @@ abstract class AbstractPostTagObjectTypeResolverPicker extends AbstractObjectTyp
     {
         return $this->getPostTagTypeAPI()->isInstanceOfTagType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getPostTagTypeAPI()->tagExists($objectID);
     }

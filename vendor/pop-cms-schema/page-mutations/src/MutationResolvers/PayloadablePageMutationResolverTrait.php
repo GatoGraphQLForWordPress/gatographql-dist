@@ -20,13 +20,10 @@ trait PayloadablePageMutationResolverTrait
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new LoggedInUserHasNoEditingPageCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
-                return new LoggedInUserHasNoPublishingPageCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return App::applyFilters(PageCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback);
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2] => new LoggedInUserHasNoEditingPageCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3] => new LoggedInUserHasNoPublishingPageCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            default => App::applyFilters(PageCRUDHookNames::ERROR_PAYLOAD, $this->upstreamCreateErrorPayloadFromObjectTypeFieldResolutionFeedback($objectTypeFieldResolutionFeedback), $objectTypeFieldResolutionFeedback),
+        };
     }
 }

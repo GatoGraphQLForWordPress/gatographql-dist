@@ -6,6 +6,6 @@ namespace PoPCMSSchema\Taxonomies\Constants;
 /** @internal */
 class InputProperties
 {
-    public const ID = 'id';
-    public const SLUG = 'slug';
+    public final const ID = 'id';
+    public final const SLUG = 'slug';
 }

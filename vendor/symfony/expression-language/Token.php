@@ -30,9 +30,8 @@ class Token
     /**
      * @param self::*_TYPE $type
      * @param int|null     $cursor The cursor position in the source
-     * @param string|int|float|null $value
      */
-    public function __construct(string $type, $value, ?int $cursor)
+    public function __construct(string $type, string|int|float|null $value, ?int $cursor)
     {
         $this->type = $type;
         $this->value = $value;

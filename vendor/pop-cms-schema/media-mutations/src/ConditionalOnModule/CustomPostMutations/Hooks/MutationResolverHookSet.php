@@ -24,26 +24,11 @@ use PoP\Root\Hooks\AbstractHookSet;
 class MutationResolverHookSet extends AbstractHookSet
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -91,11 +76,11 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(MediaCRUDHookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, \Closure::fromCallable([$this, 'maybeValidateCustomPost']), 10, 2);
-        App::addFilter(MediaCRUDHookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateMediaItemData']), 10, 2);
-        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']));
-        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 2);
-        App::addFilter(MediaCRUDHookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction(MediaCRUDHookNames::VALIDATE_CREATE_OR_UPDATE_MEDIA_ITEM, $this->maybeValidateCustomPost(...), 10, 2);
+        App::addFilter(MediaCRUDHookNames::GET_CREATE_OR_UPDATE_MEDIA_ITEM_DATA, $this->addCreateOrUpdateMediaItemData(...), 10, 2);
+        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...));
+        App::addFilter(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 2);
+        App::addFilter(MediaCRUDHookNames::ERROR_PAYLOAD, $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     public function maybeValidateCustomPost(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
@@ -140,21 +125,17 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     public function getInputFieldDescription(?string $inputFieldDescription, string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return $this->__('ID of the custom post under which to upload the attachment', 'media-mutations');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('ID of the custom post under which to upload the attachment', 'media-mutations'),
+            default => $inputFieldDescription,
+        };
     }
     public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
-                return new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $errorPayload;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7] => new CustomPostDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            default => $errorPayload,
+        };
     }
 }

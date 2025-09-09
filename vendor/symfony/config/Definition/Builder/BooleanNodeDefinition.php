@@ -28,15 +28,14 @@ class BooleanNodeDefinition extends ScalarNodeDefinition
     /**
      * Instantiate a Node.
      */
-    protected function instantiateNode() : \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNode
+    protected function instantiateNode() : BooleanNode
     {
         return new BooleanNode($this->name, $this->parent, $this->pathSeparator);
     }
     /**
      * @throws InvalidDefinitionException
-     * @return static
      */
-    public function cannotBeEmpty()
+    public function cannotBeEmpty() : static
     {
         throw new InvalidDefinitionException('->cannotBeEmpty() is not applicable to BooleanNodeDefinition.');
     }

@@ -25,34 +25,13 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class MediaObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface|null
-     */
-    private $dateFormatter;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver|null
-     */
-    private $dateTimeScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLAbsolutePathScalarTypeResolver|null
-     */
-    private $urlAbsolutePathScalarTypeResolver;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?DateFormatterInterface $dateFormatter = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?DateTimeScalarTypeResolver $dateTimeScalarTypeResolver = null;
+    private ?URLAbsolutePathScalarTypeResolver $urlAbsolutePathScalarTypeResolver = null;
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -132,171 +111,98 @@ class MediaObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResol
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'src':
-                return $this->getURLScalarTypeResolver();
-            case 'srcs':
-                return $this->getURLScalarTypeResolver();
-            case 'srcPath':
-                return $this->getURLAbsolutePathScalarTypeResolver();
-            case 'srcSet':
-                return $this->getStringScalarTypeResolver();
-            case 'width':
-                return $this->getIntScalarTypeResolver();
-            case 'widths':
-                return $this->getIntScalarTypeResolver();
-            case 'height':
-                return $this->getIntScalarTypeResolver();
-            case 'heights':
-                return $this->getIntScalarTypeResolver();
-            case 'sizes':
-                return $this->getStringScalarTypeResolver();
-            case 'title':
-                return $this->getStringScalarTypeResolver();
-            case 'caption':
-                return $this->getStringScalarTypeResolver();
-            case 'altText':
-                return $this->getStringScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'date':
-                return $this->getDateTimeScalarTypeResolver();
-            case 'dateStr':
-                return $this->getStringScalarTypeResolver();
-            case 'modifiedDate':
-                return $this->getDateTimeScalarTypeResolver();
-            case 'modifiedDateStr':
-                return $this->getStringScalarTypeResolver();
-            case 'mimeType':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'src' => $this->getURLScalarTypeResolver(),
+            'srcs' => $this->getURLScalarTypeResolver(),
+            'srcPath' => $this->getURLAbsolutePathScalarTypeResolver(),
+            'srcSet' => $this->getStringScalarTypeResolver(),
+            'width' => $this->getIntScalarTypeResolver(),
+            'widths' => $this->getIntScalarTypeResolver(),
+            'height' => $this->getIntScalarTypeResolver(),
+            'heights' => $this->getIntScalarTypeResolver(),
+            'sizes' => $this->getStringScalarTypeResolver(),
+            'title' => $this->getStringScalarTypeResolver(),
+            'caption' => $this->getStringScalarTypeResolver(),
+            'altText' => $this->getStringScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'date' => $this->getDateTimeScalarTypeResolver(),
+            'dateStr' => $this->getStringScalarTypeResolver(),
+            'modifiedDate' => $this->getDateTimeScalarTypeResolver(),
+            'modifiedDateStr' => $this->getStringScalarTypeResolver(),
+            'mimeType' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'src':
-            case 'srcPath':
-            case 'date':
-            case 'dateStr':
-            case 'modifiedDate':
-            case 'modifiedDateStr':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'srcs':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case 'widths':
-            case 'heights':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'src', 'srcPath', 'date', 'dateStr', 'modifiedDate', 'modifiedDateStr' => SchemaTypeModifiers::NON_NULLABLE,
+            'srcs' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'widths', 'heights' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'src':
-                return $this->__('Media item URL source', 'pop-media');
-            case 'srcs':
-                return $this->__('Media item URL sources for several sizes (returned in the same order as the sizes)', 'pop-media');
-            case 'srcPath':
-                return $this->__('Media item URL source path', 'pop-media');
-            case 'srcSet':
-                return $this->__('Media item URL srcset', 'pop-media');
-            case 'width':
-                return $this->__('Media item\'s width', 'pop-media');
-            case 'widths':
-                return $this->__('Media item\'s width for several sizes (returned in the same order as the sizes)', 'pop-media');
-            case 'height':
-                return $this->__('Media item\'s height', 'pop-media');
-            case 'heights':
-                return $this->__('Media item\'s height for several sizes (returned in the same order as the sizes)', 'pop-media');
-            case 'sizes':
-                return $this->__('Media item\'s ‘sizes’ attribute value for an image', 'pop-media');
-            case 'title':
-                return $this->__('Media item title', 'pop-media');
-            case 'caption':
-                return $this->__('Media item caption', 'pop-media');
-            case 'altText':
-                return $this->__('Media item alt text', 'pop-media');
-            case 'description':
-                return $this->__('Media item description', 'pop-media');
-            case 'date':
-                return $this->__('Media item\'s published date', 'pop-media');
-            case 'dateStr':
-                return $this->__('Media item\'s published date, in String format', 'pop-media');
-            case 'modifiedDate':
-                return $this->__('Media item\'s modified date', 'pop-media');
-            case 'modifiedDateStr':
-                return $this->__('Media item\'s modified date, in String format', 'pop-media');
-            case 'mimeType':
-                return $this->__('Media item\'s mime type', 'pop-media');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'src' => $this->__('Media item URL source', 'pop-media'),
+            'srcs' => $this->__('Media item URL sources for several sizes (returned in the same order as the sizes)', 'pop-media'),
+            'srcPath' => $this->__('Media item URL source path', 'pop-media'),
+            'srcSet' => $this->__('Media item URL srcset', 'pop-media'),
+            'width' => $this->__('Media item\'s width', 'pop-media'),
+            'widths' => $this->__('Media item\'s width for several sizes (returned in the same order as the sizes)', 'pop-media'),
+            'height' => $this->__('Media item\'s height', 'pop-media'),
+            'heights' => $this->__('Media item\'s height for several sizes (returned in the same order as the sizes)', 'pop-media'),
+            'sizes' => $this->__('Media item\'s ‘sizes’ attribute value for an image', 'pop-media'),
+            'title' => $this->__('Media item title', 'pop-media'),
+            'caption' => $this->__('Media item caption', 'pop-media'),
+            'altText' => $this->__('Media item alt text', 'pop-media'),
+            'description' => $this->__('Media item description', 'pop-media'),
+            'date' => $this->__('Media item\'s published date', 'pop-media'),
+            'dateStr' => $this->__('Media item\'s published date, in String format', 'pop-media'),
+            'modifiedDate' => $this->__('Media item\'s modified date', 'pop-media'),
+            'modifiedDateStr' => $this->__('Media item\'s modified date, in String format', 'pop-media'),
+            'mimeType' => $this->__('Media item\'s mime type', 'pop-media'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'src':
-            case 'srcPath':
-            case 'srcSet':
-            case 'width':
-            case 'height':
-            case 'sizes':
-                return ['size' => $this->getStringScalarTypeResolver()];
-            case 'srcs':
-            case 'widths':
-            case 'heights':
-                return ['sizes' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'src', 'srcPath', 'srcSet', 'width', 'height', 'sizes' => ['size' => $this->getStringScalarTypeResolver()],
+            'srcs', 'widths', 'heights' => ['sizes' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ($fieldArgName) {
-            case 'size':
-                return $this->__('Size of the image', 'pop-media');
-            case 'sizes':
-                return $this->__('Sizes of the image', 'pop-media');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ($fieldArgName) {
+            'size' => $this->__('Size of the image', 'pop-media'),
+            'sizes' => $this->__('Sizes of the image', 'pop-media'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['srcs' => 'sizes']:
-            case ['widths' => 'sizes']:
-            case ['heights' => 'sizes']:
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['srcs' => 'sizes'], ['widths' => 'sizes'], ['heights' => 'sizes'] => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        switch ($fieldName) {
-            case 'date':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE);
-            case 'dateStr':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING);
-            case 'modifiedDate':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE);
-            case 'modifiedDateStr':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'date' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE),
+            'dateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING),
+            'modifiedDate' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE),
+            'modifiedDateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $media = $object;
         $fieldName = $fieldDataAccessor->getFieldName();

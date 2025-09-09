@@ -31,7 +31,7 @@ final class Php83
         if ($depth > self::JSON_MAX_DEPTH) {
             throw new \ValueError(\sprintf('json_validate(): Argument #2 ($depth) must be less than %d', self::JSON_MAX_DEPTH));
         }
-        \json_decode($json, null, $depth, $flags);
+        \json_decode($json, \true, $depth, $flags);
         return \JSON_ERROR_NONE === \json_last_error();
     }
     public static function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, ?string $encoding = null) : string

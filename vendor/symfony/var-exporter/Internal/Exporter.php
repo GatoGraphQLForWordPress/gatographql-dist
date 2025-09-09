@@ -69,30 +69,23 @@ class Exporter
                 $value = new Reference($objectsPool[$value][0]);
                 goto handle_value;
             }
-            $class = \get_class($value);
-            $reflector = Registry::$reflectors[$class] = Registry::$reflectors[$class] ?? Registry::getClassReflector($class);
+            $class = $value::class;
+            $reflector = Registry::$reflectors[$class] ??= Registry::getClassReflector($class);
             $properties = [];
+            $sleep = null;
+            $proto = Registry::$prototypes[$class];
             if ($reflector->hasMethod('__serialize')) {
                 if (!$reflector->getMethod('__serialize')->isPublic()) {
                     throw new \Error(\sprintf('Call to %s method "%s::__serialize()".', $reflector->getMethod('__serialize')->isProtected() ? 'protected' : 'private', $class));
                 }
-                if (!\is_array($serializeProperties = $value->__serialize())) {
+                if (!\is_array($arrayValue = $value->__serialize())) {
                     throw new \TypeError($class . '::__serialize() must return an array');
                 }
                 if ($reflector->hasMethod('__unserialize')) {
-                    $properties = $serializeProperties;
-                } else {
-                    foreach ($serializeProperties as $n => $v) {
-                        $p = $reflector->hasProperty($n) ? $reflector->getProperty($n) : null;
-                        $c = $p && (\PHP_VERSION_ID >= 80400 ? $p->isProtectedSet() || $p->isPrivateSet() : $p->isReadOnly()) ? $p->class : 'stdClass';
-                        $properties[$c][$n] = $v;
-                    }
+                    $properties = $arrayValue;
+                    goto prepare_value;
                 }
-                goto prepare_value;
-            }
-            $sleep = null;
-            $proto = Registry::$prototypes[$class];
-            if (($value instanceof \ArrayIterator || $value instanceof \ArrayObject) && null !== $proto) {
+            } elseif (($value instanceof \ArrayIterator || $value instanceof \ArrayObject) && null !== $proto) {
                 // ArrayIterator and ArrayObject need special care because their "flags"
                 // option changes the behavior of the (array) casting operator.
                 [$arrayValue, $properties] = self::getArrayObjectProperties($value, $proto);
@@ -128,16 +121,14 @@ class Exporter
                 $i = 0;
                 $n = (string) $name;
                 if ('' === $n || "\x00" !== $n[0]) {
-                    $p = $reflector->hasProperty($n) ? $reflector->getProperty($n) : null;
-                    $c = $p && (\PHP_VERSION_ID >= 80400 ? $p->isProtectedSet() || $p->isPrivateSet() : $p->isReadOnly()) ? $p->class : 'stdClass';
+                    $parent = $reflector;
+                    do {
+                        $p = $parent->hasProperty($n) ? $parent->getProperty($n) : null;
+                    } while (!$p && ($parent = $parent->getParentClass()));
+                    $c = $p && (!$p->isPublic() || (\PHP_VERSION_ID >= 80400 ? $p->isProtectedSet() || $p->isPrivateSet() : $p->isReadOnly())) ? $p->class : 'stdClass';
                 } elseif ('*' === $n[1]) {
                     $n = \substr($n, 3);
                     $c = $reflector->getProperty($n)->class;
-                    if ('Error' === $c) {
-                        $c = 'TypeError';
-                    } elseif ('Exception' === $c) {
-                        $c = 'ErrorException';
-                    }
                 } else {
                     $i = \strpos($n, "\x00", 2);
                     $c = \substr($n, 1, $i - 1);
@@ -150,8 +141,14 @@ class Exporter
                     }
                     unset($sleep[$name], $sleep[$n]);
                 }
-                if (!\array_key_exists($name, $proto) || $proto[$name] !== $v || "\x00Error\x00trace" === $name || "\x00Exception\x00trace" === $name) {
+                if ("\x00Error\x00trace" === $name || "\x00Exception\x00trace" === $name) {
                     $properties[$c][$n] = $v;
+                } elseif (!\array_key_exists($name, $proto) || $proto[$name] !== $v) {
+                    $properties[match ($c) {
+                        'Error' => 'TypeError',
+                        'Exception' => 'ErrorException',
+                        default => $c,
+                    }][$n] = $v;
                 }
             }
             if ($sleep) {
@@ -215,12 +212,12 @@ class Exporter
                 if ("'" === $m[2]) {
                     return \substr($m[1], 0, -2);
                 }
-                if (\substr_compare($m[1], 'n".\'', -\strlen('n".\'')) === 0) {
+                if (\str_ends_with($m[1], 'n".\'')) {
                     return \substr_replace($m[1], "\n" . $subIndent . ".'" . $m[2], -2);
                 }
                 return $m[1] . $m[2];
             }, $code, -1, $count);
-            if ($count && \strncmp($code, "''.", \strlen("''.")) === 0) {
+            if ($count && \str_starts_with($code, "''.")) {
                 $code = \substr($code, 3);
             }
             return $code;
@@ -328,7 +325,7 @@ class Exporter
             $code .= $subIndent . '    ' . self::export($class) . ' => ' . self::export($properties, $subIndent . '    ') . ",\n";
         }
         $code = [self::export($value->registry, $subIndent), self::export($value->values, $subIndent), '' !== $code ? "[\n" . $code . $subIndent . ']' : '[]', self::export($value->value, $subIndent), self::export($value->wakeups, $subIndent)];
-        return '\\' . \get_class($value) . "::hydrate(\n" . $subIndent . \implode(",\n" . $subIndent, $code) . "\n" . $indent . ')';
+        return '\\' . $value::class . "::hydrate(\n" . $subIndent . \implode(",\n" . $subIndent, $code) . "\n" . $indent . ')';
     }
     /**
      * @param \ArrayIterator|\ArrayObject $value
@@ -337,7 +334,7 @@ class Exporter
     private static function getArrayObjectProperties($value, $proto) : array
     {
         $reflector = $value instanceof \ArrayIterator ? 'ArrayIterator' : 'ArrayObject';
-        $reflector = Registry::$reflectors[$reflector] = Registry::$reflectors[$reflector] ?? Registry::getClassReflector($reflector);
+        $reflector = Registry::$reflectors[$reflector] ??= Registry::getClassReflector($reflector);
         $properties = [$arrayValue = (array) $value, $reflector->getMethod('getFlags')->invoke($value), $value instanceof \ArrayObject ? $reflector->getMethod('getIteratorClass')->invoke($value) : 'ArrayIterator'];
         $reflector = $reflector->getMethod('setFlags');
         $reflector->invoke($proto, \ArrayObject::STD_PROP_LIST);

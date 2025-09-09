@@ -26,31 +26,16 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberI
 #[\Attribute(\Attribute::TARGET_METHOD)]
 final class SubscribedService
 {
-    /**
-     * @var string|null
-     */
-    public $key;
-    /**
-     * @var class-string|null
-     */
-    public $type;
-    /**
-     * @var bool
-     */
-    public $nullable = \false;
     /** @var object[] */
-    public $attributes;
+    public array $attributes;
     /**
      * @param string|null       $key        The key to use for the service
      * @param class-string|null $type       The service class
      * @param bool              $nullable   Whether the service is optional
      * @param object|object[]   $attributes One or more dependency injection attributes to use
      */
-    public function __construct(?string $key = null, ?string $type = null, bool $nullable = \false, $attributes = [])
+    public function __construct(public ?string $key = null, public ?string $type = null, public bool $nullable = \false, array|object $attributes = [])
     {
-        $this->key = $key;
-        $this->type = $type;
-        $this->nullable = $nullable;
         $this->attributes = \is_array($attributes) ? $attributes : [$attributes];
     }
 }

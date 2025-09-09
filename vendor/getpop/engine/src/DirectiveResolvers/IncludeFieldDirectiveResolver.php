@@ -23,10 +23,7 @@ use SplObjectStorage;
 class IncludeFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
 {
     use \PoP\Engine\DirectiveResolvers\FilterIDsSatisfyingConditionFieldDirectiveResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -129,20 +126,16 @@ class IncludeFieldDirectiveResolver extends AbstractGlobalFieldDirectiveResolver
     }
     public function getDirectiveArgDescription(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : ?string
     {
-        switch ($directiveArgName) {
-            case 'if':
-                return $this->__('Argument that must evaluate to `true` to include the field value in the output', 'api');
-            default:
-                return parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'if' => $this->__('Argument that must evaluate to `true` to include the field value in the output', 'api'),
+            default => parent::getDirectiveArgDescription($relationalTypeResolver, $directiveArgName),
+        };
     }
     public function getDirectiveArgTypeModifiers(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : int
     {
-        switch ($directiveArgName) {
-            case 'if':
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName);
-        }
+        return match ($directiveArgName) {
+            'if' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getDirectiveArgTypeModifiers($relationalTypeResolver, $directiveArgName),
+        };
     }
 }

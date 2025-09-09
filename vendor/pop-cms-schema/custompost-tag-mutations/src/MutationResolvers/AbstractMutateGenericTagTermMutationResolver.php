@@ -55,7 +55,7 @@ abstract class AbstractMutateGenericTagTermMutationResolver extends AbstractMuta
      * @return string|int The ID of the updated entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::update($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(GenericTagCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -66,7 +66,7 @@ abstract class AbstractMutateGenericTagTermMutationResolver extends AbstractMuta
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::create($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(GenericTagCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

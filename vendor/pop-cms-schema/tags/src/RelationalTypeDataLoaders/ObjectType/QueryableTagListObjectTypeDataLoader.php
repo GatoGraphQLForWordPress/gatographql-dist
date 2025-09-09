@@ -9,10 +9,7 @@ use PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface;
 /** @internal */
 class QueryableTagListObjectTypeDataLoader extends AbstractTagObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
-     */
-    private $queryableTagListTypeAPI;
+    private ?QueryableTagTypeAPIInterface $queryableTagListTypeAPI = null;
     protected final function getQueryableTagTypeAPI() : QueryableTagTypeAPIInterface
     {
         if ($this->queryableTagListTypeAPI === null) {

@@ -51,10 +51,7 @@ interface ObjectTypeFieldResolverInterface extends FieldResolverInterface, \PoP\
      */
     public function resolveCanProcessField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool;
     public function collectFieldValidationDeprecationMessages(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void;
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed;
     /**
      * Indicate if to validate the type of the response
      */

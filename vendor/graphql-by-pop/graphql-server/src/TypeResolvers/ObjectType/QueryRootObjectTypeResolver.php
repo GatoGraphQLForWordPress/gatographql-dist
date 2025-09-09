@@ -12,10 +12,7 @@ use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
 class QueryRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractUseRootAsSourceForSchemaObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\QueryRootObjectTypeDataLoader|null
-     */
-    private $queryRootObjectTypeDataLoader;
+    private ?QueryRootObjectTypeDataLoader $queryRootObjectTypeDataLoader = null;
     protected final function getQueryRootObjectTypeDataLoader() : QueryRootObjectTypeDataLoader
     {
         if ($this->queryRootObjectTypeDataLoader === null) {
@@ -33,10 +30,7 @@ class QueryRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
     {
         return $this->__('Query type, starting from which the query is executed', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var QueryRoot */
         $queryRoot = $object;

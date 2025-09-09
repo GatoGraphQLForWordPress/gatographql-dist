@@ -19,10 +19,8 @@ class AnyScalarScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\Scal
     }
     /**
      * Accept anything and everything
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
      */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         return $inputValue;
     }

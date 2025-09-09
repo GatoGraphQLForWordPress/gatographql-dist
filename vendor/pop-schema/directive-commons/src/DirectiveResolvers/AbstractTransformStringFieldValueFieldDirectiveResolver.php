@@ -27,31 +27,25 @@ abstract class AbstractTransformStringFieldValueFieldDirectiveResolver extends \
     {
         return [StringScalarTypeResolver::class, IDScalarTypeResolver::class, AnyBuiltInScalarScalarTypeResolver::class, AnyStringScalarScalarTypeResolver::class, EmailScalarTypeResolver::class, HTMLScalarTypeResolver::class, URLAbsolutePathScalarTypeResolver::class, URLScalarTypeResolver::class];
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isMatchingType($value) : bool
+    protected function isMatchingType(mixed $value) : bool
     {
         return \is_string($value);
     }
     /**
-     * @param mixed $value
+     * @param string $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    protected final function transformTypeValue($value)
+    protected final function transformTypeValue(mixed $value) : mixed
     {
         return $this->transformStringValue($value);
     }
-    /**
-     * @return string|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
-     */
-    protected abstract function transformStringValue(string $value);
+    protected abstract function transformStringValue(string $value) : string|TypedDataValidationPayload;
     /**
      * Validate the value against the directive args
      *
-     * @param mixed $value
+     * @param string $value
      */
-    protected final function validateTypeData($value) : ?TypedDataValidationPayload
+    protected final function validateTypeData(mixed $value) : ?TypedDataValidationPayload
     {
         return $this->validateStringData($value);
     }
@@ -59,11 +53,7 @@ abstract class AbstractTransformStringFieldValueFieldDirectiveResolver extends \
     {
         return null;
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
+    protected function getNonMatchingTypeValueFeedbackItemResolution(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E2, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
     }

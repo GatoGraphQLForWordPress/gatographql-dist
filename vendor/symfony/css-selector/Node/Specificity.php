@@ -27,18 +27,9 @@ class Specificity
     public const A_FACTOR = 100;
     public const B_FACTOR = 10;
     public const C_FACTOR = 1;
-    /**
-     * @var int
-     */
-    private $a;
-    /**
-     * @var int
-     */
-    private $b;
-    /**
-     * @var int
-     */
-    private $c;
+    private int $a;
+    private int $b;
+    private int $c;
     public function __construct(int $a, int $b, int $c)
     {
         $this->a = $a;

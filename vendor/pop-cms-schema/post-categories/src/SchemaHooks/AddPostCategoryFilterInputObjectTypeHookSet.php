@@ -10,10 +10,7 @@ use PoPCMSSchema\Posts\TypeResolvers\InputObjectType\PostsFilterInputObjectTypeR
 /** @internal */
 class AddPostCategoryFilterInputObjectTypeHookSet extends AbstractAddCategoryFilterInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType\PostsFilterCustomPostsByCategoriesInputObjectTypeResolver|null
-     */
-    private $postsFilterCustomPostsByCategoriesInputObjectTypeResolver;
+    private ?PostsFilterCustomPostsByCategoriesInputObjectTypeResolver $postsFilterCustomPostsByCategoriesInputObjectTypeResolver = null;
     protected final function getPostsFilterCustomPostsByCategoriesInputObjectTypeResolver() : PostsFilterCustomPostsByCategoriesInputObjectTypeResolver
     {
         if ($this->postsFilterCustomPostsByCategoriesInputObjectTypeResolver === null) {

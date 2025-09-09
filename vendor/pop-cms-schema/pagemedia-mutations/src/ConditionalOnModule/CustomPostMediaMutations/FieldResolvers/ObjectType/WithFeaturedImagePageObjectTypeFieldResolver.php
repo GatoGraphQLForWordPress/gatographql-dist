@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
@@ -36,13 +33,10 @@ class WithFeaturedImagePageObjectTypeFieldResolver extends AbstractWithFeaturedI
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'setFeaturedImage':
-                return $this->__('Set the featured image on the page', 'pagemedia-mutations');
-            case 'removeFeaturedImage':
-                return $this->__('Remove the featured image on the page', 'pagemedia-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setFeaturedImage' => $this->__('Set the featured image on the page', 'pagemedia-mutations'),
+            'removeFeaturedImage' => $this->__('Remove the featured image on the page', 'pagemedia-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 }

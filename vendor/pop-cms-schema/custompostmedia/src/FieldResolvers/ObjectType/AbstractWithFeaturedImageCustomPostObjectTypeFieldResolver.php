@@ -15,14 +15,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 abstract class AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     use \PoPCMSSchema\CustomPostMedia\FieldResolvers\ObjectType\MaybeWithFeaturedImageCustomPostObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMedia\TypeAPIs\CustomPostMediaTypeAPIInterface|null
-     */
-    private $customPostMediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMedia\FieldResolvers\InterfaceType\WithFeaturedImageInterfaceTypeFieldResolver|null
-     */
-    private $withFeaturedImageInterfaceTypeFieldResolver;
+    private ?CustomPostMediaTypeAPIInterface $customPostMediaTypeAPI = null;
+    private ?WithFeaturedImageInterfaceTypeFieldResolver $withFeaturedImageInterfaceTypeFieldResolver = null;
     protected final function getCustomPostMediaTypeAPI() : CustomPostMediaTypeAPIInterface
     {
         if ($this->customPostMediaTypeAPI === null) {
@@ -55,10 +49,7 @@ abstract class AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver extend
     {
         return ['hasFeaturedImage', 'featuredImage'];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPost = $object;
         switch ($fieldDataAccessor->getFieldName()) {

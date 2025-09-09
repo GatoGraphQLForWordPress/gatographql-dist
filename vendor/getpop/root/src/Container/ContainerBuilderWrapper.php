@@ -8,14 +8,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Defini
 /** @internal */
 final class ContainerBuilderWrapper implements \PoP\Root\Container\ContainerBuilderWrapperInterface
 {
-    /**
-     * @readonly
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $containerBuilder;
-    public final function __construct(ContainerBuilder $containerBuilder)
+    public final function __construct(private readonly ContainerBuilder $containerBuilder)
     {
-        $this->containerBuilder = $containerBuilder;
     }
     public final function getContainerBuilder() : ContainerBuilder
     {

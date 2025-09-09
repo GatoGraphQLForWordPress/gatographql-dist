@@ -17,7 +17,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::GROUP_FIELDS_UNDER_TYPE_FOR_PRINT;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -74,7 +74,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::ENABLE_SETTING_CLIENT_IP_ADDRESS_SERVER_PROPERTY_NAME;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -160,7 +160,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -173,7 +173,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::ENABLE_SCHEMA_TUTORIAL_PAGE;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -186,7 +186,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::INSTALL_PLUGIN_SETUP_DATA;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -199,7 +199,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::SHOW_BUNDLES_CONTAINING_REFERENCED_EXTENSIONS_ON_TUTORIAL;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -212,7 +212,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::IS_SCHEMA_CONFIGURATION_ENABLED_BY_DEFAULT;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -225,7 +225,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::DISPLAY_ENABLE_LOGS_SETTINGS_OPTION;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -239,23 +239,23 @@ class ModuleConfiguration extends AbstractModuleConfiguration
      */
     protected function enableHook(string $envVariable): bool
     {
-        switch ($envVariable) {
-            case Environment::GATOGRAPHQL_WEBSITE_URL:
-            case Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL:
-            case Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL:
-            case Environment::MARKETPLACE_PROVIDER_PLUGIN_UPDATES_SERVER_URL:
-            case Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER:
-                return false;
-            default:
-                return parent::enableHook($envVariable);
-        }
+        return match ($envVariable) {
+            Environment::GATOGRAPHQL_WEBSITE_URL,
+            Environment::GATOGRAPHQL_EXTENSIONS_PAGE_URL,
+            Environment::GATOGRAPHQL_REQUEST_EXTENSION_PAGE_URL,
+            Environment::MARKETPLACE_PROVIDER_PLUGIN_UPDATES_SERVER_URL,
+            Environment::USE_SCHEMA_CONFIGURATION_IN_INTERNAL_GRAPHQL_SERVER
+                => false,
+            default
+                => parent::enableHook($envVariable),
+        };
     }
 
     public function enableLogCountBadges(): bool
     {
         $envVariable = Environment::ENABLE_LOG_COUNT_BADGES;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -274,7 +274,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
             LoggerSeverity::ERROR,
             LoggerSeverity::WARNING,
         ];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,

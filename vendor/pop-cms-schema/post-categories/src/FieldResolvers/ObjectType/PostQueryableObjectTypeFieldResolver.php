@@ -15,14 +15,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {
@@ -50,27 +44,19 @@ class PostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableOb
     }
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        switch ($fieldName) {
-            case 'categories':
-            case 'categoryNames':
-            case 'categoryCount':
-                return new Component(PostCategoryFilterInputContainerComponentProcessor::class, PostCategoryFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categories', 'categoryNames', 'categoryCount' => new Component(PostCategoryFilterInputContainerComponentProcessor::class, PostCategoryFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_POSTCATEGORIES),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'categories':
-                return $this->__('Categories added to this post', 'post-categories');
-            case 'categoryCount':
-                return $this->__('Number of categories added to this post', 'post-categories');
-            case 'categoryNames':
-                return $this->__('Names of the categories added to this post', 'post-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'categories' => $this->__('Categories added to this post', 'post-categories'),
+            'categoryCount' => $this->__('Number of categories added to this post', 'post-categories'),
+            'categoryNames' => $this->__('Names of the categories added to this post', 'post-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getCategoryTypeAPI() : CategoryTypeAPIInterface
     {

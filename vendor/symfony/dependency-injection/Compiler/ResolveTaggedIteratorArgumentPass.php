@@ -20,15 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argume
 class ResolveTaggedIteratorArgumentPass extends AbstractRecursivePass
 {
     use PriorityTaggedServiceTrait;
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof TaggedIteratorArgument) {
             return parent::processValue($value, $isRoot);

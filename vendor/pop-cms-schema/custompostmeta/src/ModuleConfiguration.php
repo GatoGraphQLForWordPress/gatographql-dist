@@ -16,7 +16,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\CustomPostMeta\Environment::CUSTOMPOST_META_ENTRIES;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getCustomPostMetaBehavior() : string
@@ -29,7 +29,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\CustomPostMeta\Environment::TREAT_CUSTOMPOST_META_KEYS_AS_SENSITIVE_DATA;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

@@ -23,13 +23,10 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
     use ModuleResolverTrait;
     use ClientFunctionalityModuleResolverTrait;
 
-    public const GRAPHIQL_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\graphiql-for-single-endpoint';
-    public const INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\interactive-schema-for-single-endpoint';
+    public final const GRAPHIQL_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\graphiql-for-single-endpoint';
+    public final const INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT = Plugin::NAMESPACE . '\interactive-schema-for-single-endpoint';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -89,25 +86,21 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::GRAPHIQL_FOR_SINGLE_ENDPOINT:
-                return \__('GraphiQL for Single Endpoint', 'gatographql');
-            case self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT:
-                return \__('Interactive Schema for Single Endpoint', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::GRAPHIQL_FOR_SINGLE_ENDPOINT => \__('GraphiQL for Single Endpoint', 'gatographql'),
+            self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT => \__('Interactive Schema for Single Endpoint', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function isEnabledByDefault(string $module): bool
     {
-        switch ($module) {
-            case self::GRAPHIQL_FOR_SINGLE_ENDPOINT:
-            case self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT:
-                return false;
-            default:
-                return parent::isEnabledByDefault($module);
-        }
+        return match ($module) {
+            self::GRAPHIQL_FOR_SINGLE_ENDPOINT,
+            self::INTERACTIVE_SCHEMA_FOR_SINGLE_ENDPOINT
+                => false,
+            default => parent::isEnabledByDefault($module),
+        };
     }
 
     public function getDescription(string $module): string
@@ -131,9 +124,8 @@ class ClientFunctionalityModuleResolver extends AbstractFunctionalityModuleResol
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $defaultValues = [
             self::GRAPHIQL_FOR_SINGLE_ENDPOINT => [

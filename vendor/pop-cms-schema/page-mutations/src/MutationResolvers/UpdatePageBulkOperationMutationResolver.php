@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class UpdatePageBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver|null
-     */
-    private $updatePageMutationResolver;
+    private ?\PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver $updatePageMutationResolver = null;
     protected final function getUpdatePageMutationResolver() : \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver
     {
         if ($this->updatePageMutationResolver === null) {

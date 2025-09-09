@@ -28,38 +28,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\CacheInterface;
 class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInterface, ResettableInterface
 {
     use LoggerAwareTrait;
-    /**
-     * @var bool
-     */
-    private $storeSerialized;
-    /**
-     * @var mixed[]
-     */
-    private $values = [];
-    /**
-     * @var mixed[]
-     */
-    private $tags = [];
-    /**
-     * @var mixed[]
-     */
-    private $expiries = [];
-    /**
-     * @var int
-     */
-    private $defaultLifetime;
-    /**
-     * @var float
-     */
-    private $maxLifetime;
-    /**
-     * @var int
-     */
-    private $maxItems;
-    /**
-     * @var \Closure
-     */
-    private static $createCacheItem;
+    private bool $storeSerialized;
+    private array $values = [];
+    private array $tags = [];
+    private array $expiries = [];
+    private int $defaultLifetime;
+    private float $maxLifetime;
+    private int $maxItems;
+    private static \Closure $createCacheItem;
     /**
      * @param bool $storeSerialized Disabling serialization can lead to cache corruptions when storing mutable values but increases performance otherwise
      */
@@ -75,7 +51,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         $this->storeSerialized = $storeSerialized;
         $this->maxLifetime = $maxLifetime;
         $this->maxItems = $maxItems;
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key, $value, $isHit, $tags) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key, $value, $isHit, $tags) {
             $item = new CacheItem();
             $item->key = $key;
             $item->value = $value;
@@ -86,10 +62,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
             return $item;
         }, null, CacheItem::class);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         $item = $this->getItem($key);
         $metadata = $item->getMetadata();
@@ -107,10 +80,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
     {
         return $this->deleteItem($key);
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         if (\is_string($key) && isset($this->expiries[$key]) && $this->expiries[$key] > \microtime(\true)) {
             if ($this->maxItems) {
@@ -124,10 +94,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         \assert('' !== CacheItem::validateKey($key));
         return isset($this->expiries[$key]) && !$this->deleteItem($key);
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         if (!($isHit = $this->hasItem($key))) {
             $value = null;
@@ -145,10 +112,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         \assert(self::validateKeys($keys));
         return $this->generateItems($keys, \microtime(\true), self::$createCacheItem);
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         \assert('' !== CacheItem::validateKey($key));
         unset($this->values[$key], $this->tags[$key], $this->expiries[$key]);
@@ -218,7 +182,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         if ('' !== $prefix) {
             $now = \microtime(\true);
             foreach ($this->values as $key => $value) {
-                if (!isset($this->expiries[$key]) || $this->expiries[$key] <= $now || \strncmp($key, $prefix, \strlen($prefix)) === 0) {
+                if (!isset($this->expiries[$key]) || $this->expiries[$key] <= $now || \str_starts_with($key, $prefix)) {
                     unset($this->values[$key], $this->tags[$key], $this->expiries[$key]);
                 }
             }
@@ -280,10 +244,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
             (yield $key => $f($key, null, \false));
         }
     }
-    /**
-     * @return string|int|float|bool|mixed[]|\UnitEnum|null
-     */
-    private function freeze($value, string $key)
+    private function freeze($value, string $key) : string|int|float|bool|array|\UnitEnum|null
     {
         if (null === $value) {
             return 'N;';
@@ -312,10 +273,7 @@ class ArrayAdapter implements AdapterInterface, CacheInterface, LoggerAwareInter
         }
         return $value;
     }
-    /**
-     * @return mixed
-     */
-    private function unfreeze(string $key, bool &$isHit)
+    private function unfreeze(string $key, bool &$isHit) : mixed
     {
         if ('N;' === ($value = $this->values[$key])) {
             return null;

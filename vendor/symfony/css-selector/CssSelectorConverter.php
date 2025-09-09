@@ -25,22 +25,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath\Translat
  */
 class CssSelectorConverter
 {
-    /**
-     * @var \Symfony\Component\CssSelector\XPath\Translator
-     */
-    private $translator;
-    /**
-     * @var mixed[]
-     */
-    private $cache;
-    /**
-     * @var mixed[]
-     */
-    private static $xmlCache = [];
-    /**
-     * @var mixed[]
-     */
-    private static $htmlCache = [];
+    private Translator $translator;
+    private array $cache;
+    private static array $xmlCache = [];
+    private static array $htmlCache = [];
     /**
      * @param bool $html Whether HTML support should be enabled. Disable it for XML documents
      */
@@ -63,6 +51,6 @@ class CssSelectorConverter
      */
     public function toXPath(string $cssExpr, string $prefix = 'descendant-or-self::') : string
     {
-        return $this->cache[$prefix][$cssExpr] = $this->cache[$prefix][$cssExpr] ?? $this->translator->cssToXPath($cssExpr, $prefix);
+        return $this->cache[$prefix][$cssExpr] ??= $this->translator->cssToXPath($cssExpr, $prefix);
     }
 }

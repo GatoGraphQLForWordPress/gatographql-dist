@@ -8,11 +8,7 @@ use PoPCMSSchema\Menus\ObjectModels\MenuItem;
 interface MenuItemRuntimeRegistryInterface
 {
     public function storeMenuItem(MenuItem $menuItem) : void;
-    /**
-     * @param string|int $id
-     */
-    public function getMenuItem($id) : ?MenuItem;
-    /** @return array<string|int,MenuItem>
-     * @param string|int|\PoPCMSSchema\Menus\ObjectModels\MenuItem $menuItemObjectOrID */
-    public function getMenuItemChildren($menuItemObjectOrID) : array;
+    public function getMenuItem(string|int $id) : ?MenuItem;
+    /** @return array<string|int,MenuItem> */
+    public function getMenuItemChildren(string|int|MenuItem $menuItemObjectOrID) : array;
 }

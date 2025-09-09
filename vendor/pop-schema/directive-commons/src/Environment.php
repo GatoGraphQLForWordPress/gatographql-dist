@@ -6,5 +6,5 @@ namespace PoPSchema\DirectiveCommons;
 /** @internal */
 class Environment
 {
-    public const NEST_ERRORS_IN_META_DIRECTIVES = 'NEST_ERRORS_IN_META_DIRECTIVES';
+    public final const NEST_ERRORS_IN_META_DIRECTIVES = 'NEST_ERRORS_IN_META_DIRECTIVES';
 }

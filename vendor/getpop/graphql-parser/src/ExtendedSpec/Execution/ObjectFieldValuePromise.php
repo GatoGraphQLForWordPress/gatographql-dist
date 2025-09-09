@@ -13,20 +13,11 @@ use SplObjectStorage;
 /** @internal */
 class ObjectFieldValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    public $field;
     use StandaloneServiceTrait;
-    public function __construct(FieldInterface $field)
+    public function __construct(public readonly FieldInterface $field)
     {
-        $this->field = $field;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue()
+    public function resolveValue() : mixed
     {
         /** @var SplObjectStorage<FieldInterface,mixed> */
         $objectResolvedFieldValues = App::getState('engine-iteration-object-resolved-field-values');

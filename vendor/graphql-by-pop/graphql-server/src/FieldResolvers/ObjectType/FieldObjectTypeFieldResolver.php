@@ -20,26 +20,11 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\FieldExtensionsObjectTypeResolver|null
-     */
-    private $fieldExtensionsObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\InputValueObjectTypeResolver|null
-     */
-    private $inputValueObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
-     */
-    private $typeObjectTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?FieldExtensionsObjectTypeResolver $fieldExtensionsObjectTypeResolver = null;
+    private ?InputValueObjectTypeResolver $inputValueObjectTypeResolver = null;
+    private ?TypeObjectTypeResolver $typeObjectTypeResolver = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -101,64 +86,39 @@ class FieldObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'isDeprecated':
-                return $this->getBooleanScalarTypeResolver();
-            case 'deprecationReason':
-                return $this->getStringScalarTypeResolver();
-            case 'extensions':
-                return $this->getFieldExtensionsObjectTypeResolver();
-            case 'args':
-                return $this->getInputValueObjectTypeResolver();
-            case 'type':
-                return $this->getTypeObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->getStringScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'isDeprecated' => $this->getBooleanScalarTypeResolver(),
+            'deprecationReason' => $this->getStringScalarTypeResolver(),
+            'extensions' => $this->getFieldExtensionsObjectTypeResolver(),
+            'args' => $this->getInputValueObjectTypeResolver(),
+            'type' => $this->getTypeObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'name':
-            case 'type':
-            case 'isDeprecated':
-            case 'extensions':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'args':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name', 'type', 'isDeprecated', 'extensions' => SchemaTypeModifiers::NON_NULLABLE,
+            'args' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->__('Field\'s name', 'graphql-server');
-            case 'description':
-                return $this->__('Field\'s description', 'graphql-server');
-            case 'args':
-                return $this->__('Field arguments', 'graphql-server');
-            case 'type':
-                return $this->__('Type to which the field belongs', 'graphql-server');
-            case 'isDeprecated':
-                return $this->__('Is the field deprecated?', 'graphql-server');
-            case 'deprecationReason':
-                return $this->__('Why was the field deprecated?', 'graphql-server');
-            case 'extensions':
-                return $this->__('Extensions (custom metadata) added to the field (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->__('Field\'s name', 'graphql-server'),
+            'description' => $this->__('Field\'s description', 'graphql-server'),
+            'args' => $this->__('Field arguments', 'graphql-server'),
+            'type' => $this->__('Type to which the field belongs', 'graphql-server'),
+            'isDeprecated' => $this->__('Is the field deprecated?', 'graphql-server'),
+            'deprecationReason' => $this->__('Why was the field deprecated?', 'graphql-server'),
+            'extensions' => $this->__('Extensions (custom metadata) added to the field (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Field */
         $fieldObject = $object;

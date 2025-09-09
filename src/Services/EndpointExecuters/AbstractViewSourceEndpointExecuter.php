@@ -14,14 +14,8 @@ use WP_Post;
 
 abstract class AbstractViewSourceEndpointExecuter extends AbstractCPTEndpointExecuter implements EndpointExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\RenderingHelpers|null
-     */
-    private $renderingHelpers;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?RenderingHelpers $renderingHelpers = null;
 
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
@@ -52,7 +46,7 @@ abstract class AbstractViewSourceEndpointExecuter extends AbstractCPTEndpointExe
         /** Add the excerpt, which is the description of the GraphQL query */
         \add_filter(
             'the_content',
-            \Closure::fromCallable([$this, 'maybeGetGraphQLQuerySourceContent'])
+            $this->maybeGetGraphQLQuerySourceContent(...)
         );
     }
 

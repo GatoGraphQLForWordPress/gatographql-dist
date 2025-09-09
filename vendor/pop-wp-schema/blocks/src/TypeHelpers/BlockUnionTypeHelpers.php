@@ -20,11 +20,10 @@ class BlockUnionTypeHelpers
      *   - If there is more than 1 target type resolver for the Union, return the Union
      *   - (By configuration) If there is only one target, return that one directly
      *     and not the Union (since it's more efficient)
-     * @return \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface
      */
     public static function getBlockUnionOrTargetObjectTypeResolver(
         ?UnionTypeResolverInterface $unionTypeResolver = null
-    ) {
+    ): UnionTypeResolverInterface|ObjectTypeResolverInterface {
         if ($unionTypeResolver === null) {
             $instanceManager = InstanceManagerFacade::getInstance();
             /** @var BlockUnionTypeResolver */

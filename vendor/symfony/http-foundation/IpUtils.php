@@ -43,10 +43,7 @@ class IpUtils
         // IPv4 translations
         '::/128',
     ];
-    /**
-     * @var mixed[]
-     */
-    private static $checkedIps = [];
+    private static array $checkedIps = [];
     /**
      * This class should not be instantiated.
      */
@@ -58,7 +55,7 @@ class IpUtils
      *
      * @param string|array $ips List of IPs or subnets (can be a string if only a single one)
      */
-    public static function checkIp(string $requestIp, $ips) : bool
+    public static function checkIp(string $requestIp, string|array $ips) : bool
     {
         if (!\is_array($ips)) {
             $ips = [$ips];
@@ -88,7 +85,7 @@ class IpUtils
         if (!\filter_var($requestIp, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
             return self::setCacheResult($cacheKey, \false);
         }
-        if (\strpos($ip, '/') !== \false) {
+        if (\str_contains($ip, '/')) {
             [$address, $netmask] = \explode('/', $ip, 2);
             if ('0' === $netmask) {
                 return self::setCacheResult($cacheKey, \false !== \filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4));
@@ -130,7 +127,7 @@ class IpUtils
         if (!\filter_var($requestIp, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
             return self::setCacheResult($cacheKey, \false);
         }
-        if (\strpos($ip, '/') !== \false) {
+        if (\str_contains($ip, '/')) {
             [$address, $netmask] = \explode('/', $ip, 2);
             if (!\filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
                 return self::setCacheResult($cacheKey, \false);
@@ -170,17 +167,17 @@ class IpUtils
      */
     public static function anonymize(string $ip) : string
     {
-        /**
+        /*
          * If the IP contains a % symbol, then it is a local-link address with scoping according to RFC 4007
          * In that case, we only care about the part before the % symbol, as the following functions, can only work with
          * the IP address itself. As the scope can leak information (containing interface name), we do not want to
          * include it in our anonymized IP data.
          */
-        if (\strpos($ip, '%') !== \false) {
+        if (\str_contains($ip, '%')) {
             $ip = \substr($ip, 0, \strpos($ip, '%'));
         }
         $wrappedIPv6 = \false;
-        if (\strncmp($ip, '[', \strlen('[')) === 0 && \substr_compare($ip, ']', -\strlen(']')) === 0) {
+        if (\str_starts_with($ip, '[') && \str_ends_with($ip, ']')) {
             $wrappedIPv6 = \true;
             $ip = \substr($ip, 1, -1);
         }

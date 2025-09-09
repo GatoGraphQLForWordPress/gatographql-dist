@@ -19,10 +19,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config;
  */
 class ResourceCheckerConfigCacheFactory implements ConfigCacheFactoryInterface
 {
-    /**
-     * @var iterable
-     */
-    private $resourceCheckers = [];
+    private iterable $resourceCheckers = [];
     /**
      * @param iterable<int, ResourceCheckerInterface> $resourceCheckers
      */

@@ -10,7 +10,7 @@ class MandatoryOperationDirectiveResolverRegistry implements \GraphQLByPoP\Graph
     /**
      * @var FieldDirectiveResolverInterface[]
      */
-    protected $mandatoryOperationDirectiveResolvers = [];
+    protected array $mandatoryOperationDirectiveResolvers = [];
     public function addMandatoryOperationDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver) : void
     {
         $this->mandatoryOperationDirectiveResolvers[] = $directiveResolver;

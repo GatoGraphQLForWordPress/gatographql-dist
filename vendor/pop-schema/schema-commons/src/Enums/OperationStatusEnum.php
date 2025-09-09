@@ -6,6 +6,6 @@ namespace PoPSchema\SchemaCommons\Enums;
 /** @internal */
 class OperationStatusEnum
 {
-    public const SUCCESS = 'SUCCESS';
-    public const FAILURE = 'FAILURE';
+    public final const SUCCESS = 'SUCCESS';
+    public final const FAILURE = 'FAILURE';
 }

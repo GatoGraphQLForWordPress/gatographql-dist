@@ -7,19 +7,19 @@ namespace PoP\ComponentModel\Feedback;
 class GeneralFeedbackStore
 {
     /** @var GeneralFeedbackInterface[] */
-    private $errors = [];
+    private array $errors = [];
     /** @var GeneralFeedbackInterface[] */
-    private $partialErrors = [];
+    private array $partialErrors = [];
     /** @var GeneralFeedbackInterface[] */
-    private $warnings = [];
+    private array $warnings = [];
     /** @var GeneralFeedbackInterface[] */
-    private $deprecations = [];
+    private array $deprecations = [];
     /** @var GeneralFeedbackInterface[] */
-    private $notices = [];
+    private array $notices = [];
     /** @var GeneralFeedbackInterface[] */
-    private $suggestions = [];
+    private array $suggestions = [];
     /** @var GeneralFeedbackInterface[] */
-    private $logs = [];
+    private array $logs = [];
     public function getErrorCount() : int
     {
         return \count($this->getErrors());

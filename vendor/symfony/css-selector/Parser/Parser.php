@@ -25,10 +25,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\Tokeniz
  */
 class Parser implements ParserInterface
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer
-     */
-    private $tokenizer;
+    private Tokenizer $tokenizer;
     public function __construct(?Tokenizer $tokenizer = null)
     {
         $this->tokenizer = $tokenizer ?? new Tokenizer();
@@ -53,9 +50,7 @@ class Parser implements ParserInterface
                 throw SyntaxErrorException::stringAsFunctionArgument();
             }
         }
-        $joined = \trim(\implode('', \array_map(function (Token $token) {
-            return $token->getValue();
-        }, $tokens)));
+        $joined = \trim(\implode('', \array_map(fn(Token $token) => $token->getValue(), $tokens)));
         $int = function ($string) {
             if (!\is_numeric($string)) {
                 throw SyntaxErrorException::stringAsFunctionArgument();
@@ -69,7 +64,7 @@ class Parser implements ParserInterface
                 return [2, 0];
             case 'n' === $joined:
                 return [1, 0];
-            case \strpos($joined, 'n') === \false:
+            case !\str_contains($joined, 'n'):
                 return [0, $int($joined)];
         }
         $split = \explode('n', $joined);

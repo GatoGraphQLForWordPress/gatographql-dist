@@ -21,20 +21,15 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 class MemcachedSessionHandler extends AbstractSessionHandler
 {
-    /**
-     * @var \Memcached
-     */
-    private $memcached;
+    private \Memcached $memcached;
     /**
      * Time to live in seconds.
-     * @var int|\Closure|null
      */
-    private $ttl;
+    private int|\Closure|null $ttl;
     /**
      * Key prefix for shared environments.
-     * @var string
      */
-    private $prefix;
+    private string $prefix;
     /**
      * Constructor.
      *
@@ -57,16 +52,16 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     {
         return $this->memcached->quit();
     }
-    protected function doRead(string $sessionId) : string
+    protected function doRead(#[\SensitiveParameter] string $sessionId) : string
     {
         return $this->memcached->get($this->prefix . $sessionId) ?: '';
     }
-    public function updateTimestamp(string $sessionId, string $data) : bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data) : bool
     {
         $this->memcached->touch($this->prefix . $sessionId, $this->getCompatibleTtl());
         return \true;
     }
-    protected function doWrite(string $sessionId, string $data) : bool
+    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data) : bool
     {
         return $this->memcached->set($this->prefix . $sessionId, $data, $this->getCompatibleTtl());
     }
@@ -80,15 +75,12 @@ class MemcachedSessionHandler extends AbstractSessionHandler
         }
         return $ttl;
     }
-    protected function doDestroy(string $sessionId) : bool
+    protected function doDestroy(#[\SensitiveParameter] string $sessionId) : bool
     {
         $result = $this->memcached->delete($this->prefix . $sessionId);
         return $result || \Memcached::RES_NOTFOUND == $this->memcached->getResultCode();
     }
-    /**
-     * @return int|false
-     */
-    public function gc(int $maxlifetime)
+    public function gc(int $maxlifetime) : int|false
     {
         // not required here because memcached will auto expire the records anyhow.
         return 0;

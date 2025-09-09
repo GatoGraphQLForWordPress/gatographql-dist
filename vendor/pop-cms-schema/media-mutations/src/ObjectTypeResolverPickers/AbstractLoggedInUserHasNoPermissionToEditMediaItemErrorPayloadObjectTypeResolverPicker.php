@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver;
+    private ?LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver $loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver = null;
     protected final function getLoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver() : LoggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoPermissionToEditMediaItemErrorPayloadObjectTypeResolver === null) {

@@ -10,16 +10,12 @@ use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputC
 /** @internal */
 trait WithLimitFieldArgResolverTrait
 {
-    /**
-     * @var string|null
-     */
-    private $limitFilterInputName;
+    private ?string $limitFilterInputName = null;
     protected abstract function getTranslationAPI() : TranslationAPIInterface;
     /**
      * Check the limit is not above the max limit or below -1
-     * @param mixed $fieldArgValue
      */
-    protected function maybeValidateLimitFieldArgument(int $maxLimit, string $fieldName, string $fieldArgName, $fieldArgValue) : ?string
+    protected function maybeValidateLimitFieldArgument(int $maxLimit, string $fieldName, string $fieldArgName, mixed $fieldArgValue) : ?string
     {
         // Check we are dealing with the "limit" fieldArg
         if ($this->limitFilterInputName === null) {
@@ -32,9 +28,8 @@ trait WithLimitFieldArgResolverTrait
     }
     /**
      * Check the limit is not above the max limit or below -1
-     * @param mixed $fieldArgValue
      */
-    protected function validateLimitFieldArgument(int $maxLimit, string $fieldName, string $fieldArgName, $fieldArgValue) : ?string
+    protected function validateLimitFieldArgument(int $maxLimit, string $fieldName, string $fieldArgName, mixed $fieldArgValue) : ?string
     {
         // Check the value is not below what is accepted
         $minLimit = $maxLimit === -1 ? -1 : 1;

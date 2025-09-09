@@ -16,7 +16,7 @@ class ModuleManager implements \PoP\Root\StateManagers\ModuleManagerInterface
      *
      * @var array<class-string<ModuleInterface>,ModuleInterface>
      */
-    protected $modules = [];
+    protected array $modules = [];
     /**
      * Register and initialize a module
      *

@@ -13,10 +13,7 @@ use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 
 class GraphQLEndpointHandler extends AbstractEndpointHandler
 {
-    /**
-     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
-     */
-    private $graphQLDataStructureFormatter;
+    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
 
     final protected function getGraphQLDataStructureFormatter(): GraphQLDataStructureFormatter
     {

@@ -14,14 +14,8 @@ use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 abstract class AbstractCommentMetaMutationResolverHookSet extends AbstractMetaMutationResolverHookSet
 {
     use MutateCommentMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeAPIs\CommentMetaTypeMutationAPIInterface|null
-     */
-    private $commentMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface|null
-     */
-    private $commentMetaTypeAPI;
+    private ?CommentMetaTypeMutationAPIInterface $commentMetaTypeMutationAPI = null;
+    private ?CommentMetaTypeAPIInterface $commentMetaTypeAPI = null;
     protected final function getCommentMetaTypeMutationAPI() : CommentMetaTypeMutationAPIInterface
     {
         if ($this->commentMetaTypeMutationAPI === null) {

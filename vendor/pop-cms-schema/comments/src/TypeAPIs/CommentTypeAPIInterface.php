@@ -24,36 +24,18 @@ interface CommentTypeAPIInterface
      * @param array<string,mixed> $options
      */
     public function getCommentCount(array $query, array $options = []) : int;
-    /**
-     * @param string|int $comment_id
-     */
-    public function getComment($comment_id) : ?object;
-    /**
-     * @param string|int $post_id
-     */
-    public function getCommentNumber($post_id) : int;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function areCommentsOpen($customPostObjectOrID) : bool;
+    public function getComment(string|int $comment_id) : ?object;
+    public function getCommentNumber(string|int $post_id) : int;
+    public function areCommentsOpen(string|int|object $customPostObjectOrID) : bool;
     public function getCommentContent(object $comment) : string;
     public function getCommentRawContent(object $comment) : string;
-    /**
-     * @return int|string
-     */
-    public function getCommentCustomPostID(object $comment);
+    public function getCommentCustomPostID(object $comment) : int|string;
     public function isCommentApproved(object $comment) : bool;
     public function getCommentType(object $comment) : string;
     public function getCommentStatus(object $comment) : string;
-    /**
-     * @return int|string|null
-     */
-    public function getCommentParent(object $comment);
+    public function getCommentParent(object $comment) : int|string|null;
     public function getCommentDate(object $comment, bool $gmt = \false) : string;
-    /**
-     * @return string|int
-     */
-    public function getCommentID(object $comment);
+    public function getCommentID(object $comment) : string|int;
     public function getCommentAuthorName(object $comment) : string;
     public function getCommentAuthorEmail(object $comment) : string;
     public function getCommentAuthorURL(object $comment) : ?string;

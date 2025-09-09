@@ -21,67 +21,16 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /** @internal */
 class Variable extends AbstractAst implements WithValueInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $type;
-    /**
-     * @readonly
-     * @var bool
-     */
-    protected $isRequired;
-    /**
-     * @readonly
-     * @var bool
-     */
-    protected $isArray;
-    /**
-     * @readonly
-     * @var bool
-     */
-    protected $isArrayElementRequired;
-    /**
-     * @readonly
-     * @var bool
-     */
-    protected $isArrayOfArrays;
-    /**
-     * @readonly
-     * @var bool
-     */
-    protected $isArrayOfArraysElementRequired;
     use StandaloneServiceTrait;
     use WithDirectivesTrait;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Execution\Context|null
-     */
-    protected $context;
-    /**
-     * @var bool
-     */
-    protected $hasDefaultValue = \false;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|null
-     */
-    protected $defaultValueAST = null;
+    protected ?Context $context = null;
+    protected bool $hasDefaultValue = \false;
+    protected InputList|InputObject|Literal|Enum|null $defaultValueAST = null;
     /**
      * @param Directive[] $directives
      */
-    public function __construct(string $name, string $type, bool $isRequired, bool $isArray, bool $isArrayElementRequired, bool $isArrayOfArrays, bool $isArrayOfArraysElementRequired, array $directives, Location $location)
+    public function __construct(protected readonly string $name, protected readonly string $type, protected readonly bool $isRequired, protected readonly bool $isArray, protected readonly bool $isArrayElementRequired, protected readonly bool $isArrayOfArrays, protected readonly bool $isArrayOfArraysElementRequired, array $directives, Location $location)
     {
-        $this->name = $name;
-        $this->type = $type;
-        $this->isRequired = $isRequired;
-        $this->isArray = $isArray;
-        $this->isArrayElementRequired = $isArrayElementRequired;
-        $this->isArrayOfArrays = $isArrayOfArrays;
-        $this->isArrayOfArraysElementRequired = $isArrayOfArraysElementRequired;
         parent::__construct($location);
         $this->setDirectives($directives);
     }
@@ -182,17 +131,11 @@ class Variable extends AbstractAst implements WithValueInterface
     {
         return $this->hasDefaultValue;
     }
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue() : mixed
     {
-        return ($nullsafeVariable1 = $this->defaultValueAST) ? $nullsafeVariable1->getValue() : null;
+        return $this->defaultValueAST?->getValue();
     }
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|null $defaultValueAST
-     */
-    public function setDefaultValueAST($defaultValueAST) : void
+    public function setDefaultValueAST(InputList|InputObject|Literal|Enum|null $defaultValueAST) : void
     {
         $this->hasDefaultValue = $defaultValueAST !== null;
         $this->defaultValueAST = $defaultValueAST;
@@ -204,7 +147,7 @@ class Variable extends AbstractAst implements WithValueInterface
      * @throws InvalidRequestException
      * @throws ShouldNotHappenException When context not set
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         if ($this->context === null) {
             throw new ShouldNotHappenException(\sprintf($this->__('Context has not been set for Variable object (with name \'%s\')', 'graphql-server'), $this->name));
@@ -220,10 +163,7 @@ class Variable extends AbstractAst implements WithValueInterface
         }
         return null;
     }
-    /**
-     * @return \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|null
-     */
-    public function getDefaultValueAST()
+    public function getDefaultValueAST() : InputList|InputObject|Literal|Enum|null
     {
         return $this->defaultValueAST;
     }

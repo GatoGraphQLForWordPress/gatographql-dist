@@ -14,18 +14,9 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\EnumType\PostTagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postTagTaxonomyEnumStringScalarTypeResolver;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?PostTagTaxonomyEnumStringScalarTypeResolver $postTagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {

@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class JSONObjectPropertyByInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -39,13 +36,10 @@ class JSONObjectPropertyByInputObjectTypeResolver extends AbstractOneofInputObje
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'key':
-                return $this->__('Query a property from the object\'s first level', 'extended-schema-commons');
-            case 'path':
-                return $this->__('Query a property on a deeper level of the object, using `.` to navigate the levels (eg: use "contact.email" to retrieve the value from `{ contact: { email: "hi@there.com" } }`)', 'extended-schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'key' => $this->__('Query a property from the object\'s first level', 'extended-schema-commons'),
+            'path' => $this->__('Query a property on a deeper level of the object, using `.` to navigate the levels (eg: use "contact.email" to retrieve the value from `{ contact: { email: "hi@there.com" } }`)', 'extended-schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

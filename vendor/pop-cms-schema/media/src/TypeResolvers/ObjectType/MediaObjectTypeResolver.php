@@ -10,14 +10,8 @@ use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
 /** @internal */
 class MediaObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType\MediaObjectTypeDataLoader|null
-     */
-    private $mediaObjectTypeDataLoader;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?MediaObjectTypeDataLoader $mediaObjectTypeDataLoader = null;
     protected final function getMediaTypeAPI() : MediaTypeAPIInterface
     {
         if ($this->mediaTypeAPI === null) {
@@ -44,10 +38,7 @@ class MediaObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return $this->__('Media elements (such as images, videos, etc), attached to a post or independent', 'media');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         $media = $object;
         return $this->getMediaTypeAPI()->getMediaItemID($media);

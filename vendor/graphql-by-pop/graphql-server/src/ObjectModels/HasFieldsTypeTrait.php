@@ -16,7 +16,7 @@ trait HasFieldsTypeTrait
     /**
      * @var Field[]
      */
-    protected $fields;
+    protected array $fields;
     protected static function getGraphQLSchemaDefinitionService() : GraphQLSchemaDefinitionServiceInterface
     {
         $instanceManager = InstanceManagerFacade::getInstance();
@@ -47,7 +47,7 @@ trait HasFieldsTypeTrait
             $graphQLSchemaDefinitionService = $this->getGraphQLSchemaDefinitionService();
             $namespacedName = $this->getNamespacedName();
             $queryRootNamespacedTypeName = $graphQLSchemaDefinitionService->getSchemaQueryRootObjectTypeResolver()->getNamespacedTypeName();
-            $mutationRootNamespacedTypeName = ($nullsafeVariable1 = $graphQLSchemaDefinitionService->getSchemaMutationRootObjectTypeResolver()) ? $nullsafeVariable1->getNamespacedTypeName() : null;
+            $mutationRootNamespacedTypeName = $graphQLSchemaDefinitionService->getSchemaMutationRootObjectTypeResolver()?->getNamespacedTypeName();
             $rootNamespacedTypeName = $graphQLSchemaDefinitionService->getSchemaRootObjectTypeResolver()->getNamespacedTypeName();
             if (!$exposeGlobalFieldsInRootTypeOnlyInGraphQLSchema || \in_array($namespacedName, [$queryRootNamespacedTypeName, $mutationRootNamespacedTypeName, $rootNamespacedTypeName])) {
                 /**
@@ -63,9 +63,7 @@ trait HasFieldsTypeTrait
                 if ($namespacedName === $rootNamespacedTypeName) {
                     $globalFields = $fieldAndMutationGlobalFields;
                 } elseif ($namespacedName === $mutationRootNamespacedTypeName) {
-                    $globalFields = \array_values(\array_filter($fieldAndMutationGlobalFields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) {
-                        return $field->getExtensions()->isMutation();
-                    }));
+                    $globalFields = \array_values(\array_filter($fieldAndMutationGlobalFields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) => $field->getExtensions()->isMutation()));
                 } else {
                     // Condition satisfied here:
                     //   $namespacedName === $queryRootNamespacedTypeName
@@ -77,9 +75,7 @@ trait HasFieldsTypeTrait
                      * - Nested mutations is enabled => also add mutations
                      * - Otherwise, only add fields
                      */
-                    $globalFields = $moduleConfiguration->enableNestedMutations() ? $fieldAndMutationGlobalFields : \array_values(\array_filter($fieldAndMutationGlobalFields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) {
-                        return !$field->getExtensions()->isMutation();
-                    }));
+                    $globalFields = $moduleConfiguration->enableNestedMutations() ? $fieldAndMutationGlobalFields : \array_values(\array_filter($fieldAndMutationGlobalFields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) => !$field->getExtensions()->isMutation()));
                 }
             }
         }
@@ -89,21 +85,15 @@ trait HasFieldsTypeTrait
                 /**
                  * Sort them separately, then merge them
                  */
-                \uasort($this->fields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) {
-                    return $a->getName() <=> $b->getName();
-                });
-                \uasort($globalFields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) {
-                    return $a->getName() <=> $b->getName();
-                });
+                \uasort($this->fields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) => $a->getName() <=> $b->getName());
+                \uasort($globalFields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) => $a->getName() <=> $b->getName());
                 $this->fields = \array_merge($this->fields, $globalFields);
             } else {
                 /**
                  * Merge them, then sort them together
                  */
                 $this->fields = \array_merge($this->fields, $globalFields);
-                \uasort($this->fields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) {
-                    return $a->getName() <=> $b->getName();
-                });
+                \uasort($this->fields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $a, \GraphQLByPoP\GraphQLServer\ObjectModels\Field $b) => $a->getName() <=> $b->getName());
             }
         } else {
             $this->fields = \array_merge($this->fields, $globalFields);
@@ -118,14 +108,10 @@ trait HasFieldsTypeTrait
     {
         $fields = $this->fields;
         if (!$includeDeprecated) {
-            $fields = \array_filter($fields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) {
-                return !$field->isDeprecated();
-            });
+            $fields = \array_filter($fields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) => !$field->isDeprecated());
         }
         if (!$includeGlobal) {
-            $fields = \array_filter($fields, function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) {
-                return !$field->getExtensions()->isGlobal();
-            });
+            $fields = \array_filter($fields, fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) => !$field->getExtensions()->isGlobal());
         }
         return $fields;
     }
@@ -135,8 +121,6 @@ trait HasFieldsTypeTrait
      */
     public function getFieldIDs(bool $includeDeprecated = \false, bool $includeGlobal = \true) : array
     {
-        return \array_map(function (\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) {
-            return $field->getID();
-        }, $this->getFields($includeDeprecated, $includeGlobal));
+        return \array_map(fn(\GraphQLByPoP\GraphQLServer\ObjectModels\Field $field) => $field->getID(), $this->getFields($includeDeprecated, $includeGlobal));
     }
 }

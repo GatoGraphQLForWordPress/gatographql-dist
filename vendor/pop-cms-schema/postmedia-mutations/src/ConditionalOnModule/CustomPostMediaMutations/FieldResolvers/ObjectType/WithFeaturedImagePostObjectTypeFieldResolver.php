@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class WithFeaturedImagePostObjectTypeFieldResolver extends AbstractWithFeaturedImageCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
+    private ?PostTypeAPIInterface $postTypeAPI = null;
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {
@@ -36,13 +33,10 @@ class WithFeaturedImagePostObjectTypeFieldResolver extends AbstractWithFeaturedI
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'setFeaturedImage':
-                return $this->__('Set the featured image on the post', 'postmedia-mutations');
-            case 'removeFeaturedImage':
-                return $this->__('Remove the featured image on the post', 'postmedia-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setFeaturedImage' => $this->__('Set the featured image on the post', 'postmedia-mutations'),
+            'removeFeaturedImage' => $this->__('Remove the featured image on the post', 'postmedia-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 }

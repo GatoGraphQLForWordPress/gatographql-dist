@@ -21,14 +21,8 @@ class CustomPostUnionTypeDataLoader extends UpstreamCustomPostUnionTypeDataLoade
 {
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
 
-    /**
-     * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader|null
-     */
-    private $customPostObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
+    private ?CustomPostObjectTypeDataLoader $customPostObjectTypeDataLoader = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
 
     final protected function getCustomPostObjectTypeDataLoader(): CustomPostObjectTypeDataLoader
     {

@@ -10,14 +10,8 @@ use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
 /** @internal */
 class CommentObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType\CommentObjectTypeDataLoader|null
-     */
-    private $commentObjectTypeDataLoader;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?CommentObjectTypeDataLoader $commentObjectTypeDataLoader = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -44,10 +38,7 @@ class CommentObjectTypeResolver extends AbstractObjectTypeResolver implements \P
     {
         return $this->__('Comments added to custom posts', 'comments');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         $comment = $object;
         return $this->getCommentTypeAPI()->getCommentID($comment);

@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 abstract class AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemByOneofInputObjectTypeResolver|null
-     */
-    private $mediaItemByOneofInputObjectTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -52,23 +46,17 @@ abstract class AbstractSetFeaturedImageOnCustomPostInputObjectTypeResolver exten
     protected abstract function addCustomPostInputField() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return $this->__('The ID of the custom post', 'custompostmedia-mutations');
-            case MutationInputProperties::MEDIAITEM_BY:
-                return $this->__('The image to set as featured', 'custompostmedia-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('The ID of the custom post', 'custompostmedia-mutations'),
+            MutationInputProperties::MEDIAITEM_BY => $this->__('The image to set as featured', 'custompostmedia-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::MEDIAITEM_BY:
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::MEDIAITEM_BY, MutationInputProperties::CUSTOMPOST_ID => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

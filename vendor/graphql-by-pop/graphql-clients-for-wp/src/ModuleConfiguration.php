@@ -32,7 +32,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::DISABLE_GRAPHIQL_CLIENT_ENDPOINT;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -48,7 +48,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::USE_GRAPHIQL_EXPLORER;
         $defaultValue = true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -64,7 +64,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::GRAPHIQL_CLIENT_ENDPOINT;
         $defaultValue = '/graphiql/';
-        $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
+        $callback = EndpointUtils::slashURI(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -80,7 +80,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::DISABLE_VOYAGER_CLIENT_ENDPOINT;
         $defaultValue = false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,
@@ -96,7 +96,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = Environment::VOYAGER_CLIENT_ENDPOINT;
         $defaultValue = '/schema/';
-        $callback = \Closure::fromCallable([EndpointUtils::class, 'slashURI']);
+        $callback = EndpointUtils::slashURI(...);
 
         return $this->retrieveConfigurationValueOrUseDefault(
             $envVariable,

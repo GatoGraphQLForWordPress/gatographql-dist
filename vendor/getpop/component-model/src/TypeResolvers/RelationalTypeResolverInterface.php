@@ -22,7 +22,7 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      *
      * @return string|int|null the ID of the passed object, or `null` if there is no resolver to handle it (for the UnionTypeResolver)
      */
-    public function getID(object $object);
+    public function getID(object $object) : string|int|null;
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface;
     /**
      * @return InterfaceTypeResolverInterface[]
@@ -32,7 +32,7 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      * @param string|int|array<string|int> $objectIDOrIDs
      * @return string|int|array<string|int>
      */
-    public function getQualifiedDBObjectIDOrIDs($objectIDOrIDs);
+    public function getQualifiedDBObjectIDOrIDs(string|int|array $objectIDOrIDs) : string|int|array;
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSet
      */
@@ -46,11 +46,7 @@ interface RelationalTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      * @param array<string,mixed> $messages
      */
     public function fillObjects(array $idFieldSet, array $unionTypeOutputKeyIDs, array $previouslyResolvedIDFieldValues, array &$resolvedIDFieldValues, array &$messages, EngineIterationFeedbackStore $engineIterationFeedbackStore) : array;
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface $fieldOrFieldDataAccessor
-     * @return mixed
-     */
-    public function resolveValue(object $object, $fieldOrFieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    public function resolveValue(object $object, FieldInterface|FieldDataAccessorInterface $fieldOrFieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed;
     /**
      * Validate and resolve the directives into an array, each item containing:
      *

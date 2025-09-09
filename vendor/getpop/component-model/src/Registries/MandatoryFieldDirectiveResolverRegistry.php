@@ -10,7 +10,7 @@ class MandatoryFieldDirectiveResolverRegistry implements \PoP\ComponentModel\Reg
     /**
      * @var FieldDirectiveResolverInterface[]
      */
-    protected $mandatoryFieldDirectiveResolvers = [];
+    protected array $mandatoryFieldDirectiveResolvers = [];
     public function addMandatoryFieldDirectiveResolver(FieldDirectiveResolverInterface $directiveResolver) : void
     {
         $this->mandatoryFieldDirectiveResolvers[] = $directiveResolver;

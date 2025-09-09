@@ -23,23 +23,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * @var \Symfony\Component\Config\Definition\ConfigurableInterface
-     */
-    private $subject;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder|null
-     */
-    private $container;
-    /**
-     * @var string
-     */
-    private $alias;
-    public function __construct(ConfigurableInterface $subject, ?ContainerBuilder $container, string $alias)
+    public function __construct(private ConfigurableInterface $subject, private ?ContainerBuilder $container, private string $alias)
     {
-        $this->subject = $subject;
-        $this->container = $container;
-        $this->alias = $alias;
     }
     public function getConfigTreeBuilder() : TreeBuilder
     {

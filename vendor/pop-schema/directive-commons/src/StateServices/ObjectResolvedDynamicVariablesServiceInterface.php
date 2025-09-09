@@ -19,10 +19,8 @@ interface ObjectResolvedDynamicVariablesServiceInterface
      * of objectID + field.
      *
      * @param null|FieldInterface[] $dynamicVariableTargetFields
-     * @param string|int $id
-     * @param mixed $value
      */
-    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, $id, $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void;
+    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, string|int $id, mixed $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void;
     /**
      * Duplicate all the dynamic variables for one Field into
      * another Field. It is used by @underJSONObjectProperty

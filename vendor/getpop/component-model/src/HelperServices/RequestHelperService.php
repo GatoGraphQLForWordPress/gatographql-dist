@@ -13,7 +13,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class RequestHelperService extends AbstractBasicService implements \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface
 {
-    public const HOOK_CURRENT_URL_REMOVE_PARAMS = __CLASS__ . ':current-url:remove-params';
+    public final const HOOK_CURRENT_URL_REMOVE_PARAMS = __CLASS__ . ':current-url:remove-params';
     /**
      * Return the requested full URL
      */

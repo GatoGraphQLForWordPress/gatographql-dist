@@ -22,54 +22,18 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\T
  */
 class TokenizerPatterns
 {
-    /**
-     * @var string
-     */
-    private $unicodeEscapePattern;
-    /**
-     * @var string
-     */
-    private $simpleEscapePattern;
-    /**
-     * @var string
-     */
-    private $newLineEscapePattern;
-    /**
-     * @var string
-     */
-    private $escapePattern;
-    /**
-     * @var string
-     */
-    private $stringEscapePattern;
-    /**
-     * @var string
-     */
-    private $nonAsciiPattern;
-    /**
-     * @var string
-     */
-    private $nmCharPattern;
-    /**
-     * @var string
-     */
-    private $nmStartPattern;
-    /**
-     * @var string
-     */
-    private $identifierPattern;
-    /**
-     * @var string
-     */
-    private $hashPattern;
-    /**
-     * @var string
-     */
-    private $numberPattern;
-    /**
-     * @var string
-     */
-    private $quotedStringPattern;
+    private string $unicodeEscapePattern;
+    private string $simpleEscapePattern;
+    private string $newLineEscapePattern;
+    private string $escapePattern;
+    private string $stringEscapePattern;
+    private string $nonAsciiPattern;
+    private string $nmCharPattern;
+    private string $nmStartPattern;
+    private string $identifierPattern;
+    private string $hashPattern;
+    private string $numberPattern;
+    private string $quotedStringPattern;
     public function __construct()
     {
         $this->unicodeEscapePattern = '\\\\([0-9a-f]{1,6})(?:\\r\\n|[ \\n\\r\\t\\f])?';

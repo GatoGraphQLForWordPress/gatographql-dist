@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractAccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\TypeResolvers\ObjectType\AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver|null
-     */
-    private $accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver;
+    private ?AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver $accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver = null;
     protected final function getAccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver() : AccessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver
     {
         if ($this->accessToMetaKeyIsNotAllowedErrorPayloadObjectTypeResolver === null) {

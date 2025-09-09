@@ -13,18 +13,9 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilt
 /** @internal */
 abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
-     */
-    private $searchFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugsFilterInput|null
-     */
-    private $slugsFilterInput;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?SearchFilterInput $searchFilterInput = null;
+    private ?SlugsFilterInput $slugsFilterInput = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -61,33 +52,25 @@ abstract class AbstractMenusFilterInputObjectTypeResolver extends AbstractObject
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->__('Filter menus that contain a string', 'menus');
-            case 'slugs':
-                return $this->__('Filter menus based on slug', 'menus');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->__('Filter menus that contain a string', 'menus'),
+            'slugs' => $this->__('Filter menus based on slug', 'menus'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'slugs':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'slugs' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'search':
-                return $this->getSearchFilterInput();
-            case 'slugs':
-                return $this->getSlugsFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'search' => $this->getSearchFilterInput(),
+            'slugs' => $this->getSlugsFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

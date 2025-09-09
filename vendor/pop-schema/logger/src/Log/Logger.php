@@ -4,25 +4,22 @@ declare (strict_types=1);
 namespace PoPSchema\Logger\Log;
 
 use DateTimeInterface;
+use InvalidArgumentException;
+use PoPSchema\Logger\Constants\LoggerContext;
 use PoPSchema\Logger\Constants\LoggerSeverity;
 use PoPSchema\Logger\Constants\LoggerSigns;
 use PoPSchema\Logger\Module;
 use PoPSchema\Logger\ModuleConfiguration;
-use InvalidArgumentException;
 use PoP\ComponentModel\App;
 use PoP\Root\Services\AbstractBasicService;
-use PoPSchema\Logger\Constants\LoggerContext;
 use function error_log;
-use function str_pad;
 use function json_encode;
+use function str_pad;
 /** @internal */
 class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\LoggerInterface
 {
     public const CONTEXT_SEPARATOR = 'CONTEXT: ';
-    /**
-     * @var \PoPSchema\Logger\Log\SystemLoggerInterface|null
-     */
-    private $systemLogger;
+    private ?\PoPSchema\Logger\Log\SystemLoggerInterface $systemLogger = null;
     protected final function getSystemLogger() : \PoPSchema\Logger\Log\SystemLoggerInterface
     {
         if ($this->systemLogger === null) {
@@ -108,18 +105,13 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
     }
     protected function getLoggerSeveritySign(string $severity) : string
     {
-        switch ($severity) {
-            case LoggerSeverity::ERROR:
-                return LoggerSigns::ERROR;
-            case LoggerSeverity::WARNING:
-                return LoggerSigns::WARNING;
-            case LoggerSeverity::INFO:
-                return LoggerSigns::INFO;
-            case LoggerSeverity::DEBUG:
-                return LoggerSigns::DEBUG;
-            default:
-                throw new InvalidArgumentException(\sprintf('Invalid severity: "%s"', $severity));
-        }
+        return match ($severity) {
+            LoggerSeverity::ERROR => LoggerSigns::ERROR,
+            LoggerSeverity::WARNING => LoggerSigns::WARNING,
+            LoggerSeverity::INFO => LoggerSigns::INFO,
+            LoggerSeverity::DEBUG => LoggerSigns::DEBUG,
+            default => throw new InvalidArgumentException(\sprintf('Invalid severity: "%s"', $severity)),
+        };
     }
     protected function maybeCreateLogFile(string $filename) : bool
     {

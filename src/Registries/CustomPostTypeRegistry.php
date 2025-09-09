@@ -11,7 +11,7 @@ class CustomPostTypeRegistry implements CustomPostTypeRegistryInterface
     /**
      * @var array<string,CustomPostTypeInterface> serviceDefinitionID => CPT
      */
-    protected $customPostTypes = [];
+    protected array $customPostTypes = [];
 
     /**
      * Keep the service definition, to unregister the CPTs

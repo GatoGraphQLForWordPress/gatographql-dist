@@ -28,14 +28,8 @@ trait ContractsTrait
     use CacheTrait {
         doGet as private contractsGet;
     }
-    /**
-     * @var \Closure
-     */
-    private $callbackWrapper;
-    /**
-     * @var mixed[]
-     */
-    private $computing = [];
+    private \Closure $callbackWrapper;
+    private array $computing = [];
     /**
      * Wraps the callback passed to ->get() in a callable.
      *
@@ -44,30 +38,25 @@ trait ContractsTrait
     public function setCallbackWrapper(?callable $callbackWrapper) : callable
     {
         if (!isset($this->callbackWrapper)) {
-            $this->callbackWrapper = \Closure::fromCallable([LockRegistry::class, 'compute']);
+            $this->callbackWrapper = LockRegistry::compute(...);
             if (\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], \true)) {
                 $this->setCallbackWrapper(null);
             }
         }
         if (null !== $callbackWrapper && !$callbackWrapper instanceof \Closure) {
-            $callbackWrapper = \Closure::fromCallable($callbackWrapper);
+            $callbackWrapper = $callbackWrapper(...);
         }
         $previousWrapper = $this->callbackWrapper;
-        $this->callbackWrapper = $callbackWrapper ?? static function (callable $callback, ItemInterface $item, bool &$save, CacheInterface $pool, \Closure $setMetadata, ?LoggerInterface $logger) {
-            return $callback($item, $save);
-        };
+        $this->callbackWrapper = $callbackWrapper ?? static fn(callable $callback, ItemInterface $item, bool &$save, CacheInterface $pool, \Closure $setMetadata, ?LoggerInterface $logger) => $callback($item, $save);
         return $previousWrapper;
     }
-    /**
-     * @return mixed
-     */
-    private function doGet(AdapterInterface $pool, string $key, callable $callback, ?float $beta, ?array &$metadata = null)
+    private function doGet(AdapterInterface $pool, string $key, callable $callback, ?float $beta, ?array &$metadata = null) : mixed
     {
-        if (0 > ($beta = $beta ?? 1.0)) {
+        if (0 > ($beta ??= 1.0)) {
             throw new InvalidArgumentException(\sprintf('Argument "$beta" provided to "%s::get()" must be a positive number, %f given.', static::class, $beta));
         }
         static $setMetadata;
-        $setMetadata = $setMetadata ?? \Closure::bind(static function (CacheItem $item, float $startTime, ?array &$metadata) {
+        $setMetadata ??= \Closure::bind(static function (CacheItem $item, float $startTime, ?array &$metadata) {
             if ($item->expiry > ($endTime = \microtime(\true))) {
                 $item->newMetadata[CacheItem::METADATA_EXPIRY] = $metadata[CacheItem::METADATA_EXPIRY] = $item->expiry;
                 $item->newMetadata[CacheItem::METADATA_CTIME] = $metadata[CacheItem::METADATA_CTIME] = (int) \ceil(1000 * ($endTime - $startTime));
@@ -75,7 +64,7 @@ trait ContractsTrait
                 unset($metadata[CacheItem::METADATA_EXPIRY], $metadata[CacheItem::METADATA_CTIME], $metadata[CacheItem::METADATA_TAGS]);
             }
         }, null, CacheItem::class);
-        $this->callbackWrapper = $this->callbackWrapper ?? \Closure::fromCallable([LockRegistry::class, 'compute']);
+        $this->callbackWrapper ??= LockRegistry::compute(...);
         return $this->contractsGet($pool, $key, function (CacheItem $item, bool &$save) use($pool, $callback, $setMetadata, &$metadata, $key) {
             // don't wrap nor save recursive calls
             if (isset($this->computing[$key])) {

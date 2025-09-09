@@ -19,18 +19,9 @@ use PoP\Root\Exception\AbstractException;
 class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
 {
     use MediaItemCRUDMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
-     */
-    private $customPostMediaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
-     */
-    private $mediaTypeMutationAPI;
+    private ?CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI = null;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?MediaTypeMutationAPIInterface $mediaTypeMutationAPI = null;
     protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {
@@ -60,9 +51,8 @@ class SetFeaturedImageOnCustomPostMutationResolver extends \PoPCMSSchema\CustomP
     }
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $mediaItemID = null;
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);

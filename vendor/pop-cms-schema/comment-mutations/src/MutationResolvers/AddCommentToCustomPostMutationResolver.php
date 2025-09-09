@@ -30,26 +30,11 @@ use stdClass;
 class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
 {
     use ValidateUserLoggedInMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeAPIs\CommentTypeMutationAPIInterface|null
-     */
-    private $commentTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?CommentTypeMutationAPIInterface $commentTypeMutationAPI = null;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -165,10 +150,7 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
-    /**
-     * @param string|int $comment_id
-     */
-    protected function additionals($comment_id, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function additionals(string|int $comment_id, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CommentCRUDHookNames::EXECUTE_ADD_COMMENT, $comment_id, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -220,17 +202,15 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
     /**
      * @throws CommentCRUDMutationException In case of error
      * @param array<string,mixed> $comment_data
-     * @return string|int
      */
-    protected function insertComment(array $comment_data)
+    protected function insertComment(array $comment_data) : string|int
     {
         return $this->getCommentTypeMutationAPI()->insertComment($comment_data);
     }
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $comment_data = $this->getCommentData($fieldDataAccessor);
         $comment_id = $this->insertComment($comment_data);

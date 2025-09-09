@@ -14,26 +14,17 @@ interface TagMetaTypeMutationAPIInterface extends TaxonomyMetaTypeMutationAPIInt
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws TagTermMetaCRUDMutationException If there was an error
-     * @param string|int $taxonomyTermID
      */
-    public function setTagTermMeta($taxonomyTermID, array $entries) : void;
+    public function setTagTermMeta(string|int $taxonomyTermID, array $entries) : void;
     /**
      * @return int The term_id of the newly created term
      * @throws TagTermMetaCRUDMutationException If there was an error
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
      */
-    public function addTagTermMeta($taxonomyTermID, string $key, $value, bool $single = \false) : int;
+    public function addTagTermMeta(string|int $taxonomyTermID, string $key, mixed $value, bool $single = \false) : int;
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws TagTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
      */
-    public function updateTagTermMeta($taxonomyTermID, string $key, $value);
-    /**
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
-     */
-    public function deleteTagTermMeta($taxonomyTermID, string $key, $value = null) : void;
+    public function updateTagTermMeta(string|int $taxonomyTermID, string $key, mixed $value) : string|int|bool;
+    public function deleteTagTermMeta(string|int $taxonomyTermID, string $key, mixed $value = null) : void;
 }

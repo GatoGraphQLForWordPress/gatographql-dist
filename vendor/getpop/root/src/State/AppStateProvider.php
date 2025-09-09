@@ -11,10 +11,7 @@ use PoP\Root\Routing\RoutingManagerInterface;
 /** @internal */
 class AppStateProvider extends \PoP\Root\State\AbstractAppStateProvider
 {
-    /**
-     * @var \PoP\Root\Routing\RoutingManagerInterface|null
-     */
-    private $routingManager;
+    private ?RoutingManagerInterface $routingManager = null;
     protected final function getRoutingManager() : RoutingManagerInterface
     {
         if ($this->routingManager === null) {

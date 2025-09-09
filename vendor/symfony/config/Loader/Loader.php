@@ -40,9 +40,8 @@ abstract class Loader implements LoaderInterface
      * Imports a resource.
      *
      * @return mixed
-     * @param mixed $resource
      */
-    public function import($resource, ?string $type = null)
+    public function import(mixed $resource, ?string $type = null)
     {
         return $this->resolve($resource, $type)->load($resource, $type);
     }
@@ -50,9 +49,8 @@ abstract class Loader implements LoaderInterface
      * Finds a loader able to load an imported resource.
      *
      * @throws LoaderLoadException If no loader is found
-     * @param mixed $resource
      */
-    public function resolve($resource, ?string $type = null) : LoaderInterface
+    public function resolve(mixed $resource, ?string $type = null) : LoaderInterface
     {
         if ($this->supports($resource, $type)) {
             return $this;

@@ -20,18 +20,9 @@ use stdClass;
 abstract class AbstractMutationResolverHookSet extends AbstractHookSet
 {
     use SetCategoriesOnCustomPostMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeAPIs\CustomPostCategoryTypeMutationAPIInterface|null
-     */
-    private $customPostCategoryTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostCategoryTypeMutationAPIInterface $customPostCategoryTypeMutationAPI = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -61,10 +52,10 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction($this->getValidateCreateHookName(), \Closure::fromCallable([$this, 'maybeValidateCategories']), 10, 3);
-        App::addAction($this->getValidateUpdateHookName(), \Closure::fromCallable([$this, 'maybeValidateCategories']), 10, 3);
-        App::addAction($this->getExecuteCreateOrUpdateHookName(), \Closure::fromCallable([$this, 'maybeSetCategories']), 10, 3);
-        App::addFilter($this->getErrorPayloadHookName(), \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction($this->getValidateCreateHookName(), $this->maybeValidateCategories(...), 10, 3);
+        App::addAction($this->getValidateUpdateHookName(), $this->maybeValidateCategories(...), 10, 3);
+        App::addAction($this->getExecuteCreateOrUpdateHookName(), $this->maybeSetCategories(...), 10, 3);
+        App::addFilter($this->getErrorPayloadHookName(), $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     protected abstract function getValidateCreateHookName() : string;
     protected abstract function getValidateUpdateHookName() : string;
@@ -97,10 +88,7 @@ abstract class AbstractMutationResolverHookSet extends AbstractHookSet
         }
         return \true;
     }
-    /**
-     * @param int|string $customPostID
-     */
-    public function maybeSetCategories($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function maybeSetCategories(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;

@@ -10,7 +10,7 @@ class AttachableExtensionManager implements \PoP\ComponentModel\AttachableExtens
     /**
      * @var array<string,array<string,AttachableExtensionInterface[]>>
      */
-    protected $attachableExtensions = [];
+    protected array $attachableExtensions = [];
     /**
      * @param string $attachableClass Class or "*" to represent _any_ class
      */

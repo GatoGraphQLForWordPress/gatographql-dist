@@ -8,10 +8,10 @@ use PoP\Root\Feedback\FeedbackCategories;
 /** @internal */
 class GraphQLUnsupportedFeatureErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E_1 = '1';
-    public const E_2 = '2';
-    public const E_3 = '3';
-    public const E_4 = '4';
+    public final const E_1 = '1';
+    public final const E_2 = '2';
+    public final const E_3 = '3';
+    public final const E_4 = '4';
     protected function getNamespace() : string
     {
         return 'gqlunsupported';
@@ -25,18 +25,13 @@ class GraphQLUnsupportedFeatureErrorFeedbackItemProvider extends AbstractFeedbac
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E_1:
-                return $this->__('Subscriptions are currently not supported', 'graphql-server');
-            case self::E_2:
-                return $this->__('Fragment Definition Directives are currently not supported', 'graphql-server');
-            case self::E_3:
-                return $this->__('Variable Definition Directives are currently not supported', 'graphql-server');
-            case self::E_4:
-                return $this->__('Only up to 2 levels of List modifiers are supported (eg: `[[String]]`)', 'graphql-server');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E_1 => $this->__('Subscriptions are currently not supported', 'graphql-server'),
+            self::E_2 => $this->__('Fragment Definition Directives are currently not supported', 'graphql-server'),
+            self::E_3 => $this->__('Variable Definition Directives are currently not supported', 'graphql-server'),
+            self::E_4 => $this->__('Only up to 2 levels of List modifiers are supported (eg: `[[String]]`)', 'graphql-server'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

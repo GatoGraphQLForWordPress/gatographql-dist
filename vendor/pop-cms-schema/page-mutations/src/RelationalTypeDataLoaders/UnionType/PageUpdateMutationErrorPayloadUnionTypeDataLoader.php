@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class PageUpdateMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\UnionType\PageUpdateMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $pageUpdateMutationErrorPayloadUnionTypeResolver;
+    private ?PageUpdateMutationErrorPayloadUnionTypeResolver $pageUpdateMutationErrorPayloadUnionTypeResolver = null;
     protected final function getPageUpdateMutationErrorPayloadUnionTypeResolver() : PageUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->pageUpdateMutationErrorPayloadUnionTypeResolver === null) {

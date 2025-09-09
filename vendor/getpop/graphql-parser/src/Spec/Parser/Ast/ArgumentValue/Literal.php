@@ -8,16 +8,8 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class Literal extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface
 {
-    /**
-     * @var string|int|float|bool|null
-     */
-    protected $value;
-    /**
-     * @param string|int|float|bool|null $value
-     */
-    public function __construct($value, Location $location)
+    public function __construct(protected string|int|float|bool|null $value, Location $location)
     {
-        $this->value = $value;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -31,7 +23,7 @@ class Literal extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\
     /**
      * @return string|int|float|bool|null
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->value;
     }

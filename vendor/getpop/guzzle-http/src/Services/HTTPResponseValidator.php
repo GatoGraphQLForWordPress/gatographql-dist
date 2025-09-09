@@ -24,14 +24,16 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
          */
         $statusCode = $response->getStatusCode();
         if (!($statusCode >= 200 && $statusCode <= 203)) {
-            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('Response has status code \'%s\'', 'guzzle-http'), $statusCode));
+            $bodyResponse = $response->getBody()->__toString();
+            $errorMessage = !empty($bodyResponse) ? \sprintf($this->__('Response with status code \'%s\': %s', 'guzzle-http'), $statusCode, $bodyResponse) : \sprintf($this->__('Response has status code \'%s\'', 'guzzle-http'), $statusCode);
+            throw new GuzzleHTTPInvalidResponseException($errorMessage);
         }
     }
     /**
      * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException
      */
-    public function decodeJSONResponse(ResponseInterface $response, bool $associative = \false)
+    public function decodeJSONResponse(ResponseInterface $response, bool $associative = \false) : array|stdClass
     {
         /**
          * It must be a JSON content type, for which it's either
@@ -40,7 +42,7 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
          * `application/ld+json` or `application/geo+json`
          */
         $contentType = $response->getHeaderLine('content-type');
-        $isJSONContentType = \substr($contentType, 0, \strlen('application/json')) === 'application/json' || \substr($contentType, 0, \strlen('application/')) === 'application/' && \strpos($contentType, '+json') !== \false;
+        $isJSONContentType = \substr($contentType, 0, \strlen('application/json')) === 'application/json' || \substr($contentType, 0, \strlen('application/')) === 'application/' && \str_contains($contentType, '+json');
         if (!$isJSONContentType) {
             throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The response content type is \'%s\', but \'application/json\' (or one of its JSON variants) is expected', 'guzzle-http'), $contentType));
         }
@@ -58,7 +60,7 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
      * @return array<string,mixed>|stdClass
      * @throws GuzzleHTTPInvalidResponseException
      */
-    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false)
+    public function validateAndDecodeJSONResponse(ResponseInterface $response, bool $associative = \false) : array|stdClass
     {
         $this->validateJSONResponse($response);
         return $this->decodeJSONResponse($response, $associative);

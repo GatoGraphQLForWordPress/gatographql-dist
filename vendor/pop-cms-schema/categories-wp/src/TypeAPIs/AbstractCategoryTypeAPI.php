@@ -36,19 +36,13 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return true;
     }
 
-    /**
-     * @return string|int
-     */
-    public function getCategoryID(object $cat)
+    public function getCategoryID(object $cat): string|int
     {
         /** @var WP_Term $cat */
         return $this->getTaxonomyTermID($cat);
     }
 
-    /**
-     * @param string|int $categoryID
-     */
-    public function getCategory($categoryID): ?object
+    public function getCategory(string|int $categoryID): ?object
     {
         $category = $this->getTaxonomyTerm($categoryID);
         if ($category === null) {
@@ -61,10 +55,7 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return $category;
     }
 
-    /**
-     * @param int|string $id
-     */
-    public function categoryExists($id): bool
+    public function categoryExists(int|string $id): bool
     {
         return $this->getCategory($id) !== null;
     }
@@ -85,7 +76,7 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
      */
-    public function getCustomPostCategories($customPostObjectOrID, array $query = [], array $options = []): array
+    public function getCustomPostCategories(string|int|object $customPostObjectOrID, array $query = [], array $options = []): array
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -105,9 +96,8 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostCategoryCount($customPostObjectOrID, array $query = [], array $options = []): ?int
+    public function getCustomPostCategoryCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []): ?int
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -182,11 +172,10 @@ abstract class AbstractCategoryTypeAPI extends AbstractTaxonomyTypeAPI implement
         return $this->convertTaxonomyTermsQuery($query, $options);
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, ?string $taxonomy = null): ?WP_Term
-    {
+    protected function getTaxonomyTermFromObjectOrID(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        ?string $taxonomy = null,
+    ): ?WP_Term {
         $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
             $taxonomyTermObjectOrID,
             $taxonomy,

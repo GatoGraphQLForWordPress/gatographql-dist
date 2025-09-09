@@ -16,54 +16,33 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait NullableReturnTrait
     {
-        /**
-         * @return \Relay\Relay|false|string|null
-         */
-        public function dump($key)
+        public function dump($key) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|float|null
-         */
-        public function geodist($key, $src, $dst, $unit = null)
+        public function geodist($key, $src, $dst, $unit = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|float|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geodist(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->geodist(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|string|null
-         */
-        public function hrandfield($hash, $options = null)
+        public function hrandfield($hash, $options = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|string|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hrandfield(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hrandfield(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|string|null
-         */
-        public function xadd($key, $id, $values, $maxlen = 0, $approx = \false, $nomkstream = \false)
+        public function xadd($key, $id, $values, $maxlen = 0, $approx = \false, $nomkstream = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->xadd(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->xadd(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|int|null
-         */
-        public function zrank($key, $rank, $withscore = \false)
+        public function zrank($key, $rank, $withscore = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|int|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrank(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zrank(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|int|null
-         */
-        public function zrevrank($key, $rank, $withscore = \false)
+        public function zrevrank($key, $rank, $withscore = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|int|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrevrank(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zrevrank(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|float|null
-         */
-        public function zscore($key, $member)
+        public function zscore($key, $member) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|float|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscore(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zscore(...\func_get_args());
         }
     }
 } else {
@@ -72,54 +51,33 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait NullableReturnTrait
     {
-        /**
-         * @return \Relay\Relay|false|string
-         */
-        public function dump($key)
+        public function dump($key) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|float
-         */
-        public function geodist($key, $src, $dst, $unit = null)
+        public function geodist($key, $src, $dst, $unit = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|float
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->geodist(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->geodist(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|string
-         */
-        public function hrandfield($hash, $options = null)
+        public function hrandfield($hash, $options = null) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hrandfield(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hrandfield(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|string
-         */
-        public function xadd($key, $id, $values, $maxlen = 0, $approx = \false, $nomkstream = \false)
+        public function xadd($key, $id, $values, $maxlen = 0, $approx = \false, $nomkstream = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->xadd(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->xadd(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|int
-         */
-        public function zrank($key, $rank, $withscore = \false)
+        public function zrank($key, $rank, $withscore = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrank(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zrank(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|mixed[]|false|int
-         */
-        public function zrevrank($key, $rank, $withscore = \false)
+        public function zrevrank($key, $rank, $withscore = \false) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|array|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zrevrank(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zrevrank(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|float
-         */
-        public function zscore($key, $member)
+        public function zscore($key, $member) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|float
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->zscore(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->zscore(...\func_get_args());
         }
     }
 }

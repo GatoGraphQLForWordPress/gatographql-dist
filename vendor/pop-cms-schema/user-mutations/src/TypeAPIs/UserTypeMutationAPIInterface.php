@@ -6,8 +6,5 @@ namespace PoPCMSSchema\UserMutations\TypeAPIs;
 /** @internal */
 interface UserTypeMutationAPIInterface
 {
-    /**
-     * @param string|int $userID
-     */
-    public function canLoggedInUserEditUser($userID) : bool;
+    public function canLoggedInUserEditUser(string|int $userID) : bool;
 }

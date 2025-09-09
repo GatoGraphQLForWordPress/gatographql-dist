@@ -46,7 +46,7 @@ trait SetTaxonomyTermsOnCustomPostMutationResolverTrait
                 $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getTaxonomyTermDoesNotExistError(null, $taxonomyTermID), $fieldDataAccessor->getField()));
                 continue;
             }
-            $taxonomyToTaxonomyTermsIDs[$taxonomyName] = $taxonomyToTaxonomyTermsIDs[$taxonomyName] ?? [];
+            $taxonomyToTaxonomyTermsIDs[$taxonomyName] ??= [];
             $taxonomyToTaxonomyTermsIDs[$taxonomyName][] = $taxonomyTermID;
         }
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
@@ -107,7 +107,7 @@ trait SetTaxonomyTermsOnCustomPostMutationResolverTrait
                 $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getTaxonomyTermBySlugDoesNotExistError(null, $taxonomyTermSlug), $fieldDataAccessor->getField()));
                 continue;
             }
-            $taxonomyToTaxonomyTermsIDs[$taxonomyName] = $taxonomyToTaxonomyTermsIDs[$taxonomyName] ?? [];
+            $taxonomyToTaxonomyTermsIDs[$taxonomyName] ??= [];
             $taxonomyToTaxonomyTermsIDs[$taxonomyName][] = $taxonomyTermID;
         }
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
@@ -116,10 +116,7 @@ trait SetTaxonomyTermsOnCustomPostMutationResolverTrait
         return $taxonomyToTaxonomyTermsIDs;
     }
     protected abstract function getTaxonomyTermTypeAPI() : TaxonomyTermTypeAPIInterface;
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateCustomPostTypeIsNotEmpty($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCustomPostTypeIsNotEmpty(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
         if ($customPostType !== null) {

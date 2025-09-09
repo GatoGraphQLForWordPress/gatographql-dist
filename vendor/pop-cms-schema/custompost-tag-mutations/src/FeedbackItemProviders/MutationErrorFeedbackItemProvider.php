@@ -8,12 +8,12 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E4 = 'e4';
-    public const E6 = 'e6';
-    public const E7 = 'e7';
-    public const E8 = 'e8';
-    public const E9 = 'e9';
+    public final const E1 = 'e1';
+    public final const E4 = 'e4';
+    public final const E6 = 'e6';
+    public final const E7 = 'e7';
+    public final const E8 = 'e8';
+    public final const E9 = 'e9';
     /**
      * @return string[]
      */
@@ -23,22 +23,15 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('You must be logged in to set tags on custom posts', 'custompost-tag-mutations');
-            case self::E4:
-                return $this->__('Tag taxonomy \'%s\' (for terms with ID(s) \'%s\') is not registered for custom post type \'%s\'', 'custompost-tag-mutations');
-            case self::E6:
-                return $this->__('There is no tag with ID \'%s\'', 'custompost-tag-mutations');
-            case self::E7:
-                return $this->__('On taxonomy \'%s\', there is no tag with ID \'%s\'', 'custompost-tag-mutations');
-            case self::E8:
-                return $this->__('There is no tag with slug \'%s\'', 'custompost-tag-mutations');
-            case self::E9:
-                return $this->__('On taxonomy \'%s\', there is no tag with slug \'%s\'', 'custompost-tag-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('You must be logged in to set tags on custom posts', 'custompost-tag-mutations'),
+            self::E4 => $this->__('Tag taxonomy \'%s\' (for terms with ID(s) \'%s\') is not registered for custom post type \'%s\'', 'custompost-tag-mutations'),
+            self::E6 => $this->__('There is no tag with ID \'%s\'', 'custompost-tag-mutations'),
+            self::E7 => $this->__('On taxonomy \'%s\', there is no tag with ID \'%s\'', 'custompost-tag-mutations'),
+            self::E8 => $this->__('There is no tag with slug \'%s\'', 'custompost-tag-mutations'),
+            self::E9 => $this->__('On taxonomy \'%s\', there is no tag with slug \'%s\'', 'custompost-tag-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

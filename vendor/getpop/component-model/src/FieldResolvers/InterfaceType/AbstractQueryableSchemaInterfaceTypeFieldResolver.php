@@ -11,10 +11,7 @@ use PoP\ComponentModel\Resolvers\QueryableFieldResolverTrait;
 abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver implements \PoP\ComponentModel\FieldResolvers\InterfaceType\QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface
 {
     use QueryableFieldResolverTrait;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -56,10 +53,7 @@ abstract class AbstractQueryableSchemaInterfaceTypeFieldResolver extends \PoP\Co
         }
         return parent::getFieldArgDescription($fieldName, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName) : mixed
     {
         if ($filterDataloadingComponent = $this->getFieldFilterInputContainerComponent($fieldName)) {
             return $this->getFilterFieldArgDefaultValue($filterDataloadingComponent, $fieldArgName);

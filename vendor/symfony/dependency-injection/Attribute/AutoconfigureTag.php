@@ -21,6 +21,6 @@ class AutoconfigureTag extends Autoconfigure
 {
     public function __construct(?string $name = null, array $attributes = [])
     {
-        parent::__construct([[$name ?? 0 => $attributes]]);
+        parent::__construct(tags: [[$name ?? 0 => $attributes]]);
     }
 }

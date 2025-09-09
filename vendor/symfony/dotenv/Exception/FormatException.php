@@ -18,10 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Exception;
  */
 final class FormatException extends \LogicException implements ExceptionInterface
 {
-    /**
-     * @var \Symfony\Component\Dotenv\Exception\FormatExceptionContext
-     */
-    private $context;
+    private FormatExceptionContext $context;
     public function __construct(string $message, FormatExceptionContext $context, int $code = 0, ?\Throwable $previous = null)
     {
         $this->context = $context;

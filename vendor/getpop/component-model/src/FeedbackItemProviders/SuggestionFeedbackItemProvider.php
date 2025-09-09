@@ -8,7 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class SuggestionFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const S1 = 's1';
+    public final const S1 = 's1';
     /**
      * @return string[]
      */
@@ -18,12 +18,10 @@ class SuggestionFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::S1:
-                return $this->__('To execute multiple queries in a single request, add the following operation to the GraphQL query, and execute it: `query %s { id }`', 'component-model');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::S1 => $this->__('To execute multiple queries in a single request, add the following operation to the GraphQL query, and execute it: `query %s { id }`', 'component-model'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

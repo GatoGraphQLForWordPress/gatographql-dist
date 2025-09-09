@@ -7,7 +7,7 @@ namespace PoP\ComponentModel\Tracing;
 class TracingStore
 {
     /** @var TraceInterface[] */
-    private $traces = [];
+    private array $traces = [];
     /**
      * @return TraceInterface[]
      */

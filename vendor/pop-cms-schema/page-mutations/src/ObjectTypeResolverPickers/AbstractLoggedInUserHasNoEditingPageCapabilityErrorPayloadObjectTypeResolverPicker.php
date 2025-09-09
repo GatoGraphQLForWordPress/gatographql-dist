@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolverPicker extends AbstractLoggedInUserHasNoEditingCustomPostCapabilityErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver;
+    private ?LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver = null;
     protected final function getLoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingPageCapabilityErrorPayloadObjectTypeResolver === null) {

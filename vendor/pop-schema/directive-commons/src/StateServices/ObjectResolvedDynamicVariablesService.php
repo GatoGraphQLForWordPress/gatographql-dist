@@ -24,10 +24,7 @@ use SplObjectStorage;
 /** @internal */
 class ObjectResolvedDynamicVariablesService extends AbstractBasicService implements \PoPSchema\DirectiveCommons\StateServices\ObjectResolvedDynamicVariablesServiceInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
-     */
-    private $typeSerializationService;
+    private ?TypeSerializationServiceInterface $typeSerializationService = null;
     protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
@@ -45,10 +42,8 @@ class ObjectResolvedDynamicVariablesService extends AbstractBasicService impleme
      * of objectID + field.
      *
      * @param null|FieldInterface[] $dynamicVariableTargetFields
-     * @param string|int $id
-     * @param mixed $value
      */
-    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, $id, $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    public function setObjectResolvedDynamicVariableInAppState(RelationalTypeResolverInterface $relationalTypeResolver, FieldInterface $field, object $object, string|int $id, mixed $value, bool $serializeValue, string $dynamicVariableName, ?array $dynamicVariableTargetFields, AstInterface $astNode, Directive $directive, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         $targetObjectTypeResolver = null;
         $isUnionTypeResolver = $relationalTypeResolver instanceof UnionTypeResolverInterface;
@@ -101,10 +96,7 @@ class ObjectResolvedDynamicVariablesService extends AbstractBasicService impleme
         $appStateManager = App::getAppStateManager();
         $appStateManager->override('object-resolved-dynamic-variables', $objectResolvedDynamicVariables);
     }
-    /**
-     * @param string|int $id
-     */
-    protected function addDynamicVariableAlreadySetWarningFeedback(ObjectTypeResolverInterface $objectTypeResolver, AstInterface $astNode, Directive $directive, string $dynamicVariableName, $id, FieldInterface $field, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    protected function addDynamicVariableAlreadySetWarningFeedback(ObjectTypeResolverInterface $objectTypeResolver, AstInterface $astNode, Directive $directive, string $dynamicVariableName, string|int $id, FieldInterface $field, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         $engineIterationFeedbackStore->objectResolutionFeedbackStore->addWarning(new ObjectResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::W2, [$dynamicVariableName, $id]), $astNode, $objectTypeResolver, $directive, [$id => new EngineIterationFieldSet([$field])]));
     }

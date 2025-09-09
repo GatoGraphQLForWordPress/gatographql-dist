@@ -20,18 +20,14 @@ trait PayloadableMutationResolverTrait
     public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
     }
-    /**
-     * @param string|int $objectID
-     */
-    protected function createSuccessObjectMutationPayload($objectID) : ObjectMutationPayload
+    protected function createSuccessObjectMutationPayload(string|int $objectID) : ObjectMutationPayload
     {
         return new ObjectMutationPayload(OperationStatusEnum::SUCCESS, $objectID, null);
     }
     /**
      * @param ErrorPayloadInterface[] $errors
-     * @param string|int|null $objectID
      */
-    protected function createFailureObjectMutationPayload(array $errors, $objectID = null) : ObjectMutationPayload
+    protected function createFailureObjectMutationPayload(array $errors, string|int|null $objectID = null) : ObjectMutationPayload
     {
         return new ObjectMutationPayload(OperationStatusEnum::FAILURE, $objectID, $errors);
     }

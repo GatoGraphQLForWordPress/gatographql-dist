@@ -19,9 +19,11 @@ interface BlockContentParserInterface
      *
      * @return BlockContentParserPayload|null `null` if the custom post does not exist
      * @throws BlockContentParserException If there is any error processing the content
-     * @param \WP_Post|int $customPostObjectOrID
      */
-    public function parseCustomPostIntoBlockDataItems($customPostObjectOrID, array $options = []): ?BlockContentParserPayload;
+    public function parseCustomPostIntoBlockDataItems(
+        WP_Post|int $customPostObjectOrID,
+        array $options = [],
+    ): ?BlockContentParserPayload;
 
     /**
      * @param string $customPostContent HTML content of a post.
@@ -31,5 +33,8 @@ interface BlockContentParserInterface
      *
      * @throws BlockContentParserException If there is any error processing the content
      */
-    public function parseCustomPostContentIntoBlockDataItems(string $customPostContent, array $filterOptions = []): BlockContentParserPayload;
+    public function parseCustomPostContentIntoBlockDataItems(
+        string $customPostContent,
+        array $filterOptions = [],
+    ): BlockContentParserPayload;
 }

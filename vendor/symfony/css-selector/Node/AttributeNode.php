@@ -22,26 +22,11 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 class AttributeNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var string|null
-     */
-    private $namespace;
-    /**
-     * @var string
-     */
-    private $attribute;
-    /**
-     * @var string
-     */
-    private $operator;
-    /**
-     * @var string|null
-     */
-    private $value;
+    private NodeInterface $selector;
+    private ?string $namespace;
+    private string $attribute;
+    private string $operator;
+    private ?string $value;
     public function __construct(NodeInterface $selector, ?string $namespace, string $attribute, string $operator, ?string $value)
     {
         $this->selector = $selector;

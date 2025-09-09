@@ -14,18 +14,11 @@ class IntValueJSONObjectScalarTypeResolver extends \PoPSchema\ExtendedSchemaComm
     {
         return $this->__('Custom scalar representing a JSON Object where values are integers', 'extended-schema-commons');
     }
-    /**
-     * @param string|int|float|bool $value
-     */
-    protected function canCastJSONObjectPropertyValue($value) : bool
+    protected function canCastJSONObjectPropertyValue(string|int|float|bool $value) : bool
     {
         return \is_numeric($value);
     }
-    /**
-     * @param string|int|float|bool $value
-     * @return string|int|float|bool
-     */
-    protected function castJSONObjectPropertyValue($value)
+    protected function castJSONObjectPropertyValue(string|int|float|bool $value) : string|int|float|bool
     {
         return (int) $value;
     }

@@ -19,12 +19,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::TARGET_FUNCTION | \Attribute::IS_REPEATABLE)]
 class When
 {
-    /**
-     * @var string
-     */
-    public $env;
-    public function __construct(string $env)
+    public function __construct(public string $env)
     {
-        $this->env = $env;
     }
 }

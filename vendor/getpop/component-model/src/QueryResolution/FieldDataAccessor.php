@@ -8,23 +8,16 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class FieldDataAccessor implements \PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    protected $field;
-    /**
-     * @var array<string, mixed>
-     */
-    protected $unresolvedFieldArgs;
     use \PoP\ComponentModel\QueryResolution\FieldOrDirectiveDataAccessorTrait;
     /**
      * @param array<string,mixed> $unresolvedFieldArgs
      */
-    public function __construct(FieldInterface $field, array $unresolvedFieldArgs)
-    {
-        $this->field = $field;
+    public function __construct(
+        protected FieldInterface $field,
         /** @var array<string,mixed> */
-        $this->unresolvedFieldArgs = $unresolvedFieldArgs;
+        protected array $unresolvedFieldArgs
+    )
+    {
     }
     public function getField() : FieldInterface
     {

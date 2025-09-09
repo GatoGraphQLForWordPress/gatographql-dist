@@ -17,26 +17,11 @@ use PoP\Root\App;
 /** @internal */
 class RootPostTagCRUDObjectTypeFieldResolver extends AbstractRootTagCRUDObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\RootDeletePostTagTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeletePostTagTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\RootSetPostTagTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetPostTagTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\RootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\RootAddPostTagTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootAddPostTagTermMetaMutationPayloadObjectTypeResolver;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?RootDeletePostTagTermMetaMutationPayloadObjectTypeResolver $rootDeletePostTagTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootSetPostTagTermMetaMutationPayloadObjectTypeResolver $rootSetPostTagTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver $rootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootAddPostTagTermMetaMutationPayloadObjectTypeResolver $rootAddPostTagTermMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -93,39 +78,17 @@ class RootPostTagCRUDObjectTypeFieldResolver extends AbstractRootTagCRUDObjectTy
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMetaMutations = $moduleConfiguration->usePayloadableTagMetaMutations();
         if ($usePayloadableTagMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $tagEntityName . 'Meta':
-                case 'add' . $tagEntityName . 'Metas':
-                case 'add' . $tagEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootAddPostTagTermMetaMutationPayloadObjectTypeResolver();
-                case 'update' . $tagEntityName . 'Meta':
-                case 'update' . $tagEntityName . 'Metas':
-                case 'update' . $tagEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver();
-                case 'delete' . $tagEntityName . 'Meta':
-                case 'delete' . $tagEntityName . 'Metas':
-                case 'delete' . $tagEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootDeletePostTagTermMetaMutationPayloadObjectTypeResolver();
-                case 'set' . $tagEntityName . 'Meta':
-                case 'set' . $tagEntityName . 'Metas':
-                case 'set' . $tagEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootSetPostTagTermMetaMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $tagEntityName . 'Meta', 'add' . $tagEntityName . 'Metas', 'add' . $tagEntityName . 'MetaMutationPayloadObjects' => $this->getRootAddPostTagTermMetaMutationPayloadObjectTypeResolver(),
+                'update' . $tagEntityName . 'Meta', 'update' . $tagEntityName . 'Metas', 'update' . $tagEntityName . 'MetaMutationPayloadObjects' => $this->getRootUpdatePostTagTermMetaMutationPayloadObjectTypeResolver(),
+                'delete' . $tagEntityName . 'Meta', 'delete' . $tagEntityName . 'Metas', 'delete' . $tagEntityName . 'MetaMutationPayloadObjects' => $this->getRootDeletePostTagTermMetaMutationPayloadObjectTypeResolver(),
+                'set' . $tagEntityName . 'Meta', 'set' . $tagEntityName . 'Metas', 'set' . $tagEntityName . 'MetaMutationPayloadObjects' => $this->getRootSetPostTagTermMetaMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'add' . $tagEntityName . 'Meta':
-            case 'add' . $tagEntityName . 'Metas':
-            case 'update' . $tagEntityName . 'Meta':
-            case 'update' . $tagEntityName . 'Metas':
-            case 'delete' . $tagEntityName . 'Meta':
-            case 'delete' . $tagEntityName . 'Metas':
-            case 'set' . $tagEntityName . 'Meta':
-            case 'set' . $tagEntityName . 'Metas':
-                return $this->getPostTagObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $tagEntityName . 'Meta', 'add' . $tagEntityName . 'Metas', 'update' . $tagEntityName . 'Meta', 'update' . $tagEntityName . 'Metas', 'delete' . $tagEntityName . 'Meta', 'delete' . $tagEntityName . 'Metas', 'set' . $tagEntityName . 'Meta', 'set' . $tagEntityName . 'Metas' => $this->getPostTagObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

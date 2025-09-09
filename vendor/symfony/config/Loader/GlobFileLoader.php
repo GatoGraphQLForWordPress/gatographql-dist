@@ -18,18 +18,11 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader;
  */
 class GlobFileLoader extends FileLoader
 {
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         return $this->import($resource);
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         return 'glob' === $type;
     }

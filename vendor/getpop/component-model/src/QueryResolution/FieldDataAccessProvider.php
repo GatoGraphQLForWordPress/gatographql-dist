@@ -52,17 +52,12 @@ use SplObjectStorage;
  */
 class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\FieldDataAccessProviderInterface
 {
-    /**
-     * @var SplObjectStorage<FieldInterface, SplObjectStorage<ObjectTypeResolverInterface, SplObjectStorage<object, array<string, mixed>>>>
-     */
-    protected $fieldObjectTypeResolverObjectFieldData;
     use StandaloneServiceTrait;
     /**
      * @param SplObjectStorage<FieldInterface,SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>>> $fieldObjectTypeResolverObjectFieldData
      */
-    public function __construct(SplObjectStorage $fieldObjectTypeResolverObjectFieldData)
+    public function __construct(protected SplObjectStorage $fieldObjectTypeResolverObjectFieldData)
     {
-        $this->fieldObjectTypeResolverObjectFieldData = $fieldObjectTypeResolverObjectFieldData;
     }
     /**
      * @return array<string,mixed>|null null if casting the fieldArgs produced an error

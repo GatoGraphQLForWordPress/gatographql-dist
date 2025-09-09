@@ -21,14 +21,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $connectedIds = [];
+    protected bool $skipScalars = \true;
+    private array $connectedIds = [];
     /**
      * Processes the ContainerBuilder to remove unused definitions.
      *
@@ -74,11 +68,7 @@ class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
             $this->connectedIds = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);

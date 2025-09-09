@@ -8,10 +8,7 @@ use WP_Query;
 
 trait RoutingManagerTrait
 {
-    /**
-     * @var \WP_Query|null
-     */
-    private $query;
+    private ?WP_Query $query = null;
 
     private function init(): void
     {

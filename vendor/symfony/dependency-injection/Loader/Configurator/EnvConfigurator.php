@@ -17,7 +17,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @var string[]
      */
-    private $stack;
+    private array $stack;
     public function __construct(string $name)
     {
         $this->stack = \explode(':', $name);
@@ -29,7 +29,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments) : static
     {
         $processor = \strtolower(\preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\\d])([A-Z])/'], 'GatoExternalPrefixByGatoGraphQL\\1_\\2', $name));
         $this->custom($processor, ...$arguments);
@@ -38,7 +38,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function custom(string $processor, ...$args)
+    public function custom(string $processor, ...$args) : static
     {
         \array_unshift($this->stack, $processor, ...$args);
         return $this;
@@ -46,7 +46,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function base64()
+    public function base64() : static
     {
         \array_unshift($this->stack, 'base64');
         return $this;
@@ -54,7 +54,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function bool()
+    public function bool() : static
     {
         \array_unshift($this->stack, 'bool');
         return $this;
@@ -62,7 +62,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function not()
+    public function not() : static
     {
         \array_unshift($this->stack, 'not');
         return $this;
@@ -70,7 +70,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function const()
+    public function const() : static
     {
         \array_unshift($this->stack, 'const');
         return $this;
@@ -78,7 +78,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function csv()
+    public function csv() : static
     {
         \array_unshift($this->stack, 'csv');
         return $this;
@@ -86,7 +86,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function file()
+    public function file() : static
     {
         \array_unshift($this->stack, 'file');
         return $this;
@@ -94,7 +94,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function float()
+    public function float() : static
     {
         \array_unshift($this->stack, 'float');
         return $this;
@@ -102,7 +102,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function int()
+    public function int() : static
     {
         \array_unshift($this->stack, 'int');
         return $this;
@@ -110,7 +110,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function json()
+    public function json() : static
     {
         \array_unshift($this->stack, 'json');
         return $this;
@@ -118,7 +118,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function key(string $key)
+    public function key(string $key) : static
     {
         \array_unshift($this->stack, 'key', $key);
         return $this;
@@ -126,7 +126,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function url()
+    public function url() : static
     {
         \array_unshift($this->stack, 'url');
         return $this;
@@ -134,7 +134,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function queryString()
+    public function queryString() : static
     {
         \array_unshift($this->stack, 'query_string');
         return $this;
@@ -142,7 +142,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function resolve()
+    public function resolve() : static
     {
         \array_unshift($this->stack, 'resolve');
         return $this;
@@ -150,7 +150,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function default(string $fallbackParam)
+    public function default(string $fallbackParam) : static
     {
         \array_unshift($this->stack, 'default', $fallbackParam);
         return $this;
@@ -158,7 +158,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function string()
+    public function string() : static
     {
         \array_unshift($this->stack, 'string');
         return $this;
@@ -166,7 +166,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function trim()
+    public function trim() : static
     {
         \array_unshift($this->stack, 'trim');
         return $this;
@@ -174,7 +174,7 @@ class EnvConfigurator extends ParamConfigurator
     /**
      * @return $this
      */
-    public function require()
+    public function require() : static
     {
         \array_unshift($this->stack, 'require');
         return $this;
@@ -184,7 +184,7 @@ class EnvConfigurator extends ParamConfigurator
      *
      * @return $this
      */
-    public function enum(string $backedEnumClassName)
+    public function enum(string $backedEnumClassName) : static
     {
         \array_unshift($this->stack, 'enum', $backedEnumClassName);
         return $this;

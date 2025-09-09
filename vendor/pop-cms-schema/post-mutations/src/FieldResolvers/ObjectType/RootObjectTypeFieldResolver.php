@@ -39,62 +39,20 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\RootUpdatePostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdatePostMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\ObjectType\RootCreatePostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootCreatePostMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\CreatePostMutationResolver|null
-     */
-    private $createPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\CreatePostBulkOperationMutationResolver|null
-     */
-    private $createPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\UpdatePostMutationResolver|null
-     */
-    private $updatePostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\UpdatePostBulkOperationMutationResolver|null
-     */
-    private $updatePostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostMutationResolver|null
-     */
-    private $payloadableUpdatePostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableUpdatePostBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdatePostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableCreatePostMutationResolver|null
-     */
-    private $payloadableCreatePostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\MutationResolvers\PayloadableCreatePostBulkOperationMutationResolver|null
-     */
-    private $payloadableCreatePostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\RootUpdatePostInputObjectTypeResolver|null
-     */
-    private $rootUpdatePostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostMutations\TypeResolvers\InputObjectType\RootCreatePostInputObjectTypeResolver|null
-     */
-    private $rootCreatePostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?RootUpdatePostMutationPayloadObjectTypeResolver $rootUpdatePostMutationPayloadObjectTypeResolver = null;
+    private ?RootCreatePostMutationPayloadObjectTypeResolver $rootCreatePostMutationPayloadObjectTypeResolver = null;
+    private ?CreatePostMutationResolver $createPostMutationResolver = null;
+    private ?CreatePostBulkOperationMutationResolver $createPostBulkOperationMutationResolver = null;
+    private ?UpdatePostMutationResolver $updatePostMutationResolver = null;
+    private ?UpdatePostBulkOperationMutationResolver $updatePostBulkOperationMutationResolver = null;
+    private ?PayloadableUpdatePostMutationResolver $payloadableUpdatePostMutationResolver = null;
+    private ?PayloadableUpdatePostBulkOperationMutationResolver $payloadableUpdatePostBulkOperationMutationResolver = null;
+    private ?PayloadableCreatePostMutationResolver $payloadableCreatePostMutationResolver = null;
+    private ?PayloadableCreatePostBulkOperationMutationResolver $payloadableCreatePostBulkOperationMutationResolver = null;
+    private ?RootUpdatePostInputObjectTypeResolver $rootUpdatePostInputObjectTypeResolver = null;
+    private ?RootCreatePostInputObjectTypeResolver $rootCreatePostInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -243,22 +201,15 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'createPost':
-                return $this->__('Create a post', 'post-mutations');
-            case 'createPosts':
-                return $this->__('Create posts', 'post-mutations');
-            case 'updatePost':
-                return $this->__('Update a post', 'post-mutations');
-            case 'updatePosts':
-                return $this->__('Update posts', 'post-mutations');
-            case 'createPostMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `createPost` mutation', 'post-mutations');
-            case 'updatePostMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updatePost` mutation', 'post-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPost' => $this->__('Create a post', 'post-mutations'),
+            'createPosts' => $this->__('Create posts', 'post-mutations'),
+            'updatePost' => $this->__('Update a post', 'post-mutations'),
+            'updatePosts' => $this->__('Update posts', 'post-mutations'),
+            'createPostMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `createPost` mutation', 'post-mutations'),
+            'updatePostMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updatePost` mutation', 'post-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -266,51 +217,34 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if (!$usePayloadableCustomPostMutations) {
-            switch ($fieldName) {
-                case 'createPost':
-                case 'updatePost':
-                    return SchemaTypeModifiers::NONE;
-                case 'createPosts':
-                case 'updatePosts':
-                    return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createPost', 'updatePost' => SchemaTypeModifiers::NONE,
+                'createPosts', 'updatePosts' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['createPostMutationPayloadObjects', 'updatePostMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'createPost':
-            case 'updatePost':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'createPosts':
-            case 'updatePosts':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPost', 'updatePost' => SchemaTypeModifiers::NON_NULLABLE,
+            'createPosts', 'updatePosts' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'createPost':
-                return ['input' => $this->getRootCreatePostInputObjectTypeResolver()];
-            case 'createPosts':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreatePostInputObjectTypeResolver());
-            case 'updatePost':
-                return ['input' => $this->getRootUpdatePostInputObjectTypeResolver()];
-            case 'updatePosts':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdatePostInputObjectTypeResolver());
-            case 'createPostMutationPayloadObjects':
-            case 'updatePostMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPost' => ['input' => $this->getRootCreatePostInputObjectTypeResolver()],
+            'createPosts' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreatePostInputObjectTypeResolver()),
+            'updatePost' => ['input' => $this->getRootUpdatePostInputObjectTypeResolver()],
+            'updatePosts' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdatePostInputObjectTypeResolver()),
+            'createPostMutationPayloadObjects', 'updatePostMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -320,18 +254,12 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         if (\in_array($fieldName, ['createPosts', 'updatePosts'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['createPost' => 'input']:
-            case ['updatePost' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['createPost' => 'input'], ['updatePost' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         if (\in_array($fieldName, ['createPosts', 'updatePosts'])) {
             return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
@@ -343,18 +271,13 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         /** @var CustomPostMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
-        switch ($fieldName) {
-            case 'createPost':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePostMutationResolver() : $this->getCreatePostMutationResolver();
-            case 'createPosts':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePostBulkOperationMutationResolver() : $this->getCreatePostBulkOperationMutationResolver();
-            case 'updatePost':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostMutationResolver() : $this->getUpdatePostMutationResolver();
-            case 'updatePosts':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostBulkOperationMutationResolver() : $this->getUpdatePostBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPost' => $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePostMutationResolver() : $this->getCreatePostMutationResolver(),
+            'createPosts' => $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePostBulkOperationMutationResolver() : $this->getCreatePostBulkOperationMutationResolver(),
+            'updatePost' => $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostMutationResolver() : $this->getUpdatePostMutationResolver(),
+            'updatePosts' => $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePostBulkOperationMutationResolver() : $this->getUpdatePostBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -362,28 +285,16 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if ($usePayloadableCustomPostMutations) {
-            switch ($fieldName) {
-                case 'createPost':
-                case 'createPosts':
-                case 'createPostMutationPayloadObjects':
-                    return $this->getRootCreatePostMutationPayloadObjectTypeResolver();
-                case 'updatePost':
-                case 'updatePosts':
-                case 'updatePostMutationPayloadObjects':
-                    return $this->getRootUpdatePostMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createPost', 'createPosts', 'createPostMutationPayloadObjects' => $this->getRootCreatePostMutationPayloadObjectTypeResolver(),
+                'updatePost', 'updatePosts', 'updatePostMutationPayloadObjects' => $this->getRootUpdatePostMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'createPost':
-            case 'createPosts':
-            case 'updatePost':
-            case 'updatePosts':
-                return $this->getPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPost', 'createPosts', 'updatePost', 'updatePosts' => $this->getPostObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -413,10 +324,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $fieldName = $fieldDataAccessor->getFieldName();
         switch ($fieldName) {

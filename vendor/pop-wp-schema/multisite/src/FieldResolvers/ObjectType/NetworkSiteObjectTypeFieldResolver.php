@@ -21,18 +21,9 @@ use function get_option;
 
 class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
 
     final protected function getStringScalarTypeResolver(): StringScalarTypeResolver
     {
@@ -88,57 +79,52 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
 
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        switch ($fieldName) {
-            case 'id':
-                return $this->__('Site\'s ID (within the multisite)', 'multisite');
-            case 'name':
-                return $this->__('Site\'s name', 'multisite');
-            case 'url':
-                return $this->__('Site\'s URL', 'multisite');
-            case 'locale':
-                return $this->__('Site\'s locale', 'multisite');
-            case 'language':
-                return $this->__('Site\'s language', 'multisite');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'id' => $this->__('Site\'s ID (within the multisite)', 'multisite'),
+            'name' => $this->__('Site\'s name', 'multisite'),
+            'url' => $this->__('Site\'s URL', 'multisite'),
+            'locale' => $this->__('Site\'s locale', 'multisite'),
+            'language' => $this->__('Site\'s language', 'multisite'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'id':
-                return $this->getIDScalarTypeResolver();
-            case 'name':
-            case 'locale':
-            case 'language':
-                return $this->getStringScalarTypeResolver();
-            case 'url':
-                return $this->getURLScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'id' =>
+                $this->getIDScalarTypeResolver(),
+            'name',
+            'locale',
+            'language' =>
+                $this->getStringScalarTypeResolver(),
+            'url' =>
+                $this->getURLScalarTypeResolver(),
+            default
+                => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): int
     {
-        switch ($fieldName) {
-            case 'id':
-            case 'name':
-            case 'url':
-            case 'locale':
-            case 'language':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'id',
+            'name',
+            'url',
+            'locale',
+            'language'
+                => SchemaTypeModifiers::NON_NULLABLE,
+            default
+                => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
 
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
-    {
+    public function resolveValue(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        object $object,
+        FieldDataAccessorInterface $fieldDataAccessor,
+        ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore,
+    ): mixed {
         /** @var WP_Site */
         $site = $object;
         $siteID = (int) $site->blog_id;
@@ -160,6 +146,7 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
                 $localeParts = explode('_', $locale);
                 return $localeParts[0];
         }
+
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
 
@@ -188,8 +175,10 @@ class NetworkSiteObjectTypeFieldResolver extends AbstractQueryableObjectTypeFiel
      * Since the return type is known for all the fields in this
      * FieldResolver, there's no need to validate them
      */
-    public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field): bool
-    {
+    public function validateResolvedFieldType(
+        ObjectTypeResolverInterface $objectTypeResolver,
+        FieldInterface $field,
+    ): bool {
         return false;
     }
 }

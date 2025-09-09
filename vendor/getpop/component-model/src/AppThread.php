@@ -32,19 +32,19 @@ class AppThread extends RootAppThread implements AppThreadInterface
     /**
      * @var FeedbackStore[]
      */
-    protected $feedbackStores = [];
+    protected array $feedbackStores = [];
     /**
      * @var TracingStore[]
      */
-    protected $tracingStores = [];
+    protected array $tracingStores = [];
     /**
      * @var EngineState[]
      */
-    protected $engineStates = [];
+    protected array $engineStates = [];
     /**
      * @var MutationResolutionStoreInterface[]
      */
-    protected $mutationResolutionStores = [];
+    protected array $mutationResolutionStores = [];
     public function getFeedbackStore() : FeedbackStore
     {
         return $this->feedbackStores[0];

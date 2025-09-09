@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver extends AbstractCreateOrUpdateTaxonomyTermInputObjectTypeResolver implements \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\UpdateCategoryTermInputObjectTypeResolverInterface, \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CreateCategoryTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver|null
-     */
-    private $parentCategoryByOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver $parentCategoryByOneofInputObjectTypeResolver = null;
     protected final function getCategoryByOneofInputObjectTypeResolver() : \PoPCMSSchema\CategoryMutations\TypeResolvers\InputObjectType\CategoryByOneofInputObjectTypeResolver
     {
         if ($this->parentCategoryByOneofInputObjectTypeResolver === null) {
@@ -36,21 +33,14 @@ abstract class AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver extends
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the category to update', 'category-mutations');
-            case MutationInputProperties::NAME:
-                return $this->__('The name of the category', 'category-mutations');
-            case MutationInputProperties::DESCRIPTION:
-                return $this->__('The description of the category', 'category-mutations');
-            case MutationInputProperties::SLUG:
-                return $this->__('The slug of the category', 'category-mutations');
-            case MutationInputProperties::TAXONOMY:
-                return $this->__('The taxonomy of the category', 'category-mutations');
-            case MutationInputProperties::PARENT_BY:
-                return $this->__('The category\'s parent, or `null` to remove it', 'category-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the category to update', 'category-mutations'),
+            MutationInputProperties::NAME => $this->__('The name of the category', 'category-mutations'),
+            MutationInputProperties::DESCRIPTION => $this->__('The description of the category', 'category-mutations'),
+            MutationInputProperties::SLUG => $this->__('The slug of the category', 'category-mutations'),
+            MutationInputProperties::TAXONOMY => $this->__('The taxonomy of the category', 'category-mutations'),
+            MutationInputProperties::PARENT_BY => $this->__('The category\'s parent, or `null` to remove it', 'category-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

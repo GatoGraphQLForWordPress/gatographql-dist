@@ -11,10 +11,7 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 
 class EndpointExecuterService extends AbstractAutomaticallyInstantiatedService
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\EndpointExecuterRegistryInterface|null
-     */
-    private $customEndpointExecuterRegistry;
+    private ?EndpointExecuterRegistryInterface $customEndpointExecuterRegistry = null;
 
     final protected function getEndpointExecuterRegistry(): EndpointExecuterRegistryInterface
     {
@@ -34,7 +31,7 @@ class EndpointExecuterService extends AbstractAutomaticallyInstantiatedService
          */
         App::addAction(
             HookNames::AFTER_BOOT_APPLICATION,
-            \Closure::fromCallable([$this, 'executeRequestedEndpoint'])
+            $this->executeRequestedEndpoint(...)
         );
     }
 

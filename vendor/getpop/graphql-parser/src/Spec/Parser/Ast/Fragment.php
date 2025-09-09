@@ -7,26 +7,14 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class Fragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $model;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
     /**
      * @param Directive[] $directives
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      */
-    public function __construct(string $name, string $model, array $directives, array $fieldsOrFragmentBonds, Location $location)
+    public function __construct(protected readonly string $name, protected readonly string $model, array $directives, array $fieldsOrFragmentBonds, Location $location)
     {
-        $this->name = $name;
-        $this->model = $model;
         parent::__construct($location);
         $this->setDirectives($directives);
         $this->setFieldsOrFragmentBonds($fieldsOrFragmentBonds);

@@ -19,10 +19,8 @@ abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \P
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    public final function getUserMeta($userObjectOrID, string $key, bool $single = \false, array $options = [])
+    public final function getUserMeta(string|int|object $userObjectOrID, string $key, bool $single = \false, array $options = []) : mixed
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
@@ -47,8 +45,6 @@ abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \P
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $userObjectOrID
-     * @return mixed
      */
-    protected abstract function doGetUserMeta($userObjectOrID, string $key, bool $single = \false);
+    protected abstract function doGetUserMeta(string|int|object $userObjectOrID, string $key, bool $single = \false) : mixed;
 }

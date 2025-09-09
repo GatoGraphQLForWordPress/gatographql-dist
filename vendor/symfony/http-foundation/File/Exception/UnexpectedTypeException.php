@@ -13,10 +13,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\File\
 /** @internal */
 class UnexpectedTypeException extends FileException
 {
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value, string $expectedType)
+    public function __construct(mixed $value, string $expectedType)
     {
         parent::__construct(\sprintf('Expected argument of type %s, %s given', $expectedType, \get_debug_type($value)));
     }

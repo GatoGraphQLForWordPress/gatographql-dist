@@ -23,16 +23,14 @@ class SchemeRequestMatcher implements RequestMatcherInterface
     /**
      * @var string[]
      */
-    private $schemes;
+    private array $schemes;
     /**
      * @param string[]|string $schemes A scheme or a list of schemes
      *                                 Strings can contain a comma-delimited list of schemes
      */
-    public function __construct($schemes)
+    public function __construct(array|string $schemes)
     {
-        $this->schemes = \array_reduce(\array_map('strtolower', (array) $schemes), static function (array $schemes, string $scheme) {
-            return \array_merge($schemes, \preg_split('/\\s*,\\s*/', $scheme));
-        }, []);
+        $this->schemes = \array_reduce(\array_map('strtolower', (array) $schemes), static fn(array $schemes, string $scheme) => \array_merge($schemes, \preg_split('/\\s*,\\s*/', $scheme)), []);
     }
     public function matches(Request $request) : bool
     {

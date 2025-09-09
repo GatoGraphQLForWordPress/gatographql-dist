@@ -10,7 +10,7 @@ class SchemaNamespacingService implements \PoP\ComponentModel\Schema\SchemaNames
     /**
      * @var array<string,string>
      */
-    protected $classOwnerAndProjectNamespaceSchemaNamespaces = [];
+    protected array $classOwnerAndProjectNamespaceSchemaNamespaces = [];
     public function addSchemaNamespaceForClassOwnerAndProjectNamespace(string $classOwnerAndProjectNamespace, string $schemaNamespace) : void
     {
         $this->classOwnerAndProjectNamespaceSchemaNamespaces[$classOwnerAndProjectNamespace] = $schemaNamespace;

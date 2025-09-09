@@ -9,10 +9,7 @@ use PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface;
 /** @internal */
 class QueryableCategoryListObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryListTypeAPI;
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI = null;
     protected final function getQueryableCategoryTypeAPI() : QueryableCategoryTypeAPIInterface
     {
         if ($this->queryableCategoryListTypeAPI === null) {

@@ -43,10 +43,7 @@ class GetAttrNode extends Node
                 break;
         }
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         switch ($this->attributes['type']) {
             case self::PROPERTY_CALL:
@@ -102,11 +99,12 @@ class GetAttrNode extends Node
     }
     public function toArray() : array
     {
+        $nullSafe = $this->nodes['attribute'] instanceof ConstantNode && $this->nodes['attribute']->isNullSafe;
         switch ($this->attributes['type']) {
             case self::PROPERTY_CALL:
-                return [$this->nodes['node'], '.', $this->nodes['attribute']];
+                return [$this->nodes['node'], $nullSafe ? '?.' : '.', $this->nodes['attribute']];
             case self::METHOD_CALL:
-                return [$this->nodes['node'], '.', $this->nodes['attribute'], '(', $this->nodes['arguments'], ')'];
+                return [$this->nodes['node'], $nullSafe ? '?.' : '.', $this->nodes['attribute'], '(', $this->nodes['arguments'], ')'];
             case self::ARRAY_CALL:
                 return [$this->nodes['node'], '[', $this->nodes['attribute'], ']'];
         }
@@ -118,7 +116,7 @@ class GetAttrNode extends Node
     {
         $this->nodes = $data['nodes'];
         $this->attributes = $data['attributes'];
-        $this->attributes['is_null_coalesce'] = $this->attributes['is_null_coalesce'] ?? \false;
-        $this->attributes['is_short_circuited'] = $this->attributes['is_short_circuited'] ?? $data["\x00Symfony\\Component\\ExpressionLanguage\\Node\\GetAttrNode\x00isShortCircuited"] ?? \false;
+        $this->attributes['is_null_coalesce'] ??= \false;
+        $this->attributes['is_short_circuited'] ??= $data["\x00Symfony\\Component\\ExpressionLanguage\\Node\\GetAttrNode\x00isShortCircuited"] ?? \false;
     }
 }

@@ -38,11 +38,7 @@ class XmlFileLoader extends FileLoader
 {
     public const NS = 'http://symfony.com/schema/dic/services';
     protected $autoRegisterAliasesForSinglyImplementedInterfaces = \false;
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         $path = $this->locator->locate($resource);
         $xml = $this->parseFileToDOM($path);
@@ -82,10 +78,7 @@ class XmlFileLoader extends FileLoader
             $this->registerAliasesForSinglyImplementedInterfaces();
         }
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if (!\is_string($resource)) {
             return \false;
@@ -285,7 +278,7 @@ class XmlFileLoader extends FileLoader
             }
         }
         foreach ($this->getChildren($service, 'call') as $call) {
-            $definition->addMethodCall($call->getAttribute('method'), $this->getArgumentsAsPhp($call, 'argument', $file), XmlUtils::phpize($call->getAttribute('returns-clone')));
+            $definition->addMethodCall($call->getAttribute('method'), $this->getArgumentsAsPhp($call, 'argument', $file), XmlUtils::phpize($call->getAttribute('returns-clone')) ?: \false);
         }
         $tags = $this->getChildren($service, 'tag');
         foreach ($tags as $tag) {
@@ -298,7 +291,7 @@ class XmlFileLoader extends FileLoader
                 if ($tagNameComesFromAttribute && 'name' === $name) {
                     continue;
                 }
-                if (\strpos($name, '-') !== \false && \strpos($name, '_') === \false && !\array_key_exists($normalizedName = \str_replace('-', '_', $name), $parameters)) {
+                if (\str_contains($name, '-') && !\str_contains($name, '_') && !\array_key_exists($normalizedName = \str_replace('-', '_', $name), $parameters)) {
                     $parameters[$normalizedName] = XmlUtils::phpize($node->nodeValue);
                 }
                 // keep not normalized key
@@ -374,7 +367,7 @@ class XmlFileLoader extends FileLoader
     private function parseFileToDOM(string $file) : \DOMDocument
     {
         try {
-            $dom = XmlUtils::loadFile($file, \Closure::fromCallable([$this, 'validateSchema']));
+            $dom = XmlUtils::loadFile($file, $this->validateSchema(...));
         } catch (\InvalidArgumentException $e) {
             $invalidSecurityElements = [];
             $errors = \explode("\n", $e->getMessage());
@@ -502,14 +495,10 @@ class XmlFileLoader extends FileLoader
                     } else {
                         $arg = $this->getArgumentsAsPhp($arg, $name, $file);
                     }
-                    switch ($type) {
-                        case 'service_closure':
-                            $arguments[$key] = new ServiceClosureArgument($arg);
-                            break;
-                        case 'closure':
-                            $arguments[$key] = (new Definition('Closure'))->setFactory(['Closure', 'fromCallable'])->addArgument($arg);
-                            break;
-                    }
+                    $arguments[$key] = match ($type) {
+                        'service_closure' => new ServiceClosureArgument($arg),
+                        'closure' => (new Definition('Closure'))->setFactory(['Closure', 'fromCallable'])->addArgument($arg),
+                    };
                     break;
                 case 'service_locator':
                     $arg = $this->getArgumentsAsPhp($arg, $name, $file);
@@ -584,7 +573,7 @@ class XmlFileLoader extends FileLoader
             if ($this->getChildren($childNode, 'attribute')) {
                 $parameters[$name] = $this->getTagAttributes($childNode, $missingName);
             } else {
-                if (\strpos($name, '-') !== \false && \strpos($name, '_') === \false && !\array_key_exists($normalizedName = \str_replace('-', '_', $name), $parameters)) {
+                if (\str_contains($name, '-') && !\str_contains($name, '_') && !\array_key_exists($normalizedName = \str_replace('-', '_', $name), $parameters)) {
                     $parameters[$normalizedName] = XmlUtils::phpize($childNode->nodeValue);
                 }
                 // keep not normalized key
@@ -632,7 +621,7 @@ class XmlFileLoader extends FileLoader
                     \array_shift($parts);
                     $locationstart = 'phar:///';
                 }
-            } elseif ('\\' === \DIRECTORY_SEPARATOR && \strncmp($location, '\\\\', \strlen('\\\\')) === 0) {
+            } elseif ('\\' === \DIRECTORY_SEPARATOR && \str_starts_with($location, '\\\\')) {
                 $locationstart = '';
             }
             $drive = '\\' === \DIRECTORY_SEPARATOR ? \array_shift($parts) . '/' : '';
@@ -713,9 +702,7 @@ EOF;
             }
             // can it be handled by an extension?
             if (!$this->container->hasExtension($node->namespaceURI)) {
-                $extensionNamespaces = \array_filter(\array_map(function (ExtensionInterface $ext) {
-                    return $ext->getNamespace();
-                }, $this->container->getExtensions()));
+                $extensionNamespaces = \array_filter(\array_map(fn(ExtensionInterface $ext) => $ext->getNamespace(), $this->container->getExtensions()));
                 throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s" (in "%s"). Looked for namespace "%s", found "%s".', $node->tagName, $file, $node->namespaceURI, $extensionNamespaces ? \implode('", "', $extensionNamespaces) : 'none'));
             }
         }
@@ -752,9 +739,8 @@ EOF;
      *  * The nested-tags are converted to keys (<foo><foo>bar</foo></foo>)
      *
      * @param \DOMElement $element A \DOMElement instance
-     * @return mixed
      */
-    public static function convertDomElementToArray(\DOMElement $element)
+    public static function convertDomElementToArray(\DOMElement $element) : mixed
     {
         return XmlUtils::convertDomElementToArray($element, \false);
     }

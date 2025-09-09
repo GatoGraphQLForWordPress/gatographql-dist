@@ -19,5 +19,5 @@ interface DeprecatableInputTypeResolverInterface extends \PoP\ComponentModel\Typ
      * @param string|int|float|bool|stdClass $inputValue the (custom) scalar in any format: itself (eg: an object) or its representation (eg: as a string)
      * @return string[] The deprecation messages
      */
-    public function getInputValueDeprecationMessages($inputValue) : array;
+    public function getInputValueDeprecationMessages(string|int|float|bool|stdClass $inputValue) : array;
 }

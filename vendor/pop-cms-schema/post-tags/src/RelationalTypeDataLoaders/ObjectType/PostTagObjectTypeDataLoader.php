@@ -9,10 +9,7 @@ use PoPCMSSchema\Tags\TypeAPIs\TagTypeAPIInterface;
 /** @internal */
 class PostTagObjectTypeDataLoader extends AbstractTagObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {

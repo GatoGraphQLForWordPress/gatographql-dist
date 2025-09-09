@@ -9,11 +9,8 @@ class Pipeline implements PipelineInterface
     /**
      * @var callable[]
      */
-    private $stages;
-    /**
-     * @var \League\Pipeline\ProcessorInterface
-     */
-    private $processor;
+    private array $stages;
+    private ProcessorInterface $processor;
     public function __construct(?ProcessorInterface $processor = null, callable ...$stages)
     {
         $this->processor = $processor ?? new FingersCrossedProcessor();

@@ -9,10 +9,7 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver
 /** @internal */
 class CustomPostUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\UnionType\CustomPostUnionTypeResolver|null
-     */
-    private $customPostUnionTypeResolver;
+    private ?CustomPostUnionTypeResolver $customPostUnionTypeResolver = null;
     protected final function getCustomPostUnionTypeResolver() : CustomPostUnionTypeResolver
     {
         if ($this->customPostUnionTypeResolver === null) {

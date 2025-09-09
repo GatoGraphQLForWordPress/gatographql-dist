@@ -20,13 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\ProxyHelper;
  */
 final class LazyServiceDumper implements DumperInterface
 {
-    /**
-     * @var string
-     */
-    private $salt = '';
-    public function __construct(string $salt = '')
+    public function __construct(private string $salt = '')
     {
-        $this->salt = $salt;
     }
     public function isProxyCandidate(Definition $definition, ?bool &$asGhostObject = null, ?string $id = null) : bool
     {
@@ -53,7 +48,7 @@ final class LazyServiceDumper implements DumperInterface
         }
         try {
             $asGhostObject = (bool) ProxyHelper::generateLazyGhost(new \ReflectionClass($class));
-        } catch (LogicException $exception) {
+        } catch (LogicException) {
         }
         return \true;
     }
@@ -63,7 +58,7 @@ final class LazyServiceDumper implements DumperInterface
         if ($definition->isShared()) {
             $instantiation .= \sprintf(' $container->%s[%s] =', $definition->isPublic() && !$definition->isPrivate() ? 'services' : 'privates', \var_export($id, \true));
         }
-        $asGhostObject = \strpos($factoryCode, '$proxy') !== \false;
+        $asGhostObject = \str_contains($factoryCode, '$proxy');
         $proxyClass = $this->getProxyClass($definition, $asGhostObject);
         if (!$asGhostObject) {
             return <<<EOF
@@ -91,7 +86,7 @@ EOF;
         $proxyClass = $this->getProxyClass($definition, $asGhostObject, $class);
         if ($asGhostObject) {
             try {
-                return (\PHP_VERSION_ID >= 80200 && (($nullsafeVariable1 = $class) ? $nullsafeVariable1->isReadOnly() : null) ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyGhost($class);
+                return (\PHP_VERSION_ID >= 80200 && $class?->isReadOnly() ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyGhost($class);
             } catch (LogicException $e) {
                 throw new InvalidArgumentException(\sprintf('Cannot generate lazy ghost for service "%s".', $id ?? $definition->getClass()), 0, $e);
             }
@@ -116,7 +111,7 @@ EOF;
             $class = null;
         }
         try {
-            return (\PHP_VERSION_ID >= 80200 && (($nullsafeVariable2 = $class) ? $nullsafeVariable2->isReadOnly() : null) ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyProxy($class, $interfaces);
+            return (\PHP_VERSION_ID >= 80200 && $class?->isReadOnly() ? 'readonly ' : '') . 'class ' . $proxyClass . ProxyHelper::generateLazyProxy($class, $interfaces);
         } catch (LogicException $e) {
             throw new InvalidArgumentException(\sprintf('Cannot generate lazy proxy for service "%s".', $id ?? $definition->getClass()), 0, $e);
         }

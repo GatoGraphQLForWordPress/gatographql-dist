@@ -6,11 +6,11 @@ namespace PoPCMSSchema\MetaMutations\Constants;
 /** @internal */
 class MutationInputProperties
 {
-    public const ID = 'id';
-    public const KEY = 'key';
-    public const VALUE = 'value';
-    public const SINGLE = 'single';
-    public const PREV_VALUE = 'prevValue';
-    public const ENTRIES = 'entries';
-    public const META = 'meta';
+    public final const ID = 'id';
+    public final const KEY = 'key';
+    public final const VALUE = 'value';
+    public final const SINGLE = 'single';
+    public final const PREV_VALUE = 'prevValue';
+    public final const ENTRIES = 'entries';
+    public final const META = 'meta';
 }

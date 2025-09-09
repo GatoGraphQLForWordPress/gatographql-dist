@@ -21,27 +21,18 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
     use ModuleResolverTrait;
     use PluginManagementFunctionalityModuleResolverTrait;
 
-    public const ACTIVATE_EXTENSIONS = Plugin::NAMESPACE . '\activate-extensions';
-    public const RESET_SETTINGS = Plugin::NAMESPACE . '\reset-settings';
+    public final const ACTIVATE_EXTENSIONS = Plugin::NAMESPACE . '\activate-extensions';
+    public final const RESET_SETTINGS = Plugin::NAMESPACE . '\reset-settings';
 
     /**
      * Setting options
      */
-    public const OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS = 'commercial-extension-license-keys';
-    public const OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR = 'use-restrictive-or-not-default-behavior';
+    public final const OPTION_COMMERCIAL_EXTENSION_LICENSE_KEYS = 'commercial-extension-license-keys';
+    public final const OPTION_USE_RESTRICTIVE_OR_NOT_DEFAULT_BEHAVIOR = 'use-restrictive-or-not-default-behavior';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\SettingsCategoryRegistryInterface|null
-     */
-    private $settingsCategoryRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ModuleResolvers\PluginManagementFunctionalityModuleResolver|null
-     */
-    private $pluginManagementFunctionalityModuleResolver;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    private ?SettingsCategoryRegistryInterface $settingsCategoryRegistry = null;
+    private ?PluginManagementFunctionalityModuleResolver $pluginManagementFunctionalityModuleResolver = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -84,58 +75,51 @@ class PluginManagementFunctionalityModuleResolver extends AbstractFunctionalityM
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        switch ($module) {
-            case self::ACTIVATE_EXTENSIONS:
-            case self::RESET_SETTINGS:
-                return true;
-            default:
-                return parent::isPredefinedEnabledOrDisabled($module);
-        }
+        return match ($module) {
+            self::ACTIVATE_EXTENSIONS,
+            self::RESET_SETTINGS
+                => true,
+            default
+                => parent::isPredefinedEnabledOrDisabled($module),
+        };
     }
 
     public function isHidden(string $module): bool
     {
-        switch ($module) {
-            case self::ACTIVATE_EXTENSIONS:
-            case self::RESET_SETTINGS:
-                return true;
-            default:
-                return parent::isHidden($module);
-        }
+        return match ($module) {
+            self::ACTIVATE_EXTENSIONS,
+            self::RESET_SETTINGS
+                => true,
+            default
+                => parent::isHidden($module),
+        };
     }
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::ACTIVATE_EXTENSIONS:
-                return \__('Activate Extensions', 'gatographql');
-            case self::RESET_SETTINGS:
-                return \__('Reset Settings', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::ACTIVATE_EXTENSIONS => \__('Activate Extensions', 'gatographql'),
+            self::RESET_SETTINGS => \__('Reset Settings', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::ACTIVATE_EXTENSIONS:
-                return sprintf(
-                    \__('Activate Bundles and Extensions from the %s', 'gatographql'),
-                    $this->getGatoGraphQLShopName()
-                );
-            case self::RESET_SETTINGS:
-                return \__('Restore the Gato GraphQL Settings to default values', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::ACTIVATE_EXTENSIONS => sprintf(
+                \__('Activate Bundles and Extensions from the %s', 'gatographql'),
+                $this->getGatoGraphQLShopName()
+            ),
+            self::RESET_SETTINGS => \__('Restore the Gato GraphQL Settings to default values', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $useRestrictiveDefaults = BehaviorHelpers::areRestrictiveDefaultsEnabled();
         $defaultValues = [

@@ -11,26 +11,11 @@ use PoP\Root\Services\StandaloneServiceTrait;
 class Tokenizer
 {
     use StandaloneServiceTrait;
-    /**
-     * @var string
-     */
-    protected $source;
-    /**
-     * @var int
-     */
-    protected $pos = 0;
-    /**
-     * @var int
-     */
-    protected $line = 1;
-    /**
-     * @var int
-     */
-    protected $lineStart = 0;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Token
-     */
-    protected $lookAhead;
+    protected string $source;
+    protected int $pos = 0;
+    protected int $line = 1;
+    protected int $lineStart = 0;
+    protected \PoP\GraphQLParser\Spec\Parser\Token $lookAhead;
     protected function initTokenizer(string $source) : void
     {
         $this->resetTokenizer();
@@ -178,26 +163,17 @@ class Tokenizer
     }
     protected function getKeyword(string $name) : string
     {
-        switch ($name) {
-            case 'null':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_NULL;
-            case 'true':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_TRUE;
-            case 'false':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FALSE;
-            case 'query':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_QUERY;
-            case 'fragment':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT;
-            case 'mutation':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_MUTATION;
-            case 'subscription':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_SUBSCRIPTION;
-            case 'on':
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_ON;
-            default:
-                return \PoP\GraphQLParser\Spec\Parser\Token::TYPE_IDENTIFIER;
-        }
+        return match ($name) {
+            'null' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_NULL,
+            'true' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_TRUE,
+            'false' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FALSE,
+            'query' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_QUERY,
+            'fragment' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT,
+            'mutation' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_MUTATION,
+            'subscription' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_SUBSCRIPTION,
+            'on' => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_ON,
+            default => \PoP\GraphQLParser\Spec\Parser\Token::TYPE_IDENTIFIER,
+        };
     }
     /**
      * @throws SyntaxErrorParserException
@@ -225,7 +201,7 @@ class Tokenizer
             $this->skipInteger();
         }
         $value = \substr($this->source, $start, $this->pos - $start);
-        if (\strpos($value, '.') === \false) {
+        if (!\str_contains($value, '.')) {
             $value = (int) $value;
         } else {
             $value = (float) $value;

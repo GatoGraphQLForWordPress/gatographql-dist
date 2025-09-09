@@ -13,10 +13,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 class RelationalField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField implements \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
-    /**
-     * @var \PoP\GraphQLParser\AST\ASTHelperServiceInterface|null
-     */
-    private $astHelperService;
+    private ?ASTHelperServiceInterface $astHelperService = null;
     protected final function getASTHelperService() : ASTHelperServiceInterface
     {
         if ($this->astHelperService === null) {
@@ -89,17 +86,13 @@ class RelationalField extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractField i
          *   ```
          */
         foreach ($thisFields as $thisField) {
-            $equivalentFieldsInOppositeSet = \array_filter($againstFields, function (FieldInterface $oppositeField) use($astHelperService, $thisField, $fragments) {
-                return $astHelperService->isFieldEquivalentToField($thisField, $oppositeField, $fragments);
-            });
+            $equivalentFieldsInOppositeSet = \array_filter($againstFields, fn(FieldInterface $oppositeField) => $astHelperService->isFieldEquivalentToField($thisField, $oppositeField, $fragments));
             if ($equivalentFieldsInOppositeSet === []) {
                 return \false;
             }
         }
         foreach ($againstFields as $againstField) {
-            $equivalentFieldsInOppositeSet = \array_filter($thisFields, function (FieldInterface $oppositeField) use($astHelperService, $againstField, $fragments) {
-                return $astHelperService->isFieldEquivalentToField($againstField, $oppositeField, $fragments);
-            });
+            $equivalentFieldsInOppositeSet = \array_filter($thisFields, fn(FieldInterface $oppositeField) => $astHelperService->isFieldEquivalentToField($againstField, $oppositeField, $fragments));
             if ($equivalentFieldsInOppositeSet === []) {
                 return \false;
             }

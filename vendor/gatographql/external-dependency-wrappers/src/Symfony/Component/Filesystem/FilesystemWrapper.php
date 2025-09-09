@@ -13,11 +13,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Filesystem;
  */
 class FilesystemWrapper
 {
-    /**
-     * @readonly
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    private $fileSystem;
+    private readonly Filesystem $fileSystem;
     public function __construct()
     {
         $this->fileSystem = new Filesystem();
@@ -29,7 +25,7 @@ class FilesystemWrapper
      *
      * @throws IOException When removal fails
      */
-    public function remove($files) : void
+    public function remove(string|iterable $files) : void
     {
         try {
             $this->fileSystem->remove($files);

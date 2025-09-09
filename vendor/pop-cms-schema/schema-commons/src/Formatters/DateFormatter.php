@@ -6,10 +6,7 @@ namespace PoPCMSSchema\SchemaCommons\Formatters;
 /** @internal */
 class DateFormatter implements \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface
 {
-    /**
-     * @return string|int|false
-     */
-    public function format(string $format, string $date)
+    public function format(string $format, string $date) : string|int|false
     {
         $time = \strtotime($date);
         if ($time === \false) {

@@ -22,27 +22,17 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class ClosureLoader extends Loader
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
+    private ContainerBuilder $container;
     public function __construct(ContainerBuilder $container, ?string $env = null)
     {
         $this->container = $container;
         parent::__construct($env);
     }
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         return $resource($this->container, $this->env);
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         return $resource instanceof \Closure;
     }

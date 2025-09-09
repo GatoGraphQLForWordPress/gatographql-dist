@@ -8,8 +8,8 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class InputValueCoercionErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E2 = 'e2';
+    public final const E1 = 'e1';
+    public final const E2 = 'e2';
     /**
      * @return string[]
      */
@@ -19,14 +19,11 @@ class InputValueCoercionErrorFeedbackItemProvider extends AbstractFeedbackItemPr
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('Type \'%s\' must be provided with format \'%s\'', 'schema-commons');
-            case self::E2:
-                return $this->__('Value \'%1$s\' for type \'%2$s\' is not valid (the only valid values are: \'%3$s\')', 'schema-commons');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('Type \'%s\' must be provided with format \'%s\'', 'schema-commons'),
+            self::E2 => $this->__('Value \'%1$s\' for type \'%2$s\' is not valid (the only valid values are: \'%3$s\')', 'schema-commons'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

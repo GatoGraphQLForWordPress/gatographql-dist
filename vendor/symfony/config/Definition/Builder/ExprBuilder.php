@@ -37,11 +37,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function always(?\Closure $then = null)
+    public function always(?\Closure $then = null) : static
     {
-        $this->ifPart = static function () {
-            return \true;
-        };
+        $this->ifPart = static fn() => \true;
         $this->allowedTypes = self::TYPE_ANY;
         if (null !== $then) {
             $this->thenPart = $then;
@@ -55,11 +53,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifTrue(?\Closure $closure = null)
+    public function ifTrue(?\Closure $closure = null) : static
     {
-        $this->ifPart = $closure ?? static function ($v) {
-            return \true === $v;
-        };
+        $this->ifPart = $closure ?? static fn($v) => \true === $v;
         $this->allowedTypes = self::TYPE_ANY;
         return $this;
     }
@@ -68,9 +64,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifString()
+    public function ifString() : static
     {
-        $this->ifPart = \Closure::fromCallable('is_string');
+        $this->ifPart = \is_string(...);
         $this->allowedTypes = self::TYPE_STRING;
         return $this;
     }
@@ -79,9 +75,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifNull()
+    public function ifNull() : static
     {
-        $this->ifPart = \Closure::fromCallable('is_null');
+        $this->ifPart = \is_null(...);
         $this->allowedTypes = self::TYPE_NULL;
         return $this;
     }
@@ -90,11 +86,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifEmpty()
+    public function ifEmpty() : static
     {
-        $this->ifPart = static function ($v) {
-            return empty($v);
-        };
+        $this->ifPart = static fn($v) => empty($v);
         $this->allowedTypes = self::TYPE_ANY;
         return $this;
     }
@@ -103,9 +97,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifArray()
+    public function ifArray() : static
     {
-        $this->ifPart = \Closure::fromCallable('is_array');
+        $this->ifPart = \is_array(...);
         $this->allowedTypes = self::TYPE_ARRAY;
         return $this;
     }
@@ -114,11 +108,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifInArray(array $array)
+    public function ifInArray(array $array) : static
     {
-        $this->ifPart = static function ($v) use($array) {
-            return \in_array($v, $array, \true);
-        };
+        $this->ifPart = static fn($v) => \in_array($v, $array, \true);
         $this->allowedTypes = self::TYPE_ANY;
         return $this;
     }
@@ -127,11 +119,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function ifNotInArray(array $array)
+    public function ifNotInArray(array $array) : static
     {
-        $this->ifPart = static function ($v) use($array) {
-            return !\in_array($v, $array, \true);
-        };
+        $this->ifPart = static fn($v) => !\in_array($v, $array, \true);
         $this->allowedTypes = self::TYPE_ANY;
         return $this;
     }
@@ -140,15 +130,11 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function castToArray()
+    public function castToArray() : static
     {
-        $this->ifPart = static function ($v) {
-            return !\is_array($v);
-        };
+        $this->ifPart = static fn($v) => !\is_array($v);
         $this->allowedTypes = self::TYPE_ANY;
-        $this->thenPart = static function ($v) {
-            return [$v];
-        };
+        $this->thenPart = static fn($v) => [$v];
         return $this;
     }
     /**
@@ -156,7 +142,7 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function then(\Closure $closure)
+    public function then(\Closure $closure) : static
     {
         $this->thenPart = $closure;
         return $this;
@@ -166,11 +152,9 @@ class ExprBuilder
      *
      * @return $this
      */
-    public function thenEmptyArray()
+    public function thenEmptyArray() : static
     {
-        $this->thenPart = static function () {
-            return [];
-        };
+        $this->thenPart = static fn() => [];
         return $this;
     }
     /**
@@ -182,11 +166,9 @@ class ExprBuilder
      *
      * @throws \InvalidArgumentException
      */
-    public function thenInvalid(string $message)
+    public function thenInvalid(string $message) : static
     {
-        $this->thenPart = static function ($v) use($message) {
-            throw new \InvalidArgumentException(\sprintf($message, \json_encode($v)));
-        };
+        $this->thenPart = static fn($v) => throw new \InvalidArgumentException(\sprintf($message, \json_encode($v)));
         return $this;
     }
     /**
@@ -196,20 +178,17 @@ class ExprBuilder
      *
      * @throws UnsetKeyException
      */
-    public function thenUnset()
+    public function thenUnset() : static
     {
-        $this->thenPart = static function () {
-            throw new UnsetKeyException('Unsetting key.');
-        };
+        $this->thenPart = static fn() => throw new UnsetKeyException('Unsetting key.');
         return $this;
     }
     /**
      * Returns the related node.
      *
      * @throws \RuntimeException
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition|\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\VariableNodeDefinition
      */
-    public function end()
+    public function end() : NodeDefinition|ArrayNodeDefinition|VariableNodeDefinition
     {
         if (null === $this->ifPart) {
             throw new \RuntimeException('You must specify an if part.');
@@ -230,9 +209,7 @@ class ExprBuilder
             if ($expr instanceof self) {
                 $if = $expr->ifPart;
                 $then = $expr->thenPart;
-                $expressions[$k] = static function ($v) use($if, $then) {
-                    return $if($v) ? $then($v) : $v;
-                };
+                $expressions[$k] = static fn($v) => $if($v) ? $then($v) : $v;
             }
         }
         return $expressions;

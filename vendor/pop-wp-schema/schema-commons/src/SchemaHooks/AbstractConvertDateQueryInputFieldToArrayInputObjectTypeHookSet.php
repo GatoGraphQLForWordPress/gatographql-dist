@@ -16,7 +16,7 @@ abstract class AbstractConvertDateQueryInputFieldToArrayInputObjectTypeHookSet e
     {
         App::addFilter(
             HookNames::INPUT_FIELD_TYPE_MODIFIERS,
-            \Closure::fromCallable([$this, 'getInputFieldTypeModifiers']),
+            $this->getInputFieldTypeModifiers(...),
             10,
             3
         );
@@ -35,11 +35,9 @@ abstract class AbstractConvertDateQueryInputFieldToArrayInputObjectTypeHookSet e
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldTypeModifiers;
         }
-        switch ($inputFieldName) {
-            case 'dateQuery':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return $inputFieldTypeModifiers;
-        }
+        return match ($inputFieldName) {
+            'dateQuery' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => $inputFieldTypeModifiers,
+        };
     }
 }

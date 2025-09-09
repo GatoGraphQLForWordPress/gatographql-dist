@@ -23,11 +23,7 @@ class NonEmptyStringScalarTypeResolver extends StringScalarTypeResolver
     {
         return $this->__('A non-empty string scalar type that validates the string is not empty.', 'extended-schema-commons');
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $castInputValue = parent::coerceValue($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($castInputValue === null) {

@@ -7,20 +7,14 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class InlineFragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesInterface, \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $typeName;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
     /**
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Directive[] $directives
      */
-    public function __construct(string $typeName, array $fieldsOrFragmentBonds, array $directives, Location $location)
+    public function __construct(protected readonly string $typeName, array $fieldsOrFragmentBonds, array $directives, Location $location)
     {
-        $this->typeName = $typeName;
         parent::__construct($location);
         $this->setDirectives($directives);
         $this->setFieldsOrFragmentBonds($fieldsOrFragmentBonds);

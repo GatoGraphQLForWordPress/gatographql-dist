@@ -22,7 +22,7 @@ class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\Al
             // Remove whitespaces at either end of the string
             $termOrRegex = \trim($termOrRegex);
             // Check if it is a regex expression
-            if (\strncmp($termOrRegex, '/', \strlen('/')) === 0 && \substr_compare($termOrRegex, '/', -\strlen('/')) === 0 || \strncmp($termOrRegex, '#', \strlen('#')) === 0 && \substr_compare($termOrRegex, '#', -\strlen('#')) === 0) {
+            if (\str_starts_with($termOrRegex, '/') && \str_ends_with($termOrRegex, '/') || \str_starts_with($termOrRegex, '#') && \str_ends_with($termOrRegex, '#')) {
                 return \preg_match($termOrRegex, $name) === 1;
             }
             // Check it's a full match

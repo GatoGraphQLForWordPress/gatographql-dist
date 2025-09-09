@@ -16,18 +16,14 @@ interface CustomPostMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    public function getCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false, array $options = []);
+    public function getCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = \false, array $options = []) : mixed;
     /**
      * @return array<string,mixed>
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getAllCustomPostMeta($customPostObjectOrID) : array;
+    public function getAllCustomPostMeta(string|int|object $customPostObjectOrID) : array;
     /**
      * @return string[]
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostMetaKeys($customPostObjectOrID) : array;
+    public function getCustomPostMetaKeys(string|int|object $customPostObjectOrID) : array;
 }

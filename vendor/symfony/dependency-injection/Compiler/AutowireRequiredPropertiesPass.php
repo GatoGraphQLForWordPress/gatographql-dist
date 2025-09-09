@@ -23,15 +23,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\Required
  */
 class AutowireRequiredPropertiesPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         $value = parent::processValue($value, $isRoot);
         if (!$value instanceof Definition || !$value->isAutowired() || $value->isAbstract() || !$value->getClass()) {
@@ -42,11 +35,11 @@ class AutowireRequiredPropertiesPass extends AbstractRecursivePass
         }
         $properties = $value->getProperties();
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
-            if (!($type = \method_exists($reflectionProperty, 'getType') ? $reflectionProperty->getType() : null) instanceof \ReflectionNamedType) {
+            if (!($type = $reflectionProperty->getType()) instanceof \ReflectionNamedType) {
                 continue;
             }
             $doc = \false;
-            if (!(\method_exists($reflectionProperty, 'getAttributes') ? $reflectionProperty->getAttributes(Required::class) : []) && (\false === ($doc = $reflectionProperty->getDocComment()) || \false === \stripos($doc, '@required') || !\preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+@required(?:\\s|\\*/$)#i', $doc))) {
+            if (!$reflectionProperty->getAttributes(Required::class) && (\false === ($doc = $reflectionProperty->getDocComment()) || \false === \stripos($doc, '@required') || !\preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+@required(?:\\s|\\*/$)#i', $doc))) {
                 continue;
             }
             if ($doc) {

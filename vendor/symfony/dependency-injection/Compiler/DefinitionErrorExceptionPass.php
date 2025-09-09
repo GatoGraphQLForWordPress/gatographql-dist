@@ -24,18 +24,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class DefinitionErrorExceptionPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $erroredDefinitions = [];
-    /**
-     * @var mixed[]
-     */
-    private $sourceReferences = [];
+    protected bool $skipScalars = \true;
+    private array $erroredDefinitions = [];
+    private array $sourceReferences = [];
     /**
      * @return void
      */
@@ -57,11 +48,7 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
             $this->sourceReferences = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof ArgumentInterface) {
             parent::processValue($value->getValues());
@@ -69,7 +56,7 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
         }
         if ($value instanceof Reference && $this->currentId !== ($targetId = (string) $value)) {
             if (ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE === $value->getInvalidBehavior() || ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior()) {
-                $this->sourceReferences[$targetId][$this->currentId] = $this->sourceReferences[$targetId][$this->currentId] ?? \true;
+                $this->sourceReferences[$targetId][$this->currentId] ??= \true;
             } else {
                 $this->sourceReferences[$targetId][$this->currentId] = \false;
             }

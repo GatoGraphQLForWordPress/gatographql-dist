@@ -11,12 +11,9 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLEndpointCustomPostTy
 class GraphQLEndpointCategoryTaxonomy extends AbstractCategory
 {
     /** @var CustomPostTypeInterface[]|null */
-    protected $customPostTypes;
+    protected ?array $customPostTypes = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
-     */
-    private $customPostTypeRegistry;
+    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
 
     final protected function getCustomPostTypeRegistry(): CustomPostTypeRegistryInterface
     {
@@ -82,15 +79,11 @@ class GraphQLEndpointCategoryTaxonomy extends AbstractCategory
             $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
             $endpointCustomPostTypeServices = array_values(array_filter(
                 $customPostTypeServices,
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface;
-                }
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface
             ));
             $this->customPostTypes = array_values(array_filter(
                 $endpointCustomPostTypeServices,
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService->isServiceEnabled();
-                }
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService->isServiceEnabled()
             ));
         }
         return $this->customPostTypes;

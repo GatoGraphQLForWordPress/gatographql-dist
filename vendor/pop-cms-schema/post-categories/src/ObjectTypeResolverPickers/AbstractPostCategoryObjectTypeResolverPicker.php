@@ -13,14 +13,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 abstract class AbstractPostCategoryObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker implements CategoryObjectTypeResolverPickerInterface
 {
     use CategoryObjectTypeResolverPickerTrait;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {
@@ -47,10 +41,7 @@ abstract class AbstractPostCategoryObjectTypeResolverPicker extends AbstractObje
     {
         return $this->getPostCategoryTypeAPI()->isInstanceOfCategoryType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getPostCategoryTypeAPI()->categoryExists($objectID);
     }

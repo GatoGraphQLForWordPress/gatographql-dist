@@ -18,7 +18,7 @@ class DirectivePipelineService implements \PoP\ComponentModel\DirectivePipeline\
         foreach ($directiveResolvers as $directiveResolver) {
             // This is the method to be invoked,
             // equivalent to `__invoke` in League\Pipeline\StageInterface
-            $pipelineBuilder->add(\Closure::fromCallable([$directiveResolver, 'resolveDirectivePipelinePayload']));
+            $pipelineBuilder->add($directiveResolver->resolveDirectivePipelinePayload(...));
         }
         $directivePipeline = new \PoP\ComponentModel\DirectivePipeline\DirectivePipelineDecorator($pipelineBuilder->build());
         return $directivePipeline;

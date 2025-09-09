@@ -12,7 +12,6 @@ interface ApplicationStateFillerServiceInterface
      * the app state.
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function defineGraphQLQueryVarsInApplicationState($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : void;
+    public function defineGraphQLQueryVarsInApplicationState(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : void;
 }

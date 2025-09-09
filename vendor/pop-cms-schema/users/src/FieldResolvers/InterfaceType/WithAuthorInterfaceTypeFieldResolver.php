@@ -12,10 +12,7 @@ use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
 /** @internal */
 class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
     protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
@@ -49,12 +46,10 @@ class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldRes
     }
     public function getFieldDescription(string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'author':
-                return $this->__('The entity\'s author', 'queriedobject');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'author' => $this->__('The entity\'s author', 'queriedobject'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
     public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {

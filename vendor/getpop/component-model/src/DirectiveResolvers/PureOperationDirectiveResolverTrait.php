@@ -16,6 +16,8 @@ use SplObjectStorage;
  * and not Field Directive too.
  *
  * Eg: directive `@depends(on: "OpName")`
+ *
+ * @phpstan-ignore-next-line
  * @internal
  */
 trait PureOperationDirectiveResolverTrait

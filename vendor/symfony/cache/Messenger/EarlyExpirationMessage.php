@@ -19,24 +19,15 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Revers
  */
 final class EarlyExpirationMessage
 {
-    /**
-     * @var \Symfony\Component\Cache\CacheItem
-     */
-    private $item;
-    /**
-     * @var string
-     */
-    private $pool;
-    /**
-     * @var string|mixed[]
-     */
-    private $callback;
+    private CacheItem $item;
+    private string $pool;
+    private string|array $callback;
     public static function create(ReverseContainer $reverseContainer, callable $callback, CacheItem $item, AdapterInterface $pool) : ?self
     {
         try {
             $item = clone $item;
             $item->set(null);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
         $pool = $reverseContainer->getId($pool);
@@ -68,7 +59,7 @@ final class EarlyExpirationMessage
     /**
      * @return string|string[]
      */
-    public function getCallback()
+    public function getCallback() : string|array
     {
         return $this->callback;
     }
@@ -86,10 +77,7 @@ final class EarlyExpirationMessage
         }
         return $callback;
     }
-    /**
-     * @param string|mixed[] $callback
-     */
-    private function __construct(CacheItem $item, string $pool, $callback)
+    private function __construct(CacheItem $item, string $pool, string|array $callback)
     {
         $this->item = $item;
         $this->pool = $pool;

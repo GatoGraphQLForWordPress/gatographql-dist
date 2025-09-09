@@ -7,18 +7,15 @@ use PoP\GraphQLParser\Exception\AbstractValueResolutionPromiseException;
 /** @internal */
 class DirectiveDataAccessor implements \PoP\ComponentModel\QueryResolution\DirectiveDataAccessorInterface
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected $unresolvedDirectiveArgs;
     use \PoP\ComponentModel\QueryResolution\FieldOrDirectiveDataAccessorTrait;
     /**
      * @param array<string,mixed> $unresolvedDirectiveArgs
      */
-    public function __construct(array $unresolvedDirectiveArgs)
-    {
+    public function __construct(
         /** @var array<string,mixed> */
-        $this->unresolvedDirectiveArgs = $unresolvedDirectiveArgs;
+        protected array $unresolvedDirectiveArgs
+    )
+    {
     }
     /**
      * @return array<string,mixed>

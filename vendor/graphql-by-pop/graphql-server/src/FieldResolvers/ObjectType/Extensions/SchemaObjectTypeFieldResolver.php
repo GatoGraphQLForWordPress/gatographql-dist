@@ -24,18 +24,9 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\FieldObjectTypeResolver|null
-     */
-    private $fieldObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface|null
-     */
-    private $graphQLSchemaDefinitionService;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?FieldObjectTypeResolver $fieldObjectTypeResolver = null;
+    private ?GraphQLSchemaDefinitionServiceInterface $graphQLSchemaDefinitionService = null;
     protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -81,59 +72,43 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'globalFields':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'globalFields' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'globalFields':
-                return $this->__('[Custom introspection field] All global fields (i.e. fields which are added to all types in the schema)', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'globalFields' => $this->__('[Custom introspection field] All global fields (i.e. fields which are added to all types in the schema)', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'globalFields':
-                return ['includeDeprecated' => $this->getBooleanScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'globalFields' => ['includeDeprecated' => $this->getBooleanScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['globalFields' => 'includeDeprecated']:
-                return $this->__('Include deprecated fields?', 'graphql-server');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['globalFields' => 'includeDeprecated'] => $this->__('Include deprecated fields?', 'graphql-server'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
-        switch ($fieldArgName) {
-            case 'includeDeprecated':
-                return \false;
-            default:
-                return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ($fieldArgName) {
+            'includeDeprecated' => \false,
+            default => parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Schema */
         $schema = $object;
@@ -164,13 +139,9 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     $mutationRootTypeFields = $mutationRootType->getFields($fieldDataAccessor->getValue('includeDeprecated') ?? \false, \true);
                     $queryAndMutationRootTypeFields = \array_merge($queryAndMutationRootTypeFields, $mutationRootTypeFields);
                 }
-                $globalFields = \array_filter($queryAndMutationRootTypeFields, function (Field $field) {
-                    return $field->getExtensions()->isGlobal();
-                });
+                $globalFields = \array_filter($queryAndMutationRootTypeFields, fn(Field $field) => $field->getExtensions()->isGlobal());
                 // Global fields are added to both QueryRoot and MutationRoot, so make unique!
-                return \array_values(\array_unique(\array_map(function (Field $field) {
-                    return $field->getID();
-                }, $globalFields)));
+                return \array_values(\array_unique(\array_map(fn(Field $field) => $field->getID(), $globalFields)));
         }
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -184,11 +155,9 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'globalFields':
-                return $this->getFieldObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'globalFields' => $this->getFieldObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

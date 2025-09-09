@@ -8,9 +8,9 @@ use PoP\Root\FeedbackItemProviders\GenericFeedbackItemProvider as UpstreamGeneri
 /** @internal */
 class GenericFeedbackItemProvider extends UpstreamGenericFeedbackItemProvider
 {
-    public const W1 = 'w1';
-    public const N1 = 'n1';
-    public const S1 = 's1';
+    public final const W1 = 'w1';
+    public final const N1 = 'n1';
+    public final const S1 = 's1';
     /**
      * @return string[]
      */
@@ -20,26 +20,18 @@ class GenericFeedbackItemProvider extends UpstreamGenericFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::W1:
-            case self::N1:
-            case self::S1:
-                return '%s';
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::W1, self::N1, self::S1 => '%s',
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {
-        switch ($code) {
-            case self::W1:
-                return FeedbackCategories::WARNING;
-            case self::N1:
-                return FeedbackCategories::NOTICE;
-            case self::S1:
-                return FeedbackCategories::SUGGESTION;
-            default:
-                return parent::getCategory($code);
-        }
+        return match ($code) {
+            self::W1 => FeedbackCategories::WARNING,
+            self::N1 => FeedbackCategories::NOTICE,
+            self::S1 => FeedbackCategories::SUGGESTION,
+            default => parent::getCategory($code),
+        };
     }
 }

@@ -12,14 +12,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 abstract class AbstractSetEntityMetaInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\MetaMutations\TypeResolvers\InputObjectType\SetEntityMetaInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPSchema\ExtendedSchemaCommons\TypeResolvers\ScalarType\NullableListValueJSONObjectScalarTypeResolver|null
-     */
-    private $nullableListValueJSONObjectScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?NullableListValueJSONObjectScalarTypeResolver $nullableListValueJSONObjectScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -52,23 +46,17 @@ abstract class AbstractSetEntityMetaInputObjectTypeResolver extends AbstractInpu
     protected abstract function addIDInputField() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the entity', 'meta-mutations');
-            case MutationInputProperties::ENTRIES:
-                return $this->__('The meta entries', 'meta-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the entity', 'meta-mutations'),
+            MutationInputProperties::ENTRIES => $this->__('The meta entries', 'meta-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-            case MutationInputProperties::ENTRIES:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID, MutationInputProperties::ENTRIES => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

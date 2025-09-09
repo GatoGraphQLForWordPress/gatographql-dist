@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class GenericTagUpdateMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMutations\TypeResolvers\UnionType\GenericTagUpdateMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $genericTagUpdateMutationErrorPayloadUnionTypeResolver;
+    private ?GenericTagUpdateMutationErrorPayloadUnionTypeResolver $genericTagUpdateMutationErrorPayloadUnionTypeResolver = null;
     protected final function getGenericTagUpdateMutationErrorPayloadUnionTypeResolver() : GenericTagUpdateMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericTagUpdateMutationErrorPayloadUnionTypeResolver === null) {

@@ -8,10 +8,7 @@ use PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterfac
 /** @internal */
 class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\UserAvatars\RuntimeRegistries\UserAvatarRuntimeRegistryInterface|null
-     */
-    private $userAvatarRuntimeRegistry;
+    private ?UserAvatarRuntimeRegistryInterface $userAvatarRuntimeRegistry = null;
     protected final function getUserAvatarRuntimeRegistry() : UserAvatarRuntimeRegistryInterface
     {
         if ($this->userAvatarRuntimeRegistry === null) {
@@ -27,6 +24,6 @@ class UserAvatarObjectTypeDataLoader extends AbstractObjectTypeDataLoader
      */
     public function getObjects(array $ids) : array
     {
-        return \array_map(\Closure::fromCallable([$this->getUserAvatarRuntimeRegistry(), 'getUserAvatar']), $ids);
+        return \array_map($this->getUserAvatarRuntimeRegistry()->getUserAvatar(...), $ids);
     }
 }

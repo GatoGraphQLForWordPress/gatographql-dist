@@ -30,7 +30,7 @@ class NativeFileSessionHandler extends \SessionHandler
      */
     public function __construct(?string $savePath = null)
     {
-        $baseDir = $savePath = $savePath ?? \ini_get('session.save_path');
+        $baseDir = $savePath ??= \ini_get('session.save_path');
         if ($count = \substr_count($savePath, ';')) {
             if ($count > 2) {
                 throw new \InvalidArgumentException(\sprintf('Invalid argument $savePath \'%s\'.', $savePath));

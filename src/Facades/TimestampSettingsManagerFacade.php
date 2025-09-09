@@ -15,10 +15,7 @@ use GatoGraphQL\GatoGraphQL\Settings\TimestampSettingsManagerInterface;
  */
 class TimestampSettingsManagerFacade
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\TimestampSettingsManagerInterface|null
-     */
-    private static $instance;
+    private static ?TimestampSettingsManagerInterface $instance = null;
 
     public static function getInstance(): TimestampSettingsManagerInterface
     {

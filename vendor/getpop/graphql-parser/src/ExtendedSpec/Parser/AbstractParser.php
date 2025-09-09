@@ -55,13 +55,12 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      *
      * @var array<FieldInterface[]>
      */
-    protected $parsedFieldBlockStack;
+    protected array $parsedFieldBlockStack;
     /**
      * ObjectResolvedFieldValueReferences are not supported
      * within Directive Arguments.
-     * @var bool
      */
-    protected $parsingDirectiveArgumentList;
+    protected bool $parsingDirectiveArgumentList;
     /**
      * Use this variable to keep track of which
      * DynamicVariableDefinerDirectives (such as `@export`)
@@ -70,7 +69,7 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      *
      * @var string[]
      */
-    protected $parsedDefinedDocumentDynamicVariableNames;
+    protected array $parsedDefinedDocumentDynamicVariableNames;
     /**
      * Use this variable to keep track of which
      * DynamicVariableDefinerDirectives (such as `@passOnwards`)
@@ -79,14 +78,14 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      *
      * @var array<string[]>
      */
-    protected $parsedFieldDefinedObjectResolvedDynamicVariableNames;
+    protected array $parsedFieldDefinedObjectResolvedDynamicVariableNames;
     /**
      * List of all the Fields in the query which are
      * referenced via an ObjectResolvedFieldValueReference.
      *
      * @var FieldInterface[]
      */
-    protected $objectResolvedFieldValueReferencedFields;
+    protected array $objectResolvedFieldValueReferencedFields;
     protected function resetState() : void
     {
         parent::resetState();
@@ -100,7 +99,6 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      * Override to express the additional type of Exception
      * that can be thrown.
      *
-     * @throws LogicErrorParserException
      * @throws SyntaxErrorParserException
      * @throws FeatureNotSupportedException
      * @throws UnsupportedSyntaxErrorParserException
@@ -444,7 +442,7 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      */
     protected function isObjectResolvedFieldValueReferenceName(string $name) : bool
     {
-        return \strncmp($name, QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX, \strlen(QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX)) === 0;
+        return \str_starts_with($name, QuerySyntax::OBJECT_RESOLVED_FIELD_VALUE_REFERENCE_PREFIX);
     }
     /**
      * Actual name of the field (without the leading "__")
@@ -552,6 +550,7 @@ abstract class AbstractParser extends UpstreamParser implements \PoP\GraphQLPars
      */
     public function getObjectResolvedFieldValueReferencedFields() : array
     {
+        // @phpstan-ignore-next-line
         return \array_values(\array_unique($this->objectResolvedFieldValueReferencedFields));
     }
     /**

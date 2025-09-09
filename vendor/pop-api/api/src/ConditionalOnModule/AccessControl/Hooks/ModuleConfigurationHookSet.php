@@ -22,9 +22,7 @@ class ModuleConfigurationHookSet extends AbstractHookSet
         $moduleConfiguration = App::getModule(AccessControlModule::class)->getConfiguration();
         if ($moduleConfiguration->canSchemaBePrivate()) {
             $hookName = ModuleConfigurationHelpers::getHookName(Module::class, Environment::USE_SCHEMA_DEFINITION_CACHE);
-            App::addFilter($hookName, function () {
-                return \false;
-            });
+            App::addFilter($hookName, fn() => \false);
         }
     }
 }

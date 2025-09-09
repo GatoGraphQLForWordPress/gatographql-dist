@@ -15,21 +15,21 @@ use function flush_rewrite_rules;
 
 class ContainerManager implements ContainerManagerInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
-    public function flushContainer(bool $flushRewriteRules, ?bool $regenerateContainer): void
-    {
+    public function flushContainer(
+        bool $flushRewriteRules,
+        ?bool $regenerateContainer,
+    ): void {
         if ($flushRewriteRules) {
             flush_rewrite_rules();
         }
+
         /**
          * Update the timestamp, and maybe regenerate
          * the service container.

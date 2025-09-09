@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
  */
 trait ProxyTrait
 {
-    /**
-     * @var object
-     */
-    private $pool;
+    private object $pool;
     public function prune() : bool
     {
         return $this->pool instanceof PruneableInterface && $this->pool->prune();

@@ -14,22 +14,10 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractAddEntityMetaInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\MetaMutations\TypeResolvers\InputObjectType\AddEntityMetaInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyScalarScalarTypeResolver|null
-     */
-    private $anyScalarScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?AnyScalarScalarTypeResolver $anyScalarScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -80,40 +68,26 @@ abstract class AbstractAddEntityMetaInputObjectTypeResolver extends AbstractInpu
     protected abstract function addIDInputField() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the entity', 'meta-mutations');
-            case MutationInputProperties::KEY:
-                return $this->__('The meta key', 'meta-mutations');
-            case MutationInputProperties::VALUE:
-                return $this->__('The meta value', 'meta-mutations');
-            case MutationInputProperties::SINGLE:
-                return $this->__('Is the meta a single value?', 'meta-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the entity', 'meta-mutations'),
+            MutationInputProperties::KEY => $this->__('The meta key', 'meta-mutations'),
+            MutationInputProperties::VALUE => $this->__('The meta value', 'meta-mutations'),
+            MutationInputProperties::SINGLE => $this->__('Is the meta a single value?', 'meta-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-            case MutationInputProperties::KEY:
-            case MutationInputProperties::VALUE:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID, MutationInputProperties::KEY, MutationInputProperties::VALUE => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::SINGLE:
-                return \false;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::SINGLE => \false,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

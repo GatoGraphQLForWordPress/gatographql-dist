@@ -14,14 +14,8 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
  */
 class GenericTagObjectTypeResolver extends \PoPCMSSchema\Tags\TypeResolvers\ObjectType\AbstractTagObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Tags\RelationalTypeDataLoaders\ObjectType\QueryableTagListObjectTypeDataLoader|null
-     */
-    private $queryableTagListObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeAPIs\QueryableTagTypeAPIInterface|null
-     */
-    private $queryableTagListTypeAPI;
+    private ?QueryableTagListObjectTypeDataLoader $queryableTagListObjectTypeDataLoader = null;
+    private ?QueryableTagTypeAPIInterface $queryableTagListTypeAPI = null;
     protected final function getQueryableTagListObjectTypeDataLoader() : QueryableTagListObjectTypeDataLoader
     {
         if ($this->queryableTagListObjectTypeDataLoader === null) {

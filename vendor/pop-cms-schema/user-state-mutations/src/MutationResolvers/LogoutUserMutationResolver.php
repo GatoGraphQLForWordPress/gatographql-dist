@@ -15,10 +15,7 @@ use PoP\Root\App;
 class LogoutUserMutationResolver extends AbstractMutationResolver
 {
     use \PoPCMSSchema\UserStateMutations\MutationResolvers\ValidateUserLoggedInMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\TypeAPIs\UserStateTypeMutationAPIInterface|null
-     */
-    private $userStateTypeMutationAPI;
+    private ?UserStateTypeMutationAPIInterface $userStateTypeMutationAPI = null;
     protected final function getUserStateTypeMutationAPI() : UserStateTypeMutationAPIInterface
     {
         if ($this->userStateTypeMutationAPI === null) {
@@ -35,10 +32,7 @@ class LogoutUserMutationResolver extends AbstractMutationResolver
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($errorFeedbackItemResolution, $fieldDataAccessor->getField()));
         }
     }
-    /**
-     * @return mixed
-     */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $user_id = App::getState('current-user-id');
         $this->getUserStateTypeMutationAPI()->logout();

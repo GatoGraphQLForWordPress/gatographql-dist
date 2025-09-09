@@ -19,10 +19,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     use EntityObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface|null
-     */
-    private $taxonomyMetaTypeAPI;
+    private ?TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI = null;
     protected final function getTaxonomyMetaTypeAPI() : TaxonomyMetaTypeAPIInterface
     {
         if ($this->taxonomyMetaTypeAPI === null) {
@@ -56,10 +53,7 @@ class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldRes
         }
         return $sensitiveFieldArgNames;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $taxonomyTerm = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -73,7 +67,7 @@ class TaxonomyObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldRes
                     }
                     $metaKeys[] = $key;
                 }
-                return $this->resolveMetaKeysValue($metaKeys, $fieldDataAccessor);
+                return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
                 $metaValue = $this->getTaxonomyMetaTypeAPI()->getTaxonomyTermMeta($taxonomyTerm, $fieldDataAccessor->getValue('key'), \true);
                 // If it's an array, it must be a JSON object

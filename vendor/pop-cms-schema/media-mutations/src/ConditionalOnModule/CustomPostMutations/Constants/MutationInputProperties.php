@@ -6,5 +6,5 @@ namespace PoPCMSSchema\MediaMutations\ConditionalOnModule\CustomPostMutations\Co
 /** @internal */
 class MutationInputProperties
 {
-    public const CUSTOMPOST_ID = 'customPostID';
+    public final const CUSTOMPOST_ID = 'customPostID';
 }

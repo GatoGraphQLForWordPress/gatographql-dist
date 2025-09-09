@@ -12,10 +12,7 @@ use ReflectionProperty;
  */
 class AppArchitecture implements \PoP\Root\AppArchitectureInterface
 {
-    /**
-     * @var bool|null
-     */
-    protected static $isDowngraded;
+    protected static ?bool $isDowngraded = null;
     public static function isDowngraded() : bool
     {
         if (self::$isDowngraded === null) {

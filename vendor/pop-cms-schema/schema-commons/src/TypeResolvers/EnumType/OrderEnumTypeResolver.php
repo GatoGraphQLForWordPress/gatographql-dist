@@ -21,13 +21,10 @@ class OrderEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case Order::ASC:
-                return $this->__('Ascending order', 'schema-commons');
-            case Order::DESC:
-                return $this->__('Descending order', 'schema-commons');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            Order::ASC => $this->__('Ascending order', 'schema-commons'),
+            Order::DESC => $this->__('Descending order', 'schema-commons'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

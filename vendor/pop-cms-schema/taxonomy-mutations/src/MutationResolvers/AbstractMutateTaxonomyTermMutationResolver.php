@@ -19,14 +19,8 @@ use stdClass;
 abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutationResolver implements \PoPCMSSchema\TaxonomyMutations\MutationResolvers\TaxonomyTermMutationResolverInterface
 {
     use \PoPCMSSchema\TaxonomyMutations\MutationResolvers\MutateTaxonomyTermMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\TypeAPIs\TaxonomyTypeMutationAPIInterface|null
-     */
-    private $taxonomyTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?TaxonomyTypeMutationAPIInterface $taxonomyTypeMutationAPI = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getTaxonomyTypeMutationAPI() : TaxonomyTypeMutationAPIInterface
     {
         if ($this->taxonomyTypeMutationAPI === null) {
@@ -241,23 +235,19 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
      * @param array<string,mixed> $taxonomyData
      * @return string|int the ID of the updated taxonomy
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeUpdateTaxonomyTerm($taxonomyTermID, string $taxonomyName, array $taxonomyData)
+    protected function executeUpdateTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getTaxonomyTypeMutationAPI()->updateTaxonomyTerm($taxonomyTermID, $taxonomyName, $taxonomyData);
     }
-    /**
-     * @param int|string $taxonomyTermID
-     */
-    protected function createUpdateTaxonomy(FieldDataAccessorInterface $fieldDataAccessor, $taxonomyTermID) : void
+    protected function createUpdateTaxonomy(FieldDataAccessorInterface $fieldDataAccessor, int|string $taxonomyTermID) : void
     {
     }
     /**
      * @return string|int The ID of the updated entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string|int */
         $taxonomyTermID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
@@ -274,7 +264,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
      * @return string|int the ID of the created taxonomy
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData)
+    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getTaxonomyTypeMutationAPI()->createTaxonomyTerm($taxonomyName, $taxonomyData);
     }
@@ -282,7 +272,7 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         /** @var string */
         $taxonomyName = $this->getTaxonomyName($fieldDataAccessor);
@@ -311,9 +301,8 @@ abstract class AbstractMutateTaxonomyTermMutationResolver extends AbstractMutati
     /**
      * @return bool `true` if the operation successful, `false` if the term does not exist
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeDeleteTaxonomyTerm($taxonomyTermID, string $taxonomyName) : bool
+    protected function executeDeleteTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName) : bool
     {
         return $this->getTaxonomyTypeMutationAPI()->deleteTaxonomyTerm($taxonomyTermID, $taxonomyName);
     }

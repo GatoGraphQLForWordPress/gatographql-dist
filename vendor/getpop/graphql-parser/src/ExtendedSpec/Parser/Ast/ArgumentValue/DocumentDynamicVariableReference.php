@@ -7,10 +7,7 @@ use PoP\GraphQLParser\ExtendedSpec\Execution\DocumentDynamicVariableValuePromise
 /** @internal */
 class DocumentDynamicVariableReference extends \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\AbstractDynamicVariableReference
 {
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue() : mixed
     {
         return new DocumentDynamicVariableValuePromise($this);
     }

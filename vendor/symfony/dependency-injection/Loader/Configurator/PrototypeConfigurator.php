@@ -35,26 +35,11 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
     use Traits\ShareTrait;
     use Traits\TagTrait;
     public const FACTORY = 'load';
-    /**
-     * @var \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
-     */
-    private $loader;
-    /**
-     * @var string
-     */
-    private $resource;
-    /**
-     * @var mixed[]|null
-     */
-    private $excludes;
-    /**
-     * @var bool
-     */
-    private $allowParent;
-    /**
-     * @var string|null
-     */
-    private $path;
+    private PhpFileLoader $loader;
+    private string $resource;
+    private ?array $excludes = null;
+    private bool $allowParent;
+    private ?string $path;
     public function __construct(ServicesConfigurator $parent, PhpFileLoader $loader, Definition $defaults, string $namespace, string $resource, bool $allowParent, ?string $path = null)
     {
         $definition = new Definition();
@@ -87,7 +72,7 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
      *
      * @return $this
      */
-    public final function exclude($excludes)
+    public final function exclude(array|string $excludes) : static
     {
         $this->excludes = (array) $excludes;
         return $this;

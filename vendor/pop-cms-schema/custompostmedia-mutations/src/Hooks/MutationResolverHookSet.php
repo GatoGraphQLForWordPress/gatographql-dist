@@ -21,18 +21,9 @@ use stdClass;
 class MutationResolverHookSet extends AbstractHookSet
 {
     use MediaItemCRUDMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
-     */
-    private $customPostMediaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface|null
-     */
-    private $mediaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeAPIs\MediaTypeMutationAPIInterface|null
-     */
-    private $mediaTypeMutationAPI;
+    private ?CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI = null;
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    private ?MediaTypeMutationAPIInterface $mediaTypeMutationAPI = null;
     protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {
@@ -62,9 +53,9 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateFeaturedImage']), 10, 2);
-        App::addAction(CustomPostCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeSetOrRemoveFeaturedImage']), 10, 2);
-        App::addFilter(CustomPostCRUDHookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, $this->maybeValidateFeaturedImage(...), 10, 2);
+        App::addAction(CustomPostCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $this->maybeSetOrRemoveFeaturedImage(...), 10, 2);
+        App::addFilter(CustomPostCRUDHookNames::ERROR_PAYLOAD, $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     public function maybeValidateFeaturedImage(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
@@ -98,9 +89,8 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     /**
      * If entry "featuredImageID" has an ID, set it. If it is null, remove it
-     * @param int|string $customPostID
      */
-    public function maybeSetOrRemoveFeaturedImage($customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    public function maybeSetOrRemoveFeaturedImage(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
         if (!$this->canExecuteMutation($fieldDataAccessor)) {
             return;

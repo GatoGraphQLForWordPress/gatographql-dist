@@ -7,10 +7,7 @@ use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 /** @internal */
 abstract class AbstractTransientObjectObjectTypeResolverPicker extends \PoP\ComponentModel\ObjectTypeResolverPickers\AbstractObjectTypeResolverPicker
 {
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
@@ -25,10 +22,7 @@ abstract class AbstractTransientObjectObjectTypeResolverPicker extends \PoP\Comp
         return \is_a($object, $this->getTargetObjectClass(), \true);
     }
     protected abstract function getTargetObjectClass() : string;
-    /**
-     * @param string|int $objectID
-     */
-    public final function isIDOfType($objectID) : bool
+    public final function isIDOfType(string|int $objectID) : bool
     {
         $transientObject = $this->getObjectDictionary()->get($this->getTargetObjectClass(), $objectID);
         if ($transientObject === null) {

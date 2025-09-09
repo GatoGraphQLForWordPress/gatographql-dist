@@ -17,29 +17,14 @@ use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FilterInputs\ExcludeAutho
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_AUTHOR_IDS = 'filterinput-author-ids';
-    public const COMPONENT_FILTERINPUT_AUTHOR_SLUG = 'filterinput-author-slug';
-    public const COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS = 'filterinput-exclude-author-ids';
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FilterInputs\AuthorIDsFilterInput|null
-     */
-    private $authorIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FilterInputs\AuthorSlugFilterInput|null
-     */
-    private $authorSlugFilterInput;
-    /**
-     * @var \PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\FilterInputs\ExcludeAuthorIDsFilterInput|null
-     */
-    private $excludeAuthorIDsFilterInput;
+    public final const COMPONENT_FILTERINPUT_AUTHOR_IDS = 'filterinput-author-ids';
+    public final const COMPONENT_FILTERINPUT_AUTHOR_SLUG = 'filterinput-author-slug';
+    public final const COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS = 'filterinput-exclude-author-ids';
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?AuthorIDsFilterInput $authorIDsFilterInput = null;
+    private ?AuthorSlugFilterInput $authorSlugFilterInput = null;
+    private ?ExcludeAuthorIDsFilterInput $excludeAuthorIDsFilterInput = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -94,64 +79,45 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_AUTHOR_IDS:
-                return $this->getAuthorIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_AUTHOR_SLUG:
-                return $this->getAuthorSlugFilterInput();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS:
-                return $this->getExcludeAuthorIDsFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_AUTHOR_IDS => $this->getAuthorIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_AUTHOR_SLUG => $this->getAuthorSlugFilterInput(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS => $this->getExcludeAuthorIDsFilterInput(),
+            default => null,
+        };
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_AUTHOR_IDS:
-                return 'authorIDs';
-            case self::COMPONENT_FILTERINPUT_AUTHOR_SLUG:
-                return 'authorSlug';
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS:
-                return 'excludeAuthorIDs';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_AUTHOR_IDS => 'authorIDs',
+            self::COMPONENT_FILTERINPUT_AUTHOR_SLUG => 'authorSlug',
+            self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS => 'excludeAuthorIDs',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_AUTHOR_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_AUTHOR_SLUG:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS:
-                return $this->getIDScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_AUTHOR_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_AUTHOR_SLUG => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS => $this->getIDScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_AUTHOR_IDS:
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_AUTHOR_IDS, self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_AUTHOR_IDS:
-                return $this->__('Get results from the authors with given IDs', 'pop-users');
-            case self::COMPONENT_FILTERINPUT_AUTHOR_SLUG:
-                return $this->__('Get results from the authors with given slug', 'pop-users');
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS:
-                return $this->__('Get results excluding the ones from authors with given IDs', 'pop-users');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_AUTHOR_IDS => $this->__('Get results from the authors with given IDs', 'pop-users'),
+            self::COMPONENT_FILTERINPUT_AUTHOR_SLUG => $this->__('Get results from the authors with given slug', 'pop-users'),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_AUTHOR_IDS => $this->__('Get results excluding the ones from authors with given IDs', 'pop-users'),
+            default => null,
+        };
     }
 }

@@ -26,7 +26,7 @@ class AttributeMatchingExtension extends AbstractExtension
 {
     public function getAttributeMatchingTranslators() : array
     {
-        return ['exists' => \Closure::fromCallable([$this, 'translateExists']), '=' => \Closure::fromCallable([$this, 'translateEquals']), '~=' => \Closure::fromCallable([$this, 'translateIncludes']), '|=' => \Closure::fromCallable([$this, 'translateDashMatch']), '^=' => \Closure::fromCallable([$this, 'translatePrefixMatch']), '$=' => \Closure::fromCallable([$this, 'translateSuffixMatch']), '*=' => \Closure::fromCallable([$this, 'translateSubstringMatch']), '!=' => \Closure::fromCallable([$this, 'translateDifferent'])];
+        return ['exists' => $this->translateExists(...), '=' => $this->translateEquals(...), '~=' => $this->translateIncludes(...), '|=' => $this->translateDashMatch(...), '^=' => $this->translatePrefixMatch(...), '$=' => $this->translateSuffixMatch(...), '*=' => $this->translateSubstringMatch(...), '!=' => $this->translateDifferent(...)];
     }
     public function translateExists(XPathExpr $xpath, string $attribute, ?string $value) : XPathExpr
     {

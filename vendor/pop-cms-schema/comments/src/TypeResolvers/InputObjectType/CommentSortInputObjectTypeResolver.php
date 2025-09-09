@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectType
 /** @internal */
 class CommentSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentOrderByEnumTypeResolver|null
-     */
-    private $customPostSortByEnumTypeResolver;
+    private ?CommentOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
     protected final function getCommentOrderByEnumTypeResolver() : CommentOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
@@ -34,16 +31,11 @@ class CommentSortInputObjectTypeResolver extends SortInputObjectTypeResolver
     {
         return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getCommentOrderByEnumTypeResolver()]);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return CommentOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => CommentOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

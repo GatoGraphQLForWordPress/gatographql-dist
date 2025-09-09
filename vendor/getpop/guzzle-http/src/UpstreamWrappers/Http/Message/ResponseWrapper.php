@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoP\GuzzleHTTP\UpstreamWrappers\Http\Message;
 
+use InvalidArgumentException;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\MessageInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
@@ -13,13 +14,8 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
  */
 final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface
 {
-    /**
-     * @var UpstreamResponseInterface
-     */
-    private $response;
-    public function __construct(UpstreamResponseInterface $response)
+    public function __construct(private UpstreamResponseInterface $response)
     {
-        $this->response = $response;
     }
     public function getUpstreamResponse() : UpstreamResponseInterface
     {
@@ -151,7 +147,7 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
      * @return static
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value) : MessageInterface
     {
@@ -171,7 +167,7 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
      * @return static
-     * @throws \InvalidArgumentException for invalid header names or values.
+     * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value) : MessageInterface
     {
@@ -213,7 +209,7 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
      *
      * @param StreamInterface $body Body.
      * @return static
-     * @throws \InvalidArgumentException When the body is not valid.
+     * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body) : MessageInterface
     {
@@ -252,9 +248,9 @@ final class ResponseWrapper implements \PoP\GuzzleHTTP\UpstreamWrappers\Http\Mes
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
      * @return static
-     * @throws \InvalidArgumentException For invalid status code arguments.
+     * @throws InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus($code, $reasonPhrase = '') : \GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface
+    public function withStatus($code, $reasonPhrase = '') : \PoP\GuzzleHTTP\UpstreamWrappers\Http\Message\ResponseInterface
     {
         return new static($this->response->withStatus($code, $reasonPhrase));
     }

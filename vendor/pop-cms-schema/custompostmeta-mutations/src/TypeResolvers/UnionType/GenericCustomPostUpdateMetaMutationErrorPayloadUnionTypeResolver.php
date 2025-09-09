@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class GenericCustomPostUpdateMetaMutationErrorPayloadUnionTypeResolver extends AbstractCustomPostUpdateMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\RelationalTypeDataLoaders\UnionType\GenericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $genericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?GenericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader $genericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getGenericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader() : GenericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->genericCustomPostUpdateMetaMutationErrorPayloadUnionTypeDataLoader === null) {

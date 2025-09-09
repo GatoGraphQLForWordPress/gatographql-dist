@@ -58,22 +58,10 @@ class Container implements ContainerInterface, ResetInterface
     protected $loading = [];
     protected $resolving = [];
     protected $syntheticIds = [];
-    /**
-     * @var mixed[]
-     */
-    private $envCache = [];
-    /**
-     * @var bool
-     */
-    private $compiled = \false;
-    /**
-     * @var \Closure
-     */
-    private $getEnv;
-    /**
-     * @var \Closure
-     */
-    private static $make;
+    private array $envCache = [];
+    private bool $compiled = \false;
+    private \Closure $getEnv;
+    private static \Closure $make;
     public function __construct(?ParameterBagInterface $parameterBag = null)
     {
         $this->parameterBag = $parameterBag ?? new EnvPlaceholderParameterBag();
@@ -125,9 +113,8 @@ class Container implements ContainerInterface, ResetInterface
     }
     /**
      * @return void
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function setParameter(string $name, $value)
+    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value)
     {
         $this->parameterBag->set($name, $value);
     }
@@ -193,7 +180,7 @@ class Container implements ContainerInterface, ResetInterface
      */
     public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE) : ?object
     {
-        return $this->services[$id] ?? $this->services[$id = $this->aliases[$id] ?? $id] ?? ('service_container' === $id ? $this : ($this->factories[$id] ?? (self::$make = self::$make ?? \Closure::fromCallable([self::class, 'make'])))($this, $id, $invalidBehavior));
+        return $this->services[$id] ?? $this->services[$id = $this->aliases[$id] ?? $id] ?? ('service_container' === $id ? $this : ($this->factories[$id] ?? (self::$make ??= self::make(...)))($this, $id, $invalidBehavior));
     }
     /**
      * Creates a service.
@@ -234,7 +221,7 @@ class Container implements ContainerInterface, ResetInterface
                     continue;
                 }
                 $lev = \levenshtein($id, $knownId);
-                if ($lev <= \strlen($id) / 3 || \strpos($knownId, $id) !== \false) {
+                if ($lev <= \strlen($id) / 3 || \str_contains($knownId, $id)) {
                     $alternatives[] = $knownId;
                 }
             }
@@ -266,7 +253,7 @@ class Container implements ContainerInterface, ResetInterface
                 if ($service instanceof ResetInterface) {
                     $service->reset();
                 }
-            } catch (\Throwable $exception) {
+            } catch (\Throwable) {
                 continue;
             }
         }
@@ -315,9 +302,8 @@ class Container implements ContainerInterface, ResetInterface
      * Fetches a variable from the environment.
      *
      * @throws EnvNotFoundException When the environment variable is not found and has no default value
-     * @return mixed
      */
-    protected function getEnv(string $name)
+    protected function getEnv(string $name) : mixed
     {
         if (isset($this->resolving[$envName = "env({$name})"])) {
             throw new ParameterCircularReferenceException(\array_keys($this->resolving));
@@ -328,7 +314,7 @@ class Container implements ContainerInterface, ResetInterface
         if (!$this->has($id = 'container.env_var_processors_locator')) {
             $this->set($id, new ServiceLocator([]));
         }
-        $this->getEnv = $this->getEnv ?? \Closure::fromCallable([$this, 'getEnv']);
+        $this->getEnv ??= $this->getEnv(...);
         $processors = $this->get($id);
         if (\false !== ($i = \strpos($name, ':'))) {
             $prefix = \substr($name, 0, $i);
@@ -350,11 +336,8 @@ class Container implements ContainerInterface, ResetInterface
     }
     /**
      * @internal
-     * @param string|false $registry
-     * @param string|bool $load
-     * @return mixed
      */
-    protected final function getService($registry, string $id, ?string $method, $load)
+    protected final function getService(string|false $registry, string $id, ?string $method, string|bool $load) : mixed
     {
         if ('service_container' === $id) {
             return $this;
@@ -366,7 +349,7 @@ class Container implements ContainerInterface, ResetInterface
             return \false !== $registry ? $this->{$registry}[$id] ?? null : null;
         }
         if (\false !== $registry) {
-            return $this->{$registry}[$id] = $this->{$registry}[$id] ?? ($load ? $this->load($method) : $this->{$method}($this));
+            return $this->{$registry}[$id] ??= $load ? $this->load($method) : $this->{$method}($this);
         }
         if (!$load) {
             return $this->{$method}($this);

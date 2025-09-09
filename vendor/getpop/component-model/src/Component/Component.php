@@ -7,28 +7,10 @@ namespace PoP\ComponentModel\Component;
 final class Component
 {
     /**
-     * @readonly
-     * @var string
-     */
-    public $processorClass;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @var array<string, mixed>
-     * @readonly
-     */
-    public $atts = [];
-    /**
      * @param array<string,mixed> $atts
      */
-    public function __construct(string $processorClass, string $name, array $atts = [])
+    public function __construct(public readonly string $processorClass, public readonly string $name, public readonly array $atts = [])
     {
-        $this->processorClass = $processorClass;
-        $this->name = $name;
-        $this->atts = $atts;
     }
     public function asString() : string
     {

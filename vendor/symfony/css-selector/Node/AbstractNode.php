@@ -22,12 +22,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 abstract class AbstractNode implements NodeInterface
 {
-    /**
-     * @var string
-     */
-    private $nodeName;
+    private string $nodeName;
     public function getNodeName() : string
     {
-        return $this->nodeName = $this->nodeName ?? \preg_replace('~.*\\\\([^\\\\]+)Node$~', '$1', static::class);
+        return $this->nodeName ??= \preg_replace('~.*\\\\([^\\\\]+)Node$~', '$1', static::class);
     }
 }

@@ -20,11 +20,7 @@ abstract class AbstractScalarValueJSONObjectScalarTypeResolver extends JSONObjec
     {
         return null;
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $inputValue = parent::coerceValue($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($inputValue === null) {
@@ -56,13 +52,6 @@ abstract class AbstractScalarValueJSONObjectScalarTypeResolver extends JSONObjec
         }
         return $inputValue;
     }
-    /**
-     * @param string|int|float|bool $value
-     */
-    protected abstract function canCastJSONObjectPropertyValue($value) : bool;
-    /**
-     * @param string|int|float|bool $value
-     * @return string|int|float|bool
-     */
-    protected abstract function castJSONObjectPropertyValue($value);
+    protected abstract function canCastJSONObjectPropertyValue(string|int|float|bool $value) : bool;
+    protected abstract function castJSONObjectPropertyValue(string|int|float|bool $value) : string|int|float|bool;
 }

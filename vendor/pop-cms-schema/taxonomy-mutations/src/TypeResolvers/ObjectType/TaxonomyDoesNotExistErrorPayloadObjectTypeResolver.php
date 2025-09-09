@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class TaxonomyDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\RelationalTypeDataLoaders\ObjectType\TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader $taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getTaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader() : TaxonomyDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->taxonomyDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

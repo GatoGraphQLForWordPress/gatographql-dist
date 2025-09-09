@@ -6,40 +6,18 @@ namespace GatoGraphQL\GatoGraphQL\ObjectModels;
 
 abstract class AbstractDependedOnWordPressPlugin
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $file;
-    /**
-     * @var string[]
-     * @readonly
-     */
-    public $alternativeFiles = [];
-    /**
-     * @readonly
-     * @var string
-     */
-    public $slug;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $url;
+    public readonly string $slug;
+    public readonly string $url;
 
     /**
      * @param string[] $alternativeFiles
      */
-    public function __construct(string $name, string $file, array $alternativeFiles = [], ?string $url = null)
-    {
-        $this->name = $name;
-        $this->file = $file;
-        $this->alternativeFiles = $alternativeFiles;
+    public function __construct(
+        public readonly string $name,
+        public readonly string $file,
+        public readonly array $alternativeFiles = [],
+        ?string $url = null,
+    ) {
         $this->slug = $this->extractSlugFromPluginFile($file);
         $this->url = $this->calculateURL($url, $this->slug);
     }

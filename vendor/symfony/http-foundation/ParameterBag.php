@@ -70,19 +70,14 @@ class ParameterBag implements \IteratorAggregate, \Countable
     {
         $this->parameters = \array_replace($this->parameters, $parameters);
     }
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null) : mixed
     {
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    public function set(string $key, $value)
+    public function set(string $key, mixed $value)
     {
         $this->parameters[$key] = $value;
     }
@@ -175,13 +170,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * Filter key.
      *
      * @param int                                     $filter  FILTER_* constant
-     * @param mixed $options Flags from FILTER_* constants
+     * @param int|array{flags?: int, options?: array} $options Flags from FILTER_* constants
      *
      * @see https://php.net/filter-var
-     * @param mixed $default
-     * @return mixed
      */
-    public function filter(string $key, $default = null, int $filter = \FILTER_DEFAULT, $options = [])
+    public function filter(string $key, mixed $default = null, int $filter = \FILTER_DEFAULT, mixed $options = []) : mixed
     {
         $value = $this->get($key, $default);
         // Always turn $options into an array - this allows filter_var option shortcuts.
@@ -198,7 +191,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
         if (\FILTER_CALLBACK & $filter && !($options['options'] ?? null) instanceof \Closure) {
             throw new \InvalidArgumentException(\sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, \get_debug_type($options['options'] ?? null)));
         }
-        $options['flags'] = $options['flags'] ?? 0;
+        $options['flags'] ??= 0;
         $nullOnFailure = $options['flags'] & \FILTER_NULL_ON_FAILURE;
         $options['flags'] |= \FILTER_NULL_ON_FAILURE;
         $value = \filter_var($value, $filter, $options);
@@ -208,7 +201,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
         $method = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
         $method = ($method['object'] ?? null) === $this ? $method['function'] : 'filter';
         $hint = 'filter' === $method ? 'pass' : 'use method "filter()" with';
-        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; ' . $hint . ' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', \get_class($this), $method, $key, UnexpectedValueException::class);
+        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; ' . $hint . ' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', $this::class, $method, $key, UnexpectedValueException::class);
         return \false;
     }
     /**

@@ -50,10 +50,8 @@ abstract class FileLoader extends BaseFileLoader
     }
     /**
      * @param bool|string $ignoreErrors Whether errors should be ignored; pass "not_found" to ignore only when the loaded resource is not found
-     * @param mixed $resource
-     * @return mixed
      */
-    public function import($resource, ?string $type = null, $ignoreErrors = \false, ?string $sourceResource = null, $exclude = null)
+    public function import(mixed $resource, ?string $type = null, bool|string $ignoreErrors = \false, ?string $sourceResource = null, $exclude = null) : mixed
     {
         $args = \func_get_args();
         if ($ignoreNotFound = 'not_found' === $ignoreErrors) {
@@ -89,9 +87,9 @@ abstract class FileLoader extends BaseFileLoader
      *
      * @return void
      */
-    public function registerClasses(Definition $prototype, string $namespace, string $resource, $exclude = null)
+    public function registerClasses(Definition $prototype, string $namespace, string $resource, string|array|null $exclude = null)
     {
-        if (\substr_compare($namespace, '\\', -\strlen('\\')) !== 0) {
+        if (!\str_ends_with($namespace, '\\')) {
             throw new InvalidArgumentException(\sprintf('Namespace prefix must end with a "\\": "%s".', $namespace));
         }
         if (!\preg_match('/^(?:[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*+\\\\)++$/', $namespace)) {
@@ -109,9 +107,7 @@ abstract class FileLoader extends BaseFileLoader
         $autoconfigureAttributes = new RegisterAutoconfigureAttributesPass();
         $autoconfigureAttributes = $autoconfigureAttributes->accept($prototype) ? $autoconfigureAttributes : null;
         $classes = $this->findClasses($namespace, $resource, (array) $exclude, $autoconfigureAttributes, $source);
-        $getPrototype = static function () use($prototype) {
-            return clone $prototype;
-        };
+        $getPrototype = static fn() => clone $prototype;
         $serialized = \serialize($prototype);
         // avoid deep cloning if no definitions are nested
         if (\strpos($serialized, 'O:48:"Symfony\\Component\\DependencyInjection\\Definition"', 55) || \strpos($serialized, 'O:53:"Symfony\\Component\\DependencyInjection\\ChildDefinition"', 55)) {
@@ -119,9 +115,7 @@ abstract class FileLoader extends BaseFileLoader
             foreach (['Arguments', 'Properties', 'MethodCalls', 'Configurator', 'Factory', 'Bindings'] as $key) {
                 $serialized = \serialize($prototype->{'get' . $key}());
                 if (\strpos($serialized, 'O:48:"Symfony\\Component\\DependencyInjection\\Definition"') || \strpos($serialized, 'O:53:"Symfony\\Component\\DependencyInjection\\ChildDefinition"')) {
-                    $getPrototype = static function () use($getPrototype, $key, $serialized) {
-                        return $getPrototype()->{'set' . $key}(\unserialize($serialized));
-                    };
+                    $getPrototype = static fn() => $getPrototype()->{'set' . $key}(\unserialize($serialized));
                 }
             }
         }
@@ -230,7 +224,7 @@ abstract class FileLoader extends BaseFileLoader
         $excludePatterns = $parameterBag->unescapeValue($parameterBag->resolveValue($excludePatterns));
         foreach ($excludePatterns as $excludePattern) {
             foreach ($this->glob($excludePattern, \true, $resource, \true, \true) as $path => $info) {
-                $excludePrefix = $excludePrefix ?? $resource->getPrefix();
+                $excludePrefix ??= $resource->getPrefix();
                 // normalize Windows slashes and remove trailing slashes
                 $excludePaths[\rtrim(\str_replace('\\', '/', $path), '/')] = \true;
             }
@@ -241,14 +235,14 @@ abstract class FileLoader extends BaseFileLoader
         foreach ($this->glob($pattern, \true, $resource, \false, \false, $excludePaths) as $path => $info) {
             if (null === $prefixLen) {
                 $prefixLen = \strlen($resource->getPrefix());
-                if ($excludePrefix && \strncmp($excludePrefix, $resource->getPrefix(), \strlen($resource->getPrefix())) !== 0) {
+                if ($excludePrefix && !\str_starts_with($excludePrefix, $resource->getPrefix())) {
                     throw new InvalidArgumentException(\sprintf('Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s).', $namespace, $excludePattern, $pattern));
                 }
             }
             if (isset($excludePaths[\str_replace('\\', '/', $path)])) {
                 continue;
             }
-            if (\substr_compare($path, '.php', -\strlen('.php')) !== 0) {
+            if (!\str_ends_with($path, '.php')) {
                 continue;
             }
             $class = $namespace . \ltrim(\str_replace('/', '\\', \substr($path, $prefixLen, -4)), '\\');
@@ -282,7 +276,7 @@ abstract class FileLoader extends BaseFileLoader
         }
         if (null !== $prefixLen) {
             foreach ($excludePaths as $path => $_) {
-                $class = $namespace . \ltrim(\str_replace('/', '\\', \substr($path, $prefixLen, \substr_compare($path, '.php', -\strlen('.php')) === 0 ? -4 : null)), '\\');
+                $class = $namespace . \ltrim(\str_replace('/', '\\', \substr($path, $prefixLen, \str_ends_with($path, '.php') ? -4 : null)), '\\');
                 $this->addContainerExcludedTag($class, $source);
             }
         }

@@ -12,10 +12,7 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 /** @internal */
 trait BulkOperationDecoratorObjectTypeFieldResolverTrait
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
     {
         if ($this->booleanScalarTypeResolver === null) {
@@ -34,25 +31,17 @@ trait BulkOperationDecoratorObjectTypeFieldResolverTrait
     }
     protected function getBulkOperationFieldArgTypeModifiers(string $fieldArgName) : ?int
     {
-        switch ($fieldArgName) {
-            case MutationInputProperties::INPUTS:
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case MutationInputProperties::STOP_EXECUTING_MUTATION_ITEMS_ON_FIRST_ERROR:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return null;
-        }
+        return match ($fieldArgName) {
+            MutationInputProperties::INPUTS => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            MutationInputProperties::STOP_EXECUTING_MUTATION_ITEMS_ON_FIRST_ERROR => SchemaTypeModifiers::MANDATORY,
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    protected function getBulkOperationFieldArgDefaultValue(string $fieldArgName)
+    protected function getBulkOperationFieldArgDefaultValue(string $fieldArgName) : mixed
     {
-        switch ($fieldArgName) {
-            case MutationInputProperties::STOP_EXECUTING_MUTATION_ITEMS_ON_FIRST_ERROR:
-                return \false;
-            default:
-                return null;
-        }
+        return match ($fieldArgName) {
+            MutationInputProperties::STOP_EXECUTING_MUTATION_ITEMS_ON_FIRST_ERROR => \false,
+            default => null,
+        };
     }
 }

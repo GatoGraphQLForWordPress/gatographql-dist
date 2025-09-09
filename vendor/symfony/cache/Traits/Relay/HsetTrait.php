@@ -16,12 +16,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait HsetTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function hset($key, ...$keys_and_vals)
+        public function hset($key, ...$keys_and_vals) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hset(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hset(...\func_get_args());
         }
     }
 } else {
@@ -30,12 +27,9 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait HsetTrait
     {
-        /**
-         * @return \Relay\Relay|false|int
-         */
-        public function hset($key, $mem, $val, ...$kvals)
+        public function hset($key, $mem, $val, ...$kvals) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hset(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hset(...\func_get_args());
         }
     }
 }

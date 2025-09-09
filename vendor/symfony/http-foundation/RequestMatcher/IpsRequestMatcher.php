@@ -21,19 +21,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatc
  */
 class IpsRequestMatcher implements RequestMatcherInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $ips;
+    private array $ips;
     /**
      * @param string[]|string $ips A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
      *                             Strings can contain a comma-delimited list of IPs/ranges
      */
-    public function __construct($ips)
+    public function __construct(array|string $ips)
     {
-        $this->ips = \array_reduce((array) $ips, static function (array $ips, string $ip) {
-            return \array_merge($ips, \preg_split('/\\s*,\\s*/', $ip));
-        }, []);
+        $this->ips = \array_reduce((array) $ips, static fn(array $ips, string $ip) => \array_merge($ips, \preg_split('/\\s*,\\s*/', $ip)), []);
     }
     public function matches(Request $request) : bool
     {

@@ -6,5 +6,5 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class AdminRequestParams
 {
-    public const MODULE_TYPE = 'module-type';
+    public final const MODULE_TYPE = 'module-type';
 }

@@ -14,23 +14,23 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
     /**
      * @var array<string,InterfaceTypeFieldResolverInterface[]>|null
      */
-    protected $interfaceTypeFieldResolversByField;
+    protected ?array $interfaceTypeFieldResolversByField = null;
     /**
      * @var array<string,InterfaceTypeFieldResolverInterface>|null
      */
-    protected $executableInterfaceTypeFieldResolversByField;
+    protected ?array $executableInterfaceTypeFieldResolversByField = null;
     /**
      * @var string[]|null
      */
-    protected $fieldNamesToImplement;
+    protected ?array $fieldNamesToImplement = null;
     /**
      * @var array<string,string[]>
      */
-    private $fieldNamesResolvedByInterfaceTypeFieldResolver = [];
+    private array $fieldNamesResolvedByInterfaceTypeFieldResolver = [];
     /**
      * @var InterfaceTypeFieldResolverInterface[]|null
      */
-    protected $interfaceTypeFieldResolvers;
+    protected ?array $interfaceTypeFieldResolvers = null;
     /**
      * The list of the fieldNames to implement in the Interface,
      * collected from all the injected InterfaceTypeFieldResolvers
@@ -159,11 +159,11 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
                     // Process the fields which have not been processed yet
                     $extensionFieldNames = $this->getFieldNamesResolvedByInterfaceTypeFieldResolver($interfaceTypeFieldResolver);
                     foreach (\array_diff($extensionFieldNames, \array_keys($interfaceTypeFieldResolversByField)) as $fieldName) {
-                        $interfaceTypeFieldResolversByField[$fieldName] = $interfaceTypeFieldResolversByField[$fieldName] ?? [];
+                        $interfaceTypeFieldResolversByField[$fieldName] ??= [];
                         $interfaceTypeFieldResolversByField[$fieldName][] = $interfaceTypeFieldResolver;
                     }
                     // The interfaces implemented by the InterfaceTypeFieldResolver can have, themselves, InterfaceTypeFieldResolvers attached to them
-                    $classStack = \array_values(\array_unique(\array_merge($classStack, \array_map(\Closure::fromCallable('get_class'), $interfaceTypeFieldResolver->getImplementedInterfaceTypeFieldResolvers()))));
+                    $classStack = \array_values(\array_unique(\array_merge($classStack, \array_map(\get_class(...), $interfaceTypeFieldResolver->getImplementedInterfaceTypeFieldResolvers()))));
                 }
                 // Otherwise, continue iterating for the class parents
             } while ($class = \get_parent_class($class));

@@ -11,13 +11,14 @@ use PoP\Root\App;
 trait ReplaceCurrentExecutionDataWithPlaceholdersTrait
 {
     /**
-     * @return array<int|string,int|string>
+     * @return array<string,string>
      */
     protected function getCacheReplacements() : array
     {
         /** @var ModuleInfo */
         $moduleInfo = App::getModule(Module::class)->getInfo();
-        return [$moduleInfo->getUniqueID() => CachePlaceholders::UNIQUE_ID, $moduleInfo->getRand() => CachePlaceholders::RAND, $moduleInfo->getTime() => CachePlaceholders::TIME];
+        // @phpstan-ignore-next-line
+        return [$moduleInfo->getUniqueID() => CachePlaceholders::UNIQUE_ID, (string) $moduleInfo->getRand() => CachePlaceholders::RAND, (string) $moduleInfo->getTime() => CachePlaceholders::TIME];
     }
     protected function replaceCurrentExecutionDataWithPlaceholders(string $content) : string
     {
@@ -28,7 +29,7 @@ trait ReplaceCurrentExecutionDataWithPlaceholdersTrait
      * @param string|string[]|null $content
      * @return string|string[]|null
      */
-    protected function replacePlaceholdersWithCurrentExecutionData($content)
+    protected function replacePlaceholdersWithCurrentExecutionData(string|array|null $content) : string|array|null
     {
         /**
          * Content may be null if it had not been cached

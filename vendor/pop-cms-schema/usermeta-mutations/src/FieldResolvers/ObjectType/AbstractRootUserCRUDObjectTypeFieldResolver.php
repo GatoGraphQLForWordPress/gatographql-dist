@@ -45,90 +45,27 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\AddUserMetaMutationResolver|null
-     */
-    private $addUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\AddUserMetaBulkOperationMutationResolver|null
-     */
-    private $addUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\DeleteUserMetaMutationResolver|null
-     */
-    private $deleteUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\DeleteUserMetaBulkOperationMutationResolver|null
-     */
-    private $deleteUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\SetUserMetaMutationResolver|null
-     */
-    private $setUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\SetUserMetaBulkOperationMutationResolver|null
-     */
-    private $setUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\UpdateUserMetaMutationResolver|null
-     */
-    private $updateUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\UpdateUserMetaBulkOperationMutationResolver|null
-     */
-    private $updateUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableDeleteUserMetaMutationResolver|null
-     */
-    private $payloadableDeleteUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableDeleteUserMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableDeleteUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableSetUserMetaMutationResolver|null
-     */
-    private $payloadableSetUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableSetUserMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableSetUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableUpdateUserMetaMutationResolver|null
-     */
-    private $payloadableUpdateUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableUpdateUserMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdateUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableAddUserMetaMutationResolver|null
-     */
-    private $payloadableAddUserMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\MutationResolvers\PayloadableAddUserMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableAddUserMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\InputObjectType\RootDeleteUserMetaInputObjectTypeResolver|null
-     */
-    private $rootDeleteUserMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\InputObjectType\RootSetUserMetaInputObjectTypeResolver|null
-     */
-    private $rootSetUserMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\InputObjectType\RootUpdateUserMetaInputObjectTypeResolver|null
-     */
-    private $rootUpdateUserMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\InputObjectType\RootAddUserMetaInputObjectTypeResolver|null
-     */
-    private $rootAddUserMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?AddUserMetaMutationResolver $addUserMetaMutationResolver = null;
+    private ?AddUserMetaBulkOperationMutationResolver $addUserMetaBulkOperationMutationResolver = null;
+    private ?DeleteUserMetaMutationResolver $deleteUserMetaMutationResolver = null;
+    private ?DeleteUserMetaBulkOperationMutationResolver $deleteUserMetaBulkOperationMutationResolver = null;
+    private ?SetUserMetaMutationResolver $setUserMetaMutationResolver = null;
+    private ?SetUserMetaBulkOperationMutationResolver $setUserMetaBulkOperationMutationResolver = null;
+    private ?UpdateUserMetaMutationResolver $updateUserMetaMutationResolver = null;
+    private ?UpdateUserMetaBulkOperationMutationResolver $updateUserMetaBulkOperationMutationResolver = null;
+    private ?PayloadableDeleteUserMetaMutationResolver $payloadableDeleteUserMetaMutationResolver = null;
+    private ?PayloadableDeleteUserMetaBulkOperationMutationResolver $payloadableDeleteUserMetaBulkOperationMutationResolver = null;
+    private ?PayloadableSetUserMetaMutationResolver $payloadableSetUserMetaMutationResolver = null;
+    private ?PayloadableSetUserMetaBulkOperationMutationResolver $payloadableSetUserMetaBulkOperationMutationResolver = null;
+    private ?PayloadableUpdateUserMetaMutationResolver $payloadableUpdateUserMetaMutationResolver = null;
+    private ?PayloadableUpdateUserMetaBulkOperationMutationResolver $payloadableUpdateUserMetaBulkOperationMutationResolver = null;
+    private ?PayloadableAddUserMetaMutationResolver $payloadableAddUserMetaMutationResolver = null;
+    private ?PayloadableAddUserMetaBulkOperationMutationResolver $payloadableAddUserMetaBulkOperationMutationResolver = null;
+    private ?RootDeleteUserMetaInputObjectTypeResolver $rootDeleteUserMetaInputObjectTypeResolver = null;
+    private ?RootSetUserMetaInputObjectTypeResolver $rootSetUserMetaInputObjectTypeResolver = null;
+    private ?RootUpdateUserMetaInputObjectTypeResolver $rootUpdateUserMetaInputObjectTypeResolver = null;
+    private ?RootAddUserMetaInputObjectTypeResolver $rootAddUserMetaInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getAddUserMetaMutationResolver() : AddUserMetaMutationResolver
     {
         if ($this->addUserMetaMutationResolver === null) {
@@ -340,34 +277,21 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'addUserMeta':
-                return $this->__('Add meta to user', 'user-mutations');
-            case 'addUserMetas':
-                return $this->__('Add meta to users', 'user-mutations');
-            case 'updateUserMeta':
-                return $this->__('Update meta from user', 'user-mutations');
-            case 'updateUserMetas':
-                return $this->__('Update meta from users', 'user-mutations');
-            case 'deleteUserMeta':
-                return $this->__('Delete meta from user', 'user-mutations');
-            case 'deleteUserMetas':
-                return $this->__('Delete meta from users', 'user-mutations');
-            case 'setUserMeta':
-                return $this->__('Set meta on user', 'user-mutations');
-            case 'setUserMetas':
-                return $this->__('Set meta on users', 'user-mutations');
-            case 'addUserMetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `addUserMeta` mutation', 'user-mutations');
-            case 'updateUserMetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updateUserMeta` mutation', 'user-mutations');
-            case 'deleteUserMetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `deleteUserMeta` mutation', 'user-mutations');
-            case 'setUserMetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `setUserMeta` mutation', 'user-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addUserMeta' => $this->__('Add meta to user', 'user-mutations'),
+            'addUserMetas' => $this->__('Add meta to users', 'user-mutations'),
+            'updateUserMeta' => $this->__('Update meta from user', 'user-mutations'),
+            'updateUserMetas' => $this->__('Update meta from users', 'user-mutations'),
+            'deleteUserMeta' => $this->__('Delete meta from user', 'user-mutations'),
+            'deleteUserMetas' => $this->__('Delete meta from users', 'user-mutations'),
+            'setUserMeta' => $this->__('Set meta on user', 'user-mutations'),
+            'setUserMetas' => $this->__('Set meta on users', 'user-mutations'),
+            'addUserMetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `addUserMeta` mutation', 'user-mutations'),
+            'updateUserMetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updateUserMeta` mutation', 'user-mutations'),
+            'deleteUserMetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `deleteUserMeta` mutation', 'user-mutations'),
+            'setUserMetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `setUserMeta` mutation', 'user-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -375,69 +299,38 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableUserMetaMutations = $moduleConfiguration->usePayloadableUserMetaMutations();
         if (!$usePayloadableUserMetaMutations) {
-            switch ($fieldName) {
-                case 'addUserMeta':
-                case 'updateUserMeta':
-                case 'deleteUserMeta':
-                case 'setUserMeta':
-                    return SchemaTypeModifiers::NONE;
-                case 'addUserMetas':
-                case 'updateUserMetas':
-                case 'deleteUserMetas':
-                case 'setUserMetas':
-                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addUserMeta', 'updateUserMeta', 'deleteUserMeta', 'setUserMeta' => SchemaTypeModifiers::NONE,
+                'addUserMetas', 'updateUserMetas', 'deleteUserMetas', 'setUserMetas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['addUserMetaMutationPayloadObjects', 'updateUserMetaMutationPayloadObjects', 'deleteUserMetaMutationPayloadObjects', 'setUserMetaMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'addUserMeta':
-            case 'updateUserMeta':
-            case 'deleteUserMeta':
-            case 'setUserMeta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'addUserMetas':
-            case 'updateUserMetas':
-            case 'deleteUserMetas':
-            case 'setUserMetas':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addUserMeta', 'updateUserMeta', 'deleteUserMeta', 'setUserMeta' => SchemaTypeModifiers::NON_NULLABLE,
+            'addUserMetas', 'updateUserMetas', 'deleteUserMetas', 'setUserMetas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'addUserMeta':
-                return ['input' => $this->getRootAddUserMetaInputObjectTypeResolver()];
-            case 'addUserMetas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddUserMetaInputObjectTypeResolver());
-            case 'updateUserMeta':
-                return ['input' => $this->getRootUpdateUserMetaInputObjectTypeResolver()];
-            case 'updateUserMetas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateUserMetaInputObjectTypeResolver());
-            case 'deleteUserMeta':
-                return ['input' => $this->getRootDeleteUserMetaInputObjectTypeResolver()];
-            case 'deleteUserMetas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteUserMetaInputObjectTypeResolver());
-            case 'setUserMeta':
-                return ['input' => $this->getRootSetUserMetaInputObjectTypeResolver()];
-            case 'setUserMetas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetUserMetaInputObjectTypeResolver());
-            case 'addUserMetaMutationPayloadObjects':
-            case 'updateUserMetaMutationPayloadObjects':
-            case 'deleteUserMetaMutationPayloadObjects':
-            case 'setUserMetaMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addUserMeta' => ['input' => $this->getRootAddUserMetaInputObjectTypeResolver()],
+            'addUserMetas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddUserMetaInputObjectTypeResolver()),
+            'updateUserMeta' => ['input' => $this->getRootUpdateUserMetaInputObjectTypeResolver()],
+            'updateUserMetas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateUserMetaInputObjectTypeResolver()),
+            'deleteUserMeta' => ['input' => $this->getRootDeleteUserMetaInputObjectTypeResolver()],
+            'deleteUserMetas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteUserMetaInputObjectTypeResolver()),
+            'setUserMeta' => ['input' => $this->getRootSetUserMetaInputObjectTypeResolver()],
+            'setUserMetas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetUserMetaInputObjectTypeResolver()),
+            'addUserMetaMutationPayloadObjects', 'updateUserMetaMutationPayloadObjects', 'deleteUserMetaMutationPayloadObjects', 'setUserMetaMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -447,20 +340,12 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
         if (\in_array($fieldName, ['addUserMetas', 'updateUserMetas', 'deleteUserMetas', 'setUserMetas'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['addUserMeta' => 'input']:
-            case ['updateUserMeta' => 'input']:
-            case ['deleteUserMeta' => 'input']:
-            case ['setUserMeta' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['addUserMeta' => 'input'], ['updateUserMeta' => 'input'], ['deleteUserMeta' => 'input'], ['setUserMeta' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         if (\in_array($fieldName, ['addUserMetas', 'updateUserMetas', 'deleteUserMetas', 'setUserMetas'])) {
             return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
@@ -472,26 +357,17 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableUserMetaMutations = $moduleConfiguration->usePayloadableUserMetaMutations();
-        switch ($fieldName) {
-            case 'addUserMeta':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableAddUserMetaMutationResolver() : $this->getAddUserMetaMutationResolver();
-            case 'addUserMetas':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableAddUserMetaBulkOperationMutationResolver() : $this->getAddUserMetaBulkOperationMutationResolver();
-            case 'updateUserMeta':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableUpdateUserMetaMutationResolver() : $this->getUpdateUserMetaMutationResolver();
-            case 'updateUserMetas':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableUpdateUserMetaBulkOperationMutationResolver() : $this->getUpdateUserMetaBulkOperationMutationResolver();
-            case 'deleteUserMeta':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableDeleteUserMetaMutationResolver() : $this->getDeleteUserMetaMutationResolver();
-            case 'deleteUserMetas':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableDeleteUserMetaBulkOperationMutationResolver() : $this->getDeleteUserMetaBulkOperationMutationResolver();
-            case 'setUserMeta':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableSetUserMetaMutationResolver() : $this->getSetUserMetaMutationResolver();
-            case 'setUserMetas':
-                return $usePayloadableUserMetaMutations ? $this->getPayloadableSetUserMetaBulkOperationMutationResolver() : $this->getSetUserMetaBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addUserMeta' => $usePayloadableUserMetaMutations ? $this->getPayloadableAddUserMetaMutationResolver() : $this->getAddUserMetaMutationResolver(),
+            'addUserMetas' => $usePayloadableUserMetaMutations ? $this->getPayloadableAddUserMetaBulkOperationMutationResolver() : $this->getAddUserMetaBulkOperationMutationResolver(),
+            'updateUserMeta' => $usePayloadableUserMetaMutations ? $this->getPayloadableUpdateUserMetaMutationResolver() : $this->getUpdateUserMetaMutationResolver(),
+            'updateUserMetas' => $usePayloadableUserMetaMutations ? $this->getPayloadableUpdateUserMetaBulkOperationMutationResolver() : $this->getUpdateUserMetaBulkOperationMutationResolver(),
+            'deleteUserMeta' => $usePayloadableUserMetaMutations ? $this->getPayloadableDeleteUserMetaMutationResolver() : $this->getDeleteUserMetaMutationResolver(),
+            'deleteUserMetas' => $usePayloadableUserMetaMutations ? $this->getPayloadableDeleteUserMetaBulkOperationMutationResolver() : $this->getDeleteUserMetaBulkOperationMutationResolver(),
+            'setUserMeta' => $usePayloadableUserMetaMutations ? $this->getPayloadableSetUserMetaMutationResolver() : $this->getSetUserMetaMutationResolver(),
+            'setUserMetas' => $usePayloadableUserMetaMutations ? $this->getPayloadableSetUserMetaBulkOperationMutationResolver() : $this->getSetUserMetaBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -525,10 +401,7 @@ abstract class AbstractRootUserCRUDObjectTypeFieldResolver extends AbstractObjec
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $fieldName = $fieldDataAccessor->getFieldName();
         switch ($fieldName) {

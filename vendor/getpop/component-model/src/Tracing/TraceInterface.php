@@ -9,10 +9,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 interface TraceInterface
 {
-    /**
-     * @return string|int
-     */
-    public function getID();
+    public function getID() : string|int;
     /**
      * @return array<string,mixed>
      */
@@ -24,8 +21,5 @@ interface TraceInterface
     public function getDirective() : ?Directive;
     public function getRelationalTypeResolver() : ?RelationalTypeResolverInterface;
     public function getField() : ?FieldInterface;
-    /**
-     * @return string|int|null
-     */
-    public function getObjectID();
+    public function getObjectID() : string|int|null;
 }

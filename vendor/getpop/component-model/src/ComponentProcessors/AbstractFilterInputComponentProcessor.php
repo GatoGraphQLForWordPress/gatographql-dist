@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractFilterInputComponentProcessor extends \PoP\ComponentModel\ComponentProcessors\AbstractFormInputComponentProcessor implements \PoP\ComponentModel\ComponentProcessors\FilterInputComponentProcessorInterface
 {
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
     protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {
@@ -47,10 +44,7 @@ abstract class AbstractFilterInputComponentProcessor extends \PoP\ComponentModel
         }
         return null;
     }
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component)
+    public function getFilterInputDefaultValue(Component $component) : mixed
     {
         $filterSchemaDefinitionResolver = $this->getFilterInputSchemaDefinitionResolver($component);
         if ($filterSchemaDefinitionResolver !== $this) {

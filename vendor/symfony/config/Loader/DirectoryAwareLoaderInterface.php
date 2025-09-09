@@ -18,8 +18,5 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader;
  */
 interface DirectoryAwareLoaderInterface
 {
-    /**
-     * @return static
-     */
-    public function forDirectory(string $currentDirectory);
+    public function forDirectory(string $currentDirectory) : static;
 }

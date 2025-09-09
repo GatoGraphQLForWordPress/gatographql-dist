@@ -19,14 +19,11 @@ class FeaturedImageByOneofInputObjectTypeResolver extends MediaItemByOneofInputO
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->__('Provide featured image by ID', 'custompostmedia-mutations');
-            case InputProperties::SLUG:
-                return $this->__('Provide featured image by slug', 'custompostmedia-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->__('Provide featured image by ID', 'custompostmedia-mutations'),
+            InputProperties::SLUG => $this->__('Provide featured image by slug', 'custompostmedia-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
@@ -38,12 +35,9 @@ class FeaturedImageByOneofInputObjectTypeResolver extends MediaItemByOneofInputO
     }
     protected function isOneOfInputPropertyNullable(string $propertyName) : bool
     {
-        switch ($propertyName) {
-            case InputProperties::ID:
-            case InputProperties::SLUG:
-                return \true;
-            default:
-                return parent::isOneOfInputPropertyNullable($propertyName);
-        }
+        return match ($propertyName) {
+            InputProperties::ID, InputProperties::SLUG => \true,
+            default => parent::isOneOfInputPropertyNullable($propertyName),
+        };
     }
 }

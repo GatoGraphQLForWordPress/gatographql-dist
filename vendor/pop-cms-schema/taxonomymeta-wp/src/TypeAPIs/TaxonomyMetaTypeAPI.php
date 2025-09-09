@@ -12,10 +12,8 @@ class TaxonomyMetaTypeAPI extends AbstractTaxonomyMetaTypeAPI
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $termObjectOrID
-     * @return mixed
      */
-    protected function doGetTaxonomyMeta($termObjectOrID, string $key, bool $single = false)
+    protected function doGetTaxonomyMeta(string|int|object $termObjectOrID, string $key, bool $single = false): mixed
     {
         if (is_object($termObjectOrID)) {
             /** @var WP_Term */
@@ -36,9 +34,8 @@ class TaxonomyMetaTypeAPI extends AbstractTaxonomyMetaTypeAPI
 
     /**
      * @return array<string,mixed>
-     * @param string|int|object $termObjectOrID
      */
-    public function getAllTaxonomyTermMeta($termObjectOrID): array
+    public function getAllTaxonomyTermMeta(string|int|object $termObjectOrID): array
     {
         if (is_object($termObjectOrID)) {
             /** @var WP_Term */
@@ -55,7 +52,7 @@ class TaxonomyMetaTypeAPI extends AbstractTaxonomyMetaTypeAPI
              */
             function (array $items): array {
                 return array_map(
-                    \Closure::fromCallable('maybe_unserialize'),
+                    \maybe_unserialize(...),
                     $items
                 );
             },
@@ -65,9 +62,8 @@ class TaxonomyMetaTypeAPI extends AbstractTaxonomyMetaTypeAPI
 
     /**
      * @return string[]
-     * @param string|int|object $termObjectOrID
      */
-    public function getTaxonomyTermMetaKeys($termObjectOrID): array
+    public function getTaxonomyTermMetaKeys(string|int|object $termObjectOrID): array
     {
         return array_keys($this->getAllTaxonomyTermMeta($termObjectOrID));
     }

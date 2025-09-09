@@ -50,73 +50,43 @@ class PremiumExtensionModuleResolver extends AbstractExtensionModuleResolver
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::AUTOMATION:
-                return \__('Automation', 'gatographql');
-            case self::BRICKS:
-                return \__('Bricks', 'gatographql');
-            case self::CHATGPT_TRANSLATION:
-                return \__('ChatGPT Translation', 'gatographql');
-            case self::CLAUDE_TRANSLATION:
-                return \__('Claude Translation', 'gatographql');
-            case self::DEEPL:
-                return \__('DeepL', 'gatographql');
-            case self::DEEPSEEK_TRANSLATION:
-                return \__('DeepSeek', 'gatographql');
-            case self::ELEMENTOR:
-                return \__('Elementor', 'gatographql');
-            case self::EVENTS_MANAGER:
-                return \__('Events Manager', 'gatographql');
-            case self::GOOGLE_TRANSLATE:
-                return \__('Google Translate', 'gatographql');
-            case self::MISTRALAI_TRANSLATION:
-                return \__('Mistral AI Translation', 'gatographql');
-            case self::MULTILINGUALPRESS:
-                return \__('MultilingualPress', 'gatographql');
-            case self::OPENROUTER_TRANSLATION:
-                return \__('OpenRouter Translation', 'gatographql');
-            case self::POLYLANG:
-                return \__('Polylang', 'gatographql');
-            case self::TRANSLATION:
-                return \__('Translation', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::AUTOMATION => \__('Automation', 'gatographql'),
+            self::BRICKS => \__('Bricks', 'gatographql'),
+            self::CHATGPT_TRANSLATION => \__('ChatGPT Translation', 'gatographql'),
+            self::CLAUDE_TRANSLATION => \__('Claude Translation', 'gatographql'),
+            self::DEEPL => \__('DeepL', 'gatographql'),
+            self::DEEPSEEK_TRANSLATION => \__('DeepSeek', 'gatographql'),
+            self::ELEMENTOR => \__('Elementor', 'gatographql'),
+            self::EVENTS_MANAGER => \__('Events Manager', 'gatographql'),
+            self::GOOGLE_TRANSLATE => \__('Google Translate', 'gatographql'),
+            self::MISTRALAI_TRANSLATION => \__('Mistral AI Translation', 'gatographql'),
+            self::MULTILINGUALPRESS => \__('MultilingualPress', 'gatographql'),
+            self::OPENROUTER_TRANSLATION => \__('OpenRouter Translation', 'gatographql'),
+            self::POLYLANG => \__('Polylang', 'gatographql'),
+            self::TRANSLATION => \__('Translation', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::AUTOMATION:
-                return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
-            case self::BRICKS:
-                return \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql');
-            case self::CHATGPT_TRANSLATION:
-                return \__('Translate content to multiple languages using the ChatGPT API.', 'gatographql');
-            case self::CLAUDE_TRANSLATION:
-                return \__('Translate content to multiple languages using the Claude API.', 'gatographql');
-            case self::DEEPL:
-                return \__('Translate content to multiple languages using the DeepL API.', 'gatographql');
-            case self::DEEPSEEK_TRANSLATION:
-                return \__('Translate content to multiple languages using the DeepSeek API.', 'gatographql');
-            case self::ELEMENTOR:
-                return \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql');
-            case self::EVENTS_MANAGER:
-                return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
-            case self::GOOGLE_TRANSLATE:
-                return \__('Translate content to multiple languages using the Google Translate API.', 'gatographql');
-            case self::MISTRALAI_TRANSLATION:
-                return \__('Translate content to multiple languages using the Mistral AI API.', 'gatographql');
-            case self::MULTILINGUALPRESS:
-                return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
-            case self::OPENROUTER_TRANSLATION:
-                return \__('Translate content to multiple languages using the OpenRouter API.', 'gatographql');
-            case self::POLYLANG:
-                return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
-            case self::TRANSLATION:
-                return \__('Translate content to multiple languages using any provider\'s API.', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::AUTOMATION => \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql'),
+            self::BRICKS => \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql'),
+            self::CHATGPT_TRANSLATION => \__('Translate content to multiple languages using the ChatGPT API.', 'gatographql'),
+            self::CLAUDE_TRANSLATION => \__('Translate content to multiple languages using the Claude API.', 'gatographql'),
+            self::DEEPL => \__('Translate content to multiple languages using the DeepL API.', 'gatographql'),
+            self::DEEPSEEK_TRANSLATION => \__('Translate content to multiple languages using the DeepSeek API.', 'gatographql'),
+            self::ELEMENTOR => \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql'),
+            self::EVENTS_MANAGER => \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql'),
+            self::GOOGLE_TRANSLATE => \__('Translate content to multiple languages using the Google Translate API.', 'gatographql'),
+            self::MISTRALAI_TRANSLATION => \__('Translate content to multiple languages using the Mistral AI API.', 'gatographql'),
+            self::MULTILINGUALPRESS => \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql'),
+            self::OPENROUTER_TRANSLATION => \__('Translate content to multiple languages using the OpenRouter API.', 'gatographql'),
+            self::POLYLANG => \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql'),
+            self::TRANSLATION => \__('Translate content to multiple languages using any provider\'s API.', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 }

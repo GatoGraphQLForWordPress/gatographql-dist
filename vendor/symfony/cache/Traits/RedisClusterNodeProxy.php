@@ -23,18 +23,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits;
  */
 class RedisClusterNodeProxy
 {
-    /**
-     * @var mixed[]
-     */
-    private $host;
-    /**
-     * @var \RedisCluster
-     */
-    private $redis;
-    public function __construct(array $host, \RedisCluster $redis)
+    public function __construct(private array $host, private \RedisCluster $redis)
     {
-        $this->host = $host;
-        $this->redis = $redis;
     }
     public function __call(string $method, array $args)
     {

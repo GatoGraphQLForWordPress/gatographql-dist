@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver|null
-     */
-    private $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver;
+    private ?CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver $commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver = null;
     protected final function getCommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver() : CommentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver
     {
         if ($this->commentsAreNotOpenForCustomPostErrorPayloadObjectTypeResolver === null) {

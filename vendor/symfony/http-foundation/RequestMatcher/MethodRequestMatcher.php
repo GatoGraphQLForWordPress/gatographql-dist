@@ -23,16 +23,14 @@ class MethodRequestMatcher implements RequestMatcherInterface
     /**
      * @var string[]
      */
-    private $methods = [];
+    private array $methods = [];
     /**
      * @param string[]|string $methods An HTTP method or an array of HTTP methods
      *                                 Strings can contain a comma-delimited list of methods
      */
-    public function __construct($methods)
+    public function __construct(array|string $methods)
     {
-        $this->methods = \array_reduce(\array_map('strtoupper', (array) $methods), static function (array $methods, string $method) {
-            return \array_merge($methods, \preg_split('/\\s*,\\s*/', $method));
-        }, []);
+        $this->methods = \array_reduce(\array_map('strtoupper', (array) $methods), static fn(array $methods, string $method) => \array_merge($methods, \preg_split('/\\s*,\\s*/', $method)), []);
     }
     public function matches(Request $request) : bool
     {

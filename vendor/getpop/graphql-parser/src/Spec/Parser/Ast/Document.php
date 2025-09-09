@@ -4,8 +4,8 @@ declare (strict_types=1);
 namespace PoP\GraphQLParser\Spec\Parser\Ast;
 
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
-use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\Exception\FeatureNotSupportedException;
+use PoP\GraphQLParser\Exception\InvalidRequestException;
 use PoP\GraphQLParser\FeedbackItemProviders\GraphQLSpecErrorFeedbackItemProvider;
 use PoP\GraphQLParser\FeedbackItemProviders\GraphQLUnsupportedFeatureErrorFeedbackItemProvider;
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum;
@@ -20,15 +20,6 @@ use SplObjectStorage;
 /** @internal */
 class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
 {
-    /**
-     * @var OperationInterface[]
-     * @readonly
-     */
-    protected $operations;
-    /**
-     * @var Fragment[]
-     */
-    protected $fragments = [];
     use StandaloneServiceTrait;
     /**
      * Keep a reference to the dictionary of all ancestors
@@ -36,15 +27,13 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
      *
      * @var SplObjectStorage<AstInterface,AstInterface>|null
      */
-    protected $astNodeAncestors;
+    protected ?SplObjectStorage $astNodeAncestors = null;
     /**
      * @param OperationInterface[] $operations
      * @param Fragment[] $fragments
      */
-    public function __construct(array $operations, array $fragments = [])
+    public function __construct(protected readonly array $operations, protected array $fragments = [])
     {
-        $this->operations = $operations;
-        $this->fragments = $fragments;
     }
     public final function __toString() : string
     {
@@ -449,7 +438,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
      * @param WithValueInterface|array<WithValueInterface|array<mixed>> $argumentValue
      * @return VariableReference[]
      */
-    protected function getVariableReferencesInArgumentValue($argumentValue) : array
+    protected function getVariableReferencesInArgumentValue(\PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface|array $argumentValue) : array
     {
         if ($argumentValue instanceof VariableReference) {
             return [$argumentValue];
@@ -470,6 +459,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
          */
         if (\is_array($argumentValue)) {
             foreach ($argumentValue as $listValue) {
+                // @phpstan-ignore-next-line
                 if (!(\is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface)) {
                     continue;
                 }
@@ -479,6 +469,7 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
             return $variableReferences;
         }
         /** @var WithAstValueInterface $argumentValue */
+        // @phpstan-ignore-next-line
         $listValues = (array) $argumentValue->getAstValue();
         foreach ($listValues as $listValue) {
             if (!(\is_array($listValue) || $listValue instanceof VariableReference || $listValue instanceof \PoP\GraphQLParser\Spec\Parser\Ast\WithValueInterface)) {
@@ -665,9 +656,8 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
     }
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Enum|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputObject|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\Literal|\PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\VariableReference $argumentValueAST
      */
-    protected function setASTNodeAncestorsUnderArgumentValueAst(SplObjectStorage $astNodeAncestors, $argumentValueAST) : void
+    protected function setASTNodeAncestorsUnderArgumentValueAst(SplObjectStorage $astNodeAncestors, Enum|InputList|InputObject|Literal|VariableReference $argumentValueAST) : void
     {
         if ($argumentValueAST instanceof InputList) {
             /** @var InputList */
@@ -708,9 +698,8 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
     }
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface $fieldOrFragmentBond
      */
-    protected function setASTNodeAncestorsUnderFieldOrFragmentBond(SplObjectStorage $astNodeAncestors, $fieldOrFragmentBond) : void
+    protected function setASTNodeAncestorsUnderFieldOrFragmentBond(SplObjectStorage $astNodeAncestors, \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface $fieldOrFragmentBond) : void
     {
         if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\LeafField) {
             /** @var LeafField */

@@ -15,15 +15,15 @@ abstract class AbstractReflectionPropertyObjectTypeFieldResolver extends \PoP\Co
     /**
      * @var ReflectionClass
      */
-    protected $reflectionInstance;
+    protected ?ReflectionClass $reflectionInstance = null;
     /**
      * @var string[]|null
      */
-    protected $reflectionFieldNames;
+    protected ?array $reflectionFieldNames = null;
     /**
      * @var array<string,string>|null
      */
-    protected $reflectionDocComments;
+    protected ?array $reflectionDocComments = null;
     protected abstract function getTypeClass() : string;
     protected function getReflectionInstance() : ReflectionClass
     {
@@ -45,9 +45,7 @@ abstract class AbstractReflectionPropertyObjectTypeFieldResolver extends \PoP\Co
         if ($this->reflectionFieldNames === null) {
             $reflectionInstance = $this->getReflectionInstance();
             $reflectionProperties = $reflectionInstance->getProperties($this->getReflectionPropertyFilters());
-            $this->reflectionFieldNames = \array_map(function (ReflectionProperty $property) {
-                return $property->getName();
-            }, $reflectionProperties);
+            $this->reflectionFieldNames = \array_map(fn(ReflectionProperty $property) => $property->getName(), $reflectionProperties);
         }
         return $this->reflectionFieldNames;
     }
@@ -143,10 +141,7 @@ abstract class AbstractReflectionPropertyObjectTypeFieldResolver extends \PoP\Co
         $reflectionDocComments = $this->getTypePropertyDocComments();
         return $reflectionDocComments[$fieldName] ?? parent::getFieldDescription($objectTypeResolver, $fieldName);
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         // Simply return the value of the property in the object
         return $object->{$fieldDataAccessor->getFieldName()};

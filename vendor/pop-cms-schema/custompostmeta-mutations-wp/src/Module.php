@@ -27,6 +27,7 @@ class Module extends AbstractModule
         return [
             \PoPCMSSchema\CustomPostMutationsWP\Module::class,
             \PoPCMSSchema\CustomPostMetaMutations\Module::class,
+            \PoPCMSSchema\MetaMutationsWP\Module::class,
         ];
     }
 
@@ -35,8 +36,10 @@ class Module extends AbstractModule
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
-    {
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
         $this->initServices(dirname(__DIR__));
     }
 }

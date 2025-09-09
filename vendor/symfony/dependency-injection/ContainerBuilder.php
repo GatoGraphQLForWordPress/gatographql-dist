@@ -58,83 +58,71 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * @var array<string, ExtensionInterface>
      */
-    private $extensions = [];
+    private array $extensions = [];
     /**
      * @var array<string, ExtensionInterface>
      */
-    private $extensionsByNs = [];
+    private array $extensionsByNs = [];
     /**
      * @var array<string, Definition>
      */
-    private $definitions = [];
+    private array $definitions = [];
     /**
      * @var array<string, Alias>
      */
-    private $aliasDefinitions = [];
+    private array $aliasDefinitions = [];
     /**
      * @var array<string, ResourceInterface>
      */
-    private $resources = [];
+    private array $resources = [];
     /**
      * @var array<string, array<array<string, mixed>>>
      */
-    private $extensionConfigs = [];
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\Compiler
-     */
-    private $compiler;
-    /**
-     * @var bool
-     */
-    private $trackResources;
-    /**
-     * @var \Symfony\Component\DependencyInjection\LazyProxy\Instantiator\InstantiatorInterface
-     */
-    private $proxyInstantiator;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ExpressionLanguage
-     */
-    private $expressionLanguage;
+    private array $extensionConfigs = [];
+    private Compiler $compiler;
+    private bool $trackResources;
+    private InstantiatorInterface $proxyInstantiator;
+    private ExpressionLanguage $expressionLanguage;
     /**
      * @var ExpressionFunctionProviderInterface[]
      */
-    private $expressionLanguageProviders = [];
+    private array $expressionLanguageProviders = [];
     /**
      * @var string[] with tag names used by findTaggedServiceIds
      */
-    private $usedTags = [];
+    private array $usedTags = [];
     /**
      * @var string[][] a map of env var names to their placeholders
      */
-    private $envPlaceholders = [];
+    private array $envPlaceholders = [];
     /**
      * @var int[] a map of env vars to their resolution counter
      */
-    private $envCounters = [];
+    private array $envCounters = [];
     /**
      * @var string[] the list of vendor directories
      */
-    private $vendors;
+    private array $vendors;
     /**
      * @var array<string, bool> the cache for paths being in vendor directories
      */
-    private $pathsInVendor = [];
+    private array $pathsInVendor = [];
     /**
      * @var array<string, ChildDefinition>
      */
-    private $autoconfiguredInstanceof = [];
+    private array $autoconfiguredInstanceof = [];
     /**
      * @var array<string, callable>
      */
-    private $autoconfiguredAttributes = [];
+    private array $autoconfiguredAttributes = [];
     /**
      * @var array<string, bool>
      */
-    private $removedIds = [];
+    private array $removedIds = [];
     /**
      * @var array<int, bool>
      */
-    private $removedBindingIds = [];
+    private array $removedBindingIds = [];
     private const INTERNAL_TYPES = ['int' => \true, 'float' => \true, 'string' => \true, 'bool' => \true, 'resource' => \true, 'object' => \true, 'array' => \true, 'null' => \true, 'callable' => \true, 'iterable' => \true, 'mixed' => \true];
     public function __construct(?ParameterBagInterface $parameterBag = null)
     {
@@ -145,7 +133,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * @var array<string, \ReflectionClass>
      */
-    private $classReflectors;
+    private array $classReflectors;
     /**
      * Sets the track resources flag.
      *
@@ -227,7 +215,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * @return $this
      */
-    public function addResource(ResourceInterface $resource)
+    public function addResource(ResourceInterface $resource) : static
     {
         if (!$this->trackResources) {
             return $this;
@@ -245,7 +233,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @return $this
      */
-    public function setResources(array $resources)
+    public function setResources(array $resources) : static
     {
         if (!$this->trackResources) {
             return $this;
@@ -260,11 +248,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @return $this
      */
-    public function addObjectResource($object)
+    public function addObjectResource(object|string $object) : static
     {
         if ($this->trackResources) {
             if (\is_object($object)) {
-                $object = \get_class($object);
+                $object = $object::class;
             }
             if (!isset($this->classReflectors[$object])) {
                 $this->classReflectors[$object] = new \ReflectionClass($object);
@@ -343,7 +331,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @final
      */
-    public function fileExists(string $path, $trackContents = \true) : bool
+    public function fileExists(string $path, bool|string $trackContents = \true) : bool
     {
         $exists = \file_exists($path);
         if (!$this->trackResources || $this->inVendors($path)) {
@@ -375,7 +363,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @throws BadMethodCallException When this ContainerBuilder is compiled
      * @throws \LogicException        if the extension is not registered
      */
-    public function loadFromExtension(string $extension, ?array $values = null)
+    public function loadFromExtension(string $extension, ?array $values = null) : static
     {
         if ($this->isCompiled()) {
             throw new BadMethodCallException('Cannot load from an extension on a compiled container.');
@@ -392,7 +380,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @return $this
      */
-    public function addCompilerPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0)
+    public function addCompilerPass(CompilerPassInterface $pass, string $type = PassConfig::TYPE_BEFORE_OPTIMIZATION, int $priority = 0) : static
     {
         $this->getCompiler()->addPass($pass, $type, $priority);
         $this->addObjectResource($pass);
@@ -410,7 +398,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function getCompiler() : Compiler
     {
-        return $this->compiler = $this->compiler ?? new Compiler();
+        return $this->compiler ??= new Compiler();
     }
     /**
      * Sets a service.
@@ -459,10 +447,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         }
         return $this->doGet($id, $invalidBehavior);
     }
-    /**
-     * @return mixed
-     */
-    private function doGet(string $id, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, ?array &$inlineServices = null, bool $isConstructorArgument = \false)
+    private function doGet(string $id, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, ?array &$inlineServices = null, bool $isConstructorArgument = \false) : mixed
     {
         if (isset($inlineServices[$id])) {
             return $inlineServices[$id];
@@ -675,7 +660,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         $this->extensionConfigs = [];
         if ($bag instanceof EnvPlaceholderParameterBag) {
             if ($resolveEnvPlaceholders) {
-                $this->parameterBag = new ParameterBag($this->resolveEnvPlaceholders($bag->all(), \true));
+                $this->parameterBag = new ParameterBag($this->resolveEnvPlaceholders($this->escapeParameters($bag->all()), \true));
             }
             $this->envPlaceholders = $bag->getEnvPlaceholders();
         }
@@ -729,9 +714,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @throws InvalidArgumentException if the id is not a string or an Alias
      * @throws InvalidArgumentException if the alias is for itself
-     * @param string|\Symfony\Component\DependencyInjection\Alias $id
      */
-    public function setAlias(string $alias, $id) : Alias
+    public function setAlias(string $alias, string|Alias $id) : Alias
     {
         if ('' === $alias || '\\' === $alias[-1] || \strlen($alias) !== \strcspn($alias, "\x00\r\n'")) {
             throw new InvalidArgumentException(\sprintf('Invalid alias id: "%s".', $alias));
@@ -893,10 +877,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @throws RuntimeException         When the factory definition is incomplete
      * @throws RuntimeException         When the service is a synthetic service
      * @throws InvalidArgumentException When configure callable is not callable
-     * @param bool|object $tryProxy
-     * @return mixed
      */
-    private function createService(Definition $definition, array &$inlineServices, bool $isConstructorArgument = \false, ?string $id = null, $tryProxy = \true)
+    private function createService(Definition $definition, array &$inlineServices, bool $isConstructorArgument = \false, ?string $id = null, bool|object $tryProxy = \true) : mixed
     {
         if (null === $id && isset($inlineServices[$h = \spl_object_hash($definition)])) {
             return $inlineServices[$h];
@@ -927,7 +909,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                 return $proxy;
             }
         }
-        if (\true === $tryProxy && $definition->isLazy() && ['Closure', 'fromCallable'] !== $definition->getFactory() && !($tryProxy = !($proxy = $this->proxyInstantiator = $this->proxyInstantiator ?? new LazyServiceInstantiator()) || $proxy instanceof RealServiceInstantiator)) {
+        if (\true === $tryProxy && $definition->isLazy() && ['Closure', 'fromCallable'] !== $definition->getFactory() && !($tryProxy = !($proxy = $this->proxyInstantiator ??= new LazyServiceInstantiator()) || $proxy instanceof RealServiceInstantiator)) {
             $proxy = $proxy->instantiateProxy($this, (clone $definition)->setClass($class)->setTags(($definition->hasTag('proxy') ? ['proxy' => $parameterBag->resolveValue($definition->getTag('proxy'))] : []) + $definition->getTags()), $id, function ($proxy = \false) use($definition, &$inlineServices, $id) {
                 return $this->createService($definition, $inlineServices, \true, $id, $proxy);
             });
@@ -943,10 +925,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                 $factory = [$this->doResolveServices($parameterBag->resolveValue($factory[0]), $inlineServices, $isConstructorArgument), $factory[1]];
             } elseif (!\is_string($factory)) {
                 throw new RuntimeException(\sprintf('Cannot create service "%s" because of invalid factory.', $id));
-            } elseif (\strncmp($factory, '@=', \strlen('@=')) === 0) {
-                $factory = function (ServiceLocator $arguments) use($factory) {
-                    return $this->getExpressionLanguage()->evaluate(\substr($factory, 2), ['container' => $this, 'args' => $arguments]);
-                };
+            } elseif (\str_starts_with($factory, '@=')) {
+                $factory = fn(ServiceLocator $arguments) => $this->getExpressionLanguage()->evaluate(\substr($factory, 2), ['container' => $this, 'args' => $arguments]);
                 $arguments = [new ServiceLocatorArgument($arguments)];
             }
         }
@@ -954,32 +934,14 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         if (null !== $id && $definition->isShared() && (isset($this->services[$id]) || isset($this->privates[$id])) && (\true === $tryProxy || !$definition->isLazy())) {
             return $this->services[$id] ?? $this->privates[$id];
         }
-        $arrayIsListFunction = function (array $array) : bool {
-            if (\function_exists('array_is_list')) {
-                return \array_is_list($array);
-            }
-            if ($array === []) {
-                return \true;
-            }
-            $current_key = 0;
-            foreach ($array as $key => $noop) {
-                if ($key !== $current_key) {
-                    return \false;
-                }
-                ++$current_key;
-            }
-            return \true;
-        };
-        if (!$arrayIsListFunction($arguments)) {
-            $arguments = \array_combine(\array_map(function ($k) {
-                return \preg_replace('/^.*\\$/', '', $k);
-            }, \array_keys($arguments)), $arguments);
+        if (!\array_is_list($arguments)) {
+            $arguments = \array_combine(\array_map(fn($k) => \preg_replace('/^.*\\$/', '', $k), \array_keys($arguments)), $arguments);
         }
         if (null !== $factory) {
             $service = $factory(...$arguments);
             if (!$definition->isDeprecated() && \is_array($factory) && \is_string($factory[0])) {
                 $r = new \ReflectionClass($factory[0]);
-                if (0 < \strpos($r->getDocComment(), "\n * @deprecated ")) {
+                if (0 < \strpos($r->getDocComment() ?: '', "\n * @deprecated ")) {
                     trigger_deprecation('', '', 'The "%s" service relies on the deprecated "%s" factory class. It should either be deprecated or its factory upgraded.', $id, $r->name);
                 }
             }
@@ -993,7 +955,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             } else {
                 $service = $r->getConstructor() ? $r->newInstanceArgs($arguments) : $r->newInstance();
             }
-            if (!$definition->isDeprecated() && 0 < \strpos($r->getDocComment(), "\n * @deprecated ")) {
+            if (!$definition->isDeprecated() && 0 < \strpos($r->getDocComment() ?: '', "\n * @deprecated ")) {
                 trigger_deprecation('', '', 'The "%s" service relies on the deprecated "%s" class. It should either be deprecated or its implementation upgraded.', $id, $r->name);
             }
         }
@@ -1039,17 +1001,12 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * @return mixed The same value with all service references replaced by
      *               the real service instances and all expressions evaluated
-     * @param mixed $value
      */
-    public function resolveServices($value)
+    public function resolveServices(mixed $value) : mixed
     {
         return $this->doResolveServices($value);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    private function doResolveServices($value, array &$inlineServices = [], bool $isConstructorArgument = \false)
+    private function doResolveServices(mixed $value, array &$inlineServices = [], bool $isConstructorArgument = \false) : mixed
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {
@@ -1057,9 +1014,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             }
         } elseif ($value instanceof ServiceClosureArgument) {
             $reference = $value->getValues()[0];
-            $value = function () use($reference) {
-                return $this->resolveServices($reference);
-            };
+            $value = fn() => $this->resolveServices($reference);
         } elseif ($value instanceof IteratorArgument) {
             $value = new RewindableGenerator(function () use($value, &$inlineServices) {
                 foreach ($value->getValues() as $k => $v) {
@@ -1098,7 +1053,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                 $refs[$k] = [$v, null];
                 $types[$k] = $v instanceof TypedReference ? $v->getType() : '?';
             }
-            $value = new ServiceLocator(\Closure::fromCallable([$this, 'resolveServices']), $refs, $types);
+            $value = new ServiceLocator($this->resolveServices(...), $refs, $types);
         } elseif ($value instanceof Reference) {
             $value = $this->doGet((string) $value, $value->getInvalidBehavior(), $inlineServices, $isConstructorArgument);
         } elseif ($value instanceof Definition) {
@@ -1215,7 +1170,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function registerAliasForArgument(string $id, string $type, ?string $name = null) : Alias
     {
-        $parsedName = (new Target($name = $name ?? $id))->getParsedName();
+        $parsedName = (new Target($name ??= $id))->getParsedName();
         if (!\preg_match('/^[a-zA-Z_\\x7f-\\xff]/', $parsedName)) {
             if ($id !== $name) {
                 $id = \sprintf(' for service "%s"', $id);
@@ -1252,12 +1207,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @param array            &$usedEnvs Env vars found while resolving are added to this array
      *
      * @return mixed The value with env parameters resolved if a string or an array is passed
-     * @param mixed $value
      */
-    public function resolveEnvPlaceholders($value, $format = null, ?array &$usedEnvs = null)
+    public function resolveEnvPlaceholders(mixed $value, string|bool|null $format = null, ?array &$usedEnvs = null) : mixed
     {
         $bag = $this->getParameterBag();
-        if (\true === ($format = $format ?? '%%env(%s)%%')) {
+        if (\true === ($format ??= '%%env(%s)%%')) {
             $value = $bag->resolveValue($value);
         }
         if ($value instanceof Definition) {
@@ -1387,9 +1341,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @return string[]
      *
      * @internal
-     * @param mixed $value
      */
-    public static function getServiceConditionals($value) : array
+    public static function getServiceConditionals(mixed $value) : array
     {
         $services = [];
         if (\is_array($value)) {
@@ -1405,9 +1358,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @return string[]
      *
      * @internal
-     * @param mixed $value
      */
-    public static function getInitializedConditionals($value) : array
+    public static function getInitializedConditionals(mixed $value) : array
     {
         $services = [];
         if (\is_array($value)) {
@@ -1421,17 +1373,13 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
     /**
      * Computes a reasonably unique hash of a serializable value.
-     * @param mixed $value
      */
-    public static function hash($value) : string
+    public static function hash(mixed $value) : string
     {
         $hash = \substr(\base64_encode(\hash('sha256', \serialize($value), \true)), 0, 7);
         return \str_replace(['/', '+'], ['.', '_'], $hash);
     }
-    /**
-     * @return mixed
-     */
-    protected function getEnv(string $name)
+    protected function getEnv(string $name) : mixed
     {
         $value = parent::getEnv($name);
         $bag = $this->getParameterBag();
@@ -1455,10 +1403,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             unset($this->resolving["env({$name})"]);
         }
     }
-    /**
-     * @return mixed
-     */
-    private function callMethod(object $service, array $call, array &$inlineServices)
+    private function callMethod(object $service, array $call, array &$inlineServices) : mixed
     {
         foreach (self::getServiceConditionals($call[1]) as $s) {
             if (!$this->has($s)) {
@@ -1473,10 +1418,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         $result = $service->{$call[0]}(...$this->doResolveServices($this->getParameterBag()->unescapeValue($this->getParameterBag()->resolveValue($call[1])), $inlineServices));
         return empty($call[2]) ? $service : $result;
     }
-    /**
-     * @param mixed $service
-     */
-    private function shareService(Definition $definition, $service, ?string $id, array &$inlineServices) : void
+    private function shareService(Definition $definition, mixed $service, ?string $id, array &$inlineServices) : void
     {
         $inlineServices[$id ?? \spl_object_hash($definition)] = $service;
         if (null !== $id && $definition->isShared()) {
@@ -1494,7 +1436,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             if (!\class_exists(Expression::class)) {
                 throw new LogicException('Expressions cannot be used without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
             }
-            $this->expressionLanguage = new ExpressionLanguage(null, $this->expressionLanguageProviders, null, \Closure::fromCallable([$this, 'getEnv']));
+            $this->expressionLanguage = new ExpressionLanguage(null, $this->expressionLanguageProviders, null, $this->getEnv(...));
         }
         return $this->expressionLanguage;
     }
@@ -1504,17 +1446,29 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         if (isset($this->pathsInVendor[$path])) {
             return $this->pathsInVendor[$path];
         }
-        $this->vendors = $this->vendors ?? (new ComposerResource())->getVendors();
+        $this->vendors ??= (new ComposerResource())->getVendors();
         $path = \realpath($path) ?: $path;
         if (isset($this->pathsInVendor[$path])) {
             return $this->pathsInVendor[$path];
         }
         foreach ($this->vendors as $vendor) {
-            if (\strncmp($path, $vendor, \strlen($vendor)) === 0 && \false !== \strpbrk(\substr($path, \strlen($vendor), 1), '/' . \DIRECTORY_SEPARATOR)) {
+            if (\str_starts_with($path, $vendor) && \false !== \strpbrk(\substr($path, \strlen($vendor), 1), '/' . \DIRECTORY_SEPARATOR)) {
                 $this->addResource(new FileResource($vendor . '/composer/installed.json'));
                 return $this->pathsInVendor[$path] = \true;
             }
         }
         return $this->pathsInVendor[$path] = \false;
+    }
+    private function escapeParameters(array $parameters) : array
+    {
+        $params = [];
+        foreach ($parameters as $k => $v) {
+            $params[$k] = match (\true) {
+                \is_array($v) => $this->escapeParameters($v),
+                \is_string($v) => \str_replace('%', '%%', $v),
+                default => $v,
+            };
+        }
+        return $params;
     }
 }

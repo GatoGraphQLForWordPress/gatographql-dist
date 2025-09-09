@@ -15,10 +15,7 @@ class GraphQLVoyagerMenuPage extends AbstractPluginMenuPage
 {
     use EnqueueReactMenuPageTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

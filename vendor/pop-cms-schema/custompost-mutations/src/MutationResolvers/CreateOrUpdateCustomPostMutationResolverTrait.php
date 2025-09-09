@@ -44,10 +44,7 @@ trait CreateOrUpdateCustomPostMutationResolverTrait
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1);
     }
-    /**
-     * @param string|int|null $customPostID
-     */
-    protected function validateCustomPostExists($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCustomPostExists(string|int|null $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$customPostID) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6), $fieldDataAccessor->getField()));
@@ -57,20 +54,13 @@ trait CreateOrUpdateCustomPostMutationResolverTrait
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$customPostID]), $fieldDataAccessor->getField()));
         }
     }
-    /**
-     * @param string|int $customPostID
-     * @param string|int $customPostType
-     */
-    protected function validateIsCustomPostType($customPostID, $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateIsCustomPostType(string|int $customPostID, string|int $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->getCustomPostTypeAPI()->getCustomPostType($customPostID) !== $customPostType) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$customPostID, $customPostType]), $fieldDataAccessor->getField()));
         }
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateCanLoggedInUserEditCustomPost($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCanLoggedInUserEditCustomPost(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         // Check that the user has access to the edited custom post
         $userID = App::getState('current-user-id');

@@ -9,11 +9,11 @@ class LooseContractManager implements \PoP\LooseContracts\LooseContractManagerIn
     /**
      * @var string[]
      */
-    protected $requiredNames = [];
+    protected array $requiredNames = [];
     /**
      * @var string[]
      */
-    protected $implementedNames = [];
+    protected array $implementedNames = [];
     /**
      * @return string[]
      */

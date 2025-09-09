@@ -11,19 +11,10 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 
 abstract class AbstractMenuPage extends AbstractAutomaticallyInstantiatedService implements MenuPageInterface
 {
-    /**
-     * @var string|null
-     */
-    protected $hookName;
+    protected ?string $hookName = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\MenuPageHelper|null
-     */
-    private $menuPageHelper;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
+    private ?MenuPageHelper $menuPageHelper = null;
+    private ?EndpointHelpers $endpointHelpers = null;
 
     final protected function getMenuPageHelper(): MenuPageHelper
     {
@@ -69,7 +60,7 @@ abstract class AbstractMenuPage extends AbstractAutomaticallyInstantiatedService
     {
         \add_action(
             'admin_enqueue_scripts',
-            \Closure::fromCallable([$this, 'maybeEnqueueAssets'])
+            $this->maybeEnqueueAssets(...)
         );
     }
 

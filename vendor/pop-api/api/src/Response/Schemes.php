@@ -6,5 +6,5 @@ namespace PoPAPI\API\Response;
 /** @internal */
 class Schemes
 {
-    public const API = 'api';
+    public final const API = 'api';
 }

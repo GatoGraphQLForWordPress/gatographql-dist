@@ -31,10 +31,7 @@ class FunctionNode extends Node
         $function = $compiler->getFunction($this->attributes['name']);
         $compiler->raw($function['compiler'](...$arguments));
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         $arguments = [$values];
         foreach ($this->nodes['arguments']->nodes as $node) {

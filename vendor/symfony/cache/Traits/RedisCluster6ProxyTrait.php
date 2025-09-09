@@ -16,26 +16,17 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>')) {
      */
     trait RedisCluster6ProxyTrait
     {
-        /**
-         * @return \RedisCluster|string|false
-         */
-        public function getex($key, $options = [])
+        public function getex($key, $options = []) : \RedisCluster|string|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->getex(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->getex(...\func_get_args());
         }
-        /**
-         * @return \RedisCluster|bool|int
-         */
-        public function publish($channel, $message)
+        public function publish($channel, $message) : \RedisCluster|bool|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->publish(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->publish(...\func_get_args());
         }
-        /**
-         * @return \RedisCluster|mixed[]|false
-         */
-        public function waitaof($key_or_address, $numlocal, $numreplicas, $timeout)
+        public function waitaof($key_or_address, $numlocal, $numreplicas, $timeout) : \RedisCluster|array|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->waitaof(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->waitaof(...\func_get_args());
         }
     }
 } else {
@@ -44,12 +35,9 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>')) {
      */
     trait RedisCluster6ProxyTrait
     {
-        /**
-         * @return \RedisCluster|bool
-         */
-        public function publish($channel, $message)
+        public function publish($channel, $message) : \RedisCluster|bool
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->publish(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->publish(...\func_get_args());
         }
     }
 }

@@ -16,18 +16,12 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
  */
 class UriSigner
 {
-    /**
-     * @var string
-     */
-    private $secret;
-    /**
-     * @var string
-     */
-    private $parameter;
+    private string $secret;
+    private string $parameter;
     /**
      * @param string $parameter Query string parameter to use
      */
-    public function __construct(string $secret, string $parameter = '_hash')
+    public function __construct(#[\SensitiveParameter] string $secret, string $parameter = '_hash')
     {
         if (!$secret) {
             throw new \InvalidArgumentException('A non-empty secret is required.');

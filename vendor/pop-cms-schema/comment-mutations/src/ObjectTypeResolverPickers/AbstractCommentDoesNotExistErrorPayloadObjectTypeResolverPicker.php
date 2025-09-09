@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCommentDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $commentDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?CommentDoesNotExistErrorPayloadObjectTypeResolver $commentDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getCommentDoesNotExistErrorPayloadObjectTypeResolver() : CommentDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->commentDoesNotExistErrorPayloadObjectTypeResolver === null) {

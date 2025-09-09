@@ -19,11 +19,11 @@ class VersioningService extends AbstractBasicService implements \PoP\ComponentMo
     /**
      * @var array<string,array<string,string>>|null
      */
-    private $versionConstraintsForFields;
+    private ?array $versionConstraintsForFields = null;
     /**
      * @var array<string,string>|null
      */
-    private $versionConstraintsForDirectives;
+    private ?array $versionConstraintsForDirectives = null;
     /**
      * Initialize the dictionary with the version constraints for specific fields in the schema
      */

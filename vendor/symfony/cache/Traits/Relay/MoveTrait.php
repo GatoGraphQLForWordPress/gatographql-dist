@@ -16,19 +16,13 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait MoveTrait
     {
-        /**
-         * @return mixed
-         */
-        public function blmove($srckey, $dstkey, $srcpos, $dstpos, $timeout)
+        public function blmove($srckey, $dstkey, $srcpos, $dstpos, $timeout) : mixed
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->blmove(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->blmove(...\func_get_args());
         }
-        /**
-         * @return mixed
-         */
-        public function lmove($srckey, $dstkey, $srcpos, $dstpos)
+        public function lmove($srckey, $dstkey, $srcpos, $dstpos) : mixed
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lmove(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->lmove(...\func_get_args());
         }
     }
 } else {
@@ -37,19 +31,13 @@ if (\version_compare(\phpversion('relay'), '0.9.0', '>=')) {
      */
     trait MoveTrait
     {
-        /**
-         * @return \Relay\Relay|false|null|string
-         */
-        public function blmove($srckey, $dstkey, $srcpos, $dstpos, $timeout)
+        public function blmove($srckey, $dstkey, $srcpos, $dstpos, $timeout) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->blmove(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->blmove(...\func_get_args());
         }
-        /**
-         * @return \Relay\Relay|false|null|string
-         */
-        public function lmove($srckey, $dstkey, $srcpos, $dstpos)
+        public function lmove($srckey, $dstkey, $srcpos, $dstpos) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|string|null
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->lmove(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->lmove(...\func_get_args());
         }
     }
 }

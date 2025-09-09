@@ -32,11 +32,11 @@ class HtmlExtension extends AbstractExtension
     }
     public function getPseudoClassTranslators() : array
     {
-        return ['checked' => \Closure::fromCallable([$this, 'translateChecked']), 'link' => \Closure::fromCallable([$this, 'translateLink']), 'disabled' => \Closure::fromCallable([$this, 'translateDisabled']), 'enabled' => \Closure::fromCallable([$this, 'translateEnabled']), 'selected' => \Closure::fromCallable([$this, 'translateSelected']), 'invalid' => \Closure::fromCallable([$this, 'translateInvalid']), 'hover' => \Closure::fromCallable([$this, 'translateHover']), 'visited' => \Closure::fromCallable([$this, 'translateVisited'])];
+        return ['checked' => $this->translateChecked(...), 'link' => $this->translateLink(...), 'disabled' => $this->translateDisabled(...), 'enabled' => $this->translateEnabled(...), 'selected' => $this->translateSelected(...), 'invalid' => $this->translateInvalid(...), 'hover' => $this->translateHover(...), 'visited' => $this->translateVisited(...)];
     }
     public function getFunctionTranslators() : array
     {
-        return ['lang' => \Closure::fromCallable([$this, 'translateLang'])];
+        return ['lang' => $this->translateLang(...)];
     }
     public function translateChecked(XPathExpr $xpath) : XPathExpr
     {

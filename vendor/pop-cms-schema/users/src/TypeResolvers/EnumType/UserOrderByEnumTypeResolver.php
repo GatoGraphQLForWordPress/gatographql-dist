@@ -21,19 +21,13 @@ class UserOrderByEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case UserOrderBy::ID:
-                return $this->__('Order by ID', 'users');
-            case UserOrderBy::NAME:
-                return $this->__('Order by name', 'users');
-            case UserOrderBy::USERNAME:
-                return $this->__('Order by username (login name)', 'users');
-            case UserOrderBy::DISPLAY_NAME:
-                return $this->__('Order by the user display name', 'users');
-            case UserOrderBy::REGISTRATION_DATE:
-                return $this->__('Order by registration date', 'users');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            UserOrderBy::ID => $this->__('Order by ID', 'users'),
+            UserOrderBy::NAME => $this->__('Order by name', 'users'),
+            UserOrderBy::USERNAME => $this->__('Order by username (login name)', 'users'),
+            UserOrderBy::DISPLAY_NAME => $this->__('Order by the user display name', 'users'),
+            UserOrderBy::REGISTRATION_DATE => $this->__('Order by registration date', 'users'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

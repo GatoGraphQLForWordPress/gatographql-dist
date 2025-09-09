@@ -20,38 +20,14 @@ use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostMutationResolver|null
-     */
-    private $setCategoriesOnCustomPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\SetCategoriesOnCustomPostBulkOperationMutationResolver|null
-     */
-    private $setCategoriesOnCustomPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\InputObjectType\RootSetCategoriesOnCustomPostInputObjectTypeResolver|null
-     */
-    private $rootSetCategoriesOnCustomPostInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnCustomPostMutationResolver|null
-     */
-    private $payloadableSetCategoriesOnCustomPostMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\MutationResolvers\PayloadableSetCategoriesOnCustomPostBulkOperationMutationResolver|null
-     */
-    private $payloadableSetCategoriesOnCustomPostBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\ObjectType\RootSetCategoriesOnCustomPostMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetCategoriesOnCustomPostMutationPayloadObjectTypeResolver;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
+    private ?SetCategoriesOnCustomPostMutationResolver $setCategoriesOnCustomPostMutationResolver = null;
+    private ?SetCategoriesOnCustomPostBulkOperationMutationResolver $setCategoriesOnCustomPostBulkOperationMutationResolver = null;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
+    private ?RootSetCategoriesOnCustomPostInputObjectTypeResolver $rootSetCategoriesOnCustomPostInputObjectTypeResolver = null;
+    private ?PayloadableSetCategoriesOnCustomPostMutationResolver $payloadableSetCategoriesOnCustomPostMutationResolver = null;
+    private ?PayloadableSetCategoriesOnCustomPostBulkOperationMutationResolver $payloadableSetCategoriesOnCustomPostBulkOperationMutationResolver = null;
+    private ?RootSetCategoriesOnCustomPostMutationPayloadObjectTypeResolver $rootSetCategoriesOnCustomPostMutationPayloadObjectTypeResolver = null;
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {

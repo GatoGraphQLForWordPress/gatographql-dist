@@ -13,9 +13,8 @@ abstract class AbstractCRUDComponentMutationResolverBridge extends \PoP\Componen
     }
     /**
      * @param array<string,mixed> $data_properties
-     * @param string|int $result_id
      */
-    protected function modifyDataProperties(array &$data_properties, $result_id) : void
+    protected function modifyDataProperties(array &$data_properties, string|int $result_id) : void
     {
         parent::modifyDataProperties($data_properties, $result_id);
         // Modify the block-data-settings, saying to select the id of the newly created post

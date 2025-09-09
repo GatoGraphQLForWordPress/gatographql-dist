@@ -7,14 +7,16 @@ use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 use PoP\Root\Exception\AbstractException;
 use PoPCMSSchema\TaxonomyMutations\Exception\TaxonomyTermCRUDMutationException;
-/** @internal */
+/**
+ * @phpstan-ignore-next-line
+ * @internal
+ */
 trait DeleteTaxonomyTermMutationResolverTrait
 {
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         return $this->delete($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }

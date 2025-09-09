@@ -20,14 +20,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class FilterSystemDirectiveSchemaObjectTypeFieldResolver extends SchemaObjectTypeFieldResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\DirectiveKindEnumTypeResolver|null
-     */
-    private $directiveKindEnumTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface|null
-     */
-    private $fieldDirectiveResolverRegistry;
+    private ?DirectiveKindEnumTypeResolver $directiveKindEnumTypeResolver = null;
+    private ?FieldDirectiveResolverRegistryInterface $fieldDirectiveResolverRegistry = null;
     protected final function getDirectiveKindEnumTypeResolver() : DirectiveKindEnumTypeResolver
     {
         if ($this->directiveKindEnumTypeResolver === null) {
@@ -70,35 +64,26 @@ class FilterSystemDirectiveSchemaObjectTypeFieldResolver extends SchemaObjectTyp
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'directives':
-                return ['ofKinds' => $this->getDirectiveKindEnumTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'directives' => ['ofKinds' => $this->getDirectiveKindEnumTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['directives' => 'ofKinds']:
-                return $this->__('Include only directives of provided types', 'gatographql');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['directives' => 'ofKinds'] => $this->__('Include only directives of provided types', 'gatographql'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['directives' => 'ofKinds']:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['directives' => 'ofKinds'] => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Schema */
         $schema = $object;
@@ -106,9 +91,7 @@ class FilterSystemDirectiveSchemaObjectTypeFieldResolver extends SchemaObjectTyp
             case 'directives':
                 $directiveIDs = $schema->getDirectiveIDs();
                 if ($ofKinds = $fieldDataAccessor->getValue('ofKinds')) {
-                    $ofTypeFieldDirectiveResolvers = \array_filter($this->getFieldDirectiveResolverRegistry()->getFieldDirectiveResolvers(), function (FieldDirectiveResolverInterface $directiveResolver) use($ofKinds) {
-                        return \in_array($directiveResolver->getDirectiveKind(), $ofKinds);
-                    });
+                    $ofTypeFieldDirectiveResolvers = \array_filter($this->getFieldDirectiveResolverRegistry()->getFieldDirectiveResolvers(), fn(FieldDirectiveResolverInterface $directiveResolver) => \in_array($directiveResolver->getDirectiveKind(), $ofKinds));
                     // Calculate the directive IDs
                     $ofTypeDirectiveIDs = \array_map(function (FieldDirectiveResolverInterface $directiveResolver) : string {
                         // To retrieve the ID, use the same method to calculate the ID

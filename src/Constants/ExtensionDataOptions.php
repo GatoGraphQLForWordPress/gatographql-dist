@@ -6,5 +6,5 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class ExtensionDataOptions
 {
-    public const CHANGELOG_URL = 'changelogURL';
+    public final const CHANGELOG_URL = 'changelogURL';
 }

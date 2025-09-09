@@ -16,10 +16,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdatePageMutationResolver extends AbstractCreateOrUpdateCustomPostMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {
@@ -32,6 +29,10 @@ abstract class AbstractCreateOrUpdatePageMutationResolver extends AbstractCreate
     public function getCustomPostType() : string
     {
         return $this->getPageTypeAPI()->getPageCustomPostType();
+    }
+    protected function supportsCustomPostParent() : bool
+    {
+        return \true;
     }
     protected function validateCanLoggedInUserEditCustomPosts(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
@@ -70,10 +71,7 @@ abstract class AbstractCreateOrUpdatePageMutationResolver extends AbstractCreate
         parent::triggerValidateCreateHook($customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(PageCRUDHookNames::VALIDATE_CREATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore, $customPostType);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerValidateUpdateHook($customPostID, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerValidateUpdateHook(string|int $customPostID, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         parent::triggerValidateUpdateHook($customPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(PageCRUDHookNames::VALIDATE_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore, $customPostType, $customPostID);
@@ -100,26 +98,17 @@ abstract class AbstractCreateOrUpdatePageMutationResolver extends AbstractCreate
     {
         return App::applyFilters(PageCRUDHookNames::GET_CREATE_DATA, parent::getCreateCustomPostData($fieldDataAccessor), $fieldDataAccessor);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteCreateOrUpdateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteCreateOrUpdateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         parent::triggerExecuteCreateOrUpdateHook($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(PageCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteUpdateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteUpdateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         parent::triggerExecuteUpdateHook($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(PageCRUDHookNames::EXECUTE_UPDATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteCreateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteCreateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         parent::triggerExecuteCreateHook($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(PageCRUDHookNames::EXECUTE_CREATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

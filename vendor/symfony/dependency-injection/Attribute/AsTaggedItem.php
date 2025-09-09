@@ -19,17 +19,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class AsTaggedItem
 {
-    /**
-     * @var string|null
-     */
-    public $index;
-    /**
-     * @var int|null
-     */
-    public $priority;
-    public function __construct(?string $index = null, ?int $priority = null)
+    public function __construct(public ?string $index = null, public ?int $priority = null)
     {
-        $this->index = $index;
-        $this->priority = $priority;
     }
 }

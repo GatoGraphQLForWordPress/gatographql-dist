@@ -26,7 +26,7 @@ class PseudoClassExtension extends AbstractExtension
 {
     public function getPseudoClassTranslators() : array
     {
-        return ['root' => \Closure::fromCallable([$this, 'translateRoot']), 'scope' => \Closure::fromCallable([$this, 'translateScopePseudo']), 'first-child' => \Closure::fromCallable([$this, 'translateFirstChild']), 'last-child' => \Closure::fromCallable([$this, 'translateLastChild']), 'first-of-type' => \Closure::fromCallable([$this, 'translateFirstOfType']), 'last-of-type' => \Closure::fromCallable([$this, 'translateLastOfType']), 'only-child' => \Closure::fromCallable([$this, 'translateOnlyChild']), 'only-of-type' => \Closure::fromCallable([$this, 'translateOnlyOfType']), 'empty' => \Closure::fromCallable([$this, 'translateEmpty'])];
+        return ['root' => $this->translateRoot(...), 'scope' => $this->translateScopePseudo(...), 'first-child' => $this->translateFirstChild(...), 'last-child' => $this->translateLastChild(...), 'first-of-type' => $this->translateFirstOfType(...), 'last-of-type' => $this->translateLastOfType(...), 'only-child' => $this->translateOnlyChild(...), 'only-of-type' => $this->translateOnlyOfType(...), 'empty' => $this->translateEmpty(...)];
     }
     public function translateRoot(XPathExpr $xpath) : XPathExpr
     {

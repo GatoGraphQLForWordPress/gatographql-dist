@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver|null
-     */
-    private $commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver;
+    private ?CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver $commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver = null;
     protected final function getCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver() : CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolver
     {
         if ($this->commentAuthorEmailIsMissingErrorPayloadObjectTypeResolver === null) {

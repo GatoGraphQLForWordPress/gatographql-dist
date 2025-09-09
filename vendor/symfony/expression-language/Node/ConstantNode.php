@@ -18,19 +18,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Compile
  */
 class ConstantNode extends Node
 {
-    /**
-     * @readonly
-     * @var bool
-     */
-    public $isNullSafe;
-    /**
-     * @var bool
-     */
-    private $isIdentifier;
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value, bool $isIdentifier = \false, bool $isNullSafe = \false)
+    public readonly bool $isNullSafe;
+    private bool $isIdentifier;
+    public function __construct(mixed $value, bool $isIdentifier = \false, bool $isNullSafe = \false)
     {
         $this->isIdentifier = $isIdentifier;
         $this->isNullSafe = $isNullSafe;
@@ -40,10 +30,7 @@ class ConstantNode extends Node
     {
         $compiler->repr($this->attributes['value']);
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         return $this->attributes['value'];
     }

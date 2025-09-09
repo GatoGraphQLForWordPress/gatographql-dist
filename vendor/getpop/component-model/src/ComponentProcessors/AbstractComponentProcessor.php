@@ -38,45 +38,21 @@ use SplObjectStorage;
 abstract class AbstractComponentProcessor extends AbstractBasicService implements \PoP\ComponentModel\ComponentProcessors\ComponentProcessorInterface
 {
     use \PoP\ComponentModel\ComponentProcessors\ComponentPathProcessorTrait;
-    public const HOOK_INIT_MODEL_PROPS = __CLASS__ . ':initModelProps';
-    public const HOOK_INIT_REQUEST_PROPS = __CLASS__ . ':initRequestProps';
-    public const HOOK_ADD_HEADDATASETCOMPONENT_DATAPROPERTIES = __CLASS__ . ':addHeaddatasetcomponentDataProperties';
+    public final const HOOK_INIT_MODEL_PROPS = __CLASS__ . ':initModelProps';
+    public final const HOOK_INIT_REQUEST_PROPS = __CLASS__ . ':initRequestProps';
+    public final const HOOK_ADD_HEADDATASETCOMPONENT_DATAPROPERTIES = __CLASS__ . ':addHeaddatasetcomponentDataProperties';
     protected const COMPONENTELEMENT_SUBCOMPONENTS = 'subcomponents';
     protected const COMPONENTELEMENT_RELATIONALSUBCOMPONENTS = 'relational-subcomponents';
     protected const COMPONENTELEMENT_CONDITIONALONDATAFIELDSUBCOMPONENTS = 'conditional-on-data-field-subcomponents';
     protected const COMPONENTELEMENT_CONDITIONALONDATAFIELDRELATIONALSUBCOMPONENTS = 'conditional-on-data-field-relational-subcomponents';
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
-     */
-    private $componentPathHelpers;
-    /**
-     * @var \PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface|null
-     */
-    private $componentFilterManager;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface|null
-     */
-    private $dataloadHelperService;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
-    /**
-     * @var \PoP\ComponentModel\ComponentFilters\ComponentPaths|null
-     */
-    private $componentPaths;
-    /**
-     * @var \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface|null
-     */
-    private $componentHelpers;
+    private ?ComponentPathHelpersInterface $componentPathHelpers = null;
+    private ?ComponentFilterManagerInterface $componentFilterManager = null;
+    private ?\PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface $componentProcessorManager = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?DataloadHelperServiceInterface $dataloadHelperService = null;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
+    private ?ComponentPaths $componentPaths = null;
+    private ?ComponentHelpersInterface $componentHelpers = null;
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {
         if ($this->componentPathHelpers === null) {
@@ -227,7 +203,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      */
     public function initModelPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targeted_props_to_propagate) : void
     {
-        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initModelProps']), \Closure::fromCallable([$this, 'getModelPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getModelPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
+        $this->executeInitPropsComponentTree($this->initModelProps(...), $this->getModelPropsForDescendantComponents(...), $this->getModelPropsForDescendantDatasetComponents(...), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
     }
     /**
      * @return array<string,mixed>
@@ -317,7 +293,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      */
     public function initRequestPropsComponentTree(Component $component, array &$props, array $wildcard_props_to_propagate, array $targeted_props_to_propagate) : void
     {
-        $this->executeInitPropsComponentTree(\Closure::fromCallable([$this, 'initRequestProps']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantComponents']), \Closure::fromCallable([$this, 'getRequestPropsForDescendantDatasetComponents']), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
+        $this->executeInitPropsComponentTree($this->initRequestProps(...), $this->getRequestPropsForDescendantComponents(...), $this->getRequestPropsForDescendantDatasetComponents(...), __FUNCTION__, $component, $props, $wildcard_props_to_propagate, $targeted_props_to_propagate);
     }
     /**
      * @return array<string,mixed>
@@ -364,7 +340,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      *
      * @param Component[]|Component $component_or_componentPath
      */
-    private function isComponentPath($component_or_componentPath) : bool
+    private function isComponentPath(array|Component $component_or_componentPath) : bool
     {
         return \is_array($component_or_componentPath);
     }
@@ -372,7 +348,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      */
-    private function isDescendantComponent($component_or_componentPath, array &$props) : bool
+    private function isDescendantComponent(array|Component $component_or_componentPath, array &$props) : bool
     {
         if ($this->isComponentPath($component_or_componentPath)) {
             return \false;
@@ -390,7 +366,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @return string[]
      * @param array<string,mixed> $props
      */
-    protected function getComponentPath($component_or_componentPath, array &$props) : array
+    protected function getComponentPath(array|Component $component_or_componentPath, array &$props) : array
     {
         // This function is used to get the path to the current component, or to a component path
         // It is not used for getting the path to a single component which is not the current one (since we do not know its path)
@@ -407,21 +383,20 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
         /** @var mixed[] */
         $componentPath = $component_or_componentPath;
         // We're passing the path to find the component to which to add the att
-        return \array_merge($ret, \array_map(\Closure::fromCallable([$this->getComponentHelpers(), 'getComponentFullName']), $componentPath));
+        return \array_merge($ret, \array_map($this->getComponentHelpers()->getComponentFullName(...), $componentPath));
     }
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
      * @param array<string,mixed> $options
-     * @param mixed $value
      */
-    protected function addPropGroupField(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array(), array $options = array()) : void
+    protected function addPropGroupField(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array(), array $options = array()) : void
     {
         // Iterate down to the subcomponent, which must be an array of components
         if ($starting_from_componentPath) {
             // Convert it to string
-            $startingFromComponentPathFullNames = \array_map(\Closure::fromCallable([$this->getComponentHelpers(), 'getComponentFullName']), $starting_from_componentPath);
+            $startingFromComponentPathFullNames = \array_map($this->getComponentHelpers()->getComponentFullName(...), $starting_from_componentPath);
             // Attach the current component, which is not included on "starting_from", to step down this level too
             $componentFullName = $this->getPathHeadComponent($props);
             \array_unshift($startingFromComponentPathFullNames, $componentFullName);
@@ -497,9 +472,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
     /**
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @return mixed
      */
-    protected function getPropGroupField(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array())
+    protected function getPropGroupField(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array()) : mixed
     {
         $group = $this->getPropGroup($group, $component, $props, $starting_from_componentPath);
         return $group[$property] ?? null;
@@ -526,9 +500,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    protected function addGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    protected function addGroupProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
@@ -536,9 +509,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function setProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function setProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addGroupProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
@@ -546,9 +518,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function appendGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function appendGroupProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('append' => \true));
     }
@@ -556,9 +527,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function appendProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function appendProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->appendGroupProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
@@ -566,9 +536,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function mergeGroupProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('array' => \true, 'merge' => \true));
     }
@@ -576,27 +545,24 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function mergeProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->mergeGroupProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
     /**
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @return mixed
      */
-    public function getGroupProp(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array())
+    public function getGroupProp(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array()) : mixed
     {
         return $this->getPropGroupField($group, $component, $props, $property, $starting_from_componentPath);
     }
     /**
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @return mixed
      */
-    public function getProp(Component $component, array &$props, string $property, array $starting_from_componentPath = array())
+    public function getProp(Component $component, array &$props, string $property, array $starting_from_componentPath = array()) : mixed
     {
         return $this->getGroupProp(Props::ATTRIBUTES, $component, $props, $property, $starting_from_componentPath);
     }
@@ -604,9 +570,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeGroupIterateKeyProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function mergeGroupIterateKeyProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('array' => \true, 'merge-iterate-key' => \true));
     }
@@ -614,9 +579,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeIterateKeyProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function mergeIterateKeyProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->mergeGroupIterateKeyProp(Props::ATTRIBUTES, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath);
     }
@@ -624,9 +588,8 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function pushProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void
+    public function pushProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void
     {
         $this->addPropGroupField($group, $component_or_componentPath, $props, $property, $value, $starting_from_componentPath, array('array' => \true, 'push' => \true));
     }
@@ -681,9 +644,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
             foreach ($this->getConditionalRelationalComponentFieldNodes($component) as $conditionalRelationalComponentFieldNode) {
                 foreach ($conditionalRelationalComponentFieldNode->getRelationalComponentFieldNodes() as $relationalComponentFieldNode) {
                     // Only components which do not load data
-                    $subcomponent_components = \array_filter($relationalComponentFieldNode->getNestedComponents(), function (Component $subcomponent) {
-                        return !$this->getComponentProcessorManager()->getComponentProcessor($subcomponent)->startDataloadingSection($subcomponent);
-                    });
+                    $subcomponent_components = \array_filter($relationalComponentFieldNode->getNestedComponents(), fn(Component $subcomponent) => !$this->getComponentProcessorManager()->getComponentProcessor($subcomponent)->startDataloadingSection($subcomponent));
                     /** @var FieldInterface[] */
                     $subcomponentPathFields = \array_merge($pathFields, [$relationalComponentFieldNode->getField()]);
                     foreach ($subcomponent_components as $subcomponent_component) {
@@ -692,9 +653,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                 }
             }
             // Only components which do not load data
-            $subcomponents = \array_filter($this->getSubcomponents($component), function (Component $subcomponent) {
-                return !$this->getComponentProcessorManager()->getComponentProcessor($subcomponent)->startDataloadingSection($subcomponent);
-            });
+            $subcomponents = \array_filter($this->getSubcomponents($component), fn(Component $subcomponent) => !$this->getComponentProcessorManager()->getComponentProcessor($subcomponent)->startDataloadingSection($subcomponent));
             foreach ($subcomponents as $subcomponent) {
                 $this->getComponentProcessorManager()->getComponentProcessor($subcomponent)->addToDatasetOutputKeys($subcomponent, $props[$componentFullName][Props::SUBCOMPONENTS], $pathFields, $ret);
             }
@@ -716,9 +675,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
             $field = new LeafField(FieldOutputKeys::ID, null, [], [], ASTNodesFactory::getNonSpecificLocation());
             /** @var FieldInterface[] */
             $selfPathFields = \array_merge($pathFields, [$field]);
-            $selfPathFieldOutputKeys = \array_map(function (FieldInterface $field) {
-                return $field->getOutputKey();
-            }, $selfPathFields);
+            $selfPathFieldOutputKeys = \array_map(fn(FieldInterface $field) => $field->getOutputKey(), $selfPathFields);
             $ret[\implode(Constants::RELATIONAL_FIELD_PATH_SEPARATOR, $selfPathFieldOutputKeys)] = $relationalTypeResolver->getTypeOutputKey();
         }
         // This prop is set for both dataloading and non-dataloading components
@@ -737,9 +694,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                 }
                 /** @var FieldInterface[] */
                 $relationalPathFields = \array_merge($pathFields, [$relationalComponentFieldNode->getField()]);
-                $relationalPathFieldOutputKeys = \array_map(function (FieldInterface $field) {
-                    return $field->getOutputKey();
-                }, $relationalPathFields);
+                $relationalPathFieldOutputKeys = \array_map(fn(FieldInterface $field) => $field->getOutputKey(), $relationalPathFields);
                 $ret[\implode(Constants::RELATIONAL_FIELD_PATH_SEPARATOR, $relationalPathFieldOutputKeys)] = $typeResolver->getTypeOutputKey();
             }
             foreach ($this->getConditionalRelationalComponentFieldNodes($component) as $conditionalRelationalComponentFieldNode) {
@@ -761,9 +716,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                     }
                     /** @var FieldInterface[] */
                     $relationalPathFields = \array_merge($pathFields, [$relationalComponentFieldNode->getField()]);
-                    $relationalPathFieldOutputKeys = \array_map(function (FieldInterface $field) {
-                        return $field->getOutputKey();
-                    }, $relationalPathFields);
+                    $relationalPathFieldOutputKeys = \array_map(fn(FieldInterface $field) => $field->getOutputKey(), $relationalPathFields);
                     $ret[\implode(Constants::RELATIONAL_FIELD_PATH_SEPARATOR, $relationalPathFieldOutputKeys)] = $typeResolver->getTypeOutputKey();
                 }
             }
@@ -796,7 +749,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         return [];
     }
@@ -937,6 +890,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                 if ($subcomponent_processor->startDataloadingSection($subcomponent)) {
                     continue;
                 }
+                // @phpstan-ignore-next-line
                 $subcomponent_processor->addDatasetcomponentTreeSectionFlattenedComponents($ret, $subcomponent);
             }
         }
@@ -1173,7 +1127,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
      * @param array<string,mixed>|null $executed
      * @return array<string,mixed>
      */
-    public function getDatasetmeta(Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function getDatasetmeta(Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array
     {
         return [];
     }
@@ -1264,7 +1218,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                         }
                         // Chain the "direct-fields" from the sublevels under the current "conditional-fields"
                         // Move from "direct-fields" to "conditional-fields"
-                        $ret[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] = $ret[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ?? new SplObjectStorage();
+                        $ret[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ??= new SplObjectStorage();
                         /** @var SplObjectStorage<ComponentFieldNodeInterface,ComponentFieldNodeInterface[]> */
                         $conditionalComponentFieldSplObjectStorage = $ret[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES];
                         /** @var ComponentFieldNodeInterface[]|null */
@@ -1288,7 +1242,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                         /** @var SplObjectStorage<ComponentFieldNodeInterface,array<string,mixed>>|null */
                         $subcomponentSubcomponentsSplObjectStorage = $subcomponent_ret[DataProperties::SUBCOMPONENTS] ?? null;
                         if ($subcomponentSubcomponentsSplObjectStorage !== null) {
-                            $ret[DataProperties::SUBCOMPONENTS] = $ret[DataProperties::SUBCOMPONENTS] ?? new SplObjectStorage();
+                            $ret[DataProperties::SUBCOMPONENTS] ??= new SplObjectStorage();
                             $ret[DataProperties::SUBCOMPONENTS]->addAll($subcomponentSubcomponentsSplObjectStorage);
                         }
                     }
@@ -1321,10 +1275,12 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                  *       SiteBuilder, so check and fix.
                  */
                 // array_merge_recursive => data-fields from different sidebar-components can be integrated all together
+                // @phpstan-ignore-next-line
                 $ret = \array_merge_recursive($ret, $subcomponent_ret);
             }
             // Array Merge appends values when under numeric keys, so we gotta filter duplicates out
             if ($ret[DataProperties::DIRECT_COMPONENT_FIELD_NODES] ?? null) {
+                // @phpstan-ignore-next-line
                 $ret[DataProperties::DIRECT_COMPONENT_FIELD_NODES] = \array_values(\array_unique($ret[DataProperties::DIRECT_COMPONENT_FIELD_NODES]));
             }
         }
@@ -1382,16 +1338,17 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
                     $subcomponent_components_data_properties[DataProperties::SUBCOMPONENTS] = $subcomponent_components_data_properties_storage;
                 }
             }
-            $ret[DataProperties::SUBCOMPONENTS] = $ret[DataProperties::SUBCOMPONENTS] ?? new SplObjectStorage();
-            $ret[DataProperties::SUBCOMPONENTS][$subcomponentComponentFieldNode] = $ret[DataProperties::SUBCOMPONENTS][$subcomponentComponentFieldNode] ?? [];
+            $ret[DataProperties::SUBCOMPONENTS] ??= new SplObjectStorage();
+            $ret[DataProperties::SUBCOMPONENTS][$subcomponentComponentFieldNode] ??= [];
             $subcomponentsSubcomponentFieldNode = $ret[DataProperties::SUBCOMPONENTS][$subcomponentComponentFieldNode];
             if ($subcomponent_components_data_properties[DataProperties::DIRECT_COMPONENT_FIELD_NODES]) {
                 $subcomponentsSubcomponentFieldNode[DataProperties::DIRECT_COMPONENT_FIELD_NODES] = \array_values(\array_unique(\array_merge($subcomponentsSubcomponentFieldNode[DataProperties::DIRECT_COMPONENT_FIELD_NODES] ?? [], $subcomponent_components_data_properties[DataProperties::DIRECT_COMPONENT_FIELD_NODES])));
             }
             /** @var SplObjectStorage<ComponentFieldNodeInterface,ComponentFieldNodeInterface[]> */
+            // @phpstan-ignore-next-line
             $subcomponentConditionalFields = $subcomponent_components_data_properties[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES];
             if ($subcomponentConditionalFields->count() > 0) {
-                $subcomponentsSubcomponentFieldNode[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] = $subcomponentsSubcomponentFieldNode[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ?? new SplObjectStorage();
+                $subcomponentsSubcomponentFieldNode[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ??= new SplObjectStorage();
                 /** @var ComponentFieldNodeInterface $conditionComponentFieldNode */
                 foreach ($subcomponentConditionalFields as $conditionComponentFieldNode) {
                     /** @var ComponentFieldNodeInterface[] */
@@ -1402,7 +1359,7 @@ abstract class AbstractComponentProcessor extends AbstractBasicService implement
             /** @var SplObjectStorage<ComponentFieldNodeInterface,array<string,mixed>> */
             $splObjectStorage = $subcomponent_components_data_properties[DataProperties::SUBCOMPONENTS];
             if ($splObjectStorage->count() > 0) {
-                $subcomponentsSubcomponentFieldNode[DataProperties::SUBCOMPONENTS] = $subcomponentsSubcomponentFieldNode[DataProperties::SUBCOMPONENTS] ?? new SplObjectStorage();
+                $subcomponentsSubcomponentFieldNode[DataProperties::SUBCOMPONENTS] ??= new SplObjectStorage();
                 $subcomponentsSubcomponentFieldNode[DataProperties::SUBCOMPONENTS]->addAll($splObjectStorage);
             }
             $ret[DataProperties::SUBCOMPONENTS][$subcomponentComponentFieldNode] = $subcomponentsSubcomponentFieldNode;

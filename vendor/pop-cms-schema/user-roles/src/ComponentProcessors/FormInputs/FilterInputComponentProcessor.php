@@ -15,20 +15,11 @@ use PoPCMSSchema\UserRoles\FilterInputs\UserRolesFilterInput;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_USER_ROLES = 'filterinput-user-roles';
-    public const COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES = 'filterinput-exclude-user-roles';
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\FilterInputs\UserRolesFilterInput|null
-     */
-    private $userRolesFilterInput;
-    /**
-     * @var \PoPCMSSchema\UserRoles\FilterInputs\ExcludeUserRolesFilterInput|null
-     */
-    private $excludeUserRolesFilterInput;
+    public final const COMPONENT_FILTERINPUT_USER_ROLES = 'filterinput-user-roles';
+    public final const COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES = 'filterinput-exclude-user-roles';
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?UserRolesFilterInput $userRolesFilterInput = null;
+    private ?ExcludeUserRolesFilterInput $excludeUserRolesFilterInput = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -65,56 +56,41 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_USER_ROLES:
-                return $this->getUserRolesFilterInput();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES:
-                return $this->getExcludeUserRolesFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_USER_ROLES => $this->getUserRolesFilterInput(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES => $this->getExcludeUserRolesFilterInput(),
+            default => null,
+        };
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_USER_ROLES:
-                return 'roles';
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES:
-                return 'excludeRoles';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_USER_ROLES => 'roles',
+            self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES => 'excludeRoles',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_USER_ROLES:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES:
-                return $this->getStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_USER_ROLES => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES => $this->getStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_USER_ROLES:
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_USER_ROLES, self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_USER_ROLES:
-                return $this->__('Get the users with given roles', 'user-roles');
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES:
-                return $this->__('Get the users without the given roles', 'user-roles');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_USER_ROLES => $this->__('Get the users with given roles', 'user-roles'),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_USER_ROLES => $this->__('Get the users without the given roles', 'user-roles'),
+            default => null,
+        };
     }
 }

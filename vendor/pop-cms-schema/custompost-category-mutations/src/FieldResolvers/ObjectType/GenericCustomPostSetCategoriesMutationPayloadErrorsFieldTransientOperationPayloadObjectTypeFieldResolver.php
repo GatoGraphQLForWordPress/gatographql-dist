@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericCustomPostSetCategoriesMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\UnionType\GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver;
+    private ?GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver $genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver = null;
     protected final function getGenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver() : GenericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericCustomPostSetCategoriesMutationErrorPayloadUnionTypeResolver === null) {

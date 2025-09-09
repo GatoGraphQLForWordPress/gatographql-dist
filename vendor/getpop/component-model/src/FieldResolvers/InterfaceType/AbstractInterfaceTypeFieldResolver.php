@@ -33,57 +33,39 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
     use FieldOrDirectiveSchemaDefinitionResolverTrait;
     use CheckDangerouslyNonSpecificScalarTypeFieldOrFieldDirectiveResolverTrait;
     /** @var array<string,array<string,mixed>> */
-    protected $schemaDefinitionForFieldCache = [];
+    protected array $schemaDefinitionForFieldCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldDescriptionCache = [];
+    protected array $consolidatedFieldDescriptionCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $consolidatedFieldExtensionsCache = [];
+    protected array $consolidatedFieldExtensionsCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldDeprecationMessageCache = [];
+    protected array $consolidatedFieldDeprecationMessageCache = [];
     /** @var array<string,array<string,InputTypeResolverInterface>> */
-    protected $consolidatedFieldArgNameTypeResolversCache = [];
+    protected array $consolidatedFieldArgNameTypeResolversCache = [];
     /** @var array<string,string[]> */
-    protected $consolidatedSensitiveFieldArgNamesCache = [];
+    protected array $consolidatedSensitiveFieldArgNamesCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldArgDescriptionCache = [];
+    protected array $consolidatedFieldArgDescriptionCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedFieldArgDeprecationMessageCache = [];
+    protected array $consolidatedFieldArgDeprecationMessageCache = [];
     /** @var array<string,mixed> */
-    protected $consolidatedFieldArgDefaultValueCache = [];
+    protected array $consolidatedFieldArgDefaultValueCache = [];
     /** @var array<string,int> */
-    protected $consolidatedFieldArgTypeModifiersCache = [];
+    protected array $consolidatedFieldArgTypeModifiersCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $consolidatedFieldArgExtensionsCache = [];
+    protected array $consolidatedFieldArgExtensionsCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $schemaFieldArgsCache = [];
+    protected array $schemaFieldArgsCache = [];
     /**
      * @var InterfaceTypeResolverInterface[]|null
      */
-    protected $partiallyImplementedInterfaceTypeResolvers;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaNamespacingServiceInterface|null
-     */
-    private $schemaNamespacingService;
-    /**
-     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
-     */
-    private $typeRegistry;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
+    protected ?array $partiallyImplementedInterfaceTypeResolvers = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?SchemaNamespacingServiceInterface $schemaNamespacingService = null;
+    private ?TypeRegistryInterface $typeRegistry = null;
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -282,10 +264,7 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
         }
         return null;
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(string $fieldName, string $fieldArgName) : mixed
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($fieldName);
         if ($schemaDefinitionResolver !== $this) {
@@ -301,10 +280,7 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
         }
         return SchemaTypeModifiers::NONE;
     }
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
-     */
-    public function isFieldGlobal($fieldOrFieldName) : bool
+    public function isFieldGlobal(FieldInterface|string $fieldOrFieldName) : bool
     {
         if ($fieldOrFieldName instanceof FieldInterface) {
             $field = $fieldOrFieldName;
@@ -318,10 +294,7 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
         }
         return \false;
     }
-    /**
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|string $fieldOrFieldName
-     */
-    public function isFieldAMutation($fieldOrFieldName) : bool
+    public function isFieldAMutation(FieldInterface|string $fieldOrFieldName) : bool
     {
         if ($fieldOrFieldName instanceof FieldInterface) {
             $field = $fieldOrFieldName;
@@ -356,9 +329,7 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->exposeSensitiveDataInSchema()) {
             $sensitiveFieldArgNames = $this->getConsolidatedSensitiveFieldArgNames($fieldName);
-            $consolidatedFieldArgNameTypeResolvers = \array_filter($consolidatedFieldArgNameTypeResolvers, function (string $fieldArgName) use($sensitiveFieldArgNames) {
-                return !\in_array($fieldArgName, $sensitiveFieldArgNames);
-            }, \ARRAY_FILTER_USE_KEY);
+            $consolidatedFieldArgNameTypeResolvers = \array_filter($consolidatedFieldArgNameTypeResolvers, fn(string $fieldArgName) => !\in_array($fieldArgName, $sensitiveFieldArgNames), \ARRAY_FILTER_USE_KEY);
         }
         $this->consolidatedFieldArgNameTypeResolversCache[$cacheKey] = $consolidatedFieldArgNameTypeResolvers;
         return $this->consolidatedFieldArgNameTypeResolversCache[$cacheKey];
@@ -394,9 +365,8 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
     /**
      * Consolidation of the schema field arguments. Call this function to read the data
      * instead of the individual functions, since it applies hooks to override/extend.
-     * @return mixed
      */
-    public final function getConsolidatedFieldArgDefaultValue(string $fieldName, string $fieldArgName)
+    public final function getConsolidatedFieldArgDefaultValue(string $fieldName, string $fieldArgName) : mixed
     {
         // Cache the result
         $cacheKey = $fieldName . '(' . $fieldArgName . ':)';
@@ -423,9 +393,8 @@ abstract class AbstractInterfaceTypeFieldResolver extends AbstractFieldResolver 
     /**
      * Validate the constraints for a field argument
      * @param array<string,mixed> $fieldArgs
-     * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(string $fieldName, string $fieldArgName, mixed $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $schemaDefinitionResolver = $this->getSchemaDefinitionResolver($fieldName);
         if ($schemaDefinitionResolver !== $this) {

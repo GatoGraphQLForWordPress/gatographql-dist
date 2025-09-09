@@ -14,21 +14,15 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
     use ModuleResolverTrait;
     use UserInterfaceFunctionalityModuleResolverTrait;
 
-    public const EXCERPT_AS_DESCRIPTION = Plugin::NAMESPACE . '\excerpt-as-description';
-    public const WELCOME_GUIDES = Plugin::NAMESPACE . '\welcome-guides';
-    public const SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION = Plugin::NAMESPACE . '\schema-configuration-additional-documentation';
+    public final const EXCERPT_AS_DESCRIPTION = Plugin::NAMESPACE . '\excerpt-as-description';
+    public final const WELCOME_GUIDES = Plugin::NAMESPACE . '\welcome-guides';
+    public final const SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION = Plugin::NAMESPACE . '\schema-configuration-additional-documentation';
 
     /** @var CustomPostTypeInterface[] */
-    protected $useExcerptAsDescriptionEnabledCustomPostTypeServices;
+    protected ?array $useExcerptAsDescriptionEnabledCustomPostTypeServices = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
-     */
-    private $customPostTypeRegistry;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -111,46 +105,38 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::EXCERPT_AS_DESCRIPTION:
-                return \__('Excerpt as Description', 'gatographql');
-            case self::WELCOME_GUIDES:
-                return \__('Welcome Guides', 'gatographql');
-            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
-                return \__('Additional Gato GraphQL Documentation', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::EXCERPT_AS_DESCRIPTION => \__('Excerpt as Description', 'gatographql'),
+            self::WELCOME_GUIDES => \__('Welcome Guides', 'gatographql'),
+            self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION => \__('Additional Gato GraphQL Documentation', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::EXCERPT_AS_DESCRIPTION:
-                return \__('Provide a description of the different entities (Custom Endpoints, Persisted Queries, and others) through their excerpt', 'gatographql');
-            case self::WELCOME_GUIDES:
-                return sprintf(
-                    \__('Display welcome guides which demonstrate how to use the plugin\'s different functionalities. <em>It requires WordPress version \'%s\' or above, or Gutenberg version \'%s\' or above</em>', 'gatographql'),
-                    '5.5',
-                    '8.2'
-                );
-            case self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION:
-                return \__('Documentation on using the Gato GraphQL', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::EXCERPT_AS_DESCRIPTION => \__('Provide a description of the different entities (Custom Endpoints, Persisted Queries, and others) through their excerpt', 'gatographql'),
+            self::WELCOME_GUIDES => sprintf(
+                \__('Display welcome guides which demonstrate how to use the plugin\'s different functionalities. <em>It requires WordPress version \'%s\' or above, or Gutenberg version \'%s\' or above</em>', 'gatographql'),
+                '5.5',
+                '8.2'
+            ),
+            self::SCHEMA_CONFIGURATION_ADDITIONAL_DOCUMENTATION => \__('Documentation on using the Gato GraphQL', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        switch ($module) {
-            case self::WELCOME_GUIDES:
-                return false;
-            case self::EXCERPT_AS_DESCRIPTION:
-                return $this->getUseExcerptAsDescriptionEnabledCustomPostTypeServices() === [] ? false : null;
-            default:
-                return parent::isPredefinedEnabledOrDisabled($module);
-        }
+        return match ($module) {
+            self::WELCOME_GUIDES
+                => false,
+            self::EXCERPT_AS_DESCRIPTION,
+                => $this->getUseExcerptAsDescriptionEnabledCustomPostTypeServices() === [] ? false : null,
+            default
+                => parent::isPredefinedEnabledOrDisabled($module),
+        };
     }
 
     /**
@@ -162,9 +148,7 @@ class UserInterfaceFunctionalityModuleResolver extends AbstractFunctionalityModu
             $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
             $this->useExcerptAsDescriptionEnabledCustomPostTypeServices = array_values(array_filter(
                 $customPostTypeServices,
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService->isServiceEnabled() && $customPostTypeService->useCustomPostExcerptAsDescription();
-                }
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService->isServiceEnabled() && $customPostTypeService->useCustomPostExcerptAsDescription()
             ));
         }
         return $this->useExcerptAsDescriptionEnabledCustomPostTypeServices;

@@ -13,7 +13,6 @@ interface GraphQLServerInterface
      * and send headers (eg: content-type => "application/json")
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function execute($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response;
+    public function execute(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response;
 }

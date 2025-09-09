@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCategoryTermDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CategoryMutations\TypeResolvers\ObjectType\CategoryTermDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $categoryDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?CategoryTermDoesNotExistErrorPayloadObjectTypeResolver $categoryDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getCategoryTermDoesNotExistErrorPayloadObjectTypeResolver() : CategoryTermDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->categoryDoesNotExistErrorPayloadObjectTypeResolver === null) {

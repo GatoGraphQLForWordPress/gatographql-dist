@@ -15,51 +15,34 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class ComponentFilterManager extends AbstractBasicService implements \PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface
 {
-    /**
-     * @var string|null
-     */
-    protected $selected_filter_name;
-    /**
-     * @var \PoP\ComponentModel\ComponentFilters\ComponentFilterInterface|null
-     */
-    private $selected_filter;
+    protected ?string $selected_filter_name = null;
+    private ?ComponentFilterInterface $selected_filter = null;
     /**
      * @var array<string,ComponentFilterInterface>
      */
-    protected $componentfilters = [];
-    /**
-     * @var bool
-     */
-    protected $initialized = \false;
+    protected array $componentfilters = [];
+    protected bool $initialized = \false;
     /**
      * From the moment in which a component is not excluded,
      * every component from then on must also be included
-     * @var string|null
      */
-    protected $not_excluded_ancestor_component;
+    protected ?string $not_excluded_ancestor_component = null;
     /**
      * @var array<mixed[]>|null
      */
-    protected $not_excluded_component_sets;
+    protected ?array $not_excluded_component_sets = null;
     /**
      * @var string[]|null
      */
-    protected $not_excluded_component_sets_as_string;
+    protected ?array $not_excluded_component_sets_as_string;
     /**
      * When targeting components in pop-engine.php (eg: when doing ->getObjectIDs())
      * those components are already and always included, so no need to check
      * for their ancestors or anything
-     * @var bool
      */
-    protected $neverExclude = \false;
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
-     */
-    private $componentPathManager;
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
-     */
-    private $componentPathHelpers;
+    protected bool $neverExclude = \false;
+    private ?ComponentPathManagerInterface $componentPathManager = null;
+    private ?ComponentPathHelpersInterface $componentPathHelpers = null;
     protected final function getComponentPathManager() : ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {

@@ -14,22 +14,10 @@ use PoPCMSSchema\Media\Constants\InputProperties;
 /** @internal */
 class MediaItemByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
-     */
-    private $slugFilterInput;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
+    private ?SlugFilterInput $slugFilterInput = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -83,24 +71,18 @@ class MediaItemByOneofInputObjectTypeResolver extends AbstractOneofQueryableInpu
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->__('Query by media item ID', 'media');
-            case InputProperties::SLUG:
-                return $this->__('Query by media item slug', 'media');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->__('Query by media item ID', 'media'),
+            InputProperties::SLUG => $this->__('Query by media item slug', 'media'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->getIncludeFilterInput();
-            case InputProperties::SLUG:
-                return $this->getSlugFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->getIncludeFilterInput(),
+            InputProperties::SLUG => $this->getSlugFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

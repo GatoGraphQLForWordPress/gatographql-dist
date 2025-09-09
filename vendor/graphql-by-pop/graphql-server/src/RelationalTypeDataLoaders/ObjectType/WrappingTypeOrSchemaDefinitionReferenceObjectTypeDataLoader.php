@@ -12,21 +12,13 @@ use GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInter
 use GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface;
 use PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader;
+use PoP\Root\Exception\ShouldNotHappenException;
 /** @internal */
 class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
-     */
-    private $schemaDefinitionReferenceRegistry;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Syntax\GraphQLSyntaxServiceInterface|null
-     */
-    private $graphQLSyntaxService;
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry = null;
+    private ?GraphQLSyntaxServiceInterface $graphQLSyntaxService = null;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getSchemaDefinitionReferenceRegistry() : SchemaDefinitionReferenceRegistryInterface
     {
         if ($this->schemaDefinitionReferenceRegistry === null) {
@@ -63,12 +55,9 @@ class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends Abstra
     public function getObjects(array $ids) : array
     {
         /** @var string[] $ids */
-        return \array_map(\Closure::fromCallable([$this, 'getWrappingTypeOrSchemaDefinitionReferenceObject']), $ids);
+        return \array_map($this->getWrappingTypeOrSchemaDefinitionReferenceObject(...), $ids);
     }
-    /**
-     * @return \GraphQLByPoP\GraphQLServer\ObjectModels\WrappingTypeInterface|\GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface|null
-     */
-    protected function getWrappingTypeOrSchemaDefinitionReferenceObject(string $typeID)
+    protected function getWrappingTypeOrSchemaDefinitionReferenceObject(string $typeID) : WrappingTypeInterface|SchemaDefinitionReferenceObjectInterface|null
     {
         // Check if the type is non-null or an array
         $isNonNullWrappingType = $this->getGraphQLSyntaxService()->isNonNullWrappingType($typeID);
@@ -80,12 +69,16 @@ class WrappingTypeOrSchemaDefinitionReferenceObjectTypeDataLoader extends Abstra
             }
             $wrappingType = null;
             if ($isNonNullWrappingType) {
-                /** @var TypeInterface */
                 $wrappedType = $this->getWrappingTypeOrSchemaDefinitionReferenceObject($this->getGraphQLSyntaxService()->extractWrappedTypeFromNonNullWrappingType($typeID));
+                if (!$wrappedType instanceof TypeInterface) {
+                    throw new ShouldNotHappenException(\sprintf('Wrapped type %s is not an instance of TypeInterface', $typeID));
+                }
                 $wrappingType = new NonNullWrappingType($wrappedType);
             } else {
-                /** @var TypeInterface */
                 $wrappedType = $this->getWrappingTypeOrSchemaDefinitionReferenceObject($this->getGraphQLSyntaxService()->extractWrappedTypeFromListWrappingType($typeID));
+                if (!$wrappedType instanceof TypeInterface) {
+                    throw new ShouldNotHappenException(\sprintf('Wrapped type %s is not an instance of TypeInterface', $typeID));
+                }
                 $wrappingType = new ListWrappingType($wrappedType);
             }
             $this->getObjectDictionary()->set($objectTypeResolverClass, $typeID, $wrappingType);

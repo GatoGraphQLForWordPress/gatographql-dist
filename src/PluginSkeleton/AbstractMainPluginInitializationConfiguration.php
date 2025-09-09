@@ -17,19 +17,15 @@ use PoP\Root\Helpers\ClassHelpers;
 abstract class AbstractMainPluginInitializationConfiguration extends AbstractPluginInitializationConfiguration implements MainPluginInitializationConfigurationInterface
 {
     /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInterface
-     */
-    protected $mainPlugin;
-    /**
      * Cache the Container Cache Configuration
      *
      * @var array<string,ContainerCacheConfiguration>
      */
-    private $containerCacheConfigurationsCache = [];
+    private array $containerCacheConfigurationsCache = [];
 
-    public function __construct(MainPluginInterface $mainPlugin)
-    {
-        $this->mainPlugin = $mainPlugin;
+    public function __construct(
+        protected MainPluginInterface $mainPlugin
+    ) {
     }
 
     /**
@@ -37,8 +33,10 @@ abstract class AbstractMainPluginInitializationConfiguration extends AbstractPlu
      *
      * @param array<string,mixed> $pluginAppGraphQLServerContext
      */
-    public function getContainerCacheConfiguration(string $pluginAppGraphQLServerName, array $pluginAppGraphQLServerContext): ContainerCacheConfiguration
-    {
+    public function getContainerCacheConfiguration(
+        string $pluginAppGraphQLServerName,
+        array $pluginAppGraphQLServerContext,
+    ): ContainerCacheConfiguration {
         $pluginAppGraphQLServerUniqueID = AppThreadHelpers::getUniqueID(
             $pluginAppGraphQLServerName,
             $pluginAppGraphQLServerContext,
@@ -55,8 +53,10 @@ abstract class AbstractMainPluginInitializationConfiguration extends AbstractPlu
     /**
      * @param array<string,mixed> $pluginAppGraphQLServerContext
      */
-    protected function doGetContainerCacheConfiguration(string $pluginAppGraphQLServerName, array $pluginAppGraphQLServerContext): ContainerCacheConfiguration
-    {
+    protected function doGetContainerCacheConfiguration(
+        string $pluginAppGraphQLServerName,
+        array $pluginAppGraphQLServerContext,
+    ): ContainerCacheConfiguration {
         $containerConfigurationCacheNamespace = null;
         $containerConfigurationCacheDirectory = null;
         if ($cacheContainerConfiguration = $this->isContainerCachingEnabled()) {

@@ -21,10 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ResourceIn
  */
 class ContainerParametersResource implements ResourceInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $parameters;
+    private array $parameters;
     /**
      * @param array $parameters The container parameters to track
      */
@@ -34,7 +31,7 @@ class ContainerParametersResource implements ResourceInterface
     }
     public function __toString() : string
     {
-        return 'container_parameters_' . \hash('md5', \serialize($this->parameters));
+        return 'container_parameters_' . \hash('xxh128', \serialize($this->parameters));
     }
     public function getParameters() : array
     {

@@ -19,14 +19,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\CacheExcep
  */
 class DefaultMarshaller implements MarshallerInterface
 {
-    /**
-     * @var bool
-     */
-    private $useIgbinarySerialize = \true;
-    /**
-     * @var bool
-     */
-    private $throwOnSerializationFailure = \false;
+    private bool $useIgbinarySerialize = \true;
+    private bool $throwOnSerializationFailure = \false;
     public function __construct(?bool $useIgbinarySerialize = null, bool $throwOnSerializationFailure = \false)
     {
         if (null === $useIgbinarySerialize) {
@@ -56,10 +50,7 @@ class DefaultMarshaller implements MarshallerInterface
         }
         return $serialized;
     }
-    /**
-     * @return mixed
-     */
-    public function unmarshall(string $value)
+    public function unmarshall(string $value) : mixed
     {
         if ('b:0;' === $value) {
             return \false;
@@ -68,7 +59,7 @@ class DefaultMarshaller implements MarshallerInterface
             return null;
         }
         static $igbinaryNull;
-        if ($value === ($igbinaryNull = $igbinaryNull ?? (\extension_loaded('igbinary') ? \igbinary_serialize(null) : \false))) {
+        if ($value === ($igbinaryNull ??= \extension_loaded('igbinary') ? \igbinary_serialize(null) : \false)) {
             return null;
         }
         $unserializeCallbackHandler = \ini_set('unserialize_callback_func', __CLASS__ . '::handleUnserializeCallback');
@@ -91,9 +82,8 @@ class DefaultMarshaller implements MarshallerInterface
     }
     /**
      * @internal
-     * @return never
      */
-    public static function handleUnserializeCallback(string $class)
+    public static function handleUnserializeCallback(string $class) : never
     {
         throw new \DomainException('Class not found: ' . $class);
     }

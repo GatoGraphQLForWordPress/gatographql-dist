@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractUserIsLoggedInErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\TypeResolvers\ObjectType\UserIsLoggedInErrorPayloadObjectTypeResolver|null
-     */
-    private $userIsLoggedInErrorPayloadObjectTypeResolver;
+    private ?UserIsLoggedInErrorPayloadObjectTypeResolver $userIsLoggedInErrorPayloadObjectTypeResolver = null;
     protected final function getUserIsLoggedInErrorPayloadObjectTypeResolver() : UserIsLoggedInErrorPayloadObjectTypeResolver
     {
         if ($this->userIsLoggedInErrorPayloadObjectTypeResolver === null) {

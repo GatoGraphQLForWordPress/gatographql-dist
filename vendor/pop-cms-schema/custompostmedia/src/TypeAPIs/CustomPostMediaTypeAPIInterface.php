@@ -7,13 +7,6 @@ namespace PoPCMSSchema\CustomPostMedia\TypeAPIs;
 interface CustomPostMediaTypeAPIInterface
 {
     public function doesCustomPostTypeSupportFeaturedImage(string $customPostType) : bool;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function hasCustomPostThumbnail($customPostObjectOrID) : bool;
-    /**
-     * @param string|int|object $customPostObjectOrID
-     * @return string|int|null
-     */
-    public function getCustomPostThumbnailID($customPostObjectOrID);
+    public function hasCustomPostThumbnail(string|int|object $customPostObjectOrID) : bool;
+    public function getCustomPostThumbnailID(string|int|object $customPostObjectOrID) : string|int|null;
 }

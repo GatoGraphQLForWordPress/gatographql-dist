@@ -11,10 +11,7 @@ use stdClass;
 /** @internal */
 class ArrayOrJSONObjectTraversionHelperService extends AbstractBasicService implements \PoPSchema\ExtendedSchemaCommons\HelperServices\ArrayOrJSONObjectTraversionHelperServiceInterface
 {
-    /**
-     * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
-     */
-    private $outputService;
+    private ?OutputServiceInterface $outputService = null;
     protected final function getOutputService() : OutputServiceInterface
     {
         if ($this->outputService === null) {
@@ -27,10 +24,8 @@ class ArrayOrJSONObjectTraversionHelperService extends AbstractBasicService impl
     /**
      * @throws RuntimeOperationException If the path cannot be reached under the array
      * @param array<string|int,mixed>|stdClass $data
-     * @param int|string $path
-     * @return mixed
      */
-    public function &getPointerToArrayItemOrObjectPropertyUnderPath(&$data, $path)
+    public function &getPointerToArrayItemOrObjectPropertyUnderPath(array|stdClass &$data, int|string $path) : mixed
     {
         $dataPointer =& $data;
         if (\is_integer($path)) {
@@ -68,28 +63,23 @@ class ArrayOrJSONObjectTraversionHelperService extends AbstractBasicService impl
     /**
      * @throws RuntimeOperationException
      * @param array<string|int,mixed>|stdClass $data
-     * @param int|string $path
      */
-    protected function throwNoArrayItemUnderPathException($data, $path) : void
+    protected function throwNoArrayItemUnderPathException(array|stdClass $data, int|string $path) : void
     {
         throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('Index \'%s\' is not set for array: %s', 'extended-schema-commons'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)) : \sprintf($this->__('Key or path \'%s\' is not reachable for object: %s', 'extended-schema-commons'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)));
     }
     /**
      * @throws RuntimeOperationException
-     * @param int|string $path
-     * @param mixed $dataPointer
      */
-    protected function throwItemUnderPathIsNotArrayException($dataPointer, $path) : void
+    protected function throwItemUnderPathIsNotArrayException(mixed $dataPointer, int|string $path) : void
     {
         throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('The item under index \'%s\' (with value \'%s\') is not an array', 'extended-schema-commons'), $path, $dataPointer) : \sprintf($this->__('The item under path \'%s\' (with value \'%s\') is not an array', 'extended-schema-commons'), $path, $dataPointer));
     }
     /**
      * @throws RuntimeOperationException If the path cannot be reached under the array
      * @param array<string|int,mixed>|stdClass $data
-     * @param int|string $path
-     * @param mixed $value
      */
-    public function setValueToArrayItemOrObjectPropertyUnderPath(&$data, $path, $value) : void
+    public function setValueToArrayItemOrObjectPropertyUnderPath(array|stdClass &$data, int|string $path, mixed $value) : void
     {
         $dataPointer =& $data;
         if (\is_integer($path)) {

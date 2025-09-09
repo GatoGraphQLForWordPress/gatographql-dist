@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver;
+    private ?LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver = null;
     protected final function getLoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoEditingMediaCapabilityErrorPayloadObjectTypeResolver === null) {

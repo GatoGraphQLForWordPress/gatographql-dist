@@ -6,6 +6,7 @@ namespace PoP\Root\Module;
 use PoP\Root\App;
 use PoP\Root\Container\Loader\SchemaServiceYamlFileLoader;
 use PoP\Root\Container\Loader\ServiceYamlFileLoader;
+use PoP\Root\Exception\ShouldNotHappenException;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\FileLocator;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
 /** @internal */
@@ -22,8 +23,10 @@ trait InitializeContainerServicesInModuleTrait
             return;
         }
         // Initialize the ContainerBuilder with this module's service implementations
-        /** @var ContainerBuilder */
         $containerBuilder = App::getContainer();
+        if (!$containerBuilder instanceof ContainerBuilder) {
+            throw new ShouldNotHappenException('Container builder is not an instance of ContainerBuilder');
+        }
         $this->loadServicesFromYAMLConfigIntoContainer($containerBuilder, $moduleDir, $configPath, $fileName);
     }
     /**
@@ -54,8 +57,10 @@ trait InitializeContainerServicesInModuleTrait
         if (App::getContainerBuilderFactory()->isCached()) {
             return;
         }
-        /** @var ContainerBuilder */
         $containerBuilder = App::getContainer();
+        if (!$containerBuilder instanceof ContainerBuilder) {
+            throw new ShouldNotHappenException('Container builder is not an instance of ContainerBuilder');
+        }
         $modulePath = $this->getModulePath($moduleDir, $configPath);
         $autoconfigure = !$skipSchema;
         $loader = new SchemaServiceYamlFileLoader($containerBuilder, new FileLocator($modulePath), $autoconfigure);
@@ -71,8 +76,10 @@ trait InitializeContainerServicesInModuleTrait
             return;
         }
         // Initialize the ContainerBuilder with this module's service implementations
-        /** @var ContainerBuilder */
         $containerBuilder = App::getSystemContainer();
+        if (!$containerBuilder instanceof ContainerBuilder) {
+            throw new ShouldNotHappenException('Container builder is not an instance of ContainerBuilder');
+        }
         $this->loadServicesFromYAMLConfigIntoContainer($containerBuilder, $moduleDir, $configPath, $fileName);
     }
 }

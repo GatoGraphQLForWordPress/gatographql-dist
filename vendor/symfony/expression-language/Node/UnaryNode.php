@@ -27,21 +27,14 @@ class UnaryNode extends Node
     {
         $compiler->raw('(')->raw(self::OPERATORS[$this->attributes['operator']])->compile($this->nodes['node'])->raw(')');
     }
-    /**
-     * @return mixed
-     */
-    public function evaluate(array $functions, array $values)
+    public function evaluate(array $functions, array $values) : mixed
     {
         $value = $this->nodes['node']->evaluate($functions, $values);
-        switch ($this->attributes['operator']) {
-            case 'not':
-            case '!':
-                return !$value;
-            case '-':
-                return -$value;
-            default:
-                return $value;
-        }
+        return match ($this->attributes['operator']) {
+            'not', '!' => !$value,
+            '-' => -$value,
+            default => $value,
+        };
     }
     public function toArray() : array
     {

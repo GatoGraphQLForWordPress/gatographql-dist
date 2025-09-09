@@ -30,7 +30,7 @@ trait MarkdownContentRetrieverTrait
                 $relativePathDir,
                 $options
             );
-        } catch (ContentNotExistsException $exception) {
+        } catch (ContentNotExistsException) {
             return null;
         }
     }

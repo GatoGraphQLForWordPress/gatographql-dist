@@ -11,14 +11,8 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
 /** @internal */
 class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -54,20 +48,16 @@ class CommentByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputO
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->__('Query by comment ID', 'comments');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->__('Query by comment ID', 'comments'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->getIncludeFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->getIncludeFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

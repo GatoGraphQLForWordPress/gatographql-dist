@@ -28,18 +28,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\TypedR
  */
 class ResolveInvalidReferencesPass implements CompilerPassInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     */
-    private $signalingException;
-    /**
-     * @var string
-     */
-    private $currentId;
+    private ContainerBuilder $container;
+    private RuntimeException $signalingException;
+    private string $currentId;
     /**
      * Process the ContainerBuilder to resolve invalid references.
      *
@@ -61,10 +52,8 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
      * Processes arguments to determine invalid references.
      *
      * @throws RuntimeException When an invalid reference is found
-     * @param mixed $value
-     * @return mixed
      */
-    private function processValue($value, int $rootLevel = 0, int $level = 0)
+    private function processValue(mixed $value, int $rootLevel = 0, int $level = 0) : mixed
     {
         if ($value instanceof ServiceClosureArgument) {
             $value->setValues($this->processValue($value->getValues(), 1, 1));

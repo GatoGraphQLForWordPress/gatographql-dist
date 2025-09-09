@@ -15,10 +15,7 @@ use GatoGraphQL\GatoGraphQL\Settings\LogEntryCounterSettingsManagerInterface;
  */
 class LogEntryCounterSettingsManagerFacade
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\LogEntryCounterSettingsManagerInterface|null
-     */
-    private static $instance;
+    private static ?LogEntryCounterSettingsManagerInterface $instance = null;
 
     public static function getInstance(): LogEntryCounterSettingsManagerInterface
     {

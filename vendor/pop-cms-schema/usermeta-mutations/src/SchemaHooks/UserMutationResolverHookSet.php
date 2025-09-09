@@ -10,10 +10,7 @@ use PoPCMSSchema\UserMetaMutations\SchemaHooks\AbstractUserMutationResolverHookS
 class UserMutationResolverHookSet extends AbstractUserMutationResolverHookSet
 {
     use \PoPCMSSchema\UserMetaMutations\SchemaHooks\UserMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
     protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {

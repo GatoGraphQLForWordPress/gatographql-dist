@@ -20,22 +20,10 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field;
  */
 class ChoiceFormField extends FormField
 {
-    /**
-     * @var string
-     */
-    private $type;
-    /**
-     * @var bool
-     */
-    private $multiple;
-    /**
-     * @var mixed[]
-     */
-    private $options;
-    /**
-     * @var bool
-     */
-    private $validationDisabled = \false;
+    private string $type;
+    private bool $multiple;
+    private array $options;
+    private bool $validationDisabled = \false;
     /**
      * Returns true if the field should be included in the submitted values.
      *
@@ -71,9 +59,8 @@ class ChoiceFormField extends FormField
      * Sets the value of the field.
      *
      * @return void
-     * @param string|mixed[]|bool $value
      */
-    public function select($value)
+    public function select(string|array|bool $value)
     {
         $this->setValue($value);
     }
@@ -111,9 +98,8 @@ class ChoiceFormField extends FormField
      * @return void
      *
      * @throws \InvalidArgumentException When value type provided is not correct
-     * @param string|mixed[]|bool|null $value
      */
-    public function setValue($value)
+    public function setValue(string|array|bool|null $value)
     {
         if ('checkbox' === $this->type && \false === $value) {
             // uncheck
@@ -276,7 +262,7 @@ class ChoiceFormField extends FormField
      *
      * @return $this
      */
-    public function disableValidation()
+    public function disableValidation() : static
     {
         $this->validationDisabled = \true;
         return $this;

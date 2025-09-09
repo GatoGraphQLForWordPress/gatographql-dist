@@ -31,7 +31,6 @@ interface LeafOutputTypeResolverInterface extends \PoP\ComponentModel\TypeResolv
      * `array` is supported as an output type, as to support `JSONObject`.
      *
      * @return string|int|float|bool|mixed[]|stdClass formatted representation of the custom scalar
-     * @param string|int|float|bool|object $scalarValue
      */
-    public function serialize($scalarValue);
+    public function serialize(string|int|float|bool|object $scalarValue) : string|int|float|bool|array|stdClass;
 }

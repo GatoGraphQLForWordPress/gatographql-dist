@@ -16,14 +16,8 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class SchemaCastingService extends AbstractBasicService implements \PoP\ComponentModel\Schema\SchemaCastingServiceInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Schema\InputCoercingServiceInterface|null
-     */
-    private $inputCoercingService;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
+    private ?\PoP\ComponentModel\Schema\InputCoercingServiceInterface $inputCoercingService = null;
     protected final function getDangerouslyNonSpecificScalarTypeScalarTypeResolver() : DangerouslyNonSpecificScalarTypeScalarTypeResolver
     {
         if ($this->dangerouslyNonSpecificScalarTypeScalarTypeResolver === null) {

@@ -36,10 +36,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Yaml;
  */
 class YamlDumper extends Dumper
 {
-    /**
-     * @var YmlDumper
-     */
-    private $dumper;
+    private YmlDumper $dumper;
     /**
      * Dumps the service container as an YAML string.
      */
@@ -48,14 +45,14 @@ class YamlDumper extends Dumper
         if (!\class_exists(YmlDumper::class)) {
             throw new LogicException('Unable to dump the container as the Symfony Yaml Component is not installed. Try running "composer require symfony/yaml".');
         }
-        $this->dumper = $this->dumper ?? new YmlDumper();
+        $this->dumper ??= new YmlDumper();
         return $this->addParameters() . "\n" . $this->addServices();
     }
     private function addService(string $id, Definition $definition) : string
     {
         $code = "    {$this->dumper->dump($id)}:\n";
         if ($class = $definition->getClass()) {
-            if (\strncmp($class, '\\', \strlen('\\')) === 0) {
+            if (\str_starts_with($class, '\\')) {
                 $class = \substr($class, 1);
             }
             $code .= \sprintf("        class: %s\n", $this->dumper->dump($this->container->resolveEnvPlaceholders($class)));
@@ -65,9 +62,7 @@ class YamlDumper extends Dumper
         }
         $tagsCode = '';
         $tags = $definition->getTags();
-        $tags['container.error'] = \array_map(function ($e) {
-            return ['message' => $e];
-        }, $definition->getErrors());
+        $tags['container.error'] = \array_map(fn($e) => ['message' => $e], $definition->getErrors());
         foreach ($tags as $name => $tags) {
             foreach ($tags as $attributes) {
                 $att = [];
@@ -193,10 +188,8 @@ class YamlDumper extends Dumper
     }
     /**
      * Dumps callable to YAML format.
-     * @param mixed $callable
-     * @return mixed
      */
-    private function dumpCallable($callable)
+    private function dumpCallable(mixed $callable) : mixed
     {
         if (\is_array($callable)) {
             if ($callable[0] instanceof Reference) {
@@ -211,10 +204,8 @@ class YamlDumper extends Dumper
      * Dumps the value to YAML format.
      *
      * @throws RuntimeException When trying to dump object or resource
-     * @param mixed $value
-     * @return mixed
      */
-    private function dumpValue($value)
+    private function dumpValue(mixed $value) : mixed
     {
         if ($value instanceof ServiceClosureArgument) {
             $value = $value->getValues()[0];
@@ -269,7 +260,7 @@ class YamlDumper extends Dumper
         } elseif ($value instanceof Definition) {
             return new TaggedValue('service', (new Parser())->parse("_:\n" . $this->addService('_', $value), Yaml::PARSE_CUSTOM_TAGS)['_']['_']);
         } elseif ($value instanceof \UnitEnum) {
-            return new TaggedValue('php/const', \sprintf('%s::%s', \get_class($value), $value->name));
+            return new TaggedValue('php/const', \sprintf('%s::%s', $value::class, $value->name));
         } elseif ($value instanceof AbstractArgument) {
             return new TaggedValue('abstract', $value->getText());
         } elseif (\is_object($value) || \is_resource($value)) {
@@ -307,7 +298,7 @@ class YamlDumper extends Dumper
         foreach ($parameters as $key => $value) {
             if (\is_array($value)) {
                 $value = $this->prepareParameters($value, $escape);
-            } elseif ($value instanceof Reference || \is_string($value) && \strncmp($value, '@', \strlen('@')) === 0) {
+            } elseif ($value instanceof Reference || \is_string($value) && \str_starts_with($value, '@')) {
                 $value = '@' . $value;
             }
             $filtered[$key] = $value;

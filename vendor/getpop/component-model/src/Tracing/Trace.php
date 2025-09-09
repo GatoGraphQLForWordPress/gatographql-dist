@@ -10,54 +10,22 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class Trace implements \PoP\ComponentModel\Tracing\TraceInterface
 {
     /**
-     * @var string|int
-     */
-    protected $id;
-    /**
-     * @var array<string, mixed>
-     */
-    protected $data = [];
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Directive|null
-     */
-    protected $directive;
-    /**
-     * @var mixed[]|null
-     */
-    protected $idFields;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface|null
-     */
-    protected $relationalTypeResolver;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|null
-     */
-    protected $field;
-    /**
-     * @var string|int|null
-     */
-    protected $objectID = null;
-    /**
      * @param array<string,mixed> $data
-     * @param string|int $id
-     * @param string|int|null $objectID
      */
-    public function __construct($id, array $data = [], ?Directive $directive = null, ?array $idFields = null, ?RelationalTypeResolverInterface $relationalTypeResolver = null, ?FieldInterface $field = null, $objectID = null)
-    {
-        $this->id = $id;
+    public function __construct(
+        protected string|int $id,
         /** @var array<string,mixed> */
-        $this->data = $data;
-        $this->directive = $directive;
+        protected array $data = [],
+        protected ?Directive $directive = null,
         /** @var array<string|int,FieldInterface[]>|null */
-        $this->idFields = $idFields;
-        $this->relationalTypeResolver = $relationalTypeResolver;
-        $this->field = $field;
-        $this->objectID = $objectID;
+        protected ?array $idFields = null,
+        protected ?RelationalTypeResolverInterface $relationalTypeResolver = null,
+        protected ?FieldInterface $field = null,
+        protected string|int|null $objectID = null
+    )
+    {
     }
-    /**
-     * @return string|int
-     */
-    public function getID()
+    public function getID() : string|int
     {
         return $this->id;
     }
@@ -87,10 +55,7 @@ class Trace implements \PoP\ComponentModel\Tracing\TraceInterface
     {
         return $this->field;
     }
-    /**
-     * @return string|int|null
-     */
-    public function getObjectID()
+    public function getObjectID() : string|int|null
     {
         return $this->objectID;
     }

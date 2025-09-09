@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class AddTagTermMetaBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\AddTagTermMetaMutationResolver|null
-     */
-    private $addTagTermMetaMutationResolver;
+    private ?\PoPCMSSchema\TagMetaMutations\MutationResolvers\AddTagTermMetaMutationResolver $addTagTermMetaMutationResolver = null;
     protected final function getAddTagTermMetaMutationResolver() : \PoPCMSSchema\TagMetaMutations\MutationResolvers\AddTagTermMetaMutationResolver
     {
         if ($this->addTagTermMetaMutationResolver === null) {

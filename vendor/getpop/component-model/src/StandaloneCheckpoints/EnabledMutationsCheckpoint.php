@@ -17,13 +17,8 @@ use SplObjectStorage;
 /** @internal */
 class EnabledMutationsCheckpoint extends \PoP\ComponentModel\StandaloneCheckpoints\AbstractStandaloneCheckpoint
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    protected $field;
-    public function __construct(FieldInterface $field)
+    public function __construct(protected FieldInterface $field)
     {
-        $this->field = $field;
     }
     public function validateCheckpoint() : ?FeedbackItemResolution
     {
@@ -49,7 +44,7 @@ class EnabledMutationsCheckpoint extends \PoP\ComponentModel\StandaloneCheckpoin
         while ($astNode !== null) {
             $astNodeTopMostAncestor = $astNode;
             $astNode = $documentASTNodeAncestors[$astNode] ?? null;
-            $location = ($nullsafeVariable1 = $astNode) ? $nullsafeVariable1->getLocation() : null;
+            $location = $astNode?->getLocation();
             if ($location instanceof RuntimeLocation) {
                 /** @var RuntimeLocation $location */
                 $astNode = $location->getStaticASTNode();

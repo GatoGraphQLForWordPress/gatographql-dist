@@ -13,14 +13,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericCategoryListObjectTypeFieldResolver extends AbstractCustomPostListObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomyCustomPostsFilterInputObjectTypeResolver|null
-     */
-    private $taxonomyCustomPostsFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?TaxonomyCustomPostsFilterInputObjectTypeResolver $taxonomyCustomPostsFilterInputObjectTypeResolver = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getTaxonomyCustomPostsFilterInputObjectTypeResolver() : TaxonomyCustomPostsFilterInputObjectTypeResolver
     {
         if ($this->taxonomyCustomPostsFilterInputObjectTypeResolver === null) {
@@ -52,14 +46,11 @@ class GenericCategoryListObjectTypeFieldResolver extends AbstractCustomPostListO
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return $this->__('Custom posts which contain this category', 'pop-taxonomies');
-            case 'customPostCount':
-                return $this->__('Number of custom posts which contain this category', 'pop-taxonomies');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => $this->__('Custom posts which contain this category', 'pop-taxonomies'),
+            'customPostCount' => $this->__('Number of custom posts which contain this category', 'pop-taxonomies'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,mixed>

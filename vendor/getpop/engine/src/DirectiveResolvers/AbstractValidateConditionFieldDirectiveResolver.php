@@ -15,10 +15,7 @@ use SplObjectStorage;
 /** @internal */
 abstract class AbstractValidateConditionFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractValidateFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver|null
-     */
-    private $superRootObjectTypeResolver;
+    private ?SuperRootObjectTypeResolver $superRootObjectTypeResolver = null;
     protected final function getSuperRootObjectTypeResolver() : SuperRootObjectTypeResolver
     {
         if ($this->superRootObjectTypeResolver === null) {

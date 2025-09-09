@@ -10,7 +10,7 @@ class FieldDirectiveResolverRegistry implements \PoP\ComponentModel\Registries\F
     /**
      * @var array<string,FieldDirectiveResolverInterface>
      */
-    protected $fieldDirectiveResolvers = [];
+    protected array $fieldDirectiveResolvers = [];
     public function addFieldDirectiveResolver(FieldDirectiveResolverInterface $fieldDirectiveResolver) : void
     {
         $this->fieldDirectiveResolvers[$fieldDirectiveResolver->getDirectiveName()] = $fieldDirectiveResolver;

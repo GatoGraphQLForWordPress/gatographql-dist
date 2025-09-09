@@ -13,10 +13,7 @@ use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
 /** @internal */
 abstract class AbstractUseRootAsSourceForSchemaObjectTypeResolver extends AbstractObjectTypeResolver implements \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\UseRootAsSourceForSchemaObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
-     */
-    private $rootObjectTypeResolver;
+    private ?RootObjectTypeResolver $rootObjectTypeResolver = null;
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -30,11 +27,7 @@ abstract class AbstractUseRootAsSourceForSchemaObjectTypeResolver extends Abstra
     {
         return $this->getRootObjectTypeResolver();
     }
-    /**
-     * @param \PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface|\PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver
-     * @param \PoP\ComponentModel\FieldResolvers\ObjectType\ObjectTypeFieldResolverInterface|\PoP\ComponentModel\FieldResolvers\InterfaceType\InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver
-     */
-    protected function isFieldNameResolvedByObjectTypeFieldResolver($objectTypeOrInterfaceTypeResolver, $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : bool
+    protected function isFieldNameResolvedByObjectTypeFieldResolver(ObjectTypeResolverInterface|InterfaceTypeResolverInterface $objectTypeOrInterfaceTypeResolver, ObjectTypeFieldResolverInterface|InterfaceTypeFieldResolverInterface $objectTypeOrInterfaceTypeFieldResolver, string $fieldName) : bool
     {
         if ($objectTypeOrInterfaceTypeFieldResolver instanceof ObjectTypeFieldResolverInterface && !$this->isFieldNameConditionSatisfiedForSchema($objectTypeOrInterfaceTypeFieldResolver, $fieldName)) {
             return \false;

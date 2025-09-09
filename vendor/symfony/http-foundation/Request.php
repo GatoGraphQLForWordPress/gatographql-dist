@@ -179,30 +179,12 @@ class Request
      */
     protected static $formats;
     protected static $requestFactory;
-    /**
-     * @var string|null
-     */
-    private $preferredFormat;
-    /**
-     * @var bool
-     */
-    private $isHostValid = \true;
-    /**
-     * @var bool
-     */
-    private $isForwardedValid = \true;
-    /**
-     * @var bool
-     */
-    private $isSafeContentPreferred;
-    /**
-     * @var mixed[]
-     */
-    private $trustedValuesCache = [];
-    /**
-     * @var int
-     */
-    private static $trustedHeaderSet = -1;
+    private ?string $preferredFormat = null;
+    private bool $isHostValid = \true;
+    private bool $isForwardedValid = \true;
+    private bool $isSafeContentPreferred;
+    private array $trustedValuesCache = [];
+    private static int $trustedHeaderSet = -1;
     private const FORWARDED_PARAMS = [self::HEADER_X_FORWARDED_FOR => 'for', self::HEADER_X_FORWARDED_HOST => 'host', self::HEADER_X_FORWARDED_PROTO => 'proto', self::HEADER_X_FORWARDED_PORT => 'host'];
     /**
      * Names for headers that can be trusted when
@@ -267,12 +249,11 @@ class Request
     }
     /**
      * Creates a new request with values from PHP's super globals.
-     * @return static
      */
-    public static function createFromGlobals()
+    public static function createFromGlobals() : static
     {
         $request = self::createRequestFromFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
-        if (\strncmp($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded', \strlen('application/x-www-form-urlencoded')) === 0 && \in_array(\strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
+        if (\str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded') && \in_array(\strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
             \parse_str($request->getContent(), $data);
             $request->request = new InputBag($data);
         }
@@ -293,9 +274,8 @@ class Request
      * @param string|resource|null $content    The raw body data
      *
      * @throws BadRequestException When the URI is invalid
-     * @return static
      */
-    public static function create(string $uri, string $method = 'GET', array $parameters = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+    public static function create(string $uri, string $method = 'GET', array $parameters = [], array $cookies = [], array $files = [], array $server = [], $content = null) : static
     {
         $server = \array_replace(['SERVER_NAME' => 'localhost', 'SERVER_PORT' => 80, 'HTTP_HOST' => 'localhost', 'HTTP_USER_AGENT' => 'Symfony', 'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'HTTP_ACCEPT_LANGUAGE' => 'en-us,en;q=0.5', 'HTTP_ACCEPT_CHARSET' => 'ISO-8859-1,utf-8;q=0.7,*;q=0.7', 'REMOTE_ADDR' => '127.0.0.1', 'SCRIPT_NAME' => '', 'SCRIPT_FILENAME' => '', 'SERVER_PROTOCOL' => 'HTTP/1.1', 'REQUEST_TIME' => \time(), 'REQUEST_TIME_FLOAT' => \microtime(\true)], $server);
         $server['PATH_INFO'] = '';
@@ -394,9 +374,8 @@ class Request
      * @param array|null $cookies    The COOKIE parameters
      * @param array|null $files      The FILES parameters
      * @param array|null $server     The SERVER parameters
-     * @return static
      */
-    public function duplicate(?array $query = null, ?array $request = null, ?array $attributes = null, ?array $cookies = null, ?array $files = null, ?array $server = null)
+    public function duplicate(?array $query = null, ?array $request = null, ?array $attributes = null, ?array $cookies = null, ?array $files = null, ?array $server = null) : static
     {
         $dup = clone $this;
         if (null !== $query) {
@@ -548,9 +527,7 @@ class Request
      */
     public static function setTrustedHosts(array $hostPatterns)
     {
-        self::$trustedHostPatterns = \array_map(function ($hostPattern) {
-            return \sprintf('{%s}i', $hostPattern);
-        }, $hostPatterns);
+        self::$trustedHostPatterns = \array_map(fn($hostPattern) => \sprintf('{%s}i', $hostPattern), $hostPatterns);
         // we need to reset trusted hosts on trusted host patterns change
         self::$trustedHosts = [];
     }
@@ -612,10 +589,8 @@ class Request
      * Order of precedence: PATH (routing placeholders or custom attributes), GET, POST
      *
      * @internal use explicit input sources instead
-     * @param mixed $default
-     * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null) : mixed
     {
         if ($this !== ($result = $this->attributes->get($key, $this))) {
             return $result;
@@ -680,7 +655,7 @@ class Request
      */
     public function setSessionFactory(callable $factory) : void
     {
-        $this->session = \Closure::fromCallable($factory);
+        $this->session = $factory(...);
     }
     /**
      * Returns the client IP addresses.
@@ -745,7 +720,7 @@ class Request
      */
     public function getPathInfo() : string
     {
-        return $this->pathInfo = $this->pathInfo ?? $this->preparePathInfo();
+        return $this->pathInfo ??= $this->preparePathInfo();
     }
     /**
      * Returns the root path from which this request is executed.
@@ -761,7 +736,7 @@ class Request
      */
     public function getBasePath() : string
     {
-        return $this->basePath = $this->basePath ?? $this->prepareBasePath();
+        return $this->basePath ??= $this->prepareBasePath();
     }
     /**
      * Returns the root URL from which this request is executed.
@@ -790,7 +765,7 @@ class Request
      */
     private function getBaseUrlReal() : string
     {
-        return $this->baseUrl = $this->baseUrl ?? $this->prepareBaseUrl();
+        return $this->baseUrl ??= $this->prepareBaseUrl();
     }
     /**
      * Gets the request's scheme.
@@ -809,7 +784,7 @@ class Request
      *
      * @return int|string|null Can be a string if fetched from the server bag
      */
-    public function getPort()
+    public function getPort() : int|string|null
     {
         if ($this->isFromTrustedProxy() && ($host = $this->getTrustedValues(self::HEADER_X_FORWARDED_PORT))) {
             $host = $host[0];
@@ -877,7 +852,7 @@ class Request
      */
     public function getRequestUri() : string
     {
-        return $this->requestUri = $this->requestUri ?? $this->prepareRequestUri();
+        return $this->requestUri ??= $this->prepareRequestUri();
     }
     /**
      * Gets the scheme and HTTP host.
@@ -1139,7 +1114,7 @@ class Request
      *
      * @return void
      */
-    public function setFormat(?string $format, $mimeTypes)
+    public function setFormat(?string $format, string|array $mimeTypes)
     {
         if (null === static::$formats) {
             static::initializeFormats();
@@ -1159,7 +1134,7 @@ class Request
      */
     public function getRequestFormat(?string $default = 'html') : ?string
     {
-        $this->format = $this->format ?? $this->attributes->get('_format');
+        $this->format ??= $this->attributes->get('_format');
         return $this->format ?? $default;
     }
     /**
@@ -1380,7 +1355,7 @@ class Request
      */
     public function getPreferredFormat(?string $default = 'html') : ?string
     {
-        if ($this->preferredFormat = $this->preferredFormat ?? $this->getRequestFormat(null)) {
+        if ($this->preferredFormat ??= $this->getRequestFormat(null)) {
             return $this->preferredFormat;
         }
         foreach ($this->getAcceptableContentTypes() as $mimeType) {
@@ -1431,7 +1406,7 @@ class Request
         $this->languages = [];
         foreach ($languages as $acceptHeaderItem) {
             $lang = $acceptHeaderItem->getValue();
-            if (\strpos($lang, '-') !== \false) {
+            if (\str_contains($lang, '-')) {
                 $codes = \explode('-', $lang);
                 if ('i' === $codes[0]) {
                     // Language not listed in ISO 639 that are not variants
@@ -1461,7 +1436,7 @@ class Request
      */
     public function getCharsets() : array
     {
-        return $this->charsets = $this->charsets ?? \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept-Charset'))->all()));
+        return $this->charsets ??= \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept-Charset'))->all()));
     }
     /**
      * Gets a list of encodings acceptable by the client browser in preferable order.
@@ -1470,7 +1445,7 @@ class Request
      */
     public function getEncodings() : array
     {
-        return $this->encodings = $this->encodings ?? \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept-Encoding'))->all()));
+        return $this->encodings ??= \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept-Encoding'))->all()));
     }
     /**
      * Gets a list of content types acceptable by the client browser in preferable order.
@@ -1479,7 +1454,7 @@ class Request
      */
     public function getAcceptableContentTypes() : array
     {
-        return $this->acceptableContentTypes = $this->acceptableContentTypes ?? \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept'))->all()));
+        return $this->acceptableContentTypes ??= \array_map('strval', \array_keys(AcceptHeader::fromString($this->headers->get('Accept'))->all()));
     }
     /**
      * Returns true if the request is an XMLHttpRequest.
@@ -1678,7 +1653,7 @@ class Request
             if (\class_exists(\Locale::class, \false)) {
                 \Locale::setDefault($locale);
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
     }
     /**
@@ -1693,7 +1668,7 @@ class Request
             if (0 !== \stripos(\rawurldecode($string), $prefix)) {
                 return null;
             }
-        } elseif (\strncmp(\rawurldecode($string), $prefix, \strlen($prefix)) !== 0) {
+        } elseif (!\str_starts_with(\rawurldecode($string), $prefix)) {
             return null;
         }
         $len = \strlen($prefix);
@@ -1702,10 +1677,7 @@ class Request
         }
         return null;
     }
-    /**
-     * @return static
-     */
-    private static function createRequestFromFactory(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+    private static function createRequestFromFactory(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) : static
     {
         if (self::$requestFactory) {
             $request = (self::$requestFactory)($query, $request, $attributes, $cookies, $files, $server, $content);
@@ -1754,7 +1726,7 @@ class Request
                     continue;
                 }
                 if (self::HEADER_X_FORWARDED_PORT === $type) {
-                    if (\substr_compare($v, ']', -\strlen(']')) === 0 || \false === ($v = \strrchr($v, ':'))) {
+                    if (\str_ends_with($v, ']') || \false === ($v = \strrchr($v, ':'))) {
                         $v = $this->isSecure() ? ':443' : ':80';
                     }
                     $v = '0.0.0.0' . $v;
@@ -1794,7 +1766,7 @@ class Request
                 if ($i) {
                     $clientIps[$key] = $clientIp = \substr($clientIp, 0, $i);
                 }
-            } elseif (\strncmp($clientIp, '[', \strlen('[')) === 0) {
+            } elseif (\str_starts_with($clientIp, '[')) {
                 // Strip brackets and :port from IPv6 addresses.
                 $i = \strpos($clientIp, ']', 1);
                 $clientIps[$key] = $clientIp = \substr($clientIp, 1, $i - 1);
@@ -1806,7 +1778,7 @@ class Request
             if (IpUtils::checkIp($clientIp, self::$trustedProxies)) {
                 unset($clientIps[$key]);
                 // Fallback to this when the client IP falls into the range of trusted proxies
-                $firstTrustedIp = $firstTrustedIp ?? $clientIp;
+                $firstTrustedIp ??= $clientIp;
             }
         }
         // Now the IP chain contains only untrusted proxies and the client IP

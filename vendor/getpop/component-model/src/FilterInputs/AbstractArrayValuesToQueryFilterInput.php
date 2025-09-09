@@ -8,9 +8,8 @@ abstract class AbstractArrayValuesToQueryFilterInput extends \PoP\ComponentModel
 {
     /**
      * @param array<string,mixed> $query
-     * @param mixed $value
      */
-    public final function filterDataloadQueryArgs(array &$query, $value) : void
+    public final function filterDataloadQueryArgs(array &$query, mixed $value) : void
     {
         /** @var mixed[] $value */
         $value = $this->getValue($value);

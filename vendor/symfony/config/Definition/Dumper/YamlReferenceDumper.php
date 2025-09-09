@@ -26,10 +26,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Inline;
  */
 class YamlReferenceDumper
 {
-    /**
-     * @var string|null
-     */
-    private $reference;
+    private ?string $reference = null;
     /**
      * @return string
      */
@@ -142,7 +139,7 @@ class YamlReferenceDumper
             $this->writeLine('');
             $message = \count($example) > 1 ? 'Examples' : 'Example';
             $this->writeLine('# ' . $message . ':', $depth * 4 + 4);
-            $this->writeArray(\array_map(\Closure::fromCallable([Inline::class, 'dump']), $example), $depth + 1, \true);
+            $this->writeArray(\array_map(Inline::dump(...), $example), $depth + 1, \true);
         }
         if ($children) {
             foreach ($children as $childNode) {
@@ -161,23 +158,7 @@ class YamlReferenceDumper
     }
     private function writeArray(array $array, int $depth, bool $asComment = \false) : void
     {
-        $arrayIsListFunction = function (array $array) : bool {
-            if (\function_exists('array_is_list')) {
-                return \array_is_list($array);
-            }
-            if ($array === []) {
-                return \true;
-            }
-            $current_key = 0;
-            foreach ($array as $key => $noop) {
-                if ($key !== $current_key) {
-                    return \false;
-                }
-                ++$current_key;
-            }
-            return \true;
-        };
-        $isIndexed = $arrayIsListFunction($array);
+        $isIndexed = \array_is_list($array);
         foreach ($array as $key => $value) {
             if (\is_array($value)) {
                 $val = '';

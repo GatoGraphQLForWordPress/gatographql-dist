@@ -17,10 +17,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostUserMutations\TypeResolvers\InputObjectType\AuthorByOneofInputObjectTypeResolver|null
-     */
-    private $authorByOneofInputObjectTypeResolver;
+    private ?AuthorByOneofInputObjectTypeResolver $authorByOneofInputObjectTypeResolver = null;
     protected final function getAuthorByOneofInputObjectTypeResolver() : AuthorByOneofInputObjectTypeResolver
     {
         if ($this->authorByOneofInputObjectTypeResolver === null) {
@@ -32,9 +29,9 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'maybeAddInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'maybeAddInputFieldDescription']), 10, 3);
-        App::addFilter(HookNames::SENSITIVE_INPUT_FIELD_NAMES, \Closure::fromCallable([$this, 'getSensitiveInputFieldNames']), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->maybeAddInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->maybeAddInputFieldDescription(...), 10, 3);
+        App::addFilter(HookNames::SENSITIVE_INPUT_FIELD_NAMES, $this->getSensitiveInputFieldNames(...), 10, 2);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers

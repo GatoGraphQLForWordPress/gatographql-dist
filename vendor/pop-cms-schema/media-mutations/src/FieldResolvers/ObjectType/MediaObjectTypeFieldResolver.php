@@ -28,30 +28,12 @@ use stdClass;
 /** @internal */
 class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver|null
-     */
-    private $mediaObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\MediaUpdateMutationPayloadObjectTypeResolver|null
-     */
-    private $mediaUpdateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\MutationResolvers\UpdateMediaItemMutationResolver|null
-     */
-    private $updateMediaItemMutationResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableUpdateMediaItemMutationResolver|null
-     */
-    private $payloadableUpdateMediaItemMutationResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\MediaUpdateInputObjectTypeResolver|null
-     */
-    private $mediaUpdateInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;
+    private ?MediaUpdateMutationPayloadObjectTypeResolver $mediaUpdateMutationPayloadObjectTypeResolver = null;
+    private ?UpdateMediaItemMutationResolver $updateMediaItemMutationResolver = null;
+    private ?PayloadableUpdateMediaItemMutationResolver $payloadableUpdateMediaItemMutationResolver = null;
+    private ?MediaUpdateInputObjectTypeResolver $mediaUpdateInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getMediaObjectTypeResolver() : MediaObjectTypeResolver
     {
         if ($this->mediaObjectTypeResolver === null) {
@@ -122,12 +104,10 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'update':
-                return $this->__('Update the media item', 'media-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $this->__('Update the media item', 'media-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -135,40 +115,32 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
         if (!$usePayloadableMediaMutations) {
-            switch ($fieldName) {
-                case 'update':
-                    return SchemaTypeModifiers::NONE;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'update' => SchemaTypeModifiers::NONE,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'update':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'update':
-                return ['input' => $this->getMediaUpdateInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => ['input' => $this->getMediaUpdateInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['update' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['update' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID
@@ -177,12 +149,10 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      */
     public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
     {
-        switch ($fieldName) {
-            case 'update':
-                return \true;
-            default:
-                return parent::validateMutationOnObject($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => \true,
+            default => parent::validateMutationOnObject($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @param array<string,mixed> $fieldArgsForMutationForObject
@@ -206,24 +176,20 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         /** @var MediaMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(MediaMutationsModule::class)->getConfiguration();
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableMediaMutations ? $this->getPayloadableUpdateMediaItemMutationResolver() : $this->getUpdateMediaItemMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableMediaMutations ? $this->getPayloadableUpdateMediaItemMutationResolver() : $this->getUpdateMediaItemMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
         /** @var MediaMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(MediaMutationsModule::class)->getConfiguration();
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
-        switch ($fieldName) {
-            case 'update':
-                return $usePayloadableMediaMutations ? $this->getMediaUpdateMutationPayloadObjectTypeResolver() : $this->getMediaObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'update' => $usePayloadableMediaMutations ? $this->getMediaUpdateMutationPayloadObjectTypeResolver() : $this->getMediaObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]

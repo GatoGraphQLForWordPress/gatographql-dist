@@ -11,10 +11,7 @@ use PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
-     */
-    private $graphQLDataStructureFormatter;
+    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
     protected final function getGraphQLDataStructureFormatter() : GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {

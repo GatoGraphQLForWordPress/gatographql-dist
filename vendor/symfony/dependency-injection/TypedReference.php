@@ -18,18 +18,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
  */
 class TypedReference extends Reference
 {
-    /**
-     * @var string
-     */
-    private $type;
-    /**
-     * @var string|null
-     */
-    private $name;
-    /**
-     * @var mixed[]
-     */
-    private $attributes;
+    private string $type;
+    private ?string $name;
+    private array $attributes;
     /**
      * @param string      $id              The service identifier
      * @param string      $type            The PHP type of the identified service

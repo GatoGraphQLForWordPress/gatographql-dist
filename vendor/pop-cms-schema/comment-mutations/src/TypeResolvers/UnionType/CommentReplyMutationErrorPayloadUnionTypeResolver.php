@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CommentReplyMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\UnionType\CommentReplyMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $commentReplyMutationErrorPayloadUnionTypeDataLoader;
+    private ?CommentReplyMutationErrorPayloadUnionTypeDataLoader $commentReplyMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getCommentReplyMutationErrorPayloadUnionTypeDataLoader() : CommentReplyMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->commentReplyMutationErrorPayloadUnionTypeDataLoader === null) {

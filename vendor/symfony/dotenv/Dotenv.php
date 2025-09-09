@@ -27,46 +27,16 @@ final class Dotenv
     public const VARNAME_REGEX = '(?i:_?[A-Z][A-Z0-9_]*+)';
     public const STATE_VARNAME = 0;
     public const STATE_VALUE = 1;
-    /**
-     * @var string
-     */
-    private $path;
-    /**
-     * @var int
-     */
-    private $cursor;
-    /**
-     * @var int
-     */
-    private $lineno;
-    /**
-     * @var string
-     */
-    private $data;
-    /**
-     * @var int
-     */
-    private $end;
-    /**
-     * @var mixed[]
-     */
-    private $values = [];
-    /**
-     * @var string
-     */
-    private $envKey;
-    /**
-     * @var string
-     */
-    private $debugKey;
-    /**
-     * @var mixed[]
-     */
-    private $prodEnvs = ['prod'];
-    /**
-     * @var bool
-     */
-    private $usePutenv = \false;
+    private string $path;
+    private int $cursor;
+    private int $lineno;
+    private string $data;
+    private int $end;
+    private array $values = [];
+    private string $envKey;
+    private string $debugKey;
+    private array $prodEnvs = ['prod'];
+    private bool $usePutenv = \false;
     public function __construct(string $envKey = 'APP_ENV', string $debugKey = 'APP_DEBUG')
     {
         $this->envKey = $envKey;
@@ -75,7 +45,7 @@ final class Dotenv
     /**
      * @return $this
      */
-    public function setProdEnvs(array $prodEnvs)
+    public function setProdEnvs(array $prodEnvs) : static
     {
         $this->prodEnvs = $prodEnvs;
         return $this;
@@ -86,7 +56,7 @@ final class Dotenv
      *
      * @return $this
      */
-    public function usePutenv(bool $usePutenv = \true)
+    public function usePutenv(bool $usePutenv = \true) : static
     {
         $this->usePutenv = $usePutenv;
         return $this;
@@ -190,7 +160,7 @@ final class Dotenv
         $updateLoadedVars = \false;
         $loadedVars = \array_flip(\explode(',', $_SERVER['SYMFONY_DOTENV_VARS'] ?? $_ENV['SYMFONY_DOTENV_VARS'] ?? ''));
         foreach ($values as $name => $value) {
-            $notHttpName = \strncmp($name, 'HTTP_', \strlen('HTTP_')) !== 0;
+            $notHttpName = !\str_starts_with($name, 'HTTP_');
             if (isset($_SERVER[$name]) && $notHttpName && !isset($_ENV[$name])) {
                 $_ENV[$name] = $_SERVER[$name];
             }
@@ -382,7 +352,7 @@ final class Dotenv
     }
     private function resolveCommands(string $value, array $loadedVars) : string
     {
-        if (\strpos($value, '$') === \false) {
+        if (!\str_contains($value, '$')) {
             return $value;
         }
         $regex = '/
@@ -407,14 +377,14 @@ final class Dotenv
             $process = Process::fromShellCommandline('echo ' . $matches[0]);
             $env = [];
             foreach ($this->values as $name => $value) {
-                if (isset($loadedVars[$name]) || !isset($_ENV[$name]) && !(isset($_SERVER[$name]) && \strncmp($name, 'HTTP_', \strlen('HTTP_')) !== 0)) {
+                if (isset($loadedVars[$name]) || !isset($_ENV[$name]) && !(isset($_SERVER[$name]) && !\str_starts_with($name, 'HTTP_'))) {
                     $env[$name] = $value;
                 }
             }
             $process->setEnv($env);
             try {
                 $process->mustRun();
-            } catch (ProcessException $exception) {
+            } catch (ProcessException) {
                 throw $this->createFormatException(\sprintf('Issue expanding a command (%s)', $process->getErrorOutput()));
             }
             return \preg_replace('/[\\r\\n]+$/', '', $process->getOutput());
@@ -422,7 +392,7 @@ final class Dotenv
     }
     private function resolveVariables(string $value, array $loadedVars) : string
     {
-        if (\strpos($value, '$') === \false) {
+        if (!\str_contains($value, '$')) {
             return $value;
         }
         $regex = '/
@@ -452,7 +422,7 @@ final class Dotenv
                 $value = $this->values[$name];
             } elseif (isset($_ENV[$name])) {
                 $value = $_ENV[$name];
-            } elseif (isset($_SERVER[$name]) && \strncmp($name, 'HTTP_', \strlen('HTTP_')) !== 0) {
+            } elseif (isset($_SERVER[$name]) && !\str_starts_with($name, 'HTTP_')) {
                 $value = $_SERVER[$name];
             } elseif (isset($this->values[$name])) {
                 $value = $this->values[$name];

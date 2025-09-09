@@ -14,19 +14,10 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY = 'filterinput-post-category-taxonomy';
-    /**
-     * @var \PoPCMSSchema\Taxonomies\FilterInputs\TaxonomyFilterInput|null
-     */
-    private $taxonomyFilterInput;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postCategoryTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
+    public final const COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY = 'filterinput-post-category-taxonomy';
+    private ?TaxonomyFilterInput $taxonomyFilterInput = null;
+    private ?PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver = null;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
     protected final function getTaxonomyFilterInput() : TaxonomyFilterInput
     {
         if ($this->taxonomyFilterInput === null) {
@@ -63,50 +54,37 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY:
-                return $this->getTaxonomyFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY => $this->getTaxonomyFilterInput(),
+            default => null,
+        };
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY:
-                return 'taxonomy';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY => 'taxonomy',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY:
-                return $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY => $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY:
-                return $this->__('Post category taxonomy', 'post-categories');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY => $this->__('Post category taxonomy', 'post-categories'),
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component)
+    public function getFilterInputDefaultValue(Component $component) : mixed
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY:
-                return $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_CATEGORY_TAXONOMY => $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName(),
+            default => null,
+        };
     }
 }

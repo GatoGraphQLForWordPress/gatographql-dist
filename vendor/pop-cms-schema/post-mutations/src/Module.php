@@ -40,19 +40,19 @@ class Module extends AbstractModule
             if (\class_exists(APIModule::class) && App::getModule(APIModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/API');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(UsersModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/Users');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(CommentMutationsModule::class) && App::getModule(CommentMutationsModule::class)->isEnabled()) {
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(CommentMutationsModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/CommentMutations');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

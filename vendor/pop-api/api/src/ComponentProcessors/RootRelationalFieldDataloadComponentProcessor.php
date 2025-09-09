@@ -11,11 +11,8 @@ use PoP\Engine\Schema\SchemaDefinitionServiceInterface;
 /** @internal */
 class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\ComponentProcessors\AbstractRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT = 'dataload-relationalfields-root';
-    /**
-     * @var \PoP\Engine\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_ROOT = 'dataload-relationalfields-root';
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
     protected final function getSchemaDefinitionService() : SchemaDefinitionServiceInterface
     {
         if ($this->schemaDefinitionService === null) {
@@ -37,7 +34,7 @@ class RootRelationalFieldDataloadComponentProcessor extends \PoPAPI\API\Componen
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         if (App::getState('does-api-query-have-errors')) {
             return null;

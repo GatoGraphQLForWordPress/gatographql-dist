@@ -19,10 +19,8 @@ abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI impleme
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    public final function getCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false, array $options = [])
+    public final function getCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = \false, array $options = []) : mixed
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
@@ -47,8 +45,6 @@ abstract class AbstractCustomPostMetaTypeAPI extends AbstractMetaTypeAPI impleme
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $customPostObjectOrID
-     * @return mixed
      */
-    protected abstract function doGetCustomPostMeta($customPostObjectOrID, string $key, bool $single = \false);
+    protected abstract function doGetCustomPostMeta(string|int|object $customPostObjectOrID, string $key, bool $single = \false) : mixed;
 }

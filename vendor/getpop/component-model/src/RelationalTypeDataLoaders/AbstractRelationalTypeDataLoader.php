@@ -8,10 +8,7 @@ use PoP\LooseContracts\NameResolverInterface;
 /** @internal */
 abstract class AbstractRelationalTypeDataLoader extends AbstractBasicService implements \PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface
 {
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
+    private ?NameResolverInterface $nameResolver = null;
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {

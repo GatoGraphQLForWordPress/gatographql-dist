@@ -23,10 +23,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader
  */
 final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
 {
-    /**
-     * @var \Closure
-     */
-    private static $registerForAutoconfiguration;
+    private static \Closure $registerForAutoconfiguration;
     public function process(ContainerBuilder $container) : void
     {
         foreach ($container->getDefinitions() as $id => $definition) {
@@ -41,7 +38,7 @@ final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
     }
     public function processClass(ContainerBuilder $container, \ReflectionClass $class) : void
     {
-        foreach (\method_exists($class, 'getAttributes') ? $class->getAttributes(Autoconfigure::class, \ReflectionAttribute::IS_INSTANCEOF) : [] as $attribute) {
+        foreach ($class->getAttributes(Autoconfigure::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             self::registerForAutoconfiguration($container, $class, $attribute);
         }
     }

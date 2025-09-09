@@ -27,11 +27,7 @@ class IPv4ScalarTypeResolver extends AbstractScalarTypeResolver
     {
         return $this->__('IPv4 scalar, such as 192.168.0.1', 'extended-schema-commons');
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);

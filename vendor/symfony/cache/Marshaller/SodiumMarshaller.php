@@ -20,14 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArg
  */
 class SodiumMarshaller implements MarshallerInterface
 {
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface
-     */
-    private $marshaller;
-    /**
-     * @var mixed[]
-     */
-    private $decryptionKeys;
+    private MarshallerInterface $marshaller;
+    private array $decryptionKeys;
     /**
      * @param string[] $decryptionKeys The key at index "0" is required and is used to decrypt and encrypt values;
      *                                 more rotating keys can be provided to decrypt values;
@@ -57,10 +51,7 @@ class SodiumMarshaller implements MarshallerInterface
         }
         return $encryptedValues;
     }
-    /**
-     * @return mixed
-     */
-    public function unmarshall(string $value)
+    public function unmarshall(string $value) : mixed
     {
         foreach ($this->decryptionKeys as $k) {
             if (\false !== ($decryptedValue = @\sodium_crypto_box_seal_open($value, $k))) {

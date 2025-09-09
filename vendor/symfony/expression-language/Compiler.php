@@ -19,14 +19,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
  */
 class Compiler implements ResetInterface
 {
-    /**
-     * @var string
-     */
-    private $source = '';
-    /**
-     * @var mixed[]
-     */
-    private $functions;
+    private string $source = '';
+    private array $functions;
     public function __construct(array $functions)
     {
         $this->functions = $functions;
@@ -48,7 +42,7 @@ class Compiler implements ResetInterface
     /**
      * @return $this
      */
-    public function reset()
+    public function reset() : static
     {
         $this->source = '';
         return $this;
@@ -58,7 +52,7 @@ class Compiler implements ResetInterface
      *
      * @return $this
      */
-    public function compile(Node\Node $node)
+    public function compile(Node\Node $node) : static
     {
         $node->compile($this);
         return $this;
@@ -80,7 +74,7 @@ class Compiler implements ResetInterface
      *
      * @return $this
      */
-    public function raw(string $string)
+    public function raw(string $string) : static
     {
         $this->source .= $string;
         return $this;
@@ -90,7 +84,7 @@ class Compiler implements ResetInterface
      *
      * @return $this
      */
-    public function string(string $value)
+    public function string(string $value) : static
     {
         $this->source .= \sprintf('"%s"', \addcslashes($value, "\x00\t\"\$\\"));
         return $this;
@@ -99,9 +93,8 @@ class Compiler implements ResetInterface
      * Returns a PHP representation of a given value.
      *
      * @return $this
-     * @param mixed $value
      */
-    public function repr($value)
+    public function repr(mixed $value) : static
     {
         if (\is_int($value) || \is_float($value)) {
             if (\false !== ($locale = \setlocale(\LC_NUMERIC, 0))) {

@@ -18,10 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Loader;
  */
 class ParamConfigurator
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
     public function __construct(string $name)
     {
         $this->name = $name;

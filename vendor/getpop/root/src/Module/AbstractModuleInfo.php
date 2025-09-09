@@ -7,23 +7,15 @@ namespace PoP\Root\Module;
 abstract class AbstractModuleInfo implements \PoP\Root\Module\ModuleInfoInterface
 {
     /**
-     * @var \PoP\Root\Module\ModuleInterface
-     */
-    protected $module;
-    /**
      * @var array<string,mixed>
      */
-    protected $values = [];
-    public final function __construct(\PoP\Root\Module\ModuleInterface $module)
+    protected array $values = [];
+    public final function __construct(protected \PoP\Root\Module\ModuleInterface $module)
     {
-        $this->module = $module;
         $this->initialize();
     }
     protected abstract function initialize() : void;
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key) : mixed
     {
         return $this->values[$key] ?? null;
     }

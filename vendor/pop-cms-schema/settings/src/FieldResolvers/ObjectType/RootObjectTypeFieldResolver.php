@@ -21,22 +21,10 @@ use PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\AnyBuiltInScalarScalarTypeResolver|null
-     */
-    private $anyBuiltInScalarScalarTypeResolver;
-    /**
-     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
-     */
-    private $jsonObjectScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface|null
-     */
-    private $settingsTypeAPI;
+    private ?AnyBuiltInScalarScalarTypeResolver $anyBuiltInScalarScalarTypeResolver = null;
+    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?SettingsTypeAPIInterface $settingsTypeAPI = null;
     protected final function getAnyBuiltInScalarScalarTypeResolver() : AnyBuiltInScalarScalarTypeResolver
     {
         if ($this->anyBuiltInScalarScalarTypeResolver === null) {
@@ -89,76 +77,54 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'optionValue':
-                return $this->__('Single-value option saved in the DB, of any built-in scalar type, or `null` if entry does not exist', 'pop-settings');
-            case 'optionValues':
-                return $this->__('Array-value option saved in the DB, of any built-in scalar type, or `null` if entry does not exist', 'pop-settings');
-            case 'optionObjectValue':
-                return $this->__('Object-value option saved in the DB, or `null` if entry does not exist', 'pop-settings');
-            case 'optionObjectValues':
-                return $this->__('Array of object-value options saved in the DB, or `null` if entry does not exist', 'pop-settings');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'optionValue' => $this->__('Single-value option saved in the DB, of any built-in scalar type, or `null` if entry does not exist', 'pop-settings'),
+            'optionValues' => $this->__('Array-value option saved in the DB, of any built-in scalar type, or `null` if entry does not exist', 'pop-settings'),
+            'optionObjectValue' => $this->__('Object-value option saved in the DB, or `null` if entry does not exist', 'pop-settings'),
+            'optionObjectValues' => $this->__('Array of object-value options saved in the DB, or `null` if entry does not exist', 'pop-settings'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'optionValue':
-                return $this->getStringScalarTypeResolver();
-            case 'optionValues':
-                return $this->getAnyBuiltInScalarScalarTypeResolver();
-            case 'optionObjectValue':
-                return $this->getJSONObjectScalarTypeResolver();
-            case 'optionObjectValues':
-                return $this->getJSONObjectScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'optionValue' => $this->getStringScalarTypeResolver(),
+            'optionValues' => $this->getAnyBuiltInScalarScalarTypeResolver(),
+            'optionObjectValue' => $this->getJSONObjectScalarTypeResolver(),
+            'optionObjectValues' => $this->getJSONObjectScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'optionValues':
-            case 'optionObjectValues':
-                return SchemaTypeModifiers::IS_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'optionValues', 'optionObjectValues' => SchemaTypeModifiers::IS_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'optionValue':
-            case 'optionValues':
-            case 'optionObjectValue':
-            case 'optionObjectValues':
-                return ['name' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'optionValue', 'optionValues', 'optionObjectValue', 'optionObjectValues' => ['name' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ($fieldArgName) {
-            case 'name':
-                return $this->__('The option name', 'pop-settings');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ($fieldArgName) {
+            'name' => $this->__('The option name', 'pop-settings'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ($fieldArgName) {
-            case 'name':
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ($fieldArgName) {
+            'name' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Custom validations
@@ -178,10 +144,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                 break;
         }
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'optionValue':
@@ -200,9 +163,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     return \is_array($value) ? (object) $value : $value;
                 }
                 if ($fieldDataAccessor->getFieldName() === 'optionObjectValues') {
-                    return \array_values(\array_map(function ($valueItem) {
-                        return \is_array($valueItem) ? (object) $valueItem : $valueItem;
-                    }, $value));
+                    return \array_values(\array_map(fn(mixed $valueItem) => \is_array($valueItem) ? (object) $valueItem : $valueItem, $value));
                 }
                 return $value;
         }

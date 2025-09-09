@@ -28,7 +28,7 @@ trait BindTrait
      *
      * @return $this
      */
-    public final function bind(string $nameOrFqcn, $valueOrRef)
+    public final function bind(string $nameOrFqcn, mixed $valueOrRef) : static
     {
         $valueOrRef = static::processValue($valueOrRef, \true);
         $bindings = $this->definition->getBindings();

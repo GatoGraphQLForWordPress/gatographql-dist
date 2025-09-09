@@ -11,11 +11,8 @@ class CacheControlManager extends UpstreamCacheControlManager
     /**
      * @var array<mixed[]>|null
      */
-    protected $overriddenFieldEntries;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface|null
-     */
-    private $mandatoryDirectivesForFieldsRootTypeEntryDuplicator;
+    protected ?array $overriddenFieldEntries = null;
+    private ?MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface $mandatoryDirectivesForFieldsRootTypeEntryDuplicator = null;
     protected final function getMandatoryDirectivesForFieldsRootTypeEntryDuplicator() : MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
     {
         if ($this->mandatoryDirectivesForFieldsRootTypeEntryDuplicator === null) {

@@ -41,70 +41,22 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class CommentObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
     use WithLimitFieldArgResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\HTMLScalarTypeResolver|null
-     */
-    private $htmlScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
-     */
-    private $emailScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateTimeScalarTypeResolver|null
-     */
-    private $dateTimeScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentStatusEnumTypeResolver|null
-     */
-    private $commentStatusEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\Formatters\DateFormatterInterface|null
-     */
-    private $dateFormatter;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentResponsesFilterInputObjectTypeResolver|null
-     */
-    private $commentResponsesFilterInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentResponsePaginationInputObjectTypeResolver|null
-     */
-    private $commentResponsePaginationInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentSortInputObjectTypeResolver|null
-     */
-    private $commentSortInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentTypeEnumTypeResolver|null
-     */
-    private $commentTypeEnumTypeResolver;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?HTMLScalarTypeResolver $htmlScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?DateTimeScalarTypeResolver $dateTimeScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
+    private ?CommentStatusEnumTypeResolver $commentStatusEnumTypeResolver = null;
+    private ?DateFormatterInterface $dateFormatter = null;
+    private ?CommentResponsesFilterInputObjectTypeResolver $commentResponsesFilterInputObjectTypeResolver = null;
+    private ?CommentResponsePaginationInputObjectTypeResolver $commentResponsePaginationInputObjectTypeResolver = null;
+    private ?CommentSortInputObjectTypeResolver $commentSortInputObjectTypeResolver = null;
+    private ?CommentTypeEnumTypeResolver $commentTypeEnumTypeResolver = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -278,105 +230,58 @@ class CommentObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'authorName':
-            case 'dateStr':
-                return $this->getStringScalarTypeResolver();
-            case 'type':
-                return $this->getCommentTypeEnumTypeResolver();
-            case 'content':
-            case 'rawContent':
-                return $this->getHTMLScalarTypeResolver();
-            case 'authorURL':
-                return $this->getURLScalarTypeResolver();
-            case 'authorEmail':
-                return $this->getEmailScalarTypeResolver();
-            case 'customPostID':
-                return $this->getIDScalarTypeResolver();
-            case 'approved':
-                return $this->getBooleanScalarTypeResolver();
-            case 'date':
-                return $this->getDateTimeScalarTypeResolver();
-            case 'responseCount':
-                return $this->getIntScalarTypeResolver();
-            case 'customPost':
-                return CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver();
-            case 'parent':
-            case 'responses':
-                return $this->getCommentObjectTypeResolver();
-            case 'status':
-                return $this->getCommentStatusEnumTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'authorName', 'dateStr' => $this->getStringScalarTypeResolver(),
+            'type' => $this->getCommentTypeEnumTypeResolver(),
+            'content', 'rawContent' => $this->getHTMLScalarTypeResolver(),
+            'authorURL' => $this->getURLScalarTypeResolver(),
+            'authorEmail' => $this->getEmailScalarTypeResolver(),
+            'customPostID' => $this->getIDScalarTypeResolver(),
+            'approved' => $this->getBooleanScalarTypeResolver(),
+            'date' => $this->getDateTimeScalarTypeResolver(),
+            'responseCount' => $this->getIntScalarTypeResolver(),
+            'customPost' => CustomPostUnionTypeHelpers::getCustomPostUnionOrTargetObjectTypeResolver(),
+            'parent', 'responses' => $this->getCommentObjectTypeResolver(),
+            'status' => $this->getCommentStatusEnumTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'content':
-            case 'rawContent':
-            case 'customPost':
-            case 'customPostID':
-            case 'approved':
-            case 'type':
-            case 'status':
-            case 'date':
-            case 'dateStr':
-            case 'responseCount':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'responses':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'content', 'rawContent', 'customPost', 'customPostID', 'approved', 'type', 'status', 'date', 'dateStr', 'responseCount' => SchemaTypeModifiers::NON_NULLABLE,
+            'responses' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'content':
-                return $this->__('Comment\'s content', 'pop-comments');
-            case 'rawContent':
-                return $this->__('Comment\'s content in raw format (as it exists in the database)', 'pop-comments');
-            case 'authorName':
-                return $this->__('Comment author\'s name', 'pop-comments');
-            case 'authorURL':
-                return $this->__('Comment author\'s URL', 'pop-comments');
-            case 'authorEmail':
-                return $this->__('Comment author\'s email', 'pop-comments');
-            case 'customPost':
-                return $this->__('Custom post to which the comment was added', 'pop-comments');
-            case 'customPostID':
-                return $this->__('ID of the custom post to which the comment was added', 'pop-comments');
-            case 'approved':
-                return $this->__('Is the comment approved?', 'pop-comments');
-            case 'type':
-                return $this->__('Type of comment', 'pop-comments');
-            case 'status':
-                return $this->__('Status of the comment', 'pop-comments');
-            case 'parent':
-                return $this->__('Parent comment (if this comment is a response to another one)', 'pop-comments');
-            case 'date':
-                return $this->__('Date when the comment was added', 'pop-comments');
-            case 'dateStr':
-                return $this->__('Date when the comment was added, in String format', 'pop-comments');
-            case 'responses':
-                return $this->__('Responses to the comment', 'pop-comments');
-            case 'responseCount':
-                return $this->__('Number of responses to the comment', 'pop-comments');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'content' => $this->__('Comment\'s content', 'pop-comments'),
+            'rawContent' => $this->__('Comment\'s content in raw format (as it exists in the database)', 'pop-comments'),
+            'authorName' => $this->__('Comment author\'s name', 'pop-comments'),
+            'authorURL' => $this->__('Comment author\'s URL', 'pop-comments'),
+            'authorEmail' => $this->__('Comment author\'s email', 'pop-comments'),
+            'customPost' => $this->__('Custom post to which the comment was added', 'pop-comments'),
+            'customPostID' => $this->__('ID of the custom post to which the comment was added', 'pop-comments'),
+            'approved' => $this->__('Is the comment approved?', 'pop-comments'),
+            'type' => $this->__('Type of comment', 'pop-comments'),
+            'status' => $this->__('Status of the comment', 'pop-comments'),
+            'parent' => $this->__('Parent comment (if this comment is a response to another one)', 'pop-comments'),
+            'date' => $this->__('Date when the comment was added', 'pop-comments'),
+            'dateStr' => $this->__('Date when the comment was added, in String format', 'pop-comments'),
+            'responses' => $this->__('Responses to the comment', 'pop-comments'),
+            'responseCount' => $this->__('Number of responses to the comment', 'pop-comments'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        switch ($fieldName) {
-            case 'date':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE);
-            case 'dateStr':
-                return new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'date' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE),
+            'dateStr' => new Component(CommonFilterInputContainerComponentProcessor::class, CommonFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -384,19 +289,13 @@ class CommentObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $fieldArgNameTypeResolvers = parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        switch ($fieldName) {
-            case 'responses':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCommentResponsesFilterInputObjectTypeResolver(), 'pagination' => $this->getCommentResponsePaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]);
-            case 'responseCount':
-                return \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCommentResponsesFilterInputObjectTypeResolver()]);
-            default:
-                return $fieldArgNameTypeResolvers;
-        }
+        return match ($fieldName) {
+            'responses' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCommentResponsesFilterInputObjectTypeResolver(), 'pagination' => $this->getCommentResponsePaginationInputObjectTypeResolver(), 'sort' => $this->getCommentSortInputObjectTypeResolver()]),
+            'responseCount' => \array_merge($fieldArgNameTypeResolvers, ['filter' => $this->getCommentResponsesFilterInputObjectTypeResolver()]),
+            default => $fieldArgNameTypeResolvers,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $comment = $object;
         switch ($fieldDataAccessor->getFieldName()) {

@@ -39,62 +39,20 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\ObjectType\RootUpdatePageMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdatePageMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\ObjectType\RootCreatePageMutationPayloadObjectTypeResolver|null
-     */
-    private $rootCreatePageMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\CreatePageMutationResolver|null
-     */
-    private $createPageMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\CreatePageBulkOperationMutationResolver|null
-     */
-    private $createPageBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageMutationResolver|null
-     */
-    private $updatePageMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\UpdatePageBulkOperationMutationResolver|null
-     */
-    private $updatePageBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableUpdatePageMutationResolver|null
-     */
-    private $payloadableUpdatePageMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableUpdatePageBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdatePageBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageMutationResolver|null
-     */
-    private $payloadableCreatePageMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\MutationResolvers\PayloadableCreatePageBulkOperationMutationResolver|null
-     */
-    private $payloadableCreatePageBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\RootUpdatePageInputObjectTypeResolver|null
-     */
-    private $rootUpdatePageInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMutations\TypeResolvers\InputObjectType\RootCreatePageInputObjectTypeResolver|null
-     */
-    private $rootCreatePageInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?RootUpdatePageMutationPayloadObjectTypeResolver $rootUpdatePageMutationPayloadObjectTypeResolver = null;
+    private ?RootCreatePageMutationPayloadObjectTypeResolver $rootCreatePageMutationPayloadObjectTypeResolver = null;
+    private ?CreatePageMutationResolver $createPageMutationResolver = null;
+    private ?CreatePageBulkOperationMutationResolver $createPageBulkOperationMutationResolver = null;
+    private ?UpdatePageMutationResolver $updatePageMutationResolver = null;
+    private ?UpdatePageBulkOperationMutationResolver $updatePageBulkOperationMutationResolver = null;
+    private ?PayloadableUpdatePageMutationResolver $payloadableUpdatePageMutationResolver = null;
+    private ?PayloadableUpdatePageBulkOperationMutationResolver $payloadableUpdatePageBulkOperationMutationResolver = null;
+    private ?PayloadableCreatePageMutationResolver $payloadableCreatePageMutationResolver = null;
+    private ?PayloadableCreatePageBulkOperationMutationResolver $payloadableCreatePageBulkOperationMutationResolver = null;
+    private ?RootUpdatePageInputObjectTypeResolver $rootUpdatePageInputObjectTypeResolver = null;
+    private ?RootCreatePageInputObjectTypeResolver $rootCreatePageInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -243,22 +201,15 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'createPage':
-                return $this->__('Create a page', 'page-mutations');
-            case 'createPages':
-                return $this->__('Create pages', 'page-mutations');
-            case 'updatePage':
-                return $this->__('Update a page', 'page-mutations');
-            case 'updatePages':
-                return $this->__('Update pages', 'page-mutations');
-            case 'createPageMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `createPage` mutation', 'page-mutations');
-            case 'updatePageMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updatePage` mutation', 'page-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPage' => $this->__('Create a page', 'page-mutations'),
+            'createPages' => $this->__('Create pages', 'page-mutations'),
+            'updatePage' => $this->__('Update a page', 'page-mutations'),
+            'updatePages' => $this->__('Update pages', 'page-mutations'),
+            'createPageMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `createPage` mutation', 'page-mutations'),
+            'updatePageMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updatePage` mutation', 'page-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -266,51 +217,34 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if (!$usePayloadableCustomPostMutations) {
-            switch ($fieldName) {
-                case 'createPage':
-                case 'updatePage':
-                    return SchemaTypeModifiers::NONE;
-                case 'createPages':
-                case 'updatePages':
-                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createPage', 'updatePage' => SchemaTypeModifiers::NONE,
+                'createPages', 'updatePages' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['createPageMutationPayloadObjects', 'updatePageMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'createPage':
-            case 'updatePage':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'createPages':
-            case 'updatePages':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPage', 'updatePage' => SchemaTypeModifiers::NON_NULLABLE,
+            'createPages', 'updatePages' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'createPage':
-                return ['input' => $this->getRootCreatePageInputObjectTypeResolver()];
-            case 'createPages':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreatePageInputObjectTypeResolver());
-            case 'updatePage':
-                return ['input' => $this->getRootUpdatePageInputObjectTypeResolver()];
-            case 'updatePages':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdatePageInputObjectTypeResolver());
-            case 'createPageMutationPayloadObjects':
-            case 'updatePageMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPage' => ['input' => $this->getRootCreatePageInputObjectTypeResolver()],
+            'createPages' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreatePageInputObjectTypeResolver()),
+            'updatePage' => ['input' => $this->getRootUpdatePageInputObjectTypeResolver()],
+            'updatePages' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdatePageInputObjectTypeResolver()),
+            'createPageMutationPayloadObjects', 'updatePageMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -320,18 +254,12 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         if (\in_array($fieldName, ['createPages', 'updatePages'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['createPage' => 'input']:
-            case ['updatePage' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['createPage' => 'input'], ['updatePage' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         if (\in_array($fieldName, ['createPages', 'updatePages'])) {
             return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
@@ -343,18 +271,13 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         /** @var CustomPostMutationsModuleConfiguration */
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
-        switch ($fieldName) {
-            case 'createPage':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePageMutationResolver() : $this->getCreatePageMutationResolver();
-            case 'createPages':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePageBulkOperationMutationResolver() : $this->getCreatePageBulkOperationMutationResolver();
-            case 'updatePage':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePageMutationResolver() : $this->getUpdatePageMutationResolver();
-            case 'updatePages':
-                return $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePageBulkOperationMutationResolver() : $this->getUpdatePageBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPage' => $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePageMutationResolver() : $this->getCreatePageMutationResolver(),
+            'createPages' => $usePayloadableCustomPostMutations ? $this->getPayloadableCreatePageBulkOperationMutationResolver() : $this->getCreatePageBulkOperationMutationResolver(),
+            'updatePage' => $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePageMutationResolver() : $this->getUpdatePageMutationResolver(),
+            'updatePages' => $usePayloadableCustomPostMutations ? $this->getPayloadableUpdatePageBulkOperationMutationResolver() : $this->getUpdatePageBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -362,28 +285,16 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(CustomPostMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMutations = $moduleConfiguration->usePayloadableCustomPostMutations();
         if ($usePayloadableCustomPostMutations) {
-            switch ($fieldName) {
-                case 'createPage':
-                case 'createPages':
-                case 'createPageMutationPayloadObjects':
-                    return $this->getRootCreatePageMutationPayloadObjectTypeResolver();
-                case 'updatePage':
-                case 'updatePages':
-                case 'updatePageMutationPayloadObjects':
-                    return $this->getRootUpdatePageMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'createPage', 'createPages', 'createPageMutationPayloadObjects' => $this->getRootCreatePageMutationPayloadObjectTypeResolver(),
+                'updatePage', 'updatePages', 'updatePageMutationPayloadObjects' => $this->getRootUpdatePageMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'createPage':
-            case 'createPages':
-            case 'updatePage':
-            case 'updatePages':
-                return $this->getPageObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'createPage', 'createPages', 'updatePage', 'updatePages' => $this->getPageObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -413,10 +324,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $fieldName = $fieldDataAccessor->getFieldName();
         switch ($fieldName) {

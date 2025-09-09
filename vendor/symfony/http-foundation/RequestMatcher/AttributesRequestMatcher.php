@@ -21,15 +21,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatc
 class AttributesRequestMatcher implements RequestMatcherInterface
 {
     /**
-     * @var array<string, string>
-     */
-    private $regexps;
-    /**
      * @param array<string, string> $regexps
      */
-    public function __construct(array $regexps)
+    public function __construct(private array $regexps)
     {
-        $this->regexps = $regexps;
     }
     public function matches(Request $request) : bool
     {

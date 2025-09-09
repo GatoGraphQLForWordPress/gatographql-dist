@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\ObjectType\GenericTagDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericTagDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\ObjectType\GenericTagAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericTagCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\ObjectType\GenericTagUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericTagUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\ObjectType\GenericTagSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericTagSetMetaMutationPayloadObjectTypeResolver;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
+    private ?GenericTagDeleteMetaMutationPayloadObjectTypeResolver $genericTagDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?GenericTagAddMetaMutationPayloadObjectTypeResolver $genericTagCreateMutationPayloadObjectTypeResolver = null;
+    private ?GenericTagUpdateMetaMutationPayloadObjectTypeResolver $genericTagUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?GenericTagSetMetaMutationPayloadObjectTypeResolver $genericTagSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class GenericTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolv
         $moduleConfiguration = App::getModule(TagMetaMutationsModule::class)->getConfiguration();
         $usePayloadableTagMetaMutations = $moduleConfiguration->usePayloadableTagMetaMutations();
         if (!$usePayloadableTagMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getGenericTagObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getGenericTagObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getGenericTagAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getGenericTagDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getGenericTagSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getGenericTagUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getGenericTagAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getGenericTagDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getGenericTagSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getGenericTagUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

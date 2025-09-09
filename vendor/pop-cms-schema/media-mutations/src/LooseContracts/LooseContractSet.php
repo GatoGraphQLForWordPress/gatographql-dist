@@ -7,8 +7,8 @@ use PoP\LooseContracts\AbstractLooseContractSet;
 /** @internal */
 class LooseContractSet extends AbstractLooseContractSet
 {
-    public const NAME_UPLOAD_FILES_CAPABILITY = 'popcms:capability:uploadFiles';
-    public const NAME_UPLOAD_FILES_FOR_OTHER_USERS_CAPABILITY = 'popcms:capability:uploadFilesForOtherUsers';
+    public final const NAME_UPLOAD_FILES_CAPABILITY = 'popcms:capability:uploadFiles';
+    public final const NAME_UPLOAD_FILES_FOR_OTHER_USERS_CAPABILITY = 'popcms:capability:uploadFilesForOtherUsers';
     /**
      * @return string[]
      */

@@ -14,14 +14,8 @@ use SplObjectStorage;
 /** @internal */
 class DirectivePipelineDecorator
 {
-    /**
-     * @readonly
-     * @var \League\Pipeline\PipelineInterface
-     */
-    private $pipeline;
-    public function __construct(PipelineInterface $pipeline)
+    public function __construct(private readonly PipelineInterface $pipeline)
     {
-        $this->pipeline = $pipeline;
     }
     /**
      * @param array<array<string|int,EngineIterationFieldSet>> $pipelineIDFieldSet

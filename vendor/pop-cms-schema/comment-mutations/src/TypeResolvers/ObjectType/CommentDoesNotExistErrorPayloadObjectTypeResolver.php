@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CommentDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $commentDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?CommentDoesNotExistErrorPayloadObjectTypeDataLoader $commentDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getCommentDoesNotExistErrorPayloadObjectTypeDataLoader() : CommentDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

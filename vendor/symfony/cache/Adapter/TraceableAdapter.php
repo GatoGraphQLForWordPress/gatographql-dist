@@ -27,18 +27,12 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
 class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {
     protected $pool;
-    /**
-     * @var mixed[]
-     */
-    private $calls = [];
+    private array $calls = [];
     public function __construct(AdapterInterface $pool)
     {
         $this->pool = $pool;
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         if (!$this->pool instanceof CacheInterface) {
             throw new \BadMethodCallException(\sprintf('Cannot call "%s::get()": this class doesn\'t implement "%s".', \get_debug_type($this->pool), CacheInterface::class));
@@ -62,10 +56,7 @@ class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInt
         }
         return $value;
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         $event = $this->start(__FUNCTION__);
         try {
@@ -80,10 +71,7 @@ class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInt
         }
         return $item;
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         $event = $this->start(__FUNCTION__);
         try {
@@ -92,10 +80,7 @@ class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInt
             $event->end = \microtime(\true);
         }
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         $event = $this->start(__FUNCTION__);
         try {
@@ -239,28 +224,10 @@ class TraceableAdapter implements AdapterInterface, CacheInterface, PruneableInt
  */
 class TraceableAdapterEvent
 {
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var float
-     */
-    public $start;
-    /**
-     * @var float
-     */
-    public $end;
-    /**
-     * @var mixed[]|bool
-     */
-    public $result;
-    /**
-     * @var int
-     */
-    public $hits = 0;
-    /**
-     * @var int
-     */
-    public $misses = 0;
+    public string $name;
+    public float $start;
+    public float $end;
+    public array|bool $result;
+    public int $hits = 0;
+    public int $misses = 0;
 }

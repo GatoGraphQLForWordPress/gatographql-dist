@@ -15,10 +15,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 /** @internal */
 abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\InputObjectType\FeaturedImageByOneofInputObjectTypeResolver|null
-     */
-    private $featuredImageByOneofInputObjectTypeResolver;
+    private ?FeaturedImageByOneofInputObjectTypeResolver $featuredImageByOneofInputObjectTypeResolver = null;
     protected final function getFeaturedImageByOneofInputObjectTypeResolver() : FeaturedImageByOneofInputObjectTypeResolver
     {
         if ($this->featuredImageByOneofInputObjectTypeResolver === null) {
@@ -30,8 +27,8 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'maybeAddInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'maybeAddInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->maybeAddInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->maybeAddInputFieldDescription(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers

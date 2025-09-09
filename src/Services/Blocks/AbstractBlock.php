@@ -43,30 +43,12 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
 {
     use HasDocumentationScriptTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\PluginUtils\Services\Helpers\StringConversion|null
-     */
-    private $stringConversion;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EditorHelpers|null
-     */
-    private $editorHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\LocaleHelper|null
-     */
-    private $localeHelper;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\RenderingHelpers|null
-     */
-    private $renderingHelpers;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?StringConversion $stringConversion = null;
+    private ?EditorHelpers $editorHelpers = null;
+    private ?LocaleHelper $localeHelper = null;
+    private ?RenderingHelpers $renderingHelpers = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -134,7 +116,7 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
          */
         App::addAction(
             HookNames::AFTER_BOOT_APPLICATION,
-            \Closure::fromCallable([$this, 'initBlock']),
+            $this->initBlock(...),
             $this->getPriority()
         );
     }
@@ -453,13 +435,12 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
          */
         if ($this->registerEditorCSS()) {
             $editor_css = 'build/index.css';
-            /** @var string */
             $modificationTime = filemtime("$dir/$editor_css");
             wp_register_style(
                 $blockRegistrationName . '-block-editor',
                 $url . $editor_css,
                 array(),
-                $modificationTime
+                (string) $modificationTime
             );
             $blockConfiguration['editor_style'] = $blockRegistrationName . '-block-editor';
         }
@@ -469,13 +450,12 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
          */
         if ($this->registerCommonStyleCSS() && $this->mustLoadClientEditorCommonAssets()) {
             $style_css = 'build/style-index.css';
-            /** @var string */
             $modificationTime = filemtime("$dir/$style_css");
             wp_register_style(
                 $blockRegistrationName . '-block',
                 $url . $style_css,
                 array(),
-                $modificationTime
+                (string) $modificationTime
             );
             $blockConfiguration['style'] = $blockRegistrationName . '-block';
         }
@@ -505,9 +485,9 @@ abstract class AbstractBlock extends AbstractAutomaticallyInstantiatedService im
              * Show only if the user has the right permission
              */
             if ($this->getUserAuthorization()->canAccessSchemaEditor()) {
-                $blockConfiguration['render_callback'] = \Closure::fromCallable([$this, 'renderBlock']);
+                $blockConfiguration['render_callback'] = $this->renderBlock(...);
             } else {
-                $blockConfiguration['render_callback'] = \Closure::fromCallable([$this->getRenderingHelpers(), 'getUnauthorizedAccessHTMLMessage']);
+                $blockConfiguration['render_callback'] = $this->getRenderingHelpers()->getUnauthorizedAccessHTMLMessage(...);
             }
         }
 

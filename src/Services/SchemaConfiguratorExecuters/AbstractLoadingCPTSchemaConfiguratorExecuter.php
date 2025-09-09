@@ -10,10 +10,7 @@ use PoP\Root\App;
 
 abstract class AbstractLoadingCPTSchemaConfiguratorExecuter extends AbstractSchemaConfiguratorExecuter
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
-     */
-    private $endpointBlockHelpers;
+    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
 
     final protected function getEndpointBlockHelpers(): EndpointBlockHelpers
     {

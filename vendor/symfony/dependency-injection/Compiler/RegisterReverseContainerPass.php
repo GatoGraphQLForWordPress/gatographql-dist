@@ -21,10 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class RegisterReverseContainerPass implements CompilerPassInterface
 {
-    /**
-     * @var bool
-     */
-    private $beforeRemoving;
+    private bool $beforeRemoving;
     public function __construct(bool $beforeRemoving)
     {
         $this->beforeRemoving = $beforeRemoving;

@@ -8,10 +8,7 @@ use PoP\MarkdownConvertor\MarkdownConvertorInterface;
 
 class MarkdownContentParser extends AbstractContentParser implements MarkdownContentParserInterface
 {
-    /**
-     * @var \PoP\MarkdownConvertor\MarkdownConvertorInterface|null
-     */
-    private $markdownConvertor;
+    private ?MarkdownConvertorInterface $markdownConvertor = null;
 
     final protected function getMarkdownConvertor(): MarkdownConvertorInterface
     {

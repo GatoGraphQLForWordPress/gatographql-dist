@@ -22,7 +22,7 @@ trait ServiceYamlFileLoaderTrait
     protected function customizeYamlFileDefinition(array $content) : array
     {
         if ($content['services']['_defaults']['autoconfigure'] ?? null) {
-            $content['services']['_defaults']['tags'] = $content['services']['_defaults']['tags'] ?? [];
+            $content['services']['_defaults']['tags'] ??= [];
             $content['services']['_defaults']['tags'][] = 'container.ignore_attributes';
         }
         return $content;

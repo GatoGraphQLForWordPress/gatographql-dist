@@ -15,10 +15,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  */
 class PageObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageTypeAPI() : PageTypeAPIInterface
     {
         if ($this->pageTypeAPI === null) {

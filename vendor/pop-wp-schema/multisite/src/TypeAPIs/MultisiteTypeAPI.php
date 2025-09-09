@@ -75,10 +75,7 @@ class MultisiteTypeAPI extends AbstractBasicService implements MultisiteTypeAPII
         return $count;
     }
 
-    /**
-     * @return string|int
-     */
-    public function getNetworkSiteID(object $networkSite)
+    public function getNetworkSiteID(object $networkSite): string|int
     {
         /** @var WP_Site $networkSite */
         return (int) $networkSite->blog_id;

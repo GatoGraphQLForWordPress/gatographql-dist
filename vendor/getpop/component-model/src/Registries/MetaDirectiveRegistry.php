@@ -10,7 +10,7 @@ class MetaDirectiveRegistry implements \PoP\ComponentModel\Registries\MetaDirect
     /**
      * @var array<string,MetaFieldDirectiveResolverInterface>
      */
-    protected $metaFieldDirectiveResolvers = [];
+    protected array $metaFieldDirectiveResolvers = [];
     public function addMetaFieldDirectiveResolver(MetaFieldDirectiveResolverInterface $metaFieldDirectiveResolver) : void
     {
         $this->metaFieldDirectiveResolvers[$metaFieldDirectiveResolver->getDirectiveName()] = $metaFieldDirectiveResolver;

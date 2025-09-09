@@ -13,13 +13,11 @@ interface GraphQLEndpointCustomPostTypeInterface extends CustomPostTypeInterface
 
     /**
      * Read the options block and check the value of attribute "isEndpointEnabled"
-     * @param \WP_Post|int $postOrID
      */
-    public function isEndpointEnabled($postOrID): bool;
+    public function isEndpointEnabled(WP_Post|int $postOrID): bool;
 
     /**
      * @return array<string,mixed>|null Data inside the block is saved as key (string) => value
-     * @param \WP_Post|int $postOrID
      */
-    public function getOptionsBlockDataItem($postOrID): ?array;
+    public function getOptionsBlockDataItem(WP_Post|int $postOrID): ?array;
 }

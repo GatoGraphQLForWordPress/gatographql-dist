@@ -21,23 +21,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class CheckArgumentsValidityPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var bool
-     */
-    private $throwExceptions;
+    protected bool $skipScalars = \true;
+    private bool $throwExceptions;
     public function __construct(bool $throwExceptions = \true)
     {
         $this->throwExceptions = $throwExceptions;
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof Definition) {
             return parent::processValue($value, $isRoot);

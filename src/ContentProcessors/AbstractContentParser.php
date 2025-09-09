@@ -20,41 +20,17 @@ use function sanitize_title;
 
 abstract class AbstractContentParser extends AbstractBasicService implements ContentParserInterface
 {
-    public const PATH_URL_TO_DOCS = 'pathURLToDocs';
+    public final const PATH_URL_TO_DOCS = 'pathURLToDocs';
 
-    /**
-     * @var string
-     */
-    protected $baseDir = '';
-    /**
-     * @var string
-     */
-    protected $baseURL = '';
-    /**
-     * @var string
-     */
-    protected $docsFolder = '';
-    /**
-     * @var string
-     */
-    protected $githubRepoDocsRootPathURL = '';
-    /**
-     * @var bool
-     */
-    protected $useDocsFolderInFileDir = true;
+    protected string $baseDir = '';
+    protected string $baseURL = '';
+    protected string $docsFolder = '';
+    protected string $githubRepoDocsRootPathURL = '';
+    protected bool $useDocsFolderInFileDir = true;
 
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\LocaleHelper|null
-     */
-    private $localeHelper;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
+    private ?LocaleHelper $localeHelper = null;
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
 
     /**
      * @param string|null $baseDir Where to look for the documentation
@@ -62,8 +38,13 @@ abstract class AbstractContentParser extends AbstractBasicService implements Con
      * @param string|null $docsFolder folder under which the docs are stored
      * @param string|null $githubRepoDocsRootPathURL GitHub repo URL, to retrieve images for PROD
      */
-    public function __construct(?string $baseDir = null, ?string $baseURL = null, ?string $docsFolder = null, ?string $githubRepoDocsRootPathURL = null, ?bool $useDocsFolderInFileDir = null)
-    {
+    public function __construct(
+        ?string $baseDir = null,
+        ?string $baseURL = null,
+        ?string $docsFolder = null,
+        ?string $githubRepoDocsRootPathURL = null,
+        ?bool $useDocsFolderInFileDir = null,
+    ) {
         $this->setBaseDir($baseDir);
         $this->setBaseURL($baseURL);
         $this->setDocsFolder($docsFolder);
@@ -439,7 +420,7 @@ abstract class AbstractContentParser extends AbstractBasicService implements Con
      */
     protected function isAbsoluteURL(string $href): bool
     {
-        return strncmp($href, 'http://', strlen('http://')) === 0 || strncmp($href, 'https://', strlen('https://')) === 0;
+        return \str_starts_with($href, 'http://') || \str_starts_with($href, 'https://');
     }
 
     /**
@@ -447,15 +428,17 @@ abstract class AbstractContentParser extends AbstractBasicService implements Con
      */
     protected function isMailto(string $href): bool
     {
-        return strncmp($href, 'mailto:', strlen('mailto:')) === 0;
+        return \str_starts_with($href, 'mailto:');
     }
 
     /**
      * Whenever a link points to a .md file, convert it
      * so it works also within the plugin
      */
-    protected function convertMarkdownLinks(string $htmlContent, bool $openInModal = true): string
-    {
+    protected function convertMarkdownLinks(
+        string $htmlContent,
+        bool $openInModal = true,
+    ): string {
         return (string)preg_replace_callback(
             '/<a.*href="(.*?)\.md".*?>/',
             function (array $matches) use ($openInModal): string {
@@ -545,8 +528,8 @@ abstract class AbstractContentParser extends AbstractBasicService implements Con
                 if (
                     !$this->isAbsoluteURL($matches[2])
                     || $this->getCMSHelperService()->isCurrentDomain($matches[2])
-                    || strpos($matches[1], ' target=') !== false
-                    || strpos($matches[3], ' target=') !== false
+                    || str_contains($matches[1], ' target=')
+                    || str_contains($matches[3], ' target=')
                 ) {
                     return $matches[0];
                 }

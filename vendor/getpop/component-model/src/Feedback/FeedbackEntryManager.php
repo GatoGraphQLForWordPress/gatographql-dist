@@ -26,10 +26,7 @@ use SplObjectStorage;
 /** @internal */
 class FeedbackEntryManager extends AbstractBasicService implements \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface
 {
-    /**
-     * @var \PoP\ComponentModel\Response\DatabaseEntryManagerInterface|null
-     */
-    private $databaseEntryManager;
+    private ?DatabaseEntryManagerInterface $databaseEntryManager = null;
     protected final function getDatabaseEntryManager() : DatabaseEntryManagerInterface
     {
         if ($this->databaseEntryManager === null) {
@@ -64,11 +61,11 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
         $sendFeedbackLogs = \in_array(\PoP\ComponentModel\Feedback\FeedbackCategories::LOG, $enabledFeedbackCategoryExtensions);
         // Errors
         $generalFeedbackStore = App::getFeedbackStore()->generalFeedbackStore;
-        if ($generalErrors = \array_merge($generalFeedbackStore->getErrors(), $generalFeedbackStore->getPartialErrors())) {
+        if ($generalErrors = [...$generalFeedbackStore->getErrors(), ...$generalFeedbackStore->getPartialErrors()]) {
             $data[Response::GENERAL_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getGeneralFeedbackEntriesForOutput($generalErrors);
         }
         $documentFeedbackStore = App::getFeedbackStore()->documentFeedbackStore;
-        if ($documentErrors = \array_merge($documentFeedbackStore->getErrors(), $documentFeedbackStore->getPartialErrors())) {
+        if ($documentErrors = [...$documentFeedbackStore->getErrors(), ...$documentFeedbackStore->getPartialErrors()]) {
             $data[Response::DOCUMENT_FEEDBACK][\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR] = $this->getDocumentFeedbackEntriesForOutput($documentErrors);
         }
         $this->maybeCombineAndAddObjectOrSchemaEntries($data[Response::SCHEMA_FEEDBACK], \PoP\ComponentModel\Feedback\FeedbackCategories::ERROR, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
@@ -201,7 +198,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
     {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationObjectErrors = new SplObjectStorage();
-        foreach (\array_merge($objectResolutionFeedbackStore->getErrors(), $objectResolutionFeedbackStore->getPartialErrors()) as $objectFeedbackError) {
+        foreach ([...$objectResolutionFeedbackStore->getErrors(), ...$objectResolutionFeedbackStore->getPartialErrors()] as $objectFeedbackError) {
             $this->transferObjectFeedbackEntries($objectFeedbackError, $iterationObjectErrors);
         }
         $this->addFeedbackEntries($iterationObjectErrors, $objectFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
@@ -310,7 +307,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
     {
         /** @var SplObjectStorage<RelationalTypeResolverInterface,SplObjectStorage<FieldInterface,mixed>> */
         $iterationSchemaErrors = new SplObjectStorage();
-        foreach (\array_merge($schemaFeedbackStore->getErrors(), $schemaFeedbackStore->getPartialErrors()) as $schemaFeedbackError) {
+        foreach ([...$schemaFeedbackStore->getErrors(), ...$schemaFeedbackStore->getPartialErrors()] as $schemaFeedbackError) {
             $this->transferSchemaFeedbackEntries($schemaFeedbackError, $iterationSchemaErrors);
         }
         $this->addFeedbackEntries($iterationSchemaErrors, $schemaFeedbackEntries[\PoP\ComponentModel\Feedback\FeedbackCategories::ERROR]);
@@ -363,9 +360,8 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
     }
     /**
      * @return array<string,mixed>
-     * @param \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackInterface|\PoP\ComponentModel\Feedback\SchemaFeedbackInterface $objectOrSchemaFeedback
      */
-    private function getObjectOrSchemaFeedbackCommonEntry($objectOrSchemaFeedback) : array
+    private function getObjectOrSchemaFeedbackCommonEntry(ObjectResolutionFeedbackInterface|\PoP\ComponentModel\Feedback\SchemaFeedbackInterface $objectOrSchemaFeedback) : array
     {
         return $this->formatObjectOrSchemaFeedbackCommonEntry($objectOrSchemaFeedback->getAstNode(), $objectOrSchemaFeedback->getLocation(), $objectOrSchemaFeedback->getExtensions(), $objectOrSchemaFeedback->getFeedbackItemResolution(), []);
     }
@@ -397,7 +393,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
          */
         if ($location instanceof RuntimeLocation) {
             /** @var RuntimeLocation $location */
-            $location = ($nullsafeVariable1 = $location->getStaticASTNode()) ? $nullsafeVariable1->getLocation() : null;
+            $location = $location->getStaticASTNode()?->getLocation();
             /** @var Location|null $location */
         }
         $locations = [];
@@ -465,7 +461,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
             $astNodePath[] = $astNode->asASTNodeString();
             // Move to the ancestor AST node
             $astNode = $documentASTNodeAncestors[$astNode] ?? null;
-            $location = ($nullsafeVariable2 = $astNode) ? $nullsafeVariable2->getLocation() : null;
+            $location = $astNode?->getLocation();
             if ($location instanceof RuntimeLocation) {
                 /** @var RuntimeLocation $location */
                 $astNode = $location->getStaticASTNode();

@@ -9,10 +9,7 @@ use PoP\Root\Module\AbstractModule;
 
 abstract class AbstractPluginModule extends AbstractModule implements PluginModuleInterface
 {
-    /**
-     * @var string
-     */
-    private $pluginFolder;
+    private string $pluginFolder;
 
     public function setPluginFolder(string $pluginFolder): void
     {
@@ -54,8 +51,10 @@ abstract class AbstractPluginModule extends AbstractModule implements PluginModu
      *
      * @param array<class-string<ModuleInterface>> $skipSchemaModuleClasses
      */
-    protected function initializeContainerServices(bool $skipSchema, array $skipSchemaModuleClasses): void
-    {
+    protected function initializeContainerServices(
+        bool $skipSchema,
+        array $skipSchemaModuleClasses,
+    ): void {
         $pluginFolder = $this->getPluginFolder();
         if (file_exists($pluginFolder . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . 'hybrid-services.yaml')) {
             $this->initServices($pluginFolder, '', 'hybrid-services.yaml');

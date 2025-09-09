@@ -11,9 +11,8 @@ trait FieldOrDirectiveSchemaDefinitionResolverTrait
     use \PoP\ComponentModel\Resolvers\TypeSchemaDefinitionResolverTrait;
     /**
      * @return array<string,mixed>
-     * @param mixed $argDefaultValue
      */
-    public final function getFieldOrDirectiveArgTypeSchemaDefinition(string $argName, InputTypeResolverInterface $argInputTypeResolver, ?string $argDescription, $argDefaultValue, int $argTypeModifiers) : array
+    public final function getFieldOrDirectiveArgTypeSchemaDefinition(string $argName, InputTypeResolverInterface $argInputTypeResolver, ?string $argDescription, mixed $argDefaultValue, int $argTypeModifiers) : array
     {
         return $this->getTypeSchemaDefinition($argName, $argInputTypeResolver, $argDescription, $argDefaultValue, $argTypeModifiers);
     }

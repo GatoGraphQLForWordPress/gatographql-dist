@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectType
 /** @internal */
 class MediaItemSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\EnumType\MediaItemOrderByEnumTypeResolver|null
-     */
-    private $customPostSortByEnumTypeResolver;
+    private ?MediaItemOrderByEnumTypeResolver $customPostSortByEnumTypeResolver = null;
     protected final function getMediaItemOrderByEnumTypeResolver() : MediaItemOrderByEnumTypeResolver
     {
         if ($this->customPostSortByEnumTypeResolver === null) {
@@ -34,16 +31,11 @@ class MediaItemSortInputObjectTypeResolver extends SortInputObjectTypeResolver
     {
         return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getMediaItemOrderByEnumTypeResolver()]);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return MediaItemOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => MediaItemOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

@@ -25,7 +25,7 @@ class CombinationExtension extends AbstractExtension
 {
     public function getCombinationTranslators() : array
     {
-        return [' ' => \Closure::fromCallable([$this, 'translateDescendant']), '>' => \Closure::fromCallable([$this, 'translateChild']), '+' => \Closure::fromCallable([$this, 'translateDirectAdjacent']), '~' => \Closure::fromCallable([$this, 'translateIndirectAdjacent'])];
+        return [' ' => $this->translateDescendant(...), '>' => $this->translateChild(...), '+' => $this->translateDirectAdjacent(...), '~' => $this->translateIndirectAdjacent(...)];
     }
     public function translateDescendant(XPathExpr $xpath, XPathExpr $combinedXpath) : XPathExpr
     {

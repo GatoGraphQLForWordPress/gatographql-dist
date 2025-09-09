@@ -24,36 +24,27 @@ abstract class AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolv
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'errors':
-                return $this->getErrorsFieldFieldTypeResolver($objectTypeResolver, $fieldName);
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'errors' => $this->getErrorsFieldFieldTypeResolver($objectTypeResolver, $fieldName),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getErrorsFieldFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface;
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'errors':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'errors' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'errors':
-                return $this->__('List of error data, if the operation failed', 'schema-commons');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'errors' => $this->__('List of error data, if the operation failed', 'schema-commons'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var AbstractTransientOperationPayload */
         $transientOperationPayload = $object;
@@ -63,9 +54,7 @@ abstract class AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolv
                 if ($transientOperationPayload->errors === null) {
                     return null;
                 }
-                return \array_map(function (ErrorPayloadInterface $errorPayload) {
-                    return $errorPayload->getID();
-                }, $transientOperationPayload->errors);
+                return \array_map(fn(ErrorPayloadInterface $errorPayload) => $errorPayload->getID(), $transientOperationPayload->errors);
         }
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }

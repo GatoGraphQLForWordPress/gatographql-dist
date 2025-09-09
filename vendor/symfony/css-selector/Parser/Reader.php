@@ -22,18 +22,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser;
  */
 class Reader
 {
-    /**
-     * @var string
-     */
-    private $source;
-    /**
-     * @var int
-     */
-    private $length;
-    /**
-     * @var int
-     */
-    private $position = 0;
+    private string $source;
+    private int $length;
+    private int $position = 0;
     public function __construct(string $source)
     {
         $this->source = $source;
@@ -58,15 +49,12 @@ class Reader
     /**
      * @return int|false
      */
-    public function getOffset(string $string)
+    public function getOffset(string $string) : int|bool
     {
         $position = \strpos($this->source, $string, $this->position);
         return \false === $position ? \false : $position - $this->position;
     }
-    /**
-     * @return mixed[]|false
-     */
-    public function findPattern(string $pattern)
+    public function findPattern(string $pattern) : array|false
     {
         $source = \substr($this->source, $this->position);
         if (\preg_match($pattern, $source, $matches)) {

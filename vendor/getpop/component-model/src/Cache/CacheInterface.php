@@ -20,14 +20,8 @@ interface CacheInterface
      * Commit entries in the pool
      */
     public function commit() : void;
-    /**
-     * @return mixed
-     */
-    public function getCache(string $id, string $type);
-    /**
-     * @return mixed
-     */
-    public function getComponentModelCache(string $id, string $type);
+    public function getCache(string $id, string $type) : mixed;
+    public function getComponentModelCache(string $id, string $type) : mixed;
     /**
      * Store the cache
      *
@@ -36,18 +30,8 @@ interface CacheInterface
      * @param mixed $content the value to cache
      * @param int|DateInterval|null $time time after which the cache expires, in seconds
      */
-    public function storeCache(string $id, string $type, $content, $time = null) : void;
-    /**
-     * @param int|\DateInterval|null $time
-     * @param mixed $content
-     */
-    public function storeComponentModelCache(string $id, string $type, $content, $time = null) : void;
-    /**
-     * @return mixed
-     */
-    public function getCacheByModelInstance(string $type);
-    /**
-     * @param mixed $content
-     */
-    public function storeCacheByModelInstance(string $type, $content) : void;
+    public function storeCache(string $id, string $type, mixed $content, int|DateInterval|null $time = null) : void;
+    public function storeComponentModelCache(string $id, string $type, mixed $content, int|DateInterval|null $time = null) : void;
+    public function getCacheByModelInstance(string $type) : mixed;
+    public function storeCacheByModelInstance(string $type, mixed $content) : void;
 }

@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\UnionType\AbstractCustomPostMediaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\RelationalTypeDataLoaders\UnionType\CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader;
+    private ?CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader $customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getCustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader() : CustomPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->customPostSetFeaturedImageMutationErrorPayloadUnionTypeDataLoader === null) {

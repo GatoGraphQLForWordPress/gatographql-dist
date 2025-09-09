@@ -14,14 +14,8 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 
 abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService implements TaxonomyInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Menus\PluginMenu|null
-     */
-    private $pluginMenu;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
+    private ?PluginMenu $pluginMenu = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
 
     final protected function getPluginMenu(): PluginMenu
     {
@@ -56,7 +50,7 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
 
         \add_action(
             'init',
-            \Closure::fromCallable([$this, 'initTaxonomy']),
+            $this->initTaxonomy(...),
         );
     }
 
@@ -136,9 +130,7 @@ abstract class AbstractTaxonomy extends AbstractAutomaticallyInstantiatedService
         \register_taxonomy(
             $this->getTaxonomy(),
             array_map(
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService->getCustomPostType();
-                },
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService->getCustomPostType(),
                 $this->getCustomPostTypes()
             ),
             $args

@@ -19,10 +19,8 @@ abstract class AbstractTaxonomyMetaTypeAPI extends AbstractMetaTypeAPI implement
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $termObjectOrID
-     * @return mixed
      */
-    public final function getTaxonomyTermMeta($termObjectOrID, string $key, bool $single = \false, array $options = [])
+    public final function getTaxonomyTermMeta(string|int|object $termObjectOrID, string $key, bool $single = \false, array $options = []) : mixed
     {
         if ($options['assert-is-meta-key-allowed'] ?? null) {
             $this->assertIsMetaKeyAllowed($key);
@@ -47,8 +45,6 @@ abstract class AbstractTaxonomyMetaTypeAPI extends AbstractMetaTypeAPI implement
     /**
      * If the key is non-existent, return `null`.
      * Otherwise, return the value.
-     * @param string|int|object $termObjectOrID
-     * @return mixed
      */
-    protected abstract function doGetTaxonomyMeta($termObjectOrID, string $key, bool $single = \false);
+    protected abstract function doGetTaxonomyMeta(string|int|object $termObjectOrID, string $key, bool $single = \false) : mixed;
 }

@@ -13,10 +13,7 @@ use SplObjectStorage;
 /** @internal */
 abstract class AbstractCheckpointValidateConditionFieldDirectiveResolver extends \PoP\Engine\DirectiveResolvers\AbstractValidateConditionFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\ComponentModel\Engine\EngineInterface|null
-     */
-    private $engine;
+    private ?EngineInterface $engine = null;
     protected final function getEngine() : EngineInterface
     {
         if ($this->engine === null) {

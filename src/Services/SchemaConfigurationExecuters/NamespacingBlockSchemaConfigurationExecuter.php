@@ -12,10 +12,7 @@ use PoP\ComponentModel\Environment as ComponentModelEnvironment;
 
 class NamespacingBlockSchemaConfigurationExecuter extends AbstractDefaultEnableDisableFunctionalityBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigNamespacingBlock|null
-     */
-    private $schemaConfigNamespacingBlock;
+    private ?SchemaConfigNamespacingBlock $schemaConfigNamespacingBlock = null;
 
     final protected function getSchemaConfigNamespacingBlock(): SchemaConfigNamespacingBlock
     {

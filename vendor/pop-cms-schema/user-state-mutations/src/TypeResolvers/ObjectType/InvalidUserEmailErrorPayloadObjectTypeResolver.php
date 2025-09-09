@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class InvalidUserEmailErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\ObjectType\InvalidUserEmailErrorPayloadObjectTypeDataLoader|null
-     */
-    private $invalidUserEmailErrorPayloadObjectTypeDataLoader;
+    private ?InvalidUserEmailErrorPayloadObjectTypeDataLoader $invalidUserEmailErrorPayloadObjectTypeDataLoader = null;
     protected final function getInvalidUserEmailErrorPayloadObjectTypeDataLoader() : InvalidUserEmailErrorPayloadObjectTypeDataLoader
     {
         if ($this->invalidUserEmailErrorPayloadObjectTypeDataLoader === null) {

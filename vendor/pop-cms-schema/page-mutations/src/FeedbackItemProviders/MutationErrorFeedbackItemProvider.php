@@ -8,8 +8,8 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E2 = 'e2';
-    public const E3 = 'e3';
+    public final const E2 = 'e2';
+    public final const E3 = 'e3';
     /**
      * @return string[]
      */
@@ -19,14 +19,11 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E2:
-                return $this->__('Your user doesn\'t have permission for editing pages.', 'page-mutations');
-            case self::E3:
-                return $this->__('Your user doesn\'t have permission for publishing pages.', 'page-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E2 => $this->__('Your user doesn\'t have permission for editing pages.', 'page-mutations'),
+            self::E3 => $this->__('Your user doesn\'t have permission for publishing pages.', 'page-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

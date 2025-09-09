@@ -10,14 +10,8 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdatePostCategoryTermInputObjectTypeResolver extends AbstractCreateOrUpdateCategoryTermInputObjectTypeResolver implements \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\UpdatePostCategoryTermInputObjectTypeResolverInterface, \PoPCMSSchema\PostCategoryMutations\TypeResolvers\InputObjectType\CreatePostCategoryTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\EnumType\PostCategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postCategoryTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
+    private ?PostCategoryTaxonomyEnumStringScalarTypeResolver $postCategoryTaxonomyEnumStringScalarTypeResolver = null;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
     protected final function getPostCategoryTaxonomyEnumStringScalarTypeResolver() : PostCategoryTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->postCategoryTaxonomyEnumStringScalarTypeResolver === null) {
@@ -40,10 +34,7 @@ abstract class AbstractCreateOrUpdatePostCategoryTermInputObjectTypeResolver ext
     {
         return $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getTaxonomyInputFieldDefaultValue()
+    protected function getTaxonomyInputFieldDefaultValue() : mixed
     {
         $postCategoryTaxonomyName = $this->getPostCategoryTypeAPI()->getPostCategoryTaxonomyName();
         if (!\in_array($postCategoryTaxonomyName, $this->getPostCategoryTaxonomyEnumStringScalarTypeResolver()->getConsolidatedPossibleValues())) {

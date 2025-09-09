@@ -9,9 +9,8 @@ trait BooleanFormInputTrait
 {
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected function getValueFromSource(?array $source = null)
+    protected function getValueFromSource(?array $source = null) : mixed
     {
         // If it is not set, then return NULL, so that doing #formcomponentValue ignores value and proceeds to resolvedObject[resolvedObjectField]
         $value = $this->getValueFromSourceOrRequest($this->getName(), $source);
@@ -37,7 +36,6 @@ trait BooleanFormInputTrait
     }
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected abstract function getValueFromSourceOrRequest(string $name, ?array $source = null);
+    protected abstract function getValueFromSourceOrRequest(string $name, ?array $source = null) : mixed;
 }

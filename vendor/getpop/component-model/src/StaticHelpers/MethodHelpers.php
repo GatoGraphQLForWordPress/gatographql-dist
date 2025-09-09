@@ -38,6 +38,7 @@ class MethodHelpers
         foreach ($idFieldSet as $id => $fieldSet) {
             $fields = \array_merge($fields, $fieldSet->fields);
         }
+        // @phpstan-ignore-next-line
         return \array_values(\array_unique($fields));
     }
     /**
@@ -49,6 +50,7 @@ class MethodHelpers
     {
         $restrictedIDFieldSet = [];
         foreach ($idFieldSet as $id => $fieldSet) {
+            // @phpstan-ignore-next-line
             $matchingFields = \array_intersect($fields, $fieldSet->fields);
             if ($matchingFields === []) {
                 continue;
@@ -66,7 +68,7 @@ class MethodHelpers
      *
      * @see https://stackoverflow.com/a/4790485
      */
-    public static function recursivelyConvertAssociativeArrayToStdClass(array $array)
+    public static function recursivelyConvertAssociativeArrayToStdClass(array $array) : array|stdClass
     {
         foreach ($array as $key => $value) {
             if (!\is_array($value)) {
@@ -75,24 +77,7 @@ class MethodHelpers
             $array[$key] = static::recursivelyConvertAssociativeArrayToStdClass($value);
         }
         // If it is an associative array, transform to stdClass
-        $arrayIsListFunction = function (array $array) : bool {
-            if (\function_exists('array_is_list')) {
-                return \array_is_list($array);
-            }
-            if ($array === []) {
-                return \true;
-            }
-            $current_key = 0;
-            foreach ($array as $key => $noop) {
-                if ($key !== $current_key) {
-                    return \false;
-                }
-                ++$current_key;
-            }
-            return \true;
-        };
-        // If it is an associative array, transform to stdClass
-        if (!$arrayIsListFunction($array)) {
+        if (!\array_is_list($array)) {
             return (object) $array;
         }
         return $array;
@@ -105,7 +90,7 @@ class MethodHelpers
      *
      * @see https://stackoverflow.com/a/4790485
      */
-    public static function recursivelyConvertStdClassToAssociativeArray($objectOrArray, bool $skipConvertingEmptyObjects = \false) : array
+    public static function recursivelyConvertStdClassToAssociativeArray(stdClass|array $objectOrArray, bool $skipConvertingEmptyObjects = \false) : array
     {
         $array = [];
         foreach ((array) $objectOrArray as $key => $value) {

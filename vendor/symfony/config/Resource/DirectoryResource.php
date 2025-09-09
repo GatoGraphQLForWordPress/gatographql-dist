@@ -20,14 +20,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
  */
 class DirectoryResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $resource;
-    /**
-     * @var string|null
-     */
-    private $pattern;
+    private string $resource;
+    private ?string $pattern;
     /**
      * @param string      $resource The file path to the resource
      * @param string|null $pattern  A pattern to restrict monitored files
@@ -45,7 +39,7 @@ class DirectoryResource implements SelfCheckingResourceInterface
     }
     public function __toString() : string
     {
-        return \hash('md5', \serialize([$this->resource, $this->pattern]));
+        return \hash('xxh128', \serialize([$this->resource, $this->pattern]));
     }
     public function getResource() : string
     {
@@ -70,13 +64,13 @@ class DirectoryResource implements SelfCheckingResourceInterface
             }
             // always monitor directories for changes, except the .. entries
             // (otherwise deleted files wouldn't get detected)
-            if ($file->isDir() && \substr_compare($file, '/..', -\strlen('/..')) === 0) {
+            if ($file->isDir() && \str_ends_with($file, '/..')) {
                 continue;
             }
             // for broken links
             try {
                 $fileMTime = $file->getMTime();
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 continue;
             }
             // early return if a file's mtime exceeds the passed timestamp

@@ -15,31 +15,24 @@ class CustomPostOrderByQueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             AbstractCustomPostTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
+            $this->getOrderByQueryArgValue(...)
         );
     }
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case CustomPostOrderBy::NONE:
-                return 'none';
-            case CustomPostOrderBy::COMMENT_COUNT:
-                return 'comment_count';
-            case CustomPostOrderBy::RANDOM:
-                return 'rand';
-            case CustomPostOrderBy::MODIFIED_DATE:
-                return 'modified';
-            case CustomPostOrderBy::RELEVANCE:
-                return 'relevance';
-            case CustomPostOrderBy::TYPE:
-                return 'type';
-            case CustomPostOrderBy::PARENT:
-                return 'parent';
-            case CustomPostOrderBy::MENU_ORDER:
-                return 'menu_order';
-            default:
-                return $orderBy;
-        }
+        return match ($orderBy) {
+            CustomPostOrderBy::NONE => 'none',
+            CustomPostOrderBy::COMMENT_COUNT => 'comment_count',
+            CustomPostOrderBy::RANDOM => 'rand',
+            CustomPostOrderBy::MODIFIED_DATE => 'modified',
+            CustomPostOrderBy::RELEVANCE => 'relevance',
+            CustomPostOrderBy::TYPE => 'type',
+            CustomPostOrderBy::PARENT => 'parent',
+            CustomPostOrderBy::MENU_ORDER => 'menu_order',
+            // CustomPostOrderBy::POST__IN => 'post__in',
+            // CustomPostOrderBy::POST_PARENT__IN => 'post_parent__in',
+            default => $orderBy,
+        };
     }
 }

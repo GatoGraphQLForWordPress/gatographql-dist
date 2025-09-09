@@ -13,15 +13,10 @@ use stdClass;
 class InputObject extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface, WithAstValueInterface
 {
     /**
-     * @var stdClass
-     */
-    protected $object;
-    /**
      * @param stdClass $object Elements inside can be WithValueInterface or native types (array, int, string, etc)
      */
-    public function __construct(stdClass $object, Location $location)
+    public function __construct(protected stdClass $object, Location $location)
     {
-        $this->object = $object;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -39,7 +34,7 @@ class InputObject extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\
      *
      * @return stdClass
      */
-    public final function getValue()
+    public final function getValue() : mixed
     {
         $object = new stdClass();
         foreach ((array) $this->object as $key => $value) {
@@ -54,7 +49,7 @@ class InputObject extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\
     /**
      * @return stdClass
      */
-    public function getAstValue()
+    public function getAstValue() : mixed
     {
         return $this->object;
     }

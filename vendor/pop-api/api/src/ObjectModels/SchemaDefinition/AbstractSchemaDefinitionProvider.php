@@ -11,7 +11,7 @@ abstract class AbstractSchemaDefinitionProvider implements \PoPAPI\API\ObjectMod
     /**
      * @var array<string,TypeResolverInterface|FieldDirectiveResolverInterface> Key: class, Value: Accessed Type and Directive Resolver
      */
-    protected $accessedTypeAndFieldDirectiveResolvers = [];
+    protected array $accessedTypeAndFieldDirectiveResolvers = [];
     public final function getAccessedTypeAndFieldDirectiveResolvers() : array
     {
         return \array_values($this->accessedTypeAndFieldDirectiveResolvers);

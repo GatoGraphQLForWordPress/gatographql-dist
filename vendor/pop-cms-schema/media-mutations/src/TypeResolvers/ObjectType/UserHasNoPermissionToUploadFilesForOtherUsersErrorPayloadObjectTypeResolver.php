@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\RelationalTypeDataLoaders\ObjectType\UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader|null
-     */
-    private $userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader;
+    private ?UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader $userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader = null;
     protected final function getUserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader() : UserHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader
     {
         if ($this->userHasNoPermissionToUploadFilesForOtherUsersErrorPayloadObjectTypeDataLoader === null) {

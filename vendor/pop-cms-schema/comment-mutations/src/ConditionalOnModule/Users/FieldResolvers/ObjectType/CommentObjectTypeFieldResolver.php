@@ -19,14 +19,8 @@ use PoP\Root\App;
  */
 class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResolver
 {
-    /**
-     * @var UserCommentTypeAPIInterface|null
-     */
-    private $userCommentTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
+    private ?UserCommentTypeAPIInterface $userCommentTypeAPI = null;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
     protected final function getUserCommentTypeAPI() : UserCommentTypeAPIInterface
     {
         if ($this->userCommentTypeAPI === null) {
@@ -69,10 +63,7 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
     {
         return ['authorName', 'authorURL', 'authorEmail'];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $comment = $object;
         $commentUserID = $this->getUserCommentTypeAPI()->getCommentUserID($comment);

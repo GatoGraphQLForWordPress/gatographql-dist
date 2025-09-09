@@ -20,9 +20,8 @@ trait FactoryTrait
      * Sets a factory.
      *
      * @return $this
-     * @param string|mixed[]|\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator|\Symfony\Component\ExpressionLanguage\Expression $factory
      */
-    public final function factory($factory)
+    public final function factory(string|array|ReferenceConfigurator|Expression $factory) : static
     {
         if (\is_string($factory) && 1 === \substr_count($factory, ':')) {
             $factoryParts = \explode(':', $factory);

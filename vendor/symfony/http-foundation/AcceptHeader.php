@@ -26,11 +26,8 @@ class AcceptHeader
     /**
      * @var AcceptHeaderItem[]
      */
-    private $items = [];
-    /**
-     * @var bool
-     */
-    private $sorted = \true;
+    private array $items = [];
+    private bool $sorted = \true;
     /**
      * @param AcceptHeaderItem[] $items
      */
@@ -81,7 +78,7 @@ class AcceptHeader
      *
      * @return $this
      */
-    public function add(AcceptHeaderItem $item)
+    public function add(AcceptHeaderItem $item) : static
     {
         $this->items[$item->getValue()] = $item;
         $this->sorted = \false;
@@ -102,9 +99,7 @@ class AcceptHeader
      */
     public function filter(string $pattern) : self
     {
-        return new self(\array_filter($this->items, function (AcceptHeaderItem $item) use($pattern) {
-            return \preg_match($pattern, $item->getValue());
-        }));
+        return new self(\array_filter($this->items, fn(AcceptHeaderItem $item) => \preg_match($pattern, $item->getValue())));
     }
     /**
      * Returns first item.

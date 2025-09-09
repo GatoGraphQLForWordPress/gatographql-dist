@@ -34,42 +34,34 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'setTags':
-                return \sprintf($this->__('Set tags on the %s', 'custompost-tag-mutations'), $this->getEntityName());
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => \sprintf($this->__('Set tags on the %s', 'custompost-tag-mutations'), $this->getEntityName()),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'setTags':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'setTags':
-                return ['input' => $this->getCustomPostSetTagsInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => ['input' => $this->getCustomPostSetTagsInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['setTags' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['setTags' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID
@@ -78,12 +70,10 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
      */
     public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
     {
-        switch ($fieldName) {
-            case 'setTags':
-                return \true;
-            default:
-                return parent::validateMutationOnObject($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => \true,
+            default => parent::validateMutationOnObject($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @param array<string,mixed> $fieldArgsForMutationForObject
@@ -105,12 +95,10 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostTagMutations = $moduleConfiguration->usePayloadableCustomPostTagMutations();
-        switch ($fieldName) {
-            case 'setTags':
-                return $usePayloadableCustomPostTagMutations ? $this->getPayloadableSetTagsMutationResolver() : $this->getSetTagsMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => $usePayloadableCustomPostTagMutations ? $this->getPayloadableSetTagsMutationResolver() : $this->getSetTagsMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
@@ -118,19 +106,15 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostTagMutations = $moduleConfiguration->usePayloadableCustomPostTagMutations();
         if ($usePayloadableCustomPostTagMutations) {
-            switch ($fieldName) {
-                case 'setTags':
-                    return $this->getCustomPostSetTagsMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'setTags' => $this->getCustomPostSetTagsMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'setTags':
-                return $this->getCustomPostObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'setTags' => $this->getCustomPostObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getCustomPostSetTagsMutationPayloadObjectTypeResolver() : ConcreteTypeResolverInterface;
 }

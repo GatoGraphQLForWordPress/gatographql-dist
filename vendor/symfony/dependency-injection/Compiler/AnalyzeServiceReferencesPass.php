@@ -31,46 +31,16 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Express
  */
 class AnalyzeServiceReferencesPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraph
-     */
-    private $graph;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Definition|null
-     */
-    private $currentDefinition;
-    /**
-     * @var bool
-     */
-    private $onlyConstructorArguments;
-    /**
-     * @var bool
-     */
-    private $hasProxyDumper;
-    /**
-     * @var bool
-     */
-    private $lazy;
-    /**
-     * @var bool
-     */
-    private $byConstructor;
-    /**
-     * @var bool
-     */
-    private $byFactory;
-    /**
-     * @var mixed[]
-     */
-    private $definitions;
-    /**
-     * @var mixed[]
-     */
-    private $aliases;
+    protected bool $skipScalars = \true;
+    private ServiceReferenceGraph $graph;
+    private ?Definition $currentDefinition = null;
+    private bool $onlyConstructorArguments;
+    private bool $hasProxyDumper;
+    private bool $lazy;
+    private bool $byConstructor;
+    private bool $byFactory;
+    private array $definitions;
+    private array $aliases;
     /**
      * @param bool $onlyConstructorArguments Sets this Service Reference pass to ignore method calls
      */
@@ -105,11 +75,7 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
             $this->aliases = $this->definitions = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         $lazy = $this->lazy;
         $inExpression = $this->inExpression();
@@ -122,9 +88,9 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
         if ($value instanceof Reference) {
             $targetId = $this->getDefinitionId((string) $value);
             $targetDefinition = null !== $targetId ? $this->container->getDefinition($targetId) : null;
-            $this->graph->connect($this->currentId, $this->currentDefinition, $targetId, $targetDefinition, $value, $this->lazy || $this->hasProxyDumper && (($nullsafeVariable1 = $targetDefinition) ? $nullsafeVariable1->isLazy() : null), ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior(), $this->byConstructor);
+            $this->graph->connect($this->currentId, $this->currentDefinition, $targetId, $targetDefinition, $value, $this->lazy || $this->hasProxyDumper && $targetDefinition?->isLazy(), ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior(), $this->byConstructor);
             if ($inExpression) {
-                $this->graph->connect('.internal.reference_in_expression', null, $targetId, $targetDefinition, $value, $this->lazy || (($nullsafeVariable2 = $targetDefinition) ? $nullsafeVariable2->isLazy() : null), \true);
+                $this->graph->connect('.internal.reference_in_expression', null, $targetId, $targetDefinition, $value, $this->lazy || $targetDefinition?->isLazy(), \true);
             }
             return $value;
         }
@@ -144,7 +110,7 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
         $this->byConstructor = $isRoot || $byConstructor;
         $byFactory = $this->byFactory;
         $this->byFactory = \true;
-        if (\is_string($factory = $value->getFactory()) && \strncmp($factory, '@=', \strlen('@=')) === 0) {
+        if (\is_string($factory = $value->getFactory()) && \str_starts_with($factory, '@=')) {
             if (!\class_exists(Expression::class)) {
                 throw new LogicException('Expressions cannot be used in service factories without the ExpressionLanguage component. Try running "composer require symfony/expression-language".');
             }

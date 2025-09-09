@@ -12,14 +12,11 @@ abstract class AbstractCustomPostListTagObjectTypeFieldResolver extends Abstract
 {
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return $this->__('Custom posts which contain this tag', 'pop-tags');
-            case 'customPostCount':
-                return $this->__('Number of custom posts which contain this tag', 'pop-tags');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => $this->__('Custom posts which contain this tag', 'pop-tags'),
+            'customPostCount' => $this->__('Number of custom posts which contain this tag', 'pop-tags'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getQueryProperty() : string;
     /**

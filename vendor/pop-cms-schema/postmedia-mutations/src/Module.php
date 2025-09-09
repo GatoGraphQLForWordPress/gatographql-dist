@@ -29,7 +29,7 @@ class Module extends AbstractModule
             if (\class_exists(CustomPostMediaMutationsModule::class) && App::getModule(CustomPostMediaMutationsModule::class)->isEnabled()) {
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(CustomPostMediaMutationsModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/CustomPostMediaMutations');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

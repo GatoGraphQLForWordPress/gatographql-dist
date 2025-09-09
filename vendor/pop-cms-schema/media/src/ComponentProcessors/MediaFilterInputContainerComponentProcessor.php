@@ -11,8 +11,8 @@ use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputC
 class MediaFilterInputContainerComponentProcessor extends AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMS = 'filterinputcontainer-media-items';
-    public const COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMCOUNT = 'filterinputcontainer-media-item-count';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMS = 'filterinputcontainer-media-items';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMCOUNT = 'filterinputcontainer-media-item-count';
     /**
      * @return string[]
      */
@@ -25,22 +25,19 @@ class MediaFilterInputContainerComponentProcessor extends AbstractFilterInputCon
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        $mediaFilterInputComponents = \array_merge($this->getIDFilterInputComponents(), [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SEARCH), new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_MIME_TYPES)]);
+        $mediaFilterInputComponents = [...$this->getIDFilterInputComponents(), new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SEARCH), new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_MIME_TYPES)];
         $paginationFilterInputComponents = $this->getPaginationFilterInputComponents();
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMS:
-                return \array_merge(\is_array($mediaFilterInputComponents) ? $mediaFilterInputComponents : \iterator_to_array($mediaFilterInputComponents), $paginationFilterInputComponents);
-            case self::COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMCOUNT:
-                return \array_merge(\is_array($mediaFilterInputComponents) ? $mediaFilterInputComponents : \iterator_to_array($mediaFilterInputComponents));
-            default:
-                return [];
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMS => [...$mediaFilterInputComponents, ...$paginationFilterInputComponents],
+            self::COMPONENT_FILTERINPUTCONTAINER_MEDIAITEMCOUNT => [...$mediaFilterInputComponents],
+            default => [],
+        };
     }
     /**
      * @return string[]
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

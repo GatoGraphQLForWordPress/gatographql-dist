@@ -7,26 +7,16 @@ use PoP\Root\App;
 /** @internal */
 class FormInput
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @readonly
-     * @var mixed
-     */
-    public $selected;
+    public readonly string $name;
+    public readonly mixed $selected;
     /**
      * @var array<string,mixed> $params
-     * @readonly
      */
-    public $params;
+    public readonly array $params;
     /**
      * @param array<string,mixed> $params
-     * @param mixed $selected
      */
-    public function __construct(string $name, $selected = null, array $params = [])
+    public function __construct(string $name, mixed $selected = null, array $params = [])
     {
         $this->name = $name;
         // Selected value. If provided, use it
@@ -39,9 +29,8 @@ class FormInput
     }
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected function getValueFromSource(?array $source = null)
+    protected function getValueFromSource(?array $source = null) : mixed
     {
         $value = $this->getValueFromSourceOrRequest($this->getName(), $source);
         // If it is multiple and the URL contains an empty value (eg: &searchfor[]=&), it will interpret it as array(''),
@@ -60,9 +49,8 @@ class FormInput
     }
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    protected function getValueFromSourceOrRequest(string $name, ?array $source = null)
+    protected function getValueFromSourceOrRequest(string $name, ?array $source = null) : mixed
     {
         // If not set, it will be NULL
         $value = null;
@@ -80,9 +68,8 @@ class FormInput
      * submitting form this will override original post / user metadata values)
      *
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function getValue(?array $source = null)
+    public function getValue(?array $source = null) : mixed
     {
         // Empty values (eg: '', array()) can be the value. Only if NULL get a default value
         if ($this->selected !== null) {
@@ -106,9 +93,8 @@ class FormInput
     }
     /**
      * Function to override
-     * @return mixed
      */
-    public function getDefaultValue()
+    public function getDefaultValue() : mixed
     {
         return null;
     }

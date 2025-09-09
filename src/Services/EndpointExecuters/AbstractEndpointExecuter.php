@@ -10,10 +10,7 @@ use PoP\Root\Services\AbstractBasicService;
 
 abstract class AbstractEndpointExecuter extends AbstractBasicService implements EndpointExecuterInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

@@ -18,10 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class IteratorArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
+    private array $values;
     public function __construct(array $values)
     {
         $this->setValues($values);

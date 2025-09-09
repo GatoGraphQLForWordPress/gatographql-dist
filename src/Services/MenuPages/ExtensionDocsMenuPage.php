@@ -16,10 +16,7 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
     use OpenInModalTriggerMenuPageTrait;
     use NoDocsFolderPluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\ExtensionsMenuPage|null
-     */
-    private $extensionsMenuPage;
+    private ?ExtensionsMenuPage $extensionsMenuPage = null;
 
     final protected function getExtensionsMenuPage(): ExtensionsMenuPage
     {
@@ -144,8 +141,10 @@ class ExtensionDocsMenuPage extends AbstractVerticalTabDocsMenuPage
      * @param array<array{0:string,1:string,2:string}> $entry
      * @phpstan-ignore-next-line
      */
-    protected function getEntryTitle(string $entryTitle, array $entry): string
-    {
+    protected function getEntryTitle(
+        string $entryTitle,
+        array $entry,
+    ): string {
         /** @var string */
         $entryModule = $entry[2];
         /** @var ExtensionModuleResolverInterface */

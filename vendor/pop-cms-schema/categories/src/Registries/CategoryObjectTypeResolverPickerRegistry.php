@@ -10,7 +10,7 @@ class CategoryObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Categori
     /**
      * @var CategoryObjectTypeResolverPickerInterface[]
      */
-    protected $categoryObjectTypeResolverPickers = [];
+    protected array $categoryObjectTypeResolverPickers = [];
     public function addCategoryObjectTypeResolverPicker(CategoryObjectTypeResolverPickerInterface $categoryObjectTypeResolverPicker) : void
     {
         $this->categoryObjectTypeResolverPickers[] = $categoryObjectTypeResolverPicker;

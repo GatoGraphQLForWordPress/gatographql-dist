@@ -9,6 +9,7 @@ use GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Exception\IOExcepti
 use GatoGraphQL\ExternalDependencyWrappers\Symfony\Component\Filesystem\FilesystemWrapper;
 use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\AppThread;
+use GatoGraphQL\GatoGraphQL\ContainerLess\BeforeAppIsLoadedStaticHelpers;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Container\InternalGraphQLServerSystemContainerBuilderFactory;
 use GatoGraphQL\GatoGraphQL\Facades\Settings\OptionNamespacerFacade;
@@ -42,42 +43,34 @@ use function get_called_class;
 use function get_option;
 use function is_admin;
 use function update_option;
+use function wp_enqueue_style;
 
 abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginInterface
 {
     /**
      * If there is any error when initializing the plugin,
      * set this var to `true` to stop loading it and show an error message.
-     * @var \Exception|null
      */
-    private $initializationException;
+    private ?Exception $initializationException = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\MainPluginInitializationConfigurationInterface
-     */
-    protected $pluginInitializationConfiguration;
+    protected MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     public function __construct(
-        string $pluginFile,
-        /** The main plugin file */
+        string $pluginFile, /** The main plugin file */
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
         ?string $pluginFolder = null,
         ?string $pluginURL = null,
-        ?MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration = null
-    )
-    {
+        ?MainPluginInitializationConfigurationInterface $pluginInitializationConfiguration = null,
+    ) {
         parent::__construct(
             $pluginFile,
             $pluginVersion,
@@ -92,7 +85,6 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     protected function createInitializationConfiguration(): MainPluginInitializationConfigurationInterface
     {
         $pluginInitializationConfigurationClass = $this->getPluginInitializationConfigurationClass();
-        /** @var AbstractMainPluginInitializationConfiguration $pluginInitializationConfigurationClass */
         return new $pluginInitializationConfigurationClass($this);
     }
 
@@ -271,11 +263,14 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
      *
      * @see https://developer.wordpress.org/reference/hooks/upgrader_process_complete/
      */
-    public function maybeRegenerateContainerWhenPluginOrThemeUpdated(WP_Upgrader $upgrader_object, array $options): void
-    {
+    public function maybeRegenerateContainerWhenPluginOrThemeUpdated(
+        WP_Upgrader $upgrader_object,
+        array $options,
+    ): void {
         if ($options['action'] !== 'update') {
             return;
         }
+
         // Handle plugin updates
         if ($options['type'] === 'plugin') {
             /** @var string $pluginFile */
@@ -287,6 +282,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             }
             return;
         }
+
         // Handle theme updates
         if ($options['type'] === 'theme') {
             /** @var string $themeSlug */
@@ -383,7 +379,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
     {
         $optionNamespacer = OptionNamespacerFacade::getInstance();
         return array_map(
-            \Closure::fromCallable([$optionNamespacer, 'namespaceOption']),
+            $optionNamespacer->namespaceOption(...),
             [
                 Options::ENDPOINT_CONFIGURATION,
                 Options::SCHEMA_CONFIGURATION,
@@ -406,7 +402,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             /** @var MainPluginInfoInterface */
             $mainPluginInfo = PluginApp::getMainPlugin()->getInfo();
             $fileSystemWrapper->remove($mainPluginInfo->getCacheDir());
-        } catch (IOException $exception) {
+        } catch (IOException) {
             // If the folder does not exist, do nothing
         }
     }
@@ -449,6 +445,11 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
         parent::setup();
 
         /**
+         * Logic to execute before the App is loaded
+         */
+        BeforeAppIsLoadedStaticHelpers::executeBeforeAppIsLoadedMethods();
+
+        /**
          * Operations to do when activating/deactivating plugins
          */
         add_action(
@@ -463,7 +464,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                 $this->maybeRegenerateContainerWhenPluginActivatedOrDeactivated($pluginFile);
             }
         );
-        add_action('deactivate_plugin', \Closure::fromCallable([$this, 'maybeRemoveStoredPluginVersionWhenPluginDeactivated']));
+        add_action('deactivate_plugin', $this->maybeRemoveStoredPluginVersionWhenPluginDeactivated(...));
 
         /**
          * Operations to do when activating/deactivating themes
@@ -493,9 +494,23 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             3
         );
 
-        add_action('upgrader_process_complete', \Closure::fromCallable([$this, 'maybeRegenerateContainerWhenPluginOrThemeUpdated']), 10, 2);
+        add_action('upgrader_process_complete', $this->maybeRegenerateContainerWhenPluginOrThemeUpdated(...), 10, 2);
 
-        add_filter('plugin_action_links_' . PluginApp::getMainPlugin()->getPluginBaseName(), \Closure::fromCallable([$this, 'getPluginActionLinks']), 10, 1);
+        add_filter('plugin_action_links_' . PluginApp::getMainPlugin()->getPluginBaseName(), $this->getPluginActionLinks(...), 10, 1);
+
+        // Load CSS assets
+        add_action('admin_enqueue_scripts', function (): void {
+            $mainPlugin = PluginApp::getMainPlugin();
+            $mainPluginURL = $mainPlugin->getPluginURL();
+            $mainPluginVersion = $mainPlugin->getPluginVersion();
+
+            wp_enqueue_style(
+                'gatographql-styles',
+                $mainPluginURL . 'assets/css/styles.css',
+                array(),
+                $mainPluginVersion
+            );
+        });
 
         // Dump the container whenever a new plugin or extension is activated
         $this->handleNewActivations();
@@ -653,7 +668,15 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                  */
                 add_action(
                     PluginAppHooks::INITIALIZE_APP,
-                    function (string $pluginAppGraphQLServerName) use ($isMainPluginJustActivated, $isMainPluginJustUpdated, $previousPluginVersions, $storedPluginVersions, $justActivatedExtensions, $justUpdatedExtensions, $option) : void {
+                    function (string $pluginAppGraphQLServerName) use (
+                        $isMainPluginJustActivated,
+                        $isMainPluginJustUpdated,
+                        $previousPluginVersions,
+                        $storedPluginVersions,
+                        $justActivatedExtensions,
+                        $justUpdatedExtensions,
+                        $option,
+                    ): void {
                         if (
                             $pluginAppGraphQLServerName === PluginAppGraphQLServerNames::INTERNAL
                             || $this->initializationException !== null
@@ -672,6 +695,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
                          * @see https://github.com/GatoGraphQL/GatoGraphQL/issues/2631
                          */
                         update_option($option, $storedPluginVersions);
+
                         if ($isMainPluginJustActivated) {
                             $this->pluginJustActivated();
                         } elseif ($isMainPluginJustUpdated) {
@@ -764,7 +788,7 @@ abstract class AbstractMainPlugin extends AbstractPlugin implements MainPluginIn
             return;
         }
 
-        // Check if the X number of days have already passes
+        // Check if the X number of days have already passed
         $numberOfSecondsToRevalidateCommercialExtensionActivatedLicenses = $numberOfDaysToRevalidateCommercialExtensionActivatedLicenses * 86400;
         $now = time();
         $licenseCheckTimestamp = $this->getUserSettingsManager()->getLicenseCheckTimestamp() ?? 0; // If `null`, execute the license check

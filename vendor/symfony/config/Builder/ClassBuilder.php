@@ -19,34 +19,16 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder;
  */
 class ClassBuilder
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-    /**
-     * @var string
-     */
-    private $name;
+    private string $namespace;
+    private string $name;
     /** @var Property[] */
-    private $properties = [];
+    private array $properties = [];
     /** @var Method[] */
-    private $methods = [];
-    /**
-     * @var mixed[]
-     */
-    private $require = [];
-    /**
-     * @var mixed[]
-     */
-    private $use = [];
-    /**
-     * @var mixed[]
-     */
-    private $implements = [];
-    /**
-     * @var bool
-     */
-    private $allowExtraKeys = \false;
+    private array $methods = [];
+    private array $require = [];
+    private array $use = [];
+    private array $implements = [];
+    private bool $allowExtraKeys = \false;
     public function __construct(string $namespace, string $name)
     {
         $this->namespace = $namespace;

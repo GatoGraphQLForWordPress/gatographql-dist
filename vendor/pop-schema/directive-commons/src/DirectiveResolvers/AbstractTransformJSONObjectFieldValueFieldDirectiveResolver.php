@@ -21,31 +21,25 @@ abstract class AbstractTransformJSONObjectFieldValueFieldDirectiveResolver exten
     {
         return [JSONObjectScalarTypeResolver::class];
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isMatchingType($value) : bool
+    protected function isMatchingType(mixed $value) : bool
     {
         return $value instanceof stdClass;
     }
     /**
-     * @param mixed $value
+     * @param stdClass $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    protected final function transformTypeValue($value)
+    protected final function transformTypeValue(mixed $value) : mixed
     {
         return $this->transformStdClassValue($value);
     }
-    /**
-     * @return \stdClass|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
-     */
-    protected abstract function transformStdClassValue(stdClass $value);
+    protected abstract function transformStdClassValue(stdClass $value) : stdClass|TypedDataValidationPayload;
     /**
      * Validate the value against the directive args
      *
-     * @param mixed $value
+     * @param stdClass $value
      */
-    protected final function validateTypeData($value) : ?TypedDataValidationPayload
+    protected final function validateTypeData(mixed $value) : ?TypedDataValidationPayload
     {
         return $this->validateStdClassData($value);
     }
@@ -53,11 +47,7 @@ abstract class AbstractTransformJSONObjectFieldValueFieldDirectiveResolver exten
     {
         return null;
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
+    protected function getNonMatchingTypeValueFeedbackItemResolution(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E6, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
     }

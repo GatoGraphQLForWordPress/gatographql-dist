@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GatoGraphQL\GatoGraphQL\ModuleResolvers;
 
+use GatoGraphQL\GatoGraphQL\Constants\GraphQLEndpointPaths;
 use GatoGraphQL\GatoGraphQL\Constants\HTMLCodes;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptionValues;
 use GatoGraphQL\GatoGraphQL\Constants\ModuleSettingOptions;
@@ -22,25 +23,13 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
 {
     use ModuleResolverTrait;
 
-    public const PRIVATE_ENDPOINT = Plugin::NAMESPACE . '\private-endpoint';
-    public const SINGLE_ENDPOINT = Plugin::NAMESPACE . '\single-endpoint';
+    public final const PRIVATE_ENDPOINT = Plugin::NAMESPACE . '\private-endpoint';
+    public final const SINGLE_ENDPOINT = Plugin::NAMESPACE . '\single-endpoint';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphiQLMenuPage|null
-     */
-    private $graphiQLMenuPage;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\GraphQLVoyagerMenuPage|null
-     */
-    private $graphQLVoyagerMenuPage;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\TutorialMenuPage|null
-     */
-    private $tutorialMenuPage;
+    private ?EndpointHelpers $endpointHelpers = null;
+    private ?GraphiQLMenuPage $graphiQLMenuPage = null;
+    private ?GraphQLVoyagerMenuPage $graphQLVoyagerMenuPage = null;
+    private ?TutorialMenuPage $tutorialMenuPage = null;
 
     final protected function getEndpointHelpers(): EndpointHelpers
     {
@@ -105,68 +94,57 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::PRIVATE_ENDPOINT:
-                return \__('Private Endpoint', 'gatographql');
-            case self::SINGLE_ENDPOINT:
-                return \__('Single Endpoint', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::PRIVATE_ENDPOINT => \__('Private Endpoint', 'gatographql'),
+            self::SINGLE_ENDPOINT => \__('Single Endpoint', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
         /** @var GraphQLEndpointForWPModuleConfiguration */
         $moduleConfiguration = App::getModule(GraphQLEndpointForWPModule::class)->getConfiguration();
-        switch ($module) {
-            case self::PRIVATE_ENDPOINT:
-                return \sprintf(
-                    \__('Private GraphQL endpoint, accessible only within the wp-admin, under <code>%s</code>', 'gatographql'),
-                    $this->getEndpointHelpers()->getAdminGraphQLEndpoint()
-                );
-            case self::SINGLE_ENDPOINT:
-                return \sprintf(
-                    \__('Expose the single GraphQL endpoint under <code>%s</code>', 'gatographql'),
-                    $moduleConfiguration->getGraphQLAPIEndpoint()
-                );
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::PRIVATE_ENDPOINT => \sprintf(
+                \__('Private GraphQL endpoint, accessible only within the wp-admin, under <code>%s</code>', 'gatographql'),
+                $this->getEndpointHelpers()->getAdminGraphQLEndpoint()
+            ),
+            self::SINGLE_ENDPOINT => \sprintf(
+                \__('Expose the single GraphQL endpoint under <code>%s</code>', 'gatographql'),
+                $moduleConfiguration->getGraphQLAPIEndpoint()
+            ),
+            default => parent::getDescription($module)
+        };
     }
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        switch ($module) {
-            case self::PRIVATE_ENDPOINT:
-                return true;
-            default:
-                return parent::isPredefinedEnabledOrDisabled($module);
-        }
+        return match ($module) {
+            self::PRIVATE_ENDPOINT => true,
+            default => parent::isPredefinedEnabledOrDisabled($module),
+        };
     }
 
     public function isHidden(string $module): bool
     {
-        switch ($module) {
-            case self::PRIVATE_ENDPOINT:
-                return true;
-            default:
-                return parent::isHidden($module);
-        }
+        return match ($module) {
+            self::PRIVATE_ENDPOINT => true,
+            default => parent::isHidden($module),
+        };
     }
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $defaultValues = [
             self::PRIVATE_ENDPOINT => [
                 ModuleSettingOptions::SCHEMA_CONFIGURATION => ModuleSettingOptionValues::NO_VALUE_ID,
             ],
             self::SINGLE_ENDPOINT => [
-                ModuleSettingOptions::PATH => 'graphql',
+                ModuleSettingOptions::PATH => GraphQLEndpointPaths::SINGLE_ENDPOINT,
                 ModuleSettingOptions::SCHEMA_CONFIGURATION => ModuleSettingOptionValues::NO_VALUE_ID,
             ],
         ];
@@ -209,33 +187,26 @@ class EndpointFunctionalityModuleResolver extends AbstractEndpointFunctionalityM
                 self::SINGLE_ENDPOINT,
             ]) && $this->getModuleRegistry()->isModuleEnabled(SchemaConfigurationFunctionalityModuleResolver::SCHEMA_CONFIGURATION)
         ) {
-            switch ($module) {
-                case self::PRIVATE_ENDPOINT:
-                    $description = sprintf(
-                        \__('Schema Configuration to use in the private endpoint <code>%1$s</code>.<br/><br/>The private endpoint powers the admin\'s <a href="%2$s" target="_blank">GraphiQL%5$s</a> and <a href="%3$s" target="_blank">Interactive Schema%5$s</a> clients, and can be used to <a href="%4$s" target="_blank">feed data to blocks%5$s</a>.', 'gatographql'),
-                        ltrim(
-                            GeneralUtils::removeDomain($this->getEndpointHelpers()->getAdminGraphQLEndpoint()),
-                            '/'
-                        ),
-                        \admin_url(sprintf(
-                            'admin.php?page=%s',
-                            $this->getGraphiQLMenuPage()->getScreenID()
-                        )),
-                        \admin_url(sprintf(
-                            'admin.php?page=%s',
-                            $this->getGraphQLVoyagerMenuPage()->getScreenID()
-                        )),
-                        'https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/',
-                        HTMLCodes::OPEN_IN_NEW_WINDOW,
-                    );
-                    break;
-                case self::SINGLE_ENDPOINT:
-                    $description = \__('Schema Configuration to use in the Single Endpoint', 'gatographql');
-                    break;
-                default:
-                    $description = '';
-                    break;
-            }
+            $description = match ($module) {
+                self::PRIVATE_ENDPOINT => sprintf(
+                    \__('Schema Configuration to use in the private endpoint <code>%1$s</code>.<br/><br/>The private endpoint powers the admin\'s <a href="%2$s" target="_blank">GraphiQL%5$s</a> and <a href="%3$s" target="_blank">Interactive Schema%5$s</a> clients, and can be used to <a href="%4$s" target="_blank">feed data to blocks%5$s</a>.', 'gatographql'),
+                    ltrim(
+                        GeneralUtils::removeDomain($this->getEndpointHelpers()->getAdminGraphQLEndpoint()),
+                        '/'
+                    ),
+                    \admin_url(sprintf(
+                        'admin.php?page=%s',
+                        $this->getGraphiQLMenuPage()->getScreenID()
+                    )),
+                    \admin_url(sprintf(
+                        'admin.php?page=%s',
+                        $this->getGraphQLVoyagerMenuPage()->getScreenID()
+                    )),
+                    'https://gatographql.com/guides/code/feeding-data-to-blocks-in-the-editor/',
+                    HTMLCodes::OPEN_IN_NEW_WINDOW,
+                ),
+                self::SINGLE_ENDPOINT => \__('Schema Configuration to use in the Single Endpoint', 'gatographql'),
+            };
             // Build all the possible values by fetching all the Schema Configuration posts
             $possibleValues = [
                 ModuleSettingOptionValues::NO_VALUE_ID => \__('None', 'gatographql'),

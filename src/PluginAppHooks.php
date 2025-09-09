@@ -9,5 +9,5 @@ class PluginAppHooks
     /**
      * Hook to initialize the App
      */
-    public const INITIALIZE_APP = __CLASS__ . ':initializeApp';
+    public final const INITIALIZE_APP = __CLASS__ . ':initializeApp';
 }

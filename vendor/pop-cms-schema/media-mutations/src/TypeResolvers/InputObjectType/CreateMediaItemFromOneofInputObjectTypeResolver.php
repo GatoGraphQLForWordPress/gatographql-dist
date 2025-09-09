@@ -10,18 +10,9 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class CreateMediaItemFromOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromContentInputObjectTypeResolver|null
-     */
-    private $createMediaItemFromContentInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromURLInputObjectTypeResolver|null
-     */
-    private $createMediaItemFromURLInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemByOneofInputObjectTypeResolver|null
-     */
-    private $mediaItemByOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromContentInputObjectTypeResolver $createMediaItemFromContentInputObjectTypeResolver = null;
+    private ?\PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromURLInputObjectTypeResolver $createMediaItemFromURLInputObjectTypeResolver = null;
+    private ?MediaItemByOneofInputObjectTypeResolver $mediaItemByOneofInputObjectTypeResolver = null;
     protected final function getCreateMediaItemFromContentInputObjectTypeResolver() : \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromContentInputObjectTypeResolver
     {
         if ($this->createMediaItemFromContentInputObjectTypeResolver === null) {
@@ -62,15 +53,11 @@ class CreateMediaItemFromOneofInputObjectTypeResolver extends AbstractOneofInput
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::MEDIAITEM_BY:
-                return $this->__('Use the attachment from an existing media item', 'media-mutations');
-            case MutationInputProperties::URL:
-                return $this->__('Upload the attachment from a URL', 'media-mutations');
-            case MutationInputProperties::CONTENTS:
-                return $this->__('Create the attachment by passing the file name and body', 'media-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::MEDIAITEM_BY => $this->__('Use the attachment from an existing media item', 'media-mutations'),
+            MutationInputProperties::URL => $this->__('Upload the attachment from a URL', 'media-mutations'),
+            MutationInputProperties::CONTENTS => $this->__('Create the attachment by passing the file name and body', 'media-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

@@ -10,10 +10,7 @@ use PoPCMSSchema\CommentMetaMutations\SchemaHooks\AbstractCommentMutationResolve
 class CommentMutationResolverHookSet extends AbstractCommentMutationResolverHookSet
 {
     use \PoPCMSSchema\CommentMetaMutations\SchemaHooks\CommentMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
     protected final function getCommentObjectTypeResolver() : CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {

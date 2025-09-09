@@ -41,7 +41,7 @@ class Module extends AbstractModule
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/CacheControl');
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(CacheControlModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/CacheControl');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

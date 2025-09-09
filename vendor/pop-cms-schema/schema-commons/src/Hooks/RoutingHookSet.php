@@ -13,14 +13,8 @@ use PoPCMSSchema\SchemaCommons\ModuleConfiguration;
 /** @internal */
 class RoutingHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
-     */
-    private $cmsService;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
+    private ?CMSServiceInterface $cmsService = null;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
     protected final function getCMSService() : CMSServiceInterface
     {
         if ($this->cmsService === null) {
@@ -41,7 +35,7 @@ class RoutingHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::REQUEST_URI, \Closure::fromCallable([$this, 'maybeOverrideURIRoute']));
+        App::addFilter(HookNames::REQUEST_URI, $this->maybeOverrideURIRoute(...));
     }
     /**
      * Replace REQUEST_URI with the website's home URL.

@@ -13,10 +13,7 @@ use PoP\Root\App;
 abstract class AbstractObjectTypeQueryableDataLoader extends \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDataLoader implements \PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableDataLoaderInterface
 {
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {
@@ -36,10 +33,7 @@ abstract class AbstractObjectTypeQueryableDataLoader extends \PoP\ComponentModel
      * @param array<string,mixed> $query
      * @return array<string|int>
      */
-    public function executeQueryIDs(array $query) : array
-    {
-        return $this->executeQuery($query);
-    }
+    public abstract function executeQueryIDs(array $query) : array;
     /**
      * @param array<string,mixed> $query_args
      */

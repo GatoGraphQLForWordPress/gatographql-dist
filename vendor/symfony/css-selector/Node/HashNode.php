@@ -22,14 +22,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 class HashNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var string
-     */
-    private $id;
+    private NodeInterface $selector;
+    private string $id;
     public function __construct(NodeInterface $selector, string $id)
     {
         $this->selector = $selector;

@@ -22,10 +22,7 @@ use SplObjectStorage;
 class GraphQLDataStructureFormatter extends MirrorQueryDataStructureFormatter
 {
     private const ADDITIONAL_FEEDBACK = 'additionalFeedback';
-    /**
-     * @var \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface|null
-     */
-    private $feedbackEntryService;
+    private ?FeedbackEntryManagerInterface $feedbackEntryService = null;
     protected final function getFeedbackEntryManager() : FeedbackEntryManagerInterface
     {
         if ($this->feedbackEntryService === null) {
@@ -344,9 +341,8 @@ class GraphQLDataStructureFormatter extends MirrorQueryDataStructureFormatter
      * @param array<string,mixed> $sourceRet
      * @param array<string,mixed> $resolvedObjectRet
      * @param SplObjectStorage<FieldInterface,mixed> $resolvedObject
-     * @param string|int $objectID
      */
-    protected function validateObjectData(FieldInterface $field, string $typeOutputKey, array &$sourceRet, array &$resolvedObjectRet, SplObjectStorage $resolvedObject, $objectID) : bool
+    protected function validateObjectData(FieldInterface $field, string $typeOutputKey, array &$sourceRet, array &$resolvedObjectRet, SplObjectStorage $resolvedObject, string|int $objectID) : bool
     {
         $sameOutputKeyField = null;
         if (\array_key_exists($field->getOutputKey(), $resolvedObjectRet)) {

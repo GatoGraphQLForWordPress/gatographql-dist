@@ -12,14 +12,8 @@ use stdClass;
 /** @internal */
 abstract class AbstractFilterCommentsByAuthorInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -47,30 +41,24 @@ abstract class AbstractFilterCommentsByAuthorInputObjectTypeResolver extends Abs
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'ids':
-                return $this->__('Get results from the authors with given IDs', 'pop-users');
-            case 'excludeIDs':
-                return $this->__('Get results excluding the ones from authors with given IDs', 'pop-users');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids' => $this->__('Get results from the authors with given IDs', 'pop-users'),
+            'excludeIDs' => $this->__('Get results excluding the ones from authors with given IDs', 'pop-users'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'ids':
-            case 'excludeIDs':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids', 'excludeIDs' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     /**
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue) : void
     {
         parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
         if (isset($inputValue->ids)) {

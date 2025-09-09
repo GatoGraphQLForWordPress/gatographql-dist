@@ -22,14 +22,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
-    /**
-     * @var (\SessionHandlerInterface & \SessionUpdateTimestampHandlerInterface)
-     */
-    private $currentHandler;
-    /**
-     * @var (\SessionHandlerInterface & \SessionUpdateTimestampHandlerInterface)
-     */
-    private $writeOnlyHandler;
+    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $currentHandler;
+    private \SessionHandlerInterface&\SessionUpdateTimestampHandlerInterface $writeOnlyHandler;
     public function __construct(\SessionHandlerInterface $currentHandler, \SessionHandlerInterface $writeOnlyHandler)
     {
         if (!$currentHandler instanceof \SessionUpdateTimestampHandlerInterface) {
@@ -47,16 +41,13 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         $this->writeOnlyHandler->close();
         return $result;
     }
-    public function destroy(string $sessionId) : bool
+    public function destroy(#[\SensitiveParameter] string $sessionId) : bool
     {
         $result = $this->currentHandler->destroy($sessionId);
         $this->writeOnlyHandler->destroy($sessionId);
         return $result;
     }
-    /**
-     * @return int|false
-     */
-    public function gc(int $maxlifetime)
+    public function gc(int $maxlifetime) : int|false
     {
         $result = $this->currentHandler->gc($maxlifetime);
         $this->writeOnlyHandler->gc($maxlifetime);
@@ -68,23 +59,23 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         $this->writeOnlyHandler->open($savePath, $sessionName);
         return $result;
     }
-    public function read(string $sessionId) : string
+    public function read(#[\SensitiveParameter] string $sessionId) : string
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->read($sessionId);
     }
-    public function write(string $sessionId, string $sessionData) : bool
+    public function write(#[\SensitiveParameter] string $sessionId, string $sessionData) : bool
     {
         $result = $this->currentHandler->write($sessionId, $sessionData);
         $this->writeOnlyHandler->write($sessionId, $sessionData);
         return $result;
     }
-    public function validateId(string $sessionId) : bool
+    public function validateId(#[\SensitiveParameter] string $sessionId) : bool
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->validateId($sessionId);
     }
-    public function updateTimestamp(string $sessionId, string $sessionData) : bool
+    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $sessionData) : bool
     {
         $result = $this->currentHandler->updateTimestamp($sessionId, $sessionData);
         $this->writeOnlyHandler->updateTimestamp($sessionId, $sessionData);

@@ -29,7 +29,7 @@ class NodeBuilder implements NodeParentInterface
      *
      * @return $this
      */
-    public function setParent(?ParentNodeDefinitionInterface $parent = null)
+    public function setParent(?ParentNodeDefinitionInterface $parent = null) : static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/form', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -123,7 +123,7 @@ class NodeBuilder implements NodeParentInterface
      *
      * @return $this
      */
-    public function append(NodeDefinition $node)
+    public function append(NodeDefinition $node) : static
     {
         if ($node instanceof BuilderAwareInterface) {
             $builder = clone $this;
@@ -145,7 +145,7 @@ class NodeBuilder implements NodeParentInterface
      *
      * @return $this
      */
-    public function setNodeClass(string $type, string $class)
+    public function setNodeClass(string $type, string $class) : static
     {
         $this->nodeMapping[\strtolower($type)] = $class;
         return $this;

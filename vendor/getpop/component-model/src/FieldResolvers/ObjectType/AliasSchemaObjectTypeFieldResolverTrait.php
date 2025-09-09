@@ -28,14 +28,16 @@ use SplObjectStorage;
  * the $fieldName to obtain the ObjectTypeFieldResolver is ambiguous.
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ *
+ * @phpstan-ignore-next-line
  * @internal
  */
 trait AliasSchemaObjectTypeFieldResolverTrait
 {
     /** @var SplObjectStorage<FieldInterface,FieldInterface>|null */
-    protected $aliasedFieldCache;
+    protected ?SplObjectStorage $aliasedFieldCache = null;
     /** @var SplObjectStorage<FieldDataAccessorInterface,FieldDataAccessorInterface>|null */
-    protected $aliasedFieldDataAccessorCache;
+    protected ?SplObjectStorage $aliasedFieldDataAccessorCache = null;
     /**
      * The fieldName that is being aliased
      */
@@ -65,7 +67,7 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     protected function getAliasedField(FieldInterface $field) : FieldInterface
     {
         /** @var SplObjectStorage<FieldInterface,FieldInterface> */
-        $this->aliasedFieldCache = $this->aliasedFieldCache ?? new SplObjectStorage();
+        $this->aliasedFieldCache ??= new SplObjectStorage();
         if (!$this->aliasedFieldCache->contains($field)) {
             $this->aliasedFieldCache[$field] = $field instanceof RelationalField ? new RelationalField($field->getName(), $this->getAliasedFieldName($field->getName()), $field->getArguments(), $field->getFieldsOrFragmentBonds(), $field->getDirectives(), new RuntimeLocation($field)) : new LeafField($field->getName(), $this->getAliasedFieldName($field->getName()), $field->getArguments(), $field->getDirectives(), new RuntimeLocation($field));
         }
@@ -73,8 +75,8 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     }
     protected function getAliasedFieldDataAccessor(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor) : FieldDataAccessorInterface
     {
-        /** @var SplObjectStorage<FieldInterface,FieldInterface> */
-        $this->aliasedFieldDataAccessorCache = $this->aliasedFieldDataAccessorCache ?? new SplObjectStorage();
+        /** @var SplObjectStorage<FieldDataAccessorInterface,FieldDataAccessorInterface> */
+        $this->aliasedFieldDataAccessorCache ??= new SplObjectStorage();
         if (!$this->aliasedFieldDataAccessorCache->contains($fieldDataAccessor)) {
             $this->aliasedFieldDataAccessorCache[$fieldDataAccessor] = $objectTypeResolver->createFieldDataAccessor($this->getAliasedField($fieldDataAccessor->getField()), $fieldDataAccessor->getFieldArgs());
         }
@@ -150,9 +152,8 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     /**
      * Proxy pattern: execute same function on the aliased ObjectTypeFieldResolver,
      * for the aliased $fieldName
-     * @return mixed
      */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         $aliasedObjectTypeFieldResolver = $this->getAliasedObjectTypeFieldResolver();
         return $aliasedObjectTypeFieldResolver->getFieldArgDefaultValue($objectTypeResolver, $this->getAliasedFieldName($fieldName), $fieldArgName);
@@ -200,9 +201,8 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     /**
      * Proxy pattern: execute same function on the aliased ObjectTypeFieldResolver,
      * for the aliased $fieldName
-     * @return mixed
      */
-    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getConsolidatedFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         $aliasedObjectTypeFieldResolver = $this->getAliasedObjectTypeFieldResolver();
         return $aliasedObjectTypeFieldResolver->getConsolidatedFieldArgDefaultValue($objectTypeResolver, $this->getAliasedFieldName($fieldName), $fieldArgName);
@@ -256,9 +256,8 @@ trait AliasSchemaObjectTypeFieldResolverTrait
      * Proxy pattern: execute same function on the aliased ObjectTypeFieldResolver,
      * for the aliased $fieldName
      * @param array<string,mixed> $fieldArgs
-     * @param mixed $fieldArgValue
      */
-    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    public function validateFieldArgValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName, mixed $fieldArgValue, AstInterface $astNode, array $fieldArgs, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $aliasedObjectTypeFieldResolver = $this->getAliasedObjectTypeFieldResolver();
         $aliasedObjectTypeFieldResolver->validateFieldArgValue($objectTypeResolver, $this->getAliasedFieldName($fieldName), $fieldArgName, $fieldArgValue, $astNode, $fieldArgs, $objectTypeFieldResolutionFeedbackStore);
@@ -284,9 +283,8 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     /**
      * Proxy pattern: execute same function on the aliased ObjectTypeFieldResolver,
      * for the aliased $fieldName
-     * @return mixed
      */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $aliasedObjectTypeFieldResolver = $this->getAliasedObjectTypeFieldResolver();
         return $aliasedObjectTypeFieldResolver->resolveValue($objectTypeResolver, $object, $this->getAliasedFieldDataAccessor($objectTypeResolver, $fieldDataAccessor), $objectTypeFieldResolutionFeedbackStore);

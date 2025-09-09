@@ -42,7 +42,7 @@ class Module extends AbstractModule
             if (\class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(UsersModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/Users');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
     /**

@@ -14,19 +14,10 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY = 'filterinput-post-tag-taxonomy';
-    /**
-     * @var \PoPCMSSchema\Taxonomies\FilterInputs\TaxonomyFilterInput|null
-     */
-    private $taxonomyFilterInput;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\EnumType\PostTagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postTagTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
+    public final const COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY = 'filterinput-post-tag-taxonomy';
+    private ?TaxonomyFilterInput $taxonomyFilterInput = null;
+    private ?PostTagTaxonomyEnumStringScalarTypeResolver $postTagTaxonomyEnumStringScalarTypeResolver = null;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
     protected final function getTaxonomyFilterInput() : TaxonomyFilterInput
     {
         if ($this->taxonomyFilterInput === null) {
@@ -63,50 +54,37 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY:
-                return $this->getTaxonomyFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY => $this->getTaxonomyFilterInput(),
+            default => null,
+        };
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY:
-                return 'taxonomy';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY => 'taxonomy',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY:
-                return $this->getPostTagTaxonomyEnumStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY => $this->getPostTagTaxonomyEnumStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY:
-                return $this->__('Post tag taxonomy', 'post-tags');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY => $this->__('Post tag taxonomy', 'post-tags'),
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component)
+    public function getFilterInputDefaultValue(Component $component) : mixed
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY:
-                return $this->getPostTagTypeAPI()->getPostTagTaxonomyName();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_POST_TAG_TAXONOMY => $this->getPostTagTypeAPI()->getPostTagTaxonomyName(),
+            default => null,
+        };
     }
 }

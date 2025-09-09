@@ -14,8 +14,8 @@ class CustomPostOrderByEnumTypeHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(HookNames::ENUM_VALUES, \Closure::fromCallable([$this, 'getEnumValues']), 10, 2);
-        App::addFilter(HookNames::ENUM_VALUE_DESCRIPTION, \Closure::fromCallable([$this, 'getEnumValueDescription']), 10, 3);
+        App::addFilter(HookNames::ENUM_VALUES, $this->getEnumValues(...), 10, 2);
+        App::addFilter(HookNames::ENUM_VALUE_DESCRIPTION, $this->getEnumValueDescription(...), 10, 3);
     }
     /**
      * @param string[] $enumValues
@@ -33,11 +33,9 @@ class CustomPostOrderByEnumTypeHookSet extends AbstractHookSet
         if (!$enumTypeResolver instanceof CustomPostOrderByEnumTypeResolver) {
             return $enumValueDescription;
         }
-        switch ($enumValue) {
-            case CustomPostOrderBy::AUTHOR:
-                return $this->__('Order by custom post author', 'pop-users');
-            default:
-                return $enumValueDescription;
-        }
+        return match ($enumValue) {
+            CustomPostOrderBy::AUTHOR => $this->__('Order by custom post author', 'pop-users'),
+            default => $enumValueDescription,
+        };
     }
 }

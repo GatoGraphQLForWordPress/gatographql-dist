@@ -18,14 +18,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class ServiceCircularReferenceException extends RuntimeException
 {
-    /**
-     * @var string
-     */
-    private $serviceId;
-    /**
-     * @var mixed[]
-     */
-    private $path;
+    private string $serviceId;
+    private array $path;
     public function __construct(string $serviceId, array $path, ?\Throwable $previous = null)
     {
         parent::__construct(\sprintf('Circular reference detected for service "%s", path: "%s".', $serviceId, \implode(' -> ', $path)), 0, $previous);

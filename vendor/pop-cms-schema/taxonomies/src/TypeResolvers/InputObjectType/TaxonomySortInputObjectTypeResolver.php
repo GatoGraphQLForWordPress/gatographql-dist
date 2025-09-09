@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectType
 /** @internal */
 class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\EnumType\TaxonomyOrderByEnumTypeResolver|null
-     */
-    private $taxonomySortByEnumTypeResolver;
+    private ?TaxonomyOrderByEnumTypeResolver $taxonomySortByEnumTypeResolver = null;
     protected final function getTaxonomyOrderByEnumTypeResolver() : TaxonomyOrderByEnumTypeResolver
     {
         if ($this->taxonomySortByEnumTypeResolver === null) {
@@ -34,16 +31,11 @@ class TaxonomySortInputObjectTypeResolver extends SortInputObjectTypeResolver
     {
         return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getTaxonomyOrderByEnumTypeResolver()]);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return TaxonomyOrderBy::NAME;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => TaxonomyOrderBy::NAME,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

@@ -24,17 +24,12 @@ class CommentStatusEnumTypeResolver extends AbstractEnumTypeResolver
      */
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case CommentStatus::APPROVE:
-                return $this->__('Approved comment', 'comments');
-            case CommentStatus::HOLD:
-                return $this->__('Onhold comment', 'comments');
-            case CommentStatus::SPAM:
-                return $this->__('Spam comment', 'comments');
-            case CommentStatus::TRASH:
-                return $this->__('Trashed comment', 'comments');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            CommentStatus::APPROVE => $this->__('Approved comment', 'comments'),
+            CommentStatus::HOLD => $this->__('Onhold comment', 'comments'),
+            CommentStatus::SPAM => $this->__('Spam comment', 'comments'),
+            CommentStatus::TRASH => $this->__('Trashed comment', 'comments'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

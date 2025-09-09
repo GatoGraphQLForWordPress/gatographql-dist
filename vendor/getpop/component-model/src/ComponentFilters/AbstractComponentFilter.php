@@ -9,10 +9,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 abstract class AbstractComponentFilter extends AbstractBasicService implements \PoP\ComponentModel\ComponentFilters\ComponentFilterInterface
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
     protected final function getComponentProcessorManager() : ComponentProcessorManagerInterface
     {
         if ($this->componentProcessorManager === null) {

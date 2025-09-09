@@ -12,20 +12,16 @@ class ObjectSerializationManager extends AbstractBasicService implements \PoP\Co
     /**
      * @var array<string,ObjectSerializerInterface>
      */
-    public $objectSerializers = [];
+    public array $objectSerializers = [];
     public final function addObjectSerializer(\PoP\ComponentModel\ObjectSerialization\ObjectSerializerInterface $objectSerializer) : void
     {
         $this->objectSerializers[$objectSerializer->getObjectClassToSerialize()] = $objectSerializer;
     }
-    /**
-     * @return string|\stdClass
-     */
-    public function serialize(object $object)
+    public function serialize(object $object) : string|stdClass
     {
         // Find the Serialize that serializes this object
         $objectSerializer = null;
-        /** @var string|false */
-        $classToSerialize = \get_class($object);
+        $classToSerialize = $object::class;
         while ($objectSerializer === null && $classToSerialize !== \false) {
             $objectSerializer = $this->objectSerializers[$classToSerialize] ?? null;
             $classToSerialize = \get_parent_class($classToSerialize);

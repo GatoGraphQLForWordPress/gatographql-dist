@@ -25,10 +25,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\Subscrib
  */
 trait ServiceMethodsSubscriberTrait
 {
-    /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
     public static function getSubscribedServices() : array
     {
         $services = \method_exists(\get_parent_class(self::class) ?: '', __FUNCTION__) ? parent::getSubscribedServices() : [];
@@ -36,7 +33,7 @@ trait ServiceMethodsSubscriberTrait
             if (self::class !== $method->getDeclaringClass()->name) {
                 continue;
             }
-            if (!($attribute = (\method_exists($method, 'getAttributes') ? $method->getAttributes(SubscribedService::class) : [])[0] ?? null)) {
+            if (!($attribute = $method->getAttributes(SubscribedService::class)[0] ?? null)) {
                 continue;
             }
             if ($method->isStatic() || $method->isAbstract() || $method->isGenerator() || $method->isInternal() || $method->getNumberOfRequiredParameters()) {
@@ -47,8 +44,8 @@ trait ServiceMethodsSubscriberTrait
             }
             /* @var SubscribedService $attribute */
             $attribute = $attribute->newInstance();
-            $attribute->key = $attribute->key ?? self::class . '::' . $method->name;
-            $attribute->type = $attribute->type ?? ($returnType instanceof \ReflectionNamedType ? $returnType->getName() : (string) $returnType);
+            $attribute->key ??= self::class . '::' . $method->name;
+            $attribute->type ??= $returnType instanceof \ReflectionNamedType ? $returnType->getName() : (string) $returnType;
             $attribute->nullable = $attribute->nullable ?: $returnType->allowsNull();
             if ($attribute->attributes) {
                 $services[] = $attribute;
@@ -58,9 +55,7 @@ trait ServiceMethodsSubscriberTrait
         }
         return $services;
     }
-    /**
-     * @required
-     */
+    #[Required]
     public function setContainer(ContainerInterface $container) : ?ContainerInterface
     {
         $ret = null;

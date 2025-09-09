@@ -37,13 +37,10 @@ class MetaQueryCompareByKeyOperatorEnumTypeResolver extends AbstractEnumTypeReso
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        switch ($enumValue) {
-            case MetaQueryCompareByOperators::EXISTS:
-                return '\'EXISTS\'';
-            case MetaQueryCompareByOperators::NOT_EXISTS:
-                return '\'NOT EXISTS\'';
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            MetaQueryCompareByOperators::EXISTS => '\'EXISTS\'',
+            MetaQueryCompareByOperators::NOT_EXISTS => '\'NOT EXISTS\'',
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeResolvers\ObjectType\FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver|null
-     */
-    private $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver;
+    private ?FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver $featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver = null;
     protected final function getFeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver() : FeaturedImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver
     {
         if ($this->featuredImageIsNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver === null) {

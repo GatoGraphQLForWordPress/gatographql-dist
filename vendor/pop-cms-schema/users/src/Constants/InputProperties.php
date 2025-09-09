@@ -6,7 +6,7 @@ namespace PoPCMSSchema\Users\Constants;
 /** @internal */
 class InputProperties
 {
-    public const ID = 'id';
-    public const USERNAME = 'username';
-    public const EMAIL = 'email';
+    public final const ID = 'id';
+    public final const USERNAME = 'username';
+    public final const EMAIL = 'email';
 }

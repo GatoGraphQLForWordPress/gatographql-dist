@@ -14,11 +14,9 @@ class PostContentAsOneofInputObjectTypeResolver extends AbstractCustomPostConten
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::HTML:
-                return $this->__('Use HTML as content for the post', 'custompost-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::HTML => $this->__('Use HTML as content for the post', 'custompost-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

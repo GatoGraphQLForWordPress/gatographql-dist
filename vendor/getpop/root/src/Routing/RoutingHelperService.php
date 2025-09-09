@@ -8,14 +8,8 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class RoutingHelperService extends AbstractBasicService implements \PoP\Root\Routing\RoutingHelperServiceInterface
 {
-    /**
-     * @var bool
-     */
-    private $requestURIInitialized = \false;
-    /**
-     * @var string|null
-     */
-    private $requestURI;
+    private bool $requestURIInitialized = \false;
+    private ?string $requestURI = null;
     public function getRequestURI() : ?string
     {
         if ($this->requestURIInitialized) {

@@ -14,22 +14,10 @@ use stdClass;
 
 class DateQueryInputObjectTypeResolver extends UpstreamDateQueryInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPWPSchema\SchemaCommons\TypeResolvers\EnumType\RelationEnumTypeResolver|null
-     */
-    private $relationEnumTypeResolver;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?RelationEnumTypeResolver $relationEnumTypeResolver = null;
 
     final protected function getBooleanScalarTypeResolver(): BooleanScalarTypeResolver
     {
@@ -93,32 +81,20 @@ class DateQueryInputObjectTypeResolver extends UpstreamDateQueryInputObjectTypeR
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'inclusive':
-                return $this->__('For after/before, whether exact value should be matched or not', 'schema-commons');
-            case 'year':
-                return $this->__('4 digit year (e.g. 2011)', 'schema-commons');
-            case 'month':
-                return $this->__('Month number (from 1 to 12)', 'schema-commons');
-            case 'week':
-                return $this->__('Week of the year (from 0 to 53)', 'schema-commons');
-            case 'day':
-                return $this->__('Day of the month (from 1 to 31)', 'schema-commons');
-            case 'hour':
-                return $this->__('Hour (from 0 to 23)', 'schema-commons');
-            case 'minute':
-                return $this->__('Minute (from 0 to 59)', 'schema-commons');
-            case 'second':
-                return $this->__('Second (0 to 59)', 'schema-commons');
-            case 'compare':
-                return $this->__('Determines and validates what comparison operator to use', 'schema-commons');
-            case 'column':
-                return $this->__('Posts column to query against. Default: ‘post_date’)', 'schema-commons');
-            case 'relation':
-                return $this->__('OR or AND, how the sub-arrays should be compared. Default: AND. Only the value from the first sub-array will be used', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'inclusive' => $this->__('For after/before, whether exact value should be matched or not', 'schema-commons'),
+            'year' => $this->__('4 digit year (e.g. 2011)', 'schema-commons'),
+            'month' => $this->__('Month number (from 1 to 12)', 'schema-commons'),
+            'week' => $this->__('Week of the year (from 0 to 53)', 'schema-commons'),
+            'day' => $this->__('Day of the month (from 1 to 31)', 'schema-commons'),
+            'hour' => $this->__('Hour (from 0 to 23)', 'schema-commons'),
+            'minute' => $this->__('Minute (from 0 to 59)', 'schema-commons'),
+            'second' => $this->__('Second (0 to 59)', 'schema-commons'),
+            'compare' => $this->__('Determines and validates what comparison operator to use', 'schema-commons'),
+            'column' => $this->__('Posts column to query against. Default: ‘post_date’)', 'schema-commons'),
+            'relation' => $this->__('OR or AND, how the sub-arrays should be compared. Default: AND. Only the value from the first sub-array will be used', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 
     /**
@@ -126,10 +102,10 @@ class DateQueryInputObjectTypeResolver extends UpstreamDateQueryInputObjectTypeR
      *
      * @see https://developer.wordpress.org/reference/classes/wp_query/#date-parameters
      *
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue): void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue): void
     {
         /**
          * Collect all the "date_query" results, and then arrange them properly

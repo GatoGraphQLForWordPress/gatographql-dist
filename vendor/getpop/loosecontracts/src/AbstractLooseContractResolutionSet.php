@@ -7,14 +7,8 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 /** @internal */
 abstract class AbstractLooseContractResolutionSet extends AbstractAutomaticallyInstantiatedService
 {
-    /**
-     * @var \PoP\LooseContracts\LooseContractManagerInterface|null
-     */
-    private $looseContractManager;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
+    private ?\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager = null;
+    private ?\PoP\LooseContracts\NameResolverInterface $nameResolver = null;
     protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {

@@ -25,24 +25,17 @@ use PoP\Root\Module\ModuleInterface;
  */
 abstract class AbstractExtension extends AbstractPlugin implements ExtensionInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\PluginSkeleton\ExtensionInitializationConfigurationInterface|null
-     */
-    protected $extensionInitializationConfiguration;
+    protected ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null;
 
     public function __construct(
-        string $pluginFile,
-        /** The main plugin file */
+        string $pluginFile, /** The main plugin file */
         string $pluginVersion,
         ?string $pluginName = null,
         ?string $commitHash = null,
-        ?string $pluginFolder = null,
-        /** Useful to override by standalone plugins */
-        ?string $pluginURL = null,
-        /** Useful to override by standalone plugins */
-        ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null
-    )
-    {
+        ?string $pluginFolder = null, /** Useful to override by standalone plugins */
+        ?string $pluginURL = null, /** Useful to override by standalone plugins */
+        ?ExtensionInitializationConfigurationInterface $extensionInitializationConfiguration = null,
+    ) {
         parent::__construct(
             $pluginFile,
             $pluginVersion,
@@ -60,7 +53,6 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
         if ($extensionInitializationConfigurationClass === null) {
             return null;
         }
-        /** @var AbstractExtensionInitializationConfiguration $extensionInitializationConfigurationClass */
         return new $extensionInitializationConfigurationClass($this);
     }
 
@@ -104,7 +96,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     protected function callPluginInitializationConfiguration(): void
     {
-        ($nullsafeVariable1 = $this->extensionInitializationConfiguration) ? $nullsafeVariable1->initialize() : null;
+        $this->extensionInitializationConfiguration?->initialize();
     }
 
     /**
@@ -114,7 +106,7 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     public function getModuleClassConfiguration(): array
     {
-        return (($nullsafeVariable2 = $this->extensionInitializationConfiguration) ? $nullsafeVariable2->getModuleClassConfiguration() : null) ?? parent::getModuleClassConfiguration();
+        return $this->extensionInitializationConfiguration?->getModuleClassConfiguration() ?? parent::getModuleClassConfiguration();
     }
 
     /**
@@ -124,14 +116,14 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
      */
     public function getSchemaModuleClassesToSkip(): array
     {
-        return (($nullsafeVariable3 = $this->extensionInitializationConfiguration) ? $nullsafeVariable3->getSchemaModuleClassesToSkip() : null) ?? [];
+        return $this->extensionInitializationConfiguration?->getSchemaModuleClassesToSkip() ?? [];
     }
 
     /**
      * Plugin set-up, executed after Gato GraphQL is loaded,
      * and before it is initialized
      */
-    final public function setup(): void
+    public function setup(): void
     {
         parent::setup();
 
@@ -146,22 +138,20 @@ abstract class AbstractExtension extends AbstractPlugin implements ExtensionInte
                  */
                 \add_action(
                     PluginLifecycleHooks::INITIALIZE_EXTENSION,
-                    \Closure::fromCallable([$this, 'initialize']),
+                    $this->initialize(...),
                     $this->getInitializeExtensionPriority()
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION_COMPONENTS,
-                    \Closure::fromCallable([$this, 'configureComponents'])
+                    $this->configureComponents(...)
                 );
                 \add_action(
                     PluginLifecycleHooks::CONFIGURE_EXTENSION,
-                    function () {
-                        return $this->configure();
-                    }
+                    fn () => $this->configure()
                 );
                 \add_action(
                     PluginLifecycleHooks::BOOT_EXTENSION,
-                    \Closure::fromCallable([$this, 'boot'])
+                    $this->boot(...)
                 );
 
                 // Execute the plugin's custom setup, if any

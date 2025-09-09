@@ -20,15 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\Attribute\Required
  */
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         $value = parent::processValue($value, $isRoot);
         if (!$value instanceof Definition || !$value->isAutowired() || $value->isAbstract() || !$value->getClass()) {
@@ -48,7 +41,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
                 continue;
             }
             while (\true) {
-                if (\method_exists($r, 'getAttributes') ? $r->getAttributes(Required::class) : []) {
+                if ($r->getAttributes(Required::class)) {
                     if ($this->isWither($r, $r->getDocComment() ?: '')) {
                         $withers[] = [$r->name, [], \true];
                     } else {
@@ -58,7 +51,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
                 }
                 if (\false !== ($doc = $r->getDocComment())) {
                     if (\false !== \stripos($doc, '@required') && \preg_match('#(?:^/\\*\\*|\\n\\s*+\\*)\\s*+@required(?:\\s|\\*/$)#i', $doc)) {
-                        //trigger_deprecation('symfony/dependency-injection', '6.3', 'Relying on the "@required" annotation on method "%s::%s()" is deprecated, use the "Symfony\Contracts\Service\Attribute\Required" attribute instead.', $reflectionMethod->class, $reflectionMethod->name);
+                        trigger_deprecation('symfony/dependency-injection', '6.3', 'Relying on the "@required" annotation on method "%s::%s()" is deprecated, use the "Symfony\\Contracts\\Service\\Attribute\\Required" attribute instead.', $reflectionMethod->class, $reflectionMethod->name);
                         if ($this->isWither($reflectionMethod, $doc)) {
                             $withers[] = [$reflectionMethod->name, [], \true];
                         } else {
@@ -72,7 +65,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
                 }
                 try {
                     $r = $r->getPrototype();
-                } catch (\ReflectionException $exception) {
+                } catch (\ReflectionException) {
                     break;
                     // method has no prototype
                 }

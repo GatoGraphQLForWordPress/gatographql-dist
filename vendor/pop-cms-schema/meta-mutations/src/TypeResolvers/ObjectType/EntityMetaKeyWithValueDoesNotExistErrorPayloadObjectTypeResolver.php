@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\RelationalTypeDataLoaders\ObjectType\EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader|null
-     */
-    private $entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader;
+    private ?EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader $entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader = null;
     protected final function getEntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader() : EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader
     {
         if ($this->entityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeDataLoader === null) {

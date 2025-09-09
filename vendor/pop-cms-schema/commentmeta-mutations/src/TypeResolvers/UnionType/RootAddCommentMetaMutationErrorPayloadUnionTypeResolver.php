@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootAddCommentMetaMutationErrorPayloadUnionTypeResolver extends AbstractRootAddCommentMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\RelationalTypeDataLoaders\UnionType\RootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader $rootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader() : RootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootAddCommentMetaMutationErrorPayloadUnionTypeDataLoader === null) {

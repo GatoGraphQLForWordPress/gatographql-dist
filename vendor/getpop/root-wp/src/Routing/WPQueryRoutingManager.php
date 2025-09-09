@@ -16,7 +16,7 @@ class WPQueryRoutingManager extends AbstractRoutingManager implements WPQueryRou
     /**
      * @var string[]|null
      */
-    private $routes;
+    private ?array $routes = null;
 
     /**
      * @return string[]

@@ -13,10 +13,7 @@ use PoP\Root\Module\ModuleConfigurationHelpers;
 
 abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends AbstractBlockSchemaConfigurationExecuter implements PersistedQueryEndpointSchemaConfigurationExecuterServiceTagInterface, EndpointSchemaConfigurationExecuterServiceTagInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Blocks\SchemaConfigPayloadTypesForMutationsBlock|null
-     */
-    private $schemaConfigPayloadTypesForMutationsBlock;
+    private ?SchemaConfigPayloadTypesForMutationsBlock $schemaConfigPayloadTypesForMutationsBlock = null;
 
     final protected function getSchemaConfigPayloadTypesForMutationsBlock(): SchemaConfigPayloadTypesForMutationsBlock
     {
@@ -69,9 +66,7 @@ abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends A
         );
         App::addFilter(
             $hookName,
-            function () use ($usePayloadType) {
-                return $usePayloadType !== MutationPayloadTypeOptions::DO_NOT_USE_PAYLOAD_TYPES_FOR_MUTATIONS;
-            },
+            fn () => $usePayloadType !== MutationPayloadTypeOptions::DO_NOT_USE_PAYLOAD_TYPES_FOR_MUTATIONS,
             PHP_INT_MAX
         );
         $hookName = ModuleConfigurationHelpers::getHookName(
@@ -80,9 +75,7 @@ abstract class AbstractSchemaMutationsBlockSchemaConfigurationExecuter extends A
         );
         App::addFilter(
             $hookName,
-            function () use ($usePayloadType) {
-                return $usePayloadType === MutationPayloadTypeOptions::USE_AND_QUERY_PAYLOAD_TYPES_FOR_MUTATIONS;
-            },
+            fn () => $usePayloadType === MutationPayloadTypeOptions::USE_AND_QUERY_PAYLOAD_TYPES_FOR_MUTATIONS,
             PHP_INT_MAX
         );
     }

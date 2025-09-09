@@ -32,15 +32,14 @@ class JsonResponse extends Response
     protected $encodingOptions = self::DEFAULT_ENCODING_OPTIONS;
     /**
      * @param bool $json If the data is already a JSON string
-     * @param mixed $data
      */
-    public function __construct($data = null, int $status = 200, array $headers = [], bool $json = \false)
+    public function __construct(mixed $data = null, int $status = 200, array $headers = [], bool $json = \false)
     {
         parent::__construct('', $status, $headers);
         if ($json && !\is_string($data) && !\is_numeric($data) && !\is_callable([$data, '__toString'])) {
             throw new \TypeError(\sprintf('"%s": If $json is set to true, argument $data must be a string or object implementing __toString(), "%s" given.', __METHOD__, \get_debug_type($data)));
         }
-        $data = $data ?? new \ArrayObject();
+        $data ??= new \ArrayObject();
         $json ? $this->setJson($data) : $this->setData($data);
     }
     /**
@@ -54,9 +53,8 @@ class JsonResponse extends Response
      * @param string $data    The JSON response string
      * @param int    $status  The response status code (200 "OK" by default)
      * @param array  $headers An array of response headers
-     * @return static
      */
-    public static function fromJsonString(string $data, int $status = 200, array $headers = [])
+    public static function fromJsonString(string $data, int $status = 200, array $headers = []) : static
     {
         return new static($data, $status, $headers, \true);
     }
@@ -69,7 +67,7 @@ class JsonResponse extends Response
      *
      * @throws \InvalidArgumentException When the callback name is not valid
      */
-    public function setCallback(?string $callback = null)
+    public function setCallback(?string $callback = null) : static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -96,7 +94,7 @@ class JsonResponse extends Response
      *
      * @return $this
      */
-    public function setJson(string $json)
+    public function setJson(string $json) : static
     {
         $this->data = $json;
         return $this->update();
@@ -107,14 +105,13 @@ class JsonResponse extends Response
      * @return $this
      *
      * @throws \InvalidArgumentException
-     * @param mixed $data
      */
-    public function setData($data = [])
+    public function setData(mixed $data = []) : static
     {
         try {
             $data = \json_encode($data, $this->encodingOptions);
         } catch (\Exception $e) {
-            if ('Exception' === \get_class($e) && \strncmp($e->getMessage(), 'Failed calling ', \strlen('Failed calling ')) === 0) {
+            if ('Exception' === $e::class && \str_starts_with($e->getMessage(), 'Failed calling ')) {
                 throw $e->getPrevious() ?: $e;
             }
             throw $e;
@@ -139,7 +136,7 @@ class JsonResponse extends Response
      *
      * @return $this
      */
-    public function setEncodingOptions(int $encodingOptions)
+    public function setEncodingOptions(int $encodingOptions) : static
     {
         $this->encodingOptions = $encodingOptions;
         return $this->setData(\json_decode($this->data));
@@ -149,7 +146,7 @@ class JsonResponse extends Response
      *
      * @return $this
      */
-    protected function update()
+    protected function update() : static
     {
         if (null !== $this->callback) {
             // Not using application/javascript for compatibility reasons with older browsers.

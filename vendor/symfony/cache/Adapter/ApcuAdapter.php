@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Marshaller\Marshalle
  */
 class ApcuAdapter extends AbstractAdapter
 {
-    /**
-     * @var \Symfony\Component\Cache\Marshaller\MarshallerInterface|null
-     */
-    private $marshaller;
+    private ?MarshallerInterface $marshaller;
     /**
      * @throws CacheException if APCu is not enabled
      */
@@ -83,10 +80,7 @@ class ApcuAdapter extends AbstractAdapter
         }
         return \true;
     }
-    /**
-     * @return mixed[]|bool
-     */
-    protected function doSave(array $values, int $lifetime)
+    protected function doSave(array $values, int $lifetime) : array|bool
     {
         if (null !== $this->marshaller && !($values = $this->marshaller->marshall($values, $failed))) {
             return $failed;

@@ -11,14 +11,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class CategoryByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -58,13 +52,10 @@ class CategoryByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTyp
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('Input the parent category ID', 'category-mutations');
-            case MutationInputProperties::SLUG:
-                return $this->__('Input the parent category slug', 'category-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('Input the parent category ID', 'category-mutations'),
+            MutationInputProperties::SLUG => $this->__('Input the parent category slug', 'category-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

@@ -19,8 +19,5 @@ interface MultisiteTypeAPIInterface
      * @param array<string,mixed> $options
      */
     public function getNetworkSiteCount(array $query, array $options = []): int;
-    /**
-     * @return string|int
-     */
-    public function getNetworkSiteID(object $networkSite);
+    public function getNetworkSiteID(object $networkSite): string|int;
 }

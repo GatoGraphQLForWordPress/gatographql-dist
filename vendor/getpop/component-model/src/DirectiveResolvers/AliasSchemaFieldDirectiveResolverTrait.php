@@ -25,6 +25,8 @@ use SplObjectStorage;
  * and `SchemaFieldDirectiveResolverInterface`, whose functions must be aliased.
  *
  * @author Leonardo Losoviz <leo@getpop.org>
+ *
+ * @phpstan-ignore-next-line
  * @internal
  */
 trait AliasSchemaFieldDirectiveResolverTrait
@@ -61,9 +63,8 @@ trait AliasSchemaFieldDirectiveResolverTrait
     }
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
-     * @return mixed
      */
-    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->getDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);
@@ -95,9 +96,8 @@ trait AliasSchemaFieldDirectiveResolverTrait
     }
     /**
      * Proxy pattern: execute same function on the aliased DirectiveResolver
-     * @return mixed
      */
-    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName)
+    public function getConsolidatedDirectiveArgDefaultValue(RelationalTypeResolverInterface $relationalTypeResolver, string $directiveArgName) : mixed
     {
         $aliasedFieldDirectiveResolver = $this->getAliasedFieldDirectiveResolver();
         return $aliasedFieldDirectiveResolver->getConsolidatedDirectiveArgDefaultValue($relationalTypeResolver, $directiveArgName);

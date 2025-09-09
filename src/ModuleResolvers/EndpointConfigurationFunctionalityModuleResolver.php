@@ -15,19 +15,13 @@ class EndpointConfigurationFunctionalityModuleResolver extends AbstractFunctiona
     use ModuleResolverTrait;
     use EndpointConfigurationFunctionalityModuleResolverTrait;
 
-    public const API_HIERARCHY = Plugin::NAMESPACE . '\api-hierarchy';
+    public final const API_HIERARCHY = Plugin::NAMESPACE . '\api-hierarchy';
 
     /** @var GraphQLEndpointCustomPostTypeInterface[] */
-    protected $hierarchicalEndpointCustomPostTypeServices;
+    protected ?array $hierarchicalEndpointCustomPostTypeServices = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
-     */
-    private $customPostTypeRegistry;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
+    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -60,22 +54,18 @@ class EndpointConfigurationFunctionalityModuleResolver extends AbstractFunctiona
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::API_HIERARCHY:
-                return \__('API Hierarchy', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::API_HIERARCHY => \__('API Hierarchy', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::API_HIERARCHY:
-                return \__('Create a hierarchy of API endpoints extending from other endpoints, and inheriting their properties', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::API_HIERARCHY => \__('Create a hierarchy of API endpoints extending from other endpoints, and inheriting their properties', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     /**
@@ -113,15 +103,11 @@ class EndpointConfigurationFunctionalityModuleResolver extends AbstractFunctiona
             $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
             $endpointCustomPostTypeServices = array_values(array_filter(
                 $customPostTypeServices,
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface;
-                }
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface
             ));
             $this->hierarchicalEndpointCustomPostTypeServices = array_values(array_filter(
                 $endpointCustomPostTypeServices,
-                function (GraphQLEndpointCustomPostTypeInterface $graphQLEndpointCustomPostTypeService) {
-                    return $graphQLEndpointCustomPostTypeService->isHierarchical();
-                }
+                fn (GraphQLEndpointCustomPostTypeInterface $graphQLEndpointCustomPostTypeService) => $graphQLEndpointCustomPostTypeService->isHierarchical()
             ));
         }
         return $this->hierarchicalEndpointCustomPostTypeServices;

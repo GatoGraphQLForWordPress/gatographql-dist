@@ -35,74 +35,23 @@ use PoP\Root\App;
 /** @internal */
 abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\DateQueryInputObjectTypeResolver|null
-     */
-    private $dateQueryInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentStatusEnumTypeResolver|null
-     */
-    private $commentStatusEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver|null
-     */
-    private $customPostStatusEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentTypeEnumTypeResolver|null
-     */
-    private $commentTypeEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
-     */
-    private $customPostEnumStringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CommentStatusFilterInput|null
-     */
-    private $commentStatusFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CommentTypesFilterInput|null
-     */
-    private $commentTypesFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostIDFilterInput|null
-     */
-    private $customPostIDFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostIDsFilterInput|null
-     */
-    private $customPostIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostStatusFilterInput|null
-     */
-    private $customPostStatusFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\ExcludeCustomPostIDsFilterInput|null
-     */
-    private $excludeCustomPostIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\FilterInputs\UnionCustomPostTypesFilterInput|null
-     */
-    private $unionCustomPostTypesFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SearchFilterInput|null
-     */
-    private $searchFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDFilterInput|null
-     */
-    private $parentIDFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ParentIDsFilterInput|null
-     */
-    private $parentIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeParentIDsFilterInput|null
-     */
-    private $excludeParentIDsFilterInput;
+    private ?DateQueryInputObjectTypeResolver $dateQueryInputObjectTypeResolver = null;
+    private ?CommentStatusEnumTypeResolver $commentStatusEnumTypeResolver = null;
+    private ?CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver = null;
+    private ?CommentTypeEnumTypeResolver $commentTypeEnumTypeResolver = null;
+    private ?CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?CommentStatusFilterInput $commentStatusFilterInput = null;
+    private ?CommentTypesFilterInput $commentTypesFilterInput = null;
+    private ?CustomPostIDFilterInput $customPostIDFilterInput = null;
+    private ?CustomPostIDsFilterInput $customPostIDsFilterInput = null;
+    private ?CustomPostStatusFilterInput $customPostStatusFilterInput = null;
+    private ?ExcludeCustomPostIDsFilterInput $excludeCustomPostIDsFilterInput = null;
+    private ?UnionCustomPostTypesFilterInput $unionCustomPostTypesFilterInput = null;
+    private ?SearchFilterInput $searchFilterInput = null;
+    private ?ParentIDFilterInput $parentIDFilterInput = null;
+    private ?ParentIDsFilterInput $parentIDsFilterInput = null;
+    private ?ExcludeParentIDsFilterInput $excludeParentIDsFilterInput = null;
     protected final function getDateQueryInputObjectTypeResolver() : DateQueryInputObjectTypeResolver
     {
         if ($this->dateQueryInputObjectTypeResolver === null) {
@@ -293,96 +242,54 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'status':
-                return $this->__('Comment status', 'comments');
-            case 'search':
-                return $this->__('Search for comments containing the given string', 'comments');
-            case 'dateQuery':
-                return $this->__('Filter comments based on date', 'comments');
-            case 'types':
-                return $this->__('Filter comments based on type', 'comments');
-            case 'parentID':
-                return $this->__('Filter comments with the given parent IDs. \'0\' means \'no parent\'', 'comments');
-            case 'parentIDs':
-                return $this->__('Filter comments with the given parent ID. \'0\' means \'no parent\'', 'comments');
-            case 'excludeParentIDs':
-                return $this->__('Exclude comments with the given parent IDs', 'comments');
-            case 'customPostID':
-                return $this->__('Filter comments added to the given custom post', 'comments');
-            case 'customPostIDs':
-                return $this->__('Filter comments added to the given custom posts', 'comments');
-            case 'excludeCustomPostIDs':
-                return $this->__('Exclude comments added to the given custom posts', 'comments');
-            case 'customPostStatus':
-                return $this->__('Filter comments added to the custom posts with given status', 'comments');
-            case 'customPostTypes':
-                return $this->__('Filter comments added to custom posts of given types', 'comments');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'status' => $this->__('Comment status', 'comments'),
+            'search' => $this->__('Search for comments containing the given string', 'comments'),
+            'dateQuery' => $this->__('Filter comments based on date', 'comments'),
+            'types' => $this->__('Filter comments based on type', 'comments'),
+            'parentID' => $this->__('Filter comments with the given parent IDs. \'0\' means \'no parent\'', 'comments'),
+            'parentIDs' => $this->__('Filter comments with the given parent ID. \'0\' means \'no parent\'', 'comments'),
+            'excludeParentIDs' => $this->__('Exclude comments with the given parent IDs', 'comments'),
+            'customPostID' => $this->__('Filter comments added to the given custom post', 'comments'),
+            'customPostIDs' => $this->__('Filter comments added to the given custom posts', 'comments'),
+            'excludeCustomPostIDs' => $this->__('Exclude comments added to the given custom posts', 'comments'),
+            'customPostStatus' => $this->__('Filter comments added to the custom posts with given status', 'comments'),
+            'customPostTypes' => $this->__('Filter comments added to custom posts of given types', 'comments'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'status':
-                return [CommentStatus::APPROVE];
-            case 'types':
-                return [CommentTypes::COMMENT];
-            case 'customPostStatus':
-                return [CustomPostStatus::PUBLISH];
-            case 'customPostTypes':
-                return $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues();
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'status' => [CommentStatus::APPROVE],
+            'types' => [CommentTypes::COMMENT],
+            'customPostStatus' => [CustomPostStatus::PUBLISH],
+            'customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues(),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'status':
-            case 'types':
-            case 'parentIDs':
-            case 'excludeParentIDs':
-            case 'customPostIDs':
-            case 'excludeCustomPostIDs':
-            case 'customPostStatus':
-            case 'customPostTypes':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'status', 'types', 'parentIDs', 'excludeParentIDs', 'customPostIDs', 'excludeCustomPostIDs', 'customPostStatus', 'customPostTypes' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'status':
-                return $this->getCommentStatusFilterInput();
-            case 'search':
-                return $this->getSearchFilterInput();
-            case 'types':
-                return $this->getCommentTypesFilterInput();
-            case 'parentID':
-                return $this->getParentIDFilterInput();
-            case 'parentIDs':
-                return $this->getParentIDsFilterInput();
-            case 'excludeParentIDs':
-                return $this->getExcludeParentIDsFilterInput();
-            case 'customPostID':
-                return $this->getCustomPostIDFilterInput();
-            case 'customPostIDs':
-                return $this->getCustomPostIDsFilterInput();
-            case 'excludeCustomPostIDs':
-                return $this->getExcludeCustomPostIDsFilterInput();
-            case 'customPostStatus':
-                return $this->getCustomPostStatusFilterInput();
-            case 'customPostTypes':
-                return $this->getUnionCustomPostTypesFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'status' => $this->getCommentStatusFilterInput(),
+            'search' => $this->getSearchFilterInput(),
+            'types' => $this->getCommentTypesFilterInput(),
+            'parentID' => $this->getParentIDFilterInput(),
+            'parentIDs' => $this->getParentIDsFilterInput(),
+            'excludeParentIDs' => $this->getExcludeParentIDsFilterInput(),
+            'customPostID' => $this->getCustomPostIDFilterInput(),
+            'customPostIDs' => $this->getCustomPostIDsFilterInput(),
+            'excludeCustomPostIDs' => $this->getExcludeCustomPostIDsFilterInput(),
+            'customPostStatus' => $this->getCustomPostStatusFilterInput(),
+            'customPostTypes' => $this->getUnionCustomPostTypesFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

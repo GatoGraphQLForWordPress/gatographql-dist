@@ -13,13 +13,8 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class UnionTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface
-     */
-    protected $unionTypeResolver;
-    public function __construct(UnionTypeResolverInterface $unionTypeResolver)
+    public function __construct(protected UnionTypeResolverInterface $unionTypeResolver)
     {
-        $this->unionTypeResolver = $unionTypeResolver;
         parent::__construct($unionTypeResolver);
     }
     public function getTypeKind() : string
@@ -50,7 +45,7 @@ class UnionTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaD
             $pickerObjectTypeSchemaDefinition = [SchemaDefinition::TYPE_RESOLVER => $pickerObjectTypeResolver];
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($pickerObjectTypeSchemaDefinition);
             $schemaDefinition[SchemaDefinition::POSSIBLE_TYPES][$pickerObjectTypeName] = $pickerObjectTypeSchemaDefinition;
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($pickerObjectTypeResolver)] = $pickerObjectTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$pickerObjectTypeResolver::class] = $pickerObjectTypeResolver;
         }
     }
     /**
@@ -74,7 +69,7 @@ class UnionTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaD
             $interfaceTypeSchemaDefinition = [SchemaDefinition::TYPE_RESOLVER => $implementedInterfaceTypeResolver];
             SchemaDefinitionHelpers::replaceTypeResolverWithTypeProperties($interfaceTypeSchemaDefinition);
             $schemaDefinition[SchemaDefinition::INTERFACES][$interfaceTypeName] = $interfaceTypeSchemaDefinition;
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($implementedInterfaceTypeResolver)] = $implementedInterfaceTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$implementedInterfaceTypeResolver::class] = $implementedInterfaceTypeResolver;
         }
     }
     /**
@@ -94,8 +89,8 @@ class UnionTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaD
                 continue;
             }
             $schemaDefinition[SchemaDefinition::DIRECTIVES][] = $directiveName;
-            $this->accessedTypeAndFieldDirectiveResolvers[\get_class($directiveResolver)] = $directiveResolver;
-            $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[\get_class($directiveResolver)] = $this->unionTypeResolver;
+            $this->accessedTypeAndFieldDirectiveResolvers[$directiveResolver::class] = $directiveResolver;
+            $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[$directiveResolver::class] = $this->unionTypeResolver;
         }
     }
 }

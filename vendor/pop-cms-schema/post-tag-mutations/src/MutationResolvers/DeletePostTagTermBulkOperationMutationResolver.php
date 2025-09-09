@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class DeletePostTagTermBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver|null
-     */
-    private $deletePostTagTermMutationResolver;
+    private ?\PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver $deletePostTagTermMutationResolver = null;
     protected final function getDeletePostTagTermMutationResolver() : \PoPCMSSchema\PostTagMutations\MutationResolvers\DeletePostTagTermMutationResolver
     {
         if ($this->deletePostTagTermMutationResolver === null) {

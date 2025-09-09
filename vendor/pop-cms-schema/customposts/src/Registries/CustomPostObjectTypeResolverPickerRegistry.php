@@ -10,7 +10,7 @@ class CustomPostObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Custom
     /**
      * @var CustomPostObjectTypeResolverPickerInterface[]
      */
-    protected $customPostObjectTypeResolverPickers = [];
+    protected array $customPostObjectTypeResolverPickers = [];
     public function addCustomPostObjectTypeResolverPicker(CustomPostObjectTypeResolverPickerInterface $customPostObjectTypeResolverPicker) : void
     {
         $this->customPostObjectTypeResolverPickers[] = $customPostObjectTypeResolverPicker;

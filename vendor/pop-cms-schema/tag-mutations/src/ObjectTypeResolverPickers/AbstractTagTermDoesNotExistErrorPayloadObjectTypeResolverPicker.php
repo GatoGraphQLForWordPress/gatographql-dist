@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractTagTermDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\TagMutations\TypeResolvers\ObjectType\TagTermDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $tagDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?TagTermDoesNotExistErrorPayloadObjectTypeResolver $tagDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getTagTermDoesNotExistErrorPayloadObjectTypeResolver() : TagTermDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->tagDoesNotExistErrorPayloadObjectTypeResolver === null) {

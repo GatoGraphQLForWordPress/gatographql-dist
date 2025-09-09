@@ -9,10 +9,7 @@ use PoP\LooseContracts\LooseContractManagerInterface;
 /** @internal */
 class Engine extends UpstreamEngine
 {
-    /**
-     * @var \PoP\LooseContracts\LooseContractManagerInterface|null
-     */
-    private $looseContractManager;
+    private ?LooseContractManagerInterface $looseContractManager = null;
     protected final function getLooseContractManager() : LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {

@@ -17,20 +17,10 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class FieldFragmentModelsTuple
 {
     /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface
-     */
-    protected $field;
-    /**
-     * @var string[]
-     */
-    protected $fragmentModels = [];
-    /**
      * @param string[] $fragmentModels For fields within fragments, this value represents all the fragment "Model(s)" that must be satisfied to resolve the field
      */
-    public function __construct(FieldInterface $field, array $fragmentModels = [])
+    public function __construct(protected FieldInterface $field, protected array $fragmentModels = [])
     {
-        $this->field = $field;
-        $this->fragmentModels = $fragmentModels;
     }
     public function getField() : FieldInterface
     {

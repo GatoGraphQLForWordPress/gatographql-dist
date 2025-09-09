@@ -10,10 +10,7 @@ use PoPCMSSchema\CustomPostMetaMutations\SchemaHooks\AbstractCustomPostMutationR
 class GenericCustomPostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use \PoPCMSSchema\CustomPostMetaMutations\SchemaHooks\GenericCustomPostMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {

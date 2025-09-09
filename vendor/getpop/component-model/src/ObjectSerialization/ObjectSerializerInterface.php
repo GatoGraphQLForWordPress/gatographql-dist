@@ -8,8 +8,5 @@ use stdClass;
 interface ObjectSerializerInterface
 {
     public function getObjectClassToSerialize() : string;
-    /**
-     * @return string|\stdClass
-     */
-    public function serialize(object $object);
+    public function serialize(object $object) : string|stdClass;
 }

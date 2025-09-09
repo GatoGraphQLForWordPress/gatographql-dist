@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Exceptio
  */
 class EnumNode extends ScalarNode
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
+    private array $values;
     public function __construct(?string $name, ?NodeInterface $parent = null, array $values = [], string $pathSeparator = BaseNode::DEFAULT_PATH_SEPARATOR)
     {
         if (!$values) {
@@ -35,8 +32,8 @@ class EnumNode extends ScalarNode
             if (!$value instanceof \UnitEnum) {
                 throw new \InvalidArgumentException(\sprintf('"%s" only supports scalar, enum, or null values, "%s" given.', __CLASS__, \get_debug_type($value)));
             }
-            if (\get_class($value) !== ($enumClass = $enumClass ?? \get_class($value))) {
-                throw new \InvalidArgumentException(\sprintf('"%s" only supports one type of enum, "%s" and "%s" passed.', __CLASS__, $enumClass, \get_class($value)));
+            if ($value::class !== ($enumClass ??= $value::class)) {
+                throw new \InvalidArgumentException(\sprintf('"%s" only supports one type of enum, "%s" and "%s" passed.', __CLASS__, $enumClass, $value::class));
             }
         }
         parent::__construct($name, $parent, $pathSeparator);
@@ -54,7 +51,7 @@ class EnumNode extends ScalarNode
      */
     public function getPermissibleValues(string $separator) : string
     {
-        return \implode($separator, \array_unique(\array_map(static function ($value) : string {
+        return \implode($separator, \array_unique(\array_map(static function (mixed $value) : string {
             if (!$value instanceof \UnitEnum) {
                 return \json_encode($value);
             }
@@ -63,20 +60,15 @@ class EnumNode extends ScalarNode
     }
     /**
      * @return void
-     * @param mixed $value
      */
-    protected function validateType($value)
+    protected function validateType(mixed $value)
     {
         if ($value instanceof \UnitEnum) {
             return;
         }
         parent::validateType($value);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function finalizeValue($value)
+    protected function finalizeValue(mixed $value) : mixed
     {
         $value = parent::finalizeValue($value);
         if (!\in_array($value, $this->values, \true)) {

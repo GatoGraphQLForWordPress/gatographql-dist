@@ -11,14 +11,8 @@ use PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeRes
 /** @internal */
 class CategoryUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\UnionType\CategoryUnionTypeDataLoader|null
-     */
-    private $categoryUnionTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\InterfaceType\CategoryInterfaceTypeResolver|null
-     */
-    private $categoryInterfaceTypeResolver;
+    private ?CategoryUnionTypeDataLoader $categoryUnionTypeDataLoader = null;
+    private ?CategoryInterfaceTypeResolver $categoryInterfaceTypeResolver = null;
     protected final function getCategoryUnionTypeDataLoader() : CategoryUnionTypeDataLoader
     {
         if ($this->categoryUnionTypeDataLoader === null) {

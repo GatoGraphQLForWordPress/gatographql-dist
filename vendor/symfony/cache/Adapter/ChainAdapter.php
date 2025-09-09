@@ -31,22 +31,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
 class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterface, ResettableInterface
 {
     use ContractsTrait;
-    /**
-     * @var mixed[]
-     */
-    private $adapters = [];
-    /**
-     * @var int
-     */
-    private $adapterCount;
-    /**
-     * @var int
-     */
-    private $defaultLifetime;
-    /**
-     * @var \Closure
-     */
-    private static $syncItem;
+    private array $adapters = [];
+    private int $adapterCount;
+    private int $defaultLifetime;
+    private static \Closure $syncItem;
     /**
      * @param CacheItemPoolInterface[] $adapters        The ordered list of adapters used to fetch cached items
      * @param int                      $defaultLifetime The default lifetime of items propagated from lower adapters to upper ones
@@ -72,9 +60,9 @@ class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
         $this->adapterCount = \count($this->adapters);
         $this->defaultLifetime = $defaultLifetime;
-        self::$syncItem = self::$syncItem ?? \Closure::bind(static function ($sourceItem, $item, $defaultLifetime, $sourceMetadata = null) {
+        self::$syncItem ??= \Closure::bind(static function ($sourceItem, $item, $defaultLifetime, $sourceMetadata = null) {
             $sourceItem->isTaggable = \false;
-            $sourceMetadata = $sourceMetadata ?? $sourceItem->metadata;
+            $sourceMetadata ??= $sourceItem->metadata;
             $item->value = $sourceItem->value;
             $item->isHit = $sourceItem->isHit;
             $item->metadata = $item->newMetadata = $sourceItem->metadata = $sourceMetadata;
@@ -86,10 +74,7 @@ class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
             return $item;
         }, null, CacheItem::class);
     }
-    /**
-     * @return mixed
-     */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null) : mixed
     {
         $doSave = \true;
         $callback = static function (CacheItem $item, bool &$save) use($callback, &$doSave) {
@@ -111,17 +96,14 @@ class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
                 $value = $this->doGet($adapter, $key, $callback, $beta, $metadata);
             }
             if (null !== $item) {
-                (self::$syncItem)($lastItem = $lastItem ?? $item, $item, $this->defaultLifetime, $metadata);
+                (self::$syncItem)($lastItem ??= $item, $item, $this->defaultLifetime, $metadata);
             }
             $save = $doSave;
             return $value;
         };
         return $wrap();
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : \GatoExternalPrefixByGatoGraphQL\Psr\Cache\CacheItemInterface
+    public function getItem(mixed $key) : CacheItem
     {
         $syncItem = self::$syncItem;
         $misses = [];
@@ -167,10 +149,7 @@ class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
             }
         }
     }
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    public function hasItem(mixed $key) : bool
     {
         foreach ($this->adapters as $adapter) {
             if ($adapter->hasItem($key)) {
@@ -192,10 +171,7 @@ class ChainAdapter implements AdapterInterface, CacheInterface, PruneableInterfa
         }
         return $cleared;
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         $deleted = \true;
         $i = $this->adapterCount;

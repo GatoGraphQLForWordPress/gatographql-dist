@@ -26,34 +26,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Finder\Glob;
  */
 class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $prefix;
-    /**
-     * @var string
-     */
-    private $pattern;
-    /**
-     * @var bool
-     */
-    private $recursive;
-    /**
-     * @var string
-     */
-    private $hash;
-    /**
-     * @var bool
-     */
-    private $forExclusion;
-    /**
-     * @var mixed[]
-     */
-    private $excludedPrefixes;
-    /**
-     * @var int
-     */
-    private $globBrace;
+    private string $prefix;
+    private string $pattern;
+    private bool $recursive;
+    private string $hash;
+    private bool $forExclusion;
+    private array $excludedPrefixes;
+    private int $globBrace;
     /**
      * @param string $prefix    A directory prefix
      * @param string $pattern   A glob pattern
@@ -86,7 +65,7 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
     public function isFresh(int $timestamp) : bool
     {
         $hash = $this->computeHash();
-        $this->hash = $this->hash ?? $hash;
+        $this->hash ??= $hash;
         return $this->hash === $hash;
     }
     /**
@@ -94,7 +73,7 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
      */
     public function __sleep() : array
     {
-        $this->hash = $this->hash ?? $this->computeHash();
+        $this->hash ??= $this->computeHash();
         return ['prefix', 'pattern', 'recursive', 'hash', 'forExclusion', 'excludedPrefixes'];
     }
     /**
@@ -127,10 +106,10 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
         $paths = null;
         if ('' === $this->pattern && \is_file($this->prefix)) {
             $paths = [$this->prefix => null];
-        } elseif (\strncmp($this->prefix, 'phar://', \strlen('phar://')) !== 0 && (null !== $regex || \strpos($this->pattern, '/**/') === \false)) {
-            if (\strpos($this->pattern, '/**/') === \false && ($this->globBrace || \strpos($this->pattern, '{') === \false)) {
+        } elseif (!\str_starts_with($this->prefix, 'phar://') && (null !== $regex || !\str_contains($this->pattern, '/**/'))) {
+            if (!\str_contains($this->pattern, '/**/') && ($this->globBrace || !\str_contains($this->pattern, '{'))) {
                 $paths = \array_fill_keys(\glob($this->prefix . $this->pattern, \GLOB_NOSORT | $this->globBrace), null);
-            } elseif (\strpos($this->pattern, '\\') === \false || !\preg_match('/\\\\[,{}]/', $this->pattern)) {
+            } elseif (!\str_contains($this->pattern, '\\') || !\preg_match('/\\\\[,{}]/', $this->pattern)) {
                 $paths = [];
                 foreach ($this->expandGlob($this->pattern) as $p) {
                     if (\false !== ($i = \strpos($p, '/**/'))) {
@@ -164,9 +143,7 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
                 if (!($this->recursive || null !== $regex) || isset($this->excludedPrefixes[\str_replace('\\', '/', $path)])) {
                     continue;
                 }
-                $files = \iterator_to_array(new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS), function (\SplFileInfo $file, $path) use($regex, $prefixLen) {
-                    return !isset($this->excludedPrefixes[$path = \str_replace('\\', '/', $path)]) && (null === $regex || \preg_match($regex, \substr($path, $prefixLen)) || $file->isDir()) && '.' !== $file->getBasename()[0];
-                }), \RecursiveIteratorIterator::LEAVES_ONLY));
+                $files = \iterator_to_array(new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS), fn(\SplFileInfo $file, $path) => !isset($this->excludedPrefixes[$path = \str_replace('\\', '/', $path)]) && (null === $regex || \preg_match($regex, \substr($path, $prefixLen)) || $file->isDir()) && '.' !== $file->getBasename()[0]), \RecursiveIteratorIterator::LEAVES_ONLY));
                 \uksort($files, 'strnatcmp');
                 foreach ($files as $path => $info) {
                     if ($info->isFile()) {
@@ -217,7 +194,7 @@ class GlobResource implements \IteratorAggregate, SelfCheckingResourceInterface
         }
         $j = 0;
         foreach ($patterns as $i => $p) {
-            if (\strpos($p, '{') !== \false) {
+            if (\str_contains($p, '{')) {
                 $p = $this->expandGlob($p);
                 \array_splice($paths, $i + $j, 1, $p);
                 $j += \count($p) - 1;

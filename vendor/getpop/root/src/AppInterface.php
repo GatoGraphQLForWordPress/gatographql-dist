@@ -89,15 +89,13 @@ interface AppInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static function getState($keyOrPath);
+    public static function getState(string|array $keyOrPath) : mixed;
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static function hasState($keyOrPath);
+    public static function hasState(string|array $keyOrPath) : mixed;
     /**
      * Shortcut function.
      */
@@ -108,11 +106,8 @@ interface AppInterface
     public static function removeFilter(string $tag, callable $function_to_remove, int $priority = 10) : bool;
     /**
      * Shortcut function.
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
      */
-    public static function applyFilters(string $tag, $value, ...$args);
+    public static function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed;
     /**
      * Shortcut function.
      */
@@ -123,55 +118,42 @@ interface AppInterface
     public static function removeAction(string $tag, callable $function_to_remove, int $priority = 10) : bool;
     /**
      * Shortcut function.
-     * @param mixed ...$args
      */
-    public static function doAction(string $tag, ...$args) : void;
+    public static function doAction(string $tag, mixed ...$args) : void;
     /**
      * Shortcut function.
      *
      * Equivalent of $_POST[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static function request(string $key, $default = null);
+    public static function request(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_GET[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static function query(string $key, $default = null);
+    public static function query(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_COOKIES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static function cookies(string $key, $default = null);
+    public static function cookies(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_FILES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static function files(string $key, $default = null);
+    public static function files(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Equivalent of $_SERVER[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static function server(string $key, $default = null);
+    public static function server(string $key, mixed $default = null) : mixed;
     /**
      * Shortcut function.
      *
      * Mostly equivalent to a subset of $_SERVER
-     * @param mixed $default
-     * @return mixed
      */
-    public static function headers(string $key, $default = null);
+    public static function headers(string $key, mixed $default = null) : mixed;
 }

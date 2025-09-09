@@ -7,10 +7,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 /** @internal */
 abstract class AbstractNamedType extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject implements \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeInterface
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeExtensions
-     */
-    protected $namedTypeExtensions;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\NamedTypeExtensions $namedTypeExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

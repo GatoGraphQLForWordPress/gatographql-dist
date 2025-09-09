@@ -30,18 +30,9 @@ class InlineServiceConfigurator extends AbstractConfigurator
     use Traits\PropertyTrait;
     use Traits\TagTrait;
     public const FACTORY = 'service';
-    /**
-     * @var string
-     */
-    private $id = '[inline]';
-    /**
-     * @var bool
-     */
-    private $allowParent = \true;
-    /**
-     * @var string|null
-     */
-    private $path;
+    private string $id = '[inline]';
+    private bool $allowParent = \true;
+    private ?string $path = null;
     public function __construct(Definition $definition)
     {
         $this->definition = $definition;

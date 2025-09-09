@@ -8,10 +8,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\AbstractObjectsFilt
 /** @internal */
 abstract class AbstractUsersFilterInputObjectTypeResolver extends AbstractObjectsFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver|null
-     */
-    private $userSearchByOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver $userSearchByOneofInputObjectTypeResolver = null;
     protected final function getUserSearchByOneofInputObjectTypeResolver() : \PoPCMSSchema\Users\TypeResolvers\InputObjectType\UserSearchByOneofInputObjectTypeResolver
     {
         if ($this->userSearchByOneofInputObjectTypeResolver === null) {
@@ -34,11 +31,9 @@ abstract class AbstractUsersFilterInputObjectTypeResolver extends AbstractObject
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'searchBy':
-                return $this->__('Search for users', 'users');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'searchBy' => $this->__('Search for users', 'users'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

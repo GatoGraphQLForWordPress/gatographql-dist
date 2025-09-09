@@ -21,10 +21,7 @@ use function wp_remote_get;
  */
 class LemonSqueezyCommercialPluginUpdaterService extends AbstractMarketplaceProviderCommercialPluginUpdaterService
 {
-    /**
-     * @var string
-     */
-    protected $apiURL;
+    protected string $apiURL;
 
     /**
      * Use the Marketplace provider's service to
@@ -34,9 +31,11 @@ class LemonSqueezyCommercialPluginUpdaterService extends AbstractMarketplaceProv
      *
      * @throws ShouldNotHappenException If initializing the service more than once
      */
-    public function setupMarketplacePluginUpdaterForExtensions(array $licenseKeys): void
-    {
+    public function setupMarketplacePluginUpdaterForExtensions(
+        array $licenseKeys,
+    ): void {
         parent::setupMarketplacePluginUpdaterForExtensions($licenseKeys);
+
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $this->apiURL = $this->providePluginUpdatesAPIURL($moduleConfiguration->getMarketplaceProviderPluginUpdatesServerURL());
@@ -49,9 +48,8 @@ class LemonSqueezyCommercialPluginUpdaterService extends AbstractMarketplaceProv
 
     /**
      * Fetch the update info from the remote server running the Lemon Squeezy plugin.
-     * @return mixed[]|\WP_Error
      */
-    protected function getRemotePluginData(CommercialPluginUpdatedPluginData $pluginData)
+    protected function getRemotePluginData(CommercialPluginUpdatedPluginData $pluginData): array|WP_Error
     {
         $url = $this->apiURL . "/update?license_key={$pluginData->licenseKey}";
         return wp_remote_get($url, ['timeout' => 10]);

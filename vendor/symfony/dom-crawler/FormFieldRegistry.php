@@ -18,14 +18,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field\FormField
  */
 class FormFieldRegistry
 {
-    /**
-     * @var mixed[]
-     */
-    private $fields = [];
-    /**
-     * @var string
-     */
-    private $base = '';
+    private array $fields = [];
+    private string $base = '';
     /**
      * Adds a field to the registry.
      */
@@ -69,7 +63,7 @@ class FormFieldRegistry
      *
      * @throws \InvalidArgumentException if the field does not exist
      */
-    public function &get(string $name)
+    public function &get(string $name) : FormField|array
     {
         $segments = $this->getSegments($name);
         $target =& $this->fields;
@@ -90,7 +84,7 @@ class FormFieldRegistry
         try {
             $this->get($name);
             return \true;
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             return \false;
         }
     }
@@ -98,12 +92,11 @@ class FormFieldRegistry
      * Set the value of a field based on the fully qualified name and its children.
      *
      * @throws \InvalidArgumentException if the field does not exist
-     * @param mixed $value
      */
-    public function set(string $name, $value) : void
+    public function set(string $name, mixed $value) : void
     {
         $target =& $this->get($name);
-        if (!\is_array($value) && $target instanceof Field\FormField || $target instanceof Field\ChoiceFormField) {
+        if (!\is_array($value) && $target instanceof FormField || $target instanceof Field\ChoiceFormField) {
             $target->setValue($value);
         } elseif (\is_array($value)) {
             $registry = new static();

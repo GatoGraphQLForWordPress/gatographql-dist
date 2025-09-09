@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Categories\Environment::CATEGORY_LIST_DEFAULT_LIMIT;
         $defaultValue = 10;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getCategoryListMaxLimit() : ?int
@@ -20,7 +20,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = \PoPCMSSchema\Categories\Environment::CATEGORY_LIST_MAX_LIMIT;
         $defaultValue = -1;
         // Unlimited
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -30,7 +30,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Categories\Environment::QUERYABLE_CATEGORY_TAXONOMIES;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

@@ -6,5 +6,5 @@ namespace GatoGraphQL\GatoGraphQL\StateManagers;
 
 class AppThreadContext
 {
-    public const SCHEMA_CONFIGURATION_ID = 'schemaConfigurationID';
+    public final const SCHEMA_CONFIGURATION_ID = 'schemaConfigurationID';
 }

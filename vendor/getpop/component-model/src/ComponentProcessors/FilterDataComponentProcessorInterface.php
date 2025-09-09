@@ -5,7 +5,7 @@ namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 /** @internal */
-interface FilterDataComponentProcessorInterface
+interface FilterDataComponentProcessorInterface extends \PoP\ComponentModel\ComponentProcessors\ComponentProcessorInterface
 {
     /**
      * @return Component[]

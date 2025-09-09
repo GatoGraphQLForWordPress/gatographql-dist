@@ -49,37 +49,27 @@ class Markdown implements MarkdownInterface
      */
     /**
      * Change to ">" for HTML output.
-     * @var string
      */
-    public $empty_element_suffix = " />";
+    public string $empty_element_suffix = " />";
     /**
      * The width of indentation of the output markup
-     * @var int
      */
-    public $tab_width = 4;
+    public int $tab_width = 4;
     /**
      * Change to `true` to disallow markup or entities.
-     * @var bool
      */
-    public $no_markup = \false;
-    /**
-     * @var bool
-     */
-    public $no_entities = \false;
+    public bool $no_markup = \false;
+    public bool $no_entities = \false;
     /**
      * Change to `true` to enable line breaks on \n without two trailling spaces
      * @var boolean
      */
-    public $hard_wrap = \false;
+    public bool $hard_wrap = \false;
     /**
      * Predefined URLs and titles for reference links and images.
-     * @var mixed[]
      */
-    public $predef_urls = array();
-    /**
-     * @var mixed[]
-     */
-    public $predef_titles = array();
+    public array $predef_urls = array();
+    public array $predef_titles = array();
     /**
      * Optional filter function for URLs
      * @var callable|null
@@ -114,39 +104,24 @@ class Markdown implements MarkdownInterface
      * <li>List item two</li>
      * <li>List item three</li>
      * </ol>
-     * @var bool
      */
-    public $enhanced_ordered_list = \false;
+    public bool $enhanced_ordered_list = \false;
     /**
      * Parser implementation
      */
     /**
      * Regex to match balanced [brackets].
      * Needed to insert a maximum bracked depth while converting to PHP.
-     * @var int
      */
-    protected $nested_brackets_depth = 6;
-    /**
-     * @var string
-     */
-    protected $nested_brackets_re;
-    /**
-     * @var int
-     */
-    protected $nested_url_parenthesis_depth = 4;
-    /**
-     * @var string
-     */
-    protected $nested_url_parenthesis_re;
+    protected int $nested_brackets_depth = 6;
+    protected string $nested_brackets_re;
+    protected int $nested_url_parenthesis_depth = 4;
+    protected string $nested_url_parenthesis_re;
     /**
      * Table of hash values for escaped characters:
-     * @var string
      */
-    protected $escape_chars = '\\`*_{}[]()>#+-.!';
-    /**
-     * @var string
-     */
-    protected $escape_chars_re;
+    protected string $escape_chars = '\\`*_{}[]()>#+-.!';
+    protected string $escape_chars_re;
     /**
      * Constructor function. Initialize appropriate member variables.
      * @return void
@@ -165,27 +140,18 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Internal hashes used during transformation.
-     * @var mixed[]
      */
-    protected $urls = array();
-    /**
-     * @var mixed[]
-     */
-    protected $titles = array();
-    /**
-     * @var mixed[]
-     */
-    protected $html_hashes = array();
+    protected array $urls = array();
+    protected array $titles = array();
+    protected array $html_hashes = array();
     /**
      * Status flag to avoid invalid nesting.
-     * @var bool
      */
-    protected $in_anchor = \false;
+    protected bool $in_anchor = \false;
     /**
      * Status flag to avoid invalid nesting.
-     * @var bool
      */
-    protected $in_emphasis_processing = \false;
+    protected bool $in_emphasis_processing = \false;
     /**
      * Called before the transformation process starts to setup parser states.
      * @return void
@@ -247,9 +213,8 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Define the document gamut
-     * @var mixed[]
      */
-    protected $document_gamut = array(
+    protected array $document_gamut = array(
         // Strip link definitions, store in hashes.
         "stripLinkDefinitions" => 20,
         "runBasicBlockGamut" => 30,
@@ -489,9 +454,8 @@ class Markdown implements MarkdownInterface
     /**
      * Define the block gamut - these are all the transformations that form
      * block-level tags like paragraphs, headers, and list items.
-     * @var mixed[]
      */
-    protected $block_gamut = array("doHeaders" => 10, "doHorizontalRules" => 20, "doLists" => 40, "doCodeBlocks" => 50, "doBlockQuotes" => 60);
+    protected array $block_gamut = array("doHeaders" => 10, "doHorizontalRules" => 20, "doLists" => 40, "doCodeBlocks" => 50, "doBlockQuotes" => 60);
     /**
      * Run block gamut tranformations.
      *
@@ -547,9 +511,8 @@ class Markdown implements MarkdownInterface
     /**
      * These are all the transformations that occur *within* block-level
      * tags like paragraphs, headers, and list items.
-     * @var mixed[]
      */
-    protected $span_gamut = array(
+    protected array $span_gamut = array(
         // Process character escapes, code spans, and inline HTML
         // in one shot.
         "parseSpan" => -30,
@@ -1003,9 +966,8 @@ class Markdown implements MarkdownInterface
     }
     /**
      * Nesting tracker for list levels
-     * @var int
      */
-    protected $list_level = 0;
+    protected int $list_level = 0;
     /**
      * Process the contents of a single ordered or unordered list, splitting it
      * into individual list items.
@@ -1132,22 +1094,21 @@ class Markdown implements MarkdownInterface
      * Define the emphasis operators with their regex matches
      * @var array
      */
-    protected $em_relist = array('' => '(?:(?<!\\*)\\*(?!\\*)|(?<!_)_(?!_))(?![\\.,:;]?\\s)', '*' => '(?<![\\s*])\\*(?!\\*)', '_' => '(?<![\\s_])_(?!_)');
+    protected array $em_relist = array('' => '(?:(?<!\\*)\\*(?!\\*)|(?<!_)_(?!_))(?![\\.,:;]?\\s)', '*' => '(?<![\\s*])\\*(?!\\*)', '_' => '(?<![\\s_])_(?!_)');
     /**
      * Define the strong operators with their regex matches
      * @var array
      */
-    protected $strong_relist = array('' => '(?:(?<!\\*)\\*\\*(?!\\*)|(?<!_)__(?!_))(?![\\.,:;]?\\s)', '**' => '(?<![\\s*])\\*\\*(?!\\*)', '__' => '(?<![\\s_])__(?!_)');
+    protected array $strong_relist = array('' => '(?:(?<!\\*)\\*\\*(?!\\*)|(?<!_)__(?!_))(?![\\.,:;]?\\s)', '**' => '(?<![\\s*])\\*\\*(?!\\*)', '__' => '(?<![\\s_])__(?!_)');
     /**
      * Define the emphasis + strong operators with their regex matches
      * @var array
      */
-    protected $em_strong_relist = array('' => '(?:(?<!\\*)\\*\\*\\*(?!\\*)|(?<!_)___(?!_))(?![\\.,:;]?\\s)', '***' => '(?<![\\s*])\\*\\*\\*(?!\\*)', '___' => '(?<![\\s_])___(?!_)');
+    protected array $em_strong_relist = array('' => '(?:(?<!\\*)\\*\\*\\*(?!\\*)|(?<!_)___(?!_))(?![\\.,:;]?\\s)', '***' => '(?<![\\s*])\\*\\*\\*(?!\\*)', '___' => '(?<![\\s_])___(?!_)');
     /**
      * Container for prepared regular expressions
-     * @var mixed[]|null
      */
-    protected $em_strong_prepared_relist;
+    protected ?array $em_strong_prepared_relist = null;
     /**
      * Prepare regular expressions for searching emphasis tokens in any
      * context.
@@ -1728,9 +1689,7 @@ class Markdown implements MarkdownInterface
         if (\function_exists($this->utf8_strlen)) {
             return;
         }
-        $this->utf8_strlen = function ($text) use($m) {
-            return \preg_match_all('/[\\x00-\\xBF]|[\\xC0-\\xFF][\\x80-\\xBF]*/', $text, $m);
-        };
+        $this->utf8_strlen = fn($text) => \preg_match_all('/[\\x00-\\xBF]|[\\xC0-\\xFF][\\x80-\\xBF]*/', $text, $m);
     }
     /**
      * Swap back in all the tags hashed by _HashHTMLBlocks.

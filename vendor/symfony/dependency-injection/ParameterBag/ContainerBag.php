@@ -17,10 +17,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class ContainerBag extends FrozenParameterBag implements ContainerBagInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\Container
-     */
-    private $container;
+    private Container $container;
     public function __construct(Container $container)
     {
         $this->container = $container;
@@ -29,10 +26,7 @@ class ContainerBag extends FrozenParameterBag implements ContainerBagInterface
     {
         return $this->container->getParameterBag()->all();
     }
-    /**
-     * @return mixed[]|bool|string|int|float|\UnitEnum|null
-     */
-    public function get(string $name)
+    public function get(string $name) : array|bool|string|int|float|\UnitEnum|null
     {
         return $this->container->getParameter($name);
     }

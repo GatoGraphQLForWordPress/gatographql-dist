@@ -21,28 +21,25 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
     use ModuleResolverTrait;
     use SchemaConfigurationFunctionalityModuleResolverTrait;
 
-    public const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
-    public const SCHEMA_NAMESPACING = Plugin::NAMESPACE . '\schema-namespacing';
-    public const RESPONSE_HEADERS = Plugin::NAMESPACE . '\response-headers';
-    public const GLOBAL_FIELDS = Plugin::NAMESPACE . '\global-fields';
-    public const COMPOSABLE_DIRECTIVES = Plugin::NAMESPACE . '\composable-directives';
-    public const MULTIFIELD_DIRECTIVES = Plugin::NAMESPACE . '\multifield-directives';
-    public const MUTATIONS = Plugin::NAMESPACE . '\mutations';
-    public const NESTED_MUTATIONS = Plugin::NAMESPACE . '\nested-mutations';
-    public const SCHEMA_EXPOSE_SENSITIVE_DATA = Plugin::NAMESPACE . '\schema-expose-sensitive-data';
-    public const SCHEMA_SELF_FIELDS = Plugin::NAMESPACE . '\schema-self-fields';
-    public const GLOBAL_ID_FIELD = Plugin::NAMESPACE . '\global-id-field';
+    public final const SCHEMA_CONFIGURATION = Plugin::NAMESPACE . '\schema-configuration';
+    public final const SCHEMA_NAMESPACING = Plugin::NAMESPACE . '\schema-namespacing';
+    public final const RESPONSE_HEADERS = Plugin::NAMESPACE . '\response-headers';
+    public final const GLOBAL_FIELDS = Plugin::NAMESPACE . '\global-fields';
+    public final const COMPOSABLE_DIRECTIVES = Plugin::NAMESPACE . '\composable-directives';
+    public final const MULTIFIELD_DIRECTIVES = Plugin::NAMESPACE . '\multifield-directives';
+    public final const MUTATIONS = Plugin::NAMESPACE . '\mutations';
+    public final const NESTED_MUTATIONS = Plugin::NAMESPACE . '\nested-mutations';
+    public final const SCHEMA_EXPOSE_SENSITIVE_DATA = Plugin::NAMESPACE . '\schema-expose-sensitive-data';
+    public final const SCHEMA_SELF_FIELDS = Plugin::NAMESPACE . '\schema-self-fields';
+    public final const GLOBAL_ID_FIELD = Plugin::NAMESPACE . '\global-id-field';
 
     /**
      * Setting options
      */
-    public const OPTION_DEFAULT_SCHEMA_EXPOSURE = 'default-schema-exposure';
-    public const OPTION_USE_PAYLOADABLE_MUTATIONS_DEFAULT_VALUE = 'use-payloadable-mutations-default-value';
+    public final const OPTION_DEFAULT_SCHEMA_EXPOSURE = 'default-schema-exposure';
+    public final const OPTION_USE_PAYLOADABLE_MUTATIONS_DEFAULT_VALUE = 'use-payloadable-mutations-default-value';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {
@@ -92,83 +89,57 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::SCHEMA_CONFIGURATION:
-                return \__('Schema Configuration', 'gatographql');
-            case self::SCHEMA_NAMESPACING:
-                return \__('Schema Namespacing', 'gatographql');
-            case self::RESPONSE_HEADERS:
-                return \__('Response Headers', 'gatographql');
-            case self::GLOBAL_FIELDS:
-                return \__('Global Fields', 'gatographql');
-            case self::COMPOSABLE_DIRECTIVES:
-                return \__('Composable Directives', 'gatographql');
-            case self::MULTIFIELD_DIRECTIVES:
-                return \__('Multi-Field Directives', 'gatographql');
-            case self::MUTATIONS:
-                return \__('Mutations', 'gatographql');
-            case self::NESTED_MUTATIONS:
-                return \__('Nested Mutations', 'gatographql');
-            case self::SCHEMA_EXPOSE_SENSITIVE_DATA:
-                return \__('Expose Sensitive Data in the Schema', 'gatographql');
-            case self::SCHEMA_SELF_FIELDS:
-                return \__('Self Fields', 'gatographql');
-            case self::GLOBAL_ID_FIELD:
-                return \__('Global ID Field', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::SCHEMA_CONFIGURATION => \__('Schema Configuration', 'gatographql'),
+            self::SCHEMA_NAMESPACING => \__('Schema Namespacing', 'gatographql'),
+            self::RESPONSE_HEADERS => \__('Response Headers', 'gatographql'),
+            self::GLOBAL_FIELDS => \__('Global Fields', 'gatographql'),
+            self::COMPOSABLE_DIRECTIVES => \__('Composable Directives', 'gatographql'),
+            self::MULTIFIELD_DIRECTIVES => \__('Multi-Field Directives', 'gatographql'),
+            self::MUTATIONS => \__('Mutations', 'gatographql'),
+            self::NESTED_MUTATIONS => \__('Nested Mutations', 'gatographql'),
+            self::SCHEMA_EXPOSE_SENSITIVE_DATA => \__('Expose Sensitive Data in the Schema', 'gatographql'),
+            self::SCHEMA_SELF_FIELDS => \__('Self Fields', 'gatographql'),
+            self::GLOBAL_ID_FIELD => \__('Global ID Field', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::SCHEMA_CONFIGURATION:
-                return \__('Customize the schema accessible to different endpoints, by applying a custom configuration (involving namespacing, access control, cache control, and others) to the grand schema', 'gatographql');
-            case self::SCHEMA_NAMESPACING:
-                return \__('Automatically namespace types with a vendor/project name, to avoid naming collisions', 'gatographql');
-            case self::RESPONSE_HEADERS:
-                return \__('Provide custom headers to add to the API response', 'gatographql');
-            case self::GLOBAL_FIELDS:
-                return \__('Fields added to all types in the schema, generally for executing functionality (not retrieving data)', 'gatographql');
-            case self::COMPOSABLE_DIRECTIVES:
-                return \__('Have directives modify the behavior of other directives', 'gatographql');
-            case self::MULTIFIELD_DIRECTIVES:
-                return \__('A single directive can be applied to multiple fields, for performance and extended use cases', 'gatographql');
-            case self::MUTATIONS:
-                return \__('Modify data by executing mutations', 'gatographql');
-            case self::NESTED_MUTATIONS:
-                return \__('Execute mutations from any type in the schema, not only from the root', 'gatographql');
-            case self::SCHEMA_EXPOSE_SENSITIVE_DATA:
-                return \__('Expose “sensitive” data elements in the schema', 'gatographql');
-            case self::SCHEMA_SELF_FIELDS:
-                return \__('Expose "self" fields in the schema', 'gatographql');
-            case self::GLOBAL_ID_FIELD:
-                return \__('Uniquely identify objects via field <code>globalID</code> on all types of the GraphQL schema', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::SCHEMA_CONFIGURATION => \__('Customize the schema accessible to different endpoints, by applying a custom configuration (involving namespacing, access control, cache control, and others) to the grand schema', 'gatographql'),
+            self::SCHEMA_NAMESPACING => \__('Automatically namespace types with a vendor/project name, to avoid naming collisions', 'gatographql'),
+            self::RESPONSE_HEADERS => \__('Provide custom headers to add to the API response', 'gatographql'),
+            self::GLOBAL_FIELDS => \__('Fields added to all types in the schema, generally for executing functionality (not retrieving data)', 'gatographql'),
+            self::COMPOSABLE_DIRECTIVES => \__('Have directives modify the behavior of other directives', 'gatographql'),
+            self::MULTIFIELD_DIRECTIVES => \__('A single directive can be applied to multiple fields, for performance and extended use cases', 'gatographql'),
+            self::MUTATIONS => \__('Modify data by executing mutations', 'gatographql'),
+            self::NESTED_MUTATIONS => \__('Execute mutations from any type in the schema, not only from the root', 'gatographql'),
+            self::SCHEMA_EXPOSE_SENSITIVE_DATA => \__('Expose “sensitive” data elements in the schema', 'gatographql'),
+            self::SCHEMA_SELF_FIELDS => \__('Expose "self" fields in the schema', 'gatographql'),
+            self::GLOBAL_ID_FIELD => \__('Uniquely identify objects via field <code>globalID</code> on all types of the GraphQL schema', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     public function isPredefinedEnabledOrDisabled(string $module): ?bool
     {
-        switch ($module) {
-            case self::GLOBAL_FIELDS:
-            case self::GLOBAL_ID_FIELD:
-                return true;
-            default:
-                return parent::isPredefinedEnabledOrDisabled($module);
-        }
+        return match ($module) {
+            self::GLOBAL_FIELDS,
+            self::GLOBAL_ID_FIELD
+                => true,
+            default
+                => parent::isPredefinedEnabledOrDisabled($module),
+        };
     }
 
     public function isHidden(string $module): bool
     {
-        switch ($module) {
-            case self::GLOBAL_ID_FIELD:
-                return true;
-            default:
-                return parent::isHidden($module);
-        }
+        return match ($module) {
+            self::GLOBAL_ID_FIELD => true,
+            default => parent::isHidden($module),
+        };
     }
 
     public function isEnabledByDefault(string $module): bool
@@ -177,19 +148,16 @@ class SchemaConfigurationFunctionalityModuleResolver extends AbstractFunctionali
          * @var ModuleConfiguration
          */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        switch ($module) {
-            case self::SCHEMA_CONFIGURATION:
-                return $moduleConfiguration->isSchemaConfigurationModuleEnabledByDefault();
-            default:
-                return parent::isEnabledByDefault($module);
-        }
+        return match ($module) {
+            self::SCHEMA_CONFIGURATION => $moduleConfiguration->isSchemaConfigurationModuleEnabledByDefault(),
+            default => parent::isEnabledByDefault($module),
+        };
     }
 
     /**
      * Default value for an option set by the module
-     * @return mixed
      */
-    public function getSettingsDefaultValue(string $module, string $option)
+    public function getSettingsDefaultValue(string $module, string $option): mixed
     {
         $useRestrictiveDefaults = BehaviorHelpers::areRestrictiveDefaultsEnabled();
         $defaultValues = [

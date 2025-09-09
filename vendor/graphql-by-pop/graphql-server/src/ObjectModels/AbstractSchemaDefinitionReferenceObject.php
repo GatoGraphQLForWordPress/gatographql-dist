@@ -7,33 +7,23 @@ use GraphQLByPoP\GraphQLServer\Facades\Registries\SchemaDefinitionReferenceRegis
 /** @internal */
 abstract class AbstractSchemaDefinitionReferenceObject implements \GraphQLByPoP\GraphQLServer\ObjectModels\SchemaDefinitionReferenceObjectInterface
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected $fullSchemaDefinition;
-    /**
-     * @var string[]
-     */
-    protected $schemaDefinitionPath;
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
     /**
      * @var array<string,mixed>
      */
-    protected $schemaDefinition;
+    protected array $schemaDefinition;
     /**
      * Build a new Schema Definition Reference Object
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath
      */
-    public function __construct(array &$fullSchemaDefinition, array $schemaDefinitionPath)
-    {
+    public function __construct(
         /** @var array<string,mixed> */
-        $this->fullSchemaDefinition = $fullSchemaDefinition;
+        protected array &$fullSchemaDefinition,
         /** @var string[] */
-        $this->schemaDefinitionPath = $schemaDefinitionPath;
+        protected array $schemaDefinitionPath
+    )
+    {
         // Retrieve this element's schema definition by iterating down its path starting from the root of the full schema definition
         $schemaDefinitionPointer =& $fullSchemaDefinition;
         foreach ($schemaDefinitionPath as $pathLevel) {

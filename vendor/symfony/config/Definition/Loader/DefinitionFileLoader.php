@@ -25,31 +25,17 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class DefinitionFileLoader extends FileLoader
 {
-    /**
-     * @var \Symfony\Component\Config\Definition\Builder\TreeBuilder
-     */
-    private $treeBuilder;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder|null
-     */
-    private $container;
-    public function __construct(TreeBuilder $treeBuilder, FileLocatorInterface $locator, ?ContainerBuilder $container = null)
+    public function __construct(private TreeBuilder $treeBuilder, FileLocatorInterface $locator, private ?ContainerBuilder $container = null)
     {
-        $this->treeBuilder = $treeBuilder;
-        $this->container = $container;
         parent::__construct($locator);
     }
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         // the loader variable is exposed to the included file below
         $loader = $this;
         $path = $this->locator->locate($resource);
         $this->setCurrentDir(\dirname($path));
-        ($nullsafeVariable1 = $this->container) ? $nullsafeVariable1->fileExists($path) : null;
+        $this->container?->fileExists($path);
         // the closure forbids access to the private scope in the included file
         $load = \Closure::bind(static function ($file) use($loader) {
             return include $file;
@@ -60,10 +46,7 @@ class DefinitionFileLoader extends FileLoader
         }
         return null;
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if (!\is_string($resource)) {
             return \false;
@@ -75,7 +58,7 @@ class DefinitionFileLoader extends FileLoader
     }
     private function executeCallback(callable $callback, DefinitionConfigurator $configurator, string $path) : void
     {
-        $callback = \Closure::fromCallable($callback);
+        $callback = $callback(...);
         $arguments = [];
         $r = new \ReflectionFunction($callback);
         foreach ($r->getParameters() as $parameter) {
@@ -83,18 +66,11 @@ class DefinitionFileLoader extends FileLoader
             if (!$reflectionType instanceof \ReflectionNamedType) {
                 throw new \InvalidArgumentException(\sprintf('Could not resolve argument "$%s" for "%s". You must typehint it (for example with "%s").', $parameter->getName(), $path, DefinitionConfigurator::class));
             }
-            switch ($reflectionType->getName()) {
-                case DefinitionConfigurator::class:
-                    $arguments[] = $configurator;
-                    break;
-                case TreeBuilder::class:
-                    $arguments[] = $this->treeBuilder;
-                    break;
-                case FileLoader::class:
-                case self::class:
-                    $arguments[] = $this;
-                    break;
-            }
+            $arguments[] = match ($reflectionType->getName()) {
+                DefinitionConfigurator::class => $configurator,
+                TreeBuilder::class => $this->treeBuilder,
+                FileLoader::class, self::class => $this,
+            };
         }
         $callback(...$arguments);
     }

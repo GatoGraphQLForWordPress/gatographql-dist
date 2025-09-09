@@ -21,13 +21,10 @@ class OperationStatusEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case OperationStatusEnum::SUCCESS:
-                return $this->__('Success', 'schema-commons');
-            case OperationStatusEnum::FAILURE:
-                return $this->__('Failure', 'schema-commons');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            OperationStatusEnum::SUCCESS => $this->__('Success', 'schema-commons'),
+            OperationStatusEnum::FAILURE => $this->__('Failure', 'schema-commons'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

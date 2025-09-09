@@ -8,13 +8,8 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class Enum extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\ArgumentValueAstInterface
 {
-    /**
-     * @var string
-     */
-    protected $enumValue;
-    public function __construct(string $enumValue, Location $location)
+    public function __construct(protected string $enumValue, Location $location)
     {
-        $this->enumValue = $enumValue;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string
@@ -28,7 +23,7 @@ class Enum extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\Arg
     /**
      * @return string
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->enumValue;
     }

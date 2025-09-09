@@ -17,14 +17,8 @@ use WP_Post;
 
 abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostType implements GraphQLEndpointCustomPostTypeInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\BlockHelpers|null
-     */
-    private $blockHelpers;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointBlockHelpers|null
-     */
-    private $endpointBlockHelpers;
+    private ?BlockHelpers $blockHelpers = null;
+    private ?EndpointBlockHelpers $endpointBlockHelpers = null;
 
     final protected function getBlockHelpers(): BlockHelpers
     {
@@ -178,9 +172,8 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
 
     /**
      * Read the options block and check the value of attribute "isEndpointEnabled"
-     * @param \WP_Post|int $postOrID
      */
-    protected function isOptionsBlockValueOn($postOrID, string $attribute, bool $default): bool
+    protected function isOptionsBlockValueOn(WP_Post|int $postOrID, string $attribute, bool $default): bool
     {
         $optionsBlockDataItem = $this->getOptionsBlockDataItem($postOrID);
         // If there was no options block, something went wrong in the post content
@@ -194,9 +187,8 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
 
     /**
      * Read the options block and check the value of attribute "isEndpointEnabled"
-     * @param \WP_Post|int $postOrID
      */
-    public function isEndpointEnabled($postOrID): bool
+    public function isEndpointEnabled(WP_Post|int $postOrID): bool
     {
         // `true` is the default option in Gutenberg, so it's not saved to the DB!
         return $this->isOptionsBlockValueOn(
@@ -208,9 +200,8 @@ abstract class AbstractGraphQLEndpointCustomPostType extends AbstractCustomPostT
 
     /**
      * @return array<string,mixed>|null Data inside the block is saved as key (string) => value
-     * @param \WP_Post|int $postOrID
      */
-    public function getOptionsBlockDataItem($postOrID): ?array
+    public function getOptionsBlockDataItem(WP_Post|int $postOrID): ?array
     {
         $endpointOptionsBlock = $this->getEndpointOptionsBlock();
         if ($endpointOptionsBlock === null) {

@@ -15,7 +15,7 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             AbstractTaxonomyTypeAPI::HOOK_QUERY,
-            \Closure::fromCallable([MetaQueryHelpers::class, 'convertMetaQuery'])
+            MetaQueryHelpers::convertMetaQuery(...)
         );
     }
 }

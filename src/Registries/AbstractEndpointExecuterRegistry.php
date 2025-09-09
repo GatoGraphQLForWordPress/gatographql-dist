@@ -12,7 +12,7 @@ abstract class AbstractEndpointExecuterRegistry implements EndpointExecuterRegis
     /**
      * @var EndpointExecuterInterface[]
      */
-    protected $endpointExecuters = [];
+    protected array $endpointExecuters = [];
 
     public function addEndpointExecuter(EndpointExecuterInterface $endpointExecuter): void
     {
@@ -34,9 +34,7 @@ abstract class AbstractEndpointExecuterRegistry implements EndpointExecuterRegis
     {
         return array_values(array_filter(
             $this->getEndpointExecuters(),
-            function (ActivableServiceInterface $service) {
-                return $service->isServiceEnabled();
-            }
+            fn (ActivableServiceInterface $service) => $service->isServiceEnabled()
         ));
     }
 }

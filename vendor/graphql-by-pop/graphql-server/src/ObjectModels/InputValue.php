@@ -8,10 +8,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasTypeSchemaDefinitionReferenceTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions
-     */
-    protected $inputValueExtensions;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions $inputValueExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

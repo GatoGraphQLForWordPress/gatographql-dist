@@ -9,13 +9,8 @@ use PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface;
 /** @internal */
 class EnumTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface
-     */
-    protected $enumTypeResolver;
-    public function __construct(EnumTypeResolverInterface $enumTypeResolver)
+    public function __construct(protected EnumTypeResolverInterface $enumTypeResolver)
     {
-        $this->enumTypeResolver = $enumTypeResolver;
         parent::__construct($enumTypeResolver);
     }
     public function getTypeKind() : string

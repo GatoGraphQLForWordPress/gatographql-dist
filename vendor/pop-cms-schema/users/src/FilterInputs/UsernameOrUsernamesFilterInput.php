@@ -11,11 +11,7 @@ class UsernameOrUsernamesFilterInput extends AbstractValueToQueryFilterInput
     {
         return 'username';
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function getValue($value)
+    protected function getValue(mixed $value) : mixed
     {
         return \is_array($value) ? $value : [$value];
     }

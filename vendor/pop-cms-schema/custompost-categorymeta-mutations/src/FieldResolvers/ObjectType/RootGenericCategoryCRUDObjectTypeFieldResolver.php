@@ -17,26 +17,11 @@ use PoP\Root\App;
 /** @internal */
 class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractRootCategoryCRUDObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\ObjectType\RootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\ObjectType\RootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\ObjectType\RootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMetaMutations\TypeResolvers\ObjectType\RootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
+    private ?RootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver $rootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver $rootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver $rootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver $rootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver = null;
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {
@@ -93,39 +78,17 @@ class RootGenericCategoryCRUDObjectTypeFieldResolver extends AbstractRootCategor
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCategoryMetaMutations = $moduleConfiguration->usePayloadableCategoryMetaMutations();
         if ($usePayloadableCategoryMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $categoryEntityName . 'Meta':
-                case 'add' . $categoryEntityName . 'Metas':
-                case 'add' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'update' . $categoryEntityName . 'Meta':
-                case 'update' . $categoryEntityName . 'Metas':
-                case 'update' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'delete' . $categoryEntityName . 'Meta':
-                case 'delete' . $categoryEntityName . 'Metas':
-                case 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver();
-                case 'set' . $categoryEntityName . 'Meta':
-                case 'set' . $categoryEntityName . 'Metas':
-                case 'set' . $categoryEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $categoryEntityName . 'Meta', 'add' . $categoryEntityName . 'Metas', 'add' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootAddGenericCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'update' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootUpdateGenericCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'delete' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootDeleteGenericCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                'set' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'MetaMutationPayloadObjects' => $this->getRootSetGenericCategoryTermMetaMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'add' . $categoryEntityName . 'Meta':
-            case 'add' . $categoryEntityName . 'Metas':
-            case 'update' . $categoryEntityName . 'Meta':
-            case 'update' . $categoryEntityName . 'Metas':
-            case 'delete' . $categoryEntityName . 'Meta':
-            case 'delete' . $categoryEntityName . 'Metas':
-            case 'set' . $categoryEntityName . 'Meta':
-            case 'set' . $categoryEntityName . 'Metas':
-                return $this->getGenericCategoryObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $categoryEntityName . 'Meta', 'add' . $categoryEntityName . 'Metas', 'update' . $categoryEntityName . 'Meta', 'update' . $categoryEntityName . 'Metas', 'delete' . $categoryEntityName . 'Meta', 'delete' . $categoryEntityName . 'Metas', 'set' . $categoryEntityName . 'Meta', 'set' . $categoryEntityName . 'Metas' => $this->getGenericCategoryObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

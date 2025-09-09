@@ -28,7 +28,7 @@ use function post_type_supports;
 class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInterface
 {
     public const HOOK_QUERY = __CLASS__ . ':query';
-    public const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
+    public final const HOOK_ORDERBY_QUERY_ARG_VALUE = __CLASS__ . ':orderby-query-arg-value';
 
     /**
      * Indicates if the passed object is of type Comment
@@ -205,26 +205,17 @@ class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInter
         return $count;
     }
 
-    /**
-     * @param string|int $comment_id
-     */
-    public function getComment($comment_id): ?object
+    public function getComment(string|int $comment_id): ?object
     {
         return get_comment($comment_id);
     }
 
-    /**
-     * @param string|int $post_id
-     */
-    public function getCommentNumber($post_id): int
+    public function getCommentNumber(string|int $post_id): int
     {
         return (int) get_comments_number((int) $post_id);
     }
 
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function areCommentsOpen($customPostObjectOrID): bool
+    public function areCommentsOpen(string|int|object $customPostObjectOrID): bool
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */
@@ -238,32 +229,16 @@ class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInter
 
     protected function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case CommentOrderBy::ID:
-                $orderBy = 'comment_ID';
-                break;
-            case CommentOrderBy::DATE:
-                $orderBy = 'comment_date_gmt';
-                break;
-            case CommentOrderBy::CONTENT:
-                $orderBy = 'comment_content';
-                break;
-            case CommentOrderBy::PARENT:
-                $orderBy = 'comment_parent';
-                break;
-            case CommentOrderBy::CUSTOM_POST:
-                $orderBy = 'comment_post_ID';
-                break;
-            case CommentOrderBy::TYPE:
-                $orderBy = 'comment_type';
-                break;
-            case CommentOrderBy::STATUS:
-                $orderBy = 'comment_approved';
-                break;
-            default:
-                $orderBy = $orderBy;
-                break;
-        }
+        $orderBy = match ($orderBy) {
+            CommentOrderBy::ID => 'comment_ID',
+            CommentOrderBy::DATE => 'comment_date_gmt',
+            CommentOrderBy::CONTENT => 'comment_content',
+            CommentOrderBy::PARENT => 'comment_parent',
+            CommentOrderBy::CUSTOM_POST => 'comment_post_ID',
+            CommentOrderBy::TYPE => 'comment_type',
+            CommentOrderBy::STATUS => 'comment_approved',
+            default => $orderBy,
+        };
         return App::applyFilters(
             self::HOOK_ORDERBY_QUERY_ARG_VALUE,
             $orderBy
@@ -280,10 +255,7 @@ class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInter
         /** @var WP_Comment $comment */
         return $comment->comment_content;
     }
-    /**
-     * @return string|int
-     */
-    public function getCommentCustomPostID(object $comment)
+    public function getCommentCustomPostID(object $comment): string|int
     {
         /** @var WP_Comment */
         $comment = $comment;
@@ -314,10 +286,7 @@ class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInter
         };
         return CommentStatus::HOLD;
     }
-    /**
-     * @return string|int|null
-     */
-    public function getCommentParent(object $comment)
+    public function getCommentParent(object $comment): string|int|null
     {
         /** @var WP_Comment */
         $comment = $comment;
@@ -333,10 +302,7 @@ class CommentTypeAPI extends AbstractBasicService implements CommentTypeAPIInter
         // If the GMT date is stored as "0000-00-00 00:00:00", then use the non-GMT date
         return $gmt && ($comment->comment_date_gmt !== "0000-00-00 00:00:00") ? $comment->comment_date_gmt : $comment->comment_date;
     }
-    /**
-     * @return string|int
-     */
-    public function getCommentID(object $comment)
+    public function getCommentID(object $comment): string|int
     {
         /** @var WP_Comment */
         $comment = $comment;

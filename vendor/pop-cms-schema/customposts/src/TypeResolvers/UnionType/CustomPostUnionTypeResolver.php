@@ -11,14 +11,8 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceType
 /** @internal */
 class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType\CustomPostUnionTypeDataLoader|null
-     */
-    private $customPostUnionTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver|null
-     */
-    private $customPostInterfaceTypeResolver;
+    private ?CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader = null;
+    private ?CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver = null;
     protected final function getCustomPostUnionTypeDataLoader() : CustomPostUnionTypeDataLoader
     {
         if ($this->customPostUnionTypeDataLoader === null) {

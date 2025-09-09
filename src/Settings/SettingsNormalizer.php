@@ -10,10 +10,7 @@ use PoP\Root\Services\AbstractBasicService;
 
 class SettingsNormalizer extends AbstractBasicService implements SettingsNormalizerInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -34,8 +31,10 @@ class SettingsNormalizer extends AbstractBasicService implements SettingsNormali
      * @param array<string,string> $values All values submitted, each under its optionName as key
      * @return array<string,mixed> Normalized values
      */
-    public function normalizeSettingsByCategory(array $values, string $settingsCategory): array
-    {
+    public function normalizeSettingsByCategory(
+        array $values,
+        string $settingsCategory,
+    ): array {
         $settingsItems = $this->getAllSettingsItems($settingsCategory);
         return $this->normalizeSettings($values, $settingsItems);
     }
@@ -49,8 +48,10 @@ class SettingsNormalizer extends AbstractBasicService implements SettingsNormali
      * @param array<string,string> $values All values submitted, each under its optionName as key
      * @return array<string,mixed> Normalized values
      */
-    public function normalizeSettingsByModule(array $values, string $module): array
-    {
+    public function normalizeSettingsByModule(
+        array $values,
+        string $module,
+    ): array {
         $settingsItems = [$this->getSettingsItem($module)];
         return $this->normalizeSettings($values, $settingsItems);
     }
@@ -65,9 +66,12 @@ class SettingsNormalizer extends AbstractBasicService implements SettingsNormali
      * @param array<array<string, mixed>> $settingsItems Each item is an array of prop => value
      * @return array<string,mixed> Normalized values
      */
-    protected function normalizeSettings(array $values, array $settingsItems): array
-    {
+    protected function normalizeSettings(
+        array $values,
+        array $settingsItems,
+    ): array {
         $moduleRegistry = $this->getModuleRegistry();
+
         /**
          * All form fields will be provided via the Settings form.
          * If they are not, then this method has been invoked by
@@ -97,6 +101,7 @@ class SettingsNormalizer extends AbstractBasicService implements SettingsNormali
             }
             return $values;
         }
+
         foreach ($settingsItems as $item) {
             $module = $item['module'];
             $moduleResolver = $moduleRegistry->getModuleResolver($module);
@@ -158,9 +163,7 @@ class SettingsNormalizer extends AbstractBasicService implements SettingsNormali
                     /** @var mixed[] */
                     $arrayValue = $values[$name];
                     $values[$name] = array_map(
-                        function ($value) {
-                            return (int) $value;
-                        },
+                        fn (int|string $value) => (int) $value,
                         $arrayValue
                     );
                 }

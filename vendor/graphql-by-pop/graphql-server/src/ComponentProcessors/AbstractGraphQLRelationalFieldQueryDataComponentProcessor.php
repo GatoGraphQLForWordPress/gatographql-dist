@@ -13,10 +13,7 @@ use SplObjectStorage;
 /** @internal */
 abstract class AbstractGraphQLRelationalFieldQueryDataComponentProcessor extends AbstractRelationalFieldQueryDataComponentProcessor
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\QueryResolution\GraphQLQueryASTTransformationServiceInterface|null
-     */
-    private $graphQLQueryASTTransformationService;
+    private ?GraphQLQueryASTTransformationServiceInterface $graphQLQueryASTTransformationService = null;
     protected final function getGraphQLQueryASTTransformationService() : GraphQLQueryASTTransformationServiceInterface
     {
         if ($this->graphQLQueryASTTransformationService === null) {

@@ -11,10 +11,7 @@ use PoPCMSSchema\UserStateMutations\Constants\MutationInputProperties;
 /** @internal */
 class LoginCredentialsInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -37,23 +34,17 @@ class LoginCredentialsInputObjectTypeResolver extends AbstractInputObjectTypeRes
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::USERNAME_OR_EMAIL:
-                return $this->__('The username or email', 'user-state-mutations');
-            case MutationInputProperties::PASSWORD:
-                return $this->__('The password', 'user-state-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::USERNAME_OR_EMAIL => $this->__('The username or email', 'user-state-mutations'),
+            MutationInputProperties::PASSWORD => $this->__('The password', 'user-state-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::USERNAME_OR_EMAIL:
-            case MutationInputProperties::PASSWORD:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::USERNAME_OR_EMAIL, MutationInputProperties::PASSWORD => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

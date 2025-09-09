@@ -11,14 +11,8 @@ use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeR
 /** @internal */
 class PostCategoryObjectTypeDataLoader extends AbstractCategoryObjectTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {

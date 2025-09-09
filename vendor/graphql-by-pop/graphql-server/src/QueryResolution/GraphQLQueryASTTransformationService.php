@@ -27,7 +27,7 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
      *
      * @var SplObjectStorage<Document,array<string,RelationalField>>
      */
-    private $fieldInstanceContainer;
+    private SplObjectStorage $fieldInstanceContainer;
     public function __construct()
     {
         parent::__construct();

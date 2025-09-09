@@ -94,7 +94,7 @@ trait QueryDataComponentProcessorTrait
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         // Prepare the Query to get data from the DB
         $datasource = $data_properties[\PoP\ComponentModel\ComponentProcessors\DataloadingConstants::DATASOURCE] ?? null;
@@ -102,9 +102,7 @@ trait QueryDataComponentProcessorTrait
             // Merge with $_POST/$_GET, so that params passed through the URL can be used for the query (eg: ?limit=5)
             // But whitelist the params that can be taken, to avoid hackers peering inside the system and getting custom data (eg: params "include", "post-status" => "draft", etc)
             $whitelisted_params = (array) App::applyFilters(HookNames::QUERYDATA_WHITELISTEDPARAMS, [PaginationParams::PAGE_NUMBER, PaginationParams::LIMIT]);
-            $params_from_request = \array_filter(\array_merge(App::getRequest()->query->all(), App::getRequest()->request->all()), function (string $param) use($whitelisted_params) {
-                return \in_array($param, $whitelisted_params);
-            }, \ARRAY_FILTER_USE_KEY);
+            $params_from_request = \array_filter(\array_merge(App::getRequest()->query->all(), App::getRequest()->request->all()), fn(string $param) => \in_array($param, $whitelisted_params), \ARRAY_FILTER_USE_KEY);
             // Finally merge it into the data properties
             $data_properties[\PoP\ComponentModel\ComponentProcessors\DataloadingConstants::QUERYARGS] = \array_merge($data_properties[\PoP\ComponentModel\ComponentProcessors\DataloadingConstants::QUERYARGS], $params_from_request);
         }
@@ -129,7 +127,7 @@ trait QueryDataComponentProcessorTrait
      * @param array<string,mixed>|null $executed
      * @return mixed[]
      */
-    public function addQueryHandlerDatasetmeta(array $ret, Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function addQueryHandlerDatasetmeta(array $ret, Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array
     {
         $queryHandler = $this->getQueryInputOutputHandler($component);
         if ($queryHandler === null) {

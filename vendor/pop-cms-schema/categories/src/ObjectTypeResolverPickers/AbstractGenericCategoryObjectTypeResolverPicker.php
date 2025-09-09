@@ -17,23 +17,14 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
     /**
      * @var string[]|null
      */
-    protected $genericCategoryTaxonomies;
+    protected ?array $genericCategoryTaxonomies = null;
     /**
      * @var string[]|null
      */
-    protected $nonGenericCategoryTaxonomies;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\ObjectType\GenericCategoryObjectTypeResolver|null
-     */
-    private $genericCategoryObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Categories\Registries\CategoryObjectTypeResolverPickerRegistryInterface|null
-     */
-    private $categoryObjectTypeResolverPickerRegistry;
+    protected ?array $nonGenericCategoryTaxonomies = null;
+    private ?GenericCategoryObjectTypeResolver $genericCategoryObjectTypeResolver = null;
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryTypeAPI = null;
+    private ?CategoryObjectTypeResolverPickerRegistryInterface $categoryObjectTypeResolverPickerRegistry = null;
     protected final function getGenericCategoryObjectTypeResolver() : GenericCategoryObjectTypeResolver
     {
         if ($this->genericCategoryObjectTypeResolver === null) {
@@ -69,10 +60,7 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
     {
         return $this->getQueryableCategoryTypeAPI()->isInstanceOfCategoryType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getQueryableCategoryTypeAPI()->categoryExists($objectID);
     }
@@ -134,7 +122,7 @@ abstract class AbstractGenericCategoryObjectTypeResolverPicker extends AbstractO
             if ($categoryObjectTypeResolverPicker === $this) {
                 continue;
             }
-            $nonGenericCategoryTaxonomies = \array_merge($nonGenericCategoryTaxonomies, $categoryObjectTypeResolverPicker->getCategoryTaxonomies());
+            $nonGenericCategoryTaxonomies = [...$nonGenericCategoryTaxonomies, ...$categoryObjectTypeResolverPicker->getCategoryTaxonomies()];
         }
         return $nonGenericCategoryTaxonomies;
     }

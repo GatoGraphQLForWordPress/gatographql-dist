@@ -10,14 +10,8 @@ use PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface;
 /** @internal */
 class MenuObjectTypeResolver extends AbstractObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Menus\RelationalTypeDataLoaders\ObjectType\MenuObjectTypeDataLoader|null
-     */
-    private $menuObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeAPIs\MenuTypeAPIInterface|null
-     */
-    private $menuTypeAPI;
+    private ?MenuObjectTypeDataLoader $menuObjectTypeDataLoader = null;
+    private ?MenuTypeAPIInterface $menuTypeAPI = null;
     protected final function getMenuObjectTypeDataLoader() : MenuObjectTypeDataLoader
     {
         if ($this->menuObjectTypeDataLoader === null) {
@@ -44,10 +38,7 @@ class MenuObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return $this->__('Representation of a navigation menu', 'menus');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         $menu = $object;
         return $this->getMenuTypeAPI()->getMenuID($menu);

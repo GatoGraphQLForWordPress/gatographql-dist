@@ -19,14 +19,8 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
 {
     use NoDocsFolderPluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\DataProviders\TutorialLessonDataProvider|null
-     */
-    private $tutorialLessonDataProvider;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Aggregators\BundleExtensionAggregator|null
-     */
-    private $bundleExtensionAggregator;
+    private ?TutorialLessonDataProvider $tutorialLessonDataProvider = null;
+    private ?BundleExtensionAggregator $bundleExtensionAggregator = null;
 
     final protected function getTutorialLessonDataProvider(): TutorialLessonDataProvider
     {
@@ -91,22 +85,30 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
     protected function getMarkdownContentOptions(): array
     {
         $siteURL = str_replace(['https://', 'http://'], '', \get_site_url());
-        return array_merge(parent::getMarkdownContentOptions(), [ContentParserOptions::REPLACEMENTS => [
-            'mysite.com' => $siteURL,
-        ]]);
+        return [
+            ...parent::getMarkdownContentOptions(),
+            ContentParserOptions::REPLACEMENTS => [
+                'mysite.com' => $siteURL,
+            ],
+        ];
     }
 
     /**
      * @param array{0:string,1:string,2?:string[],3?:string[]} $entry
      */
-    protected function getEntryContent(string $entryContent, array $entry): string
-    {
+    protected function getEntryContent(
+        string $entryContent,
+        array $entry,
+    ): string {
         $entryExtensionModules = $entry[2] ?? [];
         if ($entryExtensionModules === []) {
             return $entryContent;
         }
+
         $messageExtensionPlaceholder = '<ul><li>%s</li></ul>';
+
         $extensionHTMLItems = $this->getExtensionHTMLItems($entryExtensionModules);
+
         $messageBundleExtensionContent = '';
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
@@ -127,9 +129,11 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
                 )
             );
         }
+
         if (!PluginStaticModuleConfiguration::printReferencedExtensionsInSchemaTutorialDocs()) {
             return $entryContent;
         }
+
         $messageHTML = sprintf(
             \__('<strong>🔗 %s</strong>: %s', 'gatographql'),
             \__('Extensions referenced in this tutorial lesson', 'gatographql'),
@@ -147,6 +151,7 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
                 )
             )
         );
+
         return sprintf(
             '<div class="%s">%s</div>',
             'extension-highlight',
@@ -158,8 +163,9 @@ class TutorialMenuPage extends AbstractVerticalTabDocsMenuPage
      * @param string[] $entryExtensionModules
      * @return string[]
      */
-    protected function getExtensionHTMLItems(array $entryExtensionModules): array
-    {
+    protected function getExtensionHTMLItems(
+        array $entryExtensionModules,
+    ): array {
         $extensionHTMLItems = [];
         foreach ($entryExtensionModules as $entryExtensionModule) {
             /** @var ExtensionModuleResolverInterface */

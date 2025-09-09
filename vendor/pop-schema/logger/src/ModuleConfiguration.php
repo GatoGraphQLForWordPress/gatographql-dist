@@ -22,7 +22,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoPSchema\Logger\Environment::ENABLE_LOGS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -32,7 +32,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPSchema\Logger\Environment::ENABLE_LOGS_BY_SEVERITY;
         $defaultValue = [LoggerSeverity::ERROR, LoggerSeverity::WARNING, LoggerSeverity::INFO, LoggerSeverity::DEBUG];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

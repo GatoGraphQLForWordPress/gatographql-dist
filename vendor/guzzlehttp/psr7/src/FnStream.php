@@ -11,6 +11,7 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
  * to create a concrete class for a simple extension point.
  * @internal
  */
+#[\AllowDynamicProperties]
 final class FnStream implements StreamInterface
 {
     private const SLOTS = ['__toString', 'close', 'detach', 'rewind', 'getSize', 'tell', 'eof', 'isSeekable', 'seek', 'isWritable', 'write', 'isReadable', 'read', 'getContents', 'getMetadata'];

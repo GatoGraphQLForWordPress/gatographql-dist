@@ -31,58 +31,19 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\TypeResolvers\InputObjectType\TagTermAddMetaInputObjectTypeResolver|null
-     */
-    private $tagTermAddMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\TypeResolvers\InputObjectType\TagTermDeleteMetaInputObjectTypeResolver|null
-     */
-    private $tagTermDeleteMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\TypeResolvers\InputObjectType\TagTermSetMetaInputObjectTypeResolver|null
-     */
-    private $tagTermSetMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\TypeResolvers\InputObjectType\TagTermUpdateMetaInputObjectTypeResolver|null
-     */
-    private $tagTermUpdateMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\AddTagTermMetaMutationResolver|null
-     */
-    private $addTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\DeleteTagTermMetaMutationResolver|null
-     */
-    private $deleteTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\SetTagTermMetaMutationResolver|null
-     */
-    private $setTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\UpdateTagTermMetaMutationResolver|null
-     */
-    private $updateTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\PayloadableDeleteTagTermMetaMutationResolver|null
-     */
-    private $payloadableDeleteTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\PayloadableSetTagTermMetaMutationResolver|null
-     */
-    private $payloadableSetTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\PayloadableUpdateTagTermMetaMutationResolver|null
-     */
-    private $payloadableUpdateTagTermMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\TagMetaMutations\MutationResolvers\PayloadableAddTagTermMetaMutationResolver|null
-     */
-    private $payloadableAddTagTermMetaMutationResolver;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
+    private ?TagTermAddMetaInputObjectTypeResolver $tagTermAddMetaInputObjectTypeResolver = null;
+    private ?TagTermDeleteMetaInputObjectTypeResolver $tagTermDeleteMetaInputObjectTypeResolver = null;
+    private ?TagTermSetMetaInputObjectTypeResolver $tagTermSetMetaInputObjectTypeResolver = null;
+    private ?TagTermUpdateMetaInputObjectTypeResolver $tagTermUpdateMetaInputObjectTypeResolver = null;
+    private ?AddTagTermMetaMutationResolver $addTagTermMetaMutationResolver = null;
+    private ?DeleteTagTermMetaMutationResolver $deleteTagTermMetaMutationResolver = null;
+    private ?SetTagTermMetaMutationResolver $setTagTermMetaMutationResolver = null;
+    private ?UpdateTagTermMetaMutationResolver $updateTagTermMetaMutationResolver = null;
+    private ?PayloadableDeleteTagTermMetaMutationResolver $payloadableDeleteTagTermMetaMutationResolver = null;
+    private ?PayloadableSetTagTermMetaMutationResolver $payloadableSetTagTermMetaMutationResolver = null;
+    private ?PayloadableUpdateTagTermMetaMutationResolver $payloadableUpdateTagTermMetaMutationResolver = null;
+    private ?PayloadableAddTagTermMetaMutationResolver $payloadableAddTagTermMetaMutationResolver = null;
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -209,18 +170,13 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->__('Add a tag term meta entry', 'tagmeta-mutations');
-            case 'deleteMeta':
-                return $this->__('Delete a tag term meta entry', 'tagmeta-mutations');
-            case 'setMeta':
-                return $this->__('Set meta entries to a a tag term', 'tagmeta-mutations');
-            case 'updateMeta':
-                return $this->__('Update a tag term meta entry', 'tagmeta-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->__('Add a tag term meta entry', 'tagmeta-mutations'),
+            'deleteMeta' => $this->__('Delete a tag term meta entry', 'tagmeta-mutations'),
+            'setMeta' => $this->__('Set meta entries to a a tag term', 'tagmeta-mutations'),
+            'updateMeta' => $this->__('Update a tag term meta entry', 'tagmeta-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -228,55 +184,35 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMetaMutations = $moduleConfiguration->usePayloadableTagMetaMutations();
         if (!$usePayloadableTagMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return SchemaTypeModifiers::NONE;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => SchemaTypeModifiers::NONE,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-            case 'deleteMeta':
-            case 'setMeta':
-            case 'updateMeta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'addMeta':
-                return ['input' => $this->getTagTermAddMetaInputObjectTypeResolver()];
-            case 'deleteMeta':
-                return ['input' => $this->getTagTermDeleteMetaInputObjectTypeResolver()];
-            case 'setMeta':
-                return ['input' => $this->getTagTermSetMetaInputObjectTypeResolver()];
-            case 'updateMeta':
-                return ['input' => $this->getTagTermUpdateMetaInputObjectTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => ['input' => $this->getTagTermAddMetaInputObjectTypeResolver()],
+            'deleteMeta' => ['input' => $this->getTagTermDeleteMetaInputObjectTypeResolver()],
+            'setMeta' => ['input' => $this->getTagTermSetMetaInputObjectTypeResolver()],
+            'updateMeta' => ['input' => $this->getTagTermUpdateMetaInputObjectTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['addMeta' => 'input']:
-            case ['deleteMeta' => 'input']:
-            case ['setMeta' => 'input']:
-            case ['updateMeta' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['addMeta' => 'input'], ['deleteMeta' => 'input'], ['setMeta' => 'input'], ['updateMeta' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     /**
      * Validated the mutation on the object because the ID
@@ -317,18 +253,13 @@ abstract class AbstractTagObjectTypeFieldResolver extends AbstractObjectTypeFiel
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableTagMetaMutations = $moduleConfiguration->usePayloadableTagMetaMutations();
-        switch ($fieldName) {
-            case 'addMeta':
-                return $usePayloadableTagMetaMutations ? $this->getPayloadableAddTagTermMetaMutationResolver() : $this->getAddTagTermMetaMutationResolver();
-            case 'updateMeta':
-                return $usePayloadableTagMetaMutations ? $this->getPayloadableUpdateTagTermMetaMutationResolver() : $this->getUpdateTagTermMetaMutationResolver();
-            case 'deleteMeta':
-                return $usePayloadableTagMetaMutations ? $this->getPayloadableDeleteTagTermMetaMutationResolver() : $this->getDeleteTagTermMetaMutationResolver();
-            case 'setMeta':
-                return $usePayloadableTagMetaMutations ? $this->getPayloadableSetTagTermMetaMutationResolver() : $this->getSetTagTermMetaMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $usePayloadableTagMetaMutations ? $this->getPayloadableAddTagTermMetaMutationResolver() : $this->getAddTagTermMetaMutationResolver(),
+            'updateMeta' => $usePayloadableTagMetaMutations ? $this->getPayloadableUpdateTagTermMetaMutationResolver() : $this->getUpdateTagTermMetaMutationResolver(),
+            'deleteMeta' => $usePayloadableTagMetaMutations ? $this->getPayloadableDeleteTagTermMetaMutationResolver() : $this->getDeleteTagTermMetaMutationResolver(),
+            'setMeta' => $usePayloadableTagMetaMutations ? $this->getPayloadableSetTagTermMetaMutationResolver() : $this->getSetTagTermMetaMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]

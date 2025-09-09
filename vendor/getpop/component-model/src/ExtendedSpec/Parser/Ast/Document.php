@@ -14,14 +14,8 @@ use PoP\Root\Facades\Instances\InstanceManagerFacade;
 /** @internal */
 class Document extends AbstractDocument
 {
-    /**
-     * @var \PoP\ComponentModel\Registries\DynamicVariableDefinerDirectiveRegistryInterface|null
-     */
-    private $dynamicVariableDefinerDirectiveRegistry;
-    /**
-     * @var \PoP\ComponentModel\Registries\OperationDependencyDefinerDirectiveRegistryInterface|null
-     */
-    private $operationDependencyDefinerDirectiveRegistry;
+    private ?DynamicVariableDefinerDirectiveRegistryInterface $dynamicVariableDefinerDirectiveRegistry = null;
+    private ?OperationDependencyDefinerDirectiveRegistryInterface $operationDependencyDefinerDirectiveRegistry = null;
     protected final function getDynamicVariableDefinerDirectiveRegistry() : DynamicVariableDefinerDirectiveRegistryInterface
     {
         if ($this->dynamicVariableDefinerDirectiveRegistry === null) {
@@ -58,9 +52,7 @@ class Document extends AbstractDocument
             return null;
         }
         $exportUnderVariableNameArgumentNames = $dynamicVariableDefinerFieldDirectiveResolver->getExportUnderVariableNameArgumentNames();
-        return \array_values(\array_filter(\array_map(function (string $exportUnderVariableNameArgumentName) use($directive) {
-            return $directive->getArgument($exportUnderVariableNameArgumentName);
-        }, $exportUnderVariableNameArgumentNames)));
+        return \array_values(\array_filter(\array_map(fn(string $exportUnderVariableNameArgumentName) => $directive->getArgument($exportUnderVariableNameArgumentName), $exportUnderVariableNameArgumentNames)));
     }
     protected function isOperationDependencyDefinerDirective(Directive $directive) : bool
     {

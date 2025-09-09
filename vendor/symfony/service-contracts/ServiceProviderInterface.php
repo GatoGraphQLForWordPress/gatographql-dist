@@ -25,7 +25,7 @@ interface ServiceProviderInterface extends ContainerInterface
     /**
      * @return T
      */
-    public function get(string $id);
+    public function get(string $id) : mixed;
     public function has(string $id) : bool;
     /**
      * Returns an associative array of service types keyed by the identifiers provided by the current container.

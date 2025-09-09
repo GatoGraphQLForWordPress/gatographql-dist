@@ -24,27 +24,17 @@ class MetadataBag implements SessionBagInterface
     public const CREATED = 'c';
     public const UPDATED = 'u';
     public const LIFETIME = 'l';
-    /**
-     * @var string
-     */
-    private $name = '__metadata';
-    /**
-     * @var string
-     */
-    private $storageKey;
+    private string $name = '__metadata';
+    private string $storageKey;
     /**
      * @var array
      */
     protected $meta = [self::CREATED => 0, self::UPDATED => 0, self::LIFETIME => 0];
     /**
      * Unix timestamp.
-     * @var int
      */
-    private $lastUsed;
-    /**
-     * @var int
-     */
-    private $updateThreshold;
+    private int $lastUsed;
+    private int $updateThreshold;
     /**
      * @param string $storageKey      The key used to store bag in the session
      * @param int    $updateThreshold The time to wait between two UPDATED updates
@@ -113,10 +103,7 @@ class MetadataBag implements SessionBagInterface
     {
         return $this->lastUsed;
     }
-    /**
-     * @return mixed
-     */
-    public function clear()
+    public function clear() : mixed
     {
         // nothing to do
         return null;

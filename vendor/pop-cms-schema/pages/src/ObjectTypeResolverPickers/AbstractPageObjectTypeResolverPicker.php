@@ -10,14 +10,8 @@ use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 /** @internal */
 abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -44,10 +38,7 @@ abstract class AbstractPageObjectTypeResolverPicker extends AbstractObjectTypeRe
     {
         return $this->getPageTypeAPI()->isInstanceOfPageType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getPageTypeAPI()->pageExists($objectID);
     }

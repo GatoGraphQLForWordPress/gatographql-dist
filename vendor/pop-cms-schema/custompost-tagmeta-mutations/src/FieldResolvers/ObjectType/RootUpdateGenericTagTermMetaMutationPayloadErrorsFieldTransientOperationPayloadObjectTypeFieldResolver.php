@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class RootUpdateGenericTagTermMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostTagMetaMutations\TypeResolvers\UnionType\RootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver;
+    private ?RootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver $rootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver() : RootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootUpdateGenericTagTermMetaMutationErrorPayloadUnionTypeResolver === null) {

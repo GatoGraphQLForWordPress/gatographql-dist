@@ -16,14 +16,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
 /** @internal */
 final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $aliases = [];
+    protected bool $skipScalars = \true;
+    private array $aliases = [];
     public function process(ContainerBuilder $container) : void
     {
         foreach ($container->findTaggedServiceIds('container.private') as $id => $tags) {
@@ -43,11 +37,7 @@ final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
         }
         parent::process($container);
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Reference && isset($this->aliases[$id = (string) $value])) {
             return new Reference($this->aliases[$id], $value->getInvalidBehavior());

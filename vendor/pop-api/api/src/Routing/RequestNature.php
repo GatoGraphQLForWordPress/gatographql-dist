@@ -6,5 +6,5 @@ namespace PoPAPI\API\Routing;
 /** @internal */
 class RequestNature
 {
-    public const QUERY_ROOT = 'query-root';
+    public final const QUERY_ROOT = 'query-root';
 }

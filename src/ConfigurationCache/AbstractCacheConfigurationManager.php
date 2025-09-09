@@ -23,18 +23,12 @@ use function sanitize_file_name;
  */
 abstract class AbstractCacheConfigurationManager extends AbstractBasicService implements CacheConfigurationManagerInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
+    private ?EndpointHelpers $endpointHelpers = null;
 
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
     final public function setEndpointHelpers(EndpointHelpers $endpointHelpers): void
     {

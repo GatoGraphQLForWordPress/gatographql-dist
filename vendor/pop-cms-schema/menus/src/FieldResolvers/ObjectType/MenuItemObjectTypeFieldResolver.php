@@ -23,30 +23,12 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Menus\RuntimeRegistries\MenuItemRuntimeRegistryInterface|null
-     */
-    private $menuItemRuntimeRegistry;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface|null
-     */
-    private $cmsHelperService;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuItemObjectTypeResolver|null
-     */
-    private $menuItemObjectTypeResolver;
+    private ?MenuItemRuntimeRegistryInterface $menuItemRuntimeRegistry = null;
+    private ?CMSHelperServiceInterface $cmsHelperService = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?MenuItemObjectTypeResolver $menuItemObjectTypeResolver = null;
     protected final function getMenuItemRuntimeRegistry() : MenuItemRuntimeRegistryInterface
     {
         if ($this->menuItemRuntimeRegistry === null) {
@@ -145,80 +127,48 @@ class MenuItemObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'children':
-                return $this->getMenuItemObjectTypeResolver();
-            case 'localURLPath':
-                return $this->getStringScalarTypeResolver();
-            case 'label':
-                return $this->getStringScalarTypeResolver();
-            case 'title':
-                return $this->getStringScalarTypeResolver();
-            case 'rawTitle':
-                return $this->getStringScalarTypeResolver();
-            case 'url':
-                return $this->getURLScalarTypeResolver();
-            case 'classes':
-                return $this->getStringScalarTypeResolver();
-            case 'target':
-                return $this->getStringScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'objectID':
-                return $this->getIDScalarTypeResolver();
-            case 'parentID':
-                return $this->getIDScalarTypeResolver();
-            case 'linkRelationship':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'children' => $this->getMenuItemObjectTypeResolver(),
+            'localURLPath' => $this->getStringScalarTypeResolver(),
+            'label' => $this->getStringScalarTypeResolver(),
+            'title' => $this->getStringScalarTypeResolver(),
+            'rawTitle' => $this->getStringScalarTypeResolver(),
+            'url' => $this->getURLScalarTypeResolver(),
+            'classes' => $this->getStringScalarTypeResolver(),
+            'target' => $this->getStringScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'objectID' => $this->getIDScalarTypeResolver(),
+            'parentID' => $this->getIDScalarTypeResolver(),
+            'linkRelationship' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'children':
-            case 'classes':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'children', 'classes' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'children':
-                return $this->__('Menu item children items', 'menus');
-            case 'label':
-                return $this->__('Menu item label', 'menus');
-            case 'title':
-                return $this->__('Menu item title', 'menus');
-            case 'rawTitle':
-                return $this->__('Menu item title in raw format (as it exists in the database)', 'menus');
-            case 'localURLPath':
-                return $this->__('Path of a local URL, or null if external URL', 'menus');
-            case 'url':
-                return $this->__('Menu item URL', 'menus');
-            case 'classes':
-                return $this->__('Menu item classes', 'menus');
-            case 'target':
-                return $this->__('Menu item target', 'menus');
-            case 'description':
-                return $this->__('Menu item additional attributes', 'menus');
-            case 'objectID':
-                return $this->__('ID of the object linked to by the menu item ', 'menus');
-            case 'parentID':
-                return $this->__('Menu item\'s parent ID', 'menus');
-            case 'linkRelationship':
-                return $this->__('Link relationship (XFN)', 'menus');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'children' => $this->__('Menu item children items', 'menus'),
+            'label' => $this->__('Menu item label', 'menus'),
+            'title' => $this->__('Menu item title', 'menus'),
+            'rawTitle' => $this->__('Menu item title in raw format (as it exists in the database)', 'menus'),
+            'localURLPath' => $this->__('Path of a local URL, or null if external URL', 'menus'),
+            'url' => $this->__('Menu item URL', 'menus'),
+            'classes' => $this->__('Menu item classes', 'menus'),
+            'target' => $this->__('Menu item target', 'menus'),
+            'description' => $this->__('Menu item additional attributes', 'menus'),
+            'objectID' => $this->__('ID of the object linked to by the menu item ', 'menus'),
+            'parentID' => $this->__('Menu item\'s parent ID', 'menus'),
+            'linkRelationship' => $this->__('Link relationship (XFN)', 'menus'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var MenuItem */
         $menuItem = $object;

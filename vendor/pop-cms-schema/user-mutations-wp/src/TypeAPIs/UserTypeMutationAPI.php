@@ -12,10 +12,7 @@ use function user_can;
 
 class UserTypeMutationAPI extends AbstractBasicService implements UserTypeMutationAPIInterface
 {
-    /**
-     * @param string|int $userID
-     */
-    public function canLoggedInUserEditUser($userID): bool
+    public function canLoggedInUserEditUser(string|int $userID): bool
     {
         $loggedInUserID = App::getState('current-user-id');
         return ((int) $loggedInUserID === (int) $userID)

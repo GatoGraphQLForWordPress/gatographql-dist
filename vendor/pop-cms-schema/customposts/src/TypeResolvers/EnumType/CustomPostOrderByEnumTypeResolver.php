@@ -21,15 +21,11 @@ class CustomPostOrderByEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case CustomPostOrderBy::ID:
-                return $this->__('Order by ID', 'users');
-            case CustomPostOrderBy::TITLE:
-                return $this->__('Order by title', 'users');
-            case CustomPostOrderBy::DATE:
-                return $this->__('Order by date', 'users');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            CustomPostOrderBy::ID => $this->__('Order by ID', 'users'),
+            CustomPostOrderBy::TITLE => $this->__('Order by title', 'users'),
+            CustomPostOrderBy::DATE => $this->__('Order by date', 'users'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

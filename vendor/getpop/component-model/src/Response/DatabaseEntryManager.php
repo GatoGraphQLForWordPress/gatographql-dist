@@ -11,12 +11,12 @@ use SplObjectStorage;
 /** @internal */
 class DatabaseEntryManager extends AbstractBasicService implements \PoP\ComponentModel\Response\DatabaseEntryManagerInterface
 {
-    public const PRIMARY_DBNAME = 'primary';
-    public const HOOK_DBNAME_TO_FIELDNAMES = __CLASS__ . ':dbName-to-fieldNames';
+    public final const PRIMARY_DBNAME = 'primary';
+    public final const HOOK_DBNAME_TO_FIELDNAMES = __CLASS__ . ':dbName-to-fieldNames';
     /**
      * @var array<string,string[]>|null
      */
-    protected $dbNameFieldNames;
+    protected ?array $dbNameFieldNames = null;
     /**
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $entries
      * @return array<string,array<string|int,SplObjectStorage<FieldInterface,mixed>>>
@@ -32,9 +32,7 @@ class DatabaseEntryManager extends AbstractBasicService implements \PoP\Componen
         foreach ($dbNameEntries[self::PRIMARY_DBNAME] as $id => $fieldValues) {
             $fields = \iterator_to_array($fieldValues);
             foreach ($dbNameToFieldNames as $dbName => $fieldNames) {
-                $fields_to_move = \array_filter($fields, function (FieldInterface $field) use($fieldNames) {
-                    return \in_array($field->getName(), $fieldNames);
-                });
+                $fields_to_move = \array_filter($fields, fn(FieldInterface $field) => \in_array($field->getName(), $fieldNames));
                 /** @var SplObjectStorage<FieldInterface,mixed> */
                 $idDBNameEntries = $dbNameEntries[$dbName][$id] ?? new SplObjectStorage();
                 foreach ($fields_to_move as $field) {
@@ -52,7 +50,7 @@ class DatabaseEntryManager extends AbstractBasicService implements \PoP\Componen
      * @param SplObjectStorage<FieldInterface,mixed>|array<string|int,SplObjectStorage<FieldInterface,mixed>> $entries
      * @return array<string,SplObjectStorage<FieldInterface,mixed>>|array<mixed,array<int|string,SplObjectStorage<FieldInterface,mixed>>>
      */
-    protected function getEntriesUnderPrimaryDBName($entries) : array
+    protected function getEntriesUnderPrimaryDBName(array|SplObjectStorage $entries) : array
     {
         return [self::PRIMARY_DBNAME => $entries];
     }
@@ -64,7 +62,7 @@ class DatabaseEntryManager extends AbstractBasicService implements \PoP\Componen
     protected function getDBNameFieldNames(RelationalTypeResolverInterface $relationalTypeResolver) : array
     {
         if ($this->dbNameFieldNames === null) {
-            $this->dbNameFieldNames = App::applyFilters(self::HOOK_DBNAME_TO_FIELDNAMES, [], $relationalTypeResolver);
+            $this->dbNameFieldNames = App::applyFilters(self::HOOK_DBNAME_TO_FIELDNAMES, [], $relationalTypeResolver) ?? [];
         }
         return $this->dbNameFieldNames;
     }
@@ -84,9 +82,7 @@ class DatabaseEntryManager extends AbstractBasicService implements \PoP\Componen
         $fields = \iterator_to_array($entries);
         foreach ($dbNameToFieldNames as $dbName => $fieldNames) {
             // Move these data fields under "meta" DB name
-            $fields_to_move = \array_filter($fields, function (FieldInterface $field) use($fieldNames) {
-                return \in_array($field->getName(), $fieldNames);
-            });
+            $fields_to_move = \array_filter($fields, fn(FieldInterface $field) => \in_array($field->getName(), $fieldNames));
             foreach ($fields_to_move as $field) {
                 /** @var SplObjectStorage<FieldInterface,mixed> */
                 $dbEntries = $dbNameEntries[$dbName] ?? new SplObjectStorage();

@@ -30,10 +30,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
      * @internal
      */
     protected const NS_SEPARATOR = ':';
-    /**
-     * @var bool
-     */
-    private static $apcuSupported;
+    private static bool $apcuSupported;
     protected function __construct(string $namespace = '', int $defaultLifetime = 0)
     {
         $this->namespace = '' === $namespace ? '' : CacheItem::validateKey($namespace) . static::NS_SEPARATOR;
@@ -41,7 +38,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         if (null !== $this->maxIdLength && \strlen($namespace) > $this->maxIdLength - 24) {
             throw new InvalidArgumentException(\sprintf('Namespace must be %d chars max, %d given ("%s").', $this->maxIdLength - 24, \strlen($namespace), $namespace));
         }
-        self::$createCacheItem = self::$createCacheItem ?? \Closure::bind(static function ($key, $value, $isHit) {
+        self::$createCacheItem ??= \Closure::bind(static function ($key, $value, $isHit) {
             $item = new CacheItem();
             $item->key = $key;
             $item->value = $value;
@@ -49,7 +46,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
             $item->unpack();
             return $item;
         }, null, CacheItem::class);
-        self::$mergeByLifetime = self::$mergeByLifetime ?? \Closure::bind(static function ($deferred, $namespace, &$expiredIds, $getId, $defaultLifetime) {
+        self::$mergeByLifetime ??= \Closure::bind(static function ($deferred, $namespace, &$expiredIds, $getId, $defaultLifetime) {
             $byLifetime = [];
             $now = \microtime(\true);
             $expiredIds = [];
@@ -79,7 +76,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         if (null !== $logger) {
             $opcache->setLogger($logger);
         }
-        if (!(self::$apcuSupported = self::$apcuSupported ?? ApcuAdapter::isSupported())) {
+        if (!(self::$apcuSupported ??= ApcuAdapter::isSupported())) {
             return $opcache;
         }
         if ('cli' === \PHP_SAPI && !\filter_var(\ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOL)) {
@@ -91,18 +88,15 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
         }
         return new ChainAdapter([$apcu, $opcache]);
     }
-    /**
-     * @return mixed
-     */
-    public static function createConnection(string $dsn, array $options = [])
+    public static function createConnection(#[\SensitiveParameter] string $dsn, array $options = []) : mixed
     {
-        if (\strncmp($dsn, 'redis:', \strlen('redis:')) === 0 || \strncmp($dsn, 'rediss:', \strlen('rediss:')) === 0) {
+        if (\str_starts_with($dsn, 'redis:') || \str_starts_with($dsn, 'rediss:')) {
             return RedisAdapter::createConnection($dsn, $options);
         }
-        if (\strncmp($dsn, 'memcached:', \strlen('memcached:')) === 0) {
+        if (\str_starts_with($dsn, 'memcached:')) {
             return MemcachedAdapter::createConnection($dsn, $options);
         }
-        if (\strncmp($dsn, 'couchbase:', \strlen('couchbase:')) === 0) {
+        if (\str_starts_with($dsn, 'couchbase:')) {
             if (CouchbaseBucketAdapter::isSupported()) {
                 return CouchbaseBucketAdapter::createConnection($dsn, $options);
             }
@@ -113,7 +107,7 @@ abstract class AbstractAdapter implements AdapterInterface, CacheInterface, Logg
     public function commit() : bool
     {
         $ok = \true;
-        $byLifetime = (self::$mergeByLifetime)($this->deferred, $this->namespace, $expiredIds, \Closure::fromCallable([$this, 'getId']), $this->defaultLifetime);
+        $byLifetime = (self::$mergeByLifetime)($this->deferred, $this->namespace, $expiredIds, $this->getId(...), $this->defaultLifetime);
         $retry = $this->deferred = [];
         if ($expiredIds) {
             try {

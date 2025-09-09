@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\CustomPostDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $customPostDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?CustomPostDoesNotExistErrorPayloadObjectTypeResolver $customPostDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getCustomPostDoesNotExistErrorPayloadObjectTypeResolver() : CustomPostDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->customPostDoesNotExistErrorPayloadObjectTypeResolver === null) {

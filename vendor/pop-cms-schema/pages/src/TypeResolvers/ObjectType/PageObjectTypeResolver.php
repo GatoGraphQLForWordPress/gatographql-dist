@@ -10,14 +10,8 @@ use PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface;
 /** @internal */
 class PageObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\RelationalTypeDataLoaders\ObjectType\PageObjectTypeDataLoader|null
-     */
-    private $pageObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Pages\TypeAPIs\PageTypeAPIInterface|null
-     */
-    private $pageTypeAPI;
+    private ?PageObjectTypeDataLoader $pageObjectTypeDataLoader = null;
+    private ?PageTypeAPIInterface $pageTypeAPI = null;
     protected final function getPageObjectTypeDataLoader() : PageObjectTypeDataLoader
     {
         if ($this->pageObjectTypeDataLoader === null) {
@@ -44,10 +38,7 @@ class PageObjectTypeResolver extends AbstractCustomPostObjectTypeResolver
     {
         return $this->__('Representation of a page', 'pages');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         $page = $object;
         return $this->getPageTypeAPI()->getPageID($page);

@@ -19,14 +19,8 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
 {
     use PluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -85,7 +79,7 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         $module = urldecode($requestedModule);
         try {
             $moduleResolver = $this->getModuleRegistry()->getModuleResolver($module);
-        } catch (ModuleNotExistsException $exception) {
+        } catch (ModuleNotExistsException) {
             return sprintf(
                 '<p>%s</p>',
                 $this->getModuleDoesNotExistErrorMessage($module)
@@ -135,8 +129,10 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         );
     }
 
-    protected function getModuleHasNoDocumentationErrorMessage(string $module, ModuleResolverInterface $moduleResolver): string
-    {
+    protected function getModuleHasNoDocumentationErrorMessage(
+        string $module,
+        ModuleResolverInterface $moduleResolver,
+    ): string {
         return sprintf(
             \__('Oops, module \'%s\' has no documentation', 'gatographql'),
             $moduleResolver->getName($module)
@@ -156,7 +152,7 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         $module = urldecode($requestedModule);
         try {
             $moduleResolver = $this->getModuleRegistry()->getModuleResolver($module);
-        } catch (ModuleNotExistsException $exception) {
+        } catch (ModuleNotExistsException) {
             return '';
         }
 
@@ -244,8 +240,13 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
         );
     }
 
-    protected function getBundleExtensionItemHTML(string $title, string $logoURL, string $internalLink, string $externalLink, string $description): string
-    {
+    protected function getBundleExtensionItemHTML(
+        string $title,
+        string $logoURL,
+        string $internalLink,
+        string $externalLink,
+        string $description,
+    ): string {
         $itemHTMLPlaceholder = '
             <div class="plugin-card plugin-card-non-installed">
                 <div class="plugin-card-top">
@@ -282,6 +283,7 @@ abstract class AbstractModuleDocsMenuPage extends AbstractDocsMenuPage
                 </div>
             </div>
         ';
+
         return sprintf(
             $itemHTMLPlaceholder,
             $title,

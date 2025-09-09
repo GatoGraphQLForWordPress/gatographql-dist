@@ -6,5 +6,5 @@ namespace PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\Constants;
 /** @internal */
 class UserOrderBy
 {
-    public const CUSTOMPOST_COUNT = 'CUSTOMPOST_COUNT';
+    public final const CUSTOMPOST_COUNT = 'CUSTOMPOST_COUNT';
 }

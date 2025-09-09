@@ -3,9 +3,12 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Meta\FieldResolvers\InterfaceType;
 
+use PoPCMSSchema\Meta\Module;
+use PoPCMSSchema\Meta\ModuleConfiguration;
 use PoPCMSSchema\Meta\TypeResolvers\InputObjectType\MetaKeysFilterInputObjectTypeResolver;
 use PoPCMSSchema\Meta\TypeResolvers\InterfaceType\WithMetaInterfaceTypeResolver;
 use PoPSchema\ExtendedSchemaCommons\TypeResolvers\ScalarType\ListValueJSONObjectScalarTypeResolver;
+use PoP\ComponentModel\App;
 use PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
@@ -15,18 +18,9 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\ExtendedSchemaCommons\TypeResolvers\ScalarType\ListValueJSONObjectScalarTypeResolver|null
-     */
-    private $listValueJSONObjectScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Meta\TypeResolvers\InputObjectType\MetaKeysFilterInputObjectTypeResolver|null
-     */
-    private $metaKeysFilterInputObjectTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?ListValueJSONObjectScalarTypeResolver $listValueJSONObjectScalarTypeResolver = null;
+    private ?MetaKeysFilterInputObjectTypeResolver $metaKeysFilterInputObjectTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -68,88 +62,73 @@ class WithMetaInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldResol
     {
         return ['metaKeys', 'metaValue', 'metaValues', 'meta'];
     }
+    /**
+     * @return string[]
+     */
+    public function getSensitiveFieldNames() : array
+    {
+        $sensitiveFieldArgNames = parent::getSensitiveFieldNames();
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        if ($moduleConfiguration->treatEntityMetaKeysAsSensitiveData()) {
+            $sensitiveFieldArgNames[] = 'metaKeys';
+        }
+        return $sensitiveFieldArgNames;
+    }
     public function getFieldTypeResolver(string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'metaKeys':
-                return $this->getStringScalarTypeResolver();
-            case 'metaValue':
-            case 'metaValues':
-                return $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver();
-            case 'meta':
-                return $this->getListValueJSONObjectScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($fieldName);
-        }
+        return match ($fieldName) {
+            'metaKeys' => $this->getStringScalarTypeResolver(),
+            'metaValue', 'metaValues' => $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver(),
+            'meta' => $this->getListValueJSONObjectScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($fieldName),
+        };
     }
     public function getFieldTypeModifiers(string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'metaKeys':
-            case 'metaValues':
-                return SchemaTypeModifiers::IS_ARRAY;
-            case 'meta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($fieldName);
-        }
+        return match ($fieldName) {
+            'metaKeys', 'metaValues' => SchemaTypeModifiers::IS_ARRAY,
+            'meta' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'metaKeys':
-                return ['filter' => $this->getMetaKeysFilterInputObjectTypeResolver()];
-            case 'metaValue':
-            case 'metaValues':
-                return ['key' => $this->getStringScalarTypeResolver()];
-            case 'meta':
-                return ['keys' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($fieldName);
-        }
+        return match ($fieldName) {
+            'metaKeys' => ['filter' => $this->getMetaKeysFilterInputObjectTypeResolver()],
+            'metaValue', 'metaValues' => ['key' => $this->getStringScalarTypeResolver()],
+            'meta' => ['keys' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($fieldName),
+        };
     }
     public function getFieldArgDescription(string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['metaKeys' => 'filter']:
-                return $this->__('Input to filter meta keys', 'gatographql');
-            case ['metaValue' => 'key']:
-            case ['metaValues' => 'key']:
-                return $this->__('The meta key', 'meta');
-            case ['meta' => 'keys']:
-                return $this->__('The meta keys', 'meta');
-            default:
-                return parent::getFieldArgDescription($fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['metaKeys' => 'filter'] => $this->__('Input to filter meta keys', 'gatographql'),
+            ['metaValue' => 'key'], ['metaValues' => 'key'] => $this->__('The meta key', 'meta'),
+            ['meta' => 'keys'] => $this->__('The meta keys', 'meta'),
+            default => parent::getFieldArgDescription($fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['metaValue' => 'key']:
-            case ['metaValues' => 'key']:
-                return SchemaTypeModifiers::MANDATORY;
-            case ['meta' => 'keys']:
-                return SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldArgTypeModifiers($fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['metaValue' => 'key'], ['metaValues' => 'key'] => SchemaTypeModifiers::MANDATORY,
+            ['meta' => 'keys'] => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldArgTypeModifiers($fieldName, $fieldArgName),
+        };
     }
     public function getFieldDescription(string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'metaKeys':
-                return $this->__('List of allowed meta keys set on the entity.', 'custompostmeta');
-            case 'metaValue':
-                return $this->__('Single meta value. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta');
-            case 'metaValues':
-                return $this->__('List of meta values. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta');
-            case 'meta':
-                return $this->__('JSON object, with key the meta key, and value an array of values (a scalar value is returned as an array with 1 item).', 'custompostmeta');
-            default:
-                return parent::getFieldDescription($fieldName);
-        }
+        return match ($fieldName) {
+            'metaKeys' => $this->__('List of allowed meta keys set on the entity.', 'custompostmeta'),
+            'metaValue' => $this->__('Single meta value. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta'),
+            'metaValues' => $this->__('List of meta values. If the key is not allowed, it returns an error; if the key is non-existent, or the value is empty, it returns `null`; otherwise, it returns the meta value.', 'custompostmeta'),
+            'meta' => $this->__('JSON object, with key the meta key, and value an array of values (a scalar value is returned as an array with 1 item).', 'custompostmeta'),
+            default => parent::getFieldDescription($fieldName),
+        };
     }
 }

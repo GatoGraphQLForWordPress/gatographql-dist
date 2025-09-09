@@ -12,14 +12,8 @@ use PoP\Root\Exception\ShouldNotHappenException;
 /** @internal */
 class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDataLoader
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\SchemaObjectTypeResolver|null
-     */
-    private $schemaObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Registries\SchemaDefinitionReferenceRegistryInterface|null
-     */
-    private $schemaDefinitionReferenceRegistry;
+    private ?SchemaObjectTypeResolver $schemaObjectTypeResolver = null;
+    private ?SchemaDefinitionReferenceRegistryInterface $schemaDefinitionReferenceRegistry = null;
     protected final function getSchemaObjectTypeResolver() : SchemaObjectTypeResolver
     {
         if ($this->schemaObjectTypeResolver === null) {
@@ -42,11 +36,7 @@ class SchemaObjectTypeDataLoader extends AbstractUseObjectDictionaryObjectTypeDa
     {
         return $this->getSchemaObjectTypeResolver();
     }
-    /**
-     * @param int|string $id
-     * @return mixed
-     */
-    protected function getObjectTypeNewInstance($id)
+    protected function getObjectTypeNewInstance(int|string $id) : mixed
     {
         if ($id !== Schema::ID) {
             throw new ShouldNotHappenException(\sprintf($this->__('The Schema object data must be unique, so must not create object with ID "%s"', 'gatographql'), $id));

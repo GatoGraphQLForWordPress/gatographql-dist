@@ -11,10 +11,7 @@ use PoP\Root\Exception\AbstractException;
 /** @internal */
 class RemoveFeaturedImageFromCustomPostMutationResolver extends \PoPCMSSchema\CustomPostMediaMutations\MutationResolvers\AbstractSetOrRemoveFeaturedImageOnCustomPostMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMediaMutations\TypeAPIs\CustomPostMediaTypeMutationAPIInterface|null
-     */
-    private $customPostMediaTypeMutationAPI;
+    private ?CustomPostMediaTypeMutationAPIInterface $customPostMediaTypeMutationAPI = null;
     protected final function getCustomPostMediaTypeMutationAPI() : CustomPostMediaTypeMutationAPIInterface
     {
         if ($this->customPostMediaTypeMutationAPI === null) {
@@ -26,9 +23,8 @@ class RemoveFeaturedImageFromCustomPostMutationResolver extends \PoPCMSSchema\Cu
     }
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_ID);
         $this->getCustomPostMediaTypeMutationAPI()->removeFeaturedImage($customPostID);

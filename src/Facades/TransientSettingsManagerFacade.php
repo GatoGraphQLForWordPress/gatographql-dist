@@ -15,10 +15,7 @@ use GatoGraphQL\GatoGraphQL\Settings\TransientSettingsManagerInterface;
  */
 class TransientSettingsManagerFacade
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\TransientSettingsManagerInterface|null
-     */
-    private static $instance;
+    private static ?TransientSettingsManagerInterface $instance = null;
 
     public static function getInstance(): TransientSettingsManagerInterface
     {

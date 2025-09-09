@@ -23,10 +23,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 /** @internal */
 trait MediaItemCRUDMutationResolverTrait
 {
-    /**
-     * @param string|int $mediaItemID
-     */
-    protected function validateMediaItemByIDExists($mediaItemID, ?string $fieldInputName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateMediaItemByIDExists(string|int $mediaItemID, ?string $fieldInputName, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->getMediaTypeAPI()->mediaItemByIDExists($mediaItemID)) {
             $field = $fieldDataAccessor->getField();
@@ -43,32 +40,20 @@ trait MediaItemCRUDMutationResolverTrait
     public function createOrUpdateMediaItemErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ?ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
-                return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new UserHasNoPermissionToUploadFilesErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5]:
-                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
-                return new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8]:
-                return new LoggedInUserHasNoPermissionToEditMediaItemErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
-                return new LoggedInUserHasNoEditingMediaCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return null;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1] => new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2] => new UserHasNoPermissionToUploadFilesErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4] => new UserHasNoPermissionToUploadFilesForOtherUsersErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5] => new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6] => new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7] => new MediaItemDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8] => new LoggedInUserHasNoPermissionToEditMediaItemErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9] => new LoggedInUserHasNoEditingMediaCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            default => null,
+        };
     }
     protected abstract function getMediaTypeAPI() : MediaTypeAPIInterface;
-    /**
-     * @param string|int $mediaItemID
-     */
-    protected function validateCanLoggedInUserEditMediaItem($mediaItemID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateCanLoggedInUserEditMediaItem(string|int $mediaItemID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $userID = App::getState('current-user-id');
         if (!$this->getMediaTypeMutationAPI()->canUserEditMediaItem($userID, $mediaItemID)) {

@@ -24,19 +24,12 @@ trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is depreca
  */
 class ExpressionRequestMatcher extends RequestMatcher
 {
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage
-     */
-    private $language;
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\Expression|string
-     */
-    private $expression;
+    private ExpressionLanguage $language;
+    private Expression|string $expression;
     /**
      * @return void
-     * @param \Symfony\Component\ExpressionLanguage\Expression|string $expression
      */
-    public function setExpression(ExpressionLanguage $language, $expression)
+    public function setExpression(ExpressionLanguage $language, Expression|string $expression)
     {
         $this->language = $language;
         $this->expression = $expression;

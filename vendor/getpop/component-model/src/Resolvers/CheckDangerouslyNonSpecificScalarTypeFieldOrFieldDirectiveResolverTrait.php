@@ -42,9 +42,7 @@ trait CheckDangerouslyNonSpecificScalarTypeFieldOrFieldDirectiveResolverTrait
      */
     protected function hasMandatoryDangerouslyNonSpecificScalarTypeInputType(array $consolidatedFieldOrDirectiveArgNameTypeResolvers, array $consolidatedFieldOrDirectiveArgsTypeModifiers) : bool
     {
-        $dangerouslyNonSpecificScalarTypeFieldOrDirectiveArgNameTypeResolvers = \array_filter($consolidatedFieldOrDirectiveArgNameTypeResolvers, function (InputTypeResolverInterface $inputTypeResolver) {
-            return $inputTypeResolver === $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver();
-        });
+        $dangerouslyNonSpecificScalarTypeFieldOrDirectiveArgNameTypeResolvers = \array_filter($consolidatedFieldOrDirectiveArgNameTypeResolvers, fn(InputTypeResolverInterface $inputTypeResolver) => $inputTypeResolver === $this->getDangerouslyNonSpecificScalarTypeScalarTypeResolver());
         foreach (\array_keys($dangerouslyNonSpecificScalarTypeFieldOrDirectiveArgNameTypeResolvers) as $fieldOrDirectiveArgName) {
             $consolidatedFieldOrDirectiveArgTypeModifiers = $consolidatedFieldOrDirectiveArgsTypeModifiers[$fieldOrDirectiveArgName];
             if ($consolidatedFieldOrDirectiveArgTypeModifiers & (SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::MANDATORY_BUT_NULLABLE)) {

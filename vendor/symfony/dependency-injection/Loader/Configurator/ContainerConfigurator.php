@@ -28,34 +28,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Express
 class ContainerConfigurator extends AbstractConfigurator
 {
     public const FACTORY = 'container';
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Loader\PhpFileLoader
-     */
-    private $loader;
-    /**
-     * @var mixed[]
-     */
-    private $instanceof;
-    /**
-     * @var string
-     */
-    private $path;
-    /**
-     * @var string
-     */
-    private $file;
-    /**
-     * @var int
-     */
-    private $anonymousCount = 0;
-    /**
-     * @var string|null
-     */
-    private $env;
+    private ContainerBuilder $container;
+    private PhpFileLoader $loader;
+    private array $instanceof;
+    private string $path;
+    private string $file;
+    private int $anonymousCount = 0;
+    private ?string $env;
     public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, string $path, string $file, ?string $env = null)
     {
         $this->container = $container;
@@ -68,17 +47,12 @@ class ContainerConfigurator extends AbstractConfigurator
     public final function extension(string $namespace, array $config) : void
     {
         if (!$this->container->hasExtension($namespace)) {
-            $extensions = \array_filter(\array_map(function (ExtensionInterface $ext) {
-                return $ext->getAlias();
-            }, $this->container->getExtensions()));
+            $extensions = \array_filter(\array_map(fn(ExtensionInterface $ext) => $ext->getAlias(), $this->container->getExtensions()));
             throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s" (in "%s"). Looked for namespace "%s", found "%s".', $namespace, $this->file, $namespace, $extensions ? \implode('", "', $extensions) : 'none'));
         }
         $this->container->loadFromExtension($namespace, static::processValue($config));
     }
-    /**
-     * @param bool|string $ignoreErrors
-     */
-    public final function import(string $resource, ?string $type = null, $ignoreErrors = \false) : void
+    public final function import(string $resource, ?string $type = null, bool|string $ignoreErrors = \false) : void
     {
         $this->loader->setCurrentDir(\dirname($this->path));
         $this->loader->import($resource, $type, $ignoreErrors, $this->file);
@@ -98,10 +72,7 @@ class ContainerConfigurator extends AbstractConfigurator
     {
         return $this->env;
     }
-    /**
-     * @return static
-     */
-    public final function withPath(string $path)
+    public final function withPath(string $path) : static
     {
         $clone = clone $this;
         $clone->path = $clone->file = $path;
@@ -159,19 +130,17 @@ function iterator(array $values) : IteratorArgument
 }
 /**
  * Creates a lazy iterator by tag name.
- * @param string|mixed[] $exclude
  * @internal
  */
-function tagged_iterator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : TaggedIteratorArgument
+function tagged_iterator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, string|array $exclude = [], bool $excludeSelf = \true) : TaggedIteratorArgument
 {
     return new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, \false, $defaultPriorityMethod, (array) $exclude, $excludeSelf);
 }
 /**
  * Creates a service locator by tag name.
- * @param string|mixed[] $exclude
  * @internal
  */
-function tagged_locator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, $exclude = [], bool $excludeSelf = \true) : ServiceLocatorArgument
+function tagged_locator(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, ?string $defaultPriorityMethod = null, string|array $exclude = [], bool $excludeSelf = \true) : ServiceLocatorArgument
 {
     return new ServiceLocatorArgument(new TaggedIteratorArgument($tag, $indexAttribute, $defaultIndexMethod, \true, $defaultPriorityMethod, (array) $exclude, $excludeSelf));
 }
@@ -209,10 +178,9 @@ function service_closure(string $serviceId) : ClosureReferenceConfigurator
 }
 /**
  * Creates a closure.
- * @param string|mixed[]|\Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator|\Symfony\Component\ExpressionLanguage\Expression $callable
  * @internal
  */
-function closure($callable) : InlineServiceConfigurator
+function closure(string|array|ReferenceConfigurator|Expression $callable) : InlineServiceConfigurator
 {
     return (new InlineServiceConfigurator(new Definition('Closure')))->factory(['Closure', 'fromCallable'])->args([$callable]);
 }

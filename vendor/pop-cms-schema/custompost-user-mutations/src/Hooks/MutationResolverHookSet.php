@@ -21,10 +21,7 @@ use stdClass;
 /** @internal */
 class MutationResolverHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -36,9 +33,9 @@ class MutationResolverHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, \Closure::fromCallable([$this, 'maybeValidateAuthor']), 10, 2);
-        App::addFilter(CustomPostCRUDHookNames::GET_CREATE_OR_UPDATE_DATA, \Closure::fromCallable([$this, 'addCreateOrUpdateCustomPostData']), 10, 2);
-        App::addFilter(CustomPostCRUDHookNames::ERROR_PAYLOAD, \Closure::fromCallable([$this, 'createErrorPayloadFromObjectTypeFieldResolutionFeedback']), 10, 2);
+        App::addAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, $this->maybeValidateAuthor(...), 10, 2);
+        App::addFilter(CustomPostCRUDHookNames::GET_CREATE_OR_UPDATE_DATA, $this->addCreateOrUpdateCustomPostData(...), 10, 2);
+        App::addFilter(CustomPostCRUDHookNames::ERROR_PAYLOAD, $this->createErrorPayloadFromObjectTypeFieldResolutionFeedback(...), 10, 2);
     }
     public function maybeValidateAuthor(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
@@ -109,21 +106,14 @@ class MutationResolverHookSet extends AbstractHookSet
     public function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ErrorPayloadInterface $errorPayload, ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
-                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
-                return new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return $errorPayload;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1] => new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2] => new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3] => new UserDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            default => $errorPayload,
+        };
     }
-    /**
-     * @param string|int $userID
-     */
-    protected function validateUserByIDExists($userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateUserByIDExists(string|int $userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->getUserTypeAPI()->getUserByID($userID) === null) {
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1, [$userID]), $fieldDataAccessor->getField()));

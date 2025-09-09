@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader|null
-     */
-    private $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader;
+    private ?CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader $commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader = null;
     protected final function getCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader() : CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader
     {
         if ($this->commentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeDataLoader === null) {

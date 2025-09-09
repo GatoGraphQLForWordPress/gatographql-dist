@@ -16,14 +16,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class ErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\FieldResolvers\InterfaceType\ErrorPayloadInterfaceTypeFieldResolver|null
-     */
-    private $errorPayloadInterfaceTypeFieldResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?ErrorPayloadInterfaceTypeFieldResolver $errorPayloadInterfaceTypeFieldResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -65,9 +59,8 @@ class ErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolve
     }
     /**
      * The parent already resolves all fields
-     * @return mixed
      */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var ErrorPayloadInterface */
         $errorPayload = $object;

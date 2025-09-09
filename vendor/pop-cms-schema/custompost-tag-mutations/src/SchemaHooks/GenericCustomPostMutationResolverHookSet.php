@@ -11,10 +11,7 @@ use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 class GenericCustomPostMutationResolverHookSet extends AbstractCustomPostMutationResolverHookSet
 {
     use GenericCustomPostMutationResolverHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\ObjectType\GenericTagObjectTypeResolver|null
-     */
-    private $genericTagObjectTypeResolver;
+    private ?GenericTagObjectTypeResolver $genericTagObjectTypeResolver = null;
     protected final function getGenericTagObjectTypeResolver() : GenericTagObjectTypeResolver
     {
         if ($this->genericTagObjectTypeResolver === null) {

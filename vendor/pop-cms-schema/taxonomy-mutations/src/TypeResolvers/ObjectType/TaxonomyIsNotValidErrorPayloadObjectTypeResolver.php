@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class TaxonomyIsNotValidErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\RelationalTypeDataLoaders\ObjectType\TaxonomyIsNotValidErrorPayloadObjectTypeDataLoader|null
-     */
-    private $taxonomyIsNotValidErrorPayloadObjectTypeDataLoader;
+    private ?TaxonomyIsNotValidErrorPayloadObjectTypeDataLoader $taxonomyIsNotValidErrorPayloadObjectTypeDataLoader = null;
     protected final function getTaxonomyIsNotValidErrorPayloadObjectTypeDataLoader() : TaxonomyIsNotValidErrorPayloadObjectTypeDataLoader
     {
         if ($this->taxonomyIsNotValidErrorPayloadObjectTypeDataLoader === null) {

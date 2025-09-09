@@ -20,10 +20,7 @@ use SplObjectStorage;
 /** @internal */
 final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface|null
-     */
-    private $typeSerializationService;
+    private ?TypeSerializationServiceInterface $typeSerializationService = null;
     protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
@@ -104,7 +101,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
                 if (!$conditionSatisfied) {
                     continue;
                 }
-                $enqueueFillingObjectsFromIDs[$id] = $enqueueFillingObjectsFromIDs[$id] ?? new EngineIterationFieldSet([], $idFieldSet[$id]->conditionalFields);
+                $enqueueFillingObjectsFromIDs[$id] ??= new EngineIterationFieldSet([], $idFieldSet[$id]->conditionalFields);
                 $enqueueFillingObjectsFromIDs[$id]->addFields($conditionalFields);
             }
         }
@@ -117,9 +114,8 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
      * @param FieldInterface[] $fieldSet
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,mixed>>> $previouslyResolvedIDFieldValues
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
      */
-    protected function resolveValuesForObject(RelationalTypeResolverInterface $relationalTypeResolver, $id, object $object, array $fieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$resolvedIDFieldValues, array $previouslyResolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    protected function resolveValuesForObject(RelationalTypeResolverInterface $relationalTypeResolver, string|int $id, object $object, array $fieldSet, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$resolvedIDFieldValues, array $previouslyResolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         /**
          * Before resolving the fields for the current
@@ -162,10 +158,8 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
      *
      * The value must be serialized,
      * so that Object types are converted to String to be used as inputs.
-     * @param string|int $id
-     * @param mixed $value
      */
-    protected function setAppStateForFieldValuePromises(RelationalTypeResolverInterface $relationalTypeResolver, $id, object $object, FieldInterface $field, $value, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    protected function setAppStateForFieldValuePromises(RelationalTypeResolverInterface $relationalTypeResolver, string|int $id, object $object, FieldInterface $field, mixed $value, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         /**
          * If the field has an upstream static node, also consider promises
@@ -188,7 +182,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
          */
         /** @var FieldInterface[] */
         $documentObjectResolvedFieldValueReferencedFields = App::getState('document-object-resolved-field-value-referenced-fields');
-        if (!\in_array($field, $documentObjectResolvedFieldValueReferencedFields) && ($staticField === null || $staticField !== null && !\in_array($staticField, $documentObjectResolvedFieldValueReferencedFields))) {
+        if (!\in_array($field, $documentObjectResolvedFieldValueReferencedFields) && ($staticField === null || !\in_array($staticField, $documentObjectResolvedFieldValueReferencedFields))) {
             return;
         }
         /** @var SplObjectStorage<FieldInterface,mixed> */
@@ -277,9 +271,8 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
     /**
      * @param array<string,array<string|int,SplObjectStorage<FieldInterface,mixed>>> $previouslyResolvedIDFieldValues
      * @param array<string|int,SplObjectStorage<FieldInterface,mixed>> $resolvedIDFieldValues
-     * @param string|int $id
      */
-    protected function resolveValueForObject(RelationalTypeResolverInterface $relationalTypeResolver, $id, object $object, FieldInterface $field, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$resolvedIDFieldValues, array $previouslyResolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
+    protected function resolveValueForObject(RelationalTypeResolverInterface $relationalTypeResolver, string|int $id, object $object, FieldInterface $field, FieldDataAccessProviderInterface $fieldDataAccessProvider, array &$resolvedIDFieldValues, array $previouslyResolvedIDFieldValues, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
         if ($relationalTypeResolver instanceof UnionTypeResolverInterface) {
             /** @var UnionTypeResolverInterface */

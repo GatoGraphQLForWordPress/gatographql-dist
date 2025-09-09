@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\CustomPostCategoryMutations\TypeResolvers\UnionType\AbstractGenericCategoriesMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostCategoryMutations\RelationalTypeDataLoaders\UnionType\RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader $rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader() : RootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootSetCategoriesOnCustomPostMutationErrorPayloadUnionTypeDataLoader === null) {

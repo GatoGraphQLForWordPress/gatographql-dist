@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class RootDeletePostTagTermMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMutations\TypeResolvers\UnionType\RootDeletePostTagTermMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootDeletePostTagTermMutationErrorPayloadUnionTypeResolver;
+    private ?RootDeletePostTagTermMutationErrorPayloadUnionTypeResolver $rootDeletePostTagTermMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootDeletePostTagTermMutationErrorPayloadUnionTypeResolver() : RootDeletePostTagTermMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootDeletePostTagTermMutationErrorPayloadUnionTypeResolver === null) {

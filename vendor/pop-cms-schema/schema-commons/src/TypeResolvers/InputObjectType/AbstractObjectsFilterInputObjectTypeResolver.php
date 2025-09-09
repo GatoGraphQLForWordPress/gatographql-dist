@@ -13,18 +13,9 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput;
 /** @internal */
 abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\ExcludeIDsFilterInput|null
-     */
-    private $excludeIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?ExcludeIDsFilterInput $excludeIDsFilterInput = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -61,34 +52,25 @@ abstract class AbstractObjectsFilterInputObjectTypeResolver extends AbstractQuer
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'ids':
-            case 'excludeIDs':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids', 'excludeIDs' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'ids':
-                return $this->__('Limit results to elements with the given IDs', 'schema-commons');
-            case 'excludeIDs':
-                return $this->__('Exclude elements with the given IDs', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids' => $this->__('Limit results to elements with the given IDs', 'schema-commons'),
+            'excludeIDs' => $this->__('Exclude elements with the given IDs', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'ids':
-                return $this->getIncludeFilterInput();
-            case 'excludeIDs':
-                return $this->getExcludeIDsFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'ids' => $this->getIncludeFilterInput(),
+            'excludeIDs' => $this->getExcludeIDsFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

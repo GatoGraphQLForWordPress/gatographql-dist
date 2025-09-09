@@ -8,10 +8,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 abstract class AbstractRoutingManager extends AbstractBasicService implements \PoP\Root\Routing\RoutingManagerInterface
 {
-    /**
-     * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
-     */
-    private $routingHelperService;
+    private ?\PoP\Root\Routing\RoutingHelperServiceInterface $routingHelperService = null;
     protected final function getRoutingHelperService() : \PoP\Root\Routing\RoutingHelperServiceInterface
     {
         if ($this->routingHelperService === null) {

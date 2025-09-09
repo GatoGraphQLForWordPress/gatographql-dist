@@ -40,24 +40,18 @@ trait RolesObjectTypeFieldResolverTrait
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->getStringScalarTypeResolver();
-            case 'capabilities':
-                return $this->getStringScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->getStringScalarTypeResolver(),
+            'capabilities' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->getTranslationAPI()->__('All user roles', 'user-roles');
-            case 'capabilities':
-                return $this->getTranslationAPI()->__('All user capabilities', 'user-roles');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->getTranslationAPI()->__('All user roles', 'user-roles'),
+            'capabilities' => $this->getTranslationAPI()->__('All user capabilities', 'user-roles'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 }

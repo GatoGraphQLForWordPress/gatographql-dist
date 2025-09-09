@@ -9,11 +9,8 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class ComponentHelpers extends AbstractBasicService implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
 {
-    public const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
-    /**
-     * @var \PoP\Definitions\DefinitionManagerInterface|null
-     */
-    private $definitionManager;
+    public final const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
+    private ?DefinitionManagerInterface $definitionManager = null;
     protected final function getDefinitionManager() : DefinitionManagerInterface
     {
         if ($this->definitionManager === null) {

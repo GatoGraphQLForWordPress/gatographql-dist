@@ -45,90 +45,27 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
 {
     use MutationPayloadObjectsObjectTypeFieldResolverTrait;
     use BulkOperationDecoratorObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\AddCustomPostMetaMutationResolver|null
-     */
-    private $addCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\AddCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $addCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\DeleteCustomPostMetaMutationResolver|null
-     */
-    private $deleteCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\DeleteCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $deleteCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\SetCustomPostMetaMutationResolver|null
-     */
-    private $setCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\SetCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $setCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\UpdateCustomPostMetaMutationResolver|null
-     */
-    private $updateCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\UpdateCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $updateCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableDeleteCustomPostMetaMutationResolver|null
-     */
-    private $payloadableDeleteCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableDeleteCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableDeleteCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableSetCustomPostMetaMutationResolver|null
-     */
-    private $payloadableSetCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableSetCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableSetCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableUpdateCustomPostMetaMutationResolver|null
-     */
-    private $payloadableUpdateCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableUpdateCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableUpdateCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableAddCustomPostMetaMutationResolver|null
-     */
-    private $payloadableAddCustomPostMetaMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\PayloadableAddCustomPostMetaBulkOperationMutationResolver|null
-     */
-    private $payloadableAddCustomPostMetaBulkOperationMutationResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\InputObjectType\RootDeleteCustomPostMetaInputObjectTypeResolver|null
-     */
-    private $rootDeleteCustomPostMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\InputObjectType\RootSetCustomPostMetaInputObjectTypeResolver|null
-     */
-    private $rootSetCustomPostMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\InputObjectType\RootUpdateCustomPostMetaInputObjectTypeResolver|null
-     */
-    private $rootUpdateCustomPostMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\InputObjectType\RootAddCustomPostMetaInputObjectTypeResolver|null
-     */
-    private $rootAddCustomPostMetaInputObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint|null
-     */
-    private $userLoggedInCheckpoint;
+    private ?AddCustomPostMetaMutationResolver $addCustomPostMetaMutationResolver = null;
+    private ?AddCustomPostMetaBulkOperationMutationResolver $addCustomPostMetaBulkOperationMutationResolver = null;
+    private ?DeleteCustomPostMetaMutationResolver $deleteCustomPostMetaMutationResolver = null;
+    private ?DeleteCustomPostMetaBulkOperationMutationResolver $deleteCustomPostMetaBulkOperationMutationResolver = null;
+    private ?SetCustomPostMetaMutationResolver $setCustomPostMetaMutationResolver = null;
+    private ?SetCustomPostMetaBulkOperationMutationResolver $setCustomPostMetaBulkOperationMutationResolver = null;
+    private ?UpdateCustomPostMetaMutationResolver $updateCustomPostMetaMutationResolver = null;
+    private ?UpdateCustomPostMetaBulkOperationMutationResolver $updateCustomPostMetaBulkOperationMutationResolver = null;
+    private ?PayloadableDeleteCustomPostMetaMutationResolver $payloadableDeleteCustomPostMetaMutationResolver = null;
+    private ?PayloadableDeleteCustomPostMetaBulkOperationMutationResolver $payloadableDeleteCustomPostMetaBulkOperationMutationResolver = null;
+    private ?PayloadableSetCustomPostMetaMutationResolver $payloadableSetCustomPostMetaMutationResolver = null;
+    private ?PayloadableSetCustomPostMetaBulkOperationMutationResolver $payloadableSetCustomPostMetaBulkOperationMutationResolver = null;
+    private ?PayloadableUpdateCustomPostMetaMutationResolver $payloadableUpdateCustomPostMetaMutationResolver = null;
+    private ?PayloadableUpdateCustomPostMetaBulkOperationMutationResolver $payloadableUpdateCustomPostMetaBulkOperationMutationResolver = null;
+    private ?PayloadableAddCustomPostMetaMutationResolver $payloadableAddCustomPostMetaMutationResolver = null;
+    private ?PayloadableAddCustomPostMetaBulkOperationMutationResolver $payloadableAddCustomPostMetaBulkOperationMutationResolver = null;
+    private ?RootDeleteCustomPostMetaInputObjectTypeResolver $rootDeleteCustomPostMetaInputObjectTypeResolver = null;
+    private ?RootSetCustomPostMetaInputObjectTypeResolver $rootSetCustomPostMetaInputObjectTypeResolver = null;
+    private ?RootUpdateCustomPostMetaInputObjectTypeResolver $rootUpdateCustomPostMetaInputObjectTypeResolver = null;
+    private ?RootAddCustomPostMetaInputObjectTypeResolver $rootAddCustomPostMetaInputObjectTypeResolver = null;
+    private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getAddCustomPostMetaMutationResolver() : AddCustomPostMetaMutationResolver
     {
         if ($this->addCustomPostMetaMutationResolver === null) {
@@ -343,34 +280,21 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         $customPostEntityName = $this->getCustomPostEntityName();
-        switch ($fieldName) {
-            case 'add' . $customPostEntityName . 'Meta':
-                return $this->__('Add meta to custom post', 'custompost-mutations');
-            case 'add' . $customPostEntityName . 'Metas':
-                return $this->__('Add meta to custom posts', 'custompost-mutations');
-            case 'update' . $customPostEntityName . 'Meta':
-                return $this->__('Update meta from custom post', 'custompost-mutations');
-            case 'update' . $customPostEntityName . 'Metas':
-                return $this->__('Update meta from custom posts', 'custompost-mutations');
-            case 'delete' . $customPostEntityName . 'Meta':
-                return $this->__('Delete meta from custom post', 'custompost-mutations');
-            case 'delete' . $customPostEntityName . 'Metas':
-                return $this->__('Delete meta from custom posts', 'custompost-mutations');
-            case 'set' . $customPostEntityName . 'Meta':
-                return $this->__('Set meta on custom post', 'custompost-mutations');
-            case 'set' . $customPostEntityName . 'Metas':
-                return $this->__('Set meta on custom posts', 'custompost-mutations');
-            case 'add' . $customPostEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `addCustomPostMeta` mutation', 'custompost-mutations');
-            case 'update' . $customPostEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `updateCustomPostMeta` mutation', 'custompost-mutations');
-            case 'delete' . $customPostEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `deleteCustomPostMeta` mutation', 'custompost-mutations');
-            case 'set' . $customPostEntityName . 'MetaMutationPayloadObjects':
-                return $this->__('Retrieve the payload objects from a recently-executed `setCustomPostMeta` mutation', 'custompost-mutations');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $customPostEntityName . 'Meta' => $this->__('Add meta to custom post', 'custompost-mutations'),
+            'add' . $customPostEntityName . 'Metas' => $this->__('Add meta to custom posts', 'custompost-mutations'),
+            'update' . $customPostEntityName . 'Meta' => $this->__('Update meta from custom post', 'custompost-mutations'),
+            'update' . $customPostEntityName . 'Metas' => $this->__('Update meta from custom posts', 'custompost-mutations'),
+            'delete' . $customPostEntityName . 'Meta' => $this->__('Delete meta from custom post', 'custompost-mutations'),
+            'delete' . $customPostEntityName . 'Metas' => $this->__('Delete meta from custom posts', 'custompost-mutations'),
+            'set' . $customPostEntityName . 'Meta' => $this->__('Set meta on custom post', 'custompost-mutations'),
+            'set' . $customPostEntityName . 'Metas' => $this->__('Set meta on custom posts', 'custompost-mutations'),
+            'add' . $customPostEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `addCustomPostMeta` mutation', 'custompost-mutations'),
+            'update' . $customPostEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updateCustomPostMeta` mutation', 'custompost-mutations'),
+            'delete' . $customPostEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `deleteCustomPostMeta` mutation', 'custompost-mutations'),
+            'set' . $customPostEntityName . 'MetaMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `setCustomPostMeta` mutation', 'custompost-mutations'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
@@ -379,38 +303,20 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMetaMutations = $moduleConfiguration->usePayloadableCustomPostMetaMutations();
         if (!$usePayloadableCustomPostMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $customPostEntityName . 'Meta':
-                case 'update' . $customPostEntityName . 'Meta':
-                case 'delete' . $customPostEntityName . 'Meta':
-                case 'set' . $customPostEntityName . 'Meta':
-                    return SchemaTypeModifiers::NONE;
-                case 'add' . $customPostEntityName . 'Metas':
-                case 'update' . $customPostEntityName . 'Metas':
-                case 'delete' . $customPostEntityName . 'Metas':
-                case 'set' . $customPostEntityName . 'Metas':
-                    return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-                default:
-                    return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $customPostEntityName . 'Meta', 'update' . $customPostEntityName . 'Meta', 'delete' . $customPostEntityName . 'Meta', 'set' . $customPostEntityName . 'Meta' => SchemaTypeModifiers::NONE,
+                'add' . $customPostEntityName . 'Metas', 'update' . $customPostEntityName . 'Metas', 'delete' . $customPostEntityName . 'Metas', 'set' . $customPostEntityName . 'Metas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+            };
         }
         if (\in_array($fieldName, ['add' . $customPostEntityName . 'MetaMutationPayloadObjects', 'update' . $customPostEntityName . 'MetaMutationPayloadObjects', 'delete' . $customPostEntityName . 'MetaMutationPayloadObjects', 'set' . $customPostEntityName . 'MetaMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
-        switch ($fieldName) {
-            case 'add' . $customPostEntityName . 'Meta':
-            case 'update' . $customPostEntityName . 'Meta':
-            case 'delete' . $customPostEntityName . 'Meta':
-            case 'set' . $customPostEntityName . 'Meta':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'add' . $customPostEntityName . 'Metas':
-            case 'update' . $customPostEntityName . 'Metas':
-            case 'delete' . $customPostEntityName . 'Metas':
-            case 'set' . $customPostEntityName . 'Metas':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $customPostEntityName . 'Meta', 'update' . $customPostEntityName . 'Meta', 'delete' . $customPostEntityName . 'Meta', 'set' . $customPostEntityName . 'Meta' => SchemaTypeModifiers::NON_NULLABLE,
+            'add' . $customPostEntityName . 'Metas', 'update' . $customPostEntityName . 'Metas', 'delete' . $customPostEntityName . 'Metas', 'set' . $customPostEntityName . 'Metas' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -418,31 +324,18 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
         $customPostEntityName = $this->getCustomPostEntityName();
-        switch ($fieldName) {
-            case 'add' . $customPostEntityName . 'Meta':
-                return ['input' => $this->getRootAddCustomPostMetaInputObjectTypeResolver()];
-            case 'add' . $customPostEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddCustomPostMetaInputObjectTypeResolver());
-            case 'update' . $customPostEntityName . 'Meta':
-                return ['input' => $this->getRootUpdateCustomPostMetaInputObjectTypeResolver()];
-            case 'update' . $customPostEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateCustomPostMetaInputObjectTypeResolver());
-            case 'delete' . $customPostEntityName . 'Meta':
-                return ['input' => $this->getRootDeleteCustomPostMetaInputObjectTypeResolver()];
-            case 'delete' . $customPostEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteCustomPostMetaInputObjectTypeResolver());
-            case 'set' . $customPostEntityName . 'Meta':
-                return ['input' => $this->getRootSetCustomPostMetaInputObjectTypeResolver()];
-            case 'set' . $customPostEntityName . 'Metas':
-                return $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetCustomPostMetaInputObjectTypeResolver());
-            case 'add' . $customPostEntityName . 'MetaMutationPayloadObjects':
-            case 'update' . $customPostEntityName . 'MetaMutationPayloadObjects':
-            case 'delete' . $customPostEntityName . 'MetaMutationPayloadObjects':
-            case 'set' . $customPostEntityName . 'MetaMutationPayloadObjects':
-                return $this->getMutationPayloadObjectsFieldArgNameTypeResolvers();
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $customPostEntityName . 'Meta' => ['input' => $this->getRootAddCustomPostMetaInputObjectTypeResolver()],
+            'add' . $customPostEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootAddCustomPostMetaInputObjectTypeResolver()),
+            'update' . $customPostEntityName . 'Meta' => ['input' => $this->getRootUpdateCustomPostMetaInputObjectTypeResolver()],
+            'update' . $customPostEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateCustomPostMetaInputObjectTypeResolver()),
+            'delete' . $customPostEntityName . 'Meta' => ['input' => $this->getRootDeleteCustomPostMetaInputObjectTypeResolver()],
+            'delete' . $customPostEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteCustomPostMetaInputObjectTypeResolver()),
+            'set' . $customPostEntityName . 'Meta' => ['input' => $this->getRootSetCustomPostMetaInputObjectTypeResolver()],
+            'set' . $customPostEntityName . 'Metas' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootSetCustomPostMetaInputObjectTypeResolver()),
+            'add' . $customPostEntityName . 'MetaMutationPayloadObjects', 'update' . $customPostEntityName . 'MetaMutationPayloadObjects', 'delete' . $customPostEntityName . 'MetaMutationPayloadObjects', 'set' . $customPostEntityName . 'MetaMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
@@ -453,20 +346,12 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
         if (\in_array($fieldName, ['add' . $customPostEntityName . 'Metas', 'update' . $customPostEntityName . 'Metas', 'delete' . $customPostEntityName . 'Metas', 'set' . $customPostEntityName . 'Metas'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        switch ([$fieldName => $fieldArgName]) {
-            case ['add' . $customPostEntityName . 'Meta' => 'input']:
-            case ['update' . $customPostEntityName . 'Meta' => 'input']:
-            case ['delete' . $customPostEntityName . 'Meta' => 'input']:
-            case ['set' . $customPostEntityName . 'Meta' => 'input']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['add' . $customPostEntityName . 'Meta' => 'input'], ['update' . $customPostEntityName . 'Meta' => 'input'], ['delete' . $customPostEntityName . 'Meta' => 'input'], ['set' . $customPostEntityName . 'Meta' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName)
+    public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
         $customPostEntityName = $this->getCustomPostEntityName();
         if (\in_array($fieldName, ['add' . $customPostEntityName . 'Metas', 'update' . $customPostEntityName . 'Metas', 'delete' . $customPostEntityName . 'Metas', 'set' . $customPostEntityName . 'Metas'])) {
@@ -480,26 +365,17 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMetaMutations = $moduleConfiguration->usePayloadableCustomPostMetaMutations();
-        switch ($fieldName) {
-            case 'add' . $customPostEntityName . 'Meta':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableAddCustomPostMetaMutationResolver() : $this->getAddCustomPostMetaMutationResolver();
-            case 'add' . $customPostEntityName . 'Metas':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableAddCustomPostMetaBulkOperationMutationResolver() : $this->getAddCustomPostMetaBulkOperationMutationResolver();
-            case 'update' . $customPostEntityName . 'Meta':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableUpdateCustomPostMetaMutationResolver() : $this->getUpdateCustomPostMetaMutationResolver();
-            case 'update' . $customPostEntityName . 'Metas':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableUpdateCustomPostMetaBulkOperationMutationResolver() : $this->getUpdateCustomPostMetaBulkOperationMutationResolver();
-            case 'delete' . $customPostEntityName . 'Meta':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableDeleteCustomPostMetaMutationResolver() : $this->getDeleteCustomPostMetaMutationResolver();
-            case 'delete' . $customPostEntityName . 'Metas':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableDeleteCustomPostMetaBulkOperationMutationResolver() : $this->getDeleteCustomPostMetaBulkOperationMutationResolver();
-            case 'set' . $customPostEntityName . 'Meta':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableSetCustomPostMetaMutationResolver() : $this->getSetCustomPostMetaMutationResolver();
-            case 'set' . $customPostEntityName . 'Metas':
-                return $usePayloadableCustomPostMetaMutations ? $this->getPayloadableSetCustomPostMetaBulkOperationMutationResolver() : $this->getSetCustomPostMetaBulkOperationMutationResolver();
-            default:
-                return parent::getFieldMutationResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $customPostEntityName . 'Meta' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableAddCustomPostMetaMutationResolver() : $this->getAddCustomPostMetaMutationResolver(),
+            'add' . $customPostEntityName . 'Metas' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableAddCustomPostMetaBulkOperationMutationResolver() : $this->getAddCustomPostMetaBulkOperationMutationResolver(),
+            'update' . $customPostEntityName . 'Meta' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableUpdateCustomPostMetaMutationResolver() : $this->getUpdateCustomPostMetaMutationResolver(),
+            'update' . $customPostEntityName . 'Metas' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableUpdateCustomPostMetaBulkOperationMutationResolver() : $this->getUpdateCustomPostMetaBulkOperationMutationResolver(),
+            'delete' . $customPostEntityName . 'Meta' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableDeleteCustomPostMetaMutationResolver() : $this->getDeleteCustomPostMetaMutationResolver(),
+            'delete' . $customPostEntityName . 'Metas' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableDeleteCustomPostMetaBulkOperationMutationResolver() : $this->getDeleteCustomPostMetaBulkOperationMutationResolver(),
+            'set' . $customPostEntityName . 'Meta' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableSetCustomPostMetaMutationResolver() : $this->getSetCustomPostMetaMutationResolver(),
+            'set' . $customPostEntityName . 'Metas' => $usePayloadableCustomPostMetaMutations ? $this->getPayloadableSetCustomPostMetaBulkOperationMutationResolver() : $this->getSetCustomPostMetaBulkOperationMutationResolver(),
+            default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return CheckpointInterface[]
@@ -534,10 +410,7 @@ abstract class AbstractRootCustomPostCRUDObjectTypeFieldResolver extends Abstrac
         }
         return $validationCheckpoints;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $customPostEntityName = $this->getCustomPostEntityName();
         $fieldName = $fieldDataAccessor->getFieldName();

@@ -56,9 +56,7 @@ trait ConfigurableMandatoryDirectivesForDirectivesTrait
     protected function getFieldDirectiveResolverClasses() : array
     {
         // Obtain all entries for the current combination of typeResolver/fieldName
-        return \array_values(\array_unique(\array_map(function (array $entry) {
-            return $entry[0];
-        }, $this->getEntries())));
+        return \array_values(\array_unique(\array_map(fn(array $entry) => $entry[0], $this->getEntries())));
     }
     /**
      * Filter all the entries from the list which apply to the passed typeResolver and fieldName
@@ -69,9 +67,7 @@ trait ConfigurableMandatoryDirectivesForDirectivesTrait
     protected final function getMatchingEntries(array $entryList, ?string $value) : array
     {
         if ($value !== null) {
-            return \array_values(\array_filter($entryList, function (array $entry) use($value) {
-                return ($entry[1] ?? null) === $value;
-            }));
+            return \array_values(\array_filter($entryList, fn(array $entry) => ($entry[1] ?? null) === $value));
         }
         return $entryList;
     }

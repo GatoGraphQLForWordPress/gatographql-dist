@@ -30,22 +30,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Mime\MimeTypes;
  */
 class UploadedFile extends File
 {
-    /**
-     * @var bool
-     */
-    private $test;
-    /**
-     * @var string
-     */
-    private $originalName;
-    /**
-     * @var string
-     */
-    private $mimeType;
-    /**
-     * @var int
-     */
-    private $error;
+    private bool $test;
+    private string $originalName;
+    private string $mimeType;
+    private int $error;
     /**
      * Accepts the information of the uploaded file as provided by the PHP global $_FILES.
      *
@@ -202,25 +190,22 @@ class UploadedFile extends File
      *
      * @return int|float The maximum size of an uploaded file in bytes (returns float if size > PHP_INT_MAX)
      */
-    public static function getMaxFilesize()
+    public static function getMaxFilesize() : int|float
     {
         $sizePostMax = self::parseFilesize(\ini_get('post_max_size'));
         $sizeUploadMax = self::parseFilesize(\ini_get('upload_max_filesize'));
         return \min($sizePostMax ?: \PHP_INT_MAX, $sizeUploadMax ?: \PHP_INT_MAX);
     }
-    /**
-     * @return int|float
-     */
-    private static function parseFilesize(string $size)
+    private static function parseFilesize(string $size) : int|float
     {
         if ('' === $size) {
             return 0;
         }
         $size = \strtolower($size);
         $max = \ltrim($size, '+');
-        if (\strncmp($max, '0x', \strlen('0x')) === 0) {
+        if (\str_starts_with($max, '0x')) {
             $max = \intval($max, 16);
-        } elseif (\strncmp($max, '0', \strlen('0')) === 0) {
+        } elseif (\str_starts_with($max, '0')) {
             $max = \intval($max, 8);
         } else {
             $max = (int) $max;

@@ -16,47 +16,29 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>=')) {
      */
     trait Redis6ProxyTrait
     {
-        /**
-         * @return \Redis|string|false
-         */
-        public function dump($key)
+        public function dump($key) : \Redis|string|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]|string|false
-         */
-        public function hRandField($key, $options = null)
+        public function hRandField($key, $options = null) : \Redis|array|string|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hRandField(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hRandField(...\func_get_args());
         }
-        /**
-         * @return \Redis|false|int
-         */
-        public function hSet($key, ...$fields_and_vals)
+        public function hSet($key, ...$fields_and_vals) : \Redis|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]|false
-         */
-        public function mget($keys)
+        public function mget($keys) : \Redis|array|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->mget(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->mget(...\func_get_args());
         }
-        /**
-         * @return mixed
-         */
-        public function sRandMember($key, $count = 0)
+        public function sRandMember($key, $count = 0) : mixed
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sRandMember(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->sRandMember(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]|false
-         */
-        public function waitaof($numlocal, $numreplicas, $timeout)
+        public function waitaof($numlocal, $numreplicas, $timeout) : \Redis|array|false
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->waitaof(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->waitaof(...\func_get_args());
         }
     }
 } else {
@@ -65,40 +47,25 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>=')) {
      */
     trait Redis6ProxyTrait
     {
-        /**
-         * @return \Redis|string
-         */
-        public function dump($key)
+        public function dump($key) : \Redis|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->dump(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]|string
-         */
-        public function hRandField($key, $options = null)
+        public function hRandField($key, $options = null) : \Redis|array|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hRandField(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hRandField(...\func_get_args());
         }
-        /**
-         * @return \Redis|false|int
-         */
-        public function hSet($key, $member, $value)
+        public function hSet($key, $member, $value) : \Redis|false|int
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->hSet(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]
-         */
-        public function mget($keys)
+        public function mget($keys) : \Redis|array
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->mget(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->mget(...\func_get_args());
         }
-        /**
-         * @return \Redis|mixed[]|false|string
-         */
-        public function sRandMember($key, $count = 0)
+        public function sRandMember($key, $count = 0) : \Redis|array|false|string
         {
-            return ($this->lazyObjectState->realInstance = $this->lazyObjectState->realInstance ?? ($this->lazyObjectState->initializer)())->sRandMember(...\func_get_args());
+            return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->sRandMember(...\func_get_args());
         }
     }
 }

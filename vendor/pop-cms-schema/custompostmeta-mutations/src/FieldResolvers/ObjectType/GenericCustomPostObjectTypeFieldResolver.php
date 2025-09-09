@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericCustomPostObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver|null
-     */
-    private $genericCustomPostObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\ObjectType\GenericCustomPostDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericCustomPostDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\ObjectType\GenericCustomPostAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericCustomPostCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\ObjectType\GenericCustomPostUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericCustomPostUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\ObjectType\GenericCustomPostSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $genericCustomPostSetMetaMutationPayloadObjectTypeResolver;
+    private ?GenericCustomPostObjectTypeResolver $genericCustomPostObjectTypeResolver = null;
+    private ?GenericCustomPostDeleteMetaMutationPayloadObjectTypeResolver $genericCustomPostDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?GenericCustomPostAddMetaMutationPayloadObjectTypeResolver $genericCustomPostCreateMutationPayloadObjectTypeResolver = null;
+    private ?GenericCustomPostUpdateMetaMutationPayloadObjectTypeResolver $genericCustomPostUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?GenericCustomPostSetMetaMutationPayloadObjectTypeResolver $genericCustomPostSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getGenericCustomPostObjectTypeResolver() : GenericCustomPostObjectTypeResolver
     {
         if ($this->genericCustomPostObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class GenericCustomPostObjectTypeFieldResolver extends AbstractCustomPostObjectT
         $moduleConfiguration = App::getModule(CustomPostMetaMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMetaMutations = $moduleConfiguration->usePayloadableCustomPostMetaMutations();
         if (!$usePayloadableCustomPostMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getGenericCustomPostObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getGenericCustomPostObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getGenericCustomPostAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getGenericCustomPostDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getGenericCustomPostSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getGenericCustomPostUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getGenericCustomPostAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getGenericCustomPostDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getGenericCustomPostSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getGenericCustomPostUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

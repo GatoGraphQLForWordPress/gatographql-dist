@@ -17,7 +17,7 @@ class RemoveBuildParametersPass implements CompilerPassInterface
     /**
      * @var array<string, mixed>
      */
-    private $removedParameters = [];
+    private array $removedParameters = [];
     /**
      * @return void
      */

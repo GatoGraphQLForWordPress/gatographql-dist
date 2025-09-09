@@ -16,10 +16,7 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
 {
     use PluginMarkdownContentRetrieverTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -45,9 +42,7 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
         $tab = App::query(RequestParams::TAB);
         if ($tab !== null) {
             $entryNames = array_map(
-                function (array $entry) {
-                    return $entry[0];
-                },
+                fn (array $entry) => $entry[0],
                 $entries
             );
             if (in_array($tab, $entryNames)) {
@@ -225,16 +220,20 @@ abstract class AbstractVerticalTabDocsMenuPage extends AbstractDocsMenuPage
     /**
      * @param array{0:string,1:string} $entry
      */
-    protected function getEntryTitle(string $entryTitle, array $entry): string
-    {
+    protected function getEntryTitle(
+        string $entryTitle,
+        array $entry,
+    ): string {
         return $entryTitle;
     }
 
     /**
      * @param array{0:string,1:string} $entry
      */
-    protected function getEntryContent(string $entryContent, array $entry): string
-    {
+    protected function getEntryContent(
+        string $entryContent,
+        array $entry,
+    ): string {
         return $entryContent;
     }
 

@@ -15,22 +15,10 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver|null
-     */
-    private $createMediaItemFromOneofInputObjectTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\DateScalarTypeResolver|null
-     */
-    private $dateScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?\PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\CreateMediaItemFromOneofInputObjectTypeResolver $createMediaItemFromOneofInputObjectTypeResolver = null;
+    private ?DateScalarTypeResolver $dateScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -81,61 +69,31 @@ abstract class AbstractCreateOrUpdateMediaItemInputObjectTypeResolver extends Ab
     protected abstract function canUploadAttachment() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                $inputFieldDescription = $this->__('Media item ID', 'media-mutations');
-                break;
-            case MutationInputProperties::FROM:
-                $inputFieldDescription = $this->__('Source for the file', 'media-mutations');
-                break;
-            case MutationInputProperties::AUTHOR_ID:
-                $inputFieldDescription = $this->__('The ID of the author', 'media-mutations');
-                break;
-            case MutationInputProperties::TITLE:
-                $inputFieldDescription = $this->__('Attachment title', 'media-mutations');
-                break;
-            case MutationInputProperties::SLUG:
-                $inputFieldDescription = $this->__('Attachment slug', 'media-mutations');
-                break;
-            case MutationInputProperties::CAPTION:
-                $inputFieldDescription = $this->__('Attachment caption', 'media-mutations');
-                break;
-            case MutationInputProperties::DESCRIPTION:
-                $inputFieldDescription = $this->__('Attachment description', 'media-mutations');
-                break;
-            case MutationInputProperties::ALT_TEXT:
-                $inputFieldDescription = $this->__('Image alternative information', 'media-mutations');
-                break;
-            case MutationInputProperties::MIME_TYPE:
-                $inputFieldDescription = $this->__('Mime type to use for the attachment, when this information can\'t be deduced from the filename (because it has no extension)', 'media-mutations');
-                break;
-            case MutationInputProperties::DATE:
-                $inputFieldDescription = $this->__('Date to use for the attachment', 'media-mutations');
-                break;
-            case MutationInputProperties::GMT_DATE:
-                $inputFieldDescription = $this->__('GMT date to use for the attachment', 'media-mutations');
-                break;
-            default:
-                $inputFieldDescription = parent::getInputFieldDefaultValue($inputFieldName);
-                break;
-        }
+        $inputFieldDescription = match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('Media item ID', 'media-mutations'),
+            MutationInputProperties::FROM => $this->__('Source for the file', 'media-mutations'),
+            MutationInputProperties::AUTHOR_ID => $this->__('The ID of the author', 'media-mutations'),
+            MutationInputProperties::TITLE => $this->__('Attachment title', 'media-mutations'),
+            MutationInputProperties::SLUG => $this->__('Attachment slug', 'media-mutations'),
+            MutationInputProperties::CAPTION => $this->__('Attachment caption', 'media-mutations'),
+            MutationInputProperties::DESCRIPTION => $this->__('Attachment description', 'media-mutations'),
+            MutationInputProperties::ALT_TEXT => $this->__('Image alternative information', 'media-mutations'),
+            MutationInputProperties::MIME_TYPE => $this->__('Mime type to use for the attachment, when this information can\'t be deduced from the filename (because it has no extension)', 'media-mutations'),
+            MutationInputProperties::DATE => $this->__('Date to use for the attachment', 'media-mutations'),
+            MutationInputProperties::GMT_DATE => $this->__('GMT date to use for the attachment', 'media-mutations'),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
         // Inject custom post ID, etc
         $inputFieldDescription = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_DESCRIPTION, $inputFieldDescription, $inputFieldName, $this);
         return $inputFieldDescription;
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                $inputFieldTypeModifiers = SchemaTypeModifiers::MANDATORY;
-                break;
-            case MutationInputProperties::FROM:
-                $inputFieldTypeModifiers = SchemaTypeModifiers::MANDATORY;
-                break;
-            default:
-                $inputFieldTypeModifiers = parent::getInputFieldTypeModifiers($inputFieldName);
-                break;
-        }
+        $inputFieldTypeModifiers = match ($inputFieldName) {
+            MutationInputProperties::ID => SchemaTypeModifiers::MANDATORY,
+            MutationInputProperties::FROM => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
         // Inject custom post ID, etc
         $inputFieldTypeModifiers = App::applyFilters(MediaCRUDHookNames::CREATE_OR_UPDATE_MEDIA_ITEM_INPUT_FIELD_TYPE_MODIFIERS, $inputFieldTypeModifiers, $inputFieldName, $this);
         return $inputFieldTypeModifiers;

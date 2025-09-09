@@ -18,6 +18,6 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerExceptionInterface;
  * @author Bulat Shakirzyanov <bulat@theopenskyproject.com>
  * @internal
  */
-interface ExceptionInterface extends ContainerExceptionInterface
+interface ExceptionInterface extends ContainerExceptionInterface, \Throwable
 {
 }

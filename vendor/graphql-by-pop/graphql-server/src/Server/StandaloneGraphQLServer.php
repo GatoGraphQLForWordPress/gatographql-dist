@@ -26,38 +26,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compil
 class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\AbstractGraphQLServer
 {
     /**
-     * @var array<class-string<ModuleInterface>, array<string, mixed>>
-     * @readonly
-     */
-    private $moduleClassConfiguration = [];
-    /**
-     * @var array<class-string<CompilerPassInterface>>
-     * @readonly
-     */
-    private $systemContainerCompilerPassClasses = [];
-    /**
-     * @var array<class-string<CompilerPassInterface>>
-     * @readonly
-     */
-    private $applicationContainerCompilerPassClasses = [];
-    /**
-     * @readonly
-     * @var \PoP\Root\Container\ContainerCacheConfiguration|null
-     */
-    private $containerCacheConfiguration;
-    /**
      * @var array<class-string<ModuleInterface>>
-     * @readonly
      */
-    private $moduleClasses;
-    /**
-     * @var \PoPAPI\API\QueryParsing\GraphQLParserHelperServiceInterface|null
-     */
-    private $graphQLParserHelperService;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\AppStateProviderServices\GraphQLServerAppStateProviderServiceInterface|null
-     */
-    private $graphQLServerAppStateProviderService;
+    private readonly array $moduleClasses;
+    private ?GraphQLParserHelperServiceInterface $graphQLParserHelperService = null;
+    private ?GraphQLServerAppStateProviderServiceInterface $graphQLServerAppStateProviderService = null;
     protected final function getGraphQLParserHelperService() : GraphQLParserHelperServiceInterface
     {
         if ($this->graphQLParserHelperService === null) {
@@ -82,12 +55,8 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
      * @param array<class-string<CompilerPassInterface>> $systemContainerCompilerPassClasses
      * @param array<class-string<CompilerPassInterface>> $applicationContainerCompilerPassClasses
      */
-    public function __construct(array $moduleClasses, array $moduleClassConfiguration = [], array $systemContainerCompilerPassClasses = [], array $applicationContainerCompilerPassClasses = [], ?ContainerCacheConfiguration $containerCacheConfiguration = null)
+    public function __construct(array $moduleClasses, private readonly array $moduleClassConfiguration = [], private readonly array $systemContainerCompilerPassClasses = [], private readonly array $applicationContainerCompilerPassClasses = [], private readonly ?ContainerCacheConfiguration $containerCacheConfiguration = null)
     {
-        $this->moduleClassConfiguration = $moduleClassConfiguration;
-        $this->systemContainerCompilerPassClasses = $systemContainerCompilerPassClasses;
-        $this->applicationContainerCompilerPassClasses = $applicationContainerCompilerPassClasses;
-        $this->containerCacheConfiguration = $containerCacheConfiguration;
         $this->moduleClasses = \array_merge($moduleClasses, [
             /**
              * This is the one Module that is required to produce the GraphQL server.
@@ -117,7 +86,7 @@ class StandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\Abstrac
          * After booting the application, we can access the Application Container services.
          * Explicitly set the required state to execute GraphQL queries.
          */
-        $graphQLRequestAppState = \array_merge($this->getGraphQLServerAppStateProviderService()->getGraphQLRequestAppState(), ['query' => null]);
+        $graphQLRequestAppState = [...$this->getGraphQLServerAppStateProviderService()->getGraphQLRequestAppState(), 'query' => null];
         $appLoader->setInitialAppState($graphQLRequestAppState);
         // Finally trigger booting the components
         $appLoader->bootApplicationModules();

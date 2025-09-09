@@ -11,7 +11,7 @@ class TaxonomyRegistry implements TaxonomyRegistryInterface
     /**
      * @var array<string,TaxonomyInterface>
      */
-    protected $taxonomies = [];
+    protected array $taxonomies = [];
 
     public function addTaxonomy(
         TaxonomyInterface $taxonomy,
@@ -29,9 +29,7 @@ class TaxonomyRegistry implements TaxonomyRegistryInterface
         if ($isHierarchical !== null) {
             return array_filter(
                 $this->taxonomies,
-                function (TaxonomyInterface $taxonomy) use ($isHierarchical) {
-                    return ($isHierarchical && $taxonomy->isHierarchical()) || (!$isHierarchical && !$taxonomy->isHierarchical());
-                }
+                fn (TaxonomyInterface $taxonomy) => ($isHierarchical && $taxonomy->isHierarchical()) || (!$isHierarchical && !$taxonomy->isHierarchical())
             );
         }
         return $this->taxonomies;

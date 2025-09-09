@@ -13,11 +13,8 @@ use PoP\ComponentModel\TypeResolvers\CanonicalTypeNameTypeResolverTrait;
 class RootObjectTypeResolver extends AbstractObjectTypeResolver
 {
     use CanonicalTypeNameTypeResolverTrait;
-    public const HOOK_DESCRIPTION = __CLASS__ . ':description';
-    /**
-     * @var \PoP\Engine\RelationalTypeDataLoaders\ObjectType\RootObjectTypeDataLoader|null
-     */
-    private $rootObjectTypeDataLoader;
+    public final const HOOK_DESCRIPTION = __CLASS__ . ':description';
+    private ?RootObjectTypeDataLoader $rootObjectTypeDataLoader = null;
     protected final function getRootObjectTypeDataLoader() : RootObjectTypeDataLoader
     {
         if ($this->rootObjectTypeDataLoader === null) {
@@ -35,10 +32,7 @@ class RootObjectTypeResolver extends AbstractObjectTypeResolver
     {
         return App::applyFilters(self::HOOK_DESCRIPTION, $this->__('Root type, starting from which the query is executed', 'engine'));
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var Root */
         $root = $object;

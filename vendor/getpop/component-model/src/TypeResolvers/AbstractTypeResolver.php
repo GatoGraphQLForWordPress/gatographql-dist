@@ -14,19 +14,10 @@ abstract class AbstractTypeResolver extends AbstractBasicService implements \PoP
     /**
      * @var array<string,mixed[]>|null
      */
-    protected $schemaDefinition;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaNamespacingServiceInterface|null
-     */
-    private $schemaNamespacingService;
-    /**
-     * @var \PoP\ComponentModel\Schema\SchemaDefinitionServiceInterface|null
-     */
-    private $schemaDefinitionService;
-    /**
-     * @var \PoP\ComponentModel\AttachableExtensions\AttachableExtensionManagerInterface|null
-     */
-    private $attachableExtensionManager;
+    protected ?array $schemaDefinition = null;
+    private ?SchemaNamespacingServiceInterface $schemaNamespacingService = null;
+    private ?SchemaDefinitionServiceInterface $schemaDefinitionService = null;
+    private ?AttachableExtensionManagerInterface $attachableExtensionManager = null;
     protected final function getSchemaNamespacingService() : SchemaNamespacingServiceInterface
     {
         if ($this->schemaNamespacingService === null) {
@@ -60,7 +51,6 @@ abstract class AbstractTypeResolver extends AbstractBasicService implements \PoP
     }
     protected function getClassToNamespace() : string
     {
-        /** @var string */
         return \get_called_class();
     }
     public final function getNamespacedTypeName() : string

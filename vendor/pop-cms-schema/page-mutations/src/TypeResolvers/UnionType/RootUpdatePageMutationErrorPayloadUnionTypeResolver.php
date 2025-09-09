@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootUpdatePageMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\PageMutations\TypeResolvers\UnionType\AbstractRootUpdatePageMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMutations\RelationalTypeDataLoaders\UnionType\RootUpdatePageMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootUpdatePageMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootUpdatePageMutationErrorPayloadUnionTypeDataLoader $rootUpdatePageMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootUpdatePageMutationErrorPayloadUnionTypeDataLoader() : RootUpdatePageMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootUpdatePageMutationErrorPayloadUnionTypeDataLoader === null) {

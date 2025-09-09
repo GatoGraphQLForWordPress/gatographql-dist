@@ -10,14 +10,8 @@ use PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver;
 /** @internal */
 abstract class AbstractPostObjectTypeResolverPicker extends AbstractObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeResolvers\ObjectType\PostObjectTypeResolver|null
-     */
-    private $postObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
+    private ?PostObjectTypeResolver $postObjectTypeResolver = null;
+    private ?PostTypeAPIInterface $postTypeAPI = null;
     protected final function getPostObjectTypeResolver() : PostObjectTypeResolver
     {
         if ($this->postObjectTypeResolver === null) {
@@ -44,10 +38,7 @@ abstract class AbstractPostObjectTypeResolverPicker extends AbstractObjectTypeRe
     {
         return $this->getPostTypeAPI()->isInstanceOfPostType($object);
     }
-    /**
-     * @param string|int $objectID
-     */
-    public function isIDOfType($objectID) : bool
+    public function isIDOfType(string|int $objectID) : bool
     {
         return $this->getPostTypeAPI()->postExists($objectID);
     }

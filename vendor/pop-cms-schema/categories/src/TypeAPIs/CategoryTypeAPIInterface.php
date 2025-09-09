@@ -14,18 +14,9 @@ interface CategoryTypeAPIInterface extends TaxonomyTypeAPIInterface
      * Indicates if the passed object is of type Category
      */
     public function isInstanceOfCategoryType(object $object) : bool;
-    /**
-     * @return string|int
-     */
-    public function getCategoryID(object $cat);
-    /**
-     * @param string|int $categoryID
-     */
-    public function getCategory($categoryID) : ?object;
-    /**
-     * @param int|string $id
-     */
-    public function categoryExists($id) : bool;
+    public function getCategoryID(object $cat) : string|int;
+    public function getCategory(string|int $categoryID) : ?object;
+    public function categoryExists(int|string $id) : bool;
     /**
      * @return array<string|int>|object[]
      * @param array<string,mixed> $query
@@ -41,13 +32,11 @@ interface CategoryTypeAPIInterface extends TaxonomyTypeAPIInterface
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostCategories($customPostObjectOrID, array $query = [], array $options = []) : array;
+    public function getCustomPostCategories(string|int|object $customPostObjectOrID, array $query = [], array $options = []) : array;
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostCategoryCount($customPostObjectOrID, array $query, array $options = []) : ?int;
+    public function getCustomPostCategoryCount(string|int|object $customPostObjectOrID, array $query, array $options = []) : ?int;
 }

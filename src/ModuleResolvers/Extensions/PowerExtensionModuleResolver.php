@@ -70,117 +70,65 @@ class PowerExtensionModuleResolver extends AbstractExtensionModuleResolver
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::ACCESS_CONTROL:
-                return \__('Access Control', 'gatographql');
-            case self::ACCESS_CONTROL_VISITOR_IP:
-                return \__('Access Control: Visitor IP', 'gatographql');
-            case self::CACHE_CONTROL:
-                return \__('Cache Control', 'gatographql');
-            case self::CONDITIONAL_FIELD_MANIPULATION:
-                return \__('Conditional Field Manipulation', 'gatographql');
-            case self::CUSTOM_ENDPOINTS:
-                return \__('Custom Endpoints', 'gatographql');
-            case self::DEPRECATION_NOTIFIER:
-                return \__('Deprecation Notifier', 'gatographql');
-            case self::EMAIL_SENDER:
-                return \__('Email Sender', 'gatographql');
-            case self::FIELD_DEFAULT_VALUE:
-                return \__('Field Default Value', 'gatographql');
-            case self::FIELD_DEPRECATION:
-                return \__('Field Deprecation', 'gatographql');
-            case self::FIELD_ON_FIELD:
-                return \__('Field on Field', 'gatographql');
-            case self::FIELD_RESOLUTION_CACHING:
-                return \__('Field Resolution Caching', 'gatographql');
-            case self::FIELD_RESPONSE_REMOVAL:
-                return \__('Field Response Removal', 'gatographql');
-            case self::FIELD_TO_INPUT:
-                return \__('Field To Input', 'gatographql');
-            case self::FIELD_VALUE_ITERATION_AND_MANIPULATION:
-                return \__('Field Value Iteration and Manipulation', 'gatographql');
-            case self::HELPER_FUNCTION_COLLECTION:
-                return \__('Helper Function Collection', 'gatographql');
-            case self::HTTP_CLIENT:
-                return \__('HTTP Client', 'gatographql');
-            case self::HTTP_REQUEST_VIA_SCHEMA:
-                return \__('HTTP Request via Schema', 'gatographql');
-            case self::INTERNAL_GRAPHQL_SERVER:
-                return \__('Internal GraphQL Server', 'gatographql');
-            case self::LOW_LEVEL_PERSISTED_QUERY_EDITING:
-                return \__('Low-Level Persisted Query Editing', 'gatographql');
-            case self::MULTIPLE_QUERY_EXECUTION:
-                return \__('Multiple Query Execution', 'gatographql');
-            case self::PERSISTED_QUERIES:
-                return \__('Persisted Queries', 'gatographql');
-            case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:
-                return \__('PHP Constants and Environment Variables via Schema', 'gatographql');
-            case self::PHP_FUNCTIONS_VIA_SCHEMA:
-                return \__('PHP Functions via Schema', 'gatographql');
-            case self::RESPONSE_ERROR_TRIGGER:
-                return \__('Response Error Trigger', 'gatographql');
-            case self::SCHEMA_EDITING_ACCESS:
-                return \__('Schema Editing Access', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::ACCESS_CONTROL => \__('Access Control', 'gatographql'),
+            self::ACCESS_CONTROL_VISITOR_IP => \__('Access Control: Visitor IP', 'gatographql'),
+            self::CACHE_CONTROL => \__('Cache Control', 'gatographql'),
+            self::CONDITIONAL_FIELD_MANIPULATION => \__('Conditional Field Manipulation', 'gatographql'),
+            self::CUSTOM_ENDPOINTS => \__('Custom Endpoints', 'gatographql'),
+            self::DEPRECATION_NOTIFIER => \__('Deprecation Notifier', 'gatographql'),
+            self::EMAIL_SENDER => \__('Email Sender', 'gatographql'),
+            self::FIELD_DEFAULT_VALUE => \__('Field Default Value', 'gatographql'),
+            self::FIELD_DEPRECATION => \__('Field Deprecation', 'gatographql'),
+            self::FIELD_ON_FIELD => \__('Field on Field', 'gatographql'),
+            self::FIELD_RESOLUTION_CACHING => \__('Field Resolution Caching', 'gatographql'),
+            self::FIELD_RESPONSE_REMOVAL => \__('Field Response Removal', 'gatographql'),
+            self::FIELD_TO_INPUT => \__('Field To Input', 'gatographql'),
+            self::FIELD_VALUE_ITERATION_AND_MANIPULATION => \__('Field Value Iteration and Manipulation', 'gatographql'),
+            self::HELPER_FUNCTION_COLLECTION => \__('Helper Function Collection', 'gatographql'),
+            self::HTTP_CLIENT => \__('HTTP Client', 'gatographql'),
+            self::HTTP_REQUEST_VIA_SCHEMA => \__('HTTP Request via Schema', 'gatographql'),
+            self::INTERNAL_GRAPHQL_SERVER => \__('Internal GraphQL Server', 'gatographql'),
+            self::LOW_LEVEL_PERSISTED_QUERY_EDITING => \__('Low-Level Persisted Query Editing', 'gatographql'),
+            self::MULTIPLE_QUERY_EXECUTION => \__('Multiple Query Execution', 'gatographql'),
+            self::PERSISTED_QUERIES => \__('Persisted Queries', 'gatographql'),
+            self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA => \__('PHP Constants and Environment Variables via Schema', 'gatographql'),
+            self::PHP_FUNCTIONS_VIA_SCHEMA => \__('PHP Functions via Schema', 'gatographql'),
+            self::RESPONSE_ERROR_TRIGGER => \__('Response Error Trigger', 'gatographql'),
+            self::SCHEMA_EDITING_ACCESS => \__('Schema Editing Access', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::ACCESS_CONTROL:
-                return \__('Grant granular access to the schema, based on the user being logged-in (or not), having a certain role or capability, and more.', 'gatographql');
-            case self::ACCESS_CONTROL_VISITOR_IP:
-                return \__('Grant access to the schema based on the visitor\'s IP address (Access Control extension is required).', 'gatographql');
-            case self::CACHE_CONTROL:
-                return \__('Provide HTTP Caching for endpoints accessed via GET, with the max-age value automatically calculated from the query.', 'gatographql');
-            case self::CONDITIONAL_FIELD_MANIPULATION:
-                return \__('Apply a directive on a field only if some condition is met.', 'gatographql');
-            case self::CUSTOM_ENDPOINTS:
-                return \__('Provide multiple GraphQL endpoints to target different users and applications.', 'gatographql');
-            case self::DEPRECATION_NOTIFIER:
-                return \__('Send deprecations in the response to the query (and not only when doing introspection).', 'gatographql');
-            case self::EMAIL_SENDER:
-                return \__('Send emails via global mutation <code>_sendEmail</code>.', 'gatographql');
-            case self::FIELD_DEFAULT_VALUE:
-                return \__('Set a field to some default value (whenever it is <code>null</code> or empty).', 'gatographql');
-            case self::FIELD_DEPRECATION:
-                return \__('Deprecate fields, and explain how to replace them, through a user interface.', 'gatographql');
-            case self::FIELD_ON_FIELD:
-                return \__('Manipulate the value of a field by applying some other field on it.', 'gatographql');
-            case self::FIELD_RESOLUTION_CACHING:
-                return \__('Cache and retrieve the response for expensive field operations.', 'gatographql');
-            case self::FIELD_RESPONSE_REMOVAL:
-                return \__('Remove the output of a field from the response.', 'gatographql');
-            case self::FIELD_TO_INPUT:
-                return \__('Retrieve the value of a field, manipulate it, and input it into another field, all within the same query.', 'gatographql');
-            case self::FIELD_VALUE_ITERATION_AND_MANIPULATION:
-                return \__('Iterate and manipulate the value elements of array and object fields.', 'gatographql');
-            case self::HELPER_FUNCTION_COLLECTION:
-                return \__('Collection of fields providing useful functionality.', 'gatographql');
-            case self::HTTP_CLIENT:
-                return \__('Addition of fields to execute HTTP requests against a webserver and fetch their response.', 'gatographql');
-            case self::HTTP_REQUEST_VIA_SCHEMA:
-                return \__('Addition of fields to retrieve the current HTTP request data.', 'gatographql');
-            case self::INTERNAL_GRAPHQL_SERVER:
-                return \__('Execute GraphQL queries directly within your application, using PHP code.', 'gatographql');
-            case self::LOW_LEVEL_PERSISTED_QUERY_EDITING:
-                return \__('Make normally-hidden directives (which inject some functionality into the GraphQL server) visible when editing a persisted query.', 'gatographql');
-            case self::MULTIPLE_QUERY_EXECUTION:
-                return \__('Combine multiple queries into a single query, sharing state across them and executing them in the requested order.', 'gatographql');
-            case self::PERSISTED_QUERIES:
-                return \__('Use GraphQL queries to create pre-defined endpoints as in REST, obtaining the benefits from both APIs.', 'gatographql');
-            case self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA:
-                return \__('Query the value from an environment variable or PHP constant.', 'gatographql');
-            case self::PHP_FUNCTIONS_VIA_SCHEMA:
-                return \__('Manipulate the field output using standard programming language functions available in PHP.', 'gatographql');
-            case self::RESPONSE_ERROR_TRIGGER:
-                return \__('Explicitly add an error entry to the response to trigger the failure of the GraphQL request (whenever a field does not meet the expected conditions).', 'gatographql');
-            case self::SCHEMA_EDITING_ACCESS:
-                return \__('Grant access to users other than admins to edit the GraphQL schema.', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::ACCESS_CONTROL => \__('Grant granular access to the schema, based on the user being logged-in (or not), having a certain role or capability, and more.', 'gatographql'),
+            self::ACCESS_CONTROL_VISITOR_IP => \__('Grant access to the schema based on the visitor\'s IP address (Access Control extension is required).', 'gatographql'),
+            self::CACHE_CONTROL => \__('Provide HTTP Caching for endpoints accessed via GET, with the max-age value automatically calculated from the query.', 'gatographql'),
+            self::CONDITIONAL_FIELD_MANIPULATION => \__('Apply a directive on a field only if some condition is met.', 'gatographql'),
+            self::CUSTOM_ENDPOINTS => \__('Provide multiple GraphQL endpoints to target different users and applications.', 'gatographql'),
+            self::DEPRECATION_NOTIFIER => \__('Send deprecations in the response to the query (and not only when doing introspection).', 'gatographql'),
+            self::EMAIL_SENDER => \__('Send emails via global mutation <code>_sendEmail</code>.', 'gatographql'),
+            self::FIELD_DEFAULT_VALUE => \__('Set a field to some default value (whenever it is <code>null</code> or empty).', 'gatographql'),
+            self::FIELD_DEPRECATION => \__('Deprecate fields, and explain how to replace them, through a user interface.', 'gatographql'),
+            self::FIELD_ON_FIELD => \__('Manipulate the value of a field by applying some other field on it.', 'gatographql'),
+            self::FIELD_RESOLUTION_CACHING => \__('Cache and retrieve the response for expensive field operations.', 'gatographql'),
+            self::FIELD_RESPONSE_REMOVAL => \__('Remove the output of a field from the response.', 'gatographql'),
+            self::FIELD_TO_INPUT => \__('Retrieve the value of a field, manipulate it, and input it into another field, all within the same query.', 'gatographql'),
+            self::FIELD_VALUE_ITERATION_AND_MANIPULATION => \__('Iterate and manipulate the value elements of array and object fields.', 'gatographql'),
+            self::HELPER_FUNCTION_COLLECTION => \__('Collection of fields providing useful functionality.', 'gatographql'),
+            self::HTTP_CLIENT => \__('Addition of fields to execute HTTP requests against a webserver and fetch their response.', 'gatographql'),
+            self::HTTP_REQUEST_VIA_SCHEMA => \__('Addition of fields to retrieve the current HTTP request data.', 'gatographql'),
+            self::INTERNAL_GRAPHQL_SERVER => \__('Execute GraphQL queries directly within your application, using PHP code.', 'gatographql'),
+            self::LOW_LEVEL_PERSISTED_QUERY_EDITING => \__('Make normally-hidden directives (which inject some functionality into the GraphQL server) visible when editing a persisted query.', 'gatographql'),
+            self::MULTIPLE_QUERY_EXECUTION => \__('Combine multiple queries into a single query, sharing state across them and executing them in the requested order.', 'gatographql'),
+            self::PERSISTED_QUERIES => \__('Use GraphQL queries to create pre-defined endpoints as in REST, obtaining the benefits from both APIs.', 'gatographql'),
+            self::PHP_CONSTANTS_AND_ENVIRONMENT_VARIABLES_VIA_SCHEMA => \__('Query the value from an environment variable or PHP constant.', 'gatographql'),
+            self::PHP_FUNCTIONS_VIA_SCHEMA => \__('Manipulate the field output using standard programming language functions available in PHP.', 'gatographql'),
+            self::RESPONSE_ERROR_TRIGGER => \__('Explicitly add an error entry to the response to trigger the failure of the GraphQL request (whenever a field does not meet the expected conditions).', 'gatographql'),
+            self::SCHEMA_EDITING_ACCESS => \__('Grant access to users other than admins to edit the GraphQL schema.', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 }

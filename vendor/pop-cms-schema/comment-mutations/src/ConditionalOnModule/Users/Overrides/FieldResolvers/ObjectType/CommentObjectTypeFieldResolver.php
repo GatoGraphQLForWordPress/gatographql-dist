@@ -13,10 +13,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResolver
 {
     use AddCommentToCustomPostObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {

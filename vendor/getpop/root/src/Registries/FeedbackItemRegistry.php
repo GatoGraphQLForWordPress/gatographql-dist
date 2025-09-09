@@ -11,7 +11,7 @@ class FeedbackItemRegistry implements \PoP\Root\Registries\FeedbackItemRegistryI
     /**
      * @var array<string,array<string,string>> [key] Namespaced code, [value] Array of ['category' => ..., 'messagePlaceholder' => ..., 'specifiedByURL' => ...]
      */
-    protected $feedbackItemEntries = [];
+    protected array $feedbackItemEntries = [];
     public function useFeedbackItemProvider(FeedbackItemProviderInterface $feedbackItemProvider) : void
     {
         foreach ($feedbackItemProvider->getCodes() as $code) {

@@ -8,10 +8,7 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTy
 /** @internal */
 class CustomPostStatusFilterInput extends AbstractValueToQueryFilterInput
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
-     */
-    private $filterCustomPostStatusEnumTypeResolver;
+    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
     protected final function getFilterCustomPostStatusEnumTypeResolver() : FilterCustomPostStatusEnumTypeResolver
     {
         if ($this->filterCustomPostStatusEnumTypeResolver === null) {
@@ -27,10 +24,8 @@ class CustomPostStatusFilterInput extends AbstractValueToQueryFilterInput
     }
     /**
      * Remove any status that is not in the Enum
-     * @param mixed $value
-     * @return mixed
      */
-    protected function getValue($value)
+    protected function getValue(mixed $value) : mixed
     {
         return \array_intersect($value, $this->getFilterCustomPostStatusEnumTypeResolver()->getConsolidatedEnumValues());
     }

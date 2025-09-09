@@ -6,8 +6,5 @@ namespace PoPCMSSchema\UserAvatars\TypeAPIs;
 /** @internal */
 interface UserAvatarTypeAPIInterface
 {
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getUserAvatarSrc($userObjectOrID, int $size = 150) : ?string;
+    public function getUserAvatarSrc(string|int|object $userObjectOrID, int $size = 150) : ?string;
 }

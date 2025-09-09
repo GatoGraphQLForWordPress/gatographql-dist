@@ -17,6 +17,7 @@ trait PropertyDataStructureFormatterTrait
     public function getOutputContent(array &$data) : string
     {
         $outputLines = [];
+        // @phpstan-ignore-next-line
         $this->iterativelyAddOutputLines($outputLines, $data, '');
         return \implode(\PHP_EOL, $outputLines);
     }
@@ -25,7 +26,7 @@ trait PropertyDataStructureFormatterTrait
      * @param string[] $outputLines
      * @param string|array<string|int,mixed> $data
      */
-    protected function iterativelyAddOutputLines(array &$outputLines, &$data, string $property) : void
+    protected function iterativelyAddOutputLines(array &$outputLines, string|array &$data, string $property) : void
     {
         if (!\is_array($data)) {
             $outputLines[] = $this->getDataEntry($property, (string) $data);

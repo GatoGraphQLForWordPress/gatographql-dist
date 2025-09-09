@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class CreateMediaItemFromContentInputObjectTypeResolver extends AbstractInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -41,23 +38,17 @@ class CreateMediaItemFromContentInputObjectTypeResolver extends AbstractInputObj
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::FILENAME:
-            case MutationInputProperties::BODY:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::FILENAME, MutationInputProperties::BODY => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::FILENAME:
-                return $this->__('File name', 'media-mutations');
-            case MutationInputProperties::BODY:
-                return $this->__('File body', 'media-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::FILENAME => $this->__('File name', 'media-mutations'),
+            MutationInputProperties::BODY => $this->__('File body', 'media-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

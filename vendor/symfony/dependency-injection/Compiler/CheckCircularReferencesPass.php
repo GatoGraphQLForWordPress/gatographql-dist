@@ -25,18 +25,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class CheckCircularReferencesPass implements CompilerPassInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $currentPath;
-    /**
-     * @var mixed[]
-     */
-    private $checkedNodes;
-    /**
-     * @var mixed[]
-     */
-    private $checkedLazyNodes;
+    private array $currentPath;
+    private array $checkedNodes;
+    private array $checkedLazyNodes;
     /**
      * Checks the ContainerBuilder object for circular references.
      *
@@ -66,7 +57,7 @@ class CheckCircularReferencesPass implements CompilerPassInterface
             if (!empty($this->checkedNodes[$id])) {
                 continue;
             }
-            $isLeaf = !!$node->getValue();
+            $isLeaf = (bool) $node->getValue();
             $isConcrete = !$edge->isLazy() && !$edge->isWeak();
             // Skip already checked lazy services if they are still lazy. Will not gain any new information.
             if (!empty($this->checkedLazyNodes[$id]) && (!$isLeaf || !$isConcrete)) {

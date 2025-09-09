@@ -20,18 +20,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
 class FrozenParameterBag extends ParameterBag
 {
     /**
-     * @var mixed[]
-     */
-    protected $deprecatedParameters = [];
-    /**
      * For performance reasons, the constructor assumes that
      * all keys are already lowercased.
      *
      * This is always the case when used internally.
      */
-    public function __construct(array $parameters = [], array $deprecatedParameters = [])
+    public function __construct(array $parameters = [], protected array $deprecatedParameters = [])
     {
-        $this->deprecatedParameters = $deprecatedParameters;
         $this->parameters = $parameters;
         $this->resolved = \true;
     }
@@ -51,9 +46,8 @@ class FrozenParameterBag extends ParameterBag
     }
     /**
      * @return never
-     * @param mixed[]|bool|string|int|float|\UnitEnum|null $value
      */
-    public function set(string $name, $value)
+    public function set(string $name, array|bool|string|int|float|\UnitEnum|null $value)
     {
         throw new LogicException('Impossible to call set() on a frozen ParameterBag.');
     }

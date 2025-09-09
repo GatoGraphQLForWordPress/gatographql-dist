@@ -26,18 +26,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ProxyTrait;
 class Psr16Cache implements CacheInterface, PruneableInterface, ResettableInterface
 {
     use ProxyTrait;
-    /**
-     * @var \Closure|null
-     */
-    private $createCacheItem;
-    /**
-     * @var \Symfony\Component\Cache\CacheItem|null
-     */
-    private $cacheItemPrototype;
-    /**
-     * @var \Closure
-     */
-    private static $packCacheItem;
+    private ?\Closure $createCacheItem = null;
+    private ?CacheItem $cacheItemPrototype = null;
+    private static \Closure $packCacheItem;
     public function __construct(CacheItemPoolInterface $pool)
     {
         $this->pool = $pool;
@@ -65,15 +56,12 @@ class Psr16Cache implements CacheInterface, PruneableInterface, ResettableInterf
             $this->createCacheItem = $createCacheItem;
             return $createCacheItem($key, null, $allowInt)->set($value);
         };
-        self::$packCacheItem = self::$packCacheItem ?? \Closure::bind(static function (CacheItem $item) {
+        self::$packCacheItem ??= \Closure::bind(static function (CacheItem $item) {
             $item->newMetadata = $item->metadata;
             return $item->pack();
         }, null, CacheItem::class);
     }
-    /**
-     * @return mixed
-     */
-    public function get($key, $default = null)
+    public function get($key, $default = null) : mixed
     {
         try {
             $item = $this->pool->getItem($key);

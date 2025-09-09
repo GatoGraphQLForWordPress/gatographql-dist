@@ -20,10 +20,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class ChildDefinition extends Definition
 {
-    /**
-     * @var string
-     */
-    private $parent;
+    private string $parent;
     /**
      * @param string $parent The id of Definition instance to decorate
      */
@@ -43,7 +40,7 @@ class ChildDefinition extends Definition
      *
      * @return $this
      */
-    public function setParent(string $parent)
+    public function setParent(string $parent) : static
     {
         $this->parent = $parent;
         return $this;
@@ -55,10 +52,8 @@ class ChildDefinition extends Definition
      * will return the replacement value.
      *
      * @throws OutOfBoundsException When the argument does not exist
-     * @param int|string $index
-     * @return mixed
      */
-    public function getArgument($index)
+    public function getArgument(int|string $index) : mixed
     {
         if (\array_key_exists('index_' . $index, $this->arguments)) {
             return $this->arguments['index_' . $index];
@@ -76,14 +71,12 @@ class ChildDefinition extends Definition
      * @return $this
      *
      * @throws InvalidArgumentException when $index isn't an integer
-     * @param int|string $index
-     * @param mixed $value
      */
-    public function replaceArgument($index, $value)
+    public function replaceArgument(int|string $index, mixed $value) : static
     {
         if (\is_int($index)) {
             $this->arguments['index_' . $index] = $value;
-        } elseif (\strncmp($index, '$', \strlen('$')) === 0) {
+        } elseif (\str_starts_with($index, '$')) {
             $this->arguments[$index] = $value;
         } else {
             throw new InvalidArgumentException('The argument must be an existing index or the name of a constructor\'s parameter.');

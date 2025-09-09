@@ -8,7 +8,7 @@ use PoP\Root\Feedback\FeedbackCategories;
 /** @internal */
 class CheckpointErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = '1';
+    public final const E1 = '1';
     /**
      * @return string[]
      */
@@ -18,12 +18,10 @@ class CheckpointErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('REQUEST_METHOD is not \'POST\'', 'engine');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('REQUEST_METHOD is not \'POST\'', 'engine'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

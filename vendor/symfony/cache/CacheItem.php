@@ -23,50 +23,20 @@ final class CacheItem implements ItemInterface
 {
     private const METADATA_EXPIRY_OFFSET = 1527506807;
     private const VALUE_WRAPPER = "\xa9";
-    /**
-     * @var string
-     */
-    protected $key;
-    /**
-     * @var mixed
-     */
-    protected $value = null;
-    /**
-     * @var bool
-     */
-    protected $isHit = \false;
-    /**
-     * @var float|int|null
-     */
-    protected $expiry = null;
-    /**
-     * @var mixed[]
-     */
-    protected $metadata = [];
-    /**
-     * @var mixed[]
-     */
-    protected $newMetadata = [];
-    /**
-     * @var \Psr\Cache\CacheItemInterface|null
-     */
-    protected $innerItem;
-    /**
-     * @var string|null
-     */
-    protected $poolHash;
-    /**
-     * @var bool
-     */
-    protected $isTaggable = \false;
+    protected string $key;
+    protected mixed $value = null;
+    protected bool $isHit = \false;
+    protected float|int|null $expiry = null;
+    protected array $metadata = [];
+    protected array $newMetadata = [];
+    protected ?CacheItemInterface $innerItem = null;
+    protected ?string $poolHash = null;
+    protected bool $isTaggable = \false;
     public function getKey() : string
     {
         return $this->key;
     }
-    /**
-     * @return mixed
-     */
-    public function get()
+    public function get() : mixed
     {
         return $this->value;
     }
@@ -77,7 +47,7 @@ final class CacheItem implements ItemInterface
     /**
      * @return $this
      */
-    public function set($value)
+    public function set($value) : static
     {
         $this->value = $value;
         return $this;
@@ -85,16 +55,15 @@ final class CacheItem implements ItemInterface
     /**
      * @return $this
      */
-    public function expiresAt(?\DateTimeInterface $expiration)
+    public function expiresAt(?\DateTimeInterface $expiration) : static
     {
         $this->expiry = null !== $expiration ? (float) $expiration->format('U.u') : null;
         return $this;
     }
     /**
      * @return $this
-     * @param mixed $time
      */
-    public function expiresAfter($time)
+    public function expiresAfter(mixed $time) : static
     {
         if (null === $time) {
             $this->expiry = null;
@@ -107,11 +76,7 @@ final class CacheItem implements ItemInterface
         }
         return $this;
     }
-    /**
-     * @param mixed $tags
-     * @return static
-     */
-    public function tag($tags)
+    public function tag(mixed $tags) : static
     {
         if (!$this->isTaggable) {
             throw new LogicException(\sprintf('Cache item "%s" comes from a non tag-aware pool: you cannot tag it.', $this->key));
@@ -181,10 +146,7 @@ final class CacheItem implements ItemInterface
             @\trigger_error(\strtr($message, $replace), \E_USER_WARNING);
         }
     }
-    /**
-     * @return mixed
-     */
-    private function pack()
+    private function pack() : mixed
     {
         if (!($m = $this->newMetadata)) {
             return $this->value;
@@ -201,22 +163,7 @@ final class CacheItem implements ItemInterface
             $this->metadata = $v->metadata;
             return \true;
         }
-        if (!\is_array($v)) {
-            return \false;
-        }
-        if (1 !== \count($v)) {
-            return \false;
-        }
-        if (10 !== \strlen($k = (string) \array_key_first($v))) {
-            return \false;
-        }
-        if ("\x9d" !== $k[0]) {
-            return \false;
-        }
-        if ("\x00" !== $k[5]) {
-            return \false;
-        }
-        if ("_" !== $k[9]) {
+        if (!\is_array($v) || 1 !== \count($v) || 10 !== \strlen($k = (string) \array_key_first($v)) || "\x9d" !== $k[0] || "\x00" !== $k[5] || "_" !== $k[9]) {
             return \false;
         }
         // BC with pools populated before v6.1

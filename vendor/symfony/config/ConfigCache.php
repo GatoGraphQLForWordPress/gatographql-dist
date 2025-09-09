@@ -24,10 +24,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\SelfChecki
  */
 class ConfigCache extends ResourceCheckerConfigCache
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    private bool $debug;
     /**
      * @param string $file  The absolute cache path
      * @param bool   $debug Whether debugging is enabled or not

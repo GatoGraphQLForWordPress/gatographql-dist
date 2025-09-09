@@ -12,7 +12,7 @@ abstract class AbstractSchemaConfigurationExecuterRegistry implements SchemaConf
     /**
      * @var SchemaConfigurationExecuterInterface[]
      */
-    protected $schemaConfigurationExecuters = [];
+    protected array $schemaConfigurationExecuters = [];
 
     public function addSchemaConfigurationExecuter(SchemaConfigurationExecuterInterface $schemaConfigurationExecuter): void
     {
@@ -32,9 +32,7 @@ abstract class AbstractSchemaConfigurationExecuterRegistry implements SchemaConf
     {
         return array_values(array_filter(
             $this->getSchemaConfigurationExecuters(),
-            function (ActivableServiceInterface $service) {
-                return $service->isServiceEnabled();
-            }
+            fn (ActivableServiceInterface $service) => $service->isServiceEnabled()
         ));
     }
 }

@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class AddCommentToCustomPostBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver|null
-     */
-    private $addCommentToCustomPostMutationResolver;
+    private ?\PoPCMSSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver $addCommentToCustomPostMutationResolver = null;
     protected final function getAddCommentToCustomPostMutationResolver() : \PoPCMSSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver
     {
         if ($this->addCommentToCustomPostMutationResolver === null) {

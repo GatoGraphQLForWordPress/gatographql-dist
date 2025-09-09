@@ -13,15 +13,12 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLEndpointCustomPostTy
  */
 class EndpointBlockCategory extends AbstractBlockCategory
 {
-    public const ENDPOINT_BLOCK_CATEGORY = 'gatographql-query-exec';
+    public final const ENDPOINT_BLOCK_CATEGORY = 'gatographql-query-exec';
 
     /** @var GraphQLEndpointCustomPostTypeInterface[] */
-    protected $graphqlEndpointCustomPostTypeServices;
+    protected ?array $graphqlEndpointCustomPostTypeServices = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\CustomPostTypeRegistryInterface|null
-     */
-    private $customPostTypeRegistry;
+    private ?CustomPostTypeRegistryInterface $customPostTypeRegistry = null;
 
     final protected function getCustomPostTypeRegistry(): CustomPostTypeRegistryInterface
     {
@@ -46,9 +43,7 @@ class EndpointBlockCategory extends AbstractBlockCategory
     public function getCustomPostTypes(): array
     {
         return array_map(
-            function (CustomPostTypeInterface $customPostTypeService) {
-                return $customPostTypeService->getCustomPostType();
-            },
+            fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService->getCustomPostType(),
             $this->getGraphQLEndpointCustomPostTypeServices()
         );
     }
@@ -78,9 +73,7 @@ class EndpointBlockCategory extends AbstractBlockCategory
             $customPostTypeServices = $this->getCustomPostTypeRegistry()->getCustomPostTypes();
             $this->graphqlEndpointCustomPostTypeServices = array_values(array_filter(
                 $customPostTypeServices,
-                function (CustomPostTypeInterface $customPostTypeService) {
-                    return $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface;
-                }
+                fn (CustomPostTypeInterface $customPostTypeService) => $customPostTypeService instanceof GraphQLEndpointCustomPostTypeInterface
             ));
         }
         return $this->graphqlEndpointCustomPostTypeServices;

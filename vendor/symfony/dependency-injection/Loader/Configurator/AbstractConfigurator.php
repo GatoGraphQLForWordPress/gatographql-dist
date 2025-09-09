@@ -28,9 +28,8 @@ abstract class AbstractConfigurator
      * @var \Closure(mixed, bool):mixed|null
      */
     public static $valuePreProcessor;
-    /** @internal
-     * @var \Symfony\Component\DependencyInjection\Definition|\Symfony\Component\DependencyInjection\Alias|null */
-    protected $definition = null;
+    /** @internal */
+    protected Definition|Alias|null $definition = null;
     /**
      * @return mixed
      */
@@ -58,9 +57,8 @@ abstract class AbstractConfigurator
      * @param bool $allowServices whether Definition and Reference are allowed; by default, only scalars, arrays and enum are
      *
      * @return mixed the value, optionally cast to a Definition/Reference
-     * @param mixed $value
      */
-    public static function processValue($value, bool $allowServices = \false)
+    public static function processValue(mixed $value, bool $allowServices = \false) : mixed
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {

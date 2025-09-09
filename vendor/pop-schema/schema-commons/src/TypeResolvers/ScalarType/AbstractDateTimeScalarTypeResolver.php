@@ -24,11 +24,7 @@ abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeReso
     {
         return \sprintf($this->__('%s scalar. It follows the ISO 8601 specification, with format "%s")', 'schema-commons'), $this->getTypeName(), $this->getDateTimeFormat());
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
@@ -78,9 +74,8 @@ abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeReso
      * override this function to provide the specific format for each case
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param string|int|float|bool|object $scalarValue
      */
-    public function serialize($scalarValue)
+    public function serialize(string|int|float|bool|object $scalarValue) : string|int|float|bool|array|stdClass
     {
         /** @var DateTimeInterface $scalarValue */
         return $scalarValue->format($this->getDateTimeFormat());

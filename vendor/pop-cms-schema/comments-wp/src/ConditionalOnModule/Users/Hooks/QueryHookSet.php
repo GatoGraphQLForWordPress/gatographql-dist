@@ -15,14 +15,14 @@ class QueryHookSet extends AbstractHookSet
     {
         App::addFilter(
             CommentTypeAPI::HOOK_QUERY,
-            \Closure::fromCallable([$this, 'convertCommentQuery']),
+            $this->convertCommentQuery(...),
             10,
             2
         );
 
         App::addFilter(
             CommentTypeAPI::HOOK_ORDERBY_QUERY_ARG_VALUE,
-            \Closure::fromCallable([$this, 'getOrderByQueryArgValue'])
+            $this->getOrderByQueryArgValue(...)
         );
     }
 
@@ -62,11 +62,9 @@ class QueryHookSet extends AbstractHookSet
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case CommentOrderBy::AUTHOR:
-                return 'comment_author';
-            default:
-                return $orderBy;
-        }
+        return match ($orderBy) {
+            CommentOrderBy::AUTHOR => 'comment_author',
+            default => $orderBy,
+        };
     }
 }

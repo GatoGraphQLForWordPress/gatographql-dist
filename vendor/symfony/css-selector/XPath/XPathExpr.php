@@ -22,18 +22,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\XPath;
  */
 class XPathExpr
 {
-    /**
-     * @var string
-     */
-    private $path;
-    /**
-     * @var string
-     */
-    private $element;
-    /**
-     * @var string
-     */
-    private $condition;
+    private string $path;
+    private string $element;
+    private string $condition;
     public function __construct(string $path = '', string $element = '*', string $condition = '', bool $starPrefix = \false)
     {
         $this->path = $path;
@@ -50,7 +41,7 @@ class XPathExpr
     /**
      * @return $this
      */
-    public function addCondition(string $condition)
+    public function addCondition(string $condition) : static
     {
         $this->condition = $this->condition ? \sprintf('(%s) and (%s)', $this->condition, $condition) : $condition;
         return $this;
@@ -62,7 +53,7 @@ class XPathExpr
     /**
      * @return $this
      */
-    public function addNameTest()
+    public function addNameTest() : static
     {
         if ('*' !== $this->element) {
             $this->addCondition('name() = ' . Translator::getXpathLiteral($this->element));
@@ -73,7 +64,7 @@ class XPathExpr
     /**
      * @return $this
      */
-    public function addStarPrefix()
+    public function addStarPrefix() : static
     {
         $this->path .= '*/';
         return $this;
@@ -83,7 +74,7 @@ class XPathExpr
      *
      * @return $this
      */
-    public function join(string $combiner, self $expr)
+    public function join(string $combiner, self $expr) : static
     {
         $path = $this->__toString() . $combiner;
         if ('*/' !== $expr->path) {

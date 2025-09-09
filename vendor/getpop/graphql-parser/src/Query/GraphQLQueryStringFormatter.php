@@ -11,7 +11,7 @@ class GraphQLQueryStringFormatter implements \PoP\GraphQLParser\Query\GraphQLQue
     /**
      * @param null|integer|float|boolean|string|mixed[]|stdClass $elem
      */
-    public function getElementAsQueryString($elem) : string
+    public function getElementAsQueryString(null|int|float|bool|string|array|stdClass $elem) : string
     {
         if (\is_array($elem)) {
             return $this->getListAsQueryString($elem);
@@ -40,10 +40,7 @@ class GraphQLQueryStringFormatter implements \PoP\GraphQLParser\Query\GraphQLQue
         }
         return \sprintf('{%s}', \implode(', ', $objectStrElems));
     }
-    /**
-     * @param null|int|float|bool|string $literal
-     */
-    public function getLiteralAsQueryString($literal) : string
+    public function getLiteralAsQueryString(null|int|float|bool|string $literal) : string
     {
         if ($literal === null) {
             return 'null';

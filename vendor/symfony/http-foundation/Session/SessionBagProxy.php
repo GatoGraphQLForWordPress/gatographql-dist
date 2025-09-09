@@ -17,28 +17,16 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 final class SessionBagProxy implements SessionBagInterface
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\SessionBagInterface
-     */
-    private $bag;
-    /**
-     * @var mixed[]
-     */
-    private $data;
-    /**
-     * @var int|null
-     */
-    private $usageIndex;
-    /**
-     * @var \Closure|null
-     */
-    private $usageReporter;
+    private SessionBagInterface $bag;
+    private array $data;
+    private ?int $usageIndex;
+    private ?\Closure $usageReporter;
     public function __construct(SessionBagInterface $bag, array &$data, ?int &$usageIndex, ?callable $usageReporter)
     {
         $this->bag = $bag;
         $this->data =& $data;
         $this->usageIndex =& $usageIndex;
-        $this->usageReporter = null === $usageReporter ? null : \Closure::fromCallable($usageReporter);
+        $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
     }
     public function getBag() : SessionBagInterface
     {
@@ -76,10 +64,7 @@ final class SessionBagProxy implements SessionBagInterface
     {
         return $this->bag->getStorageKey();
     }
-    /**
-     * @return mixed
-     */
-    public function clear()
+    public function clear() : mixed
     {
         return $this->bag->clear();
     }

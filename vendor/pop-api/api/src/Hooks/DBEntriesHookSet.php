@@ -12,7 +12,7 @@ class DBEntriesHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES, \Closure::fromCallable([$this, 'moveEntriesUnderDBName']), 10, 1);
+        App::addFilter(DatabaseEntryManager::HOOK_DBNAME_TO_FIELDNAMES, $this->moveEntriesUnderDBName(...), 10, 1);
     }
     /**
      * @param array<string,string[]> $dbNameToFieldNames

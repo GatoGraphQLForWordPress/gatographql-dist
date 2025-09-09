@@ -16,18 +16,14 @@ interface TaxonomyMetaTypeAPIInterface extends MetaTypeAPIInterface
      *
      * @param array<string,mixed> $options
      * @throws MetaKeyNotAllowedException
-     * @param string|int|object $termObjectOrID
-     * @return mixed
      */
-    public function getTaxonomyTermMeta($termObjectOrID, string $key, bool $single = \false, array $options = []);
+    public function getTaxonomyTermMeta(string|int|object $termObjectOrID, string $key, bool $single = \false, array $options = []) : mixed;
     /**
      * @return array<string,mixed>
-     * @param string|int|object $termObjectOrID
      */
-    public function getAllTaxonomyTermMeta($termObjectOrID) : array;
+    public function getAllTaxonomyTermMeta(string|int|object $termObjectOrID) : array;
     /**
      * @return string[]
-     * @param string|int|object $termObjectOrID
      */
-    public function getTaxonomyTermMetaKeys($termObjectOrID) : array;
+    public function getTaxonomyTermMetaKeys(string|int|object $termObjectOrID) : array;
 }

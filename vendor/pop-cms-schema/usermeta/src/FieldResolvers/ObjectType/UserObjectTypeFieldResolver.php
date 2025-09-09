@@ -19,10 +19,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolver
 {
     use EntityObjectTypeFieldResolverTrait;
-    /**
-     * @var \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface|null
-     */
-    private $userMetaTypeAPI;
+    private ?UserMetaTypeAPIInterface $userMetaTypeAPI = null;
     protected final function getUserMetaTypeAPI() : UserMetaTypeAPIInterface
     {
         if ($this->userMetaTypeAPI === null) {
@@ -56,10 +53,7 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
         }
         return $sensitiveFieldArgNames;
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {
@@ -73,7 +67,7 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
                     }
                     $metaKeys[] = $key;
                 }
-                return $this->resolveMetaKeysValue($metaKeys, $fieldDataAccessor);
+                return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
                 $metaValue = $this->getUserMetaTypeAPI()->getUserMeta($user, $fieldDataAccessor->getValue('key'), \true);
                 // If it's an array, it must be a JSON object

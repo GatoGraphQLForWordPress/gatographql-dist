@@ -9,10 +9,7 @@ use PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface;
 /** @internal */
 class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractComponentFilter
 {
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
-     */
-    private $componentPathHelpers;
+    private ?ComponentPathHelpersInterface $componentPathHelpers = null;
     protected final function getComponentPathHelpers() : ComponentPathHelpersInterface
     {
         if ($this->componentPathHelpers === null) {
@@ -25,19 +22,16 @@ class ComponentPaths extends \PoP\ComponentModel\ComponentFilters\AbstractCompon
     /**
      * @var array<array<Component|null>>|null
      */
-    protected $paths;
+    protected ?array $paths = null;
     /**
      * @var array<array<Component|null>>
      */
-    protected $propagation_unsettled_paths = [];
+    protected array $propagation_unsettled_paths = [];
     /**
      * @var array<string,array<array<Component|null>>>
      */
-    protected $backlog_unsettled_paths = [];
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
-     */
-    private $componentPathManager;
+    protected array $backlog_unsettled_paths = [];
+    private ?ComponentPathManagerInterface $componentPathManager = null;
     protected final function getComponentPathManager() : ComponentPathManagerInterface
     {
         if ($this->componentPathManager === null) {

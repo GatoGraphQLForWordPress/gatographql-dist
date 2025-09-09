@@ -76,9 +76,8 @@ abstract class FormField
     }
     /**
      * Gets the value of the field.
-     * @return string|mixed[]|null
      */
-    public function getValue()
+    public function getValue() : string|array|null
     {
         return $this->value;
     }

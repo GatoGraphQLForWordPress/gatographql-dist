@@ -78,70 +78,60 @@ interface ComponentProcessorInterface
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function setProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function setProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function appendGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function appendGroupProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function appendProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function appendProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeGroupProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function mergeGroupProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function mergeProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @return mixed
      */
-    public function getGroupProp(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array());
+    public function getGroupProp(string $group, Component $component, array &$props, string $property, array $starting_from_componentPath = array()) : mixed;
     /**
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @return mixed
      */
-    public function getProp(Component $component, array &$props, string $property, array $starting_from_componentPath = array());
+    public function getProp(Component $component, array &$props, string $property, array $starting_from_componentPath = array()) : mixed;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeGroupIterateKeyProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function mergeGroupIterateKeyProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function mergeIterateKeyProp($component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function mergeIterateKeyProp(array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @param Component[]|Component $component_or_componentPath
      * @param array<string,mixed> $props
      * @param Component[] $starting_from_componentPath
-     * @param mixed $value
      */
-    public function pushProp(string $group, $component_or_componentPath, array &$props, string $property, $value, array $starting_from_componentPath = array()) : void;
+    public function pushProp(string $group, array|Component $component_or_componentPath, array &$props, string $property, mixed $value, array $starting_from_componentPath = array()) : void;
     /**
      * @return array<string,mixed>
      * @param array<string,mixed> $props
@@ -166,7 +156,7 @@ interface ComponentProcessorInterface
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties);
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null;
     public function getRelationalTypeResolver(Component $component) : ?RelationalTypeResolverInterface;
     public function getComponentMutationResolverBridge(Component $component) : ?ComponentMutationResolverBridgeInterface;
     /**
@@ -297,7 +287,7 @@ interface ComponentProcessorInterface
      * @param array<string,mixed>|null $executed
      * @return array<string,mixed>
      */
-    public function getDatasetmeta(Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array;
+    public function getDatasetmeta(Component $component, array &$props, array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array;
     /**
      * @return CheckpointInterface[]
      * @param array<string,mixed> $props

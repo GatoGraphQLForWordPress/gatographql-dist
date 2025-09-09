@@ -11,7 +11,6 @@
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument;
 
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
-use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
@@ -23,25 +22,12 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\ProxyHelper;
  */
 class LazyClosure
 {
-    /**
-     * @var \Closure
-     */
-    private $initializer;
-    /**
-     * @readonly
-     * @var object
-     */
-    public $service;
-    public function __construct(\Closure $initializer)
+    public readonly object $service;
+    public function __construct(private \Closure $initializer)
     {
-        $this->initializer = $initializer;
         unset($this->service);
     }
-    /**
-     * @param mixed $name
-     * @return mixed
-     */
-    public function __get($name)
+    public function __get(mixed $name) : mixed
     {
         if ('service' !== $name) {
             throw new InvalidArgumentException(\sprintf('Cannot read property "%s" from a lazy closure.', $name));

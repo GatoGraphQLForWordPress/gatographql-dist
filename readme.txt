@@ -3,8 +3,8 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.8
-Stable tag: 13.2.0
-Requires PHP: 7.4
+Stable tag: 14.0.0
+Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -219,6 +219,38 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 14.0.0 =
+* Breaking change: Upgraded min PHP version from 7.4 to 8.1 (#3200)
+* Breaking change: Pass `object` param to `resolveMetaKeysValue` (#3177)
+* Added `parent` field to `CustomPost` (#3159)
+* Pass parent on custom post mutations (#3160)
+* Added `slugPath` field to CustomPost (comprising the slug for all ancestor posts) (#3163)
+* Added fields `GenericCustomPost.ancestors` and `Page.ancestors` (#3167)
+* Added fields `children` and `childCount` to `GenericCustomPost` (#3168)
+* Added field `Category.ancestors` (#3169)
+* Added field `CustomPost.menuOrder` (#3172)
+* Added `menuOrder` arg to custom post mutations (#3173)
+* Append selected option value in dropdown in Settings if it doesn't exist (#3178)
+* Allow storing JSON data for options in Settings (#3179)
+* Upgrade plugin to latest dependencies for PHP 8.1 (#3202)
+* Print body of failing requests in error logs (#3155)
+* Support executing bulk actions with custom settings (#3156)
+* Support reading just-updated plugin settings in options.php (#3157)
+* Added convenient method to handle Ajax Requests (#3180)
+* Allow executing further functionality on the Settings page (#3181)
+* Show notification labels in different colors for different severities (#3184)
+* Enable log notifications for warnings by default (#3185)
+* Support executing WP-CLI commands (#3188)
+* Validate the domain in the active license corresponds to the current site (for commercial extensions) (#3192)
+* Don't trigger license check if never run before (#3194)
+* Set `WithMeta.metaKeys` as sensitive field (#3197)
+* Move `isOneOf` introspection field out of `extensions` (as feature has been merged to GraphQL spec) (#3198)
+* Fixed bug where querying `post(by: { id: 0 })` returns `null` (instead of the post in the loop) (#3165)
+* Fixed plugin not working with PHP 7.4 (#3182)
+* Fixed updating posts storing wrong date (#3186)
+* Fixed - User authentication when executing query triggered via the WP REST API (#3187)
+* Fixed - Requesting GraphQL endpoint using Application Passwords didn't work when WooCommerce is installed (#3195)
 
 = 13.2.0 =
 * Added field `CustomPost.rawStatus` (as it exists in the database, eg: `publish` instead of `future`) (#3142)

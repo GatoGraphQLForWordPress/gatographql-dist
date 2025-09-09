@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMutations\RelationalTypeDataLoaders\ObjectType\LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader|null
-     */
-    private $loggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader;
+    private ?LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader $loggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader = null;
     protected final function getLoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader() : LoggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader
     {
         if ($this->loggedInUserHasNoPermissionToEditCommentErrorPayloadObjectTypeDataLoader === null) {

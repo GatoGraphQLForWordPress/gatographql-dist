@@ -22,19 +22,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceProviderInt
  */
 class ResolveServiceSubscribersPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var string|null
-     */
-    private $serviceLocator;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    private ?string $serviceLocator = null;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Reference && $this->serviceLocator && \in_array((string) $value, [ContainerInterface::class, ServiceProviderInterface::class], \true)) {
             return new Reference($this->serviceLocator);

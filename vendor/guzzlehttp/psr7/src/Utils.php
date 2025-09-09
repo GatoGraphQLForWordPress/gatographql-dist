@@ -324,7 +324,7 @@ final class Utils
         }
         \restore_error_handler();
         if ($ex) {
-            /** @var $ex \RuntimeException */
+            /** @var \RuntimeException $ex */
             throw $ex;
         }
         return $handle;
@@ -358,7 +358,7 @@ final class Utils
         }
         \restore_error_handler();
         if ($ex) {
-            /** @var $ex \RuntimeException */
+            /** @var \RuntimeException $ex */
             throw $ex;
         }
         return $contents;

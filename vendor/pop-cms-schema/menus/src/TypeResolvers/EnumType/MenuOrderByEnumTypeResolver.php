@@ -21,15 +21,11 @@ class MenuOrderByEnumTypeResolver extends AbstractEnumTypeResolver
     }
     public function getEnumValueDescription(string $enumValue) : ?string
     {
-        switch ($enumValue) {
-            case MenuOrderBy::ID:
-                return $this->__('Order by ID', 'menus');
-            case MenuOrderBy::DATE:
-                return $this->__('Order by date', 'menus');
-            case MenuOrderBy::NAME:
-                return $this->__('Order by name', 'menus');
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            MenuOrderBy::ID => $this->__('Order by ID', 'menus'),
+            MenuOrderBy::DATE => $this->__('Order by date', 'menus'),
+            MenuOrderBy::NAME => $this->__('Order by name', 'menus'),
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

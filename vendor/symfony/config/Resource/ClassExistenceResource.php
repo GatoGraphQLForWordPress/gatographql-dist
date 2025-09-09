@@ -23,26 +23,11 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
  */
 class ClassExistenceResource implements SelfCheckingResourceInterface
 {
-    /**
-     * @var string
-     */
-    private $resource;
-    /**
-     * @var mixed[]|null
-     */
-    private $exists;
-    /**
-     * @var int
-     */
-    private static $autoloadLevel = 0;
-    /**
-     * @var string|null
-     */
-    private static $autoloadedClass;
-    /**
-     * @var mixed[]
-     */
-    private static $existsCache = [];
+    private string $resource;
+    private ?array $exists = null;
+    private static int $autoloadLevel = 0;
+    private static ?string $autoloadedClass = null;
+    private static array $existsCache = [];
     /**
      * @param string    $resource The fully-qualified class name
      * @param bool|null $exists   Boolean when the existence check has already been done
@@ -101,7 +86,7 @@ class ClassExistenceResource implements SelfCheckingResourceInterface
                 }
             }
         }
-        $this->exists = $this->exists ?? $exists;
+        $this->exists ??= $exists;
         return $this->exists[0] xor !$exists[0];
     }
     /**
@@ -197,7 +182,6 @@ class ClassExistenceResource implements SelfCheckingResourceInterface
             foreach ($props as $p => $v) {
                 if (null !== $v) {
                     $r = new \ReflectionProperty(\Exception::class, $p);
-                    $r->setAccessible(\true);
                     $r->setValue($e, $v);
                 }
             }

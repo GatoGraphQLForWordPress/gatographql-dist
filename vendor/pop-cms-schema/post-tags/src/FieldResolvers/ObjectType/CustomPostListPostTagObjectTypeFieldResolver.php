@@ -12,14 +12,8 @@ use PoPCMSSchema\Tags\TypeResolvers\ObjectType\TagObjectTypeResolverInterface;
 /** @internal */
 class CustomPostListPostTagObjectTypeFieldResolver extends AbstractCustomPostListTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {

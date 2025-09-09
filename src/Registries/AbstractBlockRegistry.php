@@ -12,7 +12,7 @@ abstract class AbstractBlockRegistry implements BlockRegistryInterface
     /**
      * @var BlockInterface[]
      */
-    protected $blocks = [];
+    protected array $blocks = [];
 
     public function addBlock(BlockInterface $block): void
     {
@@ -32,9 +32,7 @@ abstract class AbstractBlockRegistry implements BlockRegistryInterface
     {
         return array_values(array_filter(
             $this->getBlocks(),
-            function (ActivableServiceInterface $service) {
-                return $service->isServiceEnabled();
-            }
+            fn (ActivableServiceInterface $service) => $service->isServiceEnabled()
         ));
     }
 }

@@ -31,10 +31,7 @@ use function parse_blocks;
  */
 class BlockContentParser extends AbstractBasicService implements BlockContentParserInterface
 {
-    /**
-     * @var bool
-     */
-    private $includeInnerContent = false;
+    private bool $includeInnerContent = false;
 
     /**
      * @param array<string,mixed> $options An associative array of options. Can contain keys:
@@ -45,10 +42,11 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * @return BlockContentParserPayload|null `null` if the custom post does not exist
      * @throws BlockContentParserException If there is any error processing the content
-     * @param \WP_Post|int $customPostObjectOrID
      */
-    public function parseCustomPostIntoBlockDataItems($customPostObjectOrID, array $options = []): ?BlockContentParserPayload
-    {
+    public function parseCustomPostIntoBlockDataItems(
+        WP_Post|int $customPostObjectOrID,
+        array $options = [],
+    ): ?BlockContentParserPayload {
         if ($customPostObjectOrID instanceof WP_Post) {
             $customPost = $customPostObjectOrID;
         } else {
@@ -77,7 +75,7 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      * @param mixed[]|WP_Error $parsedBlockData
      * @throws BlockContentParserException
      */
-    protected function processParsedBlockData($parsedBlockData): BlockContentParserPayload
+    protected function processParsedBlockData(array|WP_Error $parsedBlockData): BlockContentParserPayload
     {
         if ($parsedBlockData instanceof WP_Error) {
             throw new BlockContentParserException($parsedBlockData);
@@ -140,8 +138,10 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * @throws BlockContentParserException If there is any error processing the content
      */
-    public function parseCustomPostContentIntoBlockDataItems(string $customPostContent, array $options = []): BlockContentParserPayload
-    {
+    public function parseCustomPostContentIntoBlockDataItems(
+        string $customPostContent,
+        array $options = [],
+    ): BlockContentParserPayload {
         $this->includeInnerContent = $options['include-inner-content'] ?? false;
         $parsedBlockData = $this->parse($customPostContent, null, $options['filter'] ?? []);
         return $this->processParsedBlockData($parsedBlockData);
@@ -156,17 +156,14 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      * @see https://github.com/Automattic/vip-block-data-api/blob/585e000e9fa2388e2c4039bde6dd324620ab0ff9/src/parser/content-parser.php
      *
      * ----------------------------------------------------------------
-     * @var \WP_Block_Type_Registry
      */
-    protected $block_registry;
-    /**
-     * @var int|null
-     */
-    protected $post_id;
-    /** @var string[] */
-    protected $warnings = [];
 
-    public function __construct(?\WP_Block_Type_Registry $block_registry = null)
+    protected WP_Block_Type_Registry $block_registry;
+    protected ?int $post_id;
+    /** @var string[] */
+    protected array $warnings = [];
+
+    public function __construct(WP_Block_Type_Registry|null $block_registry = null)
     {
         if (null === $block_registry) {
             $block_registry = WP_Block_Type_Registry::get_instance();
@@ -212,7 +209,7 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * @return mixed[]|WP_Error
      */
-    protected function parse(string $post_content, ?int $post_id = null, array $filter_options = [])
+    protected function parse(string $post_content, ?int $post_id = null, array $filter_options = []): array|WP_Error
     {
         if (isset($filter_options['exclude']) && isset($filter_options['include'])) {
             // return new WP_Error('vip-block-data-api-invalid-params', 'Cannot provide blocks to exclude and include at the same time', [ 'status' => 400 ]);
@@ -249,7 +246,9 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
         try {
             $blocks = parse_blocks($post_content);
             $blocks = array_values(array_filter($blocks, function ($block) {
+                // @phpstan-ignore-next-line
                 $is_whitespace_block = ( null === $block['blockName'] && empty(trim($block['innerHTML'])) );
+                // @phpstan-ignore-next-line
                 return ! $is_whitespace_block;
             }));
 
@@ -409,7 +408,7 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function source_attribute(Crawler $crawler, array $block_attribute_definition)
+    protected function source_attribute(Crawler $crawler, array $block_attribute_definition): array|string|null
     {
         $attribute_value         = null;
         $attribute_default_value = $block_attribute_definition['default'] ?? null;
@@ -455,7 +454,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -484,7 +482,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -526,7 +523,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      * @param Crawler $crawler Crawler instance.
      * @param array<string,mixed> $block_attribute_definition Definition of the block attribute.
      *
-     * @return string|null
      *
      * @access private
      *
@@ -554,7 +550,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -620,7 +615,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -650,7 +644,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -683,7 +676,6 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
     /**
      * @param array<string,mixed> $block_attribute_definition
      *
-     * @return string|null
      *
      * @access private
      *
@@ -770,7 +762,7 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function source_block_node(Crawler $crawler, array $block_attribute_definition)
+    protected function source_block_node(Crawler $crawler, array $block_attribute_definition): array|string|null
     {
         // 'node' attribute usage was removed from core in 2018, but not officically deprecated until WordPress 6.1:
         // https://github.com/WordPress/gutenberg/pull/44265
@@ -808,7 +800,7 @@ class BlockContentParser extends AbstractBasicService implements BlockContentPar
      *
      * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    protected function from_dom_node(DOMNode $node)
+    protected function from_dom_node(DOMNode $node): array|string|null
     {
         // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- external API calls
 

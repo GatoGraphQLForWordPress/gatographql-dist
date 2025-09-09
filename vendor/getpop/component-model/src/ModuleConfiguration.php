@@ -16,14 +16,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::INCLUDE_SCHEMA_TYPE_DIRECTIVES_IN_SCHEMA;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enableComponentModelCache() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_COMPONENT_MODEL_CACHE;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function useComponentModelCache() : bool
@@ -41,39 +41,35 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         /** @phpstan-ignore-next-line */
         $envVariable = \PoP\ComponentModel\Environment::USE_COMPONENT_MODEL_CACHE;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     protected function enableHook(string $envVariable) : bool
     {
-        switch ($envVariable) {
-            case \PoP\ComponentModel\Environment::ENABLE_COMPONENT_MODEL_CACHE:
-            case \PoP\ComponentModel\Environment::USE_COMPONENT_MODEL_CACHE:
-            case \PoP\ComponentModel\Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT:
-                return \false;
-            default:
-                return parent::enableHook($envVariable);
-        }
+        return match ($envVariable) {
+            \PoP\ComponentModel\Environment::ENABLE_COMPONENT_MODEL_CACHE, \PoP\ComponentModel\Environment::USE_COMPONENT_MODEL_CACHE, \PoP\ComponentModel\Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT => \false,
+            default => parent::enableHook($envVariable),
+        };
     }
     public function mustNamespaceTypes() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::NAMESPACE_TYPES_AND_INTERFACES;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enableMutations() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_MUTATIONS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function exposeSensitiveDataInSchema() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::EXPOSE_SENSITIVE_DATA_IN_SCHEMA;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -85,7 +81,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::SET_FIELD_AS_NULL_IF_DIRECTIVE_FAILED;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -98,7 +94,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::CONVERT_INPUT_VALUE_FROM_SINGLE_TO_LIST;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -111,7 +107,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_UNION_TYPE_IMPLEMENTING_INTERFACE_TYPE;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -133,7 +129,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::SKIP_EXPOSING_DANGEROUSLY_NON_SPECIFIC_SCALAR_TYPE_IN_SCHEMA;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -148,7 +144,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_MODIFYING_ENGINE_BEHAVIOR_VIA_REQUEST;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -158,21 +154,21 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_FEEDBACK_CATEGORY_EXTENSIONS;
         $defaultValue = [];
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'commaSeparatedStringToArray']);
+        $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function logExceptionErrorMessagesAndTraces() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::LOG_EXCEPTION_ERROR_MESSAGES_AND_TRACES;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function sendExceptionErrorMessages() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::SEND_EXCEPTION_ERROR_MESSAGES;
         $defaultValue = RootEnvironment::isApplicationEnvironmentDev();
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function sendExceptionTraces() : bool
@@ -182,35 +178,35 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoP\ComponentModel\Environment::SEND_EXCEPTION_TRACES;
         $defaultValue = RootEnvironment::isApplicationEnvironmentDev();
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enableSelfField() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_SELF_FIELD;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enableTypeNameGlobalFields() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_TYPENAME_GLOBAL_FIELDS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function exposeCoreFunctionalityGlobalFields() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::EXPOSE_CORE_FUNCTIONALITY_GLOBAL_FIELDS;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function exposeSchemaTypeDirectiveLocations() : bool
     {
         $envVariable = \PoP\ComponentModel\Environment::EXPOSE_SCHEMA_TYPE_DIRECTIVE_LOCATIONS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
@@ -223,7 +219,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::ENABLE_SEMANTIC_VERSION_CONSTRAINTS;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getClientIPAddressServerPropertyName() : string
@@ -251,7 +247,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\ComponentModel\Environment::SUPPORT_DEFINING_SERVICES_IN_THE_CONTAINER_BASED_ON_THE_CONTEXT;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

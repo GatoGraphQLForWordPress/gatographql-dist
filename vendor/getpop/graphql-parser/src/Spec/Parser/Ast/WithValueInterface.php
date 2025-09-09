@@ -6,8 +6,5 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 /** @internal */
 interface WithValueInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface
 {
-    /**
-     * @return mixed
-     */
-    public function getValue();
+    public function getValue() : mixed;
 }

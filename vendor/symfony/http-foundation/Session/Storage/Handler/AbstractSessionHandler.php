@@ -21,26 +21,11 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Ses
  */
 abstract class AbstractSessionHandler implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
 {
-    /**
-     * @var string
-     */
-    private $sessionName;
-    /**
-     * @var string
-     */
-    private $prefetchId;
-    /**
-     * @var string
-     */
-    private $prefetchData;
-    /**
-     * @var string|null
-     */
-    private $newSessionId;
-    /**
-     * @var string
-     */
-    private $igbinaryEmptyData;
+    private string $sessionName;
+    private string $prefetchId;
+    private string $prefetchData;
+    private ?string $newSessionId = null;
+    private string $igbinaryEmptyData;
     public function open(string $savePath, string $sessionName) : bool
     {
         $this->sessionName = $sessionName;
@@ -49,16 +34,16 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         }
         return \true;
     }
-    protected abstract function doRead(string $sessionId) : string;
-    protected abstract function doWrite(string $sessionId, string $data) : bool;
-    protected abstract function doDestroy(string $sessionId) : bool;
-    public function validateId(string $sessionId) : bool
+    protected abstract function doRead(#[\SensitiveParameter] string $sessionId) : string;
+    protected abstract function doWrite(#[\SensitiveParameter] string $sessionId, string $data) : bool;
+    protected abstract function doDestroy(#[\SensitiveParameter] string $sessionId) : bool;
+    public function validateId(#[\SensitiveParameter] string $sessionId) : bool
     {
         $this->prefetchData = $this->read($sessionId);
         $this->prefetchId = $sessionId;
         return '' !== $this->prefetchData;
     }
-    public function read(string $sessionId) : string
+    public function read(#[\SensitiveParameter] string $sessionId) : string
     {
         if (isset($this->prefetchId)) {
             $prefetchId = $this->prefetchId;
@@ -73,17 +58,17 @@ abstract class AbstractSessionHandler implements \SessionHandlerInterface, \Sess
         $this->newSessionId = '' === $data ? $sessionId : null;
         return $data;
     }
-    public function write(string $sessionId, string $data) : bool
+    public function write(#[\SensitiveParameter] string $sessionId, string $data) : bool
     {
         // see https://github.com/igbinary/igbinary/issues/146
-        $this->igbinaryEmptyData = $this->igbinaryEmptyData ?? (\function_exists('igbinary_serialize') ? \igbinary_serialize([]) : '');
+        $this->igbinaryEmptyData ??= \function_exists('igbinary_serialize') ? \igbinary_serialize([]) : '';
         if ('' === $data || $this->igbinaryEmptyData === $data) {
             return $this->destroy($sessionId);
         }
         $this->newSessionId = null;
         return $this->doWrite($sessionId, $data);
     }
-    public function destroy(string $sessionId) : bool
+    public function destroy(#[\SensitiveParameter] string $sessionId) : bool
     {
         if (!\headers_sent() && \filter_var(\ini_get('session.use_cookies'), \FILTER_VALIDATE_BOOL)) {
             if (!isset($this->sessionName)) {

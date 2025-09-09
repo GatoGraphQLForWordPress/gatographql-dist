@@ -11,14 +11,8 @@ use PoPCMSSchema\Tags\TypeResolvers\ObjectType\AbstractTagObjectTypeResolver;
 /** @internal */
 class PostTagObjectTypeResolver extends AbstractTagObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\RelationalTypeDataLoaders\ObjectType\PostTagObjectTypeDataLoader|null
-     */
-    private $postTagObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
+    private ?PostTagObjectTypeDataLoader $postTagObjectTypeDataLoader = null;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
     protected final function getPostTagObjectTypeDataLoader() : PostTagObjectTypeDataLoader
     {
         if ($this->postTagObjectTypeDataLoader === null) {

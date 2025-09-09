@@ -8,12 +8,12 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E5 = 'e5';
-    public const E6 = 'e6';
-    public const E7 = 'e7';
-    public const E8 = 'e8';
-    public const E9 = 'e9';
+    public final const E1 = 'e1';
+    public final const E5 = 'e5';
+    public final const E6 = 'e6';
+    public final const E7 = 'e7';
+    public final const E8 = 'e8';
+    public final const E9 = 'e9';
     /**
      * @return string[]
      */
@@ -23,22 +23,15 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('You must be logged in to mutate category terms', 'category-mutations');
-            case self::E5:
-                return $this->__('There is no category taxonomy with name \'%s\'', 'category-mutations');
-            case self::E6:
-                return $this->__('There is no category term with ID \'%s\'', 'category-mutations');
-            case self::E7:
-                return $this->__('On category \'%s\', there is no term with ID \'%s\'', 'category-mutations');
-            case self::E8:
-                return $this->__('There is no category term with slug \'%s\'', 'category-mutations');
-            case self::E9:
-                return $this->__('On category \'%s\', there is no term with slug \'%s\'', 'category-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('You must be logged in to mutate category terms', 'category-mutations'),
+            self::E5 => $this->__('There is no category taxonomy with name \'%s\'', 'category-mutations'),
+            self::E6 => $this->__('There is no category term with ID \'%s\'', 'category-mutations'),
+            self::E7 => $this->__('On category \'%s\', there is no term with ID \'%s\'', 'category-mutations'),
+            self::E8 => $this->__('There is no category term with slug \'%s\'', 'category-mutations'),
+            self::E9 => $this->__('On category \'%s\', there is no term with slug \'%s\'', 'category-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

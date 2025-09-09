@@ -11,14 +11,8 @@ use GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface;
 
 abstract class AbstractGraphQLEndpointPathProvider extends AbstractAutomaticallyInstantiatedService implements GraphQLEndpointPathProviderInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -31,7 +25,7 @@ abstract class AbstractGraphQLEndpointPathProvider extends AbstractAutomatically
     }
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     /**

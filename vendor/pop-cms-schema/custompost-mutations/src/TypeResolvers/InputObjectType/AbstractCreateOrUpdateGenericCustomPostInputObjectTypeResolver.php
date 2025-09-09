@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver extends \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\AbstractCreateOrUpdateCustomPostInputObjectTypeResolver implements \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\UpdateGenericCustomPostInputObjectTypeResolverInterface, \PoPCMSSchema\CustomPostMutations\TypeResolvers\InputObjectType\CreateGenericCustomPostInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostEnumStringScalarTypeResolver|null
-     */
-    private $customPostEnumStringScalarTypeResolver;
+    private ?CustomPostEnumStringScalarTypeResolver $customPostEnumStringScalarTypeResolver = null;
     protected final function getCustomPostEnumStringScalarTypeResolver() : CustomPostEnumStringScalarTypeResolver
     {
         if ($this->customPostEnumStringScalarTypeResolver === null) {
@@ -22,6 +19,10 @@ abstract class AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver ex
             $this->customPostEnumStringScalarTypeResolver = $customPostEnumStringScalarTypeResolver;
         }
         return $this->customPostEnumStringScalarTypeResolver;
+    }
+    protected function addCustomPostParentInputField() : bool
+    {
+        return \true;
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -32,21 +33,17 @@ abstract class AbstractCreateOrUpdateGenericCustomPostInputObjectTypeResolver ex
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::CUSTOMPOST_TYPE:
-                return $this->__('The custom post type', 'custompost-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::CUSTOMPOST_TYPE => $this->__('The custom post type', 'custompost-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::CUSTOMPOST_TYPE:
-                return $this->isCustomPostTypeFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::CUSTOMPOST_TYPE => $this->isCustomPostTypeFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
     protected abstract function isCustomPostTypeFieldMandatory() : bool;
 }

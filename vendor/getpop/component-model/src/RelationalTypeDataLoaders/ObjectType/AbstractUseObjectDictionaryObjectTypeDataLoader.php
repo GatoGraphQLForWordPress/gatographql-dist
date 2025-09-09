@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \PoP\ComponentModel\Dictionaries\ObjectDictionaryInterface|null
-     */
-    private $objectDictionary;
+    private ?ObjectDictionaryInterface $objectDictionary = null;
     protected final function getObjectDictionary() : ObjectDictionaryInterface
     {
         if ($this->objectDictionary === null) {
@@ -40,9 +37,5 @@ abstract class AbstractUseObjectDictionaryObjectTypeDataLoader extends AbstractO
         return $objects;
     }
     protected abstract function getObjectTypeResolver() : ObjectTypeResolverInterface;
-    /**
-     * @param int|string $id
-     * @return mixed
-     */
-    protected abstract function getObjectTypeNewInstance($id);
+    protected abstract function getObjectTypeNewInstance(int|string $id) : mixed;
 }

@@ -83,7 +83,7 @@ abstract class AbstractUriElement
         if ('' === $path || '/' === $path) {
             return $path;
         }
-        if (\substr_compare($path, '.', -\strlen('.')) === 0) {
+        if (\str_ends_with($path, '.')) {
             $path .= '/';
         }
         $output = [];

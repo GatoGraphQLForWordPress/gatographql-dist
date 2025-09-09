@@ -10,10 +10,7 @@ use PoP\Root\Services\AbstractBasicService;
 
 abstract class AbstractSchemaConfigurator extends AbstractBasicService implements SchemaConfiguratorInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {

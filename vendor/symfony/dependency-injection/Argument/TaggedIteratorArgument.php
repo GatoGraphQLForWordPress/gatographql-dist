@@ -18,34 +18,13 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 class TaggedIteratorArgument extends IteratorArgument
 {
-    /**
-     * @var string
-     */
-    private $tag;
-    /**
-     * @var mixed
-     */
-    private $indexAttribute;
-    /**
-     * @var string|null
-     */
-    private $defaultIndexMethod;
-    /**
-     * @var string|null
-     */
-    private $defaultPriorityMethod;
-    /**
-     * @var bool
-     */
-    private $needsIndexes;
-    /**
-     * @var mixed[]
-     */
-    private $exclude;
-    /**
-     * @var bool
-     */
-    private $excludeSelf = \true;
+    private string $tag;
+    private mixed $indexAttribute;
+    private ?string $defaultIndexMethod;
+    private ?string $defaultPriorityMethod;
+    private bool $needsIndexes;
+    private array $exclude;
+    private bool $excludeSelf = \true;
     /**
      * @param string      $tag                   The name of the tag identifying the target services
      * @param string|null $indexAttribute        The name of the attribute that defines the key referencing each service in the tagged collection

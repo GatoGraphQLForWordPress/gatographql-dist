@@ -29,10 +29,7 @@ use PoP\Root\Services\AbstractBasicService;
  */
 abstract class AbstractDirectiveResolver extends AbstractBasicService implements \PoP\ComponentModel\DirectiveResolvers\DirectiveResolverInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Directive
-     */
-    protected $directive;
+    protected Directive $directive;
     /**
      * The directiveResolvers are instantiated through the service container,
      * but NOT for the directivePipeline, since there each directiveResolver

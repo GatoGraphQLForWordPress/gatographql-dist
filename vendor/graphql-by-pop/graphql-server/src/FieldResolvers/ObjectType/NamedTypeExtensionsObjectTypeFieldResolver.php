@@ -17,14 +17,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class NamedTypeExtensionsObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -55,55 +49,35 @@ class NamedTypeExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
      */
     public function getFieldNamesToResolve() : array
     {
-        return ['elementName', 'namespacedName', 'possibleValues', 'isOneOf'];
+        return ['elementName', 'namespacedName', 'possibleValues'];
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'elementName':
-            case 'namespacedName':
-            case 'isOneOf':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            case 'possibleValues':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'elementName', 'namespacedName' => SchemaTypeModifiers::NON_NULLABLE,
+            'possibleValues' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'elementName':
-                return $this->__('The type\'s non-namespaced name', 'graphql-server');
-            case 'namespacedName':
-                return $this->__('The type\'s namespaced name', 'graphql-server');
-            case 'possibleValues':
-                return $this->__('Enum-like "possible values" for EnumString type resolvers, `null` otherwise', 'graphql-server');
-            case 'isOneOf':
-                return $this->__('`true` for OneOf Input Objects, `false` otherwise', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'elementName' => $this->__('The type\'s non-namespaced name', 'graphql-server'),
+            'namespacedName' => $this->__('The type\'s namespaced name', 'graphql-server'),
+            'possibleValues' => $this->__('Enum-like "possible values" for EnumString type resolvers, `null` otherwise', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var NamedTypeExtensions */
         $namedTypeExtensions = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'elementName':
-                return $namedTypeExtensions->getTypeElementName();
-            case 'namespacedName':
-                return $namedTypeExtensions->getTypeNamespacedName();
-            case 'possibleValues':
-                return $namedTypeExtensions->getTypePossibleValues();
-            case 'isOneOf':
-                return $namedTypeExtensions->getTypeIsOneOfInputObjectType();
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'elementName' => $namedTypeExtensions->getTypeElementName(),
+            'namespacedName' => $namedTypeExtensions->getTypeNamespacedName(),
+            'possibleValues' => $namedTypeExtensions->getTypePossibleValues(),
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
     /**
      * Since the return type is known for all the fields in this
@@ -115,15 +89,9 @@ class NamedTypeExtensionsObjectTypeFieldResolver extends AbstractObjectTypeField
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'elementName':
-            case 'namespacedName':
-            case 'possibleValues':
-                return $this->getStringScalarTypeResolver();
-            case 'isOneOf':
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'elementName', 'namespacedName', 'possibleValues' => $this->getStringScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

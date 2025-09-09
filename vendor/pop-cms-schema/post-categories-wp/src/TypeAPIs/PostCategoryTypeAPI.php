@@ -18,16 +18,10 @@ use PoP\ComponentModel\App;
 class PostCategoryTypeAPI extends AbstractCategoryTypeAPI implements PostCategoryTypeAPIInterface
 {
     /** @var string[] */
-    protected $registeredPostCategoryTaxonomyNames;
+    protected ?array $registeredPostCategoryTaxonomyNames = null;
 
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
+    private ?PostTypeAPIInterface $postTypeAPI = null;
 
     final protected function getTaxonomyTermTypeAPI(): TaxonomyTermTypeAPIInterface
     {
@@ -87,9 +81,7 @@ class PostCategoryTypeAPI extends AbstractCategoryTypeAPI implements PostCategor
             $customPostTypeTaxonomyNames = $taxonomyTermTypeAPI->getCustomPostTypeTaxonomyNames($customPostType);
             $this->registeredPostCategoryTaxonomyNames = array_values(array_filter(
                 $customPostTypeTaxonomyNames,
-                function (string $taxonomyName) use ($taxonomyTermTypeAPI) {
-                    return $taxonomyTermTypeAPI->isTaxonomyHierarchical($taxonomyName);
-                }
+                fn (string $taxonomyName) => $taxonomyTermTypeAPI->isTaxonomyHierarchical($taxonomyName) ?? false
             ));
         }
         return $this->registeredPostCategoryTaxonomyNames;

@@ -13,14 +13,8 @@ use PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface;
 abstract class AbstractUserMetaMutationResolverHookSet extends AbstractMetaMutationResolverHookSet
 {
     use MutateUserMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeAPIs\UserMetaTypeMutationAPIInterface|null
-     */
-    private $userMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface|null
-     */
-    private $userMetaTypeAPI;
+    private ?UserMetaTypeMutationAPIInterface $userMetaTypeMutationAPI = null;
+    private ?UserMetaTypeAPIInterface $userMetaTypeAPI = null;
     protected final function getUserMetaTypeMutationAPI() : UserMetaTypeMutationAPIInterface
     {
         if ($this->userMetaTypeMutationAPI === null) {

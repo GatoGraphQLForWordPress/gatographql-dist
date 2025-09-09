@@ -22,68 +22,62 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
      * @var string[]
      * @phpstan-var array<class-string<ModuleInterface>>
      */
-    protected $initializedModuleClasses = [];
+    protected array $initializedModuleClasses = [];
     /**
      * Module in their initialization order
      *
      * @var string[]
      * @phpstan-var array<class-string<ModuleInterface>>
      */
-    protected $orderedModuleClasses = [];
+    protected array $orderedModuleClasses = [];
     /**
      * Module classes to be initialized
      *
      * @var string[]
      * @phpstan-var array<class-string<ModuleInterface>>
      */
-    protected $moduleClassesToInitialize = [];
-    /**
-     * @var bool
-     */
-    protected $readyState = \false;
+    protected array $moduleClassesToInitialize = [];
+    protected bool $readyState = \false;
     /**
      * [key]: Module class, [value]: Configuration
      *
      * @var array<string,array<string,mixed>>
      * @phpstan-var array<class-string<ModuleInterface>,array<string,mixed>>
      */
-    protected $moduleClassConfiguration = [];
-    /**
-     * @var \PoP\Root\Container\ContainerCacheConfiguration|null
-     */
-    protected $containerCacheConfiguration;
+    protected array $moduleClassConfiguration = [];
+    protected ?ContainerCacheConfiguration $containerCacheConfiguration = null;
     /**
      * [key]: State key, [value]: Value
      *
      * @var array<string,mixed>
      */
-    protected $initialAppState = [];
+    protected array $initialAppState = [];
     /**
      * List of `Module` class which must not initialize their Schema services
      *
      * @var string[]
      * @phpstan-var array<class-string<ModuleInterface>>
      */
-    protected $skipSchemaModuleClasses = [];
+    protected array $skipSchemaModuleClasses = [];
     /**
      * Cache if a module must skipSchema or not, stored under its class
      *
      * @var array<string,bool>
      * @phpstan-var array<class-string<ModuleInterface>,bool>
      */
-    protected $skipSchemaForModuleCache = [];
+    protected array $skipSchemaForModuleCache = [];
     /**
      * Inject Compiler Passes to boot the System (eg: when testing)
      *
      * @var array<class-string<CompilerPassInterface>>
      */
-    protected $systemContainerCompilerPassClasses = [];
+    protected array $systemContainerCompilerPassClasses = [];
     /**
      * Inject Compiler Passes to boot the Application (eg: when testing)
      *
      * @var array<class-string<CompilerPassInterface>>
      */
-    protected $applicationContainerCompilerPassClasses = [];
+    protected array $applicationContainerCompilerPassClasses = [];
     /**
      * Add Module classes to be initialized
      *
@@ -129,7 +123,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
     {
         // Allow to override entries under each Module
         foreach ($moduleClassConfiguration as $moduleClass => $moduleConfiguration) {
-            $this->moduleClassConfiguration[$moduleClass] = $this->moduleClassConfiguration[$moduleClass] ?? [];
+            $this->moduleClassConfiguration[$moduleClass] ??= [];
             $this->moduleClassConfiguration[$moduleClass] = \array_merge($this->moduleClassConfiguration[$moduleClass], $moduleConfiguration);
         }
     }
@@ -305,7 +299,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
          * System container: initialize it and compile it already,
          * since it will be used to initialize the Application container
          */
-        \PoP\Root\App::getSystemContainerBuilderFactory()->init((($nullsafeVariable1 = $this->containerCacheConfiguration) ? $nullsafeVariable1->getApplicationName() : null) ?? '', ($nullsafeVariable2 = $this->containerCacheConfiguration) ? $nullsafeVariable2->cacheContainerConfiguration() : null, ($nullsafeVariable3 = $this->containerCacheConfiguration) ? $nullsafeVariable3->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable4 = $this->containerCacheConfiguration) ? $nullsafeVariable4->getContainerConfigurationCacheDirectory() : null);
+        \PoP\Root\App::getSystemContainerBuilderFactory()->init($this->containerCacheConfiguration?->getApplicationName() ?? '', $this->containerCacheConfiguration?->cacheContainerConfiguration(), $this->containerCacheConfiguration?->getContainerConfigurationCacheNamespace(), $this->containerCacheConfiguration?->getContainerConfigurationCacheDirectory());
         /**
          * Have all Components register their Container services,
          * and already compile the container.
@@ -319,9 +313,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
             }
             $module->initializeSystem();
         }
-        $systemCompilerPasses = \array_map(function ($class) {
-            return new $class();
-        }, $this->getSystemContainerCompilerPasses());
+        $systemCompilerPasses = \array_map(fn($class) => new $class(), $this->getSystemContainerCompilerPasses());
         \PoP\Root\App::getSystemContainerBuilderFactory()->maybeCompileAndCacheContainer($systemCompilerPasses);
         // Finally boot the modules
         $this->bootSystemComponents();
@@ -354,7 +346,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
             if (!$module->isEnabled()) {
                 continue;
             }
-            $compilerPassClasses = \array_merge($compilerPassClasses, $module->getSystemContainerCompilerPassClasses());
+            $compilerPassClasses = [...$compilerPassClasses, ...$module->getSystemContainerCompilerPassClasses()];
         }
         /** @var array<class-string<CompilerPassInterface>> */
         return \array_values(\array_unique($compilerPassClasses));
@@ -382,7 +374,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
         /**
          * Initialize the Application container only
          */
-        \PoP\Root\App::getContainerBuilderFactory()->init((($nullsafeVariable5 = $this->containerCacheConfiguration) ? $nullsafeVariable5->getApplicationName() : null) ?? '', ($nullsafeVariable6 = $this->containerCacheConfiguration) ? $nullsafeVariable6->cacheContainerConfiguration() : null, ($nullsafeVariable7 = $this->containerCacheConfiguration) ? $nullsafeVariable7->getContainerConfigurationCacheNamespace() : null, ($nullsafeVariable8 = $this->containerCacheConfiguration) ? $nullsafeVariable8->getContainerConfigurationCacheDirectory() : null);
+        \PoP\Root\App::getContainerBuilderFactory()->init($this->containerCacheConfiguration?->getApplicationName() ?? '', $this->containerCacheConfiguration?->cacheContainerConfiguration(), $this->containerCacheConfiguration?->getContainerConfigurationCacheNamespace(), $this->containerCacheConfiguration?->getContainerConfigurationCacheDirectory());
         /**
          * Initialize the container services by the Components
          */
@@ -405,9 +397,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
         // Symfony's DependencyInjection Application Container
         $systemCompilerPassRegistry = SystemCompilerPassRegistryFacade::getInstance();
         $systemCompilerPasses = $systemCompilerPassRegistry->getCompilerPasses();
-        $applicationCompilerPasses = \array_merge($systemCompilerPasses, \array_map(function (string $compilerPassClass) {
-            return new $compilerPassClass();
-        }, $this->applicationContainerCompilerPassClasses));
+        $applicationCompilerPasses = [...$systemCompilerPasses, ...\array_map(fn(string $compilerPassClass) => new $compilerPassClass(), $this->applicationContainerCompilerPassClasses)];
         \PoP\Root\App::getContainerBuilderFactory()->maybeCompileAndCacheContainer($applicationCompilerPasses);
         // Initialize the modules
         \PoP\Root\App::getModuleManager()->moduleLoaded();

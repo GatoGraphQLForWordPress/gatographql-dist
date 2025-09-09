@@ -24,38 +24,18 @@ trait AbstractAdapterTrait
     use LoggerAwareTrait;
     /**
      * needs to be set by class, signature is function(string <key>, mixed <value>, bool <isHit>).
-     * @var \Closure
      */
-    private static $createCacheItem;
+    private static \Closure $createCacheItem;
     /**
      * needs to be set by class, signature is function(array <deferred>, string <namespace>, array <&expiredIds>).
-     * @var \Closure
      */
-    private static $mergeByLifetime;
-    /**
-     * @var string
-     */
-    private $namespace = '';
-    /**
-     * @var int
-     */
-    private $defaultLifetime;
-    /**
-     * @var string
-     */
-    private $namespaceVersion = '';
-    /**
-     * @var bool
-     */
-    private $versioningIsEnabled = \false;
-    /**
-     * @var mixed[]
-     */
-    private $deferred = [];
-    /**
-     * @var mixed[]
-     */
-    private $ids = [];
+    private static \Closure $mergeByLifetime;
+    private string $namespace = '';
+    private int $defaultLifetime;
+    private string $namespaceVersion = '';
+    private bool $versioningIsEnabled = \false;
+    private array $deferred = [];
+    private array $ids = [];
     /**
      * @var int|null The maximum length to enforce for identifiers or null when no limit applies
      */
@@ -92,11 +72,8 @@ trait AbstractAdapterTrait
      *
      * @return array|bool The identifiers that failed to be cached or a boolean stating if caching succeeded or not
      */
-    protected abstract function doSave(array $values, int $lifetime);
-    /**
-     * @param mixed $key
-     */
-    public function hasItem($key) : bool
+    protected abstract function doSave(array $values, int $lifetime) : array|bool;
+    public function hasItem(mixed $key) : bool
     {
         $id = $this->getId($key);
         if (isset($this->deferred[$key])) {
@@ -142,10 +119,7 @@ trait AbstractAdapterTrait
             return \false;
         }
     }
-    /**
-     * @param mixed $key
-     */
-    public function deleteItem($key) : bool
+    public function deleteItem(mixed $key) : bool
     {
         return $this->deleteItems([$key]);
     }
@@ -160,7 +134,7 @@ trait AbstractAdapterTrait
             if ($this->doDelete($ids)) {
                 return \true;
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
         $ok = \true;
         // When bulk-delete failed, retry each item individually
@@ -178,10 +152,7 @@ trait AbstractAdapterTrait
         }
         return $ok;
     }
-    /**
-     * @param mixed $key
-     */
-    public function getItem($key) : CacheItem
+    public function getItem(mixed $key) : CacheItem
     {
         $id = $this->getId($key);
         if (isset($this->deferred[$key])) {
@@ -299,9 +270,8 @@ trait AbstractAdapterTrait
     }
     /**
      * @internal
-     * @param mixed $key
      */
-    protected function getId($key) : string
+    protected function getId(mixed $key) : string
     {
         if ($this->versioningIsEnabled && '' === $this->namespaceVersion) {
             $this->ids = [];
@@ -336,16 +306,15 @@ trait AbstractAdapterTrait
         }
         if (\strlen($id = $this->namespace . $this->namespaceVersion . $key) > $this->maxIdLength) {
             // Use xxh128 to favor speed over security, which is not an issue here
-            $this->ids[$key] = $id = \substr_replace(\base64_encode(\hash('md5', $key, \true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
+            $this->ids[$key] = $id = \substr_replace(\base64_encode(\hash('xxh128', $key, \true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
             $id = $this->namespace . $this->namespaceVersion . $id;
         }
         return $id;
     }
     /**
      * @internal
-     * @return never
      */
-    public static function handleUnserializeCallback(string $class)
+    public static function handleUnserializeCallback(string $class) : never
     {
         throw new \DomainException('Class not found: ' . $class);
     }

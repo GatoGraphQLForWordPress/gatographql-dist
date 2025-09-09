@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver|null
-     */
-    private $userHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver;
+    private ?UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver $userHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver = null;
     protected final function getUserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver() : UserHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver
     {
         if ($this->userHasNoPermissionToUploadFilesErrorPayloadObjectTypeResolver === null) {

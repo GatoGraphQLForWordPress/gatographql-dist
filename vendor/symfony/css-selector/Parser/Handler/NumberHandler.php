@@ -26,10 +26,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Parser\TokenSt
  */
 class NumberHandler implements HandlerInterface
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns
-     */
-    private $patterns;
+    private TokenizerPatterns $patterns;
     public function __construct(TokenizerPatterns $patterns)
     {
         $this->patterns = $patterns;

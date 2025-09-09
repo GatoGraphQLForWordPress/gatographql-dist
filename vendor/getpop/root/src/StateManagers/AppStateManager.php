@@ -22,7 +22,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
      *
      * @var array<string,mixed>
      */
-    protected $state;
+    protected array $state;
     protected final function getTranslationAPI() : TranslationAPIInterface
     {
         return TranslationAPIFacade::getInstance();
@@ -120,17 +120,15 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     }
     /**
      * To be called by Engine. Use with care!
-     * @param mixed $value
      */
-    public function override(string $key, $value) : void
+    public function override(string $key, mixed $value) : void
     {
         $this->state[$key] = $value;
     }
     /**
      * @throws AppStateNotExistsException If there is no state under the provided key
-     * @return mixed
      */
-    public function get(string $key)
+    public function get(string $key) : mixed
     {
         if (!\array_key_exists($key, $this->state)) {
             throw new AppStateNotExistsException(\sprintf($this->getTranslationAPI()->__('There is no application state under key \'%s\'', 'root'), $key));
@@ -140,9 +138,8 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     /**
      * @throws AppStateNotExistsException If there is no state under the provided path
      * @param string[] $path
-     * @return mixed
      */
-    public function getUnder(array $path)
+    public function getUnder(array $path) : mixed
     {
         $state =& $this->state;
         foreach ($path as $pathItem) {
@@ -155,9 +152,8 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     }
     /**
      * @throws ShouldNotHappenException
-     * @param mixed $stateItem
      */
-    protected function assertIsSupportedSplObjectStorageItem($stateItem) : void
+    protected function assertIsSupportedSplObjectStorageItem(mixed $stateItem) : void
     {
         if (!$stateItem instanceof FieldInterface) {
             throw new ShouldNotHappenException(\sprintf($this->getTranslationAPI()->__('In the SplObjectStorage stored in the AppState, cannot process item of class \'%s\'', 'root'), \get_class($stateItem)));

@@ -17,22 +17,10 @@ use WP_Post;
 
 class AdminEndpointExecuter extends AbstractEndpointExecuter implements AdminEndpointExecuterServiceTagInterface, GraphQLEndpointExecuterInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GraphQLByPoP\GraphQLRequest\Execution\QueryRetrieverInterface|null
-     */
-    private $queryRetriever;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\Helpers\EndpointHelpers|null
-     */
-    private $endpointHelpers;
-    /**
-     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
-     */
-    private $templateHelpers;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?QueryRetrieverInterface $queryRetriever = null;
+    private ?EndpointHelpers $endpointHelpers = null;
+    private ?TemplateHelpersInterface $templateHelpers = null;
 
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {
@@ -117,7 +105,7 @@ class AdminEndpointExecuter extends AbstractEndpointExecuter implements AdminEnd
     {
         \add_action(
             'admin_init',
-            \Closure::fromCallable([$this, 'includeJSONOutputTemplateAndExit'])
+            $this->includeJSONOutputTemplateAndExit(...)
         );
     }
 

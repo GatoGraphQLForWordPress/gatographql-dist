@@ -225,18 +225,13 @@ class LemonSqueezyCommercialExtensionActivationService extends AbstractBasicServ
      */
     protected function convertStatus(string $status): string
     {
-        switch ($status) {
-            case 'active':
-                return LicenseStatus::ACTIVE;
-            case 'expired':
-                return LicenseStatus::EXPIRED;
-            case 'inactive':
-                return LicenseStatus::INACTIVE;
-            case 'disabled':
-                return LicenseStatus::DISABLED;
-            default:
-                return LicenseStatus::OTHER;
-        }
+        return match ($status) {
+            'active' => LicenseStatus::ACTIVE,
+            'expired' => LicenseStatus::EXPIRED,
+            'inactive' => LicenseStatus::INACTIVE,
+            'disabled' => LicenseStatus::DISABLED,
+            default => LicenseStatus::OTHER,
+        };
     }
 
     /**

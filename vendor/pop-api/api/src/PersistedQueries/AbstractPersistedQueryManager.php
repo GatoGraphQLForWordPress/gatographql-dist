@@ -10,11 +10,11 @@ abstract class AbstractPersistedQueryManager implements \PoPAPI\API\PersistedQue
     /**
      * @var array<string,string>
      */
-    protected $persistedQueries = [];
+    protected array $persistedQueries = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $persistedQueriesForSchema = [];
+    protected array $persistedQueriesForSchema = [];
     /**
      * @return array<string,array<string,string>>
      */

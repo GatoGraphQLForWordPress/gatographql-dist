@@ -29,11 +29,14 @@ class PluginSetupDataHelpers
     /**
      * @param string|string[] $status
      */
-    public static function getSchemaConfigurationID(string $slug, $status = 'publish'): ?int
-    {
+    public static function getSchemaConfigurationID(
+        string $slug,
+        string|array $status = 'publish',
+    ): ?int {
         $instanceManager = InstanceManagerFacade::getInstance();
         /** @var GraphQLSchemaConfigurationCustomPostType */
         $graphQLSchemaConfigurationCustomPostType = $instanceManager->getInstance(GraphQLSchemaConfigurationCustomPostType::class);
+
         /** @var array<string|int> */
         $schemaConfigurations = \get_posts([
             'name' => $slug,
@@ -45,6 +48,7 @@ class PluginSetupDataHelpers
         if (isset($schemaConfigurations[0])) {
             return (int) $schemaConfigurations[0];
         }
+
         return null;
     }
 }

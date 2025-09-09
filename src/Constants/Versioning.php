@@ -6,5 +6,5 @@ namespace GatoGraphQL\GatoGraphQL\Constants;
 
 class Versioning
 {
-    public const ANY_VERSION = '*';
+    public final const ANY_VERSION = '*';
 }

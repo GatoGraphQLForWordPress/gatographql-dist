@@ -9,10 +9,7 @@ use PoPCMSSchema\CustomPosts\Routing\RequestNature;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {

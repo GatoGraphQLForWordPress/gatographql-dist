@@ -25,10 +25,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 abstract class Extension implements ExtensionInterface, ConfigurationExtensionInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $processedConfigs = [];
+    private array $processedConfigs = [];
     /**
      * @return string|false
      */
@@ -64,7 +61,7 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
     public function getAlias() : string
     {
         $className = static::class;
-        if (\substr_compare($className, 'Extension', -\strlen('Extension')) !== 0) {
+        if (!\str_ends_with($className, 'Extension')) {
             throw new BadMethodCallException('This extension does not follow the naming convention; you must overwrite the getAlias() method.');
         }
         $classBaseName = \substr(\strrchr($className, '\\'), 1, -9);
@@ -76,7 +73,7 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         $class = static::class;
-        if (\strpos($class, "\x00") !== \false) {
+        if (\str_contains($class, "\x00")) {
             return null;
             // ignore anonymous classes
         }

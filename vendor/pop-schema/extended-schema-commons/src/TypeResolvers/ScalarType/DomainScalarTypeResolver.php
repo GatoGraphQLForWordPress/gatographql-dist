@@ -23,11 +23,7 @@ class DomainScalarTypeResolver extends AbstractScalarTypeResolver
     {
         return $this->__('Domain scalar, such as https://mysite.com or http://www.mysite.org', 'extended-schema-commons');
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
-     */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);

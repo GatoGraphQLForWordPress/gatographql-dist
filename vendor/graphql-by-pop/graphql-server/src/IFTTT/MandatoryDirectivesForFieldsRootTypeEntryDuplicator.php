@@ -15,14 +15,8 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class MandatoryDirectivesForFieldsRootTypeEntryDuplicator extends AbstractBasicService implements \GraphQLByPoP\GraphQLServer\IFTTT\MandatoryDirectivesForFieldsRootTypeEntryDuplicatorInterface
 {
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver|null
-     */
-    private $rootObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface|null
-     */
-    private $typeResolverHelper;
+    private ?RootObjectTypeResolver $rootObjectTypeResolver = null;
+    private ?TypeResolverHelperInterface $typeResolverHelper = null;
     protected final function getRootObjectTypeResolver() : RootObjectTypeResolver
     {
         if ($this->rootObjectTypeResolver === null) {
@@ -149,8 +143,6 @@ class MandatoryDirectivesForFieldsRootTypeEntryDuplicator extends AbstractBasicS
      */
     protected function filterRootEntriesForFields(array $fieldEntries) : array
     {
-        return \array_values(\array_filter($fieldEntries, function (array $fieldEntry) {
-            return $fieldEntry[0] === RootObjectTypeResolver::class;
-        }));
+        return \array_values(\array_filter($fieldEntries, fn(array $fieldEntry) => $fieldEntry[0] === RootObjectTypeResolver::class));
     }
 }

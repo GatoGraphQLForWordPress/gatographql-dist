@@ -8,23 +8,23 @@ use PoP\Root\Feedback\FeedbackCategories;
 /** @internal */
 class GraphQLExtendedSpecErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = '1';
-    public const E2 = '2';
-    public const E3 = '3';
-    public const E4 = '4';
-    public const E5 = '5';
-    public const E6 = '6';
-    public const E7 = '7';
-    public const E8 = '8';
-    public const E9 = '9';
-    public const E10 = '10';
-    public const E11 = '11';
-    public const E12 = '12';
-    public const E13 = '13';
-    public const E14 = '14';
-    public const E15 = '15';
-    public const E16 = '16';
-    public const E_5_8_3 = '5.8.3';
+    public final const E1 = '1';
+    public final const E2 = '2';
+    public final const E3 = '3';
+    public final const E4 = '4';
+    public final const E5 = '5';
+    public final const E6 = '6';
+    public final const E7 = '7';
+    public final const E8 = '8';
+    public final const E9 = '9';
+    public final const E10 = '10';
+    public final const E11 = '11';
+    public final const E12 = '12';
+    public final const E13 = '13';
+    public final const E14 = '14';
+    public final const E15 = '15';
+    public final const E16 = '16';
+    public final const E_5_8_3 = '5.8.3';
     protected function getNamespace() : string
     {
         return 'gqlext';
@@ -38,44 +38,26 @@ class GraphQLExtendedSpecErrorFeedbackItemProvider extends AbstractFeedbackItemP
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('Meta directive \'%s\' is nesting a directive already nested by another meta-directive', 'graphql-parser');
-            case self::E2:
-                return $this->__('Argument \'%1$s\' in directive \'%2$s\' cannot be null or empty', 'graphql-parser');
-            case self::E3:
-                return $this->__('Argument \'%1$s\' in directive \'%2$s\' must be an array of positive integers, array item \'%3$s\' is not allowed', 'graphql-parser');
-            case self::E4:
-                return $this->__('There is no directive in relative position \'%1$s\' from meta directive \'%2$s\', as indicated in argument \'%3$s\'', 'graphql-parser');
-            case self::E5:
-                return $this->__('There is no field in relative position \'%1$s\' from directive \'%2$s\', as indicated in argument \'%3$s\'', 'graphql-parser');
-            case self::E6:
-                return $this->__('The element in relative position \'%1$s\' from directive \'%2$s\' (as indicated in argument \'%3$s\') is not a field', 'graphql-parser');
-            case self::E7:
-                return $this->__('Dynamic variable \'%1$s\' cannot share the same name with a (static) variable', 'graphql-parser');
-            case self::E8:
-                return $this->__('The reference to the Resolved Field Value \'%1$s\' cannot share the same name with the variable \'%1$s\'', 'graphql-parser');
-            case self::E9:
-                return $this->__('Dynamic variable \'%1$s\' cannot share the same name with the reference to the Resolved Field Value \'%2$s\'', 'graphql-parser');
-            case self::E10:
-                return $this->__('No value has been exported for dynamic variable \'%s\' for object with ID \'%s\'', 'graphql-server');
-            case self::E11:
-                return $this->__('The reference to field \'%s\' cannot be resolved', 'graphql-server');
-            case self::E12:
-                return $this->__('The name of the operation must be a literal string', 'graphql-parser');
-            case self::E13:
-                return $this->__('The name of the operation must be a string, but \'%s\' was provided', 'graphql-parser');
-            case self::E14:
-                return $this->__('There is no operation with name \'%s\'', 'graphql-parser');
-            case self::E15:
-                return $this->__('Dependency on operation \'%s\' forms a loop', 'graphql-parser');
-            case self::E16:
-                return $this->__('No current object ID has been set on the Application State, hence the Promise concerning the \'Object Resolved Dynamic Variable "%s"\' cannot be resolved. Most likely the dynamic variable is not supported at that AST node', 'graphql-server');
-            case self::E_5_8_3:
-                return $this->__('No value has been exported for dynamic variable \'%s\'', 'graphql-server');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('Meta directive \'%s\' is nesting a directive already nested by another meta-directive', 'graphql-parser'),
+            self::E2 => $this->__('Argument \'%1$s\' in directive \'%2$s\' cannot be null or empty', 'graphql-parser'),
+            self::E3 => $this->__('Argument \'%1$s\' in directive \'%2$s\' must be an array of positive integers, array item \'%3$s\' is not allowed', 'graphql-parser'),
+            self::E4 => $this->__('There is no directive in relative position \'%1$s\' from meta directive \'%2$s\', as indicated in argument \'%3$s\'', 'graphql-parser'),
+            self::E5 => $this->__('There is no field in relative position \'%1$s\' from directive \'%2$s\', as indicated in argument \'%3$s\'', 'graphql-parser'),
+            self::E6 => $this->__('The element in relative position \'%1$s\' from directive \'%2$s\' (as indicated in argument \'%3$s\') is not a field', 'graphql-parser'),
+            self::E7 => $this->__('Dynamic variable \'%1$s\' cannot share the same name with a (static) variable', 'graphql-parser'),
+            self::E8 => $this->__('The reference to the Resolved Field Value \'%1$s\' cannot share the same name with the variable \'%1$s\'', 'graphql-parser'),
+            self::E9 => $this->__('Dynamic variable \'%1$s\' cannot share the same name with the reference to the Resolved Field Value \'%2$s\'', 'graphql-parser'),
+            self::E10 => $this->__('No value has been exported for dynamic variable \'%s\' for object with ID \'%s\'', 'graphql-server'),
+            self::E11 => $this->__('The reference to field \'%s\' cannot be resolved', 'graphql-server'),
+            self::E12 => $this->__('The name of the operation must be a literal string', 'graphql-parser'),
+            self::E13 => $this->__('The name of the operation must be a string, but \'%s\' was provided', 'graphql-parser'),
+            self::E14 => $this->__('There is no operation with name \'%s\'', 'graphql-parser'),
+            self::E15 => $this->__('Dependency on operation \'%s\' forms a loop', 'graphql-parser'),
+            self::E16 => $this->__('No current object ID has been set on the Application State, hence the Promise concerning the \'Object Resolved Dynamic Variable "%s"\' cannot be resolved. Most likely the dynamic variable is not supported at that AST node', 'graphql-server'),
+            self::E_5_8_3 => $this->__('No value has been exported for dynamic variable \'%s\'', 'graphql-server'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

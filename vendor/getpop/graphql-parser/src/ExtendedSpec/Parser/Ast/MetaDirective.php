@@ -10,16 +10,11 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 class MetaDirective extends Directive
 {
     /**
-     * @var Directive[]
-     */
-    protected $nestedDirectives;
-    /**
      * @param Directive[] $nestedDirectives
      * @param Argument[] $arguments
      */
-    public function __construct(string $name, array $arguments, array $nestedDirectives, Location $location)
+    public function __construct(string $name, array $arguments, protected array $nestedDirectives, Location $location)
     {
-        $this->nestedDirectives = $nestedDirectives;
         parent::__construct($name, $arguments, $location);
         $this->setNestedDirectives($nestedDirectives);
     }

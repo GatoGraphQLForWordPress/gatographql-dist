@@ -19,10 +19,8 @@ class AnyBuiltInScalarScalarTypeResolver extends \PoP\ComponentModel\TypeResolve
     }
     /**
      * Accept anything and everything, other than arrays and objects
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
      */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsNotStdClass($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);

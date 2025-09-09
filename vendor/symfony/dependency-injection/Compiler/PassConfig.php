@@ -26,30 +26,12 @@ class PassConfig
     public const TYPE_BEFORE_REMOVING = 'beforeRemoving';
     public const TYPE_OPTIMIZE = 'optimization';
     public const TYPE_REMOVE = 'removing';
-    /**
-     * @var \Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationPass
-     */
-    private $mergePass;
-    /**
-     * @var mixed[]
-     */
-    private $afterRemovingPasses;
-    /**
-     * @var mixed[]
-     */
-    private $beforeOptimizationPasses;
-    /**
-     * @var mixed[]
-     */
-    private $beforeRemovingPasses = [];
-    /**
-     * @var mixed[]
-     */
-    private $optimizationPasses;
-    /**
-     * @var mixed[]
-     */
-    private $removingPasses;
+    private MergeExtensionConfigurationPass $mergePass;
+    private array $afterRemovingPasses;
+    private array $beforeOptimizationPasses;
+    private array $beforeRemovingPasses = [];
+    private array $optimizationPasses;
+    private array $removingPasses;
     public function __construct()
     {
         $this->mergePass = new MergeExtensionConfigurationPass();

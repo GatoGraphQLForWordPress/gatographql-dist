@@ -10,7 +10,7 @@ class DynamicVariableDefinerDirectiveRegistry implements \PoP\ComponentModel\Reg
     /**
      * @var array<string,DynamicVariableDefinerFieldDirectiveResolverInterface>
      */
-    protected $dynamicVariableDefinerFieldDirectiveResolvers = [];
+    protected array $dynamicVariableDefinerFieldDirectiveResolvers = [];
     public function addDynamicVariableDefinerFieldDirectiveResolver(DynamicVariableDefinerFieldDirectiveResolverInterface $dynamicVariableDefinerFieldDirectiveResolver) : void
     {
         $this->dynamicVariableDefinerFieldDirectiveResolvers[$dynamicVariableDefinerFieldDirectiveResolver->getDirectiveName()] = $dynamicVariableDefinerFieldDirectiveResolver;

@@ -13,10 +13,7 @@ use PoPCMSSchema\MediaMutations\ConditionalOnModule\CustomPostMutations\Constant
 /** @internal */
 abstract class AbstractAddCustomPostInputFieldsInputObjectTypeHookSet extends AbstractHookSet
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -28,8 +25,8 @@ abstract class AbstractAddCustomPostInputFieldsInputObjectTypeHookSet extends Ab
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 3);
     }
     /**
      * @param array<string,InputTypeResolverInterface> $inputFieldNameTypeResolvers
@@ -48,11 +45,9 @@ abstract class AbstractAddCustomPostInputFieldsInputObjectTypeHookSet extends Ab
         if (!$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return $this->__('Custom post under which to upload the attachment', 'media-mutations');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('Custom post under which to upload the attachment', 'media-mutations'),
+            default => $inputFieldDescription,
+        };
     }
 }

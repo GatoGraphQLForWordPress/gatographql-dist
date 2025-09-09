@@ -41,12 +41,12 @@ class Lexer
                 // numbers
                 $tokens[] = new Token(Token::NUMBER_TYPE, 0 + \str_replace('_', '', $match[0]), $cursor + 1);
                 $cursor += \strlen($match[0]);
-            } elseif (\strpos('([{', $expression[$cursor]) !== \false) {
+            } elseif (\str_contains('([{', $expression[$cursor])) {
                 // opening bracket
                 $brackets[] = [$expression[$cursor], $cursor];
                 $tokens[] = new Token(Token::PUNCTUATION_TYPE, $expression[$cursor], $cursor + 1);
                 ++$cursor;
-            } elseif (\strpos(')]}', $expression[$cursor]) !== \false) {
+            } elseif (\str_contains(')]}', $expression[$cursor])) {
                 // closing bracket
                 if (!$brackets) {
                     throw new SyntaxError(\sprintf('Unexpected "%s".', $expression[$cursor]), $cursor, $expression);
@@ -73,7 +73,7 @@ class Lexer
                 // null-coalescing
                 $tokens[] = new Token(Token::PUNCTUATION_TYPE, '??', ++$cursor);
                 ++$cursor;
-            } elseif (\strpos('.,?:', $expression[$cursor]) !== \false) {
+            } elseif (\str_contains('.,?:', $expression[$cursor])) {
                 // punctuation
                 $tokens[] = new Token(Token::PUNCTUATION_TYPE, $expression[$cursor], $cursor + 1);
                 ++$cursor;

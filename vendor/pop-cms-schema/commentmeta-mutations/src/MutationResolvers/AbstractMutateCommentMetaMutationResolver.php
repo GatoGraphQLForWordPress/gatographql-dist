@@ -24,34 +24,13 @@ use PoP\Root\App;
 abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateEntityMetaMutationResolver implements \PoPCMSSchema\CommentMetaMutations\MutationResolvers\CommentMetaMutationResolverInterface
 {
     use \PoPCMSSchema\CommentMetaMutations\MutationResolvers\MutateCommentMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CommentMeta\TypeAPIs\CommentMetaTypeAPIInterface|null
-     */
-    private $commentMetaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeAPIs\CommentMetaTypeMutationAPIInterface|null
-     */
-    private $commentMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface|null
-     */
-    private $commentTypeAPI;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeAPIs\CommentTypeMutationAPIInterface|null
-     */
-    private $commentTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
+    private ?CommentMetaTypeAPIInterface $commentMetaTypeAPI = null;
+    private ?CommentMetaTypeMutationAPIInterface $commentMetaTypeMutationAPI = null;
+    private ?CommentTypeAPIInterface $commentTypeAPI = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?CommentTypeMutationAPIInterface $commentTypeMutationAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
     protected final function getCommentMetaTypeAPI() : CommentMetaTypeAPIInterface
     {
         if ($this->commentMetaTypeAPI === null) {
@@ -115,10 +94,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
         }
         return $this->customPostTypeMutationAPI;
     }
-    /**
-     * @param string|int $commentID
-     */
-    protected function validateEntityExists($commentID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateEntityExists(string|int $commentID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $comment = $this->getCommentTypeAPI()->getComment($commentID);
         if ($comment !== null) {
@@ -126,10 +102,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E10, [$commentID]), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $commentID
-     */
-    protected function validateUserCanEditEntity($commentID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateUserCanEditEntity(string|int $commentID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         /**
          * As solution, check if the user can edit the custom post
@@ -205,7 +178,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
      * @return string|int The ID of the comment
      * @throws CommentMetaCRUDMutationException If there was an error (eg: some comment creation validation failed)
      */
-    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $commentID = parent::addMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CommentMetaCRUDHookNames::EXECUTE_ADD_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -214,10 +187,8 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
     /**
      * @return string|int the ID of the created comment
      * @throws CommentMetaCRUDMutationException If there was an error (eg: some comment creation validation failed)
-     * @param string|int $commentID
-     * @param mixed $value
      */
-    protected function executeAddEntityMeta($commentID, string $key, $value, bool $single)
+    protected function executeAddEntityMeta(string|int $commentID, string $key, mixed $value, bool $single) : string|int
     {
         return $this->getCommentMetaTypeMutationAPI()->addCommentMeta($commentID, $key, $value, $single);
     }
@@ -225,7 +196,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
      * @return string|int The ID of the comment
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
      */
-    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $commentID = parent::updateMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CommentMetaCRUDHookNames::EXECUTE_UPDATE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -234,11 +205,8 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
-     * @param string|int $commentID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    protected function executeUpdateEntityMeta($commentID, string $key, $value, $prevValue = null)
+    protected function executeUpdateEntityMeta(string|int $commentID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool
     {
         return $this->getCommentMetaTypeMutationAPI()->updateCommentMeta($commentID, $key, $value, $prevValue);
     }
@@ -246,7 +214,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
      * @return string|int The ID of the comment
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
      */
-    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $commentID = parent::deleteMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CommentMetaCRUDHookNames::EXECUTE_DELETE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -254,10 +222,8 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
     }
     /**
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
-     * @param string|int $commentID
-     * @param mixed $value
      */
-    protected function executeDeleteEntityMeta($commentID, string $key, $value = null) : void
+    protected function executeDeleteEntityMeta(string|int $commentID, string $key, mixed $value = null) : void
     {
         $this->getCommentMetaTypeMutationAPI()->deleteCommentMeta($commentID, $key, $value);
     }
@@ -265,7 +231,7 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
      * @return string|int The ID of the comment
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
      */
-    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $commentID = parent::setMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CommentMetaCRUDHookNames::EXECUTE_SET_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -274,9 +240,8 @@ abstract class AbstractMutateCommentMetaMutationResolver extends AbstractMutateE
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws CommentMetaCRUDMutationException If there was an error (eg: comment does not exist)
-     * @param string|int $commentID
      */
-    protected function executeSetEntityMeta($commentID, array $entries) : void
+    protected function executeSetEntityMeta(string|int $commentID, array $entries) : void
     {
         $this->getCommentMetaTypeMutationAPI()->setCommentMeta($commentID, $entries);
     }

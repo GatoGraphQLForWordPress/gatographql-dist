@@ -11,14 +11,8 @@ use PoPCMSSchema\Tags\TypeResolvers\InterfaceType\TagInterfaceTypeResolver;
 /** @internal */
 class TagUnionTypeResolver extends AbstractUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Tags\RelationalTypeDataLoaders\UnionType\TagUnionTypeDataLoader|null
-     */
-    private $tagUnionTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\InterfaceType\TagInterfaceTypeResolver|null
-     */
-    private $tagInterfaceTypeResolver;
+    private ?TagUnionTypeDataLoader $tagUnionTypeDataLoader = null;
+    private ?TagInterfaceTypeResolver $tagInterfaceTypeResolver = null;
     protected final function getTagUnionTypeDataLoader() : TagUnionTypeDataLoader
     {
         if ($this->tagUnionTypeDataLoader === null) {

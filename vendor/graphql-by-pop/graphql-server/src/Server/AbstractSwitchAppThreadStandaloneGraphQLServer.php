@@ -18,10 +18,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compil
  */
 abstract class AbstractSwitchAppThreadStandaloneGraphQLServer extends \GraphQLByPoP\GraphQLServer\Server\StandaloneGraphQLServer
 {
-    /**
-     * @var \PoP\ComponentModel\AppThreadInterface
-     */
-    private $appThread;
+    private AppThreadInterface $appThread;
     /**
      * @param array<class-string<ModuleInterface>> $moduleClasses The component classes to initialize, including those dealing with the schema elements (posts, users, comments, etc)
      * @param array<class-string<ModuleInterface>,array<string,mixed>> $moduleClassConfiguration Predefined configuration for the components
@@ -49,9 +46,8 @@ abstract class AbstractSwitchAppThreadStandaloneGraphQLServer extends \GraphQLBy
      * build the AST, and generate and print the data.
      *
      * @param array<string,mixed> $variables
-     * @param string|\PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument $queryOrExecutableDocument
      */
-    public function execute($queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
+    public function execute(string|ExecutableDocument $queryOrExecutableDocument, array $variables = [], ?string $operationName = null) : Response
     {
         /**
          * Keep the current AppThread, switch to the GraphQLServer's

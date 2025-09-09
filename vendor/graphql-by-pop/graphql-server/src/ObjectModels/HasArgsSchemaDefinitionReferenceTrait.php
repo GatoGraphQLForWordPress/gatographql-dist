@@ -10,7 +10,7 @@ trait HasArgsSchemaDefinitionReferenceTrait
     /**
      * @var InputValue[]
      */
-    protected $args;
+    protected array $args;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

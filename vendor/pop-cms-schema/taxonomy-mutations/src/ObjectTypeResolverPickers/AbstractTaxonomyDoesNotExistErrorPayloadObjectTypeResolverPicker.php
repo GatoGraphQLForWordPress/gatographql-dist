@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractTaxonomyDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\TaxonomyDoesNotExistErrorPayloadObjectTypeResolver|null
-     */
-    private $taxonomyDoesNotExistErrorPayloadObjectTypeResolver;
+    private ?TaxonomyDoesNotExistErrorPayloadObjectTypeResolver $taxonomyDoesNotExistErrorPayloadObjectTypeResolver = null;
     protected final function getTaxonomyDoesNotExistErrorPayloadObjectTypeResolver() : TaxonomyDoesNotExistErrorPayloadObjectTypeResolver
     {
         if ($this->taxonomyDoesNotExistErrorPayloadObjectTypeResolver === null) {

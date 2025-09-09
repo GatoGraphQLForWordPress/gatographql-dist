@@ -22,23 +22,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Messenger\Stamp\HandledSta
  */
 class EarlyExpirationDispatcher
 {
-    /**
-     * @var \Symfony\Component\Messenger\MessageBusInterface
-     */
-    private $bus;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ReverseContainer
-     */
-    private $reverseContainer;
-    /**
-     * @var \Closure|null
-     */
-    private $callbackWrapper;
+    private MessageBusInterface $bus;
+    private ReverseContainer $reverseContainer;
+    private ?\Closure $callbackWrapper;
     public function __construct(MessageBusInterface $bus, ReverseContainer $reverseContainer, ?callable $callbackWrapper = null)
     {
         $this->bus = $bus;
         $this->reverseContainer = $reverseContainer;
-        $this->callbackWrapper = null === $callbackWrapper ? null : \Closure::fromCallable($callbackWrapper);
+        $this->callbackWrapper = null === $callbackWrapper ? null : $callbackWrapper(...);
     }
     /**
      * @return mixed
@@ -47,7 +38,7 @@ class EarlyExpirationDispatcher
     {
         if (!$item->isHit() || null === ($message = EarlyExpirationMessage::create($this->reverseContainer, $callback, $item, $pool))) {
             // The item is stale or the callback cannot be reversed: we must compute the value now
-            ($nullsafeVariable1 = $logger) ? $nullsafeVariable1->info('Computing item "{key}" online: ' . ($item->isHit() ? 'callback cannot be reversed' : 'item is stale'), ['key' => $item->getKey()]) : null;
+            $logger?->info('Computing item "{key}" online: ' . ($item->isHit() ? 'callback cannot be reversed' : 'item is stale'), ['key' => $item->getKey()]);
             return null !== $this->callbackWrapper ? ($this->callbackWrapper)($callback, $item, $save, $pool, $setMetadata, $logger) : $callback($item, $save);
         }
         $envelope = $this->bus->dispatch($message);

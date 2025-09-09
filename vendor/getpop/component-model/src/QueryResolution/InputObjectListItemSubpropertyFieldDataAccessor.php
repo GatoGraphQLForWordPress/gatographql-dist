@@ -10,22 +10,12 @@ use stdClass;
 /** @internal */
 class InputObjectListItemSubpropertyFieldDataAccessor extends \PoP\ComponentModel\QueryResolution\FieldDataAccessor implements \PoP\ComponentModel\QueryResolution\InputObjectListItemSubpropertyFieldDataAccessorInterface
 {
-    /**
-     * @var string
-     */
-    protected $inputObjectListSubpropertyName;
-    /**
-     * @var int
-     */
-    protected $inputObjectListItemPosition;
     use StandaloneServiceTrait;
     /**
      * @param array<string,mixed> $unresolvedFieldArgs
      */
-    public function __construct(FieldInterface $field, string $inputObjectListSubpropertyName, int $inputObjectListItemPosition, array $unresolvedFieldArgs)
+    public function __construct(FieldInterface $field, protected string $inputObjectListSubpropertyName, protected int $inputObjectListItemPosition, array $unresolvedFieldArgs)
     {
-        $this->inputObjectListSubpropertyName = $inputObjectListSubpropertyName;
-        $this->inputObjectListItemPosition = $inputObjectListItemPosition;
         parent::__construct($field, $unresolvedFieldArgs);
     }
     public function getInputObjectListSubpropertyName() : string

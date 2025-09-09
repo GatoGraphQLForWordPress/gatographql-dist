@@ -17,11 +17,9 @@ class CommentMetaOrderByQueryHookSet extends AbstractMetaOrderByQueryHookSet
 
     public function getOrderByQueryArgValue(string $orderBy): string
     {
-        switch ($orderBy) {
-            case MetaOrderBy::META_VALUE:
-                return 'comment_meta_value';
-            default:
-                return parent::getOrderByQueryArgValue($orderBy);
-        }
+        return match ($orderBy) {
+            MetaOrderBy::META_VALUE => 'comment_meta_value',
+            default => parent::getOrderByQueryArgValue($orderBy),
+        };
     }
 }

@@ -21,10 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Filesystem\Exception\IOExc
  */
 class Filesystem
 {
-    /**
-     * @var string|null
-     */
-    private static $lastError;
+    private static ?string $lastError = null;
     /**
      * Copies a file.
      *
@@ -81,9 +78,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException On any directory creation failure
-     * @param string|iterable $dirs
      */
-    public function mkdir($dirs, int $mode = 0777)
+    public function mkdir(string|iterable $dirs, int $mode = 0777)
     {
         foreach ($this->toIterable($dirs) as $dir) {
             if (\is_dir($dir)) {
@@ -96,9 +92,8 @@ class Filesystem
     }
     /**
      * Checks the existence of files or directories.
-     * @param string|iterable $files
      */
-    public function exists($files) : bool
+    public function exists(string|iterable $files) : bool
     {
         $maxPathLength = \PHP_MAXPATHLEN - 2;
         foreach ($this->toIterable($files) as $file) {
@@ -120,9 +115,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException When touch fails
-     * @param string|iterable $files
      */
-    public function touch($files, ?int $time = null, ?int $atime = null)
+    public function touch(string|iterable $files, ?int $time = null, ?int $atime = null)
     {
         foreach ($this->toIterable($files) as $file) {
             if (!($time ? self::box('touch', $file, $time, $atime) : self::box('touch', $file))) {
@@ -136,9 +130,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException When removal fails
-     * @param string|iterable $files
      */
-    public function remove($files)
+    public function remove(string|iterable $files)
     {
         if ($files instanceof \Traversable) {
             $files = \iterator_to_array($files, \false);
@@ -162,7 +155,7 @@ class Filesystem
                     if (\file_exists($tmpName)) {
                         try {
                             self::doRemove([$tmpName], \true);
-                        } catch (IOException $exception) {
+                        } catch (IOException) {
                         }
                     }
                     if (!\file_exists($tmpName) && self::box('rename', $file, $tmpName)) {
@@ -181,7 +174,7 @@ class Filesystem
                     }
                     throw new IOException(\sprintf('Failed to remove directory "%s": ', $file) . $lastError);
                 }
-            } elseif (!self::box('unlink', $file) && (self::$lastError && \strpos(self::$lastError, 'Permission denied') !== \false || \file_exists($file))) {
+            } elseif (!self::box('unlink', $file) && (self::$lastError && \str_contains(self::$lastError, 'Permission denied') || \file_exists($file))) {
                 throw new IOException(\sprintf('Failed to remove file "%s": ', $file) . self::$lastError);
             }
         }
@@ -196,9 +189,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException When the change fails
-     * @param string|iterable $files
      */
-    public function chmod($files, int $mode, int $umask = 00, bool $recursive = \false)
+    public function chmod(string|iterable $files, int $mode, int $umask = 00, bool $recursive = \false)
     {
         foreach ($this->toIterable($files) as $file) {
             if (!self::box('chmod', $file, $mode & ~$umask)) {
@@ -214,7 +206,7 @@ class Filesystem
      *
      * This method always throws on Windows, as the underlying PHP function is not supported.
      *
-     * @see https://www.php.net/chown
+     * @see https://php.net/chown
      *
      * @param string|int $user      A user name or number
      * @param bool       $recursive Whether change the owner recursively or not
@@ -222,9 +214,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException When the change fails
-     * @param string|iterable $files
      */
-    public function chown($files, $user, bool $recursive = \false)
+    public function chown(string|iterable $files, string|int $user, bool $recursive = \false)
     {
         foreach ($this->toIterable($files) as $file) {
             if ($recursive && \is_dir($file) && !\is_link($file)) {
@@ -246,7 +237,7 @@ class Filesystem
      *
      * This method always throws on Windows, as the underlying PHP function is not supported.
      *
-     * @see https://www.php.net/chgrp
+     * @see https://php.net/chgrp
      *
      * @param string|int $group     A group name or number
      * @param bool       $recursive Whether change the group recursively or not
@@ -254,9 +245,8 @@ class Filesystem
      * @return void
      *
      * @throws IOException When the change fails
-     * @param string|iterable $files
      */
-    public function chgrp($files, $group, bool $recursive = \false)
+    public function chgrp(string|iterable $files, string|int $group, bool $recursive = \false)
     {
         foreach ($this->toIterable($files) as $file) {
             if ($recursive && \is_dir($file) && !\is_link($file)) {
@@ -349,7 +339,7 @@ class Filesystem
      * @throws FileNotFoundException When original file is missing or not a file
      * @throws IOException           When link fails, including if link already exists
      */
-    public function hardlink(string $originFile, $targetFiles)
+    public function hardlink(string $originFile, string|iterable $targetFiles)
     {
         self::assertFunctionExists('link');
         if (!$this->exists($originFile)) {
@@ -372,12 +362,11 @@ class Filesystem
     }
     /**
      * @param string $linkType Name of the link type, typically 'symbolic' or 'hard'
-     * @return never
      */
-    private function linkException(string $origin, string $target, string $linkType)
+    private function linkException(string $origin, string $target, string $linkType) : never
     {
         if (self::$lastError) {
-            if ('\\' === \DIRECTORY_SEPARATOR && \strpos(self::$lastError, 'error code(1314)') !== \false) {
+            if ('\\' === \DIRECTORY_SEPARATOR && \str_contains(self::$lastError, 'error code(1314)')) {
                 throw new IOException(\sprintf('Unable to create "%s" link due to error code 1314: \'A required privilege is not held by the client\'. Do you have the required Administrator-rights?', $linkType), 0, null, $target);
             }
         }
@@ -423,9 +412,7 @@ class Filesystem
             $endPath = \str_replace('\\', '/', $endPath);
             $startPath = \str_replace('\\', '/', $startPath);
         }
-        $splitDriveLetter = function ($path) {
-            return \strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && \ctype_alpha($path[0]) ? [\substr($path, 2), \strtoupper($path[0])] : [$path, null];
-        };
+        $splitDriveLetter = fn($path) => \strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && \ctype_alpha($path[0]) ? [\substr($path, 2), \strtoupper($path[0])] : [$path, null];
         $splitPath = function ($path) {
             $result = [];
             foreach (\explode('/', \trim($path, '/')) as $segment) {
@@ -638,10 +625,7 @@ class Filesystem
             throw new IOException(\sprintf('Failed to write file "%s": ', $filename) . self::$lastError, 0, null, $filename);
         }
     }
-    /**
-     * @param string|iterable $files
-     */
-    private function toIterable($files) : iterable
+    private function toIterable(string|iterable $files) : iterable
     {
         return \is_iterable($files) ? $files : [$files];
     }
@@ -659,15 +643,11 @@ class Filesystem
             throw new IOException(\sprintf('Unable to perform filesystem operation because the "%s()" function has been disabled.', $func));
         }
     }
-    /**
-     * @param mixed ...$args
-     * @return mixed
-     */
-    private static function box(string $func, ...$args)
+    private static function box(string $func, mixed ...$args) : mixed
     {
         self::assertFunctionExists($func);
         self::$lastError = null;
-        \set_error_handler(\Closure::fromCallable([self::class, 'handleError']));
+        \set_error_handler(self::handleError(...));
         try {
             return $func(...$args);
         } finally {

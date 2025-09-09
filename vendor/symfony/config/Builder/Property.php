@@ -19,30 +19,12 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Builder;
  */
 class Property
 {
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $originalName;
-    /**
-     * @var bool
-     */
-    private $array = \false;
-    /**
-     * @var bool
-     */
-    private $scalarsAllowed = \false;
-    /**
-     * @var string|null
-     */
-    private $type;
-    /**
-     * @var string|null
-     */
-    private $content;
+    private string $name;
+    private string $originalName;
+    private bool $array = \false;
+    private bool $scalarsAllowed = \false;
+    private ?string $type = null;
+    private ?string $content = null;
     public function __construct(string $originalName, string $name)
     {
         $this->name = $name;
@@ -60,11 +42,11 @@ class Property
     {
         $this->array = \false;
         $this->type = $type;
-        if (\substr_compare($type, '|scalar', -\strlen('|scalar')) === 0) {
+        if (\str_ends_with($type, '|scalar')) {
             $this->scalarsAllowed = \true;
             $this->type = $type = \substr($type, 0, -7);
         }
-        if (\substr_compare($type, '[]', -\strlen('[]')) === 0) {
+        if (\str_ends_with($type, '[]')) {
             $this->array = \true;
             $this->type = \substr($type, 0, -2);
         }

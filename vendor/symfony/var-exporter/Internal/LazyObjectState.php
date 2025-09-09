@@ -20,34 +20,21 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\Hydrator as Pu
  */
 class LazyObjectState
 {
-    /**
-     * @readonly
-     * @var \Closure|mixed[]
-     */
-    public $initializer;
     public const STATUS_UNINITIALIZED_FULL = 1;
     public const STATUS_UNINITIALIZED_PARTIAL = 2;
     public const STATUS_INITIALIZED_FULL = 3;
     public const STATUS_INITIALIZED_PARTIAL = 4;
     /**
      * @var array<string, true>
-     * @readonly
      */
-    public $skippedProperties;
+    public readonly array $skippedProperties;
     /**
      * @var self::STATUS_*
      */
-    public $status = 0;
-    /**
-     * @var object
-     */
-    public $realInstance;
-    /**
-     * @param \Closure|mixed[] $initializer
-     */
-    public function __construct($initializer, $skippedProperties = [])
+    public int $status = 0;
+    public object $realInstance;
+    public function __construct(public readonly \Closure|array $initializer, $skippedProperties = [])
     {
-        $this->initializer = $initializer;
         $this->skippedProperties = $skippedProperties;
         $this->status = \is_array($initializer) ? self::STATUS_UNINITIALIZED_PARTIAL : self::STATUS_UNINITIALIZED_FULL;
     }
@@ -57,13 +44,13 @@ class LazyObjectState
             return self::STATUS_INITIALIZED_FULL;
         }
         if (\is_array($this->initializer)) {
-            $class = \get_class($instance);
-            $writeScope = $writeScope ?? $class;
+            $class = $instance::class;
+            $writeScope ??= $class;
             $propertyScopes = Hydrator::$propertyScopes[$class];
             $propertyScopes[$k = "\x00{$writeScope}\x00{$propertyName}"] ?? $propertyScopes[$k = "\x00*\x00{$propertyName}"] ?? ($k = $propertyName);
             if ($initializer = $this->initializer[$k] ?? null) {
                 $value = $initializer(...[$instance, $propertyName, $writeScope, LazyObjectRegistry::$defaultProperties[$class][$k] ?? null]);
-                $accessor = LazyObjectRegistry::$classAccessors[$writeScope] = LazyObjectRegistry::$classAccessors[$writeScope] ?? LazyObjectRegistry::getClassAccessors($writeScope);
+                $accessor = LazyObjectRegistry::$classAccessors[$writeScope] ??= LazyObjectRegistry::getClassAccessors($writeScope);
                 $accessor['set']($instance, $propertyName, $value);
                 return $this->status = self::STATUS_INITIALIZED_PARTIAL;
             }
@@ -75,7 +62,7 @@ class LazyObjectState
                 foreach ($values as $key => $value) {
                     if (!\array_key_exists($key, $properties) && ([$scope, $name, $writeScope] = $propertyScopes[$key] ?? null)) {
                         $scope = $writeScope ?? $scope;
-                        $accessor = LazyObjectRegistry::$classAccessors[$scope] = LazyObjectRegistry::$classAccessors[$scope] ?? LazyObjectRegistry::getClassAccessors($scope);
+                        $accessor = LazyObjectRegistry::$classAccessors[$scope] ??= LazyObjectRegistry::getClassAccessors($scope);
                         $accessor['set']($instance, $name, $value);
                         if ($k === $key) {
                             $this->status = self::STATUS_INITIALIZED_PARTIAL;
@@ -90,7 +77,7 @@ class LazyObjectState
         }
         $this->status = self::STATUS_INITIALIZED_PARTIAL;
         try {
-            if ($defaultProperties = \array_diff_key(LazyObjectRegistry::$defaultProperties[\get_class($instance)], $this->skippedProperties)) {
+            if ($defaultProperties = \array_diff_key(LazyObjectRegistry::$defaultProperties[$instance::class], $this->skippedProperties)) {
                 PublicHydrator::hydrate($instance, $defaultProperties);
             }
             ($this->initializer)($instance);
@@ -103,8 +90,8 @@ class LazyObjectState
     }
     public function reset($instance) : void
     {
-        $class = \get_class($instance);
-        $propertyScopes = Hydrator::$propertyScopes[$class] = Hydrator::$propertyScopes[$class] ?? Hydrator::getPropertyScopes($class);
+        $class = $instance::class;
+        $propertyScopes = Hydrator::$propertyScopes[$class] ??= Hydrator::getPropertyScopes($class);
         $skippedProperties = $this->skippedProperties;
         $properties = (array) $instance;
         $onlyProperties = \is_array($this->initializer) ? $this->initializer : null;

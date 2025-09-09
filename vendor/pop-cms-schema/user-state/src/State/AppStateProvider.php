@@ -8,10 +8,7 @@ use PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\UserState\TypeAPIs\UserStateTypeAPIInterface|null
-     */
-    private $userStateTypeAPI;
+    private ?UserStateTypeAPIInterface $userStateTypeAPI = null;
     protected final function getUserStateTypeAPI() : UserStateTypeAPIInterface
     {
         if ($this->userStateTypeAPI === null) {

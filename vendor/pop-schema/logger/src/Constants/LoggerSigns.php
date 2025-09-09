@@ -6,8 +6,8 @@ namespace PoPSchema\Logger\Constants;
 /** @internal */
 class LoggerSigns
 {
-    public const ERROR = '🔴';
-    public const WARNING = '🟡';
-    public const INFO = '🔵';
-    public const DEBUG = '🟢';
+    public final const ERROR = '🔴';
+    public final const WARNING = '🟡';
+    public final const INFO = '🔵';
+    public final const DEBUG = '🟢';
 }

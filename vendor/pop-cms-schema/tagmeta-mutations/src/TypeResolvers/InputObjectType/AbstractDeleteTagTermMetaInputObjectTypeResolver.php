@@ -14,11 +14,9 @@ abstract class AbstractDeleteTagTermMetaInputObjectTypeResolver extends Abstract
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the tag', 'tagmeta-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the tag', 'tagmeta-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

@@ -20,27 +20,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Sto
  */
 class NativeSessionStorageFactory implements SessionStorageFactoryInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $options;
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null
-     */
-    private $handler;
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\MetadataBag|null
-     */
-    private $metaBag;
-    /**
-     * @var bool
-     */
-    private $secure;
+    private array $options;
+    private AbstractProxy|\SessionHandlerInterface|null $handler;
+    private ?MetadataBag $metaBag;
+    private bool $secure;
     /**
      * @see NativeSessionStorage constructor.
-     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null $handler
      */
-    public function __construct(array $options = [], $handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
+    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
     {
         $this->options = $options;
         $this->handler = $handler;
@@ -50,7 +37,7 @@ class NativeSessionStorageFactory implements SessionStorageFactoryInterface
     public function createStorage(?Request $request) : SessionStorageInterface
     {
         $storage = new NativeSessionStorage($this->options, $this->handler, $this->metaBag);
-        if ($this->secure && (($nullsafeVariable1 = $request) ? $nullsafeVariable1->isSecure() : null)) {
+        if ($this->secure && $request?->isSecure()) {
             $storage->setOptions(['cookie_secure' => \true]);
         }
         return $storage;

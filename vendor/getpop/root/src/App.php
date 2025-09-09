@@ -24,14 +24,8 @@ use PoP\Root\StateManagers\ModuleManagerInterface;
  */
 class App implements \PoP\Root\AppInterface
 {
-    /**
-     * @var bool
-     */
-    protected static $initialized = \false;
-    /**
-     * @var \PoP\Root\AppThreadInterface
-     */
-    protected static $appThread;
+    protected static bool $initialized = \false;
+    protected static \PoP\Root\AppThreadInterface $appThread;
     /**
      * This function must be invoked at the very beginning,
      * to initialize the instance to run the application.
@@ -148,18 +142,16 @@ class App implements \PoP\Root\AppInterface
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static final function getState($keyOrPath)
+    public static final function getState(string|array $keyOrPath) : mixed
     {
         return self::$appThread->getState($keyOrPath);
     }
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
-     * @return mixed
      */
-    public static final function hasState($keyOrPath)
+    public static final function hasState(string|array $keyOrPath) : mixed
     {
         return self::$appThread->hasState($keyOrPath);
     }
@@ -179,11 +171,8 @@ class App implements \PoP\Root\AppInterface
     }
     /**
      * Shortcut function.
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
      */
-    public static final function applyFilters(string $tag, $value, ...$args)
+    public static final function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed
     {
         return self::$appThread->applyFilters($tag, $value, ...$args);
     }
@@ -203,9 +192,8 @@ class App implements \PoP\Root\AppInterface
     }
     /**
      * Shortcut function.
-     * @param mixed ...$args
      */
-    public static final function doAction(string $tag, ...$args) : void
+    public static final function doAction(string $tag, mixed ...$args) : void
     {
         self::$appThread->doAction($tag, ...$args);
     }
@@ -213,10 +201,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Equivalent of $_POST[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function request(string $key, $default = null)
+    public static final function request(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->request($key, $default);
     }
@@ -224,10 +210,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Equivalent of $_GET[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function query(string $key, $default = null)
+    public static final function query(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->query($key, $default);
     }
@@ -235,10 +219,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Equivalent of $_COOKIES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function cookies(string $key, $default = null)
+    public static final function cookies(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->cookies($key, $default);
     }
@@ -246,10 +228,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Equivalent of $_FILES[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function files(string $key, $default = null)
+    public static final function files(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->files($key, $default);
     }
@@ -257,10 +237,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Equivalent of $_SERVER[$key] ?? $default
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function server(string $key, $default = null)
+    public static final function server(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->server($key, $default);
     }
@@ -268,10 +246,8 @@ class App implements \PoP\Root\AppInterface
      * Shortcut function.
      *
      * Mostly equivalent to a subset of $_SERVER
-     * @param mixed $default
-     * @return mixed
      */
-    public static final function headers(string $key, $default = null)
+    public static final function headers(string $key, mixed $default = null) : mixed
     {
         return self::$appThread->headers($key, $default);
     }

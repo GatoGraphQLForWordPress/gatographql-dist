@@ -9,10 +9,7 @@ use PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver;
 /** @internal */
 class CategoryUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\UnionType\CategoryUnionTypeResolver|null
-     */
-    private $categoryUnionTypeResolver;
+    private ?CategoryUnionTypeResolver $categoryUnionTypeResolver = null;
     protected final function getCategoryUnionTypeResolver() : CategoryUnionTypeResolver
     {
         if ($this->categoryUnionTypeResolver === null) {

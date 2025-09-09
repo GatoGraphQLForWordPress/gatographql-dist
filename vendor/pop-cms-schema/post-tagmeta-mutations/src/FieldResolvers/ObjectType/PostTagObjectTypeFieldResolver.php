@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\PostTagDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\PostTagAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\PostTagUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\TypeResolvers\ObjectType\PostTagSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $postTagSetMetaMutationPayloadObjectTypeResolver;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
+    private ?PostTagDeleteMetaMutationPayloadObjectTypeResolver $postTagDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?PostTagAddMetaMutationPayloadObjectTypeResolver $postTagCreateMutationPayloadObjectTypeResolver = null;
+    private ?PostTagUpdateMetaMutationPayloadObjectTypeResolver $postTagUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?PostTagSetMetaMutationPayloadObjectTypeResolver $postTagSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPostTagObjectTypeResolver() : PostTagObjectTypeResolver
     {
         if ($this->postTagObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class PostTagObjectTypeFieldResolver extends AbstractTagObjectTypeFieldResolver
         $moduleConfiguration = App::getModule(TagMetaMutationsModule::class)->getConfiguration();
         $usePayloadableTagMetaMutations = $moduleConfiguration->usePayloadableTagMetaMutations();
         if (!$usePayloadableTagMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getPostTagObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getPostTagObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getPostTagAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getPostTagDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getPostTagSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getPostTagUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getPostTagAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getPostTagDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getPostTagSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getPostTagUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

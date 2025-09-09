@@ -17,26 +17,11 @@ use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver;
 /** @internal */
 abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends AbstractInputObjectTypeResolver implements \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\AddCommentToCustomPostInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\EmailScalarTypeResolver|null
-     */
-    private $emailScalarTypeResolver;
-    /**
-     * @var \PoPSchema\SchemaCommons\TypeResolvers\ScalarType\URLScalarTypeResolver|null
-     */
-    private $urlScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver|null
-     */
-    private $commentAsOneofInputObjectTypeResolver;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?EmailScalarTypeResolver $emailScalarTypeResolver = null;
+    private ?URLScalarTypeResolver $urlScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?\PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentAsOneofInputObjectTypeResolver $commentAsOneofInputObjectTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -96,34 +81,23 @@ abstract class AbstractAddCommentToCustomPostInputObjectTypeResolver extends Abs
     protected abstract function isParentCommentInputFieldMandatory() : bool;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::COMMENT_AS:
-                return $this->__('The comment to add', 'comment-mutations');
-            case MutationInputProperties::PARENT_COMMENT_ID:
-                return $this->__('The ID of the parent comment', 'comment-mutations');
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return $this->__('The ID of the custom post to add a comment to', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_NAME:
-                return $this->__('The comment author\'s name', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_EMAIL:
-                return $this->__('The comment author\'s email', 'comment-mutations');
-            case MutationInputProperties::AUTHOR_URL:
-                return $this->__('The comment author\'s site URL', 'comment-mutations');
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::COMMENT_AS => $this->__('The comment to add', 'comment-mutations'),
+            MutationInputProperties::PARENT_COMMENT_ID => $this->__('The ID of the parent comment', 'comment-mutations'),
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('The ID of the custom post to add a comment to', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_NAME => $this->__('The comment author\'s name', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_EMAIL => $this->__('The comment author\'s email', 'comment-mutations'),
+            MutationInputProperties::AUTHOR_URL => $this->__('The comment author\'s site URL', 'comment-mutations'),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::COMMENT_AS:
-                return SchemaTypeModifiers::MANDATORY;
-            case MutationInputProperties::PARENT_COMMENT_ID:
-                return $this->isParentCommentInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE;
-            case MutationInputProperties::CUSTOMPOST_ID:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::COMMENT_AS => SchemaTypeModifiers::MANDATORY,
+            MutationInputProperties::PARENT_COMMENT_ID => $this->isParentCommentInputFieldMandatory() ? SchemaTypeModifiers::MANDATORY : SchemaTypeModifiers::NONE,
+            MutationInputProperties::CUSTOMPOST_ID => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
 }

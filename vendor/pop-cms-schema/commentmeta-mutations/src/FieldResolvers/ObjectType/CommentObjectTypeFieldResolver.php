@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class CommentObjectTypeFieldResolver extends AbstractCommentObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver|null
-     */
-    private $commentObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\ObjectType\CommentDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $commentDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\ObjectType\CommentAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $commentCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\ObjectType\CommentUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $commentUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\ObjectType\CommentSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $commentSetMetaMutationPayloadObjectTypeResolver;
+    private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;
+    private ?CommentDeleteMetaMutationPayloadObjectTypeResolver $commentDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?CommentAddMetaMutationPayloadObjectTypeResolver $commentCreateMutationPayloadObjectTypeResolver = null;
+    private ?CommentUpdateMetaMutationPayloadObjectTypeResolver $commentUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?CommentSetMetaMutationPayloadObjectTypeResolver $commentSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getCommentObjectTypeResolver() : CommentObjectTypeResolver
     {
         if ($this->commentObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class CommentObjectTypeFieldResolver extends AbstractCommentObjectTypeFieldResol
         $moduleConfiguration = App::getModule(CommentMetaMutationsModule::class)->getConfiguration();
         $usePayloadableCommentMetaMutations = $moduleConfiguration->usePayloadableCommentMetaMutations();
         if (!$usePayloadableCommentMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getCommentObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getCommentObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getCommentAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getCommentDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getCommentSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getCommentUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getCommentAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getCommentDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getCommentSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getCommentUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

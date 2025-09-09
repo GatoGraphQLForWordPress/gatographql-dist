@@ -13,14 +13,8 @@ use PoPWPSchema\Menus\TypeResolvers\ScalarType\MenuLocationEnumStringScalarTypeR
 
 class RootMenusFilterInputObjectTypeResolver extends UpstreamRootMenusFilterInputObjectTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\Menus\TypeResolvers\ScalarType\MenuLocationEnumStringScalarTypeResolver|null
-     */
-    private $menuLocationEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPWPSchema\Menus\FilterInputs\LocationsFilterInput|null
-     */
-    private $locationsFilterInput;
+    private ?MenuLocationEnumStringScalarTypeResolver $menuLocationEnumStringScalarTypeResolver = null;
+    private ?LocationsFilterInput $locationsFilterInput = null;
 
     final protected function getMenuLocationEnumStringTypeResolver(): MenuLocationEnumStringScalarTypeResolver
     {
@@ -56,31 +50,25 @@ class RootMenusFilterInputObjectTypeResolver extends UpstreamRootMenusFilterInpu
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'locations':
-                return $this->__('Filter menus based on locations', 'menus');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'locations' => $this->__('Filter menus based on locations', 'menus'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 
     public function getInputFieldTypeModifiers(string $inputFieldName): int
     {
-        switch ($inputFieldName) {
-            case 'locations':
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'locations' => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName)
+        };
     }
 
     public function getInputFieldFilterInput(string $inputFieldName): ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'locations':
-                return $this->getLocationsFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'locations' => $this->getLocationsFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

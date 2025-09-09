@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeDa
 /** @internal */
 class MutationRootObjectTypeDataLoader extends AbstractObjectTypeDataLoader
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\MutationRoot|null
-     */
-    private $mutationRoot;
+    private ?MutationRoot $mutationRoot = null;
     protected final function getMutationRoot() : MutationRoot
     {
         if ($this->mutationRoot === null) {

@@ -22,26 +22,16 @@ interface UserRoleTypeAPIInterface
     public function getCapabilities() : array;
     /**
      * @return string[]
-     * @param string|int|object $userObjectOrID
      */
-    public function getUserRoles($userObjectOrID) : array;
+    public function getUserRoles(string|int|object $userObjectOrID) : array;
     /**
      * @return string[]
-     * @param string|int|object $userObjectOrID
      */
-    public function getUserCapabilities($userObjectOrID) : array;
+    public function getUserCapabilities(string|int|object $userObjectOrID) : array;
     /**
      * @return string|null `null` if the user is not found, its first role otherwise
-     * @param string|int|object $userObjectOrID
      */
-    public function getTheUserRole($userObjectOrID) : ?string;
-    /**
-     * @param string|int|object $userObjectOrID
-     * @param mixed ...$args
-     */
-    public function userCan($userObjectOrID, string $capability, ...$args) : bool;
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function hasRole($userObjectOrID, string $role) : bool;
+    public function getTheUserRole(string|int|object $userObjectOrID) : ?string;
+    public function userCan(string|int|object $userObjectOrID, string $capability, mixed ...$args) : bool;
+    public function hasRole(string|int|object $userObjectOrID, string $role) : bool;
 }

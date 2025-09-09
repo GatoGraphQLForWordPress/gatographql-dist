@@ -16,14 +16,8 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\
  */
 final class AbstractArgument
 {
-    /**
-     * @var string
-     */
-    private $text;
-    /**
-     * @var string
-     */
-    private $context = '';
+    private string $text;
+    private string $context = '';
     public function __construct(string $text = '')
     {
         $this->text = \trim($text, '. ');

@@ -47,11 +47,10 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         return false;
     }
 
-    /**
-     * @param string|int|\WP_Term $taxonomyTermObjectOrID
-     */
-    protected function getTaxonomyTermFromObjectOrID($taxonomyTermObjectOrID, ?string $taxonomy = null): ?WP_Term
-    {
+    protected function getTaxonomyTermFromObjectOrID(
+        string|int|WP_Term $taxonomyTermObjectOrID,
+        ?string $taxonomy = null,
+    ): ?WP_Term {
         $taxonomyTerm = parent::getTaxonomyTermFromObjectOrID(
             $taxonomyTermObjectOrID,
             $taxonomy,
@@ -63,10 +62,7 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         return $this->isTagTaxonomy($taxonomyTerm) ? $taxonomyTerm : null;
     }
 
-    /**
-     * @param string|int $tagID
-     */
-    public function getTag($tagID): ?object
+    public function getTag(string|int $tagID): ?object
     {
         $tag = $this->getTaxonomyTerm($tagID);
         if ($tag === null) {
@@ -79,10 +75,7 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         return $tag;
     }
 
-    /**
-     * @param int|string $id
-     */
-    public function tagExists($id): bool
+    public function tagExists(int|string $id): bool
     {
         return $this->getTag($id) !== null;
     }
@@ -93,7 +86,7 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
      * @param array<string,mixed> $options
      * @return array<string|int>|object[]
      */
-    public function getCustomPostTags($customPostObjectOrID, array $query = [], array $options = []): array
+    public function getCustomPostTags(string|int|object $customPostObjectOrID, array $query = [], array $options = []): array
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -114,9 +107,8 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed> $options
-     * @param string|int|object $customPostObjectOrID
      */
-    public function getCustomPostTagCount($customPostObjectOrID, array $query = [], array $options = []): ?int
+    public function getCustomPostTagCount(string|int|object $customPostObjectOrID, array $query = [], array $options = []): ?int
     {
         /**
          * Allow to set the taxonomy in advance via a fieldArg.
@@ -197,10 +189,7 @@ abstract class AbstractTagTypeAPI extends AbstractTaxonomyTypeAPI implements Tag
         return $this->convertTaxonomyTermsQuery($query, $options);
     }
 
-    /**
-     * @return string|int
-     */
-    public function getTagID(object $tag)
+    public function getTagID(object $tag): string|int
     {
         /** @var WP_Term $tag */
         return $this->getTaxonomyTermID($tag);

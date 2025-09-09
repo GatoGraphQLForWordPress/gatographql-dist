@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Users\Environment::USER_LIST_DEFAULT_LIMIT;
         $defaultValue = 10;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getUserListMaxLimit() : ?int
@@ -20,7 +20,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = \PoPCMSSchema\Users\Environment::USER_LIST_MAX_LIMIT;
         $defaultValue = -1;
         // Unlimited
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getUsersRoute() : string
@@ -33,7 +33,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Users\Environment::TREAT_USER_EMAIL_AS_SENSITIVE_DATA;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

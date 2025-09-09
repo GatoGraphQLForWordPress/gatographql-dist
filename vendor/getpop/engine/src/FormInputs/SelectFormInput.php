@@ -19,10 +19,7 @@ class SelectFormInput extends FormInput
         }
         return array();
     }
-    /**
-     * @return mixed
-     */
-    public function getSelectedValue()
+    public function getSelectedValue() : mixed
     {
         if ($this->selected === null) {
             return null;

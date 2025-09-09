@@ -84,13 +84,28 @@ class RequestHelpers
         ];
     }
     /**
+     * Print XDebug hidden inputs in a form if XDebug is being requested
+     */
+    public static function maybePrintXDebugInputsInForm() : void
+    {
+        if (static::isRequestingXDebug()) {
+            ?>
+            <input type="hidden" name="<?php 
+            echo esc_attr(FrameworkParams::XDEBUG_TRIGGER);
+            ?>" value="1">
+            <input type="hidden" name="<?php 
+            echo esc_attr(FrameworkParams::XDEBUG_SESSION_STOP);
+            ?>" value="1">
+            <?php 
+        }
+    }
+    /**
      * Param "query" (and possibly others) might be used by WordPress,
      * passing an array. But in Gato it can only be a string or null.
      * If it's none of these, then simply ignore this value (it's not
      * used by this software) by returning null.
-     * @param mixed $value
      */
-    public static function getStringOrNullRequestParamValue($value) : ?string
+    public static function getStringOrNullRequestParamValue(mixed $value) : ?string
     {
         if ($value === null || !\is_string($value)) {
             return null;
@@ -99,9 +114,8 @@ class RequestHelpers
     }
     /**
      * @return mixed[]|null
-     * @param mixed $value
      */
-    public static function getArrayOrNullRequestParamValue($value) : ?array
+    public static function getArrayOrNullRequestParamValue(mixed $value) : ?array
     {
         if ($value === null || !\is_array($value)) {
             return null;

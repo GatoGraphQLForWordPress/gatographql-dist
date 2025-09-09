@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class UserDeleteMetaMutationErrorPayloadUnionTypeResolver extends AbstractUserDeleteMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\RelationalTypeDataLoaders\UnionType\UserDeleteMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $userDeleteMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?UserDeleteMetaMutationErrorPayloadUnionTypeDataLoader $userDeleteMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getUserDeleteMetaMutationErrorPayloadUnionTypeDataLoader() : UserDeleteMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->userDeleteMetaMutationErrorPayloadUnionTypeDataLoader === null) {

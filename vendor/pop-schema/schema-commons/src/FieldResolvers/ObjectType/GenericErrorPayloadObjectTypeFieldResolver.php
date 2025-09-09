@@ -16,14 +16,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class GenericErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\Engine\TypeResolvers\ScalarType\JSONObjectScalarTypeResolver|null
-     */
-    private $jsonObjectScalarTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?JSONObjectScalarTypeResolver $jsonObjectScalarTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -58,31 +52,24 @@ class GenericErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeField
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'code':
-                return $this->getStringScalarTypeResolver();
-            case 'data':
-                return $this->getJSONObjectScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'code' => $this->getStringScalarTypeResolver(),
+            'data' => $this->getJSONObjectScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'code':
-                return $this->__('Error code', 'schema-commons');
-            case 'data':
-                return $this->__('Error data', 'schema-commons');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'code' => $this->__('Error code', 'schema-commons'),
+            'data' => $this->__('Error data', 'schema-commons'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * The parent already resolves all fields
-     * @return mixed
      */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var ErrorPayloadInterface */
         $errorPayload = $object;
@@ -94,11 +81,9 @@ class GenericErrorPayloadObjectTypeFieldResolver extends AbstractObjectTypeField
      */
     public function validateResolvedFieldType(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
     {
-        switch ($field->getName()) {
-            case 'code':
-                return \false;
-            default:
-                return parent::validateResolvedFieldType($objectTypeResolver, $field);
-        }
+        return match ($field->getName()) {
+            'code' => \false,
+            default => parent::validateResolvedFieldType($objectTypeResolver, $field),
+        };
     }
 }

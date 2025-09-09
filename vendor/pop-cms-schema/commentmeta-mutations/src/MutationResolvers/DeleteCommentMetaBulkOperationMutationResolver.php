@@ -8,10 +8,7 @@ use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 /** @internal */
 class DeleteCommentMetaBulkOperationMutationResolver extends AbstractBulkOperationDecoratorMutationResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\MutationResolvers\DeleteCommentMetaMutationResolver|null
-     */
-    private $deleteCommentMetaMutationResolver;
+    private ?\PoPCMSSchema\CommentMetaMutations\MutationResolvers\DeleteCommentMetaMutationResolver $deleteCommentMetaMutationResolver = null;
     protected final function getDeleteCommentMetaMutationResolver() : \PoPCMSSchema\CommentMetaMutations\MutationResolvers\DeleteCommentMetaMutationResolver
     {
         if ($this->deleteCommentMetaMutationResolver === null) {

@@ -16,9 +16,7 @@ abstract class AbstractBundleExtension extends AbstractExtension implements Bund
     public function getBundledExtensionClasses(): array
     {
         return array_map(
-            function (array $item) : string {
-                return $item[1];
-            },
+            fn (array $item): string => $item[1],
             $this->getBundledExtensionDataItems()
         );
     }
@@ -42,9 +40,7 @@ abstract class AbstractBundleExtension extends AbstractExtension implements Bund
     public function getBundledExtensionSlugs(): array
     {
         return array_map(
-            function (array $item) : string {
-                return $item[0];
-            },
+            fn (array $item): string => $item[0],
             $this->getBundledExtensionDataItems()
         );
     }

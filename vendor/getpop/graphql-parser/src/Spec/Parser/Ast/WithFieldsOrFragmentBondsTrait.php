@@ -7,7 +7,7 @@ namespace PoP\GraphQLParser\Spec\Parser\Ast;
 trait WithFieldsOrFragmentBondsTrait
 {
     /** @var array<FieldInterface|FragmentBondInterface> */
-    protected $fieldsOrFragmentBonds;
+    protected array $fieldsOrFragmentBonds;
     /**
      * @return array<FieldInterface|FragmentBondInterface>
      */

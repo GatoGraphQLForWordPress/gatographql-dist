@@ -23,15 +23,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\ProxyHelper;
  */
 class ResolveNamedArgumentsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof AbstractArgument && $value->getText() . '.' === $value->getTextWithContext()) {
             $value->setContext(\sprintf('A value found in service "%s"', $this->currentId));
@@ -98,23 +91,7 @@ class ResolveNamedArgumentsPass extends AbstractRecursivePass
             }
             if ($resolvedArguments !== $call[1]) {
                 \ksort($resolvedArguments);
-                $arrayIsListFunction = function (array $array) : bool {
-                    if (\function_exists('array_is_list')) {
-                        return \array_is_list($array);
-                    }
-                    if ($array === []) {
-                        return \true;
-                    }
-                    $current_key = 0;
-                    foreach ($array as $key => $noop) {
-                        if ($key !== $current_key) {
-                            return \false;
-                        }
-                        ++$current_key;
-                    }
-                    return \true;
-                };
-                if (!$value->isAutowired() && !$arrayIsListFunction($resolvedArguments)) {
+                if (!$value->isAutowired() && !\array_is_list($resolvedArguments)) {
                     \ksort($resolvedKeys);
                     $resolvedArguments = \array_combine($resolvedKeys, $resolvedArguments);
                 }

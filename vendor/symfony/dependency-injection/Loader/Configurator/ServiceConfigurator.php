@@ -40,26 +40,11 @@ class ServiceConfigurator extends AbstractServiceConfigurator
     use Traits\SyntheticTrait;
     use Traits\TagTrait;
     public const FACTORY = 'services';
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    private $container;
-    /**
-     * @var mixed[]
-     */
-    private $instanceof;
-    /**
-     * @var bool
-     */
-    private $allowParent;
-    /**
-     * @var string|null
-     */
-    private $path;
-    /**
-     * @var bool
-     */
-    private $destructed = \false;
+    private ContainerBuilder $container;
+    private array $instanceof;
+    private bool $allowParent;
+    private ?string $path;
+    private bool $destructed = \false;
     public function __construct(ContainerBuilder $container, array $instanceof, bool $allowParent, ServicesConfigurator $parent, Definition $definition, ?string $id, array $defaultTags, ?string $path = null)
     {
         $this->container = $container;

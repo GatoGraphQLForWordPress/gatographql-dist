@@ -19,18 +19,9 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
 {
     use MutateTaxonomyTermMutationResolverTrait;
     use \PoPCMSSchema\TaxonomyMetaMutations\MutationResolvers\MutateTaxonomyTermMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface|null
-     */
-    private $taxonomyMetaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMetaMutations\TypeAPIs\TaxonomyMetaTypeMutationAPIInterface|null
-     */
-    private $taxonomyMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeAPIs\TaxonomyTermTypeAPIInterface|null
-     */
-    private $taxonomyTermTypeAPI;
+    private ?TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI = null;
+    private ?TaxonomyMetaTypeMutationAPIInterface $taxonomyMetaTypeMutationAPI = null;
+    private ?TaxonomyTermTypeAPIInterface $taxonomyTermTypeAPI = null;
     protected final function getTaxonomyMetaTypeAPI() : TaxonomyMetaTypeAPIInterface
     {
         if ($this->taxonomyMetaTypeAPI === null) {
@@ -58,17 +49,11 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
         }
         return $this->taxonomyTermTypeAPI;
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function validateEntityExists($taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateEntityExists(string|int $taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->validateTaxonomyTermByIDExists($taxonomyTermID, null, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function validateUserCanEditEntity($taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateUserCanEditEntity(string|int $taxonomyTermID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $taxonomyName = $this->getTaxonomyTermTypeAPI()->getTaxonomyTermTaxonomy($taxonomyTermID);
         if ($taxonomyName === null) {
@@ -136,7 +121,7 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
      * @return string|int The ID of the taxonomy term
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::addMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TaxonomyMetaCRUDHookNames::EXECUTE_ADD_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -145,10 +130,8 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
     /**
      * @return string|int the ID of the created taxonomy
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
      */
-    protected function executeAddEntityMeta($taxonomyTermID, string $key, $value, bool $single)
+    protected function executeAddEntityMeta(string|int $taxonomyTermID, string $key, mixed $value, bool $single) : string|int
     {
         return $this->getTaxonomyMetaTypeMutationAPI()->addTaxonomyTermMeta($taxonomyTermID, $key, $value, $single);
     }
@@ -156,7 +139,7 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
      * @return string|int The ID of the taxonomy term
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::updateMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TaxonomyMetaCRUDHookNames::EXECUTE_UPDATE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -165,11 +148,8 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    protected function executeUpdateEntityMeta($taxonomyTermID, string $key, $value, $prevValue = null)
+    protected function executeUpdateEntityMeta(string|int $taxonomyTermID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool
     {
         return $this->getTaxonomyMetaTypeMutationAPI()->updateTaxonomyTermMeta($taxonomyTermID, $key, $value, $prevValue);
     }
@@ -177,7 +157,7 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
      * @return string|int The ID of the taxonomy term
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::deleteMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TaxonomyMetaCRUDHookNames::EXECUTE_DELETE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -185,10 +165,8 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
     }
     /**
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
-     * @param mixed $value
      */
-    protected function executeDeleteEntityMeta($taxonomyTermID, string $key, $value = null) : void
+    protected function executeDeleteEntityMeta(string|int $taxonomyTermID, string $key, mixed $value = null) : void
     {
         $this->getTaxonomyMetaTypeMutationAPI()->deleteTaxonomyTermMeta($taxonomyTermID, $key, $value);
     }
@@ -196,7 +174,7 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
      * @return string|int The ID of the taxonomy term
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::setMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(TaxonomyMetaCRUDHookNames::EXECUTE_SET_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -205,9 +183,8 @@ abstract class AbstractMutateTaxonomyTermMetaMutationResolver extends AbstractMu
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws TaxonomyTermMetaCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeSetEntityMeta($taxonomyTermID, array $entries) : void
+    protected function executeSetEntityMeta(string|int $taxonomyTermID, array $entries) : void
     {
         $this->getTaxonomyMetaTypeMutationAPI()->setTaxonomyTermMeta($taxonomyTermID, $entries);
     }

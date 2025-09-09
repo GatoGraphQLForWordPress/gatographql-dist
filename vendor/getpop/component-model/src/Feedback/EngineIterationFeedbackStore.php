@@ -6,14 +6,8 @@ namespace PoP\ComponentModel\Feedback;
 /** @internal */
 class EngineIterationFeedbackStore
 {
-    /**
-     * @var \PoP\ComponentModel\Feedback\SchemaFeedbackStore
-     */
-    public $schemaFeedbackStore;
-    /**
-     * @var \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore
-     */
-    public $objectResolutionFeedbackStore;
+    public \PoP\ComponentModel\Feedback\SchemaFeedbackStore $schemaFeedbackStore;
+    public \PoP\ComponentModel\Feedback\ObjectResolutionFeedbackStore $objectResolutionFeedbackStore;
     public function __construct()
     {
         $this->schemaFeedbackStore = new \PoP\ComponentModel\Feedback\SchemaFeedbackStore();

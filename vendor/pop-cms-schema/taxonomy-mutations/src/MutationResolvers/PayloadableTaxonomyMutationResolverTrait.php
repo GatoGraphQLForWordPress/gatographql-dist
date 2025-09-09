@@ -19,24 +19,22 @@ trait PayloadableTaxonomyMutationResolverTrait
     protected function createErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [$this->getUserNotLoggedInErrorFeedbackItemProviderClass(), $this->getUserNotLoggedInErrorFeedbackItemProviderCode()]:
-                return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2]:
-                return new LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3]:
-                return new LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
-                return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
-                return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8]:
-                return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
-                return new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return App::applyFilters(TaxonomyCRUDHookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback);
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [$this->getUserNotLoggedInErrorFeedbackItemProviderClass(), $this->getUserNotLoggedInErrorFeedbackItemProviderCode()] => new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2] => new LoggedInUserHasNoEditingTaxonomyTermsCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3] => new LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            // [
+            //     MutationErrorFeedbackItemProvider::class,
+            //     MutationErrorFeedbackItemProvider::E5,
+            // ] => new TaxonomyDoesNotExistErrorPayload(
+            //     $feedbackItemResolution->getMessage(),
+            // ),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6] => new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7] => new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8] => new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9] => new TaxonomyTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            default => App::applyFilters(TaxonomyCRUDHookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback),
+        };
     }
     protected function getUserNotLoggedInErrorFeedbackItemProviderClass() : string
     {

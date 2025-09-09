@@ -9,7 +9,7 @@ class NameResolver extends \PoP\LooseContracts\AbstractNameResolver
     /**
      * @var string[]
      */
-    protected $names = [];
+    protected array $names = [];
     public function getName(string $name) : string
     {
         // If there's no entry, then use the original $hookName

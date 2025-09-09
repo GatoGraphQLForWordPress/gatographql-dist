@@ -19,15 +19,10 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
 class ChainRequestMatcher implements RequestMatcherInterface
 {
     /**
-     * @var iterable<RequestMatcherInterface>
-     */
-    private $matchers;
-    /**
      * @param iterable<RequestMatcherInterface> $matchers
      */
-    public function __construct(iterable $matchers)
+    public function __construct(private iterable $matchers)
     {
-        $this->matchers = $matchers;
     }
     public function matches(Request $request) : bool
     {

@@ -15,27 +15,11 @@ use Throwable;
  */
 abstract class AbstractPayloadClientException extends AbstractClientException
 {
-    /**
-     * @var int|string|null
-     */
-    public $errorCode = null;
-    /**
-     * @var \stdClass|null
-     */
-    public $data;
-    /**
-     * @param int|string|null $errorCode
-     */
-    public function __construct(string $message, $errorCode = null, ?stdClass $data = null, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(string $message, public int|string|null $errorCode = null, public ?stdClass $data = null, int $code = 0, Throwable|null $previous = null)
     {
-        $this->errorCode = $errorCode;
-        $this->data = $data;
         parent::__construct($message, $code, $previous);
     }
-    /**
-     * @return int|string|null
-     */
-    public function getErrorCode()
+    public function getErrorCode() : int|string|null
     {
         return $this->errorCode;
     }

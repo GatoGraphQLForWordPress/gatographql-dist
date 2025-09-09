@@ -52,8 +52,10 @@ trait HasMarkdownDocumentationModuleResolverTrait
         );
     }
 
-    protected function getDocumentationMarkdownContent(string $module, string $markdownFilename): ?string
-    {
+    protected function getDocumentationMarkdownContent(
+        string $module,
+        string $markdownFilename,
+    ): ?string {
         return $this->getMarkdownContent(
             $markdownFilename,
             $this->getDocumentationMarkdownContentRelativePathDir($module),
@@ -71,8 +73,9 @@ trait HasMarkdownDocumentationModuleResolverTrait
         ];
     }
 
-    protected function getDocumentationMarkdownContentRelativePathDir(string $module): string
-    {
+    protected function getDocumentationMarkdownContentRelativePathDir(
+        string $module,
+    ): string {
         return 'modules';
     }
 }

@@ -49,7 +49,7 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
                     throw new RuntimeException(\sprintf('Please add the class to service "%s" even if it is constructed by a factory since we might need to add method calls based on compile-time checks.', $id));
                 }
                 if (\class_exists($id) || \interface_exists($id, \false)) {
-                    if (\strncmp($id, '\\', \strlen('\\')) === 0 && 1 < \substr_count($id, '\\')) {
+                    if (\str_starts_with($id, '\\') && 1 < \substr_count($id, '\\')) {
                         throw new RuntimeException(\sprintf('The definition for "%s" has no class attribute, and appears to reference a class or interface. Please specify the class attribute explicitly or remove the leading backslash by renaming the service to "%s" to get rid of this error.', $id, \substr($id, 1)));
                     }
                     throw new RuntimeException(\sprintf('The definition for "%s" has no class attribute, and appears to reference a class or interface in the global namespace. Leaving out the "class" attribute is only allowed for namespaced classes. Please specify the class attribute explicitly to get rid of this error.', $id));
@@ -82,9 +82,9 @@ class CheckDefinitionValidityPass implements CompilerPassInterface
     {
         foreach ($attributes as $name => $value) {
             if (\is_array($value)) {
-                $this->validateAttributes($id, $tag, $value, \array_merge($path, [$name]));
+                $this->validateAttributes($id, $tag, $value, [...$path, $name]);
             } elseif (!\is_scalar($value) && null !== $value) {
-                $name = \implode('.', \array_merge($path, [$name]));
+                $name = \implode('.', [...$path, $name]);
                 throw new RuntimeException(\sprintf('A "tags" attribute must be of a scalar-type for service "%s", tag "%s", attribute "%s".', $id, $tag, $name));
             }
         }

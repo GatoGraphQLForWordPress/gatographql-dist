@@ -15,10 +15,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
  */
 class PostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Posts\TypeAPIs\PostTypeAPIInterface|null
-     */
-    private $postTypeAPI;
+    private ?PostTypeAPIInterface $postTypeAPI = null;
     protected final function getPostTypeAPI() : PostTypeAPIInterface
     {
         if ($this->postTypeAPI === null) {

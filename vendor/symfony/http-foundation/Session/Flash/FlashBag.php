@@ -18,18 +18,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Sessi
  */
 class FlashBag implements FlashBagInterface
 {
-    /**
-     * @var string
-     */
-    private $name = 'flashes';
-    /**
-     * @var mixed[]
-     */
-    private $flashes = [];
-    /**
-     * @var string
-     */
-    private $storageKey;
+    private string $name = 'flashes';
+    private array $flashes = [];
+    private string $storageKey;
     /**
      * @param string $storageKey The key used to store flashes in the session
      */
@@ -57,9 +48,8 @@ class FlashBag implements FlashBagInterface
     }
     /**
      * @return void
-     * @param mixed $message
      */
-    public function add(string $type, $message)
+    public function add(string $type, mixed $message)
     {
         $this->flashes[$type][] = $message;
     }
@@ -88,9 +78,8 @@ class FlashBag implements FlashBagInterface
     }
     /**
      * @return void
-     * @param string|mixed[] $messages
      */
-    public function set(string $type, $messages)
+    public function set(string $type, string|array $messages)
     {
         $this->flashes[$type] = (array) $messages;
     }
@@ -113,10 +102,7 @@ class FlashBag implements FlashBagInterface
     {
         return $this->storageKey;
     }
-    /**
-     * @return mixed
-     */
-    public function clear()
+    public function clear() : mixed
     {
         return $this->all();
     }

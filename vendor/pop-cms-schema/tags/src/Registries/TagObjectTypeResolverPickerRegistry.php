@@ -10,7 +10,7 @@ class TagObjectTypeResolverPickerRegistry implements \PoPCMSSchema\Tags\Registri
     /**
      * @var TagObjectTypeResolverPickerInterface[]
      */
-    protected $tagObjectTypeResolverPickers = [];
+    protected array $tagObjectTypeResolverPickers = [];
     public function addTagObjectTypeResolverPicker(TagObjectTypeResolverPickerInterface $tagObjectTypeResolverPicker) : void
     {
         $this->tagObjectTypeResolverPickers[] = $tagObjectTypeResolverPicker;

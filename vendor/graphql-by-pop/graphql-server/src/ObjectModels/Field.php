@@ -9,10 +9,7 @@ class Field extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefin
 {
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasTypeSchemaDefinitionReferenceTrait;
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasArgsSchemaDefinitionReferenceTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\FieldExtensions
-     */
-    protected $fieldExtensions;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\FieldExtensions $fieldExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

@@ -193,7 +193,7 @@ class MockArraySessionStorage implements SessionStorageInterface
         $bags = \array_merge($this->bags, [$this->metadataBag]);
         foreach ($bags as $bag) {
             $key = $bag->getStorageKey();
-            $this->data[$key] = $this->data[$key] ?? [];
+            $this->data[$key] ??= [];
             $bag->initialize($this->data[$key]);
         }
         $this->started = \true;

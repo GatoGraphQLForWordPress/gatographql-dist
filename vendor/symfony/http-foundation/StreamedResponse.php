@@ -28,10 +28,7 @@ class StreamedResponse extends Response
 {
     protected $callback;
     protected $streamed;
-    /**
-     * @var bool
-     */
-    private $headersSent;
+    private bool $headersSent;
     /**
      * @param int $status The HTTP status code (200 "OK" by default)
      */
@@ -49,9 +46,9 @@ class StreamedResponse extends Response
      *
      * @return $this
      */
-    public function setCallback(callable $callback)
+    public function setCallback(callable $callback) : static
     {
-        $this->callback = \Closure::fromCallable($callback);
+        $this->callback = $callback(...);
         return $this;
     }
     public function getCallback() : ?\Closure
@@ -59,7 +56,7 @@ class StreamedResponse extends Response
         if (!isset($this->callback)) {
             return null;
         }
-        return \Closure::fromCallable($this->callback);
+        return ($this->callback)(...);
     }
     /**
      * This method only sends the headers once.
@@ -68,7 +65,7 @@ class StreamedResponse extends Response
      *
      * @return $this
      */
-    public function sendHeaders()
+    public function sendHeaders() : static
     {
         if ($this->headersSent) {
             return $this;
@@ -84,7 +81,7 @@ class StreamedResponse extends Response
      *
      * @return $this
      */
-    public function sendContent()
+    public function sendContent() : static
     {
         if ($this->streamed) {
             return $this;
@@ -101,7 +98,7 @@ class StreamedResponse extends Response
      *
      * @throws \LogicException when the content is not null
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content) : static
     {
         if (null !== $content) {
             throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
@@ -109,10 +106,7 @@ class StreamedResponse extends Response
         $this->streamed = \true;
         return $this;
     }
-    /**
-     * @return string|false
-     */
-    public function getContent()
+    public function getContent() : string|false
     {
         return \false;
     }

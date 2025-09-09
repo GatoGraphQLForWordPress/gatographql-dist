@@ -22,31 +22,25 @@ abstract class AbstractTransformIntegerFieldValueFieldDirectiveResolver extends 
     {
         return [IntScalarTypeResolver::class, NumericScalarTypeResolver::class, AnyBuiltInScalarScalarTypeResolver::class];
     }
-    /**
-     * @param mixed $value
-     */
-    protected function isMatchingType($value) : bool
+    protected function isMatchingType(mixed $value) : bool
     {
         return \is_integer($value);
     }
     /**
-     * @param mixed $value
+     * @param int $value
      * @return mixed TypedDataValidationPayload if error, or the value otherwise
      */
-    protected final function transformTypeValue($value)
+    protected final function transformTypeValue(mixed $value) : mixed
     {
         return $this->transformIntValue($value);
     }
-    /**
-     * @return int|\PoPSchema\DirectiveCommons\ObjectModels\TypedDataValidationPayload
-     */
-    protected abstract function transformIntValue(int $value);
+    protected abstract function transformIntValue(int $value) : int|TypedDataValidationPayload;
     /**
      * Validate the value against the directive args
      *
-     * @param mixed $value
+     * @param int $value
      */
-    protected final function validateTypeData($value) : ?TypedDataValidationPayload
+    protected final function validateTypeData(mixed $value) : ?TypedDataValidationPayload
     {
         return $this->validateIntData($value);
     }
@@ -54,11 +48,7 @@ abstract class AbstractTransformIntegerFieldValueFieldDirectiveResolver extends 
     {
         return null;
     }
-    /**
-     * @param string|int $id
-     * @param mixed $value
-     */
-    protected function getNonMatchingTypeValueFeedbackItemResolution($value, $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
+    protected function getNonMatchingTypeValueFeedbackItemResolution(mixed $value, string|int $id, FieldInterface $field, RelationalTypeResolverInterface $relationalTypeResolver) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E4, [$this->getDirectiveName(), $field->getOutputKey(), $id]);
     }

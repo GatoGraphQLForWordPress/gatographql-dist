@@ -8,19 +8,7 @@ use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 /** @internal */
 class TypedDataValidationPayload
 {
-    /**
-     * @readonly
-     * @var \PoP\ComponentModel\Feedback\FeedbackItemResolution
-     */
-    public $feedbackItemResolution;
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\AstInterface|null
-     */
-    public $astNode;
-    public function __construct(FeedbackItemResolution $feedbackItemResolution, ?AstInterface $astNode = null)
+    public function __construct(public readonly FeedbackItemResolution $feedbackItemResolution, public readonly ?AstInterface $astNode = null)
     {
-        $this->feedbackItemResolution = $feedbackItemResolution;
-        $this->astNode = $astNode;
     }
 }

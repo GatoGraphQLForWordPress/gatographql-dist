@@ -17,18 +17,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Yaml\Tag;
  */
 final class TaggedValue
 {
-    /**
-     * @var string
-     */
-    private $tag;
-    /**
-     * @var mixed
-     */
-    private $value;
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $tag, $value)
+    private string $tag;
+    private mixed $value;
+    public function __construct(string $tag, mixed $value)
     {
         $this->tag = $tag;
         $this->value = $value;
@@ -37,10 +28,7 @@ final class TaggedValue
     {
         return $this->tag;
     }
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->value;
     }

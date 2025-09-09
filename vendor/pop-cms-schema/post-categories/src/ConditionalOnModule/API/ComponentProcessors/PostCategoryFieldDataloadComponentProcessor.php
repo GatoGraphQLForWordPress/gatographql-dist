@@ -10,10 +10,7 @@ use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeR
 /** @internal */
 class PostCategoryFieldDataloadComponentProcessor extends AbstractFieldDataloadComponentProcessor
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver|null
-     */
-    private $postCategoryObjectTypeResolver;
+    private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;
     protected final function getPostCategoryObjectTypeResolver() : PostCategoryObjectTypeResolver
     {
         if ($this->postCategoryObjectTypeResolver === null) {

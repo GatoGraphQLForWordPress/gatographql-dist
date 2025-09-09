@@ -23,10 +23,7 @@ abstract class AbstractDocsMenuPage extends AbstractPluginMenuPage
     use UseDocsMenuPageTrait;
     use DocMenuPageTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\ContentProcessors\MarkdownContentParserInterface|null
-     */
-    private $markdownContentParser;
+    private ?MarkdownContentParserInterface $markdownContentParser = null;
 
     final protected function getMarkdownContentParser(): MarkdownContentParserInterface
     {

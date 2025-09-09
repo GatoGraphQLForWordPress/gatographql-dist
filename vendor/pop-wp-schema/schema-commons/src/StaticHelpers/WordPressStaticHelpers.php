@@ -13,19 +13,13 @@ class WordPressStaticHelpers
     /**
      * @var string[]|null
      */
-    private static $activeWordPressPluginFiles;
+    private static ?array $activeWordPressPluginFiles = null;
     /**
      * @var string[]|null
      */
-    private static $activeWordPressPluginSlugs;
-    /**
-     * @var string|null
-     */
-    private static $activeWordPressThemeStylesheet;
-    /**
-     * @var string|null
-     */
-    private static $activeWordPressThemeTemplate;
+    private static ?array $activeWordPressPluginSlugs = null;
+    private static ?string $activeWordPressThemeStylesheet = null;
+    private static ?string $activeWordPressThemeTemplate = null;
 
     /**
      * If param $pluginFileOrSlug ends with ".php", then it's the
@@ -33,7 +27,7 @@ class WordPressStaticHelpers
      */
     public static function isWordPressPluginActive(string $pluginFileOrSlug): bool
     {
-        if (substr_compare($pluginFileOrSlug, '.php', -strlen('.php')) === 0) {
+        if (str_ends_with($pluginFileOrSlug, '.php')) {
             $pluginFile = $pluginFileOrSlug;
             return in_array($pluginFile, static::getActiveWordPressPluginFiles());
         }
@@ -47,7 +41,8 @@ class WordPressStaticHelpers
     protected static function getActiveWordPressPluginFiles(): array
     {
         if (self::$activeWordPressPluginFiles === null) {
-            self::$activeWordPressPluginFiles = get_option('active_plugins', []);
+            $activePlugins = get_option('active_plugins', []);
+            self::$activeWordPressPluginFiles = is_array($activePlugins) ? $activePlugins : [];
             if (is_multisite()) {
                 /** @var string[] */
                 $activeNetworkWordPressPluginFiles = array_keys(get_network_option(0, 'active_sitewide_plugins', []));

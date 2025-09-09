@@ -19,6 +19,7 @@ use function remove_filter;
 
 // The file containing class WP_Plugin_Install_List_Table is not
 // loaded by default in WordPress.
+// @phpstan-ignore-next-line
 require_once ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.php';
 
 /**
@@ -36,7 +37,7 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      *
      * @var array<string,string[]>
      */
-    protected $pluginActionLinks = [];
+    protected array $pluginActionLinks = [];
 
     /**
      * @return void
@@ -55,17 +56,17 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
         remove_all_filters('plugins_api_result');
         remove_all_filters('plugin_install_action_links');
 
-        add_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
-        add_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
-        add_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
-        add_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
-        add_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), 10, 2);
+        add_filter('install_plugins_tabs', $this->overrideInstallPluginTabs(...));
+        add_filter('install_plugins_nonmenu_tabs', $this->overrideInstallPluginNonMenuTabs(...));
+        add_filter('plugins_api', $this->overridePluginsAPI(...));
+        add_filter('plugins_api_result', $this->overridePluginsAPIResult(...));
+        add_filter('plugin_install_action_links', $this->overridePluginInstallActionLinks(...), 10, 2);
         parent::prepare_items();
-        remove_filter('plugin_install_action_links', \Closure::fromCallable([$this, 'overridePluginInstallActionLinks']), 10);
-        remove_filter('plugins_api_result', \Closure::fromCallable([$this, 'overridePluginsAPIResult']));
-        remove_filter('plugins_api', \Closure::fromCallable([$this, 'overridePluginsAPI']));
-        remove_filter('install_plugins_nonmenu_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginNonMenuTabs']));
-        remove_filter('install_plugins_tabs', \Closure::fromCallable([$this, 'overrideInstallPluginTabs']));
+        remove_filter('plugin_install_action_links', $this->overridePluginInstallActionLinks(...), 10);
+        remove_filter('plugins_api_result', $this->overridePluginsAPIResult(...));
+        remove_filter('plugins_api', $this->overridePluginsAPI(...));
+        remove_filter('install_plugins_nonmenu_tabs', $this->overrideInstallPluginNonMenuTabs(...));
+        remove_filter('install_plugins_tabs', $this->overrideInstallPluginTabs(...));
     }
 
     /**
@@ -95,9 +96,8 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
 
     /**
      * Do not connect to wordpress.org to retrieve data
-     * @return mixed
      */
-    public function overridePluginsAPI()
+    public function overridePluginsAPI(): mixed
     {
         return new stdClass();
     }
@@ -109,9 +109,8 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
      * against the wordpress.org plugins API:
      *
      * @see http://api.wordpress.org/plugins/info/1.2/?action=query_plugins&per_page=1
-     * @return mixed
      */
-    abstract public function overridePluginsAPIResult();
+    abstract public function overridePluginsAPIResult(): mixed;
 
     /**
      * @param array<array<string,mixed>> $items
@@ -121,12 +120,10 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
     {
         $commonPluginData = $this->getCommonPluginData();
         return array_map(
-            function (array $item) use ($commonPluginData) {
-                return array_merge(
-                    $commonPluginData,
-                    $item
-                );
-            },
+            fn (array $item) => array_merge(
+                $commonPluginData,
+                $item
+            ),
             $items
         );
     }
@@ -204,9 +201,9 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
          * Replace the "Install Now" action message
          */
         if (
-            strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0
+            str_starts_with($actionLinks[0] ?? '', '<a class="install-now button"')
             // Starting from WordPress 6.5
-            || strncmp($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"', strlen('<button type="button" class="install-now button button-disabled" disabled="disabled"')) === 0
+            || str_starts_with($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"')
         ) {
             $actionLinks[0] = sprintf(
                 '<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s" target="%s">%s</a>',
@@ -322,9 +319,9 @@ abstract class AbstractExtensionListTable extends WP_Plugin_Install_List_Table i
              */
             $actionLinks = $this->pluginActionLinks[$pluginName] ?? [];
             if (
-                strncmp($actionLinks[0] ?? '', '<a class="install-now button"', strlen('<a class="install-now button"')) === 0
+                str_starts_with($actionLinks[0] ?? '', '<a class="install-now button"')
                 // Starting from WordPress 6.5
-                || strncmp($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"', strlen('<button type="button" class="install-now button button-disabled" disabled="disabled"')) === 0
+                || str_starts_with($actionLinks[0] ?? '', '<button type="button" class="install-now button button-disabled" disabled="disabled"')
             ) {
                 $html = substr_replace($html, $pluginCardClassname . ' plugin-card-non-installed', $pos, strlen($pluginCardClassname));
             }

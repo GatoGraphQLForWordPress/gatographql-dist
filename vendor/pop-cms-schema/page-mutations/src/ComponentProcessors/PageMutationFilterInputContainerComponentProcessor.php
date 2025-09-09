@@ -11,8 +11,8 @@ use PoPCMSSchema\Pages\ComponentProcessors\PageFilterInputContainerComponentProc
 class PageMutationFilterInputContainerComponentProcessor extends AbstractPageFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_MYPAGES = 'filterinputcontainer-mypages';
-    public const COMPONENT_FILTERINPUTCONTAINER_MYPAGECOUNT = 'filterinputcontainer-mypagecount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MYPAGES = 'filterinputcontainer-mypages';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MYPAGECOUNT = 'filterinputcontainer-mypagecount';
     /**
      * @return string[]
      */
@@ -27,17 +27,11 @@ class PageMutationFilterInputContainerComponentProcessor extends AbstractPageFil
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_MYPAGES:
-                $targetComponent = self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST;
-                break;
-            case self::COMPONENT_FILTERINPUTCONTAINER_MYPAGECOUNT:
-                $targetComponent = self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT;
-                break;
-            default:
-                $targetComponent = null;
-                break;
-        }
+        $targetComponent = match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_MYPAGES => self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTLIST,
+            self::COMPONENT_FILTERINPUTCONTAINER_MYPAGECOUNT => self::COMPONENT_FILTERINPUTCONTAINER_PAGELISTCOUNT,
+            default => null,
+        };
         if ($targetComponent === null) {
             return [];
         }
@@ -50,6 +44,6 @@ class PageMutationFilterInputContainerComponentProcessor extends AbstractPageFil
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

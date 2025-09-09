@@ -7,10 +7,7 @@ use PoPBackbone\PHPHooks\PHPHooks;
 /** @internal */
 class HookManager implements \PoP\Root\StateManagers\HookManagerInterface
 {
-    /**
-     * @var \PoPBackbone\PHPHooks\PHPHooks
-     */
-    protected $phpHooks;
+    protected PHPHooks $phpHooks;
     public function __construct()
     {
         $this->phpHooks = new PHPHooks();
@@ -29,12 +26,7 @@ class HookManager implements \PoP\Root\StateManagers\HookManagerInterface
     {
         return $this->phpHooks->remove_filter($tag, $function_to_remove, $priority);
     }
-    /**
-     * @param mixed $value
-     * @param mixed ...$args
-     * @return mixed
-     */
-    public function applyFilters(string $tag, $value, ...$args)
+    public function applyFilters(string $tag, mixed $value, mixed ...$args) : mixed
     {
         return $this->phpHooks->apply_filters($tag, $value, ...$args);
     }
@@ -46,10 +38,7 @@ class HookManager implements \PoP\Root\StateManagers\HookManagerInterface
     {
         return $this->phpHooks->remove_action($tag, $function_to_remove, $priority);
     }
-    /**
-     * @param mixed ...$args
-     */
-    public function doAction(string $tag, ...$args) : void
+    public function doAction(string $tag, mixed ...$args) : void
     {
         $this->phpHooks->do_action($tag, ...$args);
     }

@@ -11,10 +11,7 @@ use PoP\Root\State\AbstractAppStateProvider;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoPCMSSchema\QueriedObject\Routing\CMSRoutingStateServiceInterface|null
-     */
-    private $cmsRoutingStateService;
+    private ?CMSRoutingStateServiceInterface $cmsRoutingStateService = null;
     protected final function getCMSRoutingStateService() : CMSRoutingStateServiceInterface
     {
         if ($this->cmsRoutingStateService === null) {

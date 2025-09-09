@@ -7,10 +7,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 abstract class AbstractNameResolver extends AbstractBasicService implements \PoP\LooseContracts\NameResolverInterface
 {
-    /**
-     * @var \PoP\LooseContracts\LooseContractManagerInterface|null
-     */
-    private $looseContractManager;
+    private ?\PoP\LooseContracts\LooseContractManagerInterface $looseContractManager = null;
     protected final function getLooseContractManager() : \PoP\LooseContracts\LooseContractManagerInterface
     {
         if ($this->looseContractManager === null) {

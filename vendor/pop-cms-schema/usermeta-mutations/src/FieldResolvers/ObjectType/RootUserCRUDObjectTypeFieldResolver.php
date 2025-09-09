@@ -17,26 +17,11 @@ use PoP\Root\App;
 /** @internal */
 class RootUserCRUDObjectTypeFieldResolver extends AbstractRootUserCRUDObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver|null
-     */
-    private $userObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\RootDeleteUserMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeleteUserMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\RootSetUserMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetUserMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\RootUpdateUserMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdateUserMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeResolvers\ObjectType\RootAddUserMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootAddUserMetaMutationPayloadObjectTypeResolver;
+    private ?UserObjectTypeResolver $userObjectTypeResolver = null;
+    private ?RootDeleteUserMetaMutationPayloadObjectTypeResolver $rootDeleteUserMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootSetUserMetaMutationPayloadObjectTypeResolver $rootSetUserMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdateUserMetaMutationPayloadObjectTypeResolver $rootUpdateUserMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootAddUserMetaMutationPayloadObjectTypeResolver $rootAddUserMetaMutationPayloadObjectTypeResolver = null;
     protected final function getUserObjectTypeResolver() : UserObjectTypeResolver
     {
         if ($this->userObjectTypeResolver === null) {
@@ -88,39 +73,17 @@ class RootUserCRUDObjectTypeFieldResolver extends AbstractRootUserCRUDObjectType
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableUserMetaMutations = $moduleConfiguration->usePayloadableUserMetaMutations();
         if ($usePayloadableUserMetaMutations) {
-            switch ($fieldName) {
-                case 'addUserMeta':
-                case 'addUserMetas':
-                case 'addUserMetaMutationPayloadObjects':
-                    return $this->getRootAddUserMetaMutationPayloadObjectTypeResolver();
-                case 'updateUserMeta':
-                case 'updateUserMetas':
-                case 'updateUserMetaMutationPayloadObjects':
-                    return $this->getRootUpdateUserMetaMutationPayloadObjectTypeResolver();
-                case 'deleteUserMeta':
-                case 'deleteUserMetas':
-                case 'deleteUserMetaMutationPayloadObjects':
-                    return $this->getRootDeleteUserMetaMutationPayloadObjectTypeResolver();
-                case 'setUserMeta':
-                case 'setUserMetas':
-                case 'setUserMetaMutationPayloadObjects':
-                    return $this->getRootSetUserMetaMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addUserMeta', 'addUserMetas', 'addUserMetaMutationPayloadObjects' => $this->getRootAddUserMetaMutationPayloadObjectTypeResolver(),
+                'updateUserMeta', 'updateUserMetas', 'updateUserMetaMutationPayloadObjects' => $this->getRootUpdateUserMetaMutationPayloadObjectTypeResolver(),
+                'deleteUserMeta', 'deleteUserMetas', 'deleteUserMetaMutationPayloadObjects' => $this->getRootDeleteUserMetaMutationPayloadObjectTypeResolver(),
+                'setUserMeta', 'setUserMetas', 'setUserMetaMutationPayloadObjects' => $this->getRootSetUserMetaMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addUserMeta':
-            case 'addUserMetas':
-            case 'updateUserMeta':
-            case 'updateUserMetas':
-            case 'deleteUserMeta':
-            case 'deleteUserMetas':
-            case 'setUserMeta':
-            case 'setUserMetas':
-                return $this->getUserObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addUserMeta', 'addUserMetas', 'updateUserMeta', 'updateUserMetas', 'deleteUserMeta', 'deleteUserMetas', 'setUserMeta', 'setUserMetas' => $this->getUserObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

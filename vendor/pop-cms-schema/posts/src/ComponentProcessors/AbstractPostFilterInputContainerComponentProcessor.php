@@ -11,10 +11,10 @@ use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputC
 abstract class AbstractPostFilterInputContainerComponentProcessor extends AbstractCustomPostFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_POSTS = 'filterinputcontainer-posts';
-    public const COMPONENT_FILTERINPUTCONTAINER_POSTCOUNT = 'filterinputcontainer-postcount';
-    public const COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTS = 'filterinputcontainer-adminposts';
-    public const COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTCOUNT = 'filterinputcontainer-adminpostcount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_POSTS = 'filterinputcontainer-posts';
+    public final const COMPONENT_FILTERINPUTCONTAINER_POSTCOUNT = 'filterinputcontainer-postcount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTS = 'filterinputcontainer-adminposts';
+    public final const COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTCOUNT = 'filterinputcontainer-adminpostcount';
     /**
      * @return string[]
      */
@@ -27,27 +27,22 @@ abstract class AbstractPostFilterInputContainerComponentProcessor extends Abstra
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        $postFilterInputComponents = \array_merge($this->getIDFilterInputComponents(), [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SEARCH)]);
+        $postFilterInputComponents = [...$this->getIDFilterInputComponents(), new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SEARCH)];
         $statusFilterInputComponents = [new Component(FilterInputComponentProcessor::class, FilterInputComponentProcessor::COMPONENT_FILTERINPUT_CUSTOMPOSTSTATUS)];
         $paginationFilterInputComponents = $this->getPaginationFilterInputComponents();
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_POSTS:
-                return \array_merge(\is_array($postFilterInputComponents) ? $postFilterInputComponents : \iterator_to_array($postFilterInputComponents), $paginationFilterInputComponents);
-            case self::COMPONENT_FILTERINPUTCONTAINER_POSTCOUNT:
-                return $postFilterInputComponents;
-            case self::COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTS:
-                return \array_merge(\is_array($postFilterInputComponents) ? $postFilterInputComponents : \iterator_to_array($postFilterInputComponents), $paginationFilterInputComponents, $statusFilterInputComponents);
-            case self::COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTCOUNT:
-                return \array_merge(\is_array($postFilterInputComponents) ? $postFilterInputComponents : \iterator_to_array($postFilterInputComponents), $statusFilterInputComponents);
-            default:
-                return [];
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_POSTS => [...$postFilterInputComponents, ...$paginationFilterInputComponents],
+            self::COMPONENT_FILTERINPUTCONTAINER_POSTCOUNT => $postFilterInputComponents,
+            self::COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTS => [...$postFilterInputComponents, ...$paginationFilterInputComponents, ...$statusFilterInputComponents],
+            self::COMPONENT_FILTERINPUTCONTAINER_ADMINPOSTCOUNT => [...$postFilterInputComponents, ...$statusFilterInputComponents],
+            default => [],
+        };
     }
     /**
      * @return string[]
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

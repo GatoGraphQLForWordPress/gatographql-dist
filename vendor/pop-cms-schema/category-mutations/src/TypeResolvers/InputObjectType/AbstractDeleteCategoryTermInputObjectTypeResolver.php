@@ -14,11 +14,9 @@ abstract class AbstractDeleteCategoryTermInputObjectTypeResolver extends Abstrac
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the category to delete', 'category-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the category to delete', 'category-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

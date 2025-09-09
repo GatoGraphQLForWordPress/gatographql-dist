@@ -54,68 +54,26 @@ use SplObjectStorage;
 /** @internal */
 class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\EngineInterface
 {
-    public const CACHETYPE_IMMUTABLEDATASETSETTINGS = 'static-datasetsettings';
-    public const CACHETYPE_STATICDATAPROPERTIES = 'static-data-properties';
-    public const CACHETYPE_STATEFULDATAPROPERTIES = 'stateful-data-properties';
-    public const CACHETYPE_PROPS = 'props';
-    protected const DATA_PROP_RELATIONAL_TYPE_RESOLVER = 'relationalTypeResolver';
-    protected const DATA_PROP_ID_FIELD_SET = 'idFieldSet';
-    /**
-     * @var \PoP\ComponentModel\Cache\PersistentCacheInterface|null
-     */
-    private $persistentCache;
-    /**
-     * @var \PoP\ComponentModel\DataStructure\DataStructureManagerInterface|null
-     */
-    private $dataStructureManager;
-    /**
-     * @var \PoP\ComponentModel\ModelInstance\ModelInstanceInterface|null
-     */
-    private $modelInstance;
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathHelpersInterface|null
-     */
-    private $componentPathHelpers;
-    /**
-     * @var \PoP\ComponentModel\ComponentPath\ComponentPathManagerInterface|null
-     */
-    private $componentPathManager;
-    /**
-     * @var \PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface|null
-     */
-    private $componentFilterManager;
-    /**
-     * @var \PoP\ComponentModel\ComponentProcessors\ComponentProcessorManagerInterface|null
-     */
-    private $componentProcessorManager;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\DataloadHelperServiceInterface|null
-     */
-    private $dataloadHelperService;
-    /**
-     * @var \PoP\ComponentModel\EntryComponent\EntryComponentManagerInterface|null
-     */
-    private $entryComponentManager;
-    /**
-     * @var \PoP\ComponentModel\HelperServices\RequestHelperServiceInterface|null
-     */
-    private $requestHelperService;
-    /**
-     * @var \PoP\ComponentModel\Info\ApplicationInfoInterface|null
-     */
-    private $applicationInfo;
-    /**
-     * @var \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface|null
-     */
-    private $componentHelpers;
-    /**
-     * @var \PoP\ComponentModel\Feedback\FeedbackEntryManagerInterface|null
-     */
-    private $feedbackEntryService;
-    /**
-     * @var \PoP\ComponentModel\Response\DatabaseEntryManagerInterface|null
-     */
-    private $databaseEntryManager;
+    public final const CACHETYPE_IMMUTABLEDATASETSETTINGS = 'static-datasetsettings';
+    public final const CACHETYPE_STATICDATAPROPERTIES = 'static-data-properties';
+    public final const CACHETYPE_STATEFULDATAPROPERTIES = 'stateful-data-properties';
+    public final const CACHETYPE_PROPS = 'props';
+    protected final const DATA_PROP_RELATIONAL_TYPE_RESOLVER = 'relationalTypeResolver';
+    protected final const DATA_PROP_ID_FIELD_SET = 'idFieldSet';
+    private ?PersistentCacheInterface $persistentCache = null;
+    private ?DataStructureManagerInterface $dataStructureManager = null;
+    private ?ModelInstanceInterface $modelInstance = null;
+    private ?ComponentPathHelpersInterface $componentPathHelpers = null;
+    private ?ComponentPathManagerInterface $componentPathManager = null;
+    private ?ComponentFilterManagerInterface $componentFilterManager = null;
+    private ?ComponentProcessorManagerInterface $componentProcessorManager = null;
+    private ?DataloadHelperServiceInterface $dataloadHelperService = null;
+    private ?EntryComponentManagerInterface $entryComponentManager = null;
+    private ?RequestHelperServiceInterface $requestHelperService = null;
+    private ?ApplicationInfoInterface $applicationInfo = null;
+    private ?ComponentHelpersInterface $componentHelpers = null;
+    private ?FeedbackEntryManagerInterface $feedbackEntryService = null;
+    private ?DatabaseEntryManagerInterface $databaseEntryManager = null;
     /**
      * Cannot autowire with "#[Required]" because its calling `getNamespace`
      * on services.yaml produces an exception of PHP properties not initialized
@@ -311,7 +269,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
          */
         /** @var ModuleInfo */
         $moduleInfo = App::getModule(Module::class)->getInfo();
-        $differentiators = array($moduleInfo->getUniqueID(), $moduleInfo->getRand(), $moduleInfo->getTime());
+        $differentiators = array($moduleInfo->getUniqueID(), (string) $moduleInfo->getRand(), (string) $moduleInfo->getTime());
         $commoncode = \str_replace($differentiators, '', (string) \json_encode($engineState->data));
         /**
          * Also replace all those tags with content that, even if it's different,
@@ -355,7 +313,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
             $engineState->extra_routes = Request::getExtraRoutes();
         }
         // Enable to add extra URLs in a fixed manner
-        $engineState->extra_routes = App::applyFilters(\PoP\ComponentModel\Engine\EngineHookNames::EXTRA_ROUTES, $engineState->extra_routes);
+        $engineState->extra_routes = App::applyFilters(\PoP\ComponentModel\Engine\EngineHookNames::EXTRA_ROUTES, $engineState->extra_routes) ?? [];
         return $engineState->extra_routes;
     }
     /**
@@ -728,7 +686,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
             // Print the settings id of each component. Then, a component can feed data to another one by sharing the same settings id (eg: self::COMPONENT_BLOCK_USERAVATAR_EXECUTEUPDATE and PoP_UserAvatarProcessors_Module_Processor_UserBlocks::COMPONENT_BLOCK_USERAVATAR_UPDATE)
             $filteredsettings = [];
             foreach ($not_excluded_component_sets as $components) {
-                $filteredsettings[] = \array_map(\Closure::fromCallable([$componentHelpers, 'getComponentOutputName']), $components);
+                $filteredsettings[] = \array_map($componentHelpers->getComponentOutputName(...), $components);
             }
             $meta['filteredcomponents'] = $filteredsettings;
         }
@@ -777,16 +735,12 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
      */
     private function combineIDsDatafields(array &$relationalTypeOutputKeyIDFieldSets, RelationalTypeResolverInterface $relationalTypeResolver, string $relationalTypeOutputKey, array $ids, array $directComponentFieldNodes, SplObjectStorage $conditionalComponentFieldNodesSplObjectStorage) : void
     {
-        $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey] = $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey] ?? [self::DATA_PROP_RELATIONAL_TYPE_RESOLVER => $relationalTypeResolver, self::DATA_PROP_ID_FIELD_SET => []];
+        $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey] ??= [self::DATA_PROP_RELATIONAL_TYPE_RESOLVER => $relationalTypeResolver, self::DATA_PROP_ID_FIELD_SET => []];
         foreach ($ids as $id) {
             /** @var EngineIterationFieldSet */
-            $engineIterationFieldSet = $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey][self::DATA_PROP_ID_FIELD_SET][$id] ?? new EngineIterationFieldSet(\array_map(function (ComponentFieldNodeInterface $componentFieldNode) {
-                return $componentFieldNode->getField();
-            }, $this->getDBObjectMandatoryFields()));
+            $engineIterationFieldSet = $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey][self::DATA_PROP_ID_FIELD_SET][$id] ?? new EngineIterationFieldSet(\array_map(fn(ComponentFieldNodeInterface $componentFieldNode) => $componentFieldNode->getField(), $this->getDBObjectMandatoryFields()));
             // Add the 'direct' fields
-            $engineIterationFieldSet->addFields(\array_map(function (ComponentFieldNodeInterface $componentFieldNode) {
-                return $componentFieldNode->getField();
-            }, $directComponentFieldNodes));
+            $engineIterationFieldSet->addFields(\array_map(fn(ComponentFieldNodeInterface $componentFieldNode) => $componentFieldNode->getField(), $directComponentFieldNodes));
             /**
              * Add the 'conditional' fields, as an array with this format:
              *
@@ -804,9 +758,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                     /** @var ComponentFieldNodeInterface $conditionalField */
                     $conditionalComponentFieldNodes[] = $conditionalField;
                 }
-                $engineIterationFieldSet->conditionalFields[$conditionField] = \array_merge($engineIterationFieldSet->conditionalFields[$conditionField] = $engineIterationFieldSet->conditionalFields[$conditionField] ?? [], \array_map(function (ComponentFieldNodeInterface $componentFieldNode) {
-                    return $componentFieldNode->getField();
-                }, $conditionalComponentFieldNodes));
+                $engineIterationFieldSet->conditionalFields[$conditionField] = \array_merge($engineIterationFieldSet->conditionalFields[$conditionField] ??= [], \array_map(fn(ComponentFieldNodeInterface $componentFieldNode) => $componentFieldNode->getField(), $conditionalComponentFieldNodes));
             }
             $relationalTypeOutputKeyIDFieldSets[$relationalTypeOutputKey][self::DATA_PROP_ID_FIELD_SET][$id] = $engineIterationFieldSet;
         }
@@ -972,9 +924,8 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
     /**
      * @param mixed[] $array
      * @param Component[] $component_path
-     * @param mixed $value
      */
-    protected function assignValueForComponent(array &$array, array $component_path, Component $component, string $key, $value) : void
+    protected function assignValueForComponent(array &$array, array $component_path, Component $component, string $key, mixed $value) : void
     {
         /** @var ModuleInfo */
         $moduleInfo = App::getModule(Module::class)->getInfo();
@@ -1017,9 +968,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
     protected function getComponentPathKey(array $component_path, Component $component) : string
     {
         $componentFullName = $this->getComponentHelpers()->getComponentFullName($component);
-        return $componentFullName . '-' . \implode('.', \array_map(function (Component $component) {
-            return $component->asString();
-        }, $component_path));
+        return $componentFullName . '-' . \implode('.', \array_map(fn(Component $component) => $component->asString(), $component_path));
     }
     // This function is not private, so it can be accessed by the automated emails to regenerate the html for each user
     /**
@@ -1265,6 +1214,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                         $referencer_props =& $referencer_props[$subcomponentFullName][Props::SUBCOMPONENTS];
                         $referencer_model_props =& $referencer_model_props[$subcomponentFullName][Props::SUBCOMPONENTS];
                     }
+                    $referencer_component_props = [];
                     if (\in_array($datasource, array(DataSources::IMMUTABLE, DataSources::MUTABLEONMODEL))) {
                         $referencer_component_props =& $referencer_model_props;
                     } elseif ($datasource === DataSources::MUTABLEONREQUEST) {
@@ -1384,7 +1334,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                 continue;
             }
             // Store the loaded IDs/fields in an object, to avoid fetching them again in later iterations on the same typeResolver
-            $already_loaded_id_fields[$relationalTypeOutputKey] = $already_loaded_id_fields[$relationalTypeOutputKey] ?? [];
+            $already_loaded_id_fields[$relationalTypeOutputKey] ??= [];
             foreach ($idFieldSet as $id => $fieldSet) {
                 $already_loaded_id_fields[$relationalTypeOutputKey][$id] = \array_merge($already_loaded_id_fields[$relationalTypeOutputKey][$id] ?? [], $fieldSet->fields);
             }
@@ -1416,7 +1366,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                 // If the type is union, then add the type corresponding to each object on its ID
                 $resolvedIDFieldValues = $databaseEntryManager->moveEntriesWithIDUnderDBName($iterationResolvedIDFieldValues, $relationalTypeResolver);
                 foreach ($resolvedIDFieldValues as $dbName => $entries) {
-                    $databases[$dbName] = $databases[$dbName] ?? [];
+                    $databases[$dbName] ??= [];
                     $this->addDatasetToDatabase($databases[$dbName], $relationalTypeResolver, $typeOutputKey, $entries, $idObjects);
                     /**
                      * Populate the $previouslyResolvedIDFieldValues, pointing to the newly
@@ -1474,7 +1424,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                                 continue;
                             }
                             $objectTypeResolverName = $targetObjectTypeResolver->getNamespacedTypeName();
-                            $iterationObjectTypeResolverNameDataItems[$objectTypeResolverName] = $iterationObjectTypeResolverNameDataItems[$objectTypeResolverName] ?? ['targetObjectTypeResolver' => $targetObjectTypeResolver, 'objectIDs' => []];
+                            $iterationObjectTypeResolverNameDataItems[$objectTypeResolverName] ??= ['targetObjectTypeResolver' => $targetObjectTypeResolver, 'objectIDs' => []];
                             $iterationObjectTypeResolverNameDataItems[$objectTypeResolverName]['objectIDs'][] = $id;
                         }
                         foreach ($iterationObjectTypeResolverNameDataItems as $iterationObjectTypeResolverName => $iterationObjectTypeResolverDataItems) {
@@ -1620,17 +1570,19 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                             // This is because if it's a relational field that comes after a UnionTypeResolver, its typeOutputKey could not be inferred (since it depends from the resolvedObject, and can't be obtained in the settings, where "outputKeys" is obtained and which doesn't depend on data items)
                             // Eg: /?query=content.comments.id. In this case, "content" is handled by UnionTypeResolver, and "comments" would not be found since its entry can't be added under "datasetcomponentsettings.outputKeys", since the component (of class AbstractRelationalFieldQueryDataComponentProcessor) with a UnionTypeResolver can't resolve the 'succeeding-typeResolver' to set to its subcomponents
                             // Having 'succeeding-typeResolver' being NULL, then it is not able to locate its data
-                            $typed_database_field_ids = \array_map(function ($field_id) use($typedSubcomponentIDs) {
-                                return $typedSubcomponentIDs[$field_id];
-                            }, $database_field_ids);
+                            $typed_database_field_ids = \array_map(fn(string|int $field_id) => $typedSubcomponentIDs[$field_id], $database_field_ids);
                             if ($subcomponentIsUnionTypeResolver) {
                                 $database_field_ids = $typed_database_field_ids;
                             }
                             // Set on the `unionTypeOutputKeyIDs` output entry. This could be either an array or a single value. Check from the original entry which case it is
                             $entryIsArray = $databases[$dbName][$typeOutputKey][$id]->contains($componentFieldNode->getField()) && \is_array($databases[$dbName][$typeOutputKey][$id][$componentFieldNode->getField()]);
-                            $unionTypeOutputKeyIDs[$dbName][$typeOutputKey][$id] = $unionTypeOutputKeyIDs[$dbName][$typeOutputKey][$id] ?? new SplObjectStorage();
+                            // @phpstan-ignore-next-line
+                            $unionTypeOutputKeyIDs[$dbName][$typeOutputKey][$id] ??= new SplObjectStorage();
+                            // @phpstan-ignore-next-line
                             $unionTypeOutputKeyIDs[$dbName][$typeOutputKey][$id][$componentFieldNode->getField()] = $entryIsArray ? $typed_database_field_ids : $typed_database_field_ids[0];
-                            $combinedUnionTypeOutputKeyIDs[$typeOutputKey][$id] = $combinedUnionTypeOutputKeyIDs[$typeOutputKey][$id] ?? new SplObjectStorage();
+                            // @phpstan-ignore-next-line
+                            $combinedUnionTypeOutputKeyIDs[$typeOutputKey][$id] ??= new SplObjectStorage();
+                            // @phpstan-ignore-next-line
                             $combinedUnionTypeOutputKeyIDs[$typeOutputKey][$id][$componentFieldNode->getField()] = $entryIsArray ? $typed_database_field_ids : $typed_database_field_ids[0];
                             // Merge, after adding their type!
                             $field_ids = \array_merge($field_ids, $database_field_ids);
@@ -1641,16 +1593,14 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                     foreach ($field_ids as $field_id) {
                         // Do not add again the IDs/Fields already loaded
                         if ($subcomponent_already_loaded_data_fields = $subcomponent_already_loaded_id_fields[$field_id] ?? null) {
-                            $id_subcomponent_direct_fields = \array_values(\array_filter($subcomponent_direct_fields, function (ComponentFieldNodeInterface $componentFieldNode) use($subcomponent_already_loaded_data_fields) {
-                                return !\in_array($componentFieldNode->getField(), $subcomponent_already_loaded_data_fields);
-                            }));
+                            $id_subcomponent_direct_fields = \array_values(\array_filter($subcomponent_direct_fields, fn(ComponentFieldNodeInterface $componentFieldNode) => !\in_array($componentFieldNode->getField(), $subcomponent_already_loaded_data_fields)));
                             /** @var SplObjectStorage<ComponentFieldNodeInterface,ComponentFieldNodeInterface[]> */
                             $id_subcomponent_conditional_fields_storage = new SplObjectStorage();
                             foreach ($subcomponent_conditional_fields_storage as $conditionComponentFieldNode) {
                                 /** @var ComponentFieldNodeInterface $conditionComponentFieldNode */
                                 $conditionComponentFieldNodes = $subcomponent_conditional_fields_storage[$conditionComponentFieldNode];
                                 /** @var ComponentFieldNodeInterface[] $conditionComponentFieldNodes */
-                                $id_subcomponent_conditional_fields_storage[$conditionComponentFieldNode] = $id_subcomponent_conditional_fields_storage[$conditionComponentFieldNode] ?? [];
+                                $id_subcomponent_conditional_fields_storage[$conditionComponentFieldNode] ??= [];
                                 $id_subcomponent_conditional_data_fields_storage = $id_subcomponent_conditional_fields_storage[$conditionComponentFieldNode];
                                 foreach ($conditionComponentFieldNodes as $componentFieldNode) {
                                     /** @var ComponentFieldNodeInterface $componentFieldNode */
@@ -1674,7 +1624,15 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                          * In this case, property "title" at the end would not be fetched otherwise
                          * (that post was already loaded at the beginning)
                          */
-                        $this->combineIDsDatafields($engineState->relationalTypeOutputKeyIDFieldSets, $subcomponentTypeResolver, $subcomponentTypeOutputKey, array($field_id), $id_subcomponent_direct_fields, $id_subcomponent_conditional_fields_storage);
+                        $this->combineIDsDatafields(
+                            $engineState->relationalTypeOutputKeyIDFieldSets,
+                            // @phpstan-ignore-line
+                            $subcomponentTypeResolver,
+                            $subcomponentTypeOutputKey,
+                            array($field_id),
+                            $id_subcomponent_direct_fields,
+                            $id_subcomponent_conditional_fields_storage
+                        );
                     }
                     $this->initializeTypeResolverEntry($engineState->dbdata, $subcomponentTypeOutputKey, $component_path_key);
                     $engineState->dbdata[$subcomponentTypeOutputKey][$component_path_key][DataProperties::IDS] = \array_merge($engineState->dbdata[$subcomponentTypeOutputKey][$component_path_key][DataProperties::IDS] ?? [], $field_ids);
@@ -1720,6 +1678,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                         }
                     }
                 }
+                // @phpstan-ignore-next-line
                 $ret[$name] = $combined_databases;
             }
         }
@@ -1774,7 +1733,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
         // If it has subcomponents, bring its data to, after executing getData on the primary typeResolver, execute getData also on the subcomponent typeResolver
         if ($subcomponents_data_properties = $data_properties[DataProperties::SUBCOMPONENTS] ?? null) {
             /** @var SplObjectStorage<ComponentFieldNodeInterface,array<string,mixed>> $subcomponents_data_properties */
-            $dbdata[$relationalTypeOutputKey][$component_path_key][DataProperties::SUBCOMPONENTS] = $dbdata[$relationalTypeOutputKey][$component_path_key][DataProperties::SUBCOMPONENTS] ?? new SplObjectStorage();
+            $dbdata[$relationalTypeOutputKey][$component_path_key][DataProperties::SUBCOMPONENTS] ??= new SplObjectStorage();
             /** @var SplObjectStorage<ComponentFieldNodeInterface,array<string,mixed>> */
             $dbDataSubcomponentsSplObjectStorage = $dbdata[$relationalTypeOutputKey][$component_path_key][DataProperties::SUBCOMPONENTS];
             /**
@@ -1789,13 +1748,13 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
             foreach ($subcomponents_data_properties as $componentFieldNode) {
                 /** @var ComponentFieldNodeInterface $componentFieldNode */
                 $componentFieldNodeData = $subcomponents_data_properties[$componentFieldNode];
-                $dbDataSubcomponentsSplObjectStorage[$componentFieldNode] = $dbDataSubcomponentsSplObjectStorage[$componentFieldNode] ?? [];
+                $dbDataSubcomponentsSplObjectStorage[$componentFieldNode] ??= [];
                 $dbDataSubcomponentsFieldSplObjectStorage = $dbDataSubcomponentsSplObjectStorage[$componentFieldNode];
                 if (isset($componentFieldNodeData[DataProperties::DIRECT_COMPONENT_FIELD_NODES])) {
                     $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::DIRECT_COMPONENT_FIELD_NODES] = \array_values(\array_unique(\array_merge($dbDataSubcomponentsFieldSplObjectStorage[DataProperties::DIRECT_COMPONENT_FIELD_NODES] ?? [], $componentFieldNodeData[DataProperties::DIRECT_COMPONENT_FIELD_NODES])));
                 }
                 if (isset($componentFieldNodeData[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES])) {
-                    $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] = $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ?? new SplObjectStorage();
+                    $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES] ??= new SplObjectStorage();
                     /** @var SplObjectStorage<ComponentFieldNodeInterface,ComponentFieldNodeInterface[]> */
                     $componentFieldNodeConditionalFieldsSplObjectStorage = $componentFieldNodeData[DataProperties::CONDITIONAL_COMPONENT_FIELD_NODES];
                     foreach ($componentFieldNodeConditionalFieldsSplObjectStorage as $conditionField) {
@@ -1806,7 +1765,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                     }
                 }
                 if (isset($componentFieldNodeData[DataProperties::SUBCOMPONENTS])) {
-                    $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::SUBCOMPONENTS] = $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::SUBCOMPONENTS] ?? new SplObjectStorage();
+                    $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::SUBCOMPONENTS] ??= new SplObjectStorage();
                     /** @var SplObjectStorage<ComponentFieldNodeInterface,array<string,mixed>> */
                     $componentFieldNodeDataSubcomponents = $componentFieldNodeData[DataProperties::SUBCOMPONENTS];
                     $dbDataSubcomponentsFieldSplObjectStorage[DataProperties::SUBCOMPONENTS]->addAll($componentFieldNodeDataSubcomponents);

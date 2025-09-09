@@ -25,30 +25,12 @@ class Parser
 {
     public const OPERATOR_LEFT = 1;
     public const OPERATOR_RIGHT = 2;
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\TokenStream
-     */
-    private $stream;
-    /**
-     * @var mixed[]
-     */
-    private $unaryOperators;
-    /**
-     * @var mixed[]
-     */
-    private $binaryOperators;
-    /**
-     * @var mixed[]
-     */
-    private $functions;
-    /**
-     * @var mixed[]|null
-     */
-    private $names;
-    /**
-     * @var bool
-     */
-    private $lint = \false;
+    private TokenStream $stream;
+    private array $unaryOperators;
+    private array $binaryOperators;
+    private array $functions;
+    private ?array $names;
+    private bool $lint = \false;
     public function __construct(array $functions)
     {
         $this->functions = $functions;

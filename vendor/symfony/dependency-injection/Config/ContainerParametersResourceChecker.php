@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Contai
  */
 class ContainerParametersResourceChecker implements ResourceCheckerInterface
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

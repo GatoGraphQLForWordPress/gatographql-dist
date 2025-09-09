@@ -37,32 +37,18 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Instance of FileController.
-     * @var \GatoGraphQL\GatoGraphQL\Log\Controllers\FileHandler\FileController
      */
-    private $file_controller;
+    private FileController $file_controller;
 
     /**
      * Instance of FileListTable or SearchListTable.
-     * @var \GatoGraphQL\GatoGraphQL\Log\Controllers\FileHandler\FileListTable|\GatoGraphQL\GatoGraphQL\Log\Controllers\FileHandler\SearchListTable|null
      */
-    private $list_table = null;
+    private FileListTable|SearchListTable|null $list_table = null;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\LogEntryCounterSettingsManagerInterface|null
-     */
-    private $logEntryCounterSettingsManager;
-    /**
-     * @var \PoP\MarkdownConvertor\MarkdownConvertorInterface|null
-     */
-    private $markdownConvertor;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?LogEntryCounterSettingsManagerInterface $logEntryCounterSettingsManager = null;
+    private ?MarkdownConvertorInterface $markdownConvertor = null;
 
     final protected function getModuleRegistry(): ModuleRegistryInterface
     {
@@ -84,7 +70,7 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
     }
     final protected function getLogEntryCounterSettingsManager(): LogEntryCounterSettingsManagerInterface
     {
-        return $this->logEntryCounterSettingsManager = $this->logEntryCounterSettingsManager ?? LogEntryCounterSettingsManagerFacade::getInstance();
+        return $this->logEntryCounterSettingsManager ??= LogEntryCounterSettingsManagerFacade::getInstance();
     }
     final protected function getMarkdownConvertor(): MarkdownConvertorInterface
     {
@@ -204,8 +190,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Get the canonical URL for the Logs tab of the Status admin page.
-     *
-     * @return string
      */
     public function get_logs_tab_url(): string
     {
@@ -241,8 +225,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Render the file list view.
-     *
-     * @return void
      */
     private function render_list_files_view(): void
     {
@@ -277,8 +259,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Render the single file view.
-     *
-     * @return void
      */
     private function render_single_file_view(): void
     {
@@ -357,7 +337,7 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
                             unset($rotations['current']);
                             ?>
                         <?php endif; ?>
-                        <?php foreach ($rotations as $rotation) : // @phpstan-ignore-line
+                        <?php foreach ($rotations as $rotation) :
                             printf(
                                 '<li><a href="%1$s" class="button button-small button-%2$s">%3$s</a></li>',
                                 esc_url(add_query_arg('file_id', $rotation->get_file_id(), $rotation_url_base)),
@@ -368,7 +348,7 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
                         <?php endforeach; ?>
                     </ul>
                 </nav>
-<?php endif; ?>
+            <?php endif; ?>
             <div class="gatogql-logs-single-file-actions">
                 <?php
                 // Download button.
@@ -416,8 +396,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Render the search results view.
-     *
-     * @return void
      */
     private function render_search_results_view(): void
     {
@@ -456,8 +434,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
      * Get and validate URL query params for FileHandler views.
      *
      * @param array $param_keys Optional. The names of the params you want to get.
-     *
-     * @return array
      */
     public function get_query_params(array $param_keys = array()): array // @phpstan-ignore-line
     {
@@ -546,7 +522,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
      *
      * @param string $view The current view within the Logs tab.
      *
-     * @return void
      *
      * @internal For exclusive usage of WooCommerce core, backwards compatibility not guaranteed.
      */
@@ -577,7 +552,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
      *
      * @param string $view The current view within the Logs tab.
      *
-     * @return void
      *
      * @internal For exclusive usage of WooCommerce core, backwards compatibility not guaranteed.
      */
@@ -677,8 +651,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
      *
      * @param string $line        The unformatted log file line.
      * @param int    $line_number The line number.
-     *
-     * @return string
      */
     private function format_line(string $line, int $line_number): string
     {
@@ -693,7 +665,7 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
         $has_timestamp = false;
         $has_level     = false;
 
-        if (isset($segments[0]) && false !== strtotime($segments[0])) {
+        if (false !== strtotime($segments[0])) {
             $classes[]     = 'log-entry';
             $segments[0]   = sprintf(
                 '<span class="log-timestamp">%s</span>',
@@ -773,8 +745,6 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
 
     /**
      * Render a form for searching within log files.
-     *
-     * @return void
      */
     private function render_search_field(): void
     {
@@ -824,7 +794,7 @@ class LogsMenuPage extends AbstractPluginMenuPage implements PageController
                     </div>
                 <?php endif; ?>
             </form>
-<?php
+            <?php
         }
     }
 

@@ -19,14 +19,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class ServiceClosureArgument implements ArgumentInterface
 {
-    /**
-     * @var mixed[]
-     */
-    private $values;
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value)
+    private array $values;
+    public function __construct(mixed $value)
     {
         $this->values = [$value];
     }

@@ -10,14 +10,8 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdatePostTagTermInputObjectTypeResolver extends AbstractCreateOrUpdateTagTermInputObjectTypeResolver implements \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\UpdatePostTagTermInputObjectTypeResolverInterface, \PoPCMSSchema\PostTagMutations\TypeResolvers\InputObjectType\CreatePostTagTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\EnumType\PostTagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $postTagTaxonomyEnumStringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
+    private ?PostTagTaxonomyEnumStringScalarTypeResolver $postTagTaxonomyEnumStringScalarTypeResolver = null;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
     protected final function getPostTagTaxonomyEnumStringScalarTypeResolver() : PostTagTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->postTagTaxonomyEnumStringScalarTypeResolver === null) {
@@ -40,10 +34,7 @@ abstract class AbstractCreateOrUpdatePostTagTermInputObjectTypeResolver extends 
     {
         return $this->getPostTagTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getTaxonomyInputFieldDefaultValue()
+    protected function getTaxonomyInputFieldDefaultValue() : mixed
     {
         $postTagTaxonomyName = $this->getPostTagTypeAPI()->getPostTagTaxonomyName();
         if (!\in_array($postTagTaxonomyName, $this->getPostTagTaxonomyEnumStringScalarTypeResolver()->getConsolidatedPossibleValues())) {

@@ -45,10 +45,7 @@ trait SetCategoriesOnCustomPostMutationResolverTrait
             $this->validateTaxonomyIsRegisteredForCustomPostType($customPostType, $taxonomyName, $categoryIDs, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         }
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function setCategoriesOnCustomPost($customPostID, bool $append, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function setCategoriesOnCustomPost(string|int $customPostID, bool $append, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         /** @var array<string,array<string|int>> */
         $categoryTaxonomyToTaxonomyTerms = $this->getCategoryTaxonomyToTaxonomyTerms($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -78,43 +75,27 @@ trait SetCategoriesOnCustomPostMutationResolverTrait
     public function createSetCategoriesOnCustomPostErrorPayloadFromObjectTypeFieldResolutionFeedback(ObjectTypeFieldResolutionFeedbackInterface $objectTypeFieldResolutionFeedback) : ?ErrorPayloadInterface
     {
         $feedbackItemResolution = $objectTypeFieldResolutionFeedback->getFeedbackItemResolution();
-        switch ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1]:
-                return new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4]:
-                return new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9]:
-                return new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage());
-            case [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E10]:
-                return new LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload($feedbackItemResolution->getMessage());
-            case [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E11]:
-                return new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage());
-            case [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E12]:
-                return new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage());
-            default:
-                return null;
-        }
+        return match ([$feedbackItemResolution->getFeedbackProviderServiceClass(), $feedbackItemResolution->getCode()]) {
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1] => new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4] => new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E8] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9] => new CategoryTermDoesNotExistErrorPayload($feedbackItemResolution->getMessage()),
+            [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E10] => new LoggedInUserHasNoAssigningTermsToTaxonomyCapabilityErrorPayload($feedbackItemResolution->getMessage()),
+            [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E11] => new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage()),
+            [TaxonomyMutationErrorFeedbackItemProvider::class, TaxonomyMutationErrorFeedbackItemProvider::E12] => new TaxonomyIsNotValidErrorPayload($feedbackItemResolution->getMessage()),
+            default => null,
+        };
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, $taxonomyTermID) : FeedbackItemResolution
+    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermID) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$taxonomyName, $taxonomyTermID]);
         }
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$taxonomyTermID]);
     }
-    /**
-     * @param string|int $taxonomyTermSlug
-     */
-    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, $taxonomyTermSlug) : FeedbackItemResolution
+    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermSlug) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9, [$taxonomyName, $taxonomyTermSlug]);

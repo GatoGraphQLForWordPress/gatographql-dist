@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Node\No
  */
 class ParsedExpression extends Expression
 {
-    /**
-     * @var \Symfony\Component\ExpressionLanguage\Node\Node
-     */
-    private $nodes;
+    private Node $nodes;
     public function __construct(string $expression, Node $nodes)
     {
         parent::__construct($expression);

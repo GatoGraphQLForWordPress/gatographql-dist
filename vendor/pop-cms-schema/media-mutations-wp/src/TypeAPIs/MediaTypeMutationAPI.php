@@ -35,21 +35,25 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
     /**
      * @throws MediaItemCRUDMutationException In case of error
      * @param array<string,mixed> $mediaItemData
-     * @param string|int $existingMediaItemID
-     * @return string|int|null
      */
-    public function createMediaItemFromExistingMediaItem($existingMediaItemID, array $mediaItemData)
-    {
+    public function createMediaItemFromExistingMediaItem(
+        string|int $existingMediaItemID,
+        array $mediaItemData,
+    ): string|int|null {
         $toCreateMediaItemData = get_post((int) $existingMediaItemID, ARRAY_A);
+
         if ($toCreateMediaItemData === null || $toCreateMediaItemData === []) {
             return null;
         }
+
         unset($toCreateMediaItemData['ID']);
+
         $customPostID = 0;
         if (isset($mediaItemData['customPostID'])) {
             $customPostID = $mediaItemData['customPostID'];
             unset($mediaItemData['customPostID']);
         }
+
         /**
          * Override properties with the provided ones
          */
@@ -58,12 +62,14 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
             $toCreateMediaItemData,
             array_filter($mediaItemData)
         );
+
         $mediaItemIDOrError = wp_insert_attachment(
             wp_slash($toCreateMediaItemData),
             false,
             $customPostID,
             true
         );
+
         if (is_wp_error($mediaItemIDOrError)) {
             /** @var WP_Error */
             $wpError = $mediaItemIDOrError;
@@ -71,8 +77,10 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
                 $wpError->get_error_message()
             );
         }
+
         /** @var int */
         $mediaItemID = $mediaItemIDOrError;
+
         /**
          * Copy over:
          *
@@ -92,16 +100,18 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
         if ($alternativeText) {
             add_post_meta($mediaItemID, '_wp_attachment_image_alt', $alternativeText);
         }
+
         return $mediaItemID;
     }
 
     /**
      * @throws MediaItemCRUDMutationException In case of error
      * @param array<string,mixed> $mediaItemData
-     * @param string|int $mediaItemID
      */
-    public function updateMediaItem($mediaItemID, array $mediaItemData): void
-    {
+    public function updateMediaItem(
+        string|int $mediaItemID,
+        array $mediaItemData,
+    ): void {
         $mimeType = $mediaItemData['mimeType'] ?? null;
         if ($mimeType !== null) {
             $mimes = get_allowed_mime_types();
@@ -114,12 +124,15 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
                 );
             }
         }
+
         $mediaItemData = $this->convertMediaItemCreationArgs($mediaItemData);
         $mediaItemData['ID'] = $mediaItemID;
+
         $mediaItemIDOrError = wp_update_post(
             wp_slash($mediaItemData), // @phpstan-ignore-line
             true
         );
+
         if (is_wp_error($mediaItemIDOrError)) {
             /** @var WP_Error */
             $wpError = $mediaItemIDOrError;
@@ -127,6 +140,7 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
                 $wpError->get_error_message()
             );
         }
+
         /** @var string|null */
         $altText = $mediaItemData['altText'] ?? null;
         if ($altText !== null) {
@@ -138,11 +152,15 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
      * @throws MediaItemCRUDMutationException In case of error
      * @param string|null $filename Override the filename from the URL, or pass `null` to use filename from URL
      * @param array<string,mixed> $mediaItemData
-     * @return string|int
      */
-    public function createMediaItemFromURL(string $url, ?string $filename, array $mediaItemData)
-    {
+    public function createMediaItemFromURL(
+        string $url,
+        ?string $filename,
+        array $mediaItemData,
+    ): string|int {
+        // @phpstan-ignore-next-line
         require_once ABSPATH . 'wp-admin/includes/file.php';
+
         /**
          * When creating a media item from an URL, WordPress sets
          * "reject_unsafe_urls" to `true`, because `download_url`
@@ -159,12 +177,13 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $rejectUnsafeURLs = $moduleConfiguration->rejectUnsafeURLs();
         if (!$rejectUnsafeURLs) {
-            add_filter('http_request_args', \Closure::fromCallable([$this, 'customizeHTTPRequestArgsDoNotRejectUnsafeURLs']), PHP_INT_MAX);
+            add_filter('http_request_args', $this->customizeHTTPRequestArgsDoNotRejectUnsafeURLs(...), PHP_INT_MAX);
         }
         $downloadedFileOrError = download_url($url);
         if (!$rejectUnsafeURLs) {
-            remove_filter('http_request_args', \Closure::fromCallable([$this, 'customizeHTTPRequestArgsDoNotRejectUnsafeURLs']), PHP_INT_MAX);
+            remove_filter('http_request_args', $this->customizeHTTPRequestArgsDoNotRejectUnsafeURLs(...), PHP_INT_MAX);
         }
+
         if (is_wp_error($downloadedFileOrError)) {
             /** @var WP_Error */
             $wpError = $downloadedFileOrError;
@@ -172,7 +191,9 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
                 $wpError->get_error_message()
             );
         }
+
         $downloadedFile = $downloadedFileOrError;
+
         /**
          * Either use the provided filename or, if `null`,
          * use the same one as from the URL.
@@ -183,7 +204,8 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
          * Remove the URL params to expose the extension, or
          * `wp_check_filetype` won't figure out the mime type
          */
-        $filename = $filename ?? basename(GeneralUtils::getURLWithoutQueryParams($url));
+        $filename ??= basename(GeneralUtils::getURLWithoutQueryParams($url));
+
         /**
          * The mime type is retrieved from the filename extension
          * always, because that's what `wp_handle_sideload` does.
@@ -199,16 +221,20 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
             $mediaItemData['mimeType'] ?? null,
         );
         $mimeType = $this->getFileMimeTypeOrThrowError($filename);
+
         if (empty($mediaItemData['title'])) {
             $mediaItemData['title'] = $filename;
         }
+
         $mediaItemID = $this->createMediaItemFromLocalFile(
             $downloadedFile,
             $filename,
             $mimeType,
             $mediaItemData,
         );
+
         \unlink($downloadedFile);
+
         return $mediaItemID;
     }
 
@@ -225,15 +251,18 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
     /**
      * @throws MediaItemCRUDMutationException In case of error
      * @param array<string,mixed> $mediaItemData
-     * @return string|int
      */
-    public function createMediaItemFromContents(string $body, string $filename, array $mediaItemData)
-    {
+    public function createMediaItemFromContents(
+        string $body,
+        string $filename,
+        array $mediaItemData,
+    ): string|int {
         $filename = $this->maybeAddExtensionToFilename(
             $filename,
             $mediaItemData['mimeType'] ?? null,
         );
         $mimeType = $this->getFileMimeTypeOrThrowError($filename);
+
         $uploadedFileOrError = \wp_upload_bits($filename, null, $body);
         if ($uploadedFileOrError['error']) {
             /** @var string */
@@ -243,9 +272,11 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
             );
         }
         $uploadedFile = $uploadedFileOrError;
+
         if (empty($mediaItemData['title'])) {
             $mediaItemData['title'] = $filename;
         }
+
         /** @var string */
         $file = $uploadedFile['file'];
         return $this->createMediaItemFromLocalFile(
@@ -264,40 +295,49 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
      *
      * Then, append the extension if missing.
      */
-    protected function maybeAddExtensionToFilename(string $filename, ?string $explicitMimeType): string
-    {
+    protected function maybeAddExtensionToFilename(
+        string $filename,
+        ?string $explicitMimeType,
+    ): string {
         if ($explicitMimeType === null || $explicitMimeType === '') {
             return $filename;
         }
+
         if (strrpos($filename, '.') !== false) {
             return $filename;
         }
+
         $extension = \wp_get_default_extension_for_mime_type($explicitMimeType);
         if ($extension === false) {
             return $filename;
         }
+
         return $filename . '.' . $extension;
     }
 
     /**
      * @throws MediaItemCRUDMutationException In case of error
      * @param array<string,mixed> $mediaItemData
-     * @return string|int
      */
     protected function createMediaItemFromLocalFile(
         string $file,
         string $filename,
         string $mimeType,
         array $mediaItemData
-    ) {
+    ): string|int {
+        // @phpstan-ignore-next-line
         require_once ABSPATH . 'wp-admin/includes/file.php';
 
+        $filesize = filesize($file);
+        if ($filesize === false) {
+            $filesize = 0;
+        }
         $fileData = [
             'name' => \sanitize_file_name($filename),
             'type' => $mimeType,
             'tmp_name' => $file,
             'error' => 0,
-            'size' => filesize($file),
+            'size' => $filesize,
         ];
 
         $uploadedFile = \wp_handle_sideload(
@@ -429,13 +469,13 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
      * to generate the thumbnails
      *
      * @param array<string,mixed> $mediaItemData
-     * @param string|int $mediaItemID
      */
     protected function addImageMetaData(
-        $mediaItemID,
+        string|int $mediaItemID,
         string $filename,
         array $mediaItemData
     ): void {
+        // @phpstan-ignore-next-line
         require_once ABSPATH . 'wp-admin/includes/image.php';
 
         $mediaItemMetaData = \wp_generate_attachment_metadata((int) $mediaItemID, $filename);
@@ -448,19 +488,15 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
         }
     }
 
-    /**
-     * @param string|int $mediaItemID
-     */
-    protected function updateImageAltText($mediaItemID, string $altText): void
-    {
+    protected function updateImageAltText(
+        string|int $mediaItemID,
+        string $altText,
+    ): void {
         update_post_meta((int) $mediaItemID, '_wp_attachment_image_alt', $altText);
     }
 
-    /**
-     * @param string|int $userID
-     */
     public function canUserEditMediaItems(
-        $userID
+        string|int $userID
     ): bool {
         $attachmentObject = get_post_type_object('attachment');
         if ($attachmentObject === null) {
@@ -470,12 +506,10 @@ class MediaTypeMutationAPI extends AbstractBasicService implements MediaTypeMuta
         return isset($attachmentObject->cap->edit_posts) && user_can((int)$userID, $attachmentObject->cap->edit_posts);
     }
 
-    /**
-     * @param string|int $userID
-     * @param string|int $mediaItemID
-     */
-    public function canUserEditMediaItem($userID, $mediaItemID): bool
-    {
+    public function canUserEditMediaItem(
+        string|int $userID,
+        string|int $mediaItemID,
+    ): bool {
         return user_can((int)$userID, 'edit_post', $mediaItemID);
     }
 }

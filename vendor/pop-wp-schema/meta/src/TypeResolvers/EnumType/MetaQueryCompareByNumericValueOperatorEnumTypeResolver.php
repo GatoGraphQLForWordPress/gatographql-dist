@@ -41,21 +41,14 @@ class MetaQueryCompareByNumericValueOperatorEnumTypeResolver extends AbstractEnu
 
     public function getEnumValueDescription(string $enumValue): ?string
     {
-        switch ($enumValue) {
-            case MetaQueryCompareByOperators::EQUALS:
-                return '\'=\'';
-            case MetaQueryCompareByOperators::NOT_EQUALS:
-                return '\'!=\'';
-            case MetaQueryCompareByOperators::GREATER_THAN:
-                return '\'>\'';
-            case MetaQueryCompareByOperators::GREATER_THAN_OR_EQUAL:
-                return '\'>=\'';
-            case MetaQueryCompareByOperators::LESS_THAN:
-                return '\'<\'';
-            case MetaQueryCompareByOperators::LESS_THAN_OR_EQUAL:
-                return '\'<=\'';
-            default:
-                return parent::getEnumValueDescription($enumValue);
-        }
+        return match ($enumValue) {
+            MetaQueryCompareByOperators::EQUALS => '\'=\'',
+            MetaQueryCompareByOperators::NOT_EQUALS => '\'!=\'',
+            MetaQueryCompareByOperators::GREATER_THAN => '\'>\'',
+            MetaQueryCompareByOperators::GREATER_THAN_OR_EQUAL => '\'>=\'',
+            MetaQueryCompareByOperators::LESS_THAN => '\'<\'',
+            MetaQueryCompareByOperators::LESS_THAN_OR_EQUAL => '\'<=\'',
+            default => parent::getEnumValueDescription($enumValue),
+        };
     }
 }

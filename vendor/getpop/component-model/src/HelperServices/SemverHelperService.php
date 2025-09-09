@@ -25,7 +25,7 @@ class SemverHelperService implements \PoP\ComponentModel\HelperServices\SemverHe
          */
         try {
             return Semver::satisfies($version, $constraints);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return \false;
         }
     }

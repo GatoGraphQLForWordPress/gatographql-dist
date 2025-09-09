@@ -18,10 +18,7 @@ class CategoryUnionTypeDataLoader extends UpstreamCategoryUnionTypeDataLoader
 {
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
 
-    /**
-     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\QueryableCategoryListObjectTypeDataLoader|null
-     */
-    private $queryableCategoryListObjectTypeDataLoader;
+    private ?QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader = null;
 
     final protected function getQueryableCategoryListObjectTypeDataLoader(): QueryableCategoryListObjectTypeDataLoader
     {

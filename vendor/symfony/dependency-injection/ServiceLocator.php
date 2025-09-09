@@ -32,18 +32,9 @@ class ServiceLocator implements ServiceProviderInterface, \Countable
     use ServiceLocatorTrait {
         get as private doGet;
     }
-    /**
-     * @var string|null
-     */
-    private $externalId;
-    /**
-     * @var \Symfony\Component\DependencyInjection\Container|null
-     */
-    private $container;
-    /**
-     * @return mixed
-     */
-    public function get(string $id)
+    private ?string $externalId = null;
+    private ?Container $container = null;
+    public function get(string $id) : mixed
     {
         if (!$this->externalId) {
             return $this->doGet($id);
@@ -57,7 +48,6 @@ class ServiceLocator implements ServiceProviderInterface, \Countable
                 $message = \sprintf('Cannot resolve %s: %s', $what, $message);
             }
             $r = new \ReflectionProperty($e, 'message');
-            $r->setAccessible(\true);
             $r->setValue($e, $message);
             throw $e;
         }
@@ -71,9 +61,8 @@ class ServiceLocator implements ServiceProviderInterface, \Countable
     }
     /**
      * @internal
-     * @return static
      */
-    public function withContext(string $externalId, Container $container)
+    public function withContext(string $externalId, Container $container) : static
     {
         $locator = clone $this;
         $locator->externalId = $externalId;
@@ -91,7 +80,7 @@ class ServiceLocator implements ServiceProviderInterface, \Countable
             return new ServiceNotFoundException($id, \end($this->loading) ?: null, null, [], $msg);
         }
         $class = \debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS, 4);
-        $class = isset($class[3]['object']) ? \get_class($class[3]['object']) : null;
+        $class = isset($class[3]['object']) ? $class[3]['object']::class : null;
         $externalId = $this->externalId ?: $class;
         $msg = [];
         $msg[] = \sprintf('Service "%s" not found:', $id);

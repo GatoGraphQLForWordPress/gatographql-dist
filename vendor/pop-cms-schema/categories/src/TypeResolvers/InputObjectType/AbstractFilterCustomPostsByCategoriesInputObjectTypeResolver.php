@@ -11,10 +11,7 @@ use stdClass;
 /** @internal */
 abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver implements \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\FilterCustomPostsByCategoriesInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\FilterByTaxonomyTermsInputObjectTypeResolver|null
-     */
-    private $filterByTaxonomyTermsInputObjectTypeResolver;
+    private ?FilterByTaxonomyTermsInputObjectTypeResolver $filterByTaxonomyTermsInputObjectTypeResolver = null;
     protected final function getFilterByTaxonomyTermsInputObjectTypeResolver() : FilterByTaxonomyTermsInputObjectTypeResolver
     {
         if ($this->filterByTaxonomyTermsInputObjectTypeResolver === null) {
@@ -38,47 +35,33 @@ abstract class AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver exte
     protected abstract function getCategoryTaxonomyFilterInput() : InputTypeResolverInterface;
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'taxonomy':
-                return $this->__('Category taxonomy', 'categories');
-            case 'includeBy':
-                return $this->__('Retrieve custom posts which contain categories', 'categories');
-            case 'excludeBy':
-                return $this->__('Retrieve custom posts which do not contain categories', 'categories');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'taxonomy' => $this->__('Category taxonomy', 'categories'),
+            'includeBy' => $this->__('Retrieve custom posts which contain categories', 'categories'),
+            'excludeBy' => $this->__('Retrieve custom posts which do not contain categories', 'categories'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldTypeModifiers(string $inputFieldName) : int
     {
-        switch ($inputFieldName) {
-            case 'taxonomy':
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getInputFieldTypeModifiers($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'taxonomy' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getInputFieldTypeModifiers($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'taxonomy':
-                return $this->getCategoryTaxonomyFilterDefaultValue();
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'taxonomy' => $this->getCategoryTaxonomyFilterDefaultValue(),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
+    protected abstract function getCategoryTaxonomyFilterDefaultValue() : mixed;
     /**
-     * @return mixed
-     */
-    protected abstract function getCategoryTaxonomyFilterDefaultValue();
-    /**
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue) : void
     {
         parent::integrateInputValueToFilteringQueryArgs($query, $inputValue);
         if (isset($inputValue->taxonomy)) {

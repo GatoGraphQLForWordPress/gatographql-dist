@@ -20,18 +20,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field\FormField
  */
 class Form extends Link implements \ArrayAccess
 {
-    /**
-     * @var \DOMElement
-     */
-    private $button;
-    /**
-     * @var \Symfony\Component\DomCrawler\FormFieldRegistry
-     */
-    private $fields;
-    /**
-     * @var string|null
-     */
-    private $baseHref;
+    private \DOMElement $button;
+    private FormFieldRegistry $fields;
+    private ?string $baseHref;
     /**
      * @param \DOMElement $node       A \DOMElement instance
      * @param string|null $currentUri The URI of the page where the form is embedded
@@ -60,7 +51,7 @@ class Form extends Link implements \ArrayAccess
      *
      * @return $this
      */
-    public function setValues(array $values)
+    public function setValues(array $values) : static
     {
         foreach ($values as $name => $value) {
             $this->fields->set($name, $value);
@@ -230,7 +221,7 @@ class Form extends Link implements \ArrayAccess
      *
      * @throws \InvalidArgumentException When field is not present in this form
      */
-    public function get(string $name)
+    public function get(string $name) : FormField|array
     {
         return $this->fields->get($name);
     }
@@ -255,44 +246,43 @@ class Form extends Link implements \ArrayAccess
     /**
      * Returns true if the named field exists.
      *
-     * @param mixed $name The field name
+     * @param string $name The field name
      */
-    public function offsetExists($name) : bool
+    public function offsetExists(mixed $name) : bool
     {
         return $this->has($name);
     }
     /**
      * Gets the value of a field.
      *
-     * @param mixed $name The field name
+     * @param string $name The field name
      *
      * @return FormField|FormField[]|FormField[][]
      *
      * @throws \InvalidArgumentException if the field does not exist
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($name)
+    public function offsetGet(mixed $name) : FormField|array
     {
         return $this->fields->get($name);
     }
     /**
      * Sets the value of a field.
      *
-     * @param mixed $name The field name
-     * @param mixed $value The value of the field
+     * @param string       $name  The field name
+     * @param string|array $value The value of the field
      *
      * @throws \InvalidArgumentException if the field does not exist
      */
-    public function offsetSet($name, $value) : void
+    public function offsetSet(mixed $name, mixed $value) : void
     {
         $this->fields->set($name, $value);
     }
     /**
      * Removes a field from the form.
      *
-     * @param mixed $name The field name
+     * @param string $name The field name
      */
-    public function offsetUnset($name) : void
+    public function offsetUnset(mixed $name) : void
     {
         $this->fields->remove($name);
     }
@@ -301,10 +291,10 @@ class Form extends Link implements \ArrayAccess
      *
      * @return $this
      */
-    public function disableValidation()
+    public function disableValidation() : static
     {
         foreach ($this->fields->all() as $field) {
-            if ($field instanceof Field\ChoiceFormField) {
+            if ($field instanceof ChoiceFormField) {
                 $field->disableValidation();
             }
         }
@@ -399,14 +389,14 @@ class Form extends Link implements \ArrayAccess
         }
         $nodeName = $node->nodeName;
         if ('select' == $nodeName || 'input' == $nodeName && 'checkbox' == \strtolower($node->getAttribute('type'))) {
-            $this->set(new Field\ChoiceFormField($node));
+            $this->set(new ChoiceFormField($node));
         } elseif ('input' == $nodeName && 'radio' == \strtolower($node->getAttribute('type'))) {
             // there may be other fields with the same name that are no choice
             // fields already registered (see https://github.com/symfony/symfony/issues/11689)
             if ($this->has($node->getAttribute('name')) && $this->get($node->getAttribute('name')) instanceof ChoiceFormField) {
                 $this->get($node->getAttribute('name'))->addChoice($node);
             } else {
-                $this->set(new Field\ChoiceFormField($node));
+                $this->set(new ChoiceFormField($node));
             }
         } elseif ('input' == $nodeName && 'file' == \strtolower($node->getAttribute('type'))) {
             $this->set(new Field\FileFormField($node));

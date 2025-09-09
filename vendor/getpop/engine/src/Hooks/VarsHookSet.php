@@ -13,7 +13,7 @@ class VarsHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, \Closure::fromCallable([$this, 'getModelInstanceElementsFromAppState']));
+        App::addFilter(ModelInstance::HOOK_ELEMENTS_RESULT, $this->getModelInstanceElementsFromAppState(...));
     }
     /**
      * @return string[]

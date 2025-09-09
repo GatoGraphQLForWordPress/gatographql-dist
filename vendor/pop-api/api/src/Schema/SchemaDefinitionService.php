@@ -42,25 +42,16 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
      *
      * @var array<class-string<TypeResolverInterface|FieldDirectiveResolverInterface>>
      */
-    private $processedTypeAndFieldDirectiveResolverClasses = [];
+    private array $processedTypeAndFieldDirectiveResolverClasses = [];
     /** @var array<TypeResolverInterface|FieldDirectiveResolverInterface> */
-    private $pendingTypeOrFieldDirectiveResolvers = [];
+    private array $pendingTypeOrFieldDirectiveResolvers = [];
     /** @var array<string,RelationalTypeResolverInterface> Key: directive resolver class, Value: The Type Resolver Class which loads the directive */
-    private $accessedFieldDirectiveResolverClassRelationalTypeResolvers = [];
+    private array $accessedFieldDirectiveResolverClassRelationalTypeResolvers = [];
     /** @var array<string,ObjectTypeResolverInterface[]> Key: InterfaceType name, Value: List of ObjectType resolvers implementing the interface */
-    private $accessedInterfaceTypeNameObjectTypeResolvers = [];
-    /**
-     * @var \PoP\ComponentModel\Cache\PersistentCacheInterface|null
-     */
-    private $persistentCache;
-    /**
-     * @var \PoPAPI\API\PersistedQueries\PersistedFragmentManagerInterface|null
-     */
-    private $persistedFragmentManager;
-    /**
-     * @var \PoPAPI\API\PersistedQueries\PersistedQueryManagerInterface|null
-     */
-    private $persistedQueryManager;
+    private array $accessedInterfaceTypeNameObjectTypeResolvers = [];
+    private ?PersistentCacheInterface $persistentCache = null;
+    private ?PersistedFragmentManagerInterface $persistedFragmentManager = null;
+    private ?PersistedQueryManagerInterface $persistedQueryManager = null;
     /**
      * Cannot autowire with "#[Required]" because its calling `getNamespace`
      * on services.yaml produces an exception of PHP properties not initialized
@@ -122,7 +113,7 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
             $this->pendingTypeOrFieldDirectiveResolvers = [$this->getSchemaRootObjectTypeResolver()];
             while (!empty($this->pendingTypeOrFieldDirectiveResolvers)) {
                 $typeOrFieldDirectiveResolver = \array_pop($this->pendingTypeOrFieldDirectiveResolvers);
-                $this->processedTypeAndFieldDirectiveResolverClasses[] = \get_class($typeOrFieldDirectiveResolver);
+                $this->processedTypeAndFieldDirectiveResolverClasses[] = $typeOrFieldDirectiveResolver::class;
                 if ($typeOrFieldDirectiveResolver instanceof TypeResolverInterface) {
                     /** @var TypeResolverInterface */
                     $typeResolver = $typeOrFieldDirectiveResolver;
@@ -251,7 +242,7 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
     {
         // Add further accessed TypeResolvers and DirectiveResolvers to the stack and keep iterating
         foreach ($accessedTypeAndFieldDirectiveResolvers as $accessedTypeOrFieldDirectiveResolver) {
-            if (\in_array(\get_class($accessedTypeOrFieldDirectiveResolver), $this->processedTypeAndFieldDirectiveResolverClasses)) {
+            if (\in_array($accessedTypeOrFieldDirectiveResolver::class, $this->processedTypeAndFieldDirectiveResolverClasses)) {
                 continue;
             }
             $this->pendingTypeOrFieldDirectiveResolvers[] = $accessedTypeOrFieldDirectiveResolver;
@@ -286,7 +277,7 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
             $objectTypeSchemaDefinitionProvider = $schemaDefinitionProvider;
             foreach ($objectTypeSchemaDefinitionProvider->getImplementedInterfaceTypeResolvers() as $implementedInterfaceTypeResolver) {
                 $implementedInterfaceTypeName = $implementedInterfaceTypeResolver->getMaybeNamespacedTypeName();
-                $this->accessedInterfaceTypeNameObjectTypeResolvers[$implementedInterfaceTypeName] = $this->accessedInterfaceTypeNameObjectTypeResolvers[$implementedInterfaceTypeName] ?? [];
+                $this->accessedInterfaceTypeNameObjectTypeResolvers[$implementedInterfaceTypeName] ??= [];
                 $this->accessedInterfaceTypeNameObjectTypeResolvers[$implementedInterfaceTypeName][] = $objectTypeResolver;
             }
         }
@@ -319,7 +310,7 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
      */
     private function addDirectiveSchemaDefinition(FieldDirectiveResolverInterface $directiveResolver, array &$schemaDefinition) : void
     {
-        $relationalTypeResolver = $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[\get_class($directiveResolver)];
+        $relationalTypeResolver = $this->accessedFieldDirectiveResolverClassRelationalTypeResolvers[$directiveResolver::class];
         $schemaDefinitionProvider = new DirectiveSchemaDefinitionProvider($directiveResolver, $relationalTypeResolver);
         $directiveName = $directiveResolver->getDirectiveName();
         $directiveSchemaDefinition = $schemaDefinitionProvider->getSchemaDefinition();

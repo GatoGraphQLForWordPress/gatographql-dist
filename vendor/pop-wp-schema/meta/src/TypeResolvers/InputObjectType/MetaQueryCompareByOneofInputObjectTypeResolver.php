@@ -9,22 +9,10 @@ use PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractOneofInputObjectTyp
 
 class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputObjectTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\Meta\TypeResolvers\InputObjectType\MetaQueryCompareByKeyInputObjectTypeResolver|null
-     */
-    private $metaQueryCompareByKeyInputObjectTypeResolver;
-    /**
-     * @var \PoPWPSchema\Meta\TypeResolvers\InputObjectType\MetaQueryCompareByNumericValueInputObjectTypeResolver|null
-     */
-    private $metaQueryCompareByNumericValueInputObjectTypeResolver;
-    /**
-     * @var \PoPWPSchema\Meta\TypeResolvers\InputObjectType\MetaQueryCompareByStringValueInputObjectTypeResolver|null
-     */
-    private $metaQueryCompareByStringValueInputObjectTypeResolver;
-    /**
-     * @var \PoPWPSchema\Meta\TypeResolvers\InputObjectType\MetaQueryCompareByArrayValueInputObjectTypeResolver|null
-     */
-    private $metaQueryCompareByArrayValueInputObjectTypeResolver;
+    private ?MetaQueryCompareByKeyInputObjectTypeResolver $metaQueryCompareByKeyInputObjectTypeResolver = null;
+    private ?MetaQueryCompareByNumericValueInputObjectTypeResolver $metaQueryCompareByNumericValueInputObjectTypeResolver = null;
+    private ?MetaQueryCompareByStringValueInputObjectTypeResolver $metaQueryCompareByStringValueInputObjectTypeResolver = null;
+    private ?MetaQueryCompareByArrayValueInputObjectTypeResolver $metaQueryCompareByArrayValueInputObjectTypeResolver = null;
 
     final protected function getMetaQueryCompareByKeyInputObjectTypeResolver(): MetaQueryCompareByKeyInputObjectTypeResolver
     {
@@ -88,17 +76,12 @@ class MetaQueryCompareByOneofInputObjectTypeResolver extends AbstractOneofInputO
 
     public function getInputFieldDescription(string $inputFieldName): ?string
     {
-        switch ($inputFieldName) {
-            case 'key':
-                return $this->__('Compare against the meta key', 'meta');
-            case 'numericValue':
-                return $this->__('Compare against a numeric meta value', 'meta');
-            case 'stringValue':
-                return $this->__('Compare against a string meta value', 'meta');
-            case 'arrayValue':
-                return $this->__('Compare against an array meta value', 'meta');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'key' => $this->__('Compare against the meta key', 'meta'),
+            'numericValue' => $this->__('Compare against a numeric meta value', 'meta'),
+            'stringValue' => $this->__('Compare against a string meta value', 'meta'),
+            'arrayValue' => $this->__('Compare against an array meta value', 'meta'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

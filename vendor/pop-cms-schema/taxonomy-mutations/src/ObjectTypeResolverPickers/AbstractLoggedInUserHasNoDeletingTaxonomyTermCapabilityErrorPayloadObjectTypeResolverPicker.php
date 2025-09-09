@@ -10,10 +10,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 abstract class AbstractLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolverPicker extends AbstractErrorPayloadObjectTypeResolverPicker
 {
-    /**
-     * @var \PoPCMSSchema\TaxonomyMutations\TypeResolvers\ObjectType\LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver|null
-     */
-    private $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver;
+    private ?LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver $loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver = null;
     protected final function getLoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver() : LoggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver
     {
         if ($this->loggedInUserHasNoDeletingTaxonomyTermCapabilityErrorPayloadObjectTypeResolver === null) {

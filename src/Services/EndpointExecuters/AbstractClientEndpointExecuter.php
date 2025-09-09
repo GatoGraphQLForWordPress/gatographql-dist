@@ -12,10 +12,7 @@ use PoP\Root\App;
 
 abstract class AbstractClientEndpointExecuter extends AbstractCPTEndpointExecuter implements EndpointExecuterServiceTagInterface
 {
-    /**
-     * @var \PoP\EngineWP\HelperServices\TemplateHelpersInterface|null
-     */
-    private $templateHelpers;
+    private ?TemplateHelpersInterface $templateHelpers = null;
 
     final protected function getTemplateHelpers(): TemplateHelpersInterface
     {

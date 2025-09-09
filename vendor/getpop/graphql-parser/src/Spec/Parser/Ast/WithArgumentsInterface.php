@@ -13,10 +13,7 @@ interface WithArgumentsInterface extends \PoP\GraphQLParser\Spec\Parser\Ast\AstI
      */
     public function getArguments() : array;
     public function getArgument(string $name) : ?\PoP\GraphQLParser\Spec\Parser\Ast\Argument;
-    /**
-     * @return mixed
-     */
-    public function getArgumentValue(string $name);
+    public function getArgumentValue(string $name) : mixed;
     /**
      * @return array<string,mixed>
      */

@@ -21,18 +21,9 @@ use PoP\Root\App;
 /** @internal */
 class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver|null
-     */
-    private $booleanScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -96,108 +87,69 @@ class UserObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->getStringScalarTypeResolver();
-            case 'capabilities':
-                return $this->getStringScalarTypeResolver();
-            case 'hasRole':
-                return $this->getBooleanScalarTypeResolver();
-            case 'hasAnyRole':
-                return $this->getBooleanScalarTypeResolver();
-            case 'hasCapability':
-                return $this->getBooleanScalarTypeResolver();
-            case 'hasAnyCapability':
-                return $this->getBooleanScalarTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->getStringScalarTypeResolver(),
+            'capabilities' => $this->getStringScalarTypeResolver(),
+            'hasRole' => $this->getBooleanScalarTypeResolver(),
+            'hasAnyRole' => $this->getBooleanScalarTypeResolver(),
+            'hasCapability' => $this->getBooleanScalarTypeResolver(),
+            'hasAnyCapability' => $this->getBooleanScalarTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'roles':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            case 'capabilities':
-                return SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY;
-            case 'hasRole':
-            case 'hasAnyRole':
-            case 'hasCapability':
-            case 'hasAnyCapability':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'capabilities' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+            'hasRole', 'hasAnyRole', 'hasCapability', 'hasAnyCapability' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'roles':
-                return $this->__('User roles', 'user-roles');
-            case 'capabilities':
-                return $this->__('User capabilities', 'user-roles');
-            case 'hasRole':
-                return $this->__('Does the user have a specific role?', 'user-roles');
-            case 'hasAnyRole':
-                return $this->__('Does the user have any role from a provided list?', 'user-roles');
-            case 'hasCapability':
-                return $this->__('Does the user have a specific capability?', 'user-roles');
-            case 'hasAnyCapability':
-                return $this->__('Does the user have any capability from a provided list?', 'user-roles');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'roles' => $this->__('User roles', 'user-roles'),
+            'capabilities' => $this->__('User capabilities', 'user-roles'),
+            'hasRole' => $this->__('Does the user have a specific role?', 'user-roles'),
+            'hasAnyRole' => $this->__('Does the user have any role from a provided list?', 'user-roles'),
+            'hasCapability' => $this->__('Does the user have a specific capability?', 'user-roles'),
+            'hasAnyCapability' => $this->__('Does the user have any capability from a provided list?', 'user-roles'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'hasRole':
-                return ['role' => $this->getStringScalarTypeResolver()];
-            case 'hasAnyRole':
-                return ['roles' => $this->getStringScalarTypeResolver()];
-            case 'hasCapability':
-                return ['capability' => $this->getStringScalarTypeResolver()];
-            case 'hasAnyCapability':
-                return ['capabilities' => $this->getStringScalarTypeResolver()];
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'hasRole' => ['role' => $this->getStringScalarTypeResolver()],
+            'hasAnyRole' => ['roles' => $this->getStringScalarTypeResolver()],
+            'hasCapability' => ['capability' => $this->getStringScalarTypeResolver()],
+            'hasAnyCapability' => ['capabilities' => $this->getStringScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['hasRole' => 'role']:
-                return $this->__('User role to check against', 'user-roles');
-            case ['hasAnyRole' => 'roles']:
-                return $this->__('User roles to check against', 'user-roles');
-            case ['hasCapability' => 'capability']:
-                return $this->__('User capability to check against', 'user-roles');
-            case ['hasAnyCapability' => 'capabilities']:
-                return $this->__('User capabilities to check against', 'user-roles');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['hasRole' => 'role'] => $this->__('User role to check against', 'user-roles'),
+            ['hasAnyRole' => 'roles'] => $this->__('User roles to check against', 'user-roles'),
+            ['hasCapability' => 'capability'] => $this->__('User capability to check against', 'user-roles'),
+            ['hasAnyCapability' => 'capabilities'] => $this->__('User capabilities to check against', 'user-roles'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['hasRole' => 'role']:
-            case ['hasCapability' => 'capability']:
-                return SchemaTypeModifiers::MANDATORY;
-            case ['hasAnyRole' => 'roles']:
-            case ['hasAnyCapability' => 'capabilities']:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY | SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['hasRole' => 'role'], ['hasCapability' => 'capability'] => SchemaTypeModifiers::MANDATORY,
+            ['hasAnyRole' => 'roles'], ['hasAnyCapability' => 'capabilities'] => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY | SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         $user = $object;
         switch ($fieldDataAccessor->getFieldName()) {

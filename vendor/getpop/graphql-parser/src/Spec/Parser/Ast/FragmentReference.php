@@ -7,14 +7,8 @@ use PoP\GraphQLParser\Spec\Parser\Location;
 /** @internal */
 class FragmentReference extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst implements \PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    protected $name;
-    public function __construct(string $name, Location $location)
+    public function __construct(protected readonly string $name, Location $location)
     {
-        $this->name = $name;
         parent::__construct($location);
     }
     protected function doAsQueryString() : string

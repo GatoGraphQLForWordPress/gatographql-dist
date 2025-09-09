@@ -19,7 +19,7 @@ abstract class AbstractQueryInputOutputHandler implements \PoP\ComponentModel\Qu
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryState(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function getQueryState(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array
     {
         return array();
     }
@@ -29,7 +29,7 @@ abstract class AbstractQueryInputOutputHandler implements \PoP\ComponentModel\Qu
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryParams(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function getQueryParams(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array
     {
         return array();
     }
@@ -39,7 +39,7 @@ abstract class AbstractQueryInputOutputHandler implements \PoP\ComponentModel\Qu
      * @param string|int|array<string|int> $objectIDOrIDs
      * @param array<string,mixed>|null $executed
      */
-    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, $objectIDOrIDs) : array
+    public function getQueryResult(array $data_properties, ?FeedbackItemResolution $dataaccess_checkpoint_validation, ?FeedbackItemResolution $actionexecution_checkpoint_validation, ?array $executed, string|int|array $objectIDOrIDs) : array
     {
         return array();
     }

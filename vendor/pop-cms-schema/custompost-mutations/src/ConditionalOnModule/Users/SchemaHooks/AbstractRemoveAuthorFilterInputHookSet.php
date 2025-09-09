@@ -10,10 +10,7 @@ use PoPCMSSchema\Users\ConditionalOnModule\CustomPosts\SchemaHooks\FilterInputHo
 /** @internal */
 abstract class AbstractRemoveAuthorFilterInputHookSet extends AbstractHookSet
 {
-    /**
-     * @var UserCustomPostFilterInputHookSet|null
-     */
-    private $userCustomPostFilterInputHookSet;
+    private ?UserCustomPostFilterInputHookSet $userCustomPostFilterInputHookSet = null;
     protected final function getUserCustomPostFilterInputHookSet() : UserCustomPostFilterInputHookSet
     {
         if ($this->userCustomPostFilterInputHookSet === null) {
@@ -25,7 +22,7 @@ abstract class AbstractRemoveAuthorFilterInputHookSet extends AbstractHookSet
     }
     protected function init() : void
     {
-        App::addFilter($this->getHookNameToRemoveFilterInput(), \Closure::fromCallable([$this, 'getFilterInputComponents']));
+        App::addFilter($this->getHookNameToRemoveFilterInput(), $this->getFilterInputComponents(...));
     }
     protected abstract function getHookNameToRemoveFilterInput() : string;
     /**

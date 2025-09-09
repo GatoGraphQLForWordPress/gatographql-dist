@@ -22,30 +22,12 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
 {
     use CreateOrUpdateCustomPostMutationResolverTrait;
     use \PoPCMSSchema\CustomPostMetaMutations\MutationResolvers\MutateCustomPostMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CustomPostMeta\TypeAPIs\CustomPostMetaTypeAPIInterface|null
-     */
-    private $customPostMetaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeAPIs\CustomPostMetaTypeMutationAPIInterface|null
-     */
-    private $customPostMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
+    private ?CustomPostMetaTypeAPIInterface $customPostMetaTypeAPI = null;
+    private ?CustomPostMetaTypeMutationAPIInterface $customPostMetaTypeMutationAPI = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
     protected final function getCustomPostMetaTypeAPI() : CustomPostMetaTypeAPIInterface
     {
         if ($this->customPostMetaTypeAPI === null) {
@@ -100,17 +82,11 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
         }
         return $this->customPostTypeMutationAPI;
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateEntityExists($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateEntityExists(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->validateCustomPostExists($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function validateUserCanEditEntity($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateUserCanEditEntity(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->validateCanLoggedInUserEditCustomPost($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -174,7 +150,7 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
      * @return string|int The ID of the custom post
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: some custom post creation validation failed)
      */
-    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostID = parent::addMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CustomPostMetaCRUDHookNames::EXECUTE_ADD_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -183,10 +159,8 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
     /**
      * @return string|int the ID of the created custom post
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: some custom post creation validation failed)
-     * @param string|int $customPostID
-     * @param mixed $value
      */
-    protected function executeAddEntityMeta($customPostID, string $key, $value, bool $single)
+    protected function executeAddEntityMeta(string|int $customPostID, string $key, mixed $value, bool $single) : string|int
     {
         return $this->getCustomPostMetaTypeMutationAPI()->addCustomPostMeta($customPostID, $key, $value, $single);
     }
@@ -194,7 +168,7 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
      * @return string|int The ID of the custom post
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
      */
-    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostID = parent::updateMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CustomPostMetaCRUDHookNames::EXECUTE_UPDATE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -203,11 +177,8 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
-     * @param string|int $customPostID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    protected function executeUpdateEntityMeta($customPostID, string $key, $value, $prevValue = null)
+    protected function executeUpdateEntityMeta(string|int $customPostID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool
     {
         return $this->getCustomPostMetaTypeMutationAPI()->updateCustomPostMeta($customPostID, $key, $value, $prevValue);
     }
@@ -215,7 +186,7 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
      * @return string|int The ID of the custom post
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
      */
-    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostID = parent::deleteMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CustomPostMetaCRUDHookNames::EXECUTE_DELETE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -223,10 +194,8 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
     }
     /**
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
-     * @param string|int $customPostID
-     * @param mixed $value
      */
-    protected function executeDeleteEntityMeta($customPostID, string $key, $value = null) : void
+    protected function executeDeleteEntityMeta(string|int $customPostID, string $key, mixed $value = null) : void
     {
         $this->getCustomPostMetaTypeMutationAPI()->deleteCustomPostMeta($customPostID, $key, $value);
     }
@@ -234,7 +203,7 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
      * @return string|int The ID of the custom post
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
      */
-    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostID = parent::setMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CustomPostMetaCRUDHookNames::EXECUTE_SET_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -243,9 +212,8 @@ abstract class AbstractMutateCustomPostMetaMutationResolver extends AbstractMuta
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
-     * @param string|int $customPostID
      */
-    protected function executeSetEntityMeta($customPostID, array $entries) : void
+    protected function executeSetEntityMeta(string|int $customPostID, array $entries) : void
     {
         $this->getCustomPostMetaTypeMutationAPI()->setCustomPostMeta($customPostID, $entries);
     }

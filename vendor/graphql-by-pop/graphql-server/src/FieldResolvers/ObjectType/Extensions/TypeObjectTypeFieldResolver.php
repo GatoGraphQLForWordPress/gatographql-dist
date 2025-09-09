@@ -38,55 +38,40 @@ class TypeObjectTypeFieldResolver extends UpstreamTypeObjectTypeFieldResolver
      */
     public function resolveCanProcessField(ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : bool
     {
-        switch ($field->getName()) {
-            case 'name':
-                return $field->hasArgument('namespaced');
-            case 'fields':
-                return $field->hasArgument('includeGlobal');
-            default:
-                return parent::resolveCanProcessField($objectTypeResolver, $field);
-        }
+        return match ($field->getName()) {
+            'name' => $field->hasArgument('namespaced'),
+            'fields' => $field->hasArgument('includeGlobal'),
+            default => parent::resolveCanProcessField($objectTypeResolver, $field),
+        };
     }
     /**
      * @return array<string,InputTypeResolverInterface>
      */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : array
     {
-        switch ($fieldName) {
-            case 'name':
-                return ['namespaced' => $this->getBooleanScalarTypeResolver()];
-            case 'fields':
-                return \array_merge(parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName), ['includeGlobal' => $this->getBooleanScalarTypeResolver()]);
-            default:
-                return parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => ['namespaced' => $this->getBooleanScalarTypeResolver()],
+            'fields' => [...parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName), 'includeGlobal' => $this->getBooleanScalarTypeResolver()],
+            default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldArgDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : ?string
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['name' => 'namespaced']:
-                return $this->__('Namespace type name?', 'graphql-server');
-            case ['fields' => 'includeGlobal']:
-                return $this->__('Include global fields?', 'graphql-server');
-            default:
-                return parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['name' => 'namespaced'] => $this->__('Namespace type name?', 'graphql-server'),
+            ['fields' => 'includeGlobal'] => $this->__('Include global fields?', 'graphql-server'),
+            default => parent::getFieldArgDescription($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        switch ([$fieldName => $fieldArgName]) {
-            case ['name' => 'namespaced']:
-                return SchemaTypeModifiers::MANDATORY;
-            case ['fields' => 'includeGlobal']:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
-        }
+        return match ([$fieldName => $fieldArgName]) {
+            ['name' => 'namespaced'] => SchemaTypeModifiers::MANDATORY,
+            ['fields' => 'includeGlobal'] => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var NamedTypeInterface */
         $type = $object;

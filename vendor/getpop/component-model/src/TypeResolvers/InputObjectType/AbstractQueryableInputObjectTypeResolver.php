@@ -11,7 +11,7 @@ use stdClass;
 abstract class AbstractQueryableInputObjectTypeResolver extends \PoP\ComponentModel\TypeResolvers\InputObjectType\AbstractInputObjectTypeResolver implements QueryableInputObjectTypeResolverInterface
 {
     /** @var array<string,?FilterInputInterface> */
-    private $consolidatedInputFieldFilterInputCache = [];
+    private array $consolidatedInputFieldFilterInputCache = [];
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
         return null;
@@ -32,10 +32,10 @@ abstract class AbstractQueryableInputObjectTypeResolver extends \PoP\ComponentMo
      * The base behavior can only be applied when the value is an stdClass.
      * If it is an array, or array of arrays, then apply this logic recursively.
      *
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue) : void
     {
         // Here $inputValue is an array, or array of arrays
         if (\is_array($inputValue)) {
@@ -56,10 +56,9 @@ abstract class AbstractQueryableInputObjectTypeResolver extends \PoP\ComponentMo
         }
     }
     /**
-     * @param array<string,mixed> $query
-     * @param mixed $inputFieldValue
+     * @param array<mixed> $query
      */
-    protected function integrateInputFieldValueToFilteringQueryArgs(string $inputFieldName, array &$query, $inputFieldValue) : void
+    protected function integrateInputFieldValueToFilteringQueryArgs(string $inputFieldName, array &$query, mixed $inputFieldValue) : void
     {
         /**
          * If the input field defines a FilterInput, apply it to obtain the filtering query

@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 abstract class AbstractCreateOrUpdateTagTermInputObjectTypeResolver extends AbstractCreateOrUpdateTaxonomyTermInputObjectTypeResolver implements \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\UpdateTagTermInputObjectTypeResolverInterface, \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\CreateTagTermInputObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver|null
-     */
-    private $parentTagByOneofInputObjectTypeResolver;
+    private ?\PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver $parentTagByOneofInputObjectTypeResolver = null;
     protected final function getTagByOneofInputObjectTypeResolver() : \PoPCMSSchema\TagMutations\TypeResolvers\InputObjectType\TagByOneofInputObjectTypeResolver
     {
         if ($this->parentTagByOneofInputObjectTypeResolver === null) {
@@ -36,19 +33,13 @@ abstract class AbstractCreateOrUpdateTagTermInputObjectTypeResolver extends Abst
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case MutationInputProperties::ID:
-                return $this->__('The ID of the tag to update', 'tag-mutations');
-            case MutationInputProperties::NAME:
-                return $this->__('The name of the tag', 'tag-mutations');
-            case MutationInputProperties::DESCRIPTION:
-                return $this->__('The description of the tag', 'tag-mutations');
-            case MutationInputProperties::SLUG:
-                return $this->__('The slug of the tag', 'tag-mutations');
-            case MutationInputProperties::TAXONOMY:
-                return $this->__('The taxonomy of the tag', 'tag-mutations');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            MutationInputProperties::ID => $this->__('The ID of the tag to update', 'tag-mutations'),
+            MutationInputProperties::NAME => $this->__('The name of the tag', 'tag-mutations'),
+            MutationInputProperties::DESCRIPTION => $this->__('The description of the tag', 'tag-mutations'),
+            MutationInputProperties::SLUG => $this->__('The slug of the tag', 'tag-mutations'),
+            MutationInputProperties::TAXONOMY => $this->__('The taxonomy of the tag', 'tag-mutations'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
 }

@@ -13,10 +13,7 @@ use PoP\Root\Hooks\AbstractHookSet;
 abstract class AbstractAddAuthorInputFieldsInputObjectTypeHookSet extends AbstractHookSet
 {
     use \PoPCMSSchema\Users\SchemaHooks\AddOrRemoveAuthorInputFieldsInputObjectTypeHookSetTrait;
-    /**
-     * @var \PoPCMSSchema\Users\TypeResolvers\InputObjectType\FilterByAuthorInputObjectTypeResolver|null
-     */
-    private $filterByAuthorInputObjectTypeResolver;
+    private ?FilterByAuthorInputObjectTypeResolver $filterByAuthorInputObjectTypeResolver = null;
     protected final function getFilterByAuthorInputObjectTypeResolver() : FilterByAuthorInputObjectTypeResolver
     {
         if ($this->filterByAuthorInputObjectTypeResolver === null) {
@@ -28,8 +25,8 @@ abstract class AbstractAddAuthorInputFieldsInputObjectTypeHookSet extends Abstra
     }
     protected function init() : void
     {
-        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, \Closure::fromCallable([$this, 'getInputFieldNameTypeResolvers']), 10, 2);
-        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, \Closure::fromCallable([$this, 'getInputFieldDescription']), 10, 3);
+        App::addFilter(HookNames::INPUT_FIELD_NAME_TYPE_RESOLVERS, $this->getInputFieldNameTypeResolvers(...), 10, 2);
+        App::addFilter(HookNames::INPUT_FIELD_DESCRIPTION, $this->getInputFieldDescription(...), 10, 3);
     }
     /**
      * Indicate if to add the fields added by the SchemaHookSet
@@ -51,11 +48,9 @@ abstract class AbstractAddAuthorInputFieldsInputObjectTypeHookSet extends Abstra
         if (!$this->addAuthorInputFields($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        switch ($inputFieldName) {
-            case 'author':
-                return $this->__('Filter by author', 'pop-users');
-            default:
-                return $inputFieldDescription;
-        }
+        return match ($inputFieldName) {
+            'author' => $this->__('Filter by author', 'pop-users'),
+            default => $inputFieldDescription,
+        };
     }
 }

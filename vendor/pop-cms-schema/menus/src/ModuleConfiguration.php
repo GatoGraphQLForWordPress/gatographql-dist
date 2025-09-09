@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoPCMSSchema\Menus\Environment::MENU_LIST_DEFAULT_LIMIT;
         $defaultValue = 10;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function getMenuListMaxLimit() : ?int
@@ -20,14 +20,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $envVariable = \PoPCMSSchema\Menus\Environment::MENU_LIST_MAX_LIMIT;
         $defaultValue = -1;
         // Unlimited
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toInt']);
+        $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function treatMenuItemRawTitleFieldsAsSensitiveData() : bool
     {
         $envVariable = \PoPCMSSchema\Menus\Environment::TREAT_MENUITEM_RAW_TITLE_AS_SENSITIVE_DATA;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

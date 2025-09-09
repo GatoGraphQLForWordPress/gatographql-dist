@@ -19,34 +19,13 @@ final class BoundArgument implements ArgumentInterface
     public const SERVICE_BINDING = 0;
     public const DEFAULTS_BINDING = 1;
     public const INSTANCEOF_BINDING = 2;
-    /**
-     * @var int
-     */
-    private static $sequence = 0;
-    /**
-     * @var mixed
-     */
-    private $value;
-    /**
-     * @var int|null
-     */
-    private $identifier;
-    /**
-     * @var bool|null
-     */
-    private $used;
-    /**
-     * @var int
-     */
-    private $type;
-    /**
-     * @var string|null
-     */
-    private $file;
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value, bool $trackUsage = \true, int $type = 0, ?string $file = null)
+    private static int $sequence = 0;
+    private mixed $value;
+    private ?int $identifier = null;
+    private ?bool $used = null;
+    private int $type;
+    private ?string $file;
+    public function __construct(mixed $value, bool $trackUsage = \true, int $type = 0, ?string $file = null)
     {
         $this->value = $value;
         if ($trackUsage) {

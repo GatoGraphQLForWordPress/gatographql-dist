@@ -20,38 +20,15 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\Loader\D
  */
 class DefinitionConfigurator
 {
-    /**
-     * @var \Symfony\Component\Config\Definition\Builder\TreeBuilder
-     */
-    private $treeBuilder;
-    /**
-     * @var \Symfony\Component\Config\Definition\Loader\DefinitionFileLoader
-     */
-    private $loader;
-    /**
-     * @var string
-     */
-    private $path;
-    /**
-     * @var string
-     */
-    private $file;
-    public function __construct(TreeBuilder $treeBuilder, DefinitionFileLoader $loader, string $path, string $file)
+    public function __construct(private TreeBuilder $treeBuilder, private DefinitionFileLoader $loader, private string $path, private string $file)
     {
-        $this->treeBuilder = $treeBuilder;
-        $this->loader = $loader;
-        $this->path = $path;
-        $this->file = $file;
     }
     public function import(string $resource, ?string $type = null, bool $ignoreErrors = \false) : void
     {
         $this->loader->setCurrentDir(\dirname($this->path));
         $this->loader->import($resource, $type, $ignoreErrors, $this->file);
     }
-    /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition|\Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
-     */
-    public function rootNode()
+    public function rootNode() : NodeDefinition|ArrayNodeDefinition
     {
         return $this->treeBuilder->getRootNode();
     }

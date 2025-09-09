@@ -15,10 +15,7 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutateTaxonomyTermMutationResolver implements \PoPCMSSchema\CategoryMutations\MutationResolvers\CategoryTermMutationResolverInterface
 {
     use \PoPCMSSchema\CategoryMutations\MutationResolvers\MutateCategoryTermMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\CategoryMutations\TypeAPIs\CategoryTypeMutationAPIInterface|null
-     */
-    private $categoryTypeMutationAPI;
+    private ?CategoryTypeMutationAPIInterface $categoryTypeMutationAPI = null;
     protected final function getCategoryTypeMutationAPI() : CategoryTypeMutationAPIInterface
     {
         if ($this->categoryTypeMutationAPI === null) {
@@ -32,9 +29,8 @@ abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutate
      * @param array<string,mixed> $taxonomyData
      * @return string|int the ID of the updated taxonomy
      * @throws CategoryTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeUpdateTaxonomyTerm($taxonomyTermID, string $taxonomyName, array $taxonomyData)
+    protected function executeUpdateTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getCategoryTypeMutationAPI()->updateCategoryTerm($taxonomyTermID, $taxonomyName, $taxonomyData);
     }
@@ -43,16 +39,15 @@ abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutate
      * @return string|int the ID of the created taxonomy
      * @throws CategoryTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData)
+    protected function executeCreateTaxonomyTerm(string $taxonomyName, array $taxonomyData) : string|int
     {
         return $this->getCategoryTypeMutationAPI()->createCategoryTerm($taxonomyName, $taxonomyData);
     }
     /**
      * @return bool `true` if the operation successful, `false` if the term does not exist
      * @throws CategoryTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
-     * @param string|int $taxonomyTermID
      */
-    protected function executeDeleteTaxonomyTerm($taxonomyTermID, string $taxonomyName) : bool
+    protected function executeDeleteTaxonomyTerm(string|int $taxonomyTermID, string $taxonomyName) : bool
     {
         return $this->getCategoryTypeMutationAPI()->deleteCategoryTerm($taxonomyTermID, $taxonomyName);
     }
@@ -103,7 +98,7 @@ abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutate
      * @return string|int The ID of the updated entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: taxonomy term does not exist)
      */
-    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::update($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CategoryCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -114,7 +109,7 @@ abstract class AbstractMutateCategoryTermMutationResolver extends AbstractMutate
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some taxonomy term creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $taxonomyTermID = parent::create($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(CategoryCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $taxonomyTermID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

@@ -17,14 +17,8 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class DirectiveSchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\EnumType\DirectiveKindEnumTypeResolver|null
-     */
-    private $directiveKindEnumTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\Registries\FieldDirectiveResolverRegistryInterface|null
-     */
-    private $fieldDirectiveResolverRegistry;
+    private ?DirectiveKindEnumTypeResolver $directiveKindEnumTypeResolver = null;
+    private ?FieldDirectiveResolverRegistryInterface $fieldDirectiveResolverRegistry = null;
     protected final function getDirectiveKindEnumTypeResolver() : DirectiveKindEnumTypeResolver
     {
         if ($this->directiveKindEnumTypeResolver === null) {
@@ -59,44 +53,33 @@ class DirectiveSchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldReso
     }
     public function skipExposingFieldInSchema(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
     {
-        switch ($fieldName) {
-            case 'kind':
-                return \true;
-            default:
-                return parent::skipExposingFieldInSchema($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'kind' => \true,
+            default => parent::skipExposingFieldInSchema($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'kind':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'kind' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'kind':
-                return $this->__('The directive type (custom property)', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'kind' => $this->__('The directive type (custom property)', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Directive */
         $directive = $object;
-        switch ($fieldDataAccessor->getFieldName()) {
-            case 'kind':
-                return $directive->getKind();
-            default:
-                return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        }
+        return match ($fieldDataAccessor->getFieldName()) {
+            'kind' => $directive->getKind(),
+            default => parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore),
+        };
     }
     /**
      * Since the return type is known for all the fields in this
@@ -108,11 +91,9 @@ class DirectiveSchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldReso
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'kind':
-                return $this->getDirectiveKindEnumTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'kind' => $this->getDirectiveKindEnumTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

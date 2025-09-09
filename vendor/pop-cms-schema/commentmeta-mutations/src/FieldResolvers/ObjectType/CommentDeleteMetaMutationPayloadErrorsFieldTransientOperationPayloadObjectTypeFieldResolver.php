@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class CommentDeleteMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\UnionType\CommentDeleteMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $commentDeleteMetaMutationErrorPayloadUnionTypeResolver;
+    private ?CommentDeleteMetaMutationErrorPayloadUnionTypeResolver $commentDeleteMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getCommentDeleteMetaMutationErrorPayloadUnionTypeResolver() : CommentDeleteMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->commentDeleteMetaMutationErrorPayloadUnionTypeResolver === null) {

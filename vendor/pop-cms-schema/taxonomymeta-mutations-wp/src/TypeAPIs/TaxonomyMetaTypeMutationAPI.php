@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PoPCMSSchema\TaxonomyMetaMutationsWP\TypeAPIs;
 
+use PoPCMSSchema\MetaMutationsWP\TypeAPIs\EntityMetaTypeMutationAPITrait;
 use PoPCMSSchema\TaxonomyMetaMutations\TypeAPIs\AbstractTaxonomyMetaTypeMutationAPI;
 use WP_Error;
 
@@ -13,33 +14,31 @@ use function update_term_meta;
 
 class TaxonomyMetaTypeMutationAPI extends AbstractTaxonomyMetaTypeMutationAPI
 {
-    /**
-     * @param string|int $entityID
-     * @return int|false|\WP_Error
-     * @param mixed $value
-     */
-    protected function executeAddEntityMeta($entityID, string $key, $value, bool $single = false)
-    {
+    use EntityMetaTypeMutationAPITrait;
+
+    protected function executeAddEntityMeta(
+        string|int $entityID,
+        string $key,
+        mixed $value,
+        bool $single = false,
+    ): int|false|WP_Error {
         return add_term_meta((int) $entityID, $key, $value, $single);
     }
 
-    /**
-     * @param string|int $entityID
-     * @return int|bool|\WP_Error
-     * @param mixed $value
-     * @param mixed $prevValue
-     */
-    protected function executeUpdateEntityMeta($entityID, string $key, $value, $prevValue = null)
-    {
+    protected function executeUpdateEntityMeta(
+        string|int $entityID,
+        string $key,
+        mixed $value,
+        mixed $prevValue = null,
+    ): int|bool|WP_Error {
         return update_term_meta((int) $entityID, $key, $value, $prevValue ?? '');
     }
 
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected function executeDeleteEntityMeta($entityID, string $key, $value = null): bool
-    {
+    protected function executeDeleteEntityMeta(
+        string|int $entityID,
+        string $key,
+        mixed $value = null,
+    ): bool {
         return delete_term_meta((int) $entityID, $key, $value ?? '');
     }
 }

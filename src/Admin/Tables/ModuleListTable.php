@@ -33,14 +33,11 @@ class ModuleListTable extends AbstractItemListTable
 {
     use WithOpeningModuleDocInModalListTableTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\UserSettingsManagerInterface|null
-     */
-    private $userSettingsManager;
+    private ?UserSettingsManagerInterface $userSettingsManager = null;
 
     final protected function getUserSettingsManager(): UserSettingsManagerInterface
     {
-        return $this->userSettingsManager = $this->userSettingsManager ?? UserSettingsManagerFacade::getInstance();
+        return $this->userSettingsManager ??= UserSettingsManagerFacade::getInstance();
     }
 
     /**
@@ -194,7 +191,7 @@ class ModuleListTable extends AbstractItemListTable
      *
      * @return array<array<string,mixed>>
      */
-    public function getItems(int $per_page, int $page_number)
+    public function getItems(int $per_page, int $page_number): mixed
     {
         $results = $this->getAllItems();
         return array_splice(
@@ -389,10 +386,7 @@ class ModuleListTable extends AbstractItemListTable
         return '';
     }
 
-    /**
-     * @param \GatoGraphQL\GatoGraphQL\ObjectModels\AbstractDependedOnWordPressPlugin|\GatoGraphQL\GatoGraphQL\ObjectModels\AbstractDependedOnWordPressTheme $dependedPluginOrTheme
-     */
-    protected function getDependedPluginOrThemeHTML($dependedPluginOrTheme): string
+    protected function getDependedPluginOrThemeHTML(AbstractDependedOnWordPressPlugin|AbstractDependedOnWordPressTheme $dependedPluginOrTheme): string
     {
         return $dependedPluginOrTheme->url === ''
             ? $dependedPluginOrTheme->name

@@ -8,10 +8,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 class CMSHelperService extends AbstractBasicService implements \PoPCMSSchema\SchemaCommons\CMS\CMSHelperServiceInterface
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
-     */
-    private $cmsService;
+    private ?\PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface $cmsService = null;
     protected final function getCMSService() : \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface
     {
         if ($this->cmsService === null) {
@@ -23,7 +20,7 @@ class CMSHelperService extends AbstractBasicService implements \PoPCMSSchema\Sch
     }
     public function getLocalURLPath(string $url) : ?string
     {
-        if (\strncmp($url, $this->getCMSService()->getHomeURL(), \strlen($this->getCMSService()->getHomeURL())) === 0) {
+        if (\str_starts_with($url, $this->getCMSService()->getHomeURL())) {
             return GeneralUtils::getPath($url);
         }
         return null;

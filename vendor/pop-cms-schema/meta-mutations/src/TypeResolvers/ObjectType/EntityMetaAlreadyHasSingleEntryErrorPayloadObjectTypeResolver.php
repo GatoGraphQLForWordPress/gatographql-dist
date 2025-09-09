@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeResolver extends AbstractErrorPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\MetaMutations\RelationalTypeDataLoaders\ObjectType\EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader|null
-     */
-    private $entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader;
+    private ?EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader $entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader = null;
     protected final function getEntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader() : EntityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader
     {
         if ($this->entityMetaAlreadyHasSingleEntryErrorPayloadObjectTypeDataLoader === null) {

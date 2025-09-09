@@ -19,10 +19,7 @@ class MenuTypeAPI extends AbstractBasicService implements MenuTypeAPIInterface
 {
     public const HOOK_QUERY = __CLASS__ . ':query';
 
-    /**
-     * @param string|int $menuID
-     */
-    public function getMenu($menuID): ?object
+    public function getMenu(string|int $menuID): ?object
     {
         $object = wp_get_nav_menu_object($menuID);
         // If the object is not found, it returns `false`. Return `null` instead
@@ -33,9 +30,8 @@ class MenuTypeAPI extends AbstractBasicService implements MenuTypeAPIInterface
     }
     /**
      * @return MenuItem[]
-     * @param string|int|object $menuObjectOrID
      */
-    public function getMenuItems($menuObjectOrID): array
+    public function getMenuItems(string|int|object $menuObjectOrID): array
     {
         /** @var string|int|WP_Term $menuObjectOrID */
         $menuItems = wp_get_nav_menu_items($menuObjectOrID);
@@ -65,18 +61,12 @@ class MenuTypeAPI extends AbstractBasicService implements MenuTypeAPIInterface
         );
     }
 
-    /**
-     * @return string|int
-     */
-    public function getMenuID(object $menu)
+    public function getMenuID(object $menu): string|int
     {
         return $menu->term_id;
     }
 
-    /**
-     * @return string|int|null
-     */
-    public function getMenuIDFromMenuName(string $menuName)
+    public function getMenuIDFromMenuName(string $menuName): string|int|null
     {
         $menuObject = $this->getMenuObject($menuName);
         if ($menuObject === null) {

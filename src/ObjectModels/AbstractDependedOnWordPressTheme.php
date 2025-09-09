@@ -6,35 +6,17 @@ namespace GatoGraphQL\GatoGraphQL\ObjectModels;
 
 abstract class AbstractDependedOnWordPressTheme
 {
-    /**
-     * @readonly
-     * @var string
-     */
-    public $name;
-    /**
-     * @readonly
-     * @var string
-     */
-    public $slug;
-    /**
-     * @var string[]
-     * @readonly
-     */
-    public $alternativeSlugs = [];
-    /**
-     * @readonly
-     * @var string
-     */
-    public $url;
+    public readonly string $url;
 
     /**
      * @param string[] $alternativeSlugs
      */
-    public function __construct(string $name, string $slug, array $alternativeSlugs = [], ?string $url = null)
-    {
-        $this->name = $name;
-        $this->slug = $slug;
-        $this->alternativeSlugs = $alternativeSlugs;
+    public function __construct(
+        public readonly string $name,
+        public readonly string $slug,
+        public readonly array $alternativeSlugs = [],
+        ?string $url = null,
+    ) {
         $this->url = $this->calculateURL($url, $slug);
     }
 

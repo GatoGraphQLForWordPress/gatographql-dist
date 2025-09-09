@@ -12,15 +12,13 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\DictionaryObjectType
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+use PoP\Root\Exception\ShouldNotHappenException;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use stdClass;
 /** @internal */
 trait MutationPayloadObjectsObjectTypeFieldResolverTrait
 {
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\MutationPayloadObjectsInputObjectTypeResolver|null
-     */
-    private $mutationPayloadObjectsInputObjectTypeResolver;
+    private ?MutationPayloadObjectsInputObjectTypeResolver $mutationPayloadObjectsInputObjectTypeResolver = null;
     protected function getMutationPayloadObjectsInputObjectTypeResolver() : MutationPayloadObjectsInputObjectTypeResolver
     {
         if ($this->mutationPayloadObjectsInputObjectTypeResolver === null) {
@@ -43,27 +41,32 @@ trait MutationPayloadObjectsObjectTypeFieldResolverTrait
     }
     protected function getMutationPayloadObjectsFieldArgTypeModifiers(string $fieldArgName) : ?int
     {
-        switch ($fieldArgName) {
-            case MutationInputProperties::INPUT:
-                return SchemaTypeModifiers::MANDATORY;
-            default:
-                return null;
-        }
+        return match ($fieldArgName) {
+            MutationInputProperties::INPUT => SchemaTypeModifiers::MANDATORY,
+            default => null,
+        };
     }
-    /**
-     * @return mixed
-     */
-    protected function resolveMutationPayloadObjectsValue(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor)
+    protected function resolveMutationPayloadObjectsValue(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor) : mixed
     {
         $fieldName = $fieldDataAccessor->getFieldName();
-        /** @var AbstractObjectMutationPayloadObjectTypeResolver */
+        /**
+         * For PayloadObjects the type will always be
+         * AbstractObjectMutationPayloadObjectTypeResolver.
+         *
+         * But as we define for both Payload/non-Payload objects
+         * on the same `getFieldTypeResolver` function,
+         * check that that's the type
+         */
         $objectMutationPayloadObjectTypeResolver = $this->getFieldTypeResolver($objectTypeResolver, $fieldName);
+        if (!$objectMutationPayloadObjectTypeResolver instanceof AbstractObjectMutationPayloadObjectTypeResolver) {
+            throw new ShouldNotHappenException('Object mutation payload object type resolver must be an instance of ' . AbstractObjectMutationPayloadObjectTypeResolver::class);
+        }
         /** @var DictionaryObjectTypeDataLoaderInterface */
         $dictionaryObjectTypeDataLoader = $objectMutationPayloadObjectTypeResolver->getRelationalTypeDataLoader();
         return $this->retrieveInputIDsFromObjectDictionary($dictionaryObjectTypeDataLoader->getObjectClass(), $fieldDataAccessor);
     }
     /**
-     * @return AbstractObjectMutationPayloadObjectTypeResolver
+     * @return AbstractObjectMutationPayloadObjectTypeResolver|ConcreteTypeResolverInterface
      */
     public abstract function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface;
     /**
@@ -82,9 +85,7 @@ trait MutationPayloadObjectsObjectTypeFieldResolverTrait
          * payload objects, just created)
          */
         $objectDictionary = ObjectDictionaryFacade::getInstance();
-        $ids = \array_filter($ids, function ($id) use($objectDictionary, $objectClass) {
-            return $objectDictionary->has($objectClass, $id);
-        });
+        $ids = \array_filter($ids, fn(string|int $id) => $objectDictionary->has($objectClass, $id));
         return $ids;
     }
 }

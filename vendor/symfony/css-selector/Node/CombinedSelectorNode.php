@@ -22,18 +22,9 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\CssSelector\Node;
  */
 class CombinedSelectorNode extends AbstractNode
 {
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $selector;
-    /**
-     * @var string
-     */
-    private $combinator;
-    /**
-     * @var \Symfony\Component\CssSelector\Node\NodeInterface
-     */
-    private $subSelector;
+    private NodeInterface $selector;
+    private string $combinator;
+    private NodeInterface $subSelector;
     public function __construct(NodeInterface $selector, string $combinator, NodeInterface $subSelector)
     {
         $this->selector = $selector;

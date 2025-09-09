@@ -13,12 +13,9 @@ class SchemaConfigSchemaCategoriesBlock extends AbstractSchemaConfigCustomizable
     use MainPluginBlockTrait;
     use OptionsBlockTrait;
 
-    public const ATTRIBUTE_NAME_INCLUDED_CATEGORY_TAXONOMIES = 'includedCategoryTaxonomies';
+    public final const ATTRIBUTE_NAME_INCLUDED_CATEGORY_TAXONOMIES = 'includedCategoryTaxonomies';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\WPDataModel\WPDataModelProviderInterface|null
-     */
-    private $wpDataModelProvider;
+    private ?WPDataModelProviderInterface $wpDataModelProvider = null;
 
     final protected function getWPDataModelProvider(): WPDataModelProviderInterface
     {

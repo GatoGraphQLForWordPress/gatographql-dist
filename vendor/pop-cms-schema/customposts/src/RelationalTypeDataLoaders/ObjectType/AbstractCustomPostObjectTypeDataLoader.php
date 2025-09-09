@@ -5,22 +5,16 @@ namespace PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType;
 
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver;
-use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPSchema\SchemaCommons\Constants\QueryOptions;
+use PoPCMSSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableDataLoaderTrait;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
 /** @internal */
 abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
 {
+    use ObjectTypeQueryableDataLoaderTrait;
     public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\FilterCustomPostStatusEnumTypeResolver|null
-     */
-    private $filterCustomPostStatusEnumTypeResolver;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?FilterCustomPostStatusEnumTypeResolver $filterCustomPostStatusEnumTypeResolver = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -63,15 +57,6 @@ abstract class AbstractCustomPostObjectTypeDataLoader extends AbstractObjectType
     protected function getOrderDefault() : string
     {
         return 'DESC';
-    }
-    /**
-     * @param array<string,mixed> $query
-     * @return array<string|int>
-     */
-    public function executeQueryIDs(array $query) : array
-    {
-        $options = [QueryOptions::RETURN_TYPE => ReturnTypes::IDS];
-        return $this->executeQuery($query, $options);
     }
     /**
      * @param array<string,mixed> $query_args

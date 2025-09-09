@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootAddPostTagTermMetaMutationErrorPayloadUnionTypeResolver extends AbstractRootAddTagTermMetaMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTagMetaMutations\RelationalTypeDataLoaders\UnionType\RootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader $rootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader() : RootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootAddPostTagTermMetaMutationErrorPayloadUnionTypeDataLoader === null) {

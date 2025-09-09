@@ -19,10 +19,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Node\No
  */
 class SerializedParsedExpression extends ParsedExpression
 {
-    /**
-     * @var string
-     */
-    private $nodes;
+    private string $nodes;
     /**
      * @param string $expression An expression
      * @param string $nodes      The serialized nodes for the expression

@@ -17,10 +17,8 @@ class UnionCustomPostTypesFilterInput extends AbstractValueToQueryFilterInput
     }
     /**
      * Make sure the provided postTypes have been whitelisted.
-     * @param mixed $value
-     * @return mixed
      */
-    protected function getValue($value)
+    protected function getValue(mixed $value) : mixed
     {
         /** @var CustomPostsModuleConfiguration */
         $moduleConfiguration = App::getModule(CustomPostsModule::class)->getConfiguration();

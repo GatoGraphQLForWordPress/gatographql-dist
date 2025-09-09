@@ -13,14 +13,8 @@ use PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface;
 abstract class AbstractTaxonomyMetaMutationResolverHookSet extends AbstractMetaMutationResolverHookSet
 {
     use MutateTaxonomyTermMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMetaMutations\TypeAPIs\TaxonomyMetaTypeMutationAPIInterface|null
-     */
-    private $taxonomyMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\TaxonomyMeta\TypeAPIs\TaxonomyMetaTypeAPIInterface|null
-     */
-    private $taxonomyMetaTypeAPI;
+    private ?TaxonomyMetaTypeMutationAPIInterface $taxonomyMetaTypeMutationAPI = null;
+    private ?TaxonomyMetaTypeAPIInterface $taxonomyMetaTypeAPI = null;
     protected final function getTaxonomyMetaTypeMutationAPI() : TaxonomyMetaTypeMutationAPIInterface
     {
         if ($this->taxonomyMetaTypeMutationAPI === null) {

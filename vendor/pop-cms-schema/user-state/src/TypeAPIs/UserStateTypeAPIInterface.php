@@ -8,8 +8,5 @@ interface UserStateTypeAPIInterface
 {
     public function isUserLoggedIn() : bool;
     public function getCurrentUser() : ?object;
-    /**
-     * @return string|int|null
-     */
-    public function getCurrentUserID();
+    public function getCurrentUserID() : string|int|null;
 }

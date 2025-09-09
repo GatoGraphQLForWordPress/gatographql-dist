@@ -28,10 +28,7 @@ class NodeExtension extends AbstractExtension
     public const ELEMENT_NAME_IN_LOWER_CASE = 1;
     public const ATTRIBUTE_NAME_IN_LOWER_CASE = 2;
     public const ATTRIBUTE_VALUE_IN_LOWER_CASE = 4;
-    /**
-     * @var int
-     */
-    private $flags;
+    private int $flags;
     public function __construct(int $flags = 0)
     {
         $this->flags = $flags;
@@ -39,7 +36,7 @@ class NodeExtension extends AbstractExtension
     /**
      * @return $this
      */
-    public function setFlag(int $flag, bool $on)
+    public function setFlag(int $flag, bool $on) : static
     {
         if ($on && !$this->hasFlag($flag)) {
             $this->flags += $flag;
@@ -55,7 +52,7 @@ class NodeExtension extends AbstractExtension
     }
     public function getNodeTranslators() : array
     {
-        return ['Selector' => \Closure::fromCallable([$this, 'translateSelector']), 'CombinedSelector' => \Closure::fromCallable([$this, 'translateCombinedSelector']), 'Negation' => \Closure::fromCallable([$this, 'translateNegation']), 'Function' => \Closure::fromCallable([$this, 'translateFunction']), 'Pseudo' => \Closure::fromCallable([$this, 'translatePseudo']), 'Attribute' => \Closure::fromCallable([$this, 'translateAttribute']), 'Class' => \Closure::fromCallable([$this, 'translateClass']), 'Hash' => \Closure::fromCallable([$this, 'translateHash']), 'Element' => \Closure::fromCallable([$this, 'translateElement'])];
+        return ['Selector' => $this->translateSelector(...), 'CombinedSelector' => $this->translateCombinedSelector(...), 'Negation' => $this->translateNegation(...), 'Function' => $this->translateFunction(...), 'Pseudo' => $this->translatePseudo(...), 'Attribute' => $this->translateAttribute(...), 'Class' => $this->translateClass(...), 'Hash' => $this->translateHash(...), 'Element' => $this->translateElement(...)];
     }
     public function translateSelector(Node\SelectorNode $node, Translator $translator) : XPathExpr
     {

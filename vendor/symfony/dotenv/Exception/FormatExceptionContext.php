@@ -16,22 +16,10 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Exception;
  */
 final class FormatExceptionContext
 {
-    /**
-     * @var string
-     */
-    private $data;
-    /**
-     * @var string
-     */
-    private $path;
-    /**
-     * @var int
-     */
-    private $lineno;
-    /**
-     * @var int
-     */
-    private $cursor;
+    private string $data;
+    private string $path;
+    private int $lineno;
+    private int $cursor;
     public function __construct(string $data, string $path, int $lineno, int $cursor)
     {
         $this->data = $data;

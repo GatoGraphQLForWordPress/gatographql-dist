@@ -9,23 +9,20 @@ abstract class AbstractDefinitionPersistence implements \PoP\Definitions\Definit
     /**
      * @var array<string,array<string,string>>
      */
-    protected $definitions = [];
+    protected array $definitions = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $names = [];
+    protected array $names = [];
     /**
      * @var array<string,mixed[]>
      */
-    protected $resolverData = [];
-    /**
-     * @var bool
-     */
-    protected $addedDefinition = \false;
+    protected array $resolverData = [];
+    protected bool $addedDefinition = \false;
     /**
      * @var array<string,DefinitionResolverInterface>
      */
-    protected $definition_resolvers = [];
+    protected array $definition_resolvers = [];
     public function __construct()
     {
         // Comment Leo 03/11/2017: added a DB to avoid the website from producing errors

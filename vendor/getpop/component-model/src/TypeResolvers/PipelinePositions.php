@@ -30,12 +30,12 @@ namespace PoP\ComponentModel\TypeResolvers;
  */
 class PipelinePositions
 {
-    public const BEGINNING = 'beginning';
-    public const BEFORE_VALIDATE = 'before-validate';
-    public const AFTER_VALIDATE = 'after-validate';
-    public const BEFORE_RESOLVE = 'before-resolve';
-    public const AFTER_RESOLVE = 'after-resolve';
-    public const BEFORE_SERIALIZE = 'before-serialize';
-    public const AFTER_SERIALIZE = 'after-serialize';
-    public const END = 'end';
+    public final const BEGINNING = 'beginning';
+    public final const BEFORE_VALIDATE = 'before-validate';
+    public final const AFTER_VALIDATE = 'after-validate';
+    public final const BEFORE_RESOLVE = 'before-resolve';
+    public final const AFTER_RESOLVE = 'after-resolve';
+    public final const BEFORE_SERIALIZE = 'before-serialize';
+    public final const AFTER_SERIALIZE = 'after-serialize';
+    public final const END = 'end';
 }

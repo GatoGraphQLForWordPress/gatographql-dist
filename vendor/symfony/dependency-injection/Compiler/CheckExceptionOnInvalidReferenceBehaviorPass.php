@@ -22,14 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $serviceLocatorContextIds = [];
+    protected bool $skipScalars = \true;
+    private array $serviceLocatorContextIds = [];
     /**
      * @return void
      */
@@ -46,11 +40,7 @@ class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
             $this->serviceLocatorContextIds = [];
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);
@@ -93,29 +83,16 @@ class CheckExceptionOnInvalidReferenceBehaviorPass extends AbstractRecursivePass
                 continue;
             }
             $lev = \levenshtein($id, $knownId);
-            if ($lev <= \strlen($id) / 3 || \strpos($knownId, $id) !== \false) {
+            if ($lev <= \strlen($id) / 3 || \str_contains($knownId, $id)) {
                 $alternatives[] = $knownId;
             }
         }
         $pass = new class extends AbstractRecursivePass
         {
-            /**
-             * @var \Symfony\Component\DependencyInjection\Reference
-             */
-            public $ref;
-            /**
-             * @var string
-             */
-            public $sourceId;
-            /**
-             * @var mixed[]
-             */
-            public $alternatives;
-            /**
-             * @param mixed $value
-             * @return mixed
-             */
-            public function processValue($value, bool $isRoot = \false)
+            public Reference $ref;
+            public string $sourceId;
+            public array $alternatives;
+            public function processValue(mixed $value, bool $isRoot = \false) : mixed
             {
                 if ($this->ref !== $value) {
                     return parent::processValue($value, $isRoot);

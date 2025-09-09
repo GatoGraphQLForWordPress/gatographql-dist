@@ -41,46 +41,30 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
 
     public function getName(string $module): string
     {
-        switch ($module) {
-            case self::AUTOMATION:
-                return \__('Automation', 'gatographql');
-            case self::BRICKS:
-                return \__('Bricks', 'gatographql');
-            case self::ELEMENTOR:
-                return \__('Elementor', 'gatographql');
-            case self::EVENTS_MANAGER:
-                return \__('Events Manager', 'gatographql');
-            case self::MULTILINGUALPRESS:
-                return \__('MultilingualPress', 'gatographql');
-            case self::POLYLANG:
-                return \__('Polylang', 'gatographql');
-            case self::TRANSLATION:
-                return \__('Translation', 'gatographql');
-            default:
-                return $module;
-        }
+        return match ($module) {
+            self::AUTOMATION => \__('Automation', 'gatographql'),
+            self::BRICKS => \__('Bricks', 'gatographql'),
+            self::ELEMENTOR => \__('Elementor', 'gatographql'),
+            self::EVENTS_MANAGER => \__('Events Manager', 'gatographql'),
+            self::MULTILINGUALPRESS => \__('MultilingualPress', 'gatographql'),
+            self::POLYLANG => \__('Polylang', 'gatographql'),
+            self::TRANSLATION => \__('Translation', 'gatographql'),
+            default => $module,
+        };
     }
 
     public function getDescription(string $module): string
     {
-        switch ($module) {
-            case self::AUTOMATION:
-                return \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql');
-            case self::BRICKS:
-                return \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql');
-            case self::ELEMENTOR:
-                return \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql');
-            case self::EVENTS_MANAGER:
-                return \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql');
-            case self::MULTILINGUALPRESS:
-                return \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql');
-            case self::POLYLANG:
-                return \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql');
-            case self::TRANSLATION:
-                return \__('Translate content to multiple languages using the service provider of your choice, among ChatGPT, Claude, DeepSeek, Mistral AI, DeepL, and Google Translate.', 'gatographql');
-            default:
-                return parent::getDescription($module);
-        }
+        return match ($module) {
+            self::AUTOMATION => \__('Use GraphQL to automate tasks in your app: Execute queries when some event happens, chain queries, and schedule and trigger queries via WP-Cron. (The Internal GraphQL Server extension is required).', 'gatographql'),
+            self::BRICKS => \__('Integration with plugin "Bricks", adding fields to parse and update data in Bricks pages and templates.', 'gatographql'),
+            self::ELEMENTOR => \__('Integration with plugin "Elementor", adding fields to parse and update data in Elementor pages and templates.', 'gatographql'),
+            self::EVENTS_MANAGER => \__('Integration with plugin "Events Manager", adding fields to the schema to fetch event data.', 'gatographql'),
+            self::MULTILINGUALPRESS => \__('Integration with plugin "MultilingualPress", adding fields to the schema to fetch multilingual data.', 'gatographql'),
+            self::POLYLANG => \__('Integration with plugin "Polylang", adding fields to the schema to fetch multilingual data.', 'gatographql'),
+            self::TRANSLATION => \__('Translate content to multiple languages using the service provider of your choice, among ChatGPT, Claude, DeepSeek, Mistral AI, DeepL, and Google Translate.', 'gatographql'),
+            default => parent::getDescription($module),
+        };
     }
 
     public function getPriority(): int
@@ -92,24 +76,16 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
     {
         $pluginURL = PluginApp::getMainPlugin()->getPluginURL();
         $imagePathURL = $pluginURL . 'assets/img/extension-logos';
-        switch ($module) {
-            case self::AUTOMATION:
-                return $imagePathURL . '/automation.svg';
-            case self::BRICKS:
-                return $imagePathURL . '/bricks.svg';
-            case self::ELEMENTOR:
-                return $imagePathURL . '/elementor.svg';
-            case self::EVENTS_MANAGER:
-                return $imagePathURL . '/events-manager.webp';
-            case self::MULTILINGUALPRESS:
-                return $imagePathURL . '/multilingualpress.webp';
-            case self::POLYLANG:
-                return $imagePathURL . '/polylang.webp';
-            case self::TRANSLATION:
-                return $imagePathURL . '/translation.svg';
-            default:
-                return parent::getLogoURL($module);
-        }
+        return match ($module) {
+            self::AUTOMATION => $imagePathURL . '/automation.svg',
+            self::BRICKS => $imagePathURL . '/bricks.svg',
+            self::ELEMENTOR => $imagePathURL . '/elementor.svg',
+            self::EVENTS_MANAGER => $imagePathURL . '/events-manager.webp',
+            self::MULTILINGUALPRESS => $imagePathURL . '/multilingualpress.webp',
+            self::POLYLANG => $imagePathURL . '/polylang.webp',
+            self::TRANSLATION => $imagePathURL . '/translation.svg',
+            default => parent::getLogoURL($module),
+        };
     }
 
     /**
@@ -117,45 +93,37 @@ class PremiumBundleExtensionModuleResolver extends AbstractBundleExtensionModule
      */
     public function getBundledExtensionModules(string $module): array
     {
-        switch ($module) {
-            case self::AUTOMATION:
-                return [
-                    PremiumExtensionModuleResolver::AUTOMATION,
-                ];
-            case self::BRICKS:
-                return [
-                    PremiumExtensionModuleResolver::BRICKS,
-                ];
-            case self::ELEMENTOR:
-                return [
-                    PremiumExtensionModuleResolver::ELEMENTOR,
-                ];
-            case self::EVENTS_MANAGER:
-                return [
-                    PremiumExtensionModuleResolver::EVENTS_MANAGER,
-                ];
-            case self::MULTILINGUALPRESS:
-                return [
-                    PremiumExtensionModuleResolver::MULTILINGUALPRESS,
-                ];
-            case self::POLYLANG:
-                return [
-                    PremiumExtensionModuleResolver::POLYLANG,
-                ];
-            case self::TRANSLATION:
-                return [
-                    PremiumExtensionModuleResolver::CHATGPT_TRANSLATION,
-                    PremiumExtensionModuleResolver::CLAUDE_TRANSLATION,
-                    PremiumExtensionModuleResolver::DEEPL,
-                    PremiumExtensionModuleResolver::DEEPSEEK_TRANSLATION,
-                    PremiumExtensionModuleResolver::GOOGLE_TRANSLATE,
-                    PremiumExtensionModuleResolver::MISTRALAI_TRANSLATION,
-                    PremiumExtensionModuleResolver::OPENROUTER_TRANSLATION,
-                    PremiumExtensionModuleResolver::TRANSLATION,
-                ];
-            default:
-                return [];
-        }
+        return match ($module) {
+            self::AUTOMATION => [
+                PremiumExtensionModuleResolver::AUTOMATION,
+            ],
+            self::BRICKS => [
+                PremiumExtensionModuleResolver::BRICKS,
+            ],
+            self::ELEMENTOR => [
+                PremiumExtensionModuleResolver::ELEMENTOR,
+            ],
+            self::EVENTS_MANAGER => [
+                PremiumExtensionModuleResolver::EVENTS_MANAGER,
+            ],
+            self::MULTILINGUALPRESS => [
+                PremiumExtensionModuleResolver::MULTILINGUALPRESS,
+            ],
+            self::POLYLANG => [
+                PremiumExtensionModuleResolver::POLYLANG,
+            ],
+            self::TRANSLATION => [
+                PremiumExtensionModuleResolver::CHATGPT_TRANSLATION,
+                PremiumExtensionModuleResolver::CLAUDE_TRANSLATION,
+                PremiumExtensionModuleResolver::DEEPL,
+                PremiumExtensionModuleResolver::DEEPSEEK_TRANSLATION,
+                PremiumExtensionModuleResolver::GOOGLE_TRANSLATE,
+                PremiumExtensionModuleResolver::MISTRALAI_TRANSLATION,
+                PremiumExtensionModuleResolver::OPENROUTER_TRANSLATION,
+                PremiumExtensionModuleResolver::TRANSLATION,
+            ],
+            default => [],
+        };
     }
 
     /**

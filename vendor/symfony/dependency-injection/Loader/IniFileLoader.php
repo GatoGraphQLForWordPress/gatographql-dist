@@ -20,11 +20,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class IniFileLoader extends FileLoader
 {
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         $path = $this->locator->locate($resource);
         $this->container->fileExists($path);
@@ -38,7 +34,7 @@ class IniFileLoader extends FileLoader
         if (isset($result['parameters']) && \is_array($result['parameters'])) {
             foreach ($result['parameters'] as $key => $value) {
                 if (\is_array($value)) {
-                    $this->container->setParameter($key, \array_map(\Closure::fromCallable([$this, 'phpize']), $value));
+                    $this->container->setParameter($key, \array_map($this->phpize(...), $value));
                 } else {
                     $this->container->setParameter($key, $this->phpize($value));
                 }
@@ -51,10 +47,7 @@ class IniFileLoader extends FileLoader
         }
         return null;
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if (!\is_string($resource)) {
             return \false;
@@ -68,29 +61,21 @@ class IniFileLoader extends FileLoader
      * Note that the following features are not supported:
      *  * strings with escaped quotes are not supported "foo\"bar";
      *  * string concatenation ("foo" "bar").
-     * @return mixed
      */
-    private function phpize(string $value)
+    private function phpize(string $value) : mixed
     {
         // trim on the right as comments removal keep whitespaces
         if ($value !== ($v = \rtrim($value))) {
             $value = '""' === \substr_replace($v, '', 1, -1) ? \substr($v, 1, -1) : $v;
         }
         $lowercaseValue = \strtolower($value);
-        switch (\true) {
-            case \defined($value):
-                return \constant($value);
-            case 'yes' === $lowercaseValue:
-            case 'on' === $lowercaseValue:
-                return \true;
-            case 'no' === $lowercaseValue:
-            case 'off' === $lowercaseValue:
-            case 'none' === $lowercaseValue:
-                return \false;
-            case isset($value[1]) && ("'" === $value[0] && "'" === $value[\strlen($value) - 1] || '"' === $value[0] && '"' === $value[\strlen($value) - 1]):
-                return \substr($value, 1, -1);
-            default:
-                return XmlUtils::phpize($value);
-        }
+        return match (\true) {
+            \defined($value) => \constant($value),
+            'yes' === $lowercaseValue, 'on' === $lowercaseValue => \true,
+            'no' === $lowercaseValue, 'off' === $lowercaseValue, 'none' === $lowercaseValue => \false,
+            isset($value[1]) && ("'" === $value[0] && "'" === $value[\strlen($value) - 1] || '"' === $value[0] && '"' === $value[\strlen($value) - 1]) => \substr($value, 1, -1),
+            // quoted string
+            default => XmlUtils::phpize($value),
+        };
     }
 }

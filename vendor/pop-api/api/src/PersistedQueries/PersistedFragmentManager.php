@@ -10,11 +10,11 @@ class PersistedFragmentManager implements \PoPAPI\API\PersistedQueries\Persisted
     /**
      * @var array<string,string>
      */
-    protected $persistedFragments = [];
+    protected array $persistedFragments = [];
     /**
      * @var array<string,array<string,string>>
      */
-    protected $persistedFragmentsForSchema = [];
+    protected array $persistedFragmentsForSchema = [];
     /**
      * @return array<string,string>
      */

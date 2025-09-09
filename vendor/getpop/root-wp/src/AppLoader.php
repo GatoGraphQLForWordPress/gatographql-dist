@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace PoP\RootWP;
 
+use GatoGraphQL\GatoGraphQL\StaticHelpers\WPCLIHelpers;
 use PoP\Root\App;
 use PoP\Root\AppLoader as UpstreamAppLoader;
+
+use function is_admin;
 
 class AppLoader extends UpstreamAppLoader
 {
@@ -15,16 +18,24 @@ class AppLoader extends UpstreamAppLoader
      */
     public function bootApplicationModules(): void
     {
-        foreach ($this->getBootApplicationHooks() as $actionHook) {
+        foreach ($this->getBootApplicationActionHooks() as $actionHook) {
             App::addAction(
                 $actionHook,
-                function () {
-                    return parent::bootApplicationModules();
-                },
+                fn () => parent::bootApplicationModules(),
                 /**
                  * Execute at the beginning, only to tell developers that,
                  * starting from these hooks on, the GraphQL server is ready
                  */
+                0
+            );
+        }
+        foreach ($this->getBootApplicationFilterHooks() as $filterHook) {
+            App::addFilter(
+                $filterHook,
+                function (mixed $value): mixed {
+                    parent::bootApplicationModules();
+                    return $value;
+                },
                 0
             );
         }
@@ -41,22 +52,30 @@ class AppLoader extends UpstreamAppLoader
      * Watch out:
      *
      * - "wp" doesn't trigger in the admin() => use "wp_loaded" instead.
-     * - "wp" doesn't trigger in REST => use "rest_api_init" instead.
+     * - "wp" doesn't trigger in REST => use "rest_jsonp_enabled" instead.
      *
      * (Eg for the latter: when editing an ACL in the WordPress editor
      * and clicking on Update, it uses a REST call.)
      *
      * Because we don't know yet if the current request is a REST call or not
      * (must wait until hook "parse_request" for that), simply
-     * load the hook for both 'rest_api_init' and 'wp', knowing
+     * load the hook for both 'rest_jsonp_enabled' and 'wp', knowing
      * that only one of them will be called anyway.
      *
      * @see https://stackoverflow.com/questions/41101294/check-whether-request-is-wp-rest-api-request
      *
      * @return string[]
      */
-    protected function getBootApplicationHooks(): array
+    protected function getBootApplicationActionHooks(): array
     {
-        return \is_admin() ? [AppHooks::BOOT_APP_IN_ADMIN] : [AppHooks::BOOT_APP_IN_REST, AppHooks::BOOT_APP_IN_FRONTEND];
+        return (is_admin() || WPCLIHelpers::isWPCLIActive()) ? [AppHooks::BOOT_APP_IN_ADMIN] : [AppHooks::BOOT_APP_IN_FRONTEND];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getBootApplicationFilterHooks(): array
+    {
+        return (is_admin() || WPCLIHelpers::isWPCLIActive()) ? [] : [AppHooks::BOOT_APP_IN_REST];
     }
 }

@@ -103,6 +103,7 @@ return array(
     'PoPCMSSchema\\Meta\\' => array($vendorDir . '/pop-cms-schema/meta/src'),
     'PoPCMSSchema\\MetaQueryWP\\' => array($vendorDir . '/pop-cms-schema/metaquery-wp/src'),
     'PoPCMSSchema\\MetaMutations\\' => array($vendorDir . '/pop-cms-schema/meta-mutations/src'),
+    'PoPCMSSchema\\MetaMutationsWP\\' => array($vendorDir . '/pop-cms-schema/meta-mutations-wp/src'),
     'PoPCMSSchema\\Menus\\' => array($vendorDir . '/pop-cms-schema/menus/src'),
     'PoPCMSSchema\\MenusWP\\' => array($vendorDir . '/pop-cms-schema/menus-wp/src'),
     'PoPCMSSchema\\Media\\' => array($vendorDir . '/pop-cms-schema/media/src'),

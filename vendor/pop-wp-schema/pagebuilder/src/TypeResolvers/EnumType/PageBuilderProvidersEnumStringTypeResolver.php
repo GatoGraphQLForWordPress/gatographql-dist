@@ -9,10 +9,7 @@ use PoPSchema\SchemaCommons\TypeResolvers\ScalarType\AbstractEnumStringScalarTyp
 
 class PageBuilderProvidersEnumStringTypeResolver extends AbstractEnumStringScalarTypeResolver
 {
-    /**
-     * @var \PoPWPSchema\PageBuilder\Services\PageBuilderServiceInterface|null
-     */
-    private $pageBuilderService;
+    private ?PageBuilderServiceInterface $pageBuilderService = null;
 
     final protected function getPageBuilderService(): PageBuilderServiceInterface
     {

@@ -12,9 +12,8 @@ trait CreateTaxonomyTermMutationResolverTrait
 {
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         return $this->create($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -22,7 +21,7 @@ trait CreateTaxonomyTermMutationResolverTrait
      * @return string|int The ID of the created entity
      * @throws TaxonomyTermCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    protected abstract function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    protected abstract function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int;
     public function validate(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $this->validateCreateErrors($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

@@ -30,11 +30,8 @@ class QueryASTTransformationService extends AbstractBasicService implements \PoP
      *
      * @var SplObjectStorage<Document,array<string,RelationalField>>
      */
-    private $fieldInstanceContainer;
-    /**
-     * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
-     */
-    private $astNodeDuplicatorService;
+    private SplObjectStorage $fieldInstanceContainer;
+    private ?ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
     protected final function getASTNodeDuplicatorService() : ASTNodeDuplicatorServiceInterface
     {
         if ($this->astNodeDuplicatorService === null) {
@@ -242,16 +239,13 @@ class QueryASTTransformationService extends AbstractBasicService implements \PoP
         if ($fieldsOrFragmentBonds === []) {
             return 0;
         }
-        $depths = \array_map(function ($fieldOrFragmentBond) use($fragments) {
-            return $this->getFieldOrFragmentBondDepth(1, $fieldOrFragmentBond, $fragments);
-        }, $fieldsOrFragmentBonds);
+        $depths = \array_map(fn(FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1, $fieldOrFragmentBond, $fragments), $fieldsOrFragmentBonds);
         return max($depths);
     }
     /**
      * @param Fragment[] $fragments
-     * @param \PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface|\PoP\GraphQLParser\Spec\Parser\Ast\FragmentBondInterface $fieldOrFragmentBond
      */
-    protected function getFieldOrFragmentBondDepth(int $accumulator, $fieldOrFragmentBond, array $fragments) : int
+    protected function getFieldOrFragmentBondDepth(int $accumulator, FieldInterface|FragmentBondInterface $fieldOrFragmentBond, array $fragments) : int
     {
         if ($fieldOrFragmentBond instanceof LeafField) {
             // Reached last level
@@ -267,9 +261,7 @@ class QueryASTTransformationService extends AbstractBasicService implements \PoP
             if ($fieldsOrFragmentBonds === []) {
                 return $accumulator;
             }
-            $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
-                return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
-            }, $fieldsOrFragmentBonds);
+            $depths = \array_map(fn(FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments), $fieldsOrFragmentBonds);
             return max($depths);
         }
         /**
@@ -289,9 +281,7 @@ class QueryASTTransformationService extends AbstractBasicService implements \PoP
             if ($fieldsOrFragmentBonds === []) {
                 return $accumulator;
             }
-            $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
-                return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
-            }, $fieldsOrFragmentBonds);
+            $depths = \array_map(fn(FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments), $fieldsOrFragmentBonds);
             return max($depths);
         }
         /** @var FragmentReference */
@@ -307,9 +297,7 @@ class QueryASTTransformationService extends AbstractBasicService implements \PoP
         if ($fieldsOrFragmentBonds === []) {
             return $accumulator;
         }
-        $depths = \array_map(function ($fieldOrFragmentBond) use($accumulator, $fragments) {
-            return $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments);
-        }, $fieldsOrFragmentBonds);
+        $depths = \array_map(fn(FieldInterface|FragmentBondInterface $fieldOrFragmentBond) => $this->getFieldOrFragmentBondDepth(1 + $accumulator, $fieldOrFragmentBond, $fragments), $fieldsOrFragmentBonds);
         return max($depths);
     }
     /**

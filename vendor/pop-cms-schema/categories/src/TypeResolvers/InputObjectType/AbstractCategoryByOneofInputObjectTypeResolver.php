@@ -10,14 +10,11 @@ abstract class AbstractCategoryByOneofInputObjectTypeResolver extends AbstractTa
 {
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case InputProperties::ID:
-                return $this->__('Query by category ID', 'categories');
-            case InputProperties::SLUG:
-                return $this->__('Query by category slug', 'categories');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            InputProperties::ID => $this->__('Query by category ID', 'categories'),
+            InputProperties::SLUG => $this->__('Query by category slug', 'categories'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     protected function getTypeDescriptionTaxonomyEntity() : string
     {

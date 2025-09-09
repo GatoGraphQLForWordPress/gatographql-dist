@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class GenericCustomPostSetMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\CustomPostMetaMutations\TypeResolvers\UnionType\GenericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $genericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver;
+    private ?GenericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver $genericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getGenericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver() : GenericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->genericCustomPostSetMetaMutationErrorPayloadUnionTypeResolver === null) {

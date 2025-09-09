@@ -9,10 +9,7 @@ use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
 class CommentSetMetaMutationErrorPayloadUnionTypeDataLoader extends AbstractUnionTypeDataLoader
 {
-    /**
-     * @var \PoPCMSSchema\CommentMetaMutations\TypeResolvers\UnionType\CommentSetMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $commentSetMetaMutationErrorPayloadUnionTypeResolver;
+    private ?CommentSetMetaMutationErrorPayloadUnionTypeResolver $commentSetMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getCommentSetMetaMutationErrorPayloadUnionTypeResolver() : CommentSetMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->commentSetMetaMutationErrorPayloadUnionTypeResolver === null) {

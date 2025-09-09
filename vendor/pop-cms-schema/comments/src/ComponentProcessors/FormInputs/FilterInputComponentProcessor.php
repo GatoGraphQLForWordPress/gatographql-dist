@@ -26,52 +26,22 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_CUSTOMPOST_IDS = 'filterinput-custompost-ids';
-    public const COMPONENT_FILTERINPUT_CUSTOMPOST_ID = 'filterinput-custompost-id';
-    public const COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS = 'filterinput-custompost-status';
-    public const COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS = 'filterinput-exclude-custompost-ids';
-    public const COMPONENT_FILTERINPUT_COMMENT_TYPES = 'filterinput-comment-types';
-    public const COMPONENT_FILTERINPUT_COMMENT_STATUS = 'filterinput-comment-status';
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentTypeEnumTypeResolver|null
-     */
-    private $commentTypeEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\TypeResolvers\EnumType\CommentStatusEnumTypeResolver|null
-     */
-    private $commentStatusEnumTypeResolver;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver|null
-     */
-    private $customPostStatusEnumTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CommentStatusFilterInput|null
-     */
-    private $commentStatusFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CommentTypesFilterInput|null
-     */
-    private $commentTypesFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostIDFilterInput|null
-     */
-    private $customPostIDFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostIDsFilterInput|null
-     */
-    private $customPostIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\CustomPostStatusFilterInput|null
-     */
-    private $customPostStatusFilterInput;
-    /**
-     * @var \PoPCMSSchema\Comments\FilterInputs\ExcludeCustomPostIDsFilterInput|null
-     */
-    private $excludeCustomPostIDsFilterInput;
+    public final const COMPONENT_FILTERINPUT_CUSTOMPOST_IDS = 'filterinput-custompost-ids';
+    public final const COMPONENT_FILTERINPUT_CUSTOMPOST_ID = 'filterinput-custompost-id';
+    public final const COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS = 'filterinput-custompost-status';
+    public final const COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS = 'filterinput-exclude-custompost-ids';
+    public final const COMPONENT_FILTERINPUT_COMMENT_TYPES = 'filterinput-comment-types';
+    public final const COMPONENT_FILTERINPUT_COMMENT_STATUS = 'filterinput-comment-status';
+    private ?CommentTypeEnumTypeResolver $commentTypeEnumTypeResolver = null;
+    private ?CommentStatusEnumTypeResolver $commentStatusEnumTypeResolver = null;
+    private ?CustomPostStatusEnumTypeResolver $customPostStatusEnumTypeResolver = null;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?CommentStatusFilterInput $commentStatusFilterInput = null;
+    private ?CommentTypesFilterInput $commentTypesFilterInput = null;
+    private ?CustomPostIDFilterInput $customPostIDFilterInput = null;
+    private ?CustomPostIDsFilterInput $customPostIDsFilterInput = null;
+    private ?CustomPostStatusFilterInput $customPostStatusFilterInput = null;
+    private ?ExcludeCustomPostIDsFilterInput $excludeCustomPostIDsFilterInput = null;
     protected final function getCommentTypeEnumTypeResolver() : CommentTypeEnumTypeResolver
     {
         if ($this->commentTypeEnumTypeResolver === null) {
@@ -171,22 +141,15 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS:
-                return $this->getCustomPostIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID:
-                return $this->getCustomPostIDFilterInput();
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-                return $this->getCustomPostStatusFilterInput();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS:
-                return $this->getExcludeCustomPostIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-                return $this->getCommentTypesFilterInput();
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return $this->getCommentStatusFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS => $this->getCustomPostIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID => $this->getCustomPostIDFilterInput(),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => $this->getCustomPostStatusFilterInput(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS => $this->getExcludeCustomPostIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_COMMENT_TYPES => $this->getCommentTypesFilterInput(),
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => $this->getCommentStatusFilterInput(),
+            default => null,
+        };
     }
     public function getInputClass(Component $component) : string
     {
@@ -202,88 +165,55 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS:
-                return 'customPostIDs';
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID:
-                return 'customPostID';
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-                return 'customPostStatus';
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS:
-                return 'excludeCustomPostIDs';
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-                return 'types';
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return 'status';
-            default:
-                return parent::getName($component);
-        }
+        // Add a nice name, so that the URL params when filtering make sense
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS => 'customPostIDs',
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID => 'customPostID',
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => 'customPostStatus',
+            self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS => 'excludeCustomPostIDs',
+            self::COMPONENT_FILTERINPUT_COMMENT_TYPES => 'types',
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => 'status',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-                return $this->getCustomPostStatusEnumTypeResolver();
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-                return $this->getCommentTypeEnumTypeResolver();
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return $this->getCommentStatusEnumTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => $this->getCustomPostStatusEnumTypeResolver(),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_COMMENT_TYPES => $this->getCommentTypeEnumTypeResolver(),
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => $this->getCommentStatusEnumTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS:
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS:
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS, self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS, self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS, self::COMPONENT_FILTERINPUT_COMMENT_TYPES, self::COMPONENT_FILTERINPUT_COMMENT_STATUS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFilterInputDefaultValue(Component $component)
+    public function getFilterInputDefaultValue(Component $component) : mixed
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-                return [CustomPostStatus::PUBLISH];
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-                return [CommentTypes::COMMENT];
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return [CommentStatus::APPROVE];
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => [CustomPostStatus::PUBLISH],
+            self::COMPONENT_FILTERINPUT_COMMENT_TYPES => [CommentTypes::COMMENT],
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => [CommentStatus::APPROVE],
+            default => null,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS:
-                return $this->__('Limit results to elements with the given custom post IDs', 'comments');
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID:
-                return $this->__('Limit results to elements with the given custom post ID', 'comments');
-            case self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS:
-                return $this->__('Limit results to elements with the given custom post status', 'comments');
-            case self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS:
-                return $this->__('Exclude elements with the given custom post IDs', 'comments');
-            case self::COMPONENT_FILTERINPUT_COMMENT_TYPES:
-                return $this->__('Types of comment', 'comments');
-            case self::COMPONENT_FILTERINPUT_COMMENT_STATUS:
-                return $this->__('Status of the comment', 'comments');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_IDS => $this->__('Limit results to elements with the given custom post IDs', 'comments'),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_ID => $this->__('Limit results to elements with the given custom post ID', 'comments'),
+            self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => $this->__('Limit results to elements with the given custom post status', 'comments'),
+            self::COMPONENT_FILTERINPUT_EXCLUDE_CUSTOMPOST_IDS => $this->__('Exclude elements with the given custom post IDs', 'comments'),
+            self::COMPONENT_FILTERINPUT_COMMENT_TYPES => $this->__('Types of comment', 'comments'),
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => $this->__('Status of the comment', 'comments'),
+            default => null,
+        };
     }
 }

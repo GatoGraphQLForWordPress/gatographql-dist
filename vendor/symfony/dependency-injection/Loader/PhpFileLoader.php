@@ -33,20 +33,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader
 class PhpFileLoader extends FileLoader
 {
     protected $autoRegisterAliasesForSinglyImplementedInterfaces = \false;
-    /**
-     * @var \Symfony\Component\Config\Builder\ConfigBuilderGeneratorInterface|null
-     */
-    private $generator;
+    private ?ConfigBuilderGeneratorInterface $generator;
     public function __construct(ContainerBuilder $container, FileLocatorInterface $locator, ?string $env = null, ?ConfigBuilderGeneratorInterface $generator = null)
     {
         parent::__construct($container, $locator, $env);
         $this->generator = $generator;
     }
-    /**
-     * @param mixed $resource
-     * @return mixed
-     */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null) : mixed
     {
         // the container and loader variables are exposed to the included file below
         $container = $this->container;
@@ -69,10 +62,7 @@ class PhpFileLoader extends FileLoader
         }
         return null;
     }
-    /**
-     * @param mixed $resource
-     */
-    public function supports($resource, ?string $type = null) : bool
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if (!\is_string($resource)) {
             return \false;
@@ -87,12 +77,12 @@ class PhpFileLoader extends FileLoader
      */
     private function executeCallback(callable $callback, ContainerConfigurator $containerConfigurator, string $path) : void
     {
-        $callback = \Closure::fromCallable($callback);
+        $callback = $callback(...);
         $arguments = [];
         $configBuilders = [];
         $r = new \ReflectionFunction($callback);
         $attribute = null;
-        foreach (\method_exists($r, 'getAttributes') ? $r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF) : [] as $attribute) {
+        foreach ($r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             if ($this->env === $attribute->newInstance()->env) {
                 $attribute = null;
                 break;
@@ -158,18 +148,16 @@ class PhpFileLoader extends FileLoader
             return new $namespace();
         }
         // If it does not start with Symfony\Config\ we don't know how to handle this
-        if (\strncmp($namespace, 'Symfony\\Config\\', \strlen('Symfony\\Config\\')) !== 0) {
+        if (!\str_starts_with($namespace, 'Symfony\\Config\\')) {
             throw new InvalidArgumentException(\sprintf('Could not find or generate class "%s".', $namespace));
         }
         // Try to get the extension alias
         $alias = Container::underscore(\substr($namespace, 15, -6));
-        if (\strpos($alias, '\\') !== \false) {
+        if (\str_contains($alias, '\\')) {
             throw new InvalidArgumentException('You can only use "root" ConfigBuilders from "Symfony\\Config\\" namespace. Nested classes like "Symfony\\Config\\Framework\\CacheConfig" cannot be used.');
         }
         if (!$this->container->hasExtension($alias)) {
-            $extensions = \array_filter(\array_map(function (ExtensionInterface $ext) {
-                return $ext->getAlias();
-            }, $this->container->getExtensions()));
+            $extensions = \array_filter(\array_map(fn(ExtensionInterface $ext) => $ext->getAlias(), $this->container->getExtensions()));
             throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s". Looked for namespace "%s", found "%s".', $namespace, $alias, $extensions ? \implode('", "', $extensions) : 'none'));
         }
         $extension = $this->container->getExtension($alias);

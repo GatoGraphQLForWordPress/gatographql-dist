@@ -8,14 +8,14 @@ use PoP\ComponentModel\Feedback\FeedbackCategories;
 /** @internal */
 class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E1 = 'e1';
-    public const E2 = 'e2';
-    public const E3 = 'e3';
-    public const E4 = 'e4';
-    public const E5 = 'e5';
-    public const E6 = 'e6';
-    public const E7 = 'e7';
-    public const E8 = 'e8';
+    public final const E1 = 'e1';
+    public final const E2 = 'e2';
+    public final const E3 = 'e3';
+    public final const E4 = 'e4';
+    public final const E5 = 'e5';
+    public final const E6 = 'e6';
+    public final const E7 = 'e7';
+    public final const E8 = 'e8';
     /**
      * @return string[]
      */
@@ -25,26 +25,17 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E1:
-                return $this->__('You are not logged in', 'user-state-mutations');
-            case self::E2:
-                return $this->__('Please supply your username or email', 'user-state-mutations');
-            case self::E3:
-                return $this->__('Please supply your password', 'user-state-mutations');
-            case self::E4:
-                return $this->__('You are already logged in', 'user-state-mutations');
-            case self::E5:
-                return $this->__('No user is registered with username \'%s\'', 'user-state-mutations');
-            case self::E6:
-                return $this->__('No user is registered with email \'%s\'', 'user-state-mutations');
-            case self::E7:
-                return $this->__('The password is incorrect', 'user-state-mutations');
-            case self::E8:
-                return $this->__('[%1$s] %2$s', 'user-state-mutations');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E1 => $this->__('You are not logged in', 'user-state-mutations'),
+            self::E2 => $this->__('Please supply your username or email', 'user-state-mutations'),
+            self::E3 => $this->__('Please supply your password', 'user-state-mutations'),
+            self::E4 => $this->__('You are already logged in', 'user-state-mutations'),
+            self::E5 => $this->__('No user is registered with username \'%s\'', 'user-state-mutations'),
+            self::E6 => $this->__('No user is registered with email \'%s\'', 'user-state-mutations'),
+            self::E7 => $this->__('The password is incorrect', 'user-state-mutations'),
+            self::E8 => $this->__('[%1$s] %2$s', 'user-state-mutations'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

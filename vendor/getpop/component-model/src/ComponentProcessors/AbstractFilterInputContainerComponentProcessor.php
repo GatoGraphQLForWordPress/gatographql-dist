@@ -61,10 +61,7 @@ abstract class AbstractFilterInputContainerComponentProcessor extends \PoP\Compo
         }
         return null;
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldFilterInputDefaultValue(Component $component, string $fieldArgName)
+    public function getFieldFilterInputDefaultValue(Component $component, string $fieldArgName) : mixed
     {
         $componentProcessorManager = $this->getComponentProcessorManager();
         $filterQueryArgsComponents = $this->getDataloadQueryArgsFilteringComponents($component);

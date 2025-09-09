@@ -8,10 +8,7 @@ use PoP\ComponentModel\Schema\SchemaDefinition;
 class Directive extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
     use \GraphQLByPoP\GraphQLServer\ObjectModels\HasArgsSchemaDefinitionReferenceTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\ObjectModels\DirectiveExtensions
-     */
-    protected $directiveExtensions;
+    protected \GraphQLByPoP\GraphQLServer\ObjectModels\DirectiveExtensions $directiveExtensions;
     /**
      * @param array<string,mixed> $fullSchemaDefinition
      * @param string[] $schemaDefinitionPath

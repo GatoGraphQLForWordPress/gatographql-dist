@@ -23,10 +23,7 @@ class CustomPostMediaTypeAPI implements CustomPostMediaTypeAPIInterface
         return post_type_supports($customPostType, 'thumbnail');
     }
 
-    /**
-     * @param string|int|object $customPostObjectOrID
-     */
-    public function hasCustomPostThumbnail($customPostObjectOrID): bool
+    public function hasCustomPostThumbnail(string|int|object $customPostObjectOrID): bool
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */
@@ -38,11 +35,7 @@ class CustomPostMediaTypeAPI implements CustomPostMediaTypeAPIInterface
         return has_post_thumbnail($customPostID);
     }
 
-    /**
-     * @param string|int|object $customPostObjectOrID
-     * @return string|int|null
-     */
-    public function getCustomPostThumbnailID($customPostObjectOrID)
+    public function getCustomPostThumbnailID(string|int|object $customPostObjectOrID): string|int|null
     {
         if (is_object($customPostObjectOrID)) {
             /** @var WP_Post */

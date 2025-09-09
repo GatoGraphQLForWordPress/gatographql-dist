@@ -24,7 +24,7 @@ final class Preloader
         $cacheDir = \dirname($file);
         $classes = [];
         foreach ($list as $item) {
-            if (\strncmp($item, $cacheDir, \strlen($cacheDir)) === 0) {
+            if (\str_starts_with($item, $cacheDir)) {
                 \file_put_contents($file, \sprintf("require_once __DIR__.%s;\n", \var_export(\strtr(\substr($item, \strlen($cacheDir)), \DIRECTORY_SEPARATOR, '/'), \true)), \FILE_APPEND);
                 continue;
             }
@@ -75,7 +75,7 @@ final class Preloader
             $r->getConstants();
             $r->getDefaultProperties();
             foreach ($r->getProperties(\ReflectionProperty::IS_PUBLIC) as $p) {
-                self::preloadType(\method_exists($p, 'getType') ? $p->getType() : null, $preloaded);
+                self::preloadType($p->getType(), $preloaded);
             }
             foreach ($r->getMethods(\ReflectionMethod::IS_PUBLIC) as $m) {
                 foreach ($m->getParameters() as $p) {
@@ -89,7 +89,7 @@ final class Preloader
                 }
                 self::preloadType($m->getReturnType(), $preloaded);
             }
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             // ignore missing classes
         }
     }

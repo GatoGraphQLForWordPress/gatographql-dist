@@ -13,89 +13,50 @@ use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
 trait MutateEntityMetaMutationResolverTrait
 {
     protected abstract function getMetaTypeAPI() : MetaTypeAPIInterface;
-    /**
-     * @param string|int $entityID
-     */
-    protected function validateSingleMetaEntryDoesNotExist($entityID, string $key, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateSingleMetaEntryDoesNotExist(string|int $entityID, string $key, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->doesMetaEntryExist($entityID, $key)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getSingleMetaEntryAlreadyExistsError($entityID, $key), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $entityID
-     */
-    protected abstract function doesMetaEntryExist($entityID, string $key) : bool;
-    /**
-     * @param string|int $entityID
-     */
-    protected function getSingleMetaEntryAlreadyExistsError($entityID, string $key) : FeedbackItemResolution
+    protected abstract function doesMetaEntryExist(string|int $entityID, string $key) : bool;
+    protected function getSingleMetaEntryAlreadyExistsError(string|int $entityID, string $key) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1, [$entityID, $key]);
     }
-    /**
-     * @param string|int $entityID
-     */
-    protected function validateMetaEntryExists($entityID, string $key, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateMetaEntryExists(string|int $entityID, string $key, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->doesMetaEntryExist($entityID, $key)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getMetaEntryDoesNotExistError($entityID, $key), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected function validateMetaEntryWithValueExists($entityID, string $key, $value, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateMetaEntryWithValueExists(string|int $entityID, string $key, mixed $value, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->doesMetaEntryWithValueExist($entityID, $key, $value)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getMetaEntryWithValueDoesNotExistError($entityID, $key, $value), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected abstract function doesMetaEntryWithValueExist($entityID, string $key, $value) : bool;
-    /**
-     * @param string|int $entityID
-     */
-    protected function getMetaEntryDoesNotExistError($entityID, string $key) : FeedbackItemResolution
+    protected abstract function doesMetaEntryWithValueExist(string|int $entityID, string $key, mixed $value) : bool;
+    protected function getMetaEntryDoesNotExistError(string|int $entityID, string $key) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E4, [$entityID, $key]);
     }
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected function getMetaEntryWithValueDoesNotExistError($entityID, string $key, $value) : FeedbackItemResolution
+    protected function getMetaEntryWithValueDoesNotExistError(string|int $entityID, string $key, mixed $value) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$entityID, $key, $value]);
     }
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected function validateMetaEntryDoesNotHaveValue($entityID, string $key, $value, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateMetaEntryDoesNotHaveValue(string|int $entityID, string $key, mixed $value, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (!$this->doesMetaEntryHaveValue($entityID, $key, $value)) {
             return;
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback($this->getEntityMetaEntryAlreadyHasValueError($entityID, $key, $value), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected abstract function doesMetaEntryHaveValue($entityID, string $key, $value) : bool;
-    /**
-     * @param string|int $entityID
-     * @param mixed $value
-     */
-    protected function getEntityMetaEntryAlreadyHasValueError($entityID, string $key, $value) : FeedbackItemResolution
+    protected abstract function doesMetaEntryHaveValue(string|int $entityID, string $key, mixed $value) : bool;
+    protected function getEntityMetaEntryAlreadyHasValueError(string|int $entityID, string $key, mixed $value) : FeedbackItemResolution
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$entityID, $key, $value]);
     }
@@ -105,9 +66,7 @@ trait MutateEntityMetaMutationResolverTrait
     protected function validateAreMetaKeysAllowed(array $metaKeys, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $taxonomyMetaTypeAPI = $this->getMetaTypeAPI();
-        $nonAllowedMetaKeys = \array_filter($metaKeys, function (string $metaKey) use($taxonomyMetaTypeAPI) {
-            return !$taxonomyMetaTypeAPI->validateIsMetaKeyAllowed($metaKey);
-        });
+        $nonAllowedMetaKeys = \array_filter($metaKeys, fn(string $metaKey) => !$taxonomyMetaTypeAPI->validateIsMetaKeyAllowed($metaKey));
         if ($nonAllowedMetaKeys === []) {
             return;
         }

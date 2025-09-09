@@ -27,7 +27,6 @@ interface TypeSerializationServiceInterface
      * The response type is the same as in the type's `serialize` method.
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param mixed $value
      */
-    public function serializeLeafOutputTypeValue($value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field);
+    public function serializeLeafOutputTypeValue(mixed $value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : string|int|float|bool|array|stdClass;
 }

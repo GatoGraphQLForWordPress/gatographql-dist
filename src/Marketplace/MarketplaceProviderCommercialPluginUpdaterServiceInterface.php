@@ -16,5 +16,7 @@ interface MarketplaceProviderCommercialPluginUpdaterServiceInterface
      *
      * @throws ShouldNotHappenException If initializing the service more than once
      */
-    public function setupMarketplacePluginUpdaterForExtensions(array $licenseKeys): void;
+    public function setupMarketplacePluginUpdaterForExtensions(
+        array $licenseKeys,
+    ): void;
 }

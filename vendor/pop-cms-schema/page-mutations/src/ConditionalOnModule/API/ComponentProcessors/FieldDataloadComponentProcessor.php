@@ -15,16 +15,10 @@ use PoPCMSSchema\QueriedObject\ComponentProcessors\QueriedDBObjectComponentProce
 class FieldDataloadComponentProcessor extends AbstractRelationalFieldDataloadComponentProcessor
 {
     use QueriedDBObjectComponentProcessorTrait;
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPAGELIST = 'dataload-relationalfields-mypagelist';
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPAGECOUNT = 'dataload-relationalfields-mypagecount';
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\QueryInputOutputHandlers\ListQueryInputOutputHandler|null
-     */
-    private $listQueryInputOutputHandler;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPAGELIST = 'dataload-relationalfields-mypagelist';
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_MYPAGECOUNT = 'dataload-relationalfields-mypagecount';
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?ListQueryInputOutputHandler $listQueryInputOutputHandler = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {

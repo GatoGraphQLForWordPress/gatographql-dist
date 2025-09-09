@@ -12,7 +12,7 @@ abstract class AbstractEndpointAnnotatorRegistry implements EndpointAnnotatorReg
     /**
      * @var EndpointAnnotatorInterface[]
      */
-    protected $endpointAnnotators = [];
+    protected array $endpointAnnotators = [];
 
     public function addEndpointAnnotator(EndpointAnnotatorInterface $endpointAnnotator): void
     {
@@ -32,9 +32,7 @@ abstract class AbstractEndpointAnnotatorRegistry implements EndpointAnnotatorReg
     {
         return array_values(array_filter(
             $this->getEndpointAnnotators(),
-            function (ActivableServiceInterface $service) {
-                return $service->isServiceEnabled();
-            }
+            fn (ActivableServiceInterface $service) => $service->isServiceEnabled()
         ));
     }
 }

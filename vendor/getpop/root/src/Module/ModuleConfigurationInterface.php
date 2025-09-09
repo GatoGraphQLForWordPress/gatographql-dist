@@ -7,8 +7,5 @@ namespace PoP\Root\Module;
 interface ModuleConfigurationInterface
 {
     public function hasConfigurationValue(string $envVariable) : bool;
-    /**
-     * @return mixed
-     */
-    public function getConfigurationValue(string $envVariable);
+    public function getConfigurationValue(string $envVariable) : mixed;
 }

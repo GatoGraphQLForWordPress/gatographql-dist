@@ -17,14 +17,8 @@ class PluginMenu extends AbstractMenu
 {
     use LogCountBadgeMenuTrait;
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Security\UserAuthorizationInterface|null
-     */
-    private $userAuthorization;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\MenuPages\LogsMenuPage|null
-     */
-    private $logsMenuPage;
+    private ?UserAuthorizationInterface $userAuthorization = null;
+    private ?LogsMenuPage $logsMenuPage = null;
 
     final protected function getUserAuthorization(): UserAuthorizationInterface
     {

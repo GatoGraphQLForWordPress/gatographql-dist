@@ -12,10 +12,7 @@ use PoPWPSchema\TaxonomyMeta\TypeResolvers\InputObjectType\TaxonomyMetaQueryInpu
 
 class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQueryInputFieldsInputObjectTypeHookSet
 {
-    /**
-     * @var \PoPWPSchema\TaxonomyMeta\TypeResolvers\InputObjectType\TaxonomyMetaQueryInputObjectTypeResolver|null
-     */
-    private $taxonomyMetaQueryInputObjectTypeResolver;
+    private ?TaxonomyMetaQueryInputObjectTypeResolver $taxonomyMetaQueryInputObjectTypeResolver = null;
 
     final protected function getTaxonomyMetaQueryInputObjectTypeResolver(): TaxonomyMetaQueryInputObjectTypeResolver
     {
@@ -32,8 +29,9 @@ class AddMetaQueryInputFieldsInputObjectTypeHookSet extends AbstractAddMetaQuery
         return $this->getTaxonomyMetaQueryInputObjectTypeResolver();
     }
 
-    protected function isInputObjectTypeResolver(InputObjectTypeResolverInterface $inputObjectTypeResolver): bool
-    {
+    protected function isInputObjectTypeResolver(
+        InputObjectTypeResolverInterface $inputObjectTypeResolver,
+    ): bool {
         return $inputObjectTypeResolver instanceof AbstractTaxonomiesFilterInputObjectTypeResolver;
     }
 }

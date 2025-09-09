@@ -5,24 +5,21 @@ namespace PoP\ComponentModel\ComponentProcessors;
 
 use PoP\ComponentModel\Component\Component;
 /** @internal */
-interface FormInputComponentProcessorInterface
+interface FormInputComponentProcessorInterface extends \PoP\ComponentModel\ComponentProcessors\ComponentProcessorInterface
 {
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function getValue(Component $component, ?array $source = null);
+    public function getValue(Component $component, ?array $source = null) : mixed;
     /**
      * @param array<string,mixed> $props
-     * @return mixed
      */
-    public function getDefaultValue(Component $component, array &$props);
+    public function getDefaultValue(Component $component, array &$props) : mixed;
     public function getName(Component $component) : string;
     public function getInputName(Component $component) : string;
     public function isMultiple(Component $component) : bool;
     /**
      * @param array<string,mixed>|null $source
-     * @return mixed
      */
-    public function isInputSetInSource(Component $component, ?array $source = null);
+    public function isInputSetInSource(Component $component, ?array $source = null) : mixed;
 }

@@ -8,10 +8,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class RootLogoutUserMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\UserStateMutations\TypeResolvers\UnionType\AbstractUserStateMutationErrorPayloadUnionTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\UserStateMutations\RelationalTypeDataLoaders\UnionType\RootLogoutUserMutationErrorPayloadUnionTypeDataLoader|null
-     */
-    private $rootLogoutUserMutationErrorPayloadUnionTypeDataLoader;
+    private ?RootLogoutUserMutationErrorPayloadUnionTypeDataLoader $rootLogoutUserMutationErrorPayloadUnionTypeDataLoader = null;
     protected final function getRootLogoutUserMutationErrorPayloadUnionTypeDataLoader() : RootLogoutUserMutationErrorPayloadUnionTypeDataLoader
     {
         if ($this->rootLogoutUserMutationErrorPayloadUnionTypeDataLoader === null) {

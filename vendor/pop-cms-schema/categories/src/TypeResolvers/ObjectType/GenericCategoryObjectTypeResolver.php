@@ -14,14 +14,8 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
  */
 class GenericCategoryObjectTypeResolver extends \PoPCMSSchema\Categories\TypeResolvers\ObjectType\AbstractCategoryObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\RelationalTypeDataLoaders\ObjectType\QueryableCategoryListObjectTypeDataLoader|null
-     */
-    private $queryableCategoryListObjectTypeDataLoader;
-    /**
-     * @var \PoPCMSSchema\Categories\TypeAPIs\QueryableCategoryTypeAPIInterface|null
-     */
-    private $queryableCategoryListTypeAPI;
+    private ?QueryableCategoryListObjectTypeDataLoader $queryableCategoryListObjectTypeDataLoader = null;
+    private ?QueryableCategoryTypeAPIInterface $queryableCategoryListTypeAPI = null;
     protected final function getQueryableCategoryListObjectTypeDataLoader() : QueryableCategoryListObjectTypeDataLoader
     {
         if ($this->queryableCategoryListObjectTypeDataLoader === null) {

@@ -8,10 +8,7 @@ use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 /** @internal */
 class CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends \PoPCMSSchema\Categories\TypeResolvers\InputObjectType\AbstractFilterCustomPostsByCategoriesInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Categories\TypeResolvers\EnumType\CategoryTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $categoryTaxonomyEnumStringScalarTypeResolver;
+    private ?CategoryTaxonomyEnumStringScalarTypeResolver $categoryTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getCategoryTaxonomyEnumStringScalarTypeResolver() : CategoryTaxonomyEnumStringScalarTypeResolver
     {
         if ($this->categoryTaxonomyEnumStringScalarTypeResolver === null) {
@@ -29,10 +26,7 @@ class CustomPostsFilterCustomPostsByCategoriesInputObjectTypeResolver extends \P
     {
         return $this->getCategoryTaxonomyEnumStringScalarTypeResolver();
     }
-    /**
-     * @return mixed
-     */
-    protected function getCategoryTaxonomyFilterDefaultValue()
+    protected function getCategoryTaxonomyFilterDefaultValue() : mixed
     {
         return null;
     }

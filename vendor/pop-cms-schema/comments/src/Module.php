@@ -44,20 +44,20 @@ class Module extends AbstractModule
             if (\class_exists(APIModule::class) && App::getModule(APIModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/API');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(RESTAPIModule::class) && App::getModule(RESTAPIModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/RESTAPI');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
         try {
             if (\class_exists(UsersModule::class) && App::getModule(UsersModule::class)->isEnabled()) {
                 $this->initServices(\dirname(__DIR__), '/ConditionalOnModule/Users');
                 $this->initSchemaServices(\dirname(__DIR__), $skipSchema || \in_array(UsersModule::class, $skipSchemaModuleClasses), '/ConditionalOnModule/Users');
             }
-        } catch (ComponentNotExistsException $exception) {
+        } catch (ComponentNotExistsException) {
         }
     }
 }

@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 class EnumValueObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\AbstractIntrospectionObjectTypeResolver
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\SchemaDefinitionReferenceObjectTypeDataLoader|null
-     */
-    private $schemaDefinitionReferenceObjectTypeDataLoader;
+    private ?SchemaDefinitionReferenceObjectTypeDataLoader $schemaDefinitionReferenceObjectTypeDataLoader = null;
     protected final function getSchemaDefinitionReferenceObjectTypeDataLoader() : SchemaDefinitionReferenceObjectTypeDataLoader
     {
         if ($this->schemaDefinitionReferenceObjectTypeDataLoader === null) {
@@ -30,10 +27,7 @@ class EnumValueObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
     {
         return $this->__('Representation of an Enum value in GraphQL', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var EnumValue */
         $enumValue = $object;

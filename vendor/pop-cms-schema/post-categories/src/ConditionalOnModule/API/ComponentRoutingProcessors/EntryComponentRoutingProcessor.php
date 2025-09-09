@@ -19,10 +19,7 @@ use PoPCMSSchema\Posts\ModuleConfiguration as PostsModuleConfiguration;
 /** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
-    /**
-     * @var \PoPCMSSchema\PostCategories\TypeAPIs\PostCategoryTypeAPIInterface|null
-     */
-    private $postCategoryTypeAPI;
+    private ?PostCategoryTypeAPIInterface $postCategoryTypeAPI = null;
     protected final function getPostCategoryTypeAPI() : PostCategoryTypeAPIInterface
     {
         if ($this->postCategoryTypeAPI === null) {

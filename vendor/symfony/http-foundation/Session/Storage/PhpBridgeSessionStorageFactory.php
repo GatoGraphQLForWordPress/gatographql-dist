@@ -20,22 +20,10 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Session\Sto
  */
 class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null
-     */
-    private $handler;
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\MetadataBag|null
-     */
-    private $metaBag;
-    /**
-     * @var bool
-     */
-    private $secure;
-    /**
-     * @param \Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy|\SessionHandlerInterface|null $handler
-     */
-    public function __construct($handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
+    private AbstractProxy|\SessionHandlerInterface|null $handler;
+    private ?MetadataBag $metaBag;
+    private bool $secure;
+    public function __construct(AbstractProxy|\SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null, bool $secure = \false)
     {
         $this->handler = $handler;
         $this->metaBag = $metaBag;
@@ -44,7 +32,7 @@ class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
     public function createStorage(?Request $request) : SessionStorageInterface
     {
         $storage = new PhpBridgeSessionStorage($this->handler, $this->metaBag);
-        if ($this->secure && (($nullsafeVariable1 = $request) ? $nullsafeVariable1->isSecure() : null)) {
+        if ($this->secure && $request?->isSecure()) {
             $storage->setOptions(['cookie_secure' => \true]);
         }
         return $storage;

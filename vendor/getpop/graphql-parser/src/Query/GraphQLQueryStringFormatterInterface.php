@@ -10,14 +10,11 @@ interface GraphQLQueryStringFormatterInterface
     /**
      * @param null|integer|float|boolean|string|mixed[]|stdClass $elem
      */
-    public function getElementAsQueryString($elem) : string;
+    public function getElementAsQueryString(null|int|float|bool|string|array|stdClass $elem) : string;
     /**
      * @param mixed[] $list
      */
     public function getListAsQueryString(array $list) : string;
     public function getObjectAsQueryString(stdClass $object) : string;
-    /**
-     * @param null|int|float|bool|string $literal
-     */
-    public function getLiteralAsQueryString($literal) : string;
+    public function getLiteralAsQueryString(null|int|float|bool|string $literal) : string;
 }

@@ -16,20 +16,14 @@ trait MutateTagTermMutationResolverTrait
     {
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5, [$taxonomyName]);
     }
-    /**
-     * @param string|int $taxonomyTermID
-     */
-    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, $taxonomyTermID) : FeedbackItemResolution
+    protected function getTaxonomyTermDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermID) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$taxonomyName, $taxonomyTermID]);
         }
         return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E6, [$taxonomyTermID]);
     }
-    /**
-     * @param string|int $taxonomyTermSlug
-     */
-    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, $taxonomyTermSlug) : FeedbackItemResolution
+    protected function getTaxonomyTermBySlugDoesNotExistError(?string $taxonomyName, string|int $taxonomyTermSlug) : FeedbackItemResolution
     {
         if ($taxonomyName !== null && $taxonomyName !== '') {
             return new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E9, [$taxonomyName, $taxonomyTermSlug]);

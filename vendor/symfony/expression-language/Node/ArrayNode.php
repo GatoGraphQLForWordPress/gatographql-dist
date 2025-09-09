@@ -18,17 +18,14 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\ExpressionLanguage\Compile
  */
 class ArrayNode extends Node
 {
-    /**
-     * @var int
-     */
-    protected $index;
+    protected int $index;
     public function __construct()
     {
         $this->index = -1;
     }
     public function addElement(Node $value, ?Node $key = null) : void
     {
-        $key = $key ?? new ConstantNode(++$this->index);
+        $key ??= new ConstantNode(++$this->index);
         \array_push($this->nodes, $key, $value);
     }
     /**

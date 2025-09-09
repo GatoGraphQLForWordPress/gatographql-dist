@@ -16,15 +16,12 @@ abstract class AbstractControlBlock extends AbstractBlock
 {
     use WithTypeFieldControlBlockTrait;
 
-    public const ATTRIBUTE_NAME_OPERATIONS = 'operations';
-    public const ATTRIBUTE_NAME_TYPE_FIELDS = 'typeFields';
-    public const ATTRIBUTE_NAME_GLOBAL_FIELDS = 'globalFields';
-    public const ATTRIBUTE_NAME_DIRECTIVES = 'directives';
+    public final const ATTRIBUTE_NAME_OPERATIONS = 'operations';
+    public final const ATTRIBUTE_NAME_TYPE_FIELDS = 'typeFields';
+    public final const ATTRIBUTE_NAME_GLOBAL_FIELDS = 'globalFields';
+    public final const ATTRIBUTE_NAME_DIRECTIVES = 'directives';
 
-    /**
-     * @var \PoP\ComponentModel\Registries\TypeRegistryInterface|null
-     */
-    private $typeRegistry;
+    private ?TypeRegistryInterface $typeRegistry = null;
 
     final protected function getTypeRegistry(): TypeRegistryInterface
     {
@@ -133,7 +130,7 @@ abstract class AbstractControlBlock extends AbstractBlock
                 } else {
                     /**
                      * Cast object so PHPStan doesn't throw error
-                     * @var string[];
+                     * @var string[]
                      */
                     $typeFieldsForPrint = $typeFieldsForPrint;
                     $fieldTypeContent = sprintf(

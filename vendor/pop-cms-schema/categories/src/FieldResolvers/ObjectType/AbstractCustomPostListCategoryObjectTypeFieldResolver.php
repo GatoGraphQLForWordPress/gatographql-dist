@@ -12,14 +12,11 @@ abstract class AbstractCustomPostListCategoryObjectTypeFieldResolver extends Abs
 {
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'customPosts':
-                return $this->__('Custom posts which contain this category', 'pop-categories');
-            case 'customPostCount':
-                return $this->__('Number of custom posts which contain this category', 'pop-categories');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'customPosts' => $this->__('Custom posts which contain this category', 'pop-categories'),
+            'customPostCount' => $this->__('Number of custom posts which contain this category', 'pop-categories'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     protected abstract function getQueryProperty() : string;
     /**

@@ -11,11 +11,8 @@ use PoP\Root\App;
 /** @internal */
 class SuperRootGraphQLRelationalFieldDataloadComponentProcessor extends \GraphQLByPoP\GraphQLServer\ComponentProcessors\AbstractGraphQLRelationalFieldDataloadComponentProcessor
 {
-    public const COMPONENT_DATALOAD_RELATIONALFIELDS_SUPERROOT = 'dataload-relationalfields-superroot';
-    /**
-     * @var \PoP\Engine\TypeResolvers\ObjectType\SuperRootObjectTypeResolver|null
-     */
-    private $superRootObjectTypeResolver;
+    public final const COMPONENT_DATALOAD_RELATIONALFIELDS_SUPERROOT = 'dataload-relationalfields-superroot';
+    private ?SuperRootObjectTypeResolver $superRootObjectTypeResolver = null;
     protected final function getSuperRootObjectTypeResolver() : SuperRootObjectTypeResolver
     {
         if ($this->superRootObjectTypeResolver === null) {
@@ -37,7 +34,7 @@ class SuperRootGraphQLRelationalFieldDataloadComponentProcessor extends \GraphQL
      * @param array<string,mixed> $props
      * @param array<string,mixed> $data_properties
      */
-    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties)
+    public function getObjectIDOrIDs(Component $component, array &$props, array &$data_properties) : string|int|array|null
     {
         if (App::getState('does-api-query-have-errors')) {
             return null;

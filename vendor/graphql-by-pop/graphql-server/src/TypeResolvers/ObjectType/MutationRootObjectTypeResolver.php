@@ -16,14 +16,8 @@ class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeRes
 {
     use CanonicalTypeNameTypeResolverTrait;
     use RemoveIdentifiableObjectInterfaceObjectTypeResolverTrait;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\Helpers\TypeResolverHelperInterface|null
-     */
-    private $typeResolverHelper;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\ObjectType\MutationRootObjectTypeDataLoader|null
-     */
-    private $mutationRootObjectTypeDataLoader;
+    private ?TypeResolverHelperInterface $typeResolverHelper = null;
+    private ?MutationRootObjectTypeDataLoader $mutationRootObjectTypeDataLoader = null;
     protected final function getTypeResolverHelper() : TypeResolverHelperInterface
     {
         if ($this->typeResolverHelper === null) {
@@ -50,10 +44,7 @@ class MutationRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeRes
     {
         return $this->__('Mutation type, starting from which mutations are executed', 'graphql-server');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         /** @var MutationRoot */
         $mutationRoot = $object;

@@ -13,22 +13,10 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput;
 /** @internal */
 abstract class AbstractCustomPostByOneofInputObjectTypeResolver extends AbstractOneofQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\IncludeFilterInput|null
-     */
-    private $includeFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\SlugFilterInput|null
-     */
-    private $slugFilterInput;
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?IncludeFilterInput $includeFilterInput = null;
+    private ?SlugFilterInput $slugFilterInput = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -82,24 +70,18 @@ abstract class AbstractCustomPostByOneofInputObjectTypeResolver extends Abstract
     }
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->__('Query by custom post ID', 'customposts');
-            case 'slug':
-                return $this->__('Query by custom post slug', 'customposts');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->__('Query by custom post ID', 'customposts'),
+            'slug' => $this->__('Query by custom post slug', 'customposts'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'id':
-                return $this->getIncludeFilterInput();
-            case 'slug':
-                return $this->getSlugFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'id' => $this->getIncludeFilterInput(),
+            'slug' => $this->getSlugFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

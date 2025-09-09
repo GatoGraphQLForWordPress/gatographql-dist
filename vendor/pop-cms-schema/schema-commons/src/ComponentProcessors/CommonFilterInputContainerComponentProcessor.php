@@ -12,15 +12,12 @@ use PoPCMSSchema\SchemaCommons\ComponentProcessors\FormInputs\CommonFilterInputC
 class CommonFilterInputContainerComponentProcessor extends \PoPCMSSchema\SchemaCommons\ComponentProcessors\AbstractFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_ID = 'filterinputcontainer-entity-by-id';
-    public const COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_SLUG = 'filterinputcontainer-entity-by-slug';
-    public const COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING = 'filterinputcontainer-date-as-string';
-    public const COMPONENT_FILTERINPUTCONTAINER_GMTDATE = 'filterinputcontainer-utcdate';
-    public const COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING = 'filterinputcontainer-utcdate-as-string';
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\CMS\CMSServiceInterface|null
-     */
-    private $cmsService;
+    public final const COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_ID = 'filterinputcontainer-entity-by-id';
+    public final const COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_SLUG = 'filterinputcontainer-entity-by-slug';
+    public final const COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING = 'filterinputcontainer-date-as-string';
+    public final const COMPONENT_FILTERINPUTCONTAINER_GMTDATE = 'filterinputcontainer-utcdate';
+    public final const COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING = 'filterinputcontainer-utcdate-as-string';
+    private ?CMSServiceInterface $cmsService = null;
     protected final function getCMSService() : CMSServiceInterface
     {
         if ($this->cmsService === null) {
@@ -42,25 +39,16 @@ class CommonFilterInputContainerComponentProcessor extends \PoPCMSSchema\SchemaC
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_ID:
-                return [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_ID)];
-            case self::COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_SLUG:
-                return [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SLUG)];
-            case self::COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING:
-                return [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_DATEFORMAT)];
-            case self::COMPONENT_FILTERINPUTCONTAINER_GMTDATE:
-                return [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_GMT)];
-            case self::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING:
-                return [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_DATEFORMAT), new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_GMT)];
-            default:
-                return [];
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_ID => [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_ID)],
+            self::COMPONENT_FILTERINPUTCONTAINER_ENTITY_BY_SLUG => [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_SLUG)],
+            self::COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING => [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_DATEFORMAT)],
+            self::COMPONENT_FILTERINPUTCONTAINER_GMTDATE => [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_GMT)],
+            self::COMPONENT_FILTERINPUTCONTAINER_GMTDATE_AS_STRING => [new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_DATEFORMAT), new Component(CommonFilterInputComponentProcessor::class, CommonFilterInputComponentProcessor::COMPONENT_FILTERINPUT_GMT)],
+            default => [],
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getFieldFilterInputDefaultValue(Component $component, string $fieldArgName)
+    public function getFieldFilterInputDefaultValue(Component $component, string $fieldArgName) : mixed
     {
         switch ($component->name) {
             case self::COMPONENT_FILTERINPUTCONTAINER_DATE_AS_STRING:
@@ -106,6 +94,6 @@ class CommonFilterInputContainerComponentProcessor extends \PoPCMSSchema\SchemaC
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

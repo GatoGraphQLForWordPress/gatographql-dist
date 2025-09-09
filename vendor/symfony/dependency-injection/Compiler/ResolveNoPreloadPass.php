@@ -22,14 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
 class ResolveNoPreloadPass extends AbstractRecursivePass
 {
     private const DO_PRELOAD_TAG = '.container.do_preload';
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $resolvedIds = [];
+    protected bool $skipScalars = \true;
+    private array $resolvedIds = [];
     /**
      * @return void
      */
@@ -61,11 +55,7 @@ class ResolveNoPreloadPass extends AbstractRecursivePass
             }
         }
     }
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if ($value instanceof Reference && ContainerBuilder::IGNORE_ON_UNINITIALIZED_REFERENCE !== $value->getInvalidBehavior() && $this->container->hasDefinition($id = (string) $value)) {
             $definition = $this->container->getDefinition($id);

@@ -22,7 +22,7 @@ class IntegerNodeDefinition extends NumericNodeDefinition
     /**
      * Instantiates a Node.
      */
-    protected function instantiateNode() : \GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Definition\ScalarNode
+    protected function instantiateNode() : IntegerNode
     {
         return new IntegerNode($this->name, $this->parent, $this->min, $this->max, $this->pathSeparator);
     }

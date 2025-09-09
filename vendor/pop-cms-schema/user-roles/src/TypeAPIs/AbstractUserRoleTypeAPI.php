@@ -7,10 +7,7 @@ use PoP\Root\Services\AbstractBasicService;
 /** @internal */
 abstract class AbstractUserRoleTypeAPI extends AbstractBasicService implements \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface
 {
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function getTheUserRole($userObjectOrID) : ?string
+    public function getTheUserRole(string|int|object $userObjectOrID) : ?string
     {
         $roles = $this->getUserRoles($userObjectOrID);
         $role = $roles[0] ?? null;
@@ -23,19 +20,12 @@ abstract class AbstractUserRoleTypeAPI extends AbstractBasicService implements \
         // );
         return $role;
     }
-    /**
-     * @param string|int|object $userObjectOrID
-     * @param mixed ...$args
-     */
-    public function userCan($userObjectOrID, string $capability, ...$args) : bool
+    public function userCan(string|int|object $userObjectOrID, string $capability, mixed ...$args) : bool
     {
         $capabilities = $this->getUserCapabilities($userObjectOrID);
         return \in_array($capability, $capabilities);
     }
-    /**
-     * @param string|int|object $userObjectOrID
-     */
-    public function hasRole($userObjectOrID, string $role) : bool
+    public function hasRole(string|int|object $userObjectOrID, string $role) : bool
     {
         $roles = $this->getUserRoles($userObjectOrID);
         return \in_array($role, $roles);

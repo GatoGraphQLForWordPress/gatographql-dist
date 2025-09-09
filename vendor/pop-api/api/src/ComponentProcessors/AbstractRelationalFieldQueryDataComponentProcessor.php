@@ -39,15 +39,9 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
      *
      * @var array<string,array<string,LeafField>>
      */
-    private $fieldInstanceContainer = [];
-    /**
-     * @var \PoPAPI\API\QueryResolution\QueryASTTransformationServiceInterface|null
-     */
-    private $queryASTTransformationService;
-    /**
-     * @var \PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface|null
-     */
-    private $astNodeDuplicatorService;
+    private array $fieldInstanceContainer = [];
+    private ?QueryASTTransformationServiceInterface $queryASTTransformationService = null;
+    private ?ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
     protected final function getQueryASTTransformationService() : QueryASTTransformationServiceInterface
     {
         if ($this->queryASTTransformationService === null) {
@@ -87,9 +81,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
     protected function getComponentFieldNodes(Component $component, array &$props) : array
     {
         $componentFieldNodes = parent::getComponentFieldNodes($component, $props);
-        \usort($componentFieldNodes, function (ComponentFieldNodeInterface $a, ComponentFieldNodeInterface $b) {
-            return $a->sortAgainst($b);
-        });
+        \usort($componentFieldNodes, fn(ComponentFieldNodeInterface $a, ComponentFieldNodeInterface $b) => $a->sortAgainst($b));
         return $componentFieldNodes;
     }
     /**
@@ -238,15 +230,11 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
              * Only retrieve fields not contained within fragments
              * (those will be handled via a conditional on the fragment model)
              */
-            $leafFieldFragmentModelsTuples = \array_filter($leafFieldFragmentModelsTuples, function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-                return $fieldFragmentModelsTuple->getFragmentModels() === [];
-            });
+            $leafFieldFragmentModelsTuples = \array_filter($leafFieldFragmentModelsTuples, fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getFragmentModels() === []);
         }
         /** @var LeafField[] */
-        $leafFields = \array_map(function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-            return $fieldFragmentModelsTuple->getField();
-        }, $leafFieldFragmentModelsTuples);
-        return \array_map(\Closure::fromCallable([LeafComponentFieldNode::class, 'fromLeafField']), $leafFields);
+        $leafFields = \array_map(fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getField(), $leafFieldFragmentModelsTuples);
+        return \array_map(LeafComponentFieldNode::fromLeafField(...), $leafFields);
     }
     /**
      * Flag used to process the conditional field from the component or not
@@ -263,9 +251,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
     protected function getLeafFieldFragmentModelsTuples(array $componentAtts) : array
     {
         $fieldFragmentModelsTuples = $this->getFieldFragmentModelsTuples($componentAtts);
-        return \array_filter($fieldFragmentModelsTuples, function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-            return $fieldFragmentModelsTuple->getField() instanceof LeafField;
-        });
+        return \array_filter($fieldFragmentModelsTuples, fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getField() instanceof LeafField);
     }
     /**
      * @return RelationalComponentFieldNode[]
@@ -281,14 +267,10 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
              * Only retrieve fields not contained within fragments
              * (those will be handled via a conditional on the fragment model)
              */
-            $relationalFieldFragmentModelsTuples = \array_filter($relationalFieldFragmentModelsTuples, function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-                return $fieldFragmentModelsTuple->getFragmentModels() === [];
-            });
+            $relationalFieldFragmentModelsTuples = \array_filter($relationalFieldFragmentModelsTuples, fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getFragmentModels() === []);
         }
         /** @var RelationalField[] */
-        $relationalFields = \array_map(function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-            return $fieldFragmentModelsTuple->getField();
-        }, $relationalFieldFragmentModelsTuples);
+        $relationalFields = \array_map(fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getField(), $relationalFieldFragmentModelsTuples);
         $executableDocument = App::getState('executable-document-ast');
         if ($executableDocument === null) {
             return [];
@@ -302,10 +284,8 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
          */
         foreach ($relationalFields as $relationalField) {
             $allFieldFragmentModelsFromFieldsOrFragmentBonds = $this->getAllFieldFragmentModelsTuplesFromFieldsOrFragmentBonds($relationalField->getFieldsOrFragmentBonds(), $fragments, \false);
-            $nestedFields = \array_map(function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-                return $fieldFragmentModelsTuple->getField();
-            }, $allFieldFragmentModelsFromFieldsOrFragmentBonds);
-            $nestedFieldIDs = \array_map(\Closure::fromCallable([$this, 'getFieldUniqueID']), $nestedFields);
+            $nestedFields = \array_map(fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getField(), $allFieldFragmentModelsFromFieldsOrFragmentBonds);
+            $nestedFieldIDs = \array_map($this->getFieldUniqueID(...), $nestedFields);
             $nestedComponent = new Component($component->processorClass, $component->name, [self::COMPONENT_ATTS_FIELD_IDS => $nestedFieldIDs]);
             $ret[] = RelationalComponentFieldNode::fromRelationalField($relationalField, [$nestedComponent]);
         }
@@ -318,9 +298,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
     protected function getRelationalFieldFragmentModelsTuples(array $componentAtts) : array
     {
         $fieldFragmentModelsTuples = $this->getFieldFragmentModelsTuples($componentAtts);
-        return \array_filter($fieldFragmentModelsTuples, function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-            return $fieldFragmentModelsTuple->getField() instanceof RelationalField;
-        });
+        return \array_filter($fieldFragmentModelsTuples, fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getField() instanceof RelationalField);
     }
     /**
      * Watch out! This function loads both leaf fields (eg: "date") and
@@ -352,9 +330,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
         /**
          * Only retrieve fields contained within fragments
          */
-        $fieldFragmentModelsTuples = \array_filter($fieldFragmentModelsTuples, function (FieldFragmentModelsTuple $fieldFragmentModelsTuple) {
-            return $fieldFragmentModelsTuple->getFragmentModels() !== [];
-        });
+        $fieldFragmentModelsTuples = \array_filter($fieldFragmentModelsTuples, fn(FieldFragmentModelsTuple $fieldFragmentModelsTuple) => $fieldFragmentModelsTuple->getFragmentModels() !== []);
         /**
          * First collect all fields for each combination of fragment models
          */
@@ -379,11 +355,9 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
         $conditionalLeafComponentFieldNodes = [];
         foreach ($fragmentModelListNameFields as $fragmentModelListName => $fragmentModelListFields) {
             $fragmentModels = $fragmentModelListNameItems[$fragmentModelListName];
-            $fragmentModelListFieldIDs = \array_map(\Closure::fromCallable([$this, 'getFieldUniqueID']), $fragmentModelListFields);
+            $fragmentModelListFieldIDs = \array_map($this->getFieldUniqueID(...), $fragmentModelListFields);
             $fragmentModelListNestedComponent = new Component($component->processorClass, $component->name, [self::COMPONENT_ATTS_FIELD_IDS => $fragmentModelListFieldIDs, self::COMPONENT_ATTS_IGNORE_CONDITIONAL_FIELDS => \false]);
-            $fragmentModelListFieldAliasFriendlyIDs = \array_map(function (FieldInterface $field) {
-                return $this->getFieldUniqueID($field, \true);
-            }, $fragmentModelListFields);
+            $fragmentModelListFieldAliasFriendlyIDs = \array_map(fn(FieldInterface $field) => $this->getFieldUniqueID($field, \true), $fragmentModelListFields);
             /**
              * Create a unique alias to avoid conflicts.
              *

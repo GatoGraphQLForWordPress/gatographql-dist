@@ -8,14 +8,8 @@ use PoP\Root\Translation\TranslationAPIInterface;
 /** @internal */
 trait BasicServiceTrait
 {
-    /**
-     * @var \PoP\Root\Instances\InstanceManagerInterface
-     */
-    protected $instanceManager;
-    /**
-     * @var \PoP\Root\Translation\TranslationAPIInterface|null
-     */
-    private $translationAPI;
+    protected InstanceManagerInterface $instanceManager;
+    private ?TranslationAPIInterface $translationAPI = null;
     /**
      * Injecting the InstanceManager service is mandatory, always.
      * It was originally done like this:

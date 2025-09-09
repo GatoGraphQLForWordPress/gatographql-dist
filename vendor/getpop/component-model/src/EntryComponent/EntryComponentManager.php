@@ -11,10 +11,7 @@ use PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface;
 /** @internal */
 class EntryComponentManager extends AbstractBasicService implements EntryComponentManagerInterface
 {
-    /**
-     * @var \PoP\ComponentRouting\ComponentRoutingProcessorManagerInterface|null
-     */
-    private $routeComponentProcessorManager;
+    private ?ComponentRoutingProcessorManagerInterface $routeComponentProcessorManager = null;
     protected final function getComponentRoutingProcessorManager() : ComponentRoutingProcessorManagerInterface
     {
         if ($this->routeComponentProcessorManager === null) {

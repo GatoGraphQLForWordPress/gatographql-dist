@@ -10,16 +10,10 @@ use GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationC
 
 class SchemaConfigurationBlockCategory extends AbstractBlockCategory
 {
-    public const SCHEMA_CONFIGURATION_BLOCK_CATEGORY = 'gatographql-schema-config';
+    public final const SCHEMA_CONFIGURATION_BLOCK_CATEGORY = 'gatographql-schema-config';
 
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Services\CustomPostTypes\GraphQLSchemaConfigurationCustomPostType|null
-     */
-    private $graphQLSchemaConfigurationCustomPostType;
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\ModuleRegistryInterface|null
-     */
-    private $moduleRegistry;
+    private ?GraphQLSchemaConfigurationCustomPostType $graphQLSchemaConfigurationCustomPostType = null;
+    private ?ModuleRegistryInterface $moduleRegistry = null;
 
     final protected function getGraphQLSchemaConfigurationCustomPostType(): GraphQLSchemaConfigurationCustomPostType
     {

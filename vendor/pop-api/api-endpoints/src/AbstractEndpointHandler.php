@@ -8,14 +8,8 @@ use PoP\Root\Services\AbstractAutomaticallyInstantiatedService;
 /** @internal */
 abstract class AbstractEndpointHandler extends AbstractAutomaticallyInstantiatedService implements \PoPAPI\APIEndpoints\EndpointHandlerInterface
 {
-    /**
-     * @var string|null
-     */
-    protected $endpoint;
-    /**
-     * @var \PoP\Root\Routing\RoutingHelperServiceInterface|null
-     */
-    private $routingHelperService;
+    protected ?string $endpoint = null;
+    private ?RoutingHelperServiceInterface $routingHelperService = null;
     protected final function getRoutingHelperService() : RoutingHelperServiceInterface
     {
         if ($this->routingHelperService === null) {

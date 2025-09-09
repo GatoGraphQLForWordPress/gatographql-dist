@@ -6,5 +6,5 @@ namespace PoP\ComponentModel\Tokens;
 /** @internal */
 class ComponentPath
 {
-    public const COMPONENT_SEPARATOR = '.';
+    public final const COMPONENT_SEPARATOR = '.';
 }

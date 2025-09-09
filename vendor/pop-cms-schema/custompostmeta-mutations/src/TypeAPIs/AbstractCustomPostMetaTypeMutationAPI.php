@@ -5,9 +5,9 @@ namespace PoPCMSSchema\CustomPostMetaMutations\TypeAPIs;
 
 use PoPCMSSchema\CustomPostMetaMutations\Exception\CustomPostMetaCRUDMutationException;
 use PoPCMSSchema\CustomPostMetaMutations\TypeAPIs\CustomPostMetaTypeMutationAPIInterface;
-use PoPCMSSchema\MetaMutations\TypeAPIs\AbstractEntityMetaTypeMutationAPI;
+use PoP\Root\Services\AbstractBasicService;
 /** @internal */
-abstract class AbstractCustomPostMetaTypeMutationAPI extends AbstractEntityMetaTypeMutationAPI implements CustomPostMetaTypeMutationAPIInterface
+abstract class AbstractCustomPostMetaTypeMutationAPI extends AbstractBasicService implements CustomPostMetaTypeMutationAPIInterface
 {
     /**
      * @phpstan-return class-string<CustomPostMetaCRUDMutationException>
@@ -19,39 +19,31 @@ abstract class AbstractCustomPostMetaTypeMutationAPI extends AbstractEntityMetaT
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws CustomPostMetaCRUDMutationException If there was an error
-     * @param string|int $customPostID
      */
-    public function setCustomPostMeta($customPostID, array $entries) : void
+    public function setCustomPostMeta(string|int $customPostID, array $entries) : void
     {
         $this->setEntityMeta($customPostID, $entries);
     }
     /**
      * @return int The term_id of the newly created term
      * @throws CustomPostMetaCRUDMutationException If there was an error
-     * @param string|int $customPostID
-     * @param mixed $value
      */
-    public function addCustomPostMeta($customPostID, string $key, $value, bool $single = \false) : int
+    public function addCustomPostMeta(string|int $customPostID, string $key, mixed $value, bool $single = \false) : int
     {
         return $this->addEntityMeta($customPostID, $key, $value, $single);
     }
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
-     * @param string|int $customPostID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    public function updateCustomPostMeta($customPostID, string $key, $value, $prevValue = null)
+    public function updateCustomPostMeta(string|int $customPostID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool
     {
         return $this->updateEntityMeta($customPostID, $key, $value, $prevValue);
     }
     /**
      * @throws CustomPostMetaCRUDMutationException If there was an error (eg: custom post does not exist)
-     * @param string|int $customPostID
-     * @param mixed $value
      */
-    public function deleteCustomPostMeta($customPostID, string $key, $value = null) : void
+    public function deleteCustomPostMeta(string|int $customPostID, string $key, mixed $value = null) : void
     {
         $this->deleteEntityMeta($customPostID, $key, $value);
     }

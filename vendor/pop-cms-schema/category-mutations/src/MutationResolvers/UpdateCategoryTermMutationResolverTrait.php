@@ -12,9 +12,8 @@ trait UpdateCategoryTermMutationResolverTrait
 {
     /**
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         return $this->update($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -22,7 +21,7 @@ trait UpdateCategoryTermMutationResolverTrait
      * @return string|int The ID of the updated entity
      * @throws CategoryTermCRUDMutationException If there was an error (eg: Custom Post does not exist)
      */
-    protected abstract function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore);
+    protected abstract function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int;
     /**
      * Validate the app-level errors in top-level "errors" entry.
      */

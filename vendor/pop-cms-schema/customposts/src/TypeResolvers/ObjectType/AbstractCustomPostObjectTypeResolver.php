@@ -8,10 +8,7 @@ use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 /** @internal */
 abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\CustomPostObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
     protected final function getCustomPostTypeAPI() : CustomPostTypeAPIInterface
     {
         if ($this->customPostTypeAPI === null) {
@@ -25,10 +22,7 @@ abstract class AbstractCustomPostObjectTypeResolver extends AbstractObjectTypeRe
     {
         return $this->__('Representation of a custom post', 'customposts');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         return $this->getCustomPostTypeAPI()->getID($object);
     }

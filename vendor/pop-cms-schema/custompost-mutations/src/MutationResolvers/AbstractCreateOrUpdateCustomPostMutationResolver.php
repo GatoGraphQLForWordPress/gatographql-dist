@@ -4,14 +4,16 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\MutationResolvers;
 
 use DateTime;
-use DateTimeInterface;
 use PoPCMSSchema\CustomPostMutations\Constants\CustomPostCRUDHookNames;
 use PoPCMSSchema\CustomPostMutations\Constants\MutationInputProperties;
 use PoPCMSSchema\CustomPostMutations\Exception\CustomPostCRUDMutationException;
+use PoPCMSSchema\CustomPostMutations\FeedbackItemProviders\MutationErrorFeedbackItemProvider;
 use PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface;
 use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
 use PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface;
 use PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface;
+use PoP\ComponentModel\Feedback\FeedbackItemResolution;
+use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedback;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoP\ComponentModel\QueryResolution\FieldDataAccessorInterface;
@@ -22,22 +24,10 @@ use stdClass;
 abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends AbstractMutationResolver implements \PoPCMSSchema\CustomPostMutations\MutationResolvers\CustomPostMutationResolverInterface
 {
     use \PoPCMSSchema\CustomPostMutations\MutationResolvers\CreateOrUpdateCustomPostMutationResolverTrait;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPosts\TypeAPIs\CustomPostTypeAPIInterface|null
-     */
-    private $customPostTypeAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
     protected final function getNameResolver() : NameResolverInterface
     {
         if ($this->nameResolver === null) {
@@ -106,8 +96,51 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
             return;
         }
+        // Validate that the parent exists
+        if ($this->supportsCustomPostParent()) {
+            if ($fieldDataAccessor->hasValue(MutationInputProperties::PARENT_BY)) {
+                /** @var stdClass|null */
+                $parentBy = $fieldDataAccessor->getValue(MutationInputProperties::PARENT_BY);
+                if ($parentBy !== null) {
+                    $parentCustomPostID = null;
+                    $customPostType = $fieldDataAccessor->getValue(MutationInputProperties::CUSTOMPOST_TYPE) ?? $this->getCustomPostType();
+                    /**
+                     * If there's no custom post type, then it's a nested update mutation,
+                     * then get the CPT from the custom post
+                     */
+                    if ($customPostType === '') {
+                        $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
+                        /** @var string */
+                        $customPostType = $this->getCustomPostTypeAPI()->getCustomPostType($customPostID);
+                    }
+                    if (isset($parentBy->{MutationInputProperties::ID})) {
+                        $parentCustomPostID = $parentBy->{MutationInputProperties::ID};
+                        $this->validateParentCustomPostExists($parentCustomPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+                    } elseif (isset($parentBy->{MutationInputProperties::SLUG_PATH})) {
+                        $parentSlugPath = $parentBy->{MutationInputProperties::SLUG_PATH};
+                        $parentCustomPostID = $this->validateCustomPostBySlugPathExists($parentSlugPath, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+                    }
+                    if ($objectTypeFieldResolutionFeedbackStore->getErrorCount() > $errorCount) {
+                        return;
+                    }
+                    // Validate the parent does not create a recursion
+                    if ($parentCustomPostID !== null) {
+                        $customPostID = $fieldDataAccessor->getValue(MutationInputProperties::ID);
+                        if ($customPostID === $parentCustomPostID) {
+                            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E11), $fieldDataAccessor->getField()));
+                        } elseif ($customPostID !== null) {
+                            $this->validateParentCustomPostDoesNotCreateRecursion($parentCustomPostID, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+                        }
+                    }
+                }
+            }
+        }
         $this->triggerValidateCreateOrUpdateHook($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
+    /**
+     * Whether this mutation resolver supports custom post parent functionality
+     */
+    protected abstract function supportsCustomPostParent() : bool;
     protected function triggerValidateCreateOrUpdateHook(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CustomPostCRUDHookNames::VALIDATE_CREATE_OR_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -151,29 +184,17 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         }
         $this->triggerValidateUpdateHook($customPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerValidateUpdateHook($customPostID, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerValidateUpdateHook(string|int $customPostID, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CustomPostCRUDHookNames::VALIDATE_UPDATE, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore, $customPostType, $customPostID);
     }
-    /**
-     * @param int|string $customPostID
-     */
-    protected function additionals($customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function additionals(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
     }
-    /**
-     * @param int|string $customPostID
-     */
-    protected function updateAdditionals($customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function updateAdditionals(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
     }
-    /**
-     * @param int|string $customPostID
-     */
-    protected function createAdditionals($customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
+    protected function createAdditionals(int|string $customPostID, FieldDataAccessorInterface $fieldDataAccessor) : void
     {
     }
     /**
@@ -195,6 +216,17 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
                 $customPostData['content'] = $contentAs->{MutationInputProperties::HTML};
             }
         }
+        if ($fieldDataAccessor->hasValue(MutationInputProperties::PARENT_BY)) {
+            /** @var stdClass|null */
+            $parentBy = $fieldDataAccessor->getValue(MutationInputProperties::PARENT_BY);
+            if ($parentBy === null) {
+                $customPostData['parent-id'] = 0;
+            } elseif (isset($parentBy->{MutationInputProperties::ID})) {
+                $customPostData['parent-id'] = $parentBy->{MutationInputProperties::ID};
+            } elseif (isset($parentBy->{MutationInputProperties::SLUG_PATH})) {
+                $customPostData['parent-slug-path'] = $parentBy->{MutationInputProperties::SLUG_PATH};
+            }
+        }
         if ($fieldDataAccessor->hasValue(MutationInputProperties::EXCERPT)) {
             $customPostData['excerpt'] = $fieldDataAccessor->getValue(MutationInputProperties::EXCERPT);
         }
@@ -211,14 +243,14 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
             /** @var DateTime|null */
             $dateTime = $fieldDataAccessor->getValue(MutationInputProperties::DATE);
             if ($dateTime !== null) {
-                $customPostData['date'] = $dateTime->format(DateTimeInterface::ATOM);
+                $customPostData['date'] = $dateTime->format('Y-m-d H:i:s');
             }
         }
         if ($fieldDataAccessor->hasValue(MutationInputProperties::GMT_DATE)) {
             /** @var DateTime|null */
             $gmtDateTime = $fieldDataAccessor->getValue(MutationInputProperties::GMT_DATE);
             if ($gmtDateTime !== null) {
-                $customPostData['gmtDate'] = $gmtDateTime->format(DateTimeInterface::ATOM);
+                $customPostData['gmtDate'] = $gmtDateTime->format('Y-m-d H:i:s');
             }
         }
         // Inject author, categories, tags, featured image, etc
@@ -249,21 +281,18 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
      * @return string|int the ID of the updated custom post
      * @throws CustomPostCRUDMutationException If there was an error (eg: Custom Post does not exist)
      */
-    protected function executeUpdateCustomPost(array $customPostData)
+    protected function executeUpdateCustomPost(array $customPostData) : string|int
     {
         return $this->getCustomPostTypeMutationAPI()->updateCustomPost($customPostData);
     }
-    /**
-     * @param int|string $customPostID
-     */
-    protected function createUpdateCustomPost(FieldDataAccessorInterface $fieldDataAccessor, $customPostID) : void
+    protected function createUpdateCustomPost(FieldDataAccessorInterface $fieldDataAccessor, int|string $customPostID) : void
     {
     }
     /**
      * @return string|int The ID of the updated entity
      * @throws CustomPostCRUDMutationException If there was an error (eg: Custom Post does not exist)
      */
-    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function update(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostData = $this->getUpdateCustomPostData($fieldDataAccessor);
         $customPostID = $customPostData['id'];
@@ -276,17 +305,11 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         $this->triggerExecuteUpdateHook($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         return $customPostID;
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteCreateOrUpdateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteCreateOrUpdateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CustomPostCRUDHookNames::EXECUTE_CREATE_OR_UPDATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteUpdateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteUpdateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CustomPostCRUDHookNames::EXECUTE_UPDATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
     }
@@ -295,7 +318,7 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
      * @return string|int the ID of the created custom post
      * @throws CustomPostCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    protected function executeCreateCustomPost(array $customPostData)
+    protected function executeCreateCustomPost(array $customPostData) : string|int
     {
         return $this->getCustomPostTypeMutationAPI()->createCustomPost($customPostData);
     }
@@ -303,7 +326,7 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
      * @return string|int The ID of the created entity
      * @throws CustomPostCRUDMutationException If there was an error (eg: some Custom Post creation validation failed)
      */
-    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function create(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $customPostData = $this->getCreateCustomPostData($fieldDataAccessor);
         $customPostID = $this->executeCreateCustomPost($customPostData);
@@ -315,11 +338,36 @@ abstract class AbstractCreateOrUpdateCustomPostMutationResolver extends Abstract
         $this->triggerExecuteCreateHook($customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         return $customPostID;
     }
-    /**
-     * @param string|int $customPostID
-     */
-    protected function triggerExecuteCreateHook($customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function triggerExecuteCreateHook(string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         App::doAction(CustomPostCRUDHookNames::EXECUTE_CREATE, $customPostID, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+    }
+    protected function validateParentCustomPostExists(string|int $parentCustomPostID, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        if (!$this->getCustomPostTypeAPI()->customPostExists($parentCustomPostID)) {
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E7, [$parentCustomPostID]), $fieldDataAccessor->getField()));
+            return;
+        }
+        $this->validateIsCustomPostType($parentCustomPostID, $customPostType, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
+    }
+    protected function validateCustomPostBySlugPathExists(string $slugPath, string $customPostType, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|null
+    {
+        $parentCustomPost = $this->getCustomPostTypeAPI()->getCustomPostBySlugPath($slugPath, $customPostType);
+        if ($parentCustomPost !== null) {
+            return $this->getCustomPostTypeAPI()->getID($parentCustomPost);
+        }
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E10, [$slugPath, $customPostType]), $fieldDataAccessor->getField()));
+        return null;
+    }
+    protected function validateParentCustomPostDoesNotCreateRecursion(string|int $parentCustomPostID, string|int $customPostID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    {
+        $parentCustomPostAncestorIDs = $this->getCustomPostTypeAPI()->getCustomPostAncestorIDs($parentCustomPostID);
+        if ($parentCustomPostAncestorIDs === null) {
+            return;
+        }
+        if (!\in_array($customPostID, $parentCustomPostAncestorIDs)) {
+            return;
+        }
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E12, [$parentCustomPostID, $customPostID]), $fieldDataAccessor->getField()));
     }
 }

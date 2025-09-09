@@ -9,15 +9,11 @@ use GatoGraphQL\GatoGraphQL\StateManagers\AppThreadHelper;
 class InternalGraphQLServerContainerCacheConfigurationManager extends ContainerCacheConfigurationManager
 {
     /**
-     * @var array<string, mixed>
-     */
-    private $pluginAppGraphQLServerContext;
-    /**
      * @param array<string,mixed> $pluginAppGraphQLServerContext
      */
-    public function __construct(array $pluginAppGraphQLServerContext)
-    {
-        $this->pluginAppGraphQLServerContext = $pluginAppGraphQLServerContext;
+    public function __construct(
+        private array $pluginAppGraphQLServerContext
+    ) {
     }
 
     /**

@@ -24,34 +24,13 @@ use PoP\Root\App;
 abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEntityMetaMutationResolver implements \PoPCMSSchema\UserMetaMutations\MutationResolvers\UserMetaMutationResolverInterface
 {
     use \PoPCMSSchema\UserMetaMutations\MutationResolvers\MutateUserMetaMutationResolverTrait;
-    /**
-     * @var \PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface|null
-     */
-    private $userMetaTypeAPI;
-    /**
-     * @var \PoPCMSSchema\UserMetaMutations\TypeAPIs\UserMetaTypeMutationAPIInterface|null
-     */
-    private $userMetaTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoP\LooseContracts\NameResolverInterface|null
-     */
-    private $nameResolver;
-    /**
-     * @var \PoPCMSSchema\UserRoles\TypeAPIs\UserRoleTypeAPIInterface|null
-     */
-    private $userRoleTypeAPI;
-    /**
-     * @var \PoPCMSSchema\UserMutations\TypeAPIs\UserTypeMutationAPIInterface|null
-     */
-    private $userTypeMutationAPI;
-    /**
-     * @var \PoPCMSSchema\CustomPostMutations\TypeAPIs\CustomPostTypeMutationAPIInterface|null
-     */
-    private $customPostTypeMutationAPI;
+    private ?UserMetaTypeAPIInterface $userMetaTypeAPI = null;
+    private ?UserMetaTypeMutationAPIInterface $userMetaTypeMutationAPI = null;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?NameResolverInterface $nameResolver = null;
+    private ?UserRoleTypeAPIInterface $userRoleTypeAPI = null;
+    private ?UserTypeMutationAPIInterface $userTypeMutationAPI = null;
+    private ?CustomPostTypeMutationAPIInterface $customPostTypeMutationAPI = null;
     protected final function getUserMetaTypeAPI() : UserMetaTypeAPIInterface
     {
         if ($this->userMetaTypeAPI === null) {
@@ -115,10 +94,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
         }
         return $this->customPostTypeMutationAPI;
     }
-    /**
-     * @param string|int $userID
-     */
-    protected function validateEntityExists($userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateEntityExists(string|int $userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $user = $this->getUserTypeAPI()->getUserByID($userID);
         if ($user !== null) {
@@ -126,10 +102,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
         }
         $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E1, [$userID]), $fieldDataAccessor->getField()));
     }
-    /**
-     * @param string|int $userID
-     */
-    protected function validateUserCanEditEntity($userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateUserCanEditEntity(string|int $userID, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if ($this->getUserTypeMutationAPI()->canLoggedInUserEditUser($userID)) {
             return;
@@ -196,7 +169,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
      * @return string|int The ID of the user
      * @throws UserMetaCRUDMutationException If there was an error (eg: some user creation validation failed)
      */
-    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function addMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $userID = parent::addMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(UserMetaCRUDHookNames::EXECUTE_ADD_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -205,10 +178,8 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
     /**
      * @return string|int the ID of the created user
      * @throws UserMetaCRUDMutationException If there was an error (eg: some user creation validation failed)
-     * @param string|int $userID
-     * @param mixed $value
      */
-    protected function executeAddEntityMeta($userID, string $key, $value, bool $single)
+    protected function executeAddEntityMeta(string|int $userID, string $key, mixed $value, bool $single) : string|int
     {
         return $this->getUserMetaTypeMutationAPI()->addUserMeta($userID, $key, $value, $single);
     }
@@ -216,7 +187,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
      * @return string|int The ID of the user
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
      */
-    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function updateMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $userID = parent::updateMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(UserMetaCRUDHookNames::EXECUTE_UPDATE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -225,11 +196,8 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
     /**
      * @return string|int|bool the ID of the created meta entry if it didn't exist, or `true` if it did exist
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
-     * @param string|int $userID
-     * @param mixed $value
-     * @param mixed $prevValue
      */
-    protected function executeUpdateEntityMeta($userID, string $key, $value, $prevValue = null)
+    protected function executeUpdateEntityMeta(string|int $userID, string $key, mixed $value, mixed $prevValue = null) : string|int|bool
     {
         return $this->getUserMetaTypeMutationAPI()->updateUserMeta($userID, $key, $value, $prevValue);
     }
@@ -237,7 +205,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
      * @return string|int The ID of the user
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
      */
-    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function deleteMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $userID = parent::deleteMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(UserMetaCRUDHookNames::EXECUTE_DELETE_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -245,10 +213,8 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
     }
     /**
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
-     * @param string|int $userID
-     * @param mixed $value
      */
-    protected function executeDeleteEntityMeta($userID, string $key, $value = null) : void
+    protected function executeDeleteEntityMeta(string|int $userID, string $key, mixed $value = null) : void
     {
         $this->getUserMetaTypeMutationAPI()->deleteUserMeta($userID, $key, $value);
     }
@@ -256,7 +222,7 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
      * @return string|int The ID of the user
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
      */
-    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    protected function setMeta(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int
     {
         $userID = parent::setMeta($fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
         App::doAction(UserMetaCRUDHookNames::EXECUTE_SET_META, $fieldDataAccessor->getValue(MutationInputProperties::ID), $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
@@ -265,9 +231,8 @@ abstract class AbstractMutateUserMetaMutationResolver extends AbstractMutateEnti
     /**
      * @param array<string,mixed[]|null> $entries
      * @throws UserMetaCRUDMutationException If there was an error (eg: user does not exist)
-     * @param string|int $userID
      */
-    protected function executeSetEntityMeta($userID, array $entries) : void
+    protected function executeSetEntityMeta(string|int $userID, array $entries) : void
     {
         $this->getUserMetaTypeMutationAPI()->setUserMeta($userID, $entries);
     }

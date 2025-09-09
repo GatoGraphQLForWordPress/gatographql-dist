@@ -11,8 +11,8 @@ use PoPCMSSchema\CustomPosts\ComponentProcessors\FormInputs\FilterInputComponent
 class CustomPostMutationFilterInputContainerComponentProcessor extends CustomPostFilterInputContainerComponentProcessor
 {
     public const HOOK_FILTER_INPUTS = __CLASS__ . ':filter-inputs';
-    public const COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTS = 'filterinputcontainer-mycustomposts';
-    public const COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTCOUNT = 'filterinputcontainer-mycustompostcount';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTS = 'filterinputcontainer-mycustomposts';
+    public final const COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTCOUNT = 'filterinputcontainer-mycustompostcount';
     /**
      * @return string[]
      */
@@ -27,17 +27,11 @@ class CustomPostMutationFilterInputContainerComponentProcessor extends CustomPos
      */
     public function getFilterInputComponents(Component $component) : array
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTS:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_UNIONCUSTOMPOSTLIST);
-                break;
-            case self::COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTCOUNT:
-                $targetComponent = new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_UNIONCUSTOMPOSTCOUNT);
-                break;
-            default:
-                $targetComponent = null;
-                break;
-        }
+        $targetComponent = match ($component->name) {
+            self::COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTS => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_UNIONCUSTOMPOSTLIST),
+            self::COMPONENT_FILTERINPUTCONTAINER_MYCUSTOMPOSTCOUNT => new Component(parent::class, parent::COMPONENT_FILTERINPUTCONTAINER_UNIONCUSTOMPOSTCOUNT),
+            default => null,
+        };
         if ($targetComponent === null) {
             return [];
         }
@@ -51,6 +45,6 @@ class CustomPostMutationFilterInputContainerComponentProcessor extends CustomPos
      */
     protected function getFilterInputHookNames() : array
     {
-        return \array_merge(parent::getFilterInputHookNames(), [self::HOOK_FILTER_INPUTS]);
+        return [...parent::getFilterInputHookNames(), self::HOOK_FILTER_INPUTS];
     }
 }

@@ -17,18 +17,9 @@ use PoPCMSSchema\SchemaCommons\FilterInputs\OffsetFilterInput;
 /** @internal */
 class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IntScalarTypeResolver|null
-     */
-    private $intScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\OffsetFilterInput|null
-     */
-    private $excludeIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\SchemaCommons\FilterInputs\LimitFilterInput|null
-     */
-    private $includeFilterInput;
+    private ?IntScalarTypeResolver $intScalarTypeResolver = null;
+    private ?OffsetFilterInput $excludeIDsFilterInput = null;
+    private ?LimitFilterInput $includeFilterInput = null;
     protected final function getIntScalarTypeResolver() : IntScalarTypeResolver
     {
         if ($this->intScalarTypeResolver === null) {
@@ -70,37 +61,23 @@ class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectType
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         $maxLimit = $this->getMaxLimit();
-        switch ($maxLimit) {
-            case null:
-                $limitDesc = $this->__('Limit the results. \'-1\' brings all the results (or the maximum amount allowed)', 'schema-commons');
-                break;
-            case -1:
-                $limitDesc = $this->__('Limit the results. \'-1\' brings all the results', 'schema-commons');
-                break;
-            default:
-                $limitDesc = \sprintf($this->__('Limit the results. The maximum amount allowed is \'%s\'', 'schema-commons'), $maxLimit);
-                break;
-        }
-        switch ($inputFieldName) {
-            case 'limit':
-                return $limitDesc;
-            case 'offset':
-                return $this->__('Offset the results by how many positions', 'schema-commons');
-            default:
-                return parent::getInputFieldDescription($inputFieldName);
-        }
+        $limitDesc = match ($maxLimit) {
+            null => $this->__('Limit the results. \'-1\' brings all the results (or the maximum amount allowed)', 'schema-commons'),
+            -1 => $this->__('Limit the results. \'-1\' brings all the results', 'schema-commons'),
+            default => \sprintf($this->__('Limit the results. The maximum amount allowed is \'%s\'', 'schema-commons'), $maxLimit),
+        };
+        return match ($inputFieldName) {
+            'limit' => $limitDesc,
+            'offset' => $this->__('Offset the results by how many positions', 'schema-commons'),
+            default => parent::getInputFieldDescription($inputFieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'limit':
-                return $this->getDefaultLimit();
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'limit' => $this->getDefaultLimit(),
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
     protected function getDefaultLimit() : ?int
     {
@@ -108,9 +85,8 @@ class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectType
     }
     /**
      * Validate constraints on the input field's value
-     * @param mixed $inputFieldValue
      */
-    protected function validateInputFieldValue(string $inputFieldName, $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateInputFieldValue(string $inputFieldName, mixed $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         parent::validateInputFieldValue($inputFieldName, $inputFieldValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
         if ($inputFieldName === 'limit' && $this->getMaxLimit() !== null) {
@@ -123,9 +99,8 @@ class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectType
     }
     /**
      * Check the limit is not above the max limit or below -1
-     * @param mixed $inputFieldValue
      */
-    protected function validateLimitInputField(int $maxLimit, string $inputFieldName, $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected function validateLimitInputField(int $maxLimit, string $inputFieldName, mixed $inputFieldValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         // Check the value is not below what is accepted
         $minLimit = $maxLimit === -1 ? -1 : 1;
@@ -141,13 +116,10 @@ class PaginationInputObjectTypeResolver extends AbstractQueryableInputObjectType
     }
     public function getInputFieldFilterInput(string $inputFieldName) : ?FilterInputInterface
     {
-        switch ($inputFieldName) {
-            case 'limit':
-                return $this->getLimitFilterInput();
-            case 'offset':
-                return $this->getOffsetFilterInput();
-            default:
-                return parent::getInputFieldFilterInput($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'limit' => $this->getLimitFilterInput(),
+            'offset' => $this->getOffsetFilterInput(),
+            default => parent::getInputFieldFilterInput($inputFieldName),
+        };
     }
 }

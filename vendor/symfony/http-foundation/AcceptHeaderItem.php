@@ -18,22 +18,10 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
  */
 class AcceptHeaderItem
 {
-    /**
-     * @var string
-     */
-    private $value;
-    /**
-     * @var float
-     */
-    private $quality = 1.0;
-    /**
-     * @var int
-     */
-    private $index = 0;
-    /**
-     * @var mixed[]
-     */
-    private $attributes = [];
+    private string $value;
+    private float $quality = 1.0;
+    private int $index = 0;
+    private array $attributes = [];
     public function __construct(string $value, array $attributes = [])
     {
         $this->value = $value;
@@ -67,7 +55,7 @@ class AcceptHeaderItem
      *
      * @return $this
      */
-    public function setValue(string $value)
+    public function setValue(string $value) : static
     {
         $this->value = $value;
         return $this;
@@ -84,7 +72,7 @@ class AcceptHeaderItem
      *
      * @return $this
      */
-    public function setQuality(float $quality)
+    public function setQuality(float $quality) : static
     {
         $this->quality = $quality;
         return $this;
@@ -101,7 +89,7 @@ class AcceptHeaderItem
      *
      * @return $this
      */
-    public function setIndex(int $index)
+    public function setIndex(int $index) : static
     {
         $this->index = $index;
         return $this;
@@ -122,10 +110,8 @@ class AcceptHeaderItem
     }
     /**
      * Returns an attribute by its name.
-     * @param mixed $default
-     * @return mixed
      */
-    public function getAttribute(string $name, $default = null)
+    public function getAttribute(string $name, mixed $default = null) : mixed
     {
         return $this->attributes[$name] ?? $default;
     }
@@ -141,7 +127,7 @@ class AcceptHeaderItem
      *
      * @return $this
      */
-    public function setAttribute(string $name, string $value)
+    public function setAttribute(string $name, string $value) : static
     {
         if ('q' === $name) {
             $this->quality = (float) $value;

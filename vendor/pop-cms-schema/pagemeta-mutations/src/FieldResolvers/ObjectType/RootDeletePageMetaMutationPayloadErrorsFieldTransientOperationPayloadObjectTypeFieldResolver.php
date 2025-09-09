@@ -11,10 +11,7 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class RootDeletePageMetaMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver extends AbstractErrorsFieldTransientOperationPayloadObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\UnionType\RootDeletePageMetaMutationErrorPayloadUnionTypeResolver|null
-     */
-    private $rootDeletePageMetaMutationErrorPayloadUnionTypeResolver;
+    private ?RootDeletePageMetaMutationErrorPayloadUnionTypeResolver $rootDeletePageMetaMutationErrorPayloadUnionTypeResolver = null;
     protected final function getRootDeletePageMetaMutationErrorPayloadUnionTypeResolver() : RootDeletePageMetaMutationErrorPayloadUnionTypeResolver
     {
         if ($this->rootDeletePageMetaMutationErrorPayloadUnionTypeResolver === null) {

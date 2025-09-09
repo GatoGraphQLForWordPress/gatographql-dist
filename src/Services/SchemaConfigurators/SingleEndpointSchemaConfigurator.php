@@ -10,10 +10,7 @@ use GatoGraphQL\GatoGraphQL\Registries\SchemaConfigurationExecuterRegistryInterf
 
 class SingleEndpointSchemaConfigurator extends AbstractEndpointSchemaConfigurator
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Registries\EndpointSchemaConfigurationExecuterRegistryInterface|null
-     */
-    private $endpointSchemaConfigurationExecuterRegistry;
+    private ?EndpointSchemaConfigurationExecuterRegistryInterface $endpointSchemaConfigurationExecuterRegistry = null;
 
     final protected function getEndpointSchemaConfigurationExecuterRegistry(): EndpointSchemaConfigurationExecuterRegistryInterface
     {

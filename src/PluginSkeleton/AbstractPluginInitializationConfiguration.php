@@ -8,6 +8,7 @@ use GatoGraphQL\GatoGraphQL\App;
 use GatoGraphQL\GatoGraphQL\AppHelpers;
 use GatoGraphQL\GatoGraphQL\Constants\AdminGraphQLEndpointGroups;
 use GatoGraphQL\GatoGraphQL\Constants\HookNames;
+use GatoGraphQL\GatoGraphQL\Facades\Instances\PluginOptionsFormHandlerFacade;
 use GatoGraphQL\GatoGraphQL\Facades\Registries\SystemModuleRegistryFacade;
 use GatoGraphQL\GatoGraphQL\Facades\UserSettingsManagerFacade;
 use GatoGraphQL\GatoGraphQL\PluginStaticModuleConfiguration;
@@ -112,7 +113,7 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
         foreach ($mappings as $mapping) {
             /** @var string */
             $module = $mapping['module'];
-            /** @var bool */
+            /** @var string|bool */
             $condition = $mapping['condition'] ?? true;
             // Check if the hook must be executed always (condition => 'any') or with
             // stated enabled (true) or disabled (false). By default, it's enabled
@@ -159,7 +160,9 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
             App::addFilter(
                 $hookName,
                 function () use ($userSettingsManager, $optionModule, $option, $callback) {
-                    $value = $userSettingsManager->getSetting($optionModule, $option);
+                    $pluginOptionsFormHandler = PluginOptionsFormHandlerFacade::getInstance();
+                    $value = $pluginOptionsFormHandler->maybeOverrideValueFromForm(null, $optionModule, $option)
+                        ?? $userSettingsManager->getSetting($optionModule, $option);
                     if ($callback !== null) {
                         return $callback($value);
                     }
@@ -203,9 +206,7 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
             $callback = $mapping['callback'];
             App::addFilter(
                 $hookName,
-                function () use ($callback) {
-                    return $callback();
-                },
+                fn () => $callback(),
             );
         }
     }
@@ -400,9 +401,7 @@ abstract class AbstractPluginInitializationConfiguration implements PluginInitia
         $moduleRegistry = SystemModuleRegistryFacade::getInstance();
         $skipSchemaModuleClassesPerModule = array_filter(
             $this->getModuleClassesToSkipIfModuleDisabled(),
-            function (string $module) use ($moduleRegistry) {
-                return !$moduleRegistry->isModuleEnabled($module);
-            },
+            fn (string $module) => !$moduleRegistry->isModuleEnabled($module),
             ARRAY_FILTER_USE_KEY
         );
         return GeneralUtils::arrayFlatten(array_values(

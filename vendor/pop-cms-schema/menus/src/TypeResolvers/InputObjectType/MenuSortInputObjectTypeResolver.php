@@ -10,10 +10,7 @@ use PoPCMSSchema\SchemaCommons\TypeResolvers\InputObjectType\SortInputObjectType
 /** @internal */
 class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
 {
-    /**
-     * @var \PoPCMSSchema\Menus\TypeResolvers\EnumType\MenuOrderByEnumTypeResolver|null
-     */
-    private $menuSortByEnumTypeResolver;
+    private ?MenuOrderByEnumTypeResolver $menuSortByEnumTypeResolver = null;
     protected final function getMenuOrderByEnumTypeResolver() : MenuOrderByEnumTypeResolver
     {
         if ($this->menuSortByEnumTypeResolver === null) {
@@ -34,16 +31,11 @@ class MenuSortInputObjectTypeResolver extends SortInputObjectTypeResolver
     {
         return \array_merge(parent::getInputFieldNameTypeResolvers(), ['by' => $this->getMenuOrderByEnumTypeResolver()]);
     }
-    /**
-     * @return mixed
-     */
-    public function getInputFieldDefaultValue(string $inputFieldName)
+    public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
-        switch ($inputFieldName) {
-            case 'by':
-                return MenuOrderBy::DATE;
-            default:
-                return parent::getInputFieldDefaultValue($inputFieldName);
-        }
+        return match ($inputFieldName) {
+            'by' => MenuOrderBy::DATE,
+            default => parent::getInputFieldDefaultValue($inputFieldName),
+        };
     }
 }

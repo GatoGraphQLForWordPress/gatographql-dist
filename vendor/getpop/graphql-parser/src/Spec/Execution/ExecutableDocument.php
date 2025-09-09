@@ -17,19 +17,8 @@ use PoP\Root\Services\StandaloneServiceTrait;
 /** @internal */
 class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\ExecutableDocumentInterface
 {
-    /**
-     * @var \PoP\GraphQLParser\Spec\Parser\Ast\Document
-     */
-    protected $document;
-    /**
-     * @var \PoP\GraphQLParser\Spec\Execution\Context
-     */
-    protected $context;
     use StandaloneServiceTrait;
-    /**
-     * @var bool
-     */
-    protected $isValidatedAndInitialized = \false;
+    protected bool $isValidatedAndInitialized = \false;
     /**
      * The operation to execute:
      *
@@ -38,11 +27,9 @@ class ExecutableDocument implements \PoP\GraphQLParser\Spec\Execution\Executable
      *
      * @var OperationInterface|null
      */
-    private $requestedOperation;
-    public function __construct(Document $document, \PoP\GraphQLParser\Spec\Execution\Context $context)
+    private ?OperationInterface $requestedOperation = null;
+    public function __construct(protected Document $document, protected \PoP\GraphQLParser\Spec\Execution\Context $context)
     {
-        $this->document = $document;
-        $this->context = $context;
     }
     public function getDocument() : Document
     {

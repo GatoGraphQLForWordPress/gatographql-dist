@@ -12,7 +12,7 @@ class ComponentProcessorManager extends AbstractBasicService implements \PoP\Com
     /**
      * @var array<string,array<string,ComponentProcessorInterface>>
      */
-    private $componentProcessors = [];
+    private array $componentProcessors = [];
     /**
      * Return the ComponentProcessor that handles the Component
      *

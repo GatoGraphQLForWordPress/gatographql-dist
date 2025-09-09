@@ -19,23 +19,20 @@ use stdClass;
 abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\EnumType\EnumTypeResolverInterface
 {
     /** @var string[]|null */
-    protected $consolidatedEnumValuesCache;
+    protected ?array $consolidatedEnumValuesCache = null;
     /** @var string[]|null */
-    protected $consolidatedAdminEnumValuesCache;
+    protected ?array $consolidatedAdminEnumValuesCache = null;
     /** @var array<string,string|null> */
-    protected $consolidatedEnumValueDescriptionCache = [];
+    protected array $consolidatedEnumValueDescriptionCache = [];
     /** @var array<string,string|null> */
-    protected $consolidatedEnumValueDeprecationMessageCache = [];
+    protected array $consolidatedEnumValueDeprecationMessageCache = [];
     /** @var array<string,array<string,mixed>> */
-    protected $consolidatedEnumValueExtensionsCache = [];
+    protected array $consolidatedEnumValueExtensionsCache = [];
     /** @var array<string,array<string,mixed>>|null */
-    protected $schemaDefinitionForEnumCache;
+    protected ?array $schemaDefinitionForEnumCache = null;
     /** @var array<string,array<string,mixed>> */
-    protected $schemaDefinitionForEnumValueCache = [];
-    /**
-     * @var \PoP\ComponentModel\Response\OutputServiceInterface|null
-     */
-    private $outputService;
+    protected array $schemaDefinitionForEnumValueCache = [];
+    private ?OutputServiceInterface $outputService = null;
     protected final function getOutputService() : OutputServiceInterface
     {
         if ($this->outputService === null) {
@@ -73,10 +70,8 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
      * `doValidateEnumFieldOrDirectiveArgumentsItem`.
      *
      * This function simply returns the same value always.
-     * @param string|int|float|bool|\stdClass $inputValue
-     * @return string|int|float|bool|object|null
      */
-    public function coerceValue($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {
         $errorCount = $objectTypeFieldResolutionFeedbackStore->getErrorCount();
         $this->validateIsString($inputValue, $astNode, $objectTypeFieldResolutionFeedbackStore);
@@ -86,18 +81,13 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
         /** @var string $inputValue */
         $enumValues = $this->getConsolidatedEnumValues();
         if (!\in_array($inputValue, $enumValues)) {
-            $nonDeprecatedEnumValues = \array_filter($enumValues, function (string $enumValue) {
-                return empty($this->getConsolidatedEnumValueDeprecationMessage($enumValue));
-            });
+            $nonDeprecatedEnumValues = \array_filter($enumValues, fn(string $enumValue) => empty($this->getConsolidatedEnumValueDeprecationMessage($enumValue)));
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_14, [$inputValue, $this->getMaybeNamespacedTypeName(), \implode($this->__('\', \''), $nonDeprecatedEnumValues)]), $astNode));
             return null;
         }
         return $inputValue;
     }
-    /**
-     * @param string|int|float|bool|\stdClass $inputValue
-     */
-    protected final function validateIsString($inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
+    protected final function validateIsString(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         if (\is_string($inputValue)) {
             return;
@@ -109,11 +99,10 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
      * Return as is
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param string|int|float|bool|object $scalarValue
      */
-    public function serialize($scalarValue)
+    public function serialize(string|int|float|bool|object $scalarValue) : string|int|float|bool|array|stdClass
     {
-        /** @var string|int|float|bool|mixed[] */
+        /** @var string|int|float|bool|stdClass */
         return $scalarValue;
     }
     /**
@@ -122,7 +111,7 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
      * @param string|int|float|bool|stdClass $inputValue the (custom) scalar in any format: itself (eg: an object) or its representation (eg: as a string)
      * @return string[] The deprecation messages
      */
-    public final function getInputValueDeprecationMessages($inputValue) : array
+    public final function getInputValueDeprecationMessages(string|int|float|bool|stdClass $inputValue) : array
     {
         /** @var string $inputValue */
         if ($deprecationMessage = $this->getConsolidatedEnumValueDeprecationMessage($inputValue)) {
@@ -144,15 +133,13 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
         /**
          * Allow to override/extend the enum values
          */
-        $consolidatedEnumValues = App::applyFilters(\PoP\ComponentModel\TypeResolvers\EnumType\HookNames::ENUM_VALUES, $this->getEnumValues(), $this);
+        $consolidatedEnumValues = App::applyFilters(\PoP\ComponentModel\TypeResolvers\EnumType\HookNames::ENUM_VALUES, $this->getEnumValues(), $this) ?? [];
         // Exclude the admin enum values, if "Admin" Schema is not enabled
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         if (!$moduleConfiguration->exposeSensitiveDataInSchema()) {
             $adminEnumValues = $this->getConsolidatedAdminEnumValues();
-            $consolidatedEnumValues = \array_filter($consolidatedEnumValues, function (string $enumValue) use($adminEnumValues) {
-                return !\in_array($enumValue, $adminEnumValues);
-            });
+            $consolidatedEnumValues = \array_filter($consolidatedEnumValues, fn(string $enumValue) => !\in_array($enumValue, $adminEnumValues));
         }
         $this->consolidatedEnumValuesCache = $consolidatedEnumValues;
         return $this->consolidatedEnumValuesCache;

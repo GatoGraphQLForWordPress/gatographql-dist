@@ -26,10 +26,7 @@ trait QueryableFieldResolverTrait
         $filterDataComponentProcessor = $this->getComponentProcessorManager()->getComponentProcessor($filterDataloadingComponent);
         return $filterDataComponentProcessor->getFieldFilterInputDescription($filterDataloadingComponent, $fieldArgName);
     }
-    /**
-     * @return mixed
-     */
-    protected function getFilterFieldArgDefaultValue(Component $filterDataloadingComponent, string $fieldArgName)
+    protected function getFilterFieldArgDefaultValue(Component $filterDataloadingComponent, string $fieldArgName) : mixed
     {
         /** @var FilterInputContainerComponentProcessorInterface */
         $filterDataComponentProcessor = $this->getComponentProcessorManager()->getComponentProcessor($filterDataloadingComponent);

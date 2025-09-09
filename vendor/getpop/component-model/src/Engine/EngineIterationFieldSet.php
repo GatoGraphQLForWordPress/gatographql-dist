@@ -9,28 +9,18 @@ use SplObjectStorage;
 class EngineIterationFieldSet
 {
     /**
-     * @var FieldInterface[]
-     */
-    public $fields = [];
-    /**
-     * @var SplObjectStorage<FieldInterface, FieldInterface[]>
-     */
-    public $conditionalFields;
-    /**
      * @param FieldInterface[] $fields
      * @param SplObjectStorage<FieldInterface,FieldInterface[]> $conditionalFields
      */
-    public function __construct(array $fields = [], SplObjectStorage $conditionalFields = null)
+    public function __construct(public array $fields = [], public SplObjectStorage $conditionalFields = new SplObjectStorage())
     {
-        $conditionalFields = $conditionalFields ?? new SplObjectStorage();
-        $this->fields = $fields;
-        $this->conditionalFields = $conditionalFields;
     }
     /**
      * @param FieldInterface[] $fields
      */
     public function addFields(array $fields) : void
     {
+        // @phpstan-ignore-next-line
         $this->fields = \array_values(\array_unique(\array_merge($this->fields, $fields)));
     }
     /**
@@ -38,6 +28,7 @@ class EngineIterationFieldSet
      */
     public function addConditionalFields(FieldInterface $conditionField, array $conditionalFields) : void
     {
+        // @phpstan-ignore-next-line
         $this->conditionalFields[$conditionField] = \array_values(\array_unique(\array_merge($this->conditionalFields[$conditionField] ?? [], $conditionalFields)));
     }
 }

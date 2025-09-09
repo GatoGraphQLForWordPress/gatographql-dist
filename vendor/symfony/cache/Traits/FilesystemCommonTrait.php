@@ -18,14 +18,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArg
  */
 trait FilesystemCommonTrait
 {
-    /**
-     * @var string
-     */
-    private $directory;
-    /**
-     * @var string
-     */
-    private $tmpSuffix;
+    private string $directory;
+    private string $tmpSuffix;
     private function init(string $namespace, ?string $directory) : void
     {
         if (!isset($directory[0])) {
@@ -55,7 +49,7 @@ trait FilesystemCommonTrait
     {
         $ok = \true;
         foreach ($this->scanHashDir($this->directory) as $file) {
-            if ('' !== $namespace && \strncmp($this->getFileKey($file), $namespace, \strlen($namespace)) !== 0) {
+            if ('' !== $namespace && !\str_starts_with($this->getFileKey($file), $namespace)) {
                 continue;
             }
             $ok = ($this->doUnlink($file) || !\file_exists($file)) && $ok;
@@ -81,15 +75,13 @@ trait FilesystemCommonTrait
     private function write(string $file, string $data, ?int $expiresAt = null) : bool
     {
         $unlink = \false;
-        \set_error_handler(static function ($type, $message, $file, $line) {
-            throw new \ErrorException($message, 0, $type, $file, $line);
-        });
+        \set_error_handler(static fn($type, $message, $file, $line) => throw new \ErrorException($message, 0, $type, $file, $line));
         try {
-            $tmp = $this->directory . ($this->tmpSuffix = $this->tmpSuffix ?? \str_replace('/', '-', \base64_encode(\random_bytes(6))));
+            $tmp = $this->directory . ($this->tmpSuffix ??= \str_replace('/', '-', \base64_encode(\random_bytes(6))));
             try {
                 $h = \fopen($tmp, 'x');
             } catch (\ErrorException $e) {
-                if (\strpos($e->getMessage(), 'File exists') === \false) {
+                if (!\str_contains($e->getMessage(), 'File exists')) {
                     throw $e;
                 }
                 $tmp = $this->directory . ($this->tmpSuffix = \str_replace('/', '-', \base64_encode(\random_bytes(6))));
@@ -120,7 +112,7 @@ trait FilesystemCommonTrait
     private function getFile(string $id, bool $mkdir = \false, ?string $directory = null) : string
     {
         // Use xxh128 to favor speed over security, which is not an issue here
-        $hash = \str_replace('/', '-', \base64_encode(\hash('md5', static::class . $id, \true)));
+        $hash = \str_replace('/', '-', \base64_encode(\hash('xxh128', static::class . $id, \true)));
         $dir = ($directory ?? $this->directory) . \strtoupper($hash[0] . \DIRECTORY_SEPARATOR . $hash[1] . \DIRECTORY_SEPARATOR);
         if ($mkdir && !\is_dir($dir)) {
             @\mkdir($dir, 0777, \true);

@@ -18,7 +18,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation;
  * @implements \IteratorAggregate<string, list<string|null>>
  * @internal
  */
-class HeaderBag implements \IteratorAggregate, \Countable
+class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
 {
     protected const UPPER = '_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     protected const LOWER = '-abcdefghijklmnopqrstuvwxyz';
@@ -118,7 +118,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @return void
      */
-    public function set(string $key, $values, bool $replace = \true)
+    public function set(string $key, string|array|null $values, bool $replace = \true)
     {
         $key = \strtr($key, self::UPPER, self::LOWER);
         if (\is_array($values)) {
@@ -187,9 +187,8 @@ class HeaderBag implements \IteratorAggregate, \Countable
      * Adds a custom Cache-Control directive.
      *
      * @return void
-     * @param bool|string $value
      */
-    public function addCacheControlDirective(string $key, $value = \true)
+    public function addCacheControlDirective(string $key, bool|string $value = \true)
     {
         $this->cacheControl[$key] = $value;
         $this->set('Cache-Control', $this->getCacheControlHeader());
@@ -203,9 +202,8 @@ class HeaderBag implements \IteratorAggregate, \Countable
     }
     /**
      * Returns a Cache-Control directive value by name.
-     * @return bool|string|null
      */
-    public function getCacheControlDirective(string $key)
+    public function getCacheControlDirective(string $key) : bool|string|null
     {
         return $this->cacheControl[$key] ?? null;
     }

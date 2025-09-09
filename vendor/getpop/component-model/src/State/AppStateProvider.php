@@ -22,18 +22,9 @@ use SplObjectStorage;
 /** @internal */
 class AppStateProvider extends AbstractAppStateProvider
 {
-    /**
-     * @var \PoP\ComponentModel\Variables\VariableManagerInterface|null
-     */
-    private $fieldQueryInterpreter;
-    /**
-     * @var \PoP\ComponentModel\ComponentFiltering\ComponentFilterManagerInterface|null
-     */
-    private $componentFilterManager;
-    /**
-     * @var \PoP\ComponentModel\Engine\EngineInterface|null
-     */
-    private $engine;
+    private ?VariableManagerInterface $fieldQueryInterpreter = null;
+    private ?ComponentFilterManagerInterface $componentFilterManager = null;
+    private ?EngineInterface $engine = null;
     protected final function getVariableManager() : VariableManagerInterface
     {
         if ($this->fieldQueryInterpreter === null) {

@@ -17,26 +17,11 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\PageDeleteMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $pageDeleteMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\PageAddMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $pageCreateMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\PageUpdateMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $pageUpdateMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\PageSetMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $pageSetMetaMutationPayloadObjectTypeResolver;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?PageDeleteMetaMutationPayloadObjectTypeResolver $pageDeleteMetaMutationPayloadObjectTypeResolver = null;
+    private ?PageAddMetaMutationPayloadObjectTypeResolver $pageCreateMutationPayloadObjectTypeResolver = null;
+    private ?PageUpdateMetaMutationPayloadObjectTypeResolver $pageUpdateMetaMutationPayloadObjectTypeResolver = null;
+    private ?PageSetMetaMutationPayloadObjectTypeResolver $pageSetMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -95,27 +80,17 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
         $moduleConfiguration = App::getModule(CustomPostMetaMutationsModule::class)->getConfiguration();
         $usePayloadableCustomPostMetaMutations = $moduleConfiguration->usePayloadableCustomPostMetaMutations();
         if (!$usePayloadableCustomPostMetaMutations) {
-            switch ($fieldName) {
-                case 'addMeta':
-                case 'deleteMeta':
-                case 'setMeta':
-                case 'updateMeta':
-                    return $this->getPageObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'addMeta', 'deleteMeta', 'setMeta', 'updateMeta' => $this->getPageObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'addMeta':
-                return $this->getPageAddMetaMutationPayloadObjectTypeResolver();
-            case 'deleteMeta':
-                return $this->getPageDeleteMetaMutationPayloadObjectTypeResolver();
-            case 'setMeta':
-                return $this->getPageSetMetaMutationPayloadObjectTypeResolver();
-            case 'updateMeta':
-                return $this->getPageUpdateMetaMutationPayloadObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'addMeta' => $this->getPageAddMetaMutationPayloadObjectTypeResolver(),
+            'deleteMeta' => $this->getPageDeleteMetaMutationPayloadObjectTypeResolver(),
+            'setMeta' => $this->getPageSetMetaMutationPayloadObjectTypeResolver(),
+            'updateMeta' => $this->getPageUpdateMetaMutationPayloadObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

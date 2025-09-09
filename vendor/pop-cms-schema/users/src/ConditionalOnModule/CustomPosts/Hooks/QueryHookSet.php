@@ -11,7 +11,7 @@ class QueryHookSet extends AbstractHookSet
 {
     protected function init() : void
     {
-        App::addFilter(AbstractCustomPostTypeAPI::HOOK_QUERY, \Closure::fromCallable([$this, 'convertCustomPostsQuery']), 10, 2);
+        App::addFilter(AbstractCustomPostTypeAPI::HOOK_QUERY, $this->convertCustomPostsQuery(...), 10, 2);
     }
     /**
      * @return array<string,mixed>

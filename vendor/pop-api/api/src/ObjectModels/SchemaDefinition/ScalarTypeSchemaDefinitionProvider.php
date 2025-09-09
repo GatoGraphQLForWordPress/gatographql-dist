@@ -9,13 +9,8 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface;
 /** @internal */
 class ScalarTypeSchemaDefinitionProvider extends \PoPAPI\API\ObjectModels\SchemaDefinition\AbstractNamedTypeSchemaDefinitionProvider
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\ScalarTypeResolverInterface
-     */
-    protected $scalarTypeResolver;
-    public function __construct(ScalarTypeResolverInterface $scalarTypeResolver)
+    public function __construct(protected ScalarTypeResolverInterface $scalarTypeResolver)
     {
-        $this->scalarTypeResolver = $scalarTypeResolver;
         parent::__construct($scalarTypeResolver);
     }
     public function getTypeKind() : string

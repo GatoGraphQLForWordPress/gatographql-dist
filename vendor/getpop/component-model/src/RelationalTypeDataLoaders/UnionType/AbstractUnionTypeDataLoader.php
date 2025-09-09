@@ -27,7 +27,7 @@ abstract class AbstractUnionTypeDataLoader extends AbstractRelationalTypeDataLoa
                 continue;
             }
             $targetObjectTypeName = $targetObjectTypeResolver->getNamespacedTypeName();
-            $objectTypeResolverNameDataItems[$targetObjectTypeName] = $objectTypeResolverNameDataItems[$targetObjectTypeName] ?? ['targetObjectTypeResolver' => $targetObjectTypeResolver, 'objectIDs' => []];
+            $objectTypeResolverNameDataItems[$targetObjectTypeName] ??= ['targetObjectTypeResolver' => $targetObjectTypeResolver, 'objectIDs' => []];
             $objectTypeResolverNameDataItems[$targetObjectTypeName]['objectIDs'][] = $objectID;
         }
         // Load all objects by each corresponding typeResolver

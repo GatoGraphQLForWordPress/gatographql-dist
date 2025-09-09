@@ -6,5 +6,5 @@ namespace PoP\GuzzleHTTP;
 /** @internal */
 class Environment
 {
-    public const GUZZLE_REQUEST_REFERER = 'GUZZLE_REQUEST_REFERER';
+    public final const GUZZLE_REQUEST_REFERER = 'GUZZLE_REQUEST_REFERER';
 }

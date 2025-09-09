@@ -12,14 +12,11 @@ use function update_option;
 
 class TimestampSettingsManager implements TimestampSettingsManagerInterface
 {
-    /**
-     * @var \GatoGraphQL\GatoGraphQL\Settings\OptionNamespacerInterface|null
-     */
-    private $optionNamespacer;
+    private ?OptionNamespacerInterface $optionNamespacer = null;
 
     final protected function getOptionNamespacer(): OptionNamespacerInterface
     {
-        return $this->optionNamespacer = $this->optionNamespacer ?? OptionNamespacerFacade::getInstance();
+        return $this->optionNamespacer ??= OptionNamespacerFacade::getInstance();
     }
 
     public function getTimestamp(string $name, ?string $defaultValue = null): ?string
@@ -37,8 +34,12 @@ class TimestampSettingsManager implements TimestampSettingsManagerInterface
         return $this->getOptionNamespacer()->namespaceOption($option);
     }
 
-    public function storeTimestamp(string $name, string $timestamp): void
+    /**
+     * @param string|null $timestamp If null, use the current time
+     */
+    public function storeTimestamp(string $name, ?string $timestamp = null): void
     {
+        $timestamp ??= (string) time();
         $this->storeTimestamps([$name => $timestamp]);
     }
 

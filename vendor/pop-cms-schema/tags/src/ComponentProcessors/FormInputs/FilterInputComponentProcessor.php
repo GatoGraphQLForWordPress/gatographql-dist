@@ -19,33 +19,15 @@ use PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver;
 /** @internal */
 class FilterInputComponentProcessor extends AbstractFilterInputComponentProcessor implements DataloadQueryArgsFilterInputComponentProcessorInterface
 {
-    public const COMPONENT_FILTERINPUT_TAG_SLUGS = 'filterinput-tag-slugs';
-    public const COMPONENT_FILTERINPUT_TAG_IDS = 'filterinput-tag-ids';
-    public const COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY = 'filterinput-generic-tag-taxonomy';
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\IDScalarTypeResolver|null
-     */
-    private $idScalarTypeResolver;
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \PoPCMSSchema\Tags\FilterInputs\TagSlugsFilterInput|null
-     */
-    private $tagSlugsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Tags\FilterInputs\TagIDsFilterInput|null
-     */
-    private $tagIDsFilterInput;
-    /**
-     * @var \PoPCMSSchema\Taxonomies\FilterInputs\TaxonomyFilterInput|null
-     */
-    private $taxonomyFilterInput;
-    /**
-     * @var \PoPCMSSchema\Tags\TypeResolvers\EnumType\TagTaxonomyEnumStringScalarTypeResolver|null
-     */
-    private $tagTaxonomyEnumStringScalarTypeResolver;
+    public final const COMPONENT_FILTERINPUT_TAG_SLUGS = 'filterinput-tag-slugs';
+    public final const COMPONENT_FILTERINPUT_TAG_IDS = 'filterinput-tag-ids';
+    public final const COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY = 'filterinput-generic-tag-taxonomy';
+    private ?IDScalarTypeResolver $idScalarTypeResolver = null;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?TagSlugsFilterInput $tagSlugsFilterInput = null;
+    private ?TagIDsFilterInput $tagIDsFilterInput = null;
+    private ?TaxonomyFilterInput $taxonomyFilterInput = null;
+    private ?TagTaxonomyEnumStringScalarTypeResolver $tagTaxonomyEnumStringScalarTypeResolver = null;
     protected final function getIDScalarTypeResolver() : IDScalarTypeResolver
     {
         if ($this->idScalarTypeResolver === null) {
@@ -109,16 +91,12 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getFilterInput(Component $component) : ?FilterInputInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_TAG_SLUGS:
-                return $this->getTagSlugsFilterInput();
-            case self::COMPONENT_FILTERINPUT_TAG_IDS:
-                return $this->getTagIDsFilterInput();
-            case self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY:
-                return $this->getTaxonomyFilterInput();
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_TAG_SLUGS => $this->getTagSlugsFilterInput(),
+            self::COMPONENT_FILTERINPUT_TAG_IDS => $this->getTagIDsFilterInput(),
+            self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY => $this->getTaxonomyFilterInput(),
+            default => null,
+        };
     }
     public function getInputClass(Component $component) : string
     {
@@ -131,51 +109,38 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
     }
     public function getName(Component $component) : string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_TAG_SLUGS:
-                return 'tagSlugs';
-            case self::COMPONENT_FILTERINPUT_TAG_IDS:
-                return 'tagIDs';
-            case self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY:
-                return 'taxonomy';
-            default:
-                return parent::getName($component);
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_TAG_SLUGS => 'tagSlugs',
+            self::COMPONENT_FILTERINPUT_TAG_IDS => 'tagIDs',
+            self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY => 'taxonomy',
+            default => parent::getName($component),
+        };
     }
     public function getFilterInputTypeResolver(Component $component) : InputTypeResolverInterface
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_TAG_SLUGS:
-                return $this->getStringScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_TAG_IDS:
-                return $this->getIDScalarTypeResolver();
-            case self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY:
-                return $this->getTagTaxonomyEnumStringScalarTypeResolver();
-            default:
-                return $this->getDefaultSchemaFilterInputTypeResolver();
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_TAG_SLUGS => $this->getStringScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_TAG_IDS => $this->getIDScalarTypeResolver(),
+            self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY => $this->getTagTaxonomyEnumStringScalarTypeResolver(),
+            default => $this->getDefaultSchemaFilterInputTypeResolver(),
+        };
     }
     public function getFilterInputTypeModifiers(Component $component) : int
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_TAG_SLUGS:
-            case self::COMPONENT_FILTERINPUT_TAG_IDS:
-                return SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY;
-            default:
-                return SchemaTypeModifiers::NONE;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_TAG_SLUGS, self::COMPONENT_FILTERINPUT_TAG_IDS => SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            // self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY
+            //     => SchemaTypeModifiers::MANDATORY,
+            default => SchemaTypeModifiers::NONE,
+        };
     }
     public function getFilterInputDescription(Component $component) : ?string
     {
-        switch ($component->name) {
-            case self::COMPONENT_FILTERINPUT_TAG_SLUGS:
-                return $this->__('Limit results to elements with the given tags', 'tags');
-            case self::COMPONENT_FILTERINPUT_TAG_IDS:
-                return $this->__('Limit results to elements with the given ids', 'tags');
-            case self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY:
-                return $this->__('Tag taxonomy', 'tags');
-            default:
-                return null;
-        }
+        return match ($component->name) {
+            self::COMPONENT_FILTERINPUT_TAG_SLUGS => $this->__('Limit results to elements with the given tags', 'tags'),
+            self::COMPONENT_FILTERINPUT_TAG_IDS => $this->__('Limit results to elements with the given ids', 'tags'),
+            self::COMPONENT_FILTERINPUT_GENERIC_TAG_TAXONOMY => $this->__('Tag taxonomy', 'tags'),
+            default => null,
+        };
     }
 }

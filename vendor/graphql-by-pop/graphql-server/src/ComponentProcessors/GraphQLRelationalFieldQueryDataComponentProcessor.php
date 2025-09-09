@@ -6,7 +6,7 @@ namespace GraphQLByPoP\GraphQLServer\ComponentProcessors;
 /** @internal */
 class GraphQLRelationalFieldQueryDataComponentProcessor extends \GraphQLByPoP\GraphQLServer\ComponentProcessors\AbstractGraphQLRelationalFieldQueryDataComponentProcessor
 {
-    public const COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS = 'layout-graphqlrelationalfields';
+    public final const COMPONENT_LAYOUT_GRAPHQLRELATIONALFIELDS = 'layout-graphqlrelationalfields';
     /**
      * @return string[]
      */

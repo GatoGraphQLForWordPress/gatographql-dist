@@ -11,7 +11,7 @@ trait FilterDataComponentProcessorTrait
     /**
      * @var array<string,array<string,Component[]>>
      */
-    protected $activeDataloadQueryArgsFilteringComponents = [];
+    protected array $activeDataloadQueryArgsFilteringComponents = [];
     /**
      * @param array<string,mixed> $query
      * @param array<string,mixed>|null $source
@@ -38,7 +38,7 @@ trait FilterDataComponentProcessorTrait
     {
         // Search for cached result
         $cacheKey = (string) \json_encode($source ?? []);
-        $this->activeDataloadQueryArgsFilteringComponents[$cacheKey] = $this->activeDataloadQueryArgsFilteringComponents[$cacheKey] ?? [];
+        $this->activeDataloadQueryArgsFilteringComponents[$cacheKey] ??= [];
         if (isset($this->activeDataloadQueryArgsFilteringComponents[$cacheKey][$component->name])) {
             return $this->activeDataloadQueryArgsFilteringComponents[$cacheKey][$component->name];
         }
@@ -62,8 +62,6 @@ trait FilterDataComponentProcessorTrait
     public function getDataloadQueryArgsFilteringComponents(Component $component) : array
     {
         $componentProcessorManager = $this->getComponentProcessorManager();
-        return \array_values(\array_filter($this->getDatasetcomponentTreeSectionFlattenedComponents($component), function (Component $component) use($componentProcessorManager) {
-            return $componentProcessorManager->getComponentProcessor($component) instanceof \PoP\ComponentModel\ComponentProcessors\DataloadQueryArgsFilterInputComponentProcessorInterface;
-        }));
+        return \array_values(\array_filter($this->getDatasetcomponentTreeSectionFlattenedComponents($component), fn(Component $component) => $componentProcessorManager->getComponentProcessor($component) instanceof \PoP\ComponentModel\ComponentProcessors\DataloadQueryArgsFilterInputComponentProcessorInterface));
     }
 }

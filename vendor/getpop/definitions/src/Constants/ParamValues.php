@@ -6,5 +6,5 @@ namespace PoP\Definitions\Constants;
 /** @internal */
 class ParamValues
 {
-    public const MANGLED_NONE = 'none';
+    public final const MANGLED_NONE = 'none';
 }

@@ -12,7 +12,7 @@ class ModuleConfiguration extends AbstractModuleConfiguration
     {
         $envVariable = \PoP\Root\Environment::ENABLE_PASSING_STATE_VIA_REQUEST;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enablePassingRoutingStateViaRequest() : bool
@@ -22,17 +22,14 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoP\Root\Environment::ENABLE_PASSING_ROUTING_STATE_VIA_REQUEST;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     protected function enableHook(string $envVariable) : bool
     {
-        switch ($envVariable) {
-            case \PoP\Root\Environment::ENABLE_PASSING_STATE_VIA_REQUEST:
-            case \PoP\Root\Environment::ENABLE_PASSING_ROUTING_STATE_VIA_REQUEST:
-                return \false;
-            default:
-                return parent::enableHook($envVariable);
-        }
+        return match ($envVariable) {
+            \PoP\Root\Environment::ENABLE_PASSING_STATE_VIA_REQUEST, \PoP\Root\Environment::ENABLE_PASSING_ROUTING_STATE_VIA_REQUEST => \false,
+            default => parent::enableHook($envVariable),
+        };
     }
 }

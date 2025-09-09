@@ -12,10 +12,7 @@ use PoP\ComponentRouting\AbstractEntryComponentRoutingProcessor;
 /** @internal */
 class EntryComponentRoutingProcessor extends AbstractEntryComponentRoutingProcessor
 {
-    /**
-     * @var \PoPAPI\GraphQLAPI\DataStructureFormatters\GraphQLDataStructureFormatter|null
-     */
-    private $graphQLDataStructureFormatter;
+    private ?GraphQLDataStructureFormatter $graphQLDataStructureFormatter = null;
     protected final function getGraphQLDataStructureFormatter() : GraphQLDataStructureFormatter
     {
         if ($this->graphQLDataStructureFormatter === null) {

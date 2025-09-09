@@ -20,13 +20,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\RequestMatc
  */
 class PortRequestMatcher implements RequestMatcherInterface
 {
-    /**
-     * @var int
-     */
-    private $port;
-    public function __construct(int $port)
+    public function __construct(private int $port)
     {
-        $this->port = $port;
     }
     public function matches(Request $request) : bool
     {

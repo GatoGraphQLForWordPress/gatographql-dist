@@ -12,21 +12,14 @@ use PoP\Root\Feedback\FeedbackItemResolution;
 /** @internal */
 class DocumentDynamicVariableValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Execution\ValueResolutionPromiseInterface
 {
-    /**
-     * @readonly
-     * @var \PoP\GraphQLParser\ExtendedSpec\Parser\Ast\ArgumentValue\DocumentDynamicVariableReference
-     */
-    public $documentDynamicVariableReference;
     use StandaloneServiceTrait;
-    public function __construct(DocumentDynamicVariableReference $documentDynamicVariableReference)
+    public function __construct(public readonly DocumentDynamicVariableReference $documentDynamicVariableReference)
     {
-        $this->documentDynamicVariableReference = $documentDynamicVariableReference;
     }
     /**
      * @throws RuntimeVariableReferenceException When accessing non-declared Dynamic Variables
-     * @return mixed
      */
-    public function resolveValue()
+    public function resolveValue() : mixed
     {
         /** @var array<string,mixed> */
         $documentDynamicVariables = App::getState('document-dynamic-variables');

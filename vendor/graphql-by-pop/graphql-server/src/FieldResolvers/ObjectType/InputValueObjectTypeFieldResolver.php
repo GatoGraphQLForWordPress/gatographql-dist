@@ -18,18 +18,9 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class InputValueObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\StringScalarTypeResolver|null
-     */
-    private $stringScalarTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\TypeObjectTypeResolver|null
-     */
-    private $typeObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\InputValueExtensionsObjectTypeResolver|null
-     */
-    private $inputValueExtensionsObjectTypeResolver;
+    private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
+    private ?TypeObjectTypeResolver $typeObjectTypeResolver = null;
+    private ?InputValueExtensionsObjectTypeResolver $inputValueExtensionsObjectTypeResolver = null;
     protected final function getStringScalarTypeResolver() : StringScalarTypeResolver
     {
         if ($this->stringScalarTypeResolver === null) {
@@ -73,53 +64,34 @@ class InputValueObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     }
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ConcreteTypeResolverInterface
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->getStringScalarTypeResolver();
-            case 'description':
-                return $this->getStringScalarTypeResolver();
-            case 'defaultValue':
-                return $this->getStringScalarTypeResolver();
-            case 'type':
-                return $this->getTypeObjectTypeResolver();
-            case 'extensions':
-                return $this->getInputValueExtensionsObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->getStringScalarTypeResolver(),
+            'description' => $this->getStringScalarTypeResolver(),
+            'defaultValue' => $this->getStringScalarTypeResolver(),
+            'type' => $this->getTypeObjectTypeResolver(),
+            'extensions' => $this->getInputValueExtensionsObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : int
     {
-        switch ($fieldName) {
-            case 'name':
-            case 'type':
-            case 'extensions':
-                return SchemaTypeModifiers::NON_NULLABLE;
-            default:
-                return parent::getFieldTypeModifiers($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name', 'type', 'extensions' => SchemaTypeModifiers::NON_NULLABLE,
+            default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'name':
-                return $this->__('Input value\'s name as defined by the GraphQL spec', 'graphql-server');
-            case 'description':
-                return $this->__('Input value\'s description', 'graphql-server');
-            case 'type':
-                return $this->__('Type of the input value', 'graphql-server');
-            case 'defaultValue':
-                return $this->__('Default value of the input value', 'graphql-server');
-            case 'extensions':
-                return $this->__('Extensions (custom metadata) added to the input (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'name' => $this->__('Input value\'s name as defined by the GraphQL spec', 'graphql-server'),
+            'description' => $this->__('Input value\'s description', 'graphql-server'),
+            'type' => $this->__('Type of the input value', 'graphql-server'),
+            'defaultValue' => $this->__('Default value of the input value', 'graphql-server'),
+            'extensions' => $this->__('Extensions (custom metadata) added to the input (see: https://github.com/graphql/graphql-spec/issues/300#issuecomment-504734306 and below comments, and https://github.com/graphql/graphql-js/issues/1527)', 'graphql-server'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var InputValue */
         $inputValue = $object;

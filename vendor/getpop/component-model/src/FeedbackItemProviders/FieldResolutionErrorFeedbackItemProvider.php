@@ -8,14 +8,14 @@ use PoP\Root\Feedback\FeedbackCategories;
 /** @internal */
 class FieldResolutionErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
 {
-    public const E2 = '2';
-    public const E3 = '3';
-    public const E4 = '4';
-    public const E5 = '5';
-    public const E6 = '6';
-    public const E7 = '7';
-    public const E8 = '8';
-    public const E9 = '9';
+    public final const E2 = '2';
+    public final const E3 = '3';
+    public final const E4 = '4';
+    public final const E5 = '5';
+    public final const E6 = '6';
+    public final const E7 = '7';
+    public final const E8 = '8';
+    public final const E9 = '9';
     /**
      * @return string[]
      */
@@ -25,26 +25,17 @@ class FieldResolutionErrorFeedbackItemProvider extends AbstractFeedbackItemProvi
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        switch ($code) {
-            case self::E2:
-                return $this->__('Field \'%s\' could not be processed due to the error(s) from its arguments', 'component-model');
-            case self::E3:
-                return $this->__('Non-nullable field \'%s\' cannot return null', 'component-model');
-            case self::E4:
-                return $this->__('Field \'%s\' must not return an array, but returned \'%s\'', 'component-model');
-            case self::E5:
-                return $this->__('Field \'%s\' must return an array, but returned \'%s\'', 'component-model');
-            case self::E6:
-                return $this->__('Field \'%s\' must not return an array with null items', 'component-model');
-            case self::E7:
-                return $this->__('Array value in field \'%s\' must not contain arrays, but returned \'%s\'', 'component-model');
-            case self::E8:
-                return $this->__('Field \'%s\' must return an array of arrays, but returned \'%s\'', 'component-model');
-            case self::E9:
-                return $this->__('Field \'%s\' must not return an array of arrays with null items', 'component-model');
-            default:
-                return parent::getMessagePlaceholder($code);
-        }
+        return match ($code) {
+            self::E2 => $this->__('Field \'%s\' could not be processed due to the error(s) from its arguments', 'component-model'),
+            self::E3 => $this->__('Non-nullable field \'%s\' cannot return null', 'component-model'),
+            self::E4 => $this->__('Field \'%s\' must not return an array, but returned \'%s\'', 'component-model'),
+            self::E5 => $this->__('Field \'%s\' must return an array, but returned \'%s\'', 'component-model'),
+            self::E6 => $this->__('Field \'%s\' must not return an array with null items', 'component-model'),
+            self::E7 => $this->__('Array value in field \'%s\' must not contain arrays, but returned \'%s\'', 'component-model'),
+            self::E8 => $this->__('Field \'%s\' must return an array of arrays, but returned \'%s\'', 'component-model'),
+            self::E9 => $this->__('Field \'%s\' must not return an array of arrays with null items', 'component-model'),
+            default => parent::getMessagePlaceholder($code),
+        };
     }
     public function getCategory(string $code) : string
     {

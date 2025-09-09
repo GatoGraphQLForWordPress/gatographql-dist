@@ -21,8 +21,8 @@ interface QueryableInputObjectTypeResolverInterface extends \PoP\ComponentModel\
     /**
      * Apply the FilterInputs to produce the filtering query
      *
-     * @param array<string,mixed> $query
+     * @param array<mixed> $query
      * @param stdClass|stdClass[]|array<stdClass[]> $inputValue
      */
-    public function integrateInputValueToFilteringQueryArgs(array &$query, $inputValue) : void;
+    public function integrateInputValueToFilteringQueryArgs(array &$query, stdClass|array $inputValue) : void;
 }

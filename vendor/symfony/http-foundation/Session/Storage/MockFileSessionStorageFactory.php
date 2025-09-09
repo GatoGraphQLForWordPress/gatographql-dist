@@ -19,18 +19,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\HttpFoundation\Request;
  */
 class MockFileSessionStorageFactory implements SessionStorageFactoryInterface
 {
-    /**
-     * @var string|null
-     */
-    private $savePath;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Storage\MetadataBag|null
-     */
-    private $metaBag;
+    private ?string $savePath;
+    private string $name;
+    private ?MetadataBag $metaBag;
     /**
      * @see MockFileSessionStorage constructor.
      */

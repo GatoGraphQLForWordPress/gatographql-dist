@@ -13,10 +13,7 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class IdentifiableObjectObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\ObjectType\AbstractObjectTypeFieldResolver
 {
-    /**
-     * @var \PoP\ComponentModel\FieldResolvers\InterfaceType\IdentifiableObjectInterfaceTypeFieldResolver|null
-     */
-    private $identifiableObjectInterfaceTypeFieldResolver;
+    private ?IdentifiableObjectInterfaceTypeFieldResolver $identifiableObjectInterfaceTypeFieldResolver = null;
     protected final function getIdentifiableObjectInterfaceTypeFieldResolver() : IdentifiableObjectInterfaceTypeFieldResolver
     {
         if ($this->identifiableObjectInterfaceTypeFieldResolver === null) {
@@ -47,10 +44,7 @@ class IdentifiableObjectObjectTypeFieldResolver extends \PoP\ComponentModel\Fiel
     {
         return ['id', 'globalID'];
     }
-    /**
-     * @return mixed
-     */
-    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         switch ($fieldDataAccessor->getFieldName()) {
             case 'id':

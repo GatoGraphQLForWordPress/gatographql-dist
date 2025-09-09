@@ -15,14 +15,8 @@ use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 /** @internal */
 class PostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeAPIs\PostTagTypeAPIInterface|null
-     */
-    private $postTagTypeAPI;
-    /**
-     * @var \PoPCMSSchema\PostTags\TypeResolvers\ObjectType\PostTagObjectTypeResolver|null
-     */
-    private $postTagObjectTypeResolver;
+    private ?PostTagTypeAPIInterface $postTagTypeAPI = null;
+    private ?PostTagObjectTypeResolver $postTagObjectTypeResolver = null;
     protected final function getPostTagTypeAPI() : PostTagTypeAPIInterface
     {
         if ($this->postTagTypeAPI === null) {
@@ -50,27 +44,19 @@ class PostQueryableObjectTypeFieldResolver extends AbstractCustomPostQueryableOb
     }
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        switch ($fieldName) {
-            case 'tags':
-            case 'tagNames':
-            case 'tagCount':
-                return new Component(PostTagFilterInputContainerComponentProcessor::class, PostTagFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_POSTTAGS);
-            default:
-                return parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tags', 'tagNames', 'tagCount' => new Component(PostTagFilterInputContainerComponentProcessor::class, PostTagFilterInputContainerComponentProcessor::COMPONENT_FILTERINPUTCONTAINER_POSTTAGS),
+            default => parent::getFieldFilterInputContainerComponent($objectTypeResolver, $fieldName),
+        };
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
-        switch ($fieldName) {
-            case 'tags':
-                return $this->__('Tags added to this post', 'pop-post-tags');
-            case 'tagCount':
-                return $this->__('Number of tags added to this post', 'pop-post-tags');
-            case 'tagNames':
-                return $this->__('Names of the tags added to this post', 'pop-post-tags');
-            default:
-                return parent::getFieldDescription($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'tags' => $this->__('Tags added to this post', 'pop-post-tags'),
+            'tagCount' => $this->__('Number of tags added to this post', 'pop-post-tags'),
+            'tagNames' => $this->__('Names of the tags added to this post', 'pop-post-tags'),
+            default => parent::getFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
     public function getTagTypeAPI() : TagTypeAPIInterface
     {

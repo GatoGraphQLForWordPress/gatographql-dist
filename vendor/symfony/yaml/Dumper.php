@@ -23,9 +23,8 @@ class Dumper
 {
     /**
      * The amount of spaces to use for indentation of nested nodes.
-     * @var int
      */
-    private $indentation;
+    private int $indentation;
     public function __construct(int $indentation = 4)
     {
         if ($indentation < 1) {
@@ -41,7 +40,7 @@ class Dumper
      * @param int   $indent The level of indentation (used internally)
      * @param int   $flags  A bit field of Yaml::DUMP_* constants to customize the dumped YAML string
      */
-    public function dump($input, int $inline = 0, int $indent = 0, int $flags = 0) : string
+    public function dump(mixed $input, int $inline = 0, int $indent = 0, int $flags = 0) : string
     {
         $output = '';
         $prefix = $indent ? \str_repeat(' ', $indent) : '';
@@ -62,7 +61,7 @@ class Dumper
                 if (\is_int($key) && Yaml::DUMP_NUMERIC_KEY_AS_STRING & $flags) {
                     $key = (string) $key;
                 }
-                if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value) && \strpos($value, "\n") !== \false && \strpos($value, "\r") === \false) {
+                if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value) && \str_contains($value, "\n") && !\str_contains($value, "\r")) {
                     $blockIndentationIndicator = $this->getBlockIndentationIndicator($value);
                     if (isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
                         $blockChompingIndicator = '+';
@@ -83,7 +82,7 @@ class Dumper
                 }
                 if ($value instanceof TaggedValue) {
                     $output .= \sprintf('%s%s !%s', $prefix, $dumpAsMap ? Inline::dump($key, $flags) . ':' : '-', $value->getTag());
-                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && \strpos($value->getValue(), "\n") !== \false && \strpos($value->getValue(), "\r\n") === \false) {
+                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && \str_contains($value->getValue(), "\n") && !\str_contains($value->getValue(), "\r\n")) {
                         $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
                         $output .= \sprintf(' |%s', $blockIndentationIndicator);
                         foreach (\explode("\n", $value->getValue()) as $row) {
@@ -112,7 +111,7 @@ class Dumper
     private function dumpTaggedValue(TaggedValue $value, int $inline, int $indent, int $flags, string $prefix) : string
     {
         $output = \sprintf('%s!%s', $prefix ? $prefix . ' ' : '', $value->getTag());
-        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && \strpos($value->getValue(), "\n") !== \false && \strpos($value->getValue(), "\r\n") === \false) {
+        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && \str_contains($value->getValue(), "\n") && !\str_contains($value->getValue(), "\r\n")) {
             $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
             $output .= \sprintf(' |%s', $blockIndentationIndicator);
             foreach (\explode("\n", $value->getValue()) as $row) {

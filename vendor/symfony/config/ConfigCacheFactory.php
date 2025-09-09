@@ -22,10 +22,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config;
  */
 class ConfigCacheFactory implements ConfigCacheFactoryInterface
 {
-    /**
-     * @var bool
-     */
-    private $debug;
+    private bool $debug;
     /**
      * @param bool $debug The debug flag to pass to ConfigCache
      */

@@ -6,5 +6,5 @@ namespace PoP\Root\Constants;
 /** @internal */
 class Params
 {
-    public const ROUTE = 'route';
+    public final const ROUTE = 'route';
 }

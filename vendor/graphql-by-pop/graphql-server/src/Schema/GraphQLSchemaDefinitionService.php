@@ -18,14 +18,8 @@ use PoPAPI\API\Schema\SchemaDefinitionService;
 /** @internal */
 class GraphQLSchemaDefinitionService extends SchemaDefinitionService implements \GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaDefinitionServiceInterface
 {
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\QueryRootObjectTypeResolver|null
-     */
-    private $queryRootObjectTypeResolver;
-    /**
-     * @var \GraphQLByPoP\GraphQLServer\TypeResolvers\ObjectType\MutationRootObjectTypeResolver|null
-     */
-    private $mutationRootObjectTypeResolver;
+    private ?QueryRootObjectTypeResolver $queryRootObjectTypeResolver = null;
+    private ?MutationRootObjectTypeResolver $mutationRootObjectTypeResolver = null;
     protected final function getQueryRootObjectTypeResolver() : QueryRootObjectTypeResolver
     {
         if ($this->queryRootObjectTypeResolver === null) {

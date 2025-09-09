@@ -18,21 +18,11 @@ abstract class AbstractModule implements ModuleInterface
      * For instance, the packages under CMSSchema have generic contracts
      * for any CMS, that require to be satisfied for some specific CMS
      * (such as WordPress).
-     * @var \PoP\Root\Module\ModuleInterface|null
      */
-    private $satisfyingModule;
-    /**
-     * @var bool|null
-     */
-    private $enabled;
-    /**
-     * @var \PoP\Root\Module\ModuleConfigurationInterface|null
-     */
-    protected $moduleConfiguration;
-    /**
-     * @var \PoP\Root\Module\ModuleInfoInterface|null
-     */
-    protected $moduleInfo;
+    private ?ModuleInterface $satisfyingModule = null;
+    private ?bool $enabled = null;
+    protected ?\PoP\Root\Module\ModuleConfigurationInterface $moduleConfiguration = null;
+    protected ?\PoP\Root\Module\ModuleInfoInterface $moduleInfo = null;
     /**
      * Enable each module to set default configuration for
      * itself and its depended components

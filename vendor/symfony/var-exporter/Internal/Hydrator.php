@@ -20,18 +20,9 @@ class Hydrator
 {
     public const PROPERTY_HAS_HOOKS = 1;
     public const PROPERTY_NOT_BY_REF = 2;
-    /**
-     * @var mixed[]
-     */
-    public static $hydrators = [];
-    /**
-     * @var mixed[]
-     */
-    public static $simpleHydrators = [];
-    /**
-     * @var mixed[]
-     */
-    public static $propertyScopes = [];
+    public static array $hydrators = [];
+    public static array $simpleHydrators = [];
+    public static array $propertyScopes = [];
     public $registry;
     public $values;
     public $properties;
@@ -48,7 +39,7 @@ class Hydrator
     public static function hydrate($objects, $values, $properties, $value, $wakeups)
     {
         foreach ($properties as $class => $vars) {
-            (self::$hydrators[$class] = self::$hydrators[$class] ?? self::getHydrator($class))($vars, $objects);
+            (self::$hydrators[$class] ??= self::getHydrator($class))($vars, $objects);
         }
         foreach ($wakeups as $k => $v) {
             if (\is_array($v)) {
@@ -61,7 +52,7 @@ class Hydrator
     }
     public static function getHydrator($class)
     {
-        $baseHydrator = self::$hydrators['stdClass'] = self::$hydrators['stdClass'] ?? static function ($properties, $objects) {
+        $baseHydrator = self::$hydrators['stdClass'] ??= static function ($properties, $objects) {
             foreach ($properties as $name => $values) {
                 foreach ($values as $i => $v) {
                     $objects[$i]->{$name} = $v;
@@ -85,7 +76,7 @@ class Hydrator
                         if ("\x00" === $name) {
                             foreach ($values as $i => $v) {
                                 for ($j = 0; $j < \count($v); ++$j) {
-                                    $objects[$i]->attach($v[$j], $v[++$j]);
+                                    $objects[$i][$v[$j]] = $v[++$j];
                                 }
                             }
                             continue;
@@ -103,7 +94,7 @@ class Hydrator
         switch ($class) {
             case 'ArrayIterator':
             case 'ArrayObject':
-                $constructor = \Closure::fromCallable([$classReflector->getConstructor(), 'invokeArgs']);
+                $constructor = $classReflector->getConstructor()->invokeArgs(...);
                 return static function ($properties, $objects) use($constructor) {
                     foreach ($properties as $name => $values) {
                         if ("\x00" !== $name) {
@@ -121,12 +112,12 @@ class Hydrator
             return $baseHydrator->bindTo(null, $class);
         }
         if ($classReflector->name !== $class) {
-            return self::$hydrators[$classReflector->name] = self::$hydrators[$classReflector->name] ?? self::getHydrator($classReflector->name);
+            return self::$hydrators[$classReflector->name] ??= self::getHydrator($classReflector->name);
         }
         $propertySetters = [];
         foreach ($classReflector->getProperties() as $propertyReflector) {
             if (!$propertyReflector->isStatic()) {
-                $propertySetters[$propertyReflector->name] = \Closure::fromCallable([$propertyReflector, 'setValue']);
+                $propertySetters[$propertyReflector->name] = $propertyReflector->setValue(...);
             }
         }
         if (!$propertySetters) {
@@ -148,7 +139,7 @@ class Hydrator
     }
     public static function getSimpleHydrator($class)
     {
-        $baseHydrator = self::$simpleHydrators['stdClass'] = self::$simpleHydrators['stdClass'] ?? (function ($properties, $object) {
+        $baseHydrator = self::$simpleHydrators['stdClass'] ??= (function ($properties, $object) {
             $notByRef = (array) $this;
             foreach ($properties as $name => &$value) {
                 if (!($noRef = $notByRef[$name] ?? \false)) {
@@ -181,7 +172,7 @@ class Hydrator
                             continue;
                         }
                         for ($i = 0; $i < \count($value); ++$i) {
-                            $object->attach($value[$i], $value[++$i]);
+                            $object[$value[$i]] = $value[++$i];
                         }
                     }
                 };
@@ -193,7 +184,7 @@ class Hydrator
         switch ($class) {
             case 'ArrayIterator':
             case 'ArrayObject':
-                $constructor = \Closure::fromCallable([$classReflector->getConstructor(), 'invokeArgs']);
+                $constructor = $classReflector->getConstructor()->invokeArgs(...);
                 return static function ($properties, $object) use($constructor) {
                     foreach ($properties as $name => &$value) {
                         if ("\x00" === $name) {
@@ -212,7 +203,7 @@ class Hydrator
                     continue;
                 }
                 if (\PHP_VERSION_ID >= 80400 && !$propertyReflector->isAbstract() && $propertyReflector->getHooks()) {
-                    $notByRef->{$propertyReflector->name} = \Closure::fromCallable([$propertyReflector, 'setRawValue']);
+                    $notByRef->{$propertyReflector->name} = $propertyReflector->setRawValue(...);
                 } elseif ($propertyReflector->isReadOnly()) {
                     $notByRef->{$propertyReflector->name} = \true;
                 }
@@ -220,12 +211,12 @@ class Hydrator
             return $baseHydrator->bindTo($notByRef, $class);
         }
         if ($classReflector->name !== $class) {
-            return self::$simpleHydrators[$classReflector->name] = self::$simpleHydrators[$classReflector->name] ?? self::getSimpleHydrator($classReflector->name);
+            return self::$simpleHydrators[$classReflector->name] ??= self::getSimpleHydrator($classReflector->name);
         }
         $propertySetters = [];
         foreach ($classReflector->getProperties() as $propertyReflector) {
             if (!$propertyReflector->isStatic()) {
-                $propertySetters[$propertyReflector->name] = \Closure::fromCallable([$propertyReflector, 'setValue']);
+                $propertySetters[$propertyReflector->name] = $propertyReflector->setValue(...);
             }
         }
         if (!$propertySetters) {
@@ -284,7 +275,7 @@ class Hydrator
                     $access |= self::PROPERTY_HAS_HOOKS | (isset($h['get']) && !$h['get']->returnsReference() ? self::PROPERTY_NOT_BY_REF : 0);
                 }
                 $propertyScopes["\x00{$class}\x00{$name}"] = [$class, $name, null, $access, $property];
-                $propertyScopes[$name] = $propertyScopes[$name] ?? $propertyScopes["\x00{$class}\x00{$name}"];
+                $propertyScopes[$name] ??= $propertyScopes["\x00{$class}\x00{$name}"];
             }
         }
         return $propertyScopes;

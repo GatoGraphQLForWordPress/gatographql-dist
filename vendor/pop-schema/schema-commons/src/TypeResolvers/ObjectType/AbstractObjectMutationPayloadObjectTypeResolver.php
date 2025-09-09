@@ -9,10 +9,7 @@ use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterfa
 /** @internal */
 abstract class AbstractObjectMutationPayloadObjectTypeResolver extends AbstractTransientEntityOperationPayloadObjectTypeResolver
 {
-    /**
-     * @var \PoPSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\ObjectMutationPayloadObjectTypeDataLoader|null
-     */
-    private $objectMutationPayloadObjectTypeDataLoader;
+    private ?ObjectMutationPayloadObjectTypeDataLoader $objectMutationPayloadObjectTypeDataLoader = null;
     protected final function getObjectMutationPayloadObjectTypeDataLoader() : ObjectMutationPayloadObjectTypeDataLoader
     {
         if ($this->objectMutationPayloadObjectTypeDataLoader === null) {

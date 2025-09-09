@@ -17,11 +17,8 @@ if (\PHP_VERSION_ID >= 80300) {
      */
     trait LazyObjectTrait
     {
-        /**
-         * @readonly
-         * @var \Symfony\Component\VarExporter\Internal\LazyObjectState
-         */
-        private $lazyObjectState;
+        #[Ignore]
+        private readonly LazyObjectState $lazyObjectState;
     }
 } else {
     /**
@@ -29,9 +26,7 @@ if (\PHP_VERSION_ID >= 80300) {
      */
     trait LazyObjectTrait
     {
-        /**
-         * @var \Symfony\Component\VarExporter\Internal\LazyObjectState
-         */
-        private $lazyObjectState;
+        #[Ignore]
+        private LazyObjectState $lazyObjectState;
     }
 }

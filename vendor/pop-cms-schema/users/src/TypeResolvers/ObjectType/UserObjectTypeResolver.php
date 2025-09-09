@@ -10,14 +10,8 @@ use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 /** @internal */
 class UserObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolverInterface
 {
-    /**
-     * @var \PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface|null
-     */
-    private $userTypeAPI;
-    /**
-     * @var \PoPCMSSchema\Users\RelationalTypeDataLoaders\ObjectType\UserObjectTypeDataLoader|null
-     */
-    private $userObjectTypeDataLoader;
+    private ?UserTypeAPIInterface $userTypeAPI = null;
+    private ?UserObjectTypeDataLoader $userObjectTypeDataLoader = null;
     protected final function getUserTypeAPI() : UserTypeAPIInterface
     {
         if ($this->userTypeAPI === null) {
@@ -44,10 +38,7 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPC
     {
         return $this->__('Representation of a user', 'users');
     }
-    /**
-     * @return string|int|null
-     */
-    public function getID(object $object)
+    public function getID(object $object) : string|int|null
     {
         $user = $object;
         return $this->getUserTypeAPI()->getUserID($user);

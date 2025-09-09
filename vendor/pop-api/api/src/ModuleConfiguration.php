@@ -21,35 +21,35 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         }
         $envVariable = \PoPAPI\API\Environment::USE_SCHEMA_DEFINITION_CACHE;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function skipExposingGlobalFieldsInFullSchema() : bool
     {
         $envVariable = \PoPAPI\API\Environment::SKIP_EXPOSING_GLOBAL_FIELDS_IN_FULL_SCHEMA;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function sortFullSchemaAlphabetically() : bool
     {
         $envVariable = \PoPAPI\API\Environment::SORT_FULL_SCHEMA_ALPHABETICALLY;
         $defaultValue = \true;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function addFullSchemaFieldToSchema() : bool
     {
         $envVariable = \PoPAPI\API\Environment::ADD_FULLSCHEMA_FIELD_TO_SCHEMA;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     public function enablePassingPersistedQueryNameViaURLParam() : bool
     {
         $envVariable = \PoPAPI\API\Environment::ENABLE_PASSING_PERSISTED_QUERY_NAME_VIA_URL_PARAM;
         $defaultValue = \false;
-        $callback = \Closure::fromCallable([EnvironmentValueHelpers::class, 'toBool']);
+        $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
 }

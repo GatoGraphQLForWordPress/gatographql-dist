@@ -26,19 +26,9 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  */
 class ResolveChildDefinitionsPass extends AbstractRecursivePass
 {
-    /**
-     * @var bool
-     */
-    protected $skipScalars = \true;
-    /**
-     * @var mixed[]
-     */
-    private $currentPath;
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function processValue($value, bool $isRoot = \false)
+    protected bool $skipScalars = \true;
+    private array $currentPath;
+    protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
         if (!$value instanceof Definition) {
             return parent::processValue($value, $isRoot);
@@ -70,7 +60,6 @@ class ResolveChildDefinitionsPass extends AbstractRecursivePass
             throw $e;
         } catch (ExceptionInterface $e) {
             $r = new \ReflectionProperty($e, 'message');
-            $r->setAccessible(\true);
             $r->setValue($e, \sprintf('Service "%s": %s', $this->currentId, $e->getMessage()));
             throw $e;
         }
@@ -158,7 +147,7 @@ class ResolveChildDefinitionsPass extends AbstractRecursivePass
         foreach ($definition->getArguments() as $k => $v) {
             if (\is_numeric($k)) {
                 $def->addArgument($v);
-            } elseif (\strncmp($k, 'index_', \strlen('index_')) === 0) {
+            } elseif (\str_starts_with($k, 'index_')) {
                 $def->replaceArgument((int) \substr($k, \strlen('index_')), $v);
             } else {
                 $def->setArgument($k, $v);

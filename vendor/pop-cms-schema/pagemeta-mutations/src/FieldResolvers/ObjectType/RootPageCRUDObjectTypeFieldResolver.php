@@ -20,26 +20,11 @@ use PoP\Root\App;
  */
 abstract class RootPageCRUDObjectTypeFieldResolver extends AbstractRootCustomPostCRUDObjectTypeFieldResolver
 {
-    /**
-     * @var \PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver|null
-     */
-    private $pageObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\RootDeletePageMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootDeletePageMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\RootSetPageMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootSetPageMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\RootUpdatePageMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootUpdatePageMetaMutationPayloadObjectTypeResolver;
-    /**
-     * @var \PoPCMSSchema\PageMetaMutations\TypeResolvers\ObjectType\RootAddPageMetaMutationPayloadObjectTypeResolver|null
-     */
-    private $rootAddPageMetaMutationPayloadObjectTypeResolver;
+    private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
+    private ?RootDeletePageMetaMutationPayloadObjectTypeResolver $rootDeletePageMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootSetPageMetaMutationPayloadObjectTypeResolver $rootSetPageMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootUpdatePageMetaMutationPayloadObjectTypeResolver $rootUpdatePageMetaMutationPayloadObjectTypeResolver = null;
+    private ?RootAddPageMetaMutationPayloadObjectTypeResolver $rootAddPageMetaMutationPayloadObjectTypeResolver = null;
     protected final function getPageObjectTypeResolver() : PageObjectTypeResolver
     {
         if ($this->pageObjectTypeResolver === null) {
@@ -104,39 +89,17 @@ abstract class RootPageCRUDObjectTypeFieldResolver extends AbstractRootCustomPos
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $usePayloadableCustomPostMetaMutations = $moduleConfiguration->usePayloadableCustomPostMetaMutations();
         if ($usePayloadableCustomPostMetaMutations) {
-            switch ($fieldName) {
-                case 'add' . $customPageEntityName . 'Meta':
-                case 'add' . $customPageEntityName . 'Metas':
-                case 'add' . $customPageEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootAddPageMetaMutationPayloadObjectTypeResolver();
-                case 'update' . $customPageEntityName . 'Meta':
-                case 'update' . $customPageEntityName . 'Metas':
-                case 'update' . $customPageEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootUpdatePageMetaMutationPayloadObjectTypeResolver();
-                case 'delete' . $customPageEntityName . 'Meta':
-                case 'delete' . $customPageEntityName . 'Metas':
-                case 'delete' . $customPageEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootDeletePageMetaMutationPayloadObjectTypeResolver();
-                case 'set' . $customPageEntityName . 'Meta':
-                case 'set' . $customPageEntityName . 'Metas':
-                case 'set' . $customPageEntityName . 'MetaMutationPayloadObjects':
-                    return $this->getRootSetPageMetaMutationPayloadObjectTypeResolver();
-                default:
-                    return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-            }
+            return match ($fieldName) {
+                'add' . $customPageEntityName . 'Meta', 'add' . $customPageEntityName . 'Metas', 'add' . $customPageEntityName . 'MetaMutationPayloadObjects' => $this->getRootAddPageMetaMutationPayloadObjectTypeResolver(),
+                'update' . $customPageEntityName . 'Meta', 'update' . $customPageEntityName . 'Metas', 'update' . $customPageEntityName . 'MetaMutationPayloadObjects' => $this->getRootUpdatePageMetaMutationPayloadObjectTypeResolver(),
+                'delete' . $customPageEntityName . 'Meta', 'delete' . $customPageEntityName . 'Metas', 'delete' . $customPageEntityName . 'MetaMutationPayloadObjects' => $this->getRootDeletePageMetaMutationPayloadObjectTypeResolver(),
+                'set' . $customPageEntityName . 'Meta', 'set' . $customPageEntityName . 'Metas', 'set' . $customPageEntityName . 'MetaMutationPayloadObjects' => $this->getRootSetPageMetaMutationPayloadObjectTypeResolver(),
+                default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+            };
         }
-        switch ($fieldName) {
-            case 'add' . $customPageEntityName . 'Meta':
-            case 'add' . $customPageEntityName . 'Metas':
-            case 'update' . $customPageEntityName . 'Meta':
-            case 'update' . $customPageEntityName . 'Metas':
-            case 'delete' . $customPageEntityName . 'Meta':
-            case 'delete' . $customPageEntityName . 'Metas':
-            case 'set' . $customPageEntityName . 'Meta':
-            case 'set' . $customPageEntityName . 'Metas':
-                return $this->getPageObjectTypeResolver();
-            default:
-                return parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
-        }
+        return match ($fieldName) {
+            'add' . $customPageEntityName . 'Meta', 'add' . $customPageEntityName . 'Metas', 'update' . $customPageEntityName . 'Meta', 'update' . $customPageEntityName . 'Metas', 'delete' . $customPageEntityName . 'Meta', 'delete' . $customPageEntityName . 'Metas', 'set' . $customPageEntityName . 'Meta', 'set' . $customPageEntityName . 'Metas' => $this->getPageObjectTypeResolver(),
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 }

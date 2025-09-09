@@ -20,25 +20,12 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Routing\RequestContextAwar
  */
 final class UrlHelper
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
-     */
-    private $requestStack;
-    /**
-     * @var \Symfony\Component\Routing\RequestContextAwareInterface|\Symfony\Component\Routing\RequestContext|null
-     */
-    private $requestContext = null;
-    /**
-     * @param \Symfony\Component\Routing\RequestContextAwareInterface|\Symfony\Component\Routing\RequestContext|null $requestContext
-     */
-    public function __construct(RequestStack $requestStack, $requestContext = null)
+    public function __construct(private RequestStack $requestStack, private RequestContextAwareInterface|RequestContext|null $requestContext = null)
     {
-        $this->requestStack = $requestStack;
-        $this->requestContext = $requestContext;
     }
     public function getAbsoluteUrl(string $path) : string
     {
-        if (\strpos($path, '://') !== \false || \strncmp($path, '//', \strlen('//')) === 0) {
+        if (\str_contains($path, '://') || \str_starts_with($path, '//')) {
             return $path;
         }
         if (null === ($request = $this->requestStack->getMainRequest())) {
@@ -61,7 +48,7 @@ final class UrlHelper
     }
     public function getRelativePath(string $path) : string
     {
-        if (\strpos($path, '://') !== \false || \strncmp($path, '//', \strlen('//')) === 0) {
+        if (\str_contains($path, '://') || \str_starts_with($path, '//')) {
             return $path;
         }
         if (null === ($request = $this->requestStack->getMainRequest())) {

@@ -19,7 +19,7 @@ use stdClass;
 abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\MutationResolvers\AbstractMutationResolver
 {
     /** @var array<string,MutationResolverInterface>|null */
-    private $consolidatedInputFieldNameMutationResolversCache;
+    private ?array $consolidatedInputFieldNameMutationResolversCache = null;
     /**
      * The MutationResolvers contained in the OneofMutationResolver,
      * organized by inputFieldName
@@ -37,7 +37,7 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
         if ($this->consolidatedInputFieldNameMutationResolversCache !== null) {
             return $this->consolidatedInputFieldNameMutationResolversCache;
         }
-        $this->consolidatedInputFieldNameMutationResolversCache = App::applyFilters(\PoP\ComponentModel\MutationResolvers\HookNames::INPUT_FIELD_NAME_MUTATION_RESOLVERS, $this->getInputFieldNameMutationResolvers(), $this);
+        $this->consolidatedInputFieldNameMutationResolversCache = App::applyFilters(\PoP\ComponentModel\MutationResolvers\HookNames::INPUT_FIELD_NAME_MUTATION_RESOLVERS, $this->getInputFieldNameMutationResolvers(), $this) ?? [];
         return $this->consolidatedInputFieldNameMutationResolversCache;
     }
     /**
@@ -86,9 +86,8 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
     /**
      * @param InputObjectSubpropertyFieldDataAccessorInterface $fieldDataAccessor
      * @throws AbstractException In case of error
-     * @return mixed
      */
-    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore)
+    public function executeMutation(FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         [$inputFieldMutationResolver, $fieldDataAccessor] = $this->getInputFieldMutationResolverAndOneOfFieldDataAccessor($fieldDataAccessor);
         /** @var MutationResolverInterface $inputFieldMutationResolver */

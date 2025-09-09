@@ -20,10 +20,7 @@ use stdClass;
 /** @internal */
 class TypeSerializationService extends AbstractBasicService implements \PoP\ComponentModel\TypeSerialization\TypeSerializationServiceInterface
 {
-    /**
-     * @var \PoP\ComponentModel\TypeResolvers\ScalarType\DangerouslyNonSpecificScalarTypeScalarTypeResolver|null
-     */
-    private $dangerouslyNonSpecificScalarTypeScalarTypeResolver;
+    private ?DangerouslyNonSpecificScalarTypeScalarTypeResolver $dangerouslyNonSpecificScalarTypeScalarTypeResolver = null;
     protected final function getDangerouslyNonSpecificScalarTypeScalarTypeResolver() : DangerouslyNonSpecificScalarTypeScalarTypeResolver
     {
         if ($this->dangerouslyNonSpecificScalarTypeScalarTypeResolver === null) {
@@ -114,9 +111,8 @@ class TypeSerializationService extends AbstractBasicService implements \PoP\Comp
      * The response type is the same as in the type's `serialize` method.
      *
      * @return string|int|float|bool|mixed[]|stdClass
-     * @param mixed $value
      */
-    public function serializeLeafOutputTypeValue($value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field)
+    public function serializeLeafOutputTypeValue(mixed $value, LeafOutputTypeResolverInterface $fieldLeafOutputTypeResolver, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field) : string|int|float|bool|array|stdClass
     {
         /**
          * `DangerouslyNonSpecificScalar` is a special scalar type which is not coerced or validated.
@@ -149,20 +145,14 @@ class TypeSerializationService extends AbstractBasicService implements \PoP\Comp
         if ($fieldLeafOutputTypeIsArrayOfArrays) {
             return \array_values(\array_map(
                 // If it contains a null value, return it as is
-                function (?array $arrayValueElem) use($fieldLeafOutputTypeResolver) {
-                    return $arrayValueElem === null ? null : \array_values(\array_map(function ($arrayOfArraysValueElem) use($fieldLeafOutputTypeResolver) {
-                        return $arrayOfArraysValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayOfArraysValueElem);
-                    }, $arrayValueElem));
-                },
+                fn(?array $arrayValueElem) => $arrayValueElem === null ? null : \array_values(\array_map(fn(mixed $arrayOfArraysValueElem) => $arrayOfArraysValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayOfArraysValueElem), $arrayValueElem)),
                 $value
             ));
         }
         // If the value is an array, then serialize each element to the item type
         $fieldLeafOutputTypeIsArray = ($fieldTypeModifiers & SchemaTypeModifiers::IS_ARRAY) === SchemaTypeModifiers::IS_ARRAY;
         if ($fieldLeafOutputTypeIsArray) {
-            return \array_values(\array_map(function ($arrayValueElem) use($fieldLeafOutputTypeResolver) {
-                return $arrayValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayValueElem);
-            }, $value));
+            return \array_values(\array_map(fn(mixed $arrayValueElem) => $arrayValueElem === null ? null : $fieldLeafOutputTypeResolver->serialize($arrayValueElem), $value));
         }
         /**
          * At this stage, `$value` should not be an array.
