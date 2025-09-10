@@ -10,9 +10,9 @@
 #/includes
 #/languages
 #/packages
-/src
-/vendor
+#/src
+#/vendor
 
 .distignore
-gatographql.php
-readme.txt
+#gatographql.php
+#readme.txt
