@@ -1,7 +1,7 @@
 #/.github
 #/.wordpress-org
 #/assets
-/blocks
+#/blocks
 /bundle-extensions
 /config
 /docs
