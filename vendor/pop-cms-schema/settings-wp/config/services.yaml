@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-        autoconfigure: true
-
-    PoPCMSSchema\Settings\TypeAPIs\SettingsTypeAPIInterface:
-        class: \PoPCMSSchema\SettingsWP\TypeAPIs\SettingsTypeAPI

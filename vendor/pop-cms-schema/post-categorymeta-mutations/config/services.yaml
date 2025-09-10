@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-        autoconfigure: true
-
-    PoPCMSSchema\PostCategoryMetaMutations\Hooks\:
-        resource: '../src/Hooks/*'

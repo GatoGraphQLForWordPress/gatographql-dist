@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
-        autoconfigure: true
-
-    PoPCMSSchema\Tags\RelationalTypeDataLoaders\UnionType\TagUnionTypeDataLoader:
-        class: \PoPCMSSchema\TagsWP\Overrides\RelationalTypeDataLoaders\UnionType\TagUnionTypeDataLoader

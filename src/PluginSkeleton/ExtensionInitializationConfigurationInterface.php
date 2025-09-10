@@ -1,9 +1,0 @@
-<?php
-
-declare(strict_types=1);
-
-namespace GatoGraphQL\GatoGraphQL\PluginSkeleton;
-
-interface ExtensionInitializationConfigurationInterface extends PluginInitializationConfigurationInterface
-{
-}
