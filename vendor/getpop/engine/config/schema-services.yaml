@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    PoP\Engine\FieldResolvers\:
+        resource: '../src/FieldResolvers/*'
+
+    PoP\Engine\DirectiveResolvers\:
+        resource: '../src/DirectiveResolvers/*'
+
+    PoP\Engine\TypeResolvers\:
+        resource: '../src/TypeResolvers/*'
+
+    PoP\Engine\RelationalTypeDataLoaders\:
+        resource: '../src/RelationalTypeDataLoaders/*'
