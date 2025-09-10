@@ -2,14 +2,14 @@
 #/.wordpress-org
 #/assets
 #/blocks
-/bundle-extensions
-/config
-/docs
-/editor-scripts
-/extensions
-/includes
-/languages
-/packages
+#/bundle-extensions
+#/config
+#/docs
+#/editor-scripts
+#/extensions
+#/includes
+#/languages
+#/packages
 /src
 /vendor
 
