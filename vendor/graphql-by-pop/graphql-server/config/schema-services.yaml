@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    GraphQLByPoP\GraphQLServer\FieldResolvers\:
+        resource: '../src/FieldResolvers/*'
+
+    GraphQLByPoP\GraphQLServer\TypeResolvers\:
+        resource: '../src/TypeResolvers/*'
+
+    GraphQLByPoP\GraphQLServer\RelationalTypeDataLoaders\:
+        resource: '../src/RelationalTypeDataLoaders/*'
