@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    PoP\LooseContracts\LooseContractManagerInterface:
+        class: \PoP\LooseContracts\LooseContractManager
+
+    PoP\LooseContracts\NameResolverInterface:
+        class: \PoP\LooseContracts\NameResolver
+

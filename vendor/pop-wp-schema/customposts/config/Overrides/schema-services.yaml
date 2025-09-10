@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver:
+        class: PoPWPSchema\CustomPosts\Overrides\TypeResolvers\EnumType\CustomPostOrderByEnumTypeResolver
+
+    PoPCMSSchema\CustomPosts\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver:
+        class: PoPWPSchema\CustomPosts\Overrides\TypeResolvers\EnumType\CustomPostStatusEnumTypeResolver
+
+    PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader:
+        class: PoPWPSchema\CustomPosts\Overrides\RelationalTypeDataLoaders\ObjectType\CustomPostObjectTypeDataLoader

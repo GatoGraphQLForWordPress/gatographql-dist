@@ -1,0 +1,42 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\Media\RelationalTypeDataLoaders\ObjectType;
+
+use PoPCMSSchema\Media\TypeAPIs\MediaTypeAPIInterface;
+use PoPCMSSchema\SchemaCommons\RelationalTypeDataLoaders\ObjectType\ObjectTypeQueryableDataLoaderTrait;
+use PoP\ComponentModel\App;
+use PoP\ComponentModel\RelationalTypeDataLoaders\ObjectType\AbstractObjectTypeQueryableDataLoader;
+/** @internal */
+class MediaObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
+{
+    use ObjectTypeQueryableDataLoaderTrait;
+    public const HOOK_ALL_OBJECTS_BY_IDS_QUERY = __CLASS__ . ':all-objects-by-ids-query';
+    private ?MediaTypeAPIInterface $mediaTypeAPI = null;
+    protected final function getMediaTypeAPI() : MediaTypeAPIInterface
+    {
+        if ($this->mediaTypeAPI === null) {
+            /** @var MediaTypeAPIInterface */
+            $mediaTypeAPI = $this->instanceManager->getInstance(MediaTypeAPIInterface::class);
+            $this->mediaTypeAPI = $mediaTypeAPI;
+        }
+        return $this->mediaTypeAPI;
+    }
+    /**
+     * @param array<string|int> $ids
+     * @return array<string,mixed>
+     */
+    public function getQueryToRetrieveObjectsForIDs(array $ids) : array
+    {
+        return App::applyFilters(self::HOOK_ALL_OBJECTS_BY_IDS_QUERY, ['include' => $ids], $ids);
+    }
+    /**
+     * @return mixed[]
+     * @param array<string,mixed> $query
+     * @param array<string,mixed> $options
+     */
+    public function executeQuery(array $query, array $options = []) : array
+    {
+        return $this->getMediaTypeAPI()->getMediaItems($query, $options);
+    }
+}

@@ -1,0 +1,16 @@
+<?php
+
+declare (strict_types=1);
+namespace PoP\ComponentModel\TypeResolvers;
+
+/** @internal */
+interface TypeResolverInterface
+{
+    public function getTypeName() : string;
+    public function getNamespace() : string;
+    public function getNamespacedTypeName() : string;
+    public function getMaybeNamespacedTypeName() : string;
+    public function getTypeOutputKey() : string;
+    public function getTypeDescription() : ?string;
+    public function isIntrospectionType() : bool;
+}
