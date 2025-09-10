@@ -1,0 +1,17 @@
+/* Badge Severity Styles */
+
+.badge-severity-debug {
+    background-color: #3d9970 !important;
+}
+
+.badge-severity-info {
+    background-color: #0074d9 !important;
+}
+
+.badge-severity-warning {
+    background-color: #ccad55 !important;
+}
+
+.badge-severity-error {
+    background-color: #ff4136 !important;
+}
