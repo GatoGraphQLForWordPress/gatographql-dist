@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    PoPCMSSchema\CustomPostUserMutations\TypeResolvers\:
+        resource: '../src/TypeResolvers/*'
+
+    PoPCMSSchema\CustomPostUserMutations\ObjectTypeResolverPickers\:
+        resource: '../src/ObjectTypeResolverPickers/*'
