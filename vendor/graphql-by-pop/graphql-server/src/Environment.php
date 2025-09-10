@@ -1,0 +1,30 @@
+<?php
+
+declare (strict_types=1);
+namespace GraphQLByPoP\GraphQLServer;
+
+/** @internal */
+class Environment
+{
+    public final const SORT_GRAPHQL_SCHEMA_ALPHABETICALLY = 'SORT_GRAPHQL_SCHEMA_ALPHABETICALLY';
+    public final const SORT_GLOBAL_FIELDS_AFTER_NORMAL_FIELDS_IN_GRAPHQL_SCHEMA = 'SORT_GLOBAL_FIELDS_AFTER_NORMAL_FIELDS_IN_GRAPHQL_SCHEMA';
+    public final const ENABLE_PROACTIVE_FEEDBACK = 'ENABLE_PROACTIVE_FEEDBACK';
+    public final const ENABLE_NESTED_MUTATIONS = 'ENABLE_NESTED_MUTATIONS';
+    public final const ENABLE_GRAPHQL_INTROSPECTION = 'ENABLE_GRAPHQL_INTROSPECTION';
+    public final const ADD_VERSION_TO_GRAPHQL_SCHEMA_FIELD_DESCRIPTION = 'ADD_VERSION_TO_GRAPHQL_SCHEMA_FIELD_DESCRIPTION';
+    public final const ADD_GRAPHQL_INTROSPECTION_PERSISTED_QUERY = 'ADD_GRAPHQL_INTROSPECTION_PERSISTED_QUERY';
+    public final const ADD_CONNECTION_FROM_ROOT_TO_QUERYROOT_AND_MUTATIONROOT = 'ADD_CONNECTION_FROM_ROOT_TO_QUERYROOT_AND_MUTATIONROOT';
+    public final const EXPOSE_SCHEMA_INTROSPECTION_FIELD_IN_SCHEMA = 'EXPOSE_SCHEMA_INTROSPECTION_FIELD_IN_SCHEMA';
+    public final const EXPOSE_GLOBAL_FIELDS_IN_GRAPHQL_SCHEMA = 'EXPOSE_GLOBAL_FIELDS_IN_GRAPHQL_SCHEMA';
+    public final const EXPOSE_GLOBAL_FIELDS_IN_ROOT_TYPE_ONLY_IN_GRAPHQL_SCHEMA = 'EXPOSE_GLOBAL_FIELDS_ROOT_TYPE_ONLY_IN_GRAPHQL_SCHEMA';
+    public static function enableSettingMutationSchemeByURLParam() : bool
+    {
+        $envValue = \getenv('ENABLE_SETTING_MUTATION_SCHEME_BY_URL_PARAM');
+        return $envValue !== \false ? \strtolower($envValue) === "true" : \false;
+    }
+    public static function enableEnablingGraphQLIntrospectionByURLParam() : bool
+    {
+        $envValue = \getenv('ENABLE_ENABLING_GRAPHQL_INTROSPECTION_BY_URL_PARAM');
+        return $envValue !== \false ? \strtolower($envValue) === "true" : \false;
+    }
+}
