@@ -1,0 +1,16 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\Media\ConditionalOnModule\Users\SchemaHooks;
+
+use PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface;
+use PoPCMSSchema\Media\TypeResolvers\InputObjectType\RootMediaItemsFilterInputObjectTypeResolver;
+use PoPCMSSchema\Users\SchemaHooks\AbstractAddAuthorInputFieldsInputObjectTypeHookSet;
+/** @internal */
+class AddAuthorInputFieldsToCustomPostInputObjectTypeHookSet extends AbstractAddAuthorInputFieldsInputObjectTypeHookSet
+{
+    protected function addAuthorInputFields(InputObjectTypeResolverInterface $inputObjectTypeResolver) : bool
+    {
+        return $inputObjectTypeResolver instanceof RootMediaItemsFilterInputObjectTypeResolver;
+    }
+}
