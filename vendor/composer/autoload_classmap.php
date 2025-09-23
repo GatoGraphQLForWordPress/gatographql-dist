@@ -5255,7 +5255,6 @@ return array(
     'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceInterface' => $vendorDir . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceInterface.php',
     'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceTrait' => $vendorDir . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceTrait.php',
     'PoP\\Root\\Services\\BasicServiceInterface' => $vendorDir . '/getpop/root/src/Services/BasicServiceInterface.php',
-    'PoP\\Root\\Services\\BasicServiceTrait' => $vendorDir . '/getpop/root/src/Services/BasicServiceTrait.php',
     'PoP\\Root\\Services\\StandaloneServiceTrait' => $vendorDir . '/getpop/root/src/Services/StandaloneServiceTrait.php',
     'PoP\\Root\\StateManagers\\AppStateManager' => $vendorDir . '/getpop/root/src/StateManagers/AppStateManager.php',
     'PoP\\Root\\StateManagers\\AppStateManagerInterface' => $vendorDir . '/getpop/root/src/StateManagers/AppStateManagerInterface.php',
