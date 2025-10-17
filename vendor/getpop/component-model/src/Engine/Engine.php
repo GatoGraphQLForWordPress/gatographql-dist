@@ -1570,7 +1570,14 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
                             // This is because if it's a relational field that comes after a UnionTypeResolver, its typeOutputKey could not be inferred (since it depends from the resolvedObject, and can't be obtained in the settings, where "outputKeys" is obtained and which doesn't depend on data items)
                             // Eg: /?query=content.comments.id. In this case, "content" is handled by UnionTypeResolver, and "comments" would not be found since its entry can't be added under "datasetcomponentsettings.outputKeys", since the component (of class AbstractRelationalFieldQueryDataComponentProcessor) with a UnionTypeResolver can't resolve the 'succeeding-typeResolver' to set to its subcomponents
                             // Having 'succeeding-typeResolver' being NULL, then it is not able to locate its data
-                            $typed_database_field_ids = \array_map(fn(string|int $field_id) => $typedSubcomponentIDs[$field_id], $database_field_ids);
+                            $typed_database_field_ids = \array_map(
+                                /**
+                                 * It may be null if returning a null value
+                                 * in a field connection of type List
+                                 */
+                                fn(string|int|null $field_id) => $field_id === null ? null : $typedSubcomponentIDs[$field_id],
+                                $database_field_ids
+                            );
                             if ($subcomponentIsUnionTypeResolver) {
                                 $database_field_ids = $typed_database_field_ids;
                             }

@@ -40,6 +40,10 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
     {
         return $this->getCustomPostMetaTypeAPI();
     }
+    protected function getLogicalCustomPostMetaTypeAPI() : CustomPostMetaTypeAPIInterface
+    {
+        return $this->getCustomPostMetaTypeAPI();
+    }
     /**
      * @return string[]
      */
@@ -59,7 +63,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
         switch ($fieldDataAccessor->getFieldName()) {
             case 'metaKeys':
                 $metaKeys = [];
-                $customPostMetaTypeAPI = $this->getCustomPostMetaTypeAPI();
+                $customPostMetaTypeAPI = $this->getLogicalCustomPostMetaTypeAPI();
                 $allCustomPostMetaKeys = $customPostMetaTypeAPI->getCustomPostMetaKeys($customPost);
                 foreach ($allCustomPostMetaKeys as $key) {
                     if (!$customPostMetaTypeAPI->validateIsMetaKeyAllowed($key)) {
@@ -69,14 +73,14 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
                 }
                 return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
-                $metaValue = $this->getCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \true);
+                $metaValue = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \true);
                 // If it's an array, it must be a JSON object
                 if (\is_array($metaValue)) {
                     return MethodHelpers::recursivelyConvertAssociativeArrayToStdClass($metaValue);
                 }
                 return $metaValue;
             case 'metaValues':
-                $metaValues = $this->getCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \false);
+                $metaValues = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \false);
                 if (!\is_array($metaValues)) {
                     return $metaValues;
                 }
@@ -90,7 +94,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
                 return $metaValues;
             case 'meta':
                 $meta = [];
-                $allMeta = $this->getCustomPostMetaTypeAPI()->getAllCustomPostMeta($customPost);
+                $allMeta = $this->getLogicalCustomPostMetaTypeAPI()->getAllCustomPostMeta($customPost);
                 /** @var string[] */
                 $keys = $fieldDataAccessor->getValue('keys');
                 foreach ($keys as $key) {

@@ -182,7 +182,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
      * Regeneration of the AST includes:
      *
      * - Addition of the SuperRoot fields for GraphQL
-     * - Wrapping operatins in `self` for Multiple Query Execution
+     * - Wrapping operations in `self` for Multiple Query Execution
      *
      * @return SplObjectStorage<OperationInterface,array<FieldInterface|FragmentBondInterface>>
      */

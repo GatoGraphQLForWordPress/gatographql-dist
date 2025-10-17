@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
+class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1180,6 +1180,7 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Psr16Cache' => __DIR__ . '/..' . '/symfony/cache/Psr16Cache.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\ResettableInterface' => __DIR__ . '/..' . '/symfony/cache/ResettableInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\AbstractAdapterTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/AbstractAdapterTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\CachedValueInterface' => __DIR__ . '/..' . '/symfony/cache/Traits/CachedValueInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\ContractsTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ContractsTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\FilesystemCommonTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/FilesystemCommonTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\FilesystemTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/FilesystemTrait.php',
@@ -4474,6 +4475,7 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
         'PoPCMSSchema\\SchemaCommonsWP\\Formatters\\DateFormatter' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src/Formatters/DateFormatter.php',
         'PoPCMSSchema\\SchemaCommonsWP\\LooseContracts\\LooseContractResolutionSet' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src/LooseContracts/LooseContractResolutionSet.php',
         'PoPCMSSchema\\SchemaCommonsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src/Module.php',
+        'PoPCMSSchema\\SchemaCommonsWP\\StaticHelpers\\DataAccessHelpers' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src/StaticHelpers/DataAccessHelpers.php',
         'PoPCMSSchema\\SchemaCommonsWP\\TypeAPIs\\TypeMutationAPITrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src/TypeAPIs/TypeMutationAPITrait.php',
         'PoPCMSSchema\\SchemaCommons\\CMS\\CMSHelperService' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/CMS/CMSHelperService.php',
         'PoPCMSSchema\\SchemaCommons\\CMS\\CMSHelperServiceInterface' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/CMS/CMSHelperServiceInterface.php',
@@ -4517,6 +4519,7 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
         'PoPCMSSchema\\SchemaCommons\\MutationResolvers\\AbstractBulkOperationDecoratorMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/MutationResolvers/AbstractBulkOperationDecoratorMutationResolver.php',
         'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\OverridingTypeResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/OverridingTypeResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\OverridingUnionTypeResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/OverridingUnionTypeResolverTrait.php',
+        'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\SingleCallUnionTypeResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/SingleCallUnionTypeResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\RelationalTypeDataLoaders\\ObjectType\\ObjectTypeQueryableDataLoaderTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/RelationalTypeDataLoaders/ObjectType/ObjectTypeQueryableDataLoaderTrait.php',
         'PoPCMSSchema\\SchemaCommons\\Resolvers\\WithLimitFieldArgResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Resolvers/WithLimitFieldArgResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\EnumType\\OrderEnumTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/TypeResolvers/EnumType/OrderEnumTypeResolver.php',
@@ -5194,6 +5197,7 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AbstractScalarListValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AbstractScalarListValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AbstractScalarValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AbstractScalarValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\AlwaysNullScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/AlwaysNullScalarTypeResolver.php',
+        'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\CodeNameJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/CodeNameJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\DomainScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/DomainScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IDValueJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IDValueJSONObjectScalarTypeResolver.php',
         'PoPSchema\\ExtendedSchemaCommons\\TypeResolvers\\ScalarType\\IPScalarTypeResolver' => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src/TypeResolvers/ScalarType/IPScalarTypeResolver.php',
@@ -5954,6 +5958,7 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
         'PoP\\Engine\\StaticHelpers\\SuperRootHelper' => __DIR__ . '/..' . '/getpop/engine/src/StaticHelpers/SuperRootHelper.php',
         'PoP\\Engine\\TypeResolvers\\ObjectType\\RootObjectTypeResolver' => __DIR__ . '/..' . '/getpop/engine/src/TypeResolvers/ObjectType/RootObjectTypeResolver.php',
         'PoP\\Engine\\TypeResolvers\\ObjectType\\SuperRootObjectTypeResolver' => __DIR__ . '/..' . '/getpop/engine/src/TypeResolvers/ObjectType/SuperRootObjectTypeResolver.php',
+        'PoP\\Engine\\TypeResolvers\\ScalarType\\AbstractJSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/getpop/engine/src/TypeResolvers/ScalarType/AbstractJSONObjectScalarTypeResolver.php',
         'PoP\\Engine\\TypeResolvers\\ScalarType\\JSONObjectScalarTypeResolver' => __DIR__ . '/..' . '/getpop/engine/src/TypeResolvers/ScalarType/JSONObjectScalarTypeResolver.php',
         'PoP\\GraphQLParser\\ASTNodes\\ASTNodesFactory' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ASTNodes/ASTNodesFactory.php',
         'PoP\\GraphQLParser\\AST\\ASTHelperService' => __DIR__ . '/..' . '/getpop/graphql-parser/src/AST/ASTHelperService.php',
@@ -6227,9 +6232,9 @@ class ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4a21965ea7c4cecc8cc9a5b43ac43a71::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$classMap;
 
         }, null, ClassLoader::class);
     }

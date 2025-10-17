@@ -58,7 +58,7 @@ final class CheckTypeDeclarationsPass extends AbstractRecursivePass
     }
     protected function processValue(mixed $value, bool $isRoot = \false) : mixed
     {
-        if (isset($this->skippedIds[$this->currentId])) {
+        if (isset($this->skippedIds[$this->currentId ?? ''])) {
             return $value;
         }
         if (!$value instanceof Definition || $value->hasErrors() || $value->isDeprecated()) {

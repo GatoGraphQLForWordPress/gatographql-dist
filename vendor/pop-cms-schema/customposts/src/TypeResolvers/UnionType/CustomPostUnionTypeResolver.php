@@ -4,15 +4,12 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\UnionType;
 
 use PoP\ComponentModel\RelationalTypeDataLoaders\RelationalTypeDataLoaderInterface;
-use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\UnionType\AbstractUnionTypeResolver;
 use PoPCMSSchema\CustomPosts\RelationalTypeDataLoaders\UnionType\CustomPostUnionTypeDataLoader;
-use PoPCMSSchema\CustomPosts\TypeResolvers\InterfaceType\CustomPostInterfaceTypeResolver;
 /** @internal */
 class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
 {
     private ?CustomPostUnionTypeDataLoader $customPostUnionTypeDataLoader = null;
-    private ?CustomPostInterfaceTypeResolver $customPostInterfaceTypeResolver = null;
     protected final function getCustomPostUnionTypeDataLoader() : CustomPostUnionTypeDataLoader
     {
         if ($this->customPostUnionTypeDataLoader === null) {
@@ -21,15 +18,6 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
             $this->customPostUnionTypeDataLoader = $customPostUnionTypeDataLoader;
         }
         return $this->customPostUnionTypeDataLoader;
-    }
-    protected final function getCustomPostInterfaceTypeResolver() : CustomPostInterfaceTypeResolver
-    {
-        if ($this->customPostInterfaceTypeResolver === null) {
-            /** @var CustomPostInterfaceTypeResolver */
-            $customPostInterfaceTypeResolver = $this->instanceManager->getInstance(CustomPostInterfaceTypeResolver::class);
-            $this->customPostInterfaceTypeResolver = $customPostInterfaceTypeResolver;
-        }
-        return $this->customPostInterfaceTypeResolver;
     }
     public function getTypeName() : string
     {
@@ -44,10 +32,19 @@ class CustomPostUnionTypeResolver extends AbstractUnionTypeResolver
         return $this->getCustomPostUnionTypeDataLoader();
     }
     /**
-     * @return InterfaceTypeResolverInterface[]
+     * Commented out because this is not necessarily true.
+     * Eg: it doesn't happen with WooCommerce Products
+     * (WooCommerceSimpleProduct, WooCommerceVariableProduct, WooCommerceExternalProduct, WooCommerceGroupProduct),
+     * which are returned within the CustomPostUnion yet they
+     * do not implement the CustomPost interface.
      */
-    public function getUnionTypeInterfaceTypeResolvers() : array
-    {
-        return [$this->getCustomPostInterfaceTypeResolver()];
-    }
+    // /**
+    //  * @return InterfaceTypeResolverInterface[]
+    //  */
+    // public function getUnionTypeInterfaceTypeResolvers(): array
+    // {
+    //     return [
+    //         $this->getCustomPostInterfaceTypeResolver(),
+    //     ];
+    // }
 }

@@ -15,6 +15,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ArrayAdapter
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ChainAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\NullAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ParameterNormalizer;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -127,7 +128,7 @@ class CachePoolPass implements CompilerPassInterface
                     $needsMessageHandler = \true;
                     $pool->addMethodCall('setCallbackWrapper', [(new Definition(EarlyExpirationDispatcher::class))->addArgument(new Reference($tags[0]['early_expiration_message_bus']))->addArgument(new Reference('reverse_container'))->addArgument((new Definition('callable'))->setFactory([new Reference($id), 'setCallbackWrapper'])->addArgument(null))]);
                     $pool->addTag('container.reversible');
-                } elseif ('namespace' !== $attr || !\in_array($class, [ArrayAdapter::class, NullAdapter::class], \true)) {
+                } elseif ('namespace' !== $attr || !\in_array($class, [ArrayAdapter::class, NullAdapter::class, TagAwareAdapter::class], \true)) {
                     $argument = $tags[0][$attr];
                     if ('default_lifetime' === $attr && !\is_numeric($argument)) {
                         $argument = (new Definition('int', [$argument]))->setFactory([ParameterNormalizer::class, 'normalizeDuration']);

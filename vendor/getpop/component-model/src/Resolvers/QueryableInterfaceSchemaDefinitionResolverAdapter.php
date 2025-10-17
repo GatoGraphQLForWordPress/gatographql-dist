@@ -12,8 +12,9 @@ class QueryableInterfaceSchemaDefinitionResolverAdapter extends \PoP\ComponentMo
 {
     public function getFieldFilterInputContainerComponent(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?Component
     {
-        /** @var QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface */
-        $interfaceTypeFieldSchemaDefinitionResolver = $this->interfaceTypeFieldSchemaDefinitionResolver;
-        return $interfaceTypeFieldSchemaDefinitionResolver->getFieldFilterInputContainerComponent($fieldName);
+        if (!$this->interfaceTypeFieldSchemaDefinitionResolver instanceof QueryableInterfaceTypeFieldSchemaDefinitionResolverInterface) {
+            return null;
+        }
+        return $this->interfaceTypeFieldSchemaDefinitionResolver->getFieldFilterInputContainerComponent($fieldName);
     }
 }
