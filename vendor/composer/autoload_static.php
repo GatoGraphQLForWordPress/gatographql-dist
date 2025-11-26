@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
+class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -19,7 +19,7 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'PoP\\Root\\' => 9,
             'PoP\\RootWP\\' => 11,
@@ -169,7 +169,7 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
             'PoPAPI\\APIEndpointsForWP\\' => 25,
             'PoPAPI\\APIClients\\' => 18,
         ),
-        'G' => 
+        'G' =>
         array (
             'GraphQLByPoP\\GraphQLServer\\' => 27,
             'GraphQLByPoP\\GraphQLRequest\\' => 28,
@@ -213,744 +213,744 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
     );
 
     public static $prefixDirsPsr4 = array (
-        'PoP\\Root\\' => 
+        'PoP\\Root\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/root/src',
         ),
-        'PoP\\RootWP\\' => 
+        'PoP\\RootWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/root-wp/src',
         ),
-        'PoP\\MarkdownConvertor\\' => 
+        'PoP\\MarkdownConvertor\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/markdown-convertor/src',
         ),
-        'PoP\\MandatoryDirectivesByConfiguration\\' => 
+        'PoP\\MandatoryDirectivesByConfiguration\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/mandatory-directives-by-configuration/src',
         ),
-        'PoP\\LooseContracts\\' => 
+        'PoP\\LooseContracts\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/loosecontracts/src',
         ),
-        'PoP\\GuzzleHTTP\\' => 
+        'PoP\\GuzzleHTTP\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/guzzle-http/src',
         ),
-        'PoP\\GraphQLParser\\' => 
+        'PoP\\GraphQLParser\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/graphql-parser/src',
         ),
-        'PoP\\Engine\\' => 
+        'PoP\\Engine\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/engine/src',
         ),
-        'PoP\\EngineWP\\' => 
+        'PoP\\EngineWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/engine-wp/src',
         ),
-        'PoP\\Definitions\\' => 
+        'PoP\\Definitions\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/definitions/src',
         ),
-        'PoP\\DOMCrawler\\' => 
+        'PoP\\DOMCrawler\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/dom-crawler/src',
         ),
-        'PoP\\ComponentRouting\\' => 
+        'PoP\\ComponentRouting\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/componentrouting/src',
         ),
-        'PoP\\ComponentModel\\' => 
+        'PoP\\ComponentModel\\' =>
         array (
             0 => __DIR__ . '/..' . '/getpop/component-model/src',
         ),
-        'PoPWPSchema\\Users\\' => 
+        'PoPWPSchema\\Users\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/users/src',
         ),
-        'PoPWPSchema\\UserMeta\\' => 
+        'PoPWPSchema\\UserMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/usermeta/src',
         ),
-        'PoPWPSchema\\TaxonomyMeta\\' => 
+        'PoPWPSchema\\TaxonomyMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/taxonomymeta/src',
         ),
-        'PoPWPSchema\\Site\\' => 
+        'PoPWPSchema\\Site\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/site/src',
         ),
-        'PoPWPSchema\\Settings\\' => 
+        'PoPWPSchema\\Settings\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/settings/src',
         ),
-        'PoPWPSchema\\SchemaCommons\\' => 
+        'PoPWPSchema\\SchemaCommons\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src',
         ),
-        'PoPWPSchema\\Posts\\' => 
+        'PoPWPSchema\\Posts\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/posts/src',
         ),
-        'PoPWPSchema\\Pages\\' => 
+        'PoPWPSchema\\Pages\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/pages/src',
         ),
-        'PoPWPSchema\\PageBuilder\\' => 
+        'PoPWPSchema\\PageBuilder\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/pagebuilder/src',
         ),
-        'PoPWPSchema\\Multisite\\' => 
+        'PoPWPSchema\\Multisite\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/multisite/src',
         ),
-        'PoPWPSchema\\Meta\\' => 
+        'PoPWPSchema\\Meta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/meta/src',
         ),
-        'PoPWPSchema\\Menus\\' => 
+        'PoPWPSchema\\Menus\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/menus/src',
         ),
-        'PoPWPSchema\\Media\\' => 
+        'PoPWPSchema\\Media\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/media/src',
         ),
-        'PoPWPSchema\\CustomPosts\\' => 
+        'PoPWPSchema\\CustomPosts\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/customposts/src',
         ),
-        'PoPWPSchema\\CustomPostMeta\\' => 
+        'PoPWPSchema\\CustomPostMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/custompostmeta/src',
         ),
-        'PoPWPSchema\\Comments\\' => 
+        'PoPWPSchema\\Comments\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/comments/src',
         ),
-        'PoPWPSchema\\CommentMeta\\' => 
+        'PoPWPSchema\\CommentMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/commentmeta/src',
         ),
-        'PoPWPSchema\\Blocks\\' => 
+        'PoPWPSchema\\Blocks\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/blocks/src',
         ),
-        'PoPWPSchema\\BlockContentParser\\' => 
+        'PoPWPSchema\\BlockContentParser\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src',
         ),
-        'PoPSchema\\SchemaCommons\\' => 
+        'PoPSchema\\SchemaCommons\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-schema/schema-commons/src',
         ),
-        'PoPSchema\\Logger\\' => 
+        'PoPSchema\\Logger\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-schema/logger/src',
         ),
-        'PoPSchema\\HTTPRequests\\' => 
+        'PoPSchema\\HTTPRequests\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-schema/http-requests/src',
         ),
-        'PoPSchema\\ExtendedSchemaCommons\\' => 
+        'PoPSchema\\ExtendedSchemaCommons\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-schema/extended-schema-commons/src',
         ),
-        'PoPSchema\\DirectiveCommons\\' => 
+        'PoPSchema\\DirectiveCommons\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-schema/directive-commons/src',
         ),
-        'PoPCMSSchema\\Users\\' => 
+        'PoPCMSSchema\\Users\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/users/src',
         ),
-        'PoPCMSSchema\\UsersWP\\' => 
+        'PoPCMSSchema\\UsersWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/users-wp/src',
         ),
-        'PoPCMSSchema\\UserState\\' => 
+        'PoPCMSSchema\\UserState\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-state/src',
         ),
-        'PoPCMSSchema\\UserStateWP\\' => 
+        'PoPCMSSchema\\UserStateWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-state-wp/src',
         ),
-        'PoPCMSSchema\\UserStateMutations\\' => 
+        'PoPCMSSchema\\UserStateMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-state-mutations/src',
         ),
-        'PoPCMSSchema\\UserStateMutationsWP\\' => 
+        'PoPCMSSchema\\UserStateMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-state-mutations-wp/src',
         ),
-        'PoPCMSSchema\\UserRoles\\' => 
+        'PoPCMSSchema\\UserRoles\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-roles/src',
         ),
-        'PoPCMSSchema\\UserRolesWP\\' => 
+        'PoPCMSSchema\\UserRolesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-roles-wp/src',
         ),
-        'PoPCMSSchema\\UserMutations\\' => 
+        'PoPCMSSchema\\UserMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-mutations/src',
         ),
-        'PoPCMSSchema\\UserMutationsWP\\' => 
+        'PoPCMSSchema\\UserMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-mutations-wp/src',
         ),
-        'PoPCMSSchema\\UserMeta\\' => 
+        'PoPCMSSchema\\UserMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/usermeta/src',
         ),
-        'PoPCMSSchema\\UserMetaWP\\' => 
+        'PoPCMSSchema\\UserMetaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/usermeta-wp/src',
         ),
-        'PoPCMSSchema\\UserMetaMutations\\' => 
+        'PoPCMSSchema\\UserMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/usermeta-mutations/src',
         ),
-        'PoPCMSSchema\\UserMetaMutationsWP\\' => 
+        'PoPCMSSchema\\UserMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/usermeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\UserAvatars\\' => 
+        'PoPCMSSchema\\UserAvatars\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-avatars/src',
         ),
-        'PoPCMSSchema\\UserAvatarsWP\\' => 
+        'PoPCMSSchema\\UserAvatarsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/user-avatars-wp/src',
         ),
-        'PoPCMSSchema\\TaxonomyQuery\\' => 
+        'PoPCMSSchema\\TaxonomyQuery\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomyquery/src',
         ),
-        'PoPCMSSchema\\TaxonomyQueryWP\\' => 
+        'PoPCMSSchema\\TaxonomyQueryWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomyquery-wp/src',
         ),
-        'PoPCMSSchema\\TaxonomyMutations\\' => 
+        'PoPCMSSchema\\TaxonomyMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomy-mutations/src',
         ),
-        'PoPCMSSchema\\TaxonomyMutationsWP\\' => 
+        'PoPCMSSchema\\TaxonomyMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomy-mutations-wp/src',
         ),
-        'PoPCMSSchema\\TaxonomyMeta\\' => 
+        'PoPCMSSchema\\TaxonomyMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomymeta/src',
         ),
-        'PoPCMSSchema\\TaxonomyMetaWP\\' => 
+        'PoPCMSSchema\\TaxonomyMetaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomymeta-wp/src',
         ),
-        'PoPCMSSchema\\TaxonomyMetaMutations\\' => 
+        'PoPCMSSchema\\TaxonomyMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomymeta-mutations/src',
         ),
-        'PoPCMSSchema\\TaxonomyMetaMutationsWP\\' => 
+        'PoPCMSSchema\\TaxonomyMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomymeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\Taxonomies\\' => 
+        'PoPCMSSchema\\Taxonomies\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomies/src',
         ),
-        'PoPCMSSchema\\TaxonomiesWP\\' => 
+        'PoPCMSSchema\\TaxonomiesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/taxonomies-wp/src',
         ),
-        'PoPCMSSchema\\Tags\\' => 
+        'PoPCMSSchema\\Tags\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tags/src',
         ),
-        'PoPCMSSchema\\TagsWP\\' => 
+        'PoPCMSSchema\\TagsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tags-wp/src',
         ),
-        'PoPCMSSchema\\TagMutations\\' => 
+        'PoPCMSSchema\\TagMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tag-mutations/src',
         ),
-        'PoPCMSSchema\\TagMutationsWP\\' => 
+        'PoPCMSSchema\\TagMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tag-mutations-wp/src',
         ),
-        'PoPCMSSchema\\TagMetaMutations\\' => 
+        'PoPCMSSchema\\TagMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tagmeta-mutations/src',
         ),
-        'PoPCMSSchema\\TagMetaMutationsWP\\' => 
+        'PoPCMSSchema\\TagMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/tagmeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\Settings\\' => 
+        'PoPCMSSchema\\Settings\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/settings/src',
         ),
-        'PoPCMSSchema\\SettingsWP\\' => 
+        'PoPCMSSchema\\SettingsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/settings-wp/src',
         ),
-        'PoPCMSSchema\\SchemaCommons\\' => 
+        'PoPCMSSchema\\SchemaCommons\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src',
         ),
-        'PoPCMSSchema\\SchemaCommonsWP\\' => 
+        'PoPCMSSchema\\SchemaCommonsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/schema-commons-wp/src',
         ),
-        'PoPCMSSchema\\QueriedObject\\' => 
+        'PoPCMSSchema\\QueriedObject\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/queriedobject/src',
         ),
-        'PoPCMSSchema\\QueriedObjectWP\\' => 
+        'PoPCMSSchema\\QueriedObjectWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/queriedobject-wp/src',
         ),
-        'PoPCMSSchema\\Posts\\' => 
+        'PoPCMSSchema\\Posts\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/posts/src',
         ),
-        'PoPCMSSchema\\PostsWP\\' => 
+        'PoPCMSSchema\\PostsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/posts-wp/src',
         ),
-        'PoPCMSSchema\\PostTags\\' => 
+        'PoPCMSSchema\\PostTags\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-tags/src',
         ),
-        'PoPCMSSchema\\PostTagsWP\\' => 
+        'PoPCMSSchema\\PostTagsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-tags-wp/src',
         ),
-        'PoPCMSSchema\\PostTagMutations\\' => 
+        'PoPCMSSchema\\PostTagMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-tag-mutations/src',
         ),
-        'PoPCMSSchema\\PostTagMetaMutations\\' => 
+        'PoPCMSSchema\\PostTagMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-tagmeta-mutations/src',
         ),
-        'PoPCMSSchema\\PostMutations\\' => 
+        'PoPCMSSchema\\PostMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-mutations/src',
         ),
-        'PoPCMSSchema\\PostMetaMutations\\' => 
+        'PoPCMSSchema\\PostMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/postmeta-mutations/src',
         ),
-        'PoPCMSSchema\\PostMediaMutations\\' => 
+        'PoPCMSSchema\\PostMediaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/postmedia-mutations/src',
         ),
-        'PoPCMSSchema\\PostCategoryMutations\\' => 
+        'PoPCMSSchema\\PostCategoryMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-category-mutations/src',
         ),
-        'PoPCMSSchema\\PostCategoryMetaMutations\\' => 
+        'PoPCMSSchema\\PostCategoryMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-categorymeta-mutations/src',
         ),
-        'PoPCMSSchema\\PostCategories\\' => 
+        'PoPCMSSchema\\PostCategories\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-categories/src',
         ),
-        'PoPCMSSchema\\PostCategoriesWP\\' => 
+        'PoPCMSSchema\\PostCategoriesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/post-categories-wp/src',
         ),
-        'PoPCMSSchema\\Pages\\' => 
+        'PoPCMSSchema\\Pages\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/pages/src',
         ),
-        'PoPCMSSchema\\PagesWP\\' => 
+        'PoPCMSSchema\\PagesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/pages-wp/src',
         ),
-        'PoPCMSSchema\\PageMutations\\' => 
+        'PoPCMSSchema\\PageMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/page-mutations/src',
         ),
-        'PoPCMSSchema\\PageMutationsWP\\' => 
+        'PoPCMSSchema\\PageMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/page-mutations-wp/src',
         ),
-        'PoPCMSSchema\\PageMetaMutations\\' => 
+        'PoPCMSSchema\\PageMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/pagemeta-mutations/src',
         ),
-        'PoPCMSSchema\\PageMediaMutations\\' => 
+        'PoPCMSSchema\\PageMediaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/pagemedia-mutations/src',
         ),
-        'PoPCMSSchema\\Meta\\' => 
+        'PoPCMSSchema\\Meta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/meta/src',
         ),
-        'PoPCMSSchema\\MetaQueryWP\\' => 
+        'PoPCMSSchema\\MetaQueryWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/metaquery-wp/src',
         ),
-        'PoPCMSSchema\\MetaMutations\\' => 
+        'PoPCMSSchema\\MetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/meta-mutations/src',
         ),
-        'PoPCMSSchema\\MetaMutationsWP\\' => 
+        'PoPCMSSchema\\MetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/meta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\Menus\\' => 
+        'PoPCMSSchema\\Menus\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/menus/src',
         ),
-        'PoPCMSSchema\\MenusWP\\' => 
+        'PoPCMSSchema\\MenusWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/menus-wp/src',
         ),
-        'PoPCMSSchema\\Media\\' => 
+        'PoPCMSSchema\\Media\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/media/src',
         ),
-        'PoPCMSSchema\\MediaWP\\' => 
+        'PoPCMSSchema\\MediaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/media-wp/src',
         ),
-        'PoPCMSSchema\\MediaMutations\\' => 
+        'PoPCMSSchema\\MediaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/media-mutations/src',
         ),
-        'PoPCMSSchema\\MediaMutationsWP\\' => 
+        'PoPCMSSchema\\MediaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/media-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPosts\\' => 
+        'PoPCMSSchema\\CustomPosts\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/customposts/src',
         ),
-        'PoPCMSSchema\\CustomPostsWP\\' => 
+        'PoPCMSSchema\\CustomPostsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/customposts-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostUserMutations\\' => 
+        'PoPCMSSchema\\CustomPostUserMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-user-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostUserMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostUserMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-user-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostTagsWP\\' => 
+        'PoPCMSSchema\\CustomPostTagsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-tags-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostTagMutations\\' => 
+        'PoPCMSSchema\\CustomPostTagMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-tag-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostTagMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostTagMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-tag-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostTagMetaMutations\\' => 
+        'PoPCMSSchema\\CustomPostTagMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-tagmeta-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostMutations\\' => 
+        'PoPCMSSchema\\CustomPostMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostMeta\\' => 
+        'PoPCMSSchema\\CustomPostMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmeta/src',
         ),
-        'PoPCMSSchema\\CustomPostMetaWP\\' => 
+        'PoPCMSSchema\\CustomPostMetaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmeta-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostMetaMutations\\' => 
+        'PoPCMSSchema\\CustomPostMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmeta-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostMetaMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostMedia\\' => 
+        'PoPCMSSchema\\CustomPostMedia\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmedia/src',
         ),
-        'PoPCMSSchema\\CustomPostMediaWP\\' => 
+        'PoPCMSSchema\\CustomPostMediaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmedia-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostMediaMutations\\' => 
+        'PoPCMSSchema\\CustomPostMediaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmedia-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostMediaMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostMediaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompostmedia-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostCategoryMutations\\' => 
+        'PoPCMSSchema\\CustomPostCategoryMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-category-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostCategoryMutationsWP\\' => 
+        'PoPCMSSchema\\CustomPostCategoryMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-category-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CustomPostCategoryMetaMutations\\' => 
+        'PoPCMSSchema\\CustomPostCategoryMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-categorymeta-mutations/src',
         ),
-        'PoPCMSSchema\\CustomPostCategoriesWP\\' => 
+        'PoPCMSSchema\\CustomPostCategoriesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/custompost-categories-wp/src',
         ),
-        'PoPCMSSchema\\Comments\\' => 
+        'PoPCMSSchema\\Comments\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/comments/src',
         ),
-        'PoPCMSSchema\\CommentsWP\\' => 
+        'PoPCMSSchema\\CommentsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/comments-wp/src',
         ),
-        'PoPCMSSchema\\CommentMutations\\' => 
+        'PoPCMSSchema\\CommentMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/comment-mutations/src',
         ),
-        'PoPCMSSchema\\CommentMutationsWP\\' => 
+        'PoPCMSSchema\\CommentMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/comment-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CommentMeta\\' => 
+        'PoPCMSSchema\\CommentMeta\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/commentmeta/src',
         ),
-        'PoPCMSSchema\\CommentMetaWP\\' => 
+        'PoPCMSSchema\\CommentMetaWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/commentmeta-wp/src',
         ),
-        'PoPCMSSchema\\CommentMetaMutations\\' => 
+        'PoPCMSSchema\\CommentMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/commentmeta-mutations/src',
         ),
-        'PoPCMSSchema\\CommentMetaMutationsWP\\' => 
+        'PoPCMSSchema\\CommentMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/commentmeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CategoryMutations\\' => 
+        'PoPCMSSchema\\CategoryMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/category-mutations/src',
         ),
-        'PoPCMSSchema\\CategoryMutationsWP\\' => 
+        'PoPCMSSchema\\CategoryMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/category-mutations-wp/src',
         ),
-        'PoPCMSSchema\\CategoryMetaMutations\\' => 
+        'PoPCMSSchema\\CategoryMetaMutations\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/categorymeta-mutations/src',
         ),
-        'PoPCMSSchema\\CategoryMetaMutationsWP\\' => 
+        'PoPCMSSchema\\CategoryMetaMutationsWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/categorymeta-mutations-wp/src',
         ),
-        'PoPCMSSchema\\Categories\\' => 
+        'PoPCMSSchema\\Categories\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/categories/src',
         ),
-        'PoPCMSSchema\\CategoriesWP\\' => 
+        'PoPCMSSchema\\CategoriesWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/categories-wp/src',
         ),
-        'PoPBackbone\\PHPHooks\\' => 
+        'PoPBackbone\\PHPHooks\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-backbone/php-hooks/upstream-src',
         ),
-        'PoPAPI\\GraphQLAPI\\' => 
+        'PoPAPI\\GraphQLAPI\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api-graphql/src',
         ),
-        'PoPAPI\\API\\' => 
+        'PoPAPI\\API\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api/src',
         ),
-        'PoPAPI\\APIMirrorQuery\\' => 
+        'PoPAPI\\APIMirrorQuery\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api-mirrorquery/src',
         ),
-        'PoPAPI\\APIEndpoints\\' => 
+        'PoPAPI\\APIEndpoints\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api-endpoints/src',
         ),
-        'PoPAPI\\APIEndpointsForWP\\' => 
+        'PoPAPI\\APIEndpointsForWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api-endpoints-for-wp/src',
         ),
-        'PoPAPI\\APIClients\\' => 
+        'PoPAPI\\APIClients\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-api/api-clients/src',
         ),
-        'GraphQLByPoP\\GraphQLServer\\' => 
+        'GraphQLByPoP\\GraphQLServer\\' =>
         array (
             0 => __DIR__ . '/..' . '/graphql-by-pop/graphql-server/src',
         ),
-        'GraphQLByPoP\\GraphQLRequest\\' => 
+        'GraphQLByPoP\\GraphQLRequest\\' =>
         array (
             0 => __DIR__ . '/..' . '/graphql-by-pop/graphql-request/src',
         ),
-        'GraphQLByPoP\\GraphQLEndpointForWP\\' => 
+        'GraphQLByPoP\\GraphQLEndpointForWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/graphql-by-pop/graphql-endpoint-for-wp/src',
         ),
-        'GraphQLByPoP\\GraphQLClientsForWP\\' => 
+        'GraphQLByPoP\\GraphQLClientsForWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src',
         ),
-        'GatoGraphQL\\PluginUtils\\' => 
+        'GatoGraphQL\\PluginUtils\\' =>
         array (
             0 => __DIR__ . '/..' . '/gatographql/plugin-utils/src',
         ),
-        'GatoGraphQL\\GatoGraphQL\\' => 
+        'GatoGraphQL\\GatoGraphQL\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'GatoGraphQL\\ExternalDependencyWrappers\\' => 
+        'GatoGraphQL\\ExternalDependencyWrappers\\' =>
         array (
             0 => __DIR__ . '/..' . '/gatographql/external-dependency-wrappers/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php83\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php83\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php80\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php74\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Php74\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php74',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Mbstring\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Ctype\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Cache\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/cache-contracts',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\VarExporter\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\VarExporter\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-exporter',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/expression-language',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/dotenv',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DomCrawler\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DomCrawler\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/dom-crawler',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/dependency-injection',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\CssSelector\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\CssSelector\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/config',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/cache',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\SimpleCache\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\SimpleCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\Log\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\Http\\Message\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\Http\\Client\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\Container\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Psr\\Cache\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Psr\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Michelf\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Michelf\\' =>
         array (
             0 => __DIR__ . '/..' . '/michelf/php-markdown/Michelf',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Masterminds\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Masterminds\\' =>
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\League\\Pipeline\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\League\\Pipeline\\' =>
         array (
             0 => __DIR__ . '/..' . '/league/pipeline/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Promise\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'GatoExternalPrefixByGatoGraphQL\\Composer\\Semver\\' => 
+        'GatoExternalPrefixByGatoGraphQL\\Composer\\Semver\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
@@ -1186,11 +1186,13 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\FilesystemTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/FilesystemTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis5Proxy.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis61ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis61ProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis62ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis62ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6Proxy.php',
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster5Proxy.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster61ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster61ProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster62ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster62ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6Proxy.php',
-        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster6ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisClusterNodeProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterNodeProxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisClusterProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterProxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisProxy.php',
@@ -1209,6 +1211,8 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\NullableReturnTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/NullableReturnTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\PfcountTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/PfcountTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay11Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay11Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay121Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay121Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay12Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay12Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -5311,6 +5315,7 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
         'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\ObjectType\\GeneralBlockObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/ObjectType/GeneralBlockObjectTypeDataLoader.php',
         'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\UnionType\\BlockUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/UnionType/BlockUnionTypeDataLoader.php',
         'PoPWPSchema\\Blocks\\TypeHelpers\\BlockUnionTypeHelpers' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeHelpers/BlockUnionTypeHelpers.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\InputObjectType\\IncludeBlockPropertiesInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InputObjectType/IncludeBlockPropertiesInputObjectTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\InterfaceType\\BlockInterfaceTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InterfaceType/BlockInterfaceTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\AbstractBlockObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/AbstractBlockObjectTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\GeneralBlockObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/GeneralBlockObjectTypeResolver.php',
@@ -5338,6 +5343,7 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
         'PoPWPSchema\\CustomPosts\\Enums\\NonEnumerableCustomPostStatus' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Enums/NonEnumerableCustomPostStatus.php',
         'PoPWPSchema\\CustomPosts\\Environment' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Environment.php',
         'PoPWPSchema\\CustomPosts\\FieldResolvers\\ObjectType\\CustomPostObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/FieldResolvers/ObjectType/CustomPostObjectTypeFieldResolver.php',
+        'PoPWPSchema\\CustomPosts\\FieldResolvers\\ObjectType\\RootGlobalObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/FieldResolvers/ObjectType/RootGlobalObjectTypeFieldResolver.php',
         'PoPWPSchema\\CustomPosts\\FilterInputs\\HasPasswordFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/FilterInputs/HasPasswordFilterInput.php',
         'PoPWPSchema\\CustomPosts\\FilterInputs\\PasswordFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/FilterInputs/PasswordFilterInput.php',
         'PoPWPSchema\\CustomPosts\\Hooks\\AbstractAddCustomPostPasswordToFilterInputQueryHookSet' => __DIR__ . '/..' . '/pop-wp-schema/customposts/src/Hooks/AbstractAddCustomPostPasswordToFilterInputQueryHookSet.php',
@@ -6232,9 +6238,9 @@ class ComposerStaticInit218673a2763726cbbe38c68f0188e41f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit218673a2763726cbbe38c68f0188e41f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$classMap;
 
         }, null, ClassLoader::class);
     }

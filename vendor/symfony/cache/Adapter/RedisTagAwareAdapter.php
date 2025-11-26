@@ -13,6 +13,7 @@ namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ClusterInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\PredisCluster;
 use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Aggregate\ReplicationInterface;
+use GatoExternalPrefixByGatoGraphQL\Predis\Connection\Replication\ReplicationInterface as Predis2ReplicationInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Response\ErrorInterface;
 use GatoExternalPrefixByGatoGraphQL\Predis\Response\Status;
 use GatoExternalPrefixByGatoGraphQL\Relay\Relay;
@@ -245,9 +246,15 @@ EOLUA;
         }
         $hosts = $this->getHosts();
         $host = \reset($hosts);
-        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client && $host->getConnection() instanceof ReplicationInterface) {
+        if ($host instanceof \GatoExternalPrefixByGatoGraphQL\Predis\Client) {
+            $connection = $host->getConnection();
             // Predis supports info command only on the master in replication environments
-            $hosts = [$host->getClientFor('master')];
+            if ($connection instanceof ReplicationInterface) {
+                $hosts = [$host->getClientFor('master')];
+            } elseif ($connection instanceof Predis2ReplicationInterface) {
+                $connection->switchToMaster();
+                $hosts = [$host];
+            }
         }
         foreach ($hosts as $host) {
             $info = $host->info('Memory');

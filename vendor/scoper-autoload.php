@@ -29,7 +29,7 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('ComposerAutoloaderInit218673a2763726cbbe38c68f0188e41f', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit218673a2763726cbbe38c68f0188e41f');
+humbug_phpscoper_expose_class('ComposerAutoloaderInitdabe0fc5aec32592a9b483cdf6c715bf', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInitdabe0fc5aec32592a9b483cdf6c715bf');
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('DateInvalidOperationException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidOperationException');

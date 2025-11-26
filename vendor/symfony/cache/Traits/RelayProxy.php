@@ -22,6 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\MoveTra
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\NullableReturnTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\PfcountTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay11Trait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay121Trait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay12Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\SwapdbTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
@@ -51,6 +53,8 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     use PfcountTrait;
     use RelayProxyTrait;
     use Relay11Trait;
+    use Relay12Trait;
+    use Relay121Trait;
     use SwapdbTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($host = null, $port = 6379, $connect_timeout = 0.0, $command_timeout = 0.0, #[\SensitiveParameter] $context = [], $database = 0)
@@ -204,10 +208,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function rawCommand($cmd, ...$args) : mixed
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->rawCommand(...\func_get_args());
-    }
-    public function select($db) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|bool
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->select(...\func_get_args());
     }
     public function auth(#[\SensitiveParameter] $auth) : bool
     {
@@ -756,10 +756,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function wait($replicas, $timeout) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->wait(...\func_get_args());
-    }
-    public function watch($key, ...$other_keys) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|bool
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->watch(...\func_get_args());
     }
     public function unwatch() : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|bool
     {

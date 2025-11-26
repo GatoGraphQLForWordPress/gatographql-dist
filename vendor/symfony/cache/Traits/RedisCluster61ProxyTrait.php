@@ -14,7 +14,7 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>')) {
     /**
      * @internal
      */
-    trait RedisCluster6ProxyTrait
+    trait RedisCluster61ProxyTrait
     {
         public function getex($key, $options = []) : \RedisCluster|string|false
         {
@@ -33,7 +33,7 @@ if (\version_compare(\phpversion('redis'), '6.1.0-dev', '>')) {
     /**
      * @internal
      */
-    trait RedisCluster6ProxyTrait
+    trait RedisCluster61ProxyTrait
     {
         public function publish($channel, $message) : \RedisCluster|bool
         {

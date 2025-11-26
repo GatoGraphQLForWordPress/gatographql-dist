@@ -22,7 +22,8 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
  */
 class RedisCluster6Proxy extends \RedisCluster implements ResetInterface, LazyObjectInterface
 {
-    use RedisCluster6ProxyTrait;
+    use RedisCluster61ProxyTrait;
+    use RedisCluster62ProxyTrait;
     use LazyProxyTrait {
         resetLazyObject as reset;
     }

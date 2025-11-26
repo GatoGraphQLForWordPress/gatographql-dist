@@ -97,7 +97,7 @@ abstract class AbstractQueryableInputObjectTypeResolver extends \PoP\ComponentMo
         /**
          * If the input field is an InputObject, recursively apply this function
          */
-        if ($isQueryableInputObjectTypeResolver) {
+        if ($isQueryableInputObjectTypeResolver && $inputFieldValue !== null) {
             /** @var QueryableInputObjectTypeResolverInterface $queryableInputObjectTypeResolver */
             $queryableInputObjectTypeResolver->integrateInputValueToFilteringQueryArgs($query, $inputFieldValue);
         }

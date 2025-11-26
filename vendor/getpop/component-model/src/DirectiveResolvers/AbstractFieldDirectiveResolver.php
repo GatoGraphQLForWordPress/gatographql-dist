@@ -966,6 +966,16 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
     private function processFailure(RelationalTypeResolverInterface $relationalTypeResolver, FeedbackItemResolution $feedbackItemResolution, array $idFieldSetToRemove, array &$succeedingPipelineIDFieldSet, AstInterface $astNode, array &$resolvedIDFieldValues, ObjectResolutionFeedbackStore|SchemaFeedbackStore $schemaOrObjectResolutionFeedbackStore) : void
     {
         /**
+         * After setting fields as null below, the references to the fields inside $idFieldSetToRemove
+         * will also be removed.
+         *
+         * Hence, make a duplicate first, to pass to the feedback store.
+         */
+        $idFieldSetForFeedback = [];
+        foreach ($idFieldSetToRemove as $id => $fieldSet) {
+            $idFieldSetForFeedback[$id] = new EngineIterationFieldSet($fieldSet->fields);
+        }
+        /**
          * Remove the fields from the directive pipeline
          */
         /** @var ModuleConfiguration */
@@ -977,12 +987,12 @@ abstract class AbstractFieldDirectiveResolver extends \PoP\ComponentModel\Direct
         if ($schemaOrObjectResolutionFeedbackStore instanceof SchemaFeedbackStore) {
             /** @var SchemaFeedbackStore */
             $schemaFeedbackStore = $schemaOrObjectResolutionFeedbackStore;
-            $schemaFeedbackStore->addError(new SchemaFeedback($feedbackItemResolution, $astNode, $relationalTypeResolver, MethodHelpers::getFieldsFromIDFieldSet($idFieldSetToRemove)));
+            $schemaFeedbackStore->addError(new SchemaFeedback($feedbackItemResolution, $astNode, $relationalTypeResolver, MethodHelpers::getFieldsFromIDFieldSet($idFieldSetForFeedback)));
             return;
         }
         /** @var ObjectResolutionFeedbackStore */
         $objectResolutionFeedbackStore = $schemaOrObjectResolutionFeedbackStore;
-        $objectResolutionFeedbackStore->addError(new ObjectResolutionFeedback($feedbackItemResolution, $astNode, $relationalTypeResolver, $this->directive, $idFieldSetToRemove));
+        $objectResolutionFeedbackStore->addError(new ObjectResolutionFeedback($feedbackItemResolution, $astNode, $relationalTypeResolver, $this->directive, $idFieldSetForFeedback));
     }
     /**
      * @param array<string|int,EngineIterationFieldSet> $idFieldSetToRemove
