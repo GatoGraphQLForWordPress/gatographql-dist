@@ -630,6 +630,12 @@ class Parser
                             $this->moveToPreviousLine();
                             break;
                         }
+                        if ($this->isCurrentLineComment()) {
+                            break;
+                        }
+                        if ('mapping' === $context && \str_contains($this->currentLine, ': ') && !$this->isCurrentLineComment()) {
+                            throw new ParseException('A colon cannot be used in an unquoted mapping value.', $this->getRealCurrentLineNb() + 1, $this->currentLine, $this->filename);
+                        }
                         $lines[] = \trim($this->currentLine);
                     }
                     for ($i = 0, $linesCount = \count($lines), $previousLineBlank = \false; $i < $linesCount; ++$i) {

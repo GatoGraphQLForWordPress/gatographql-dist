@@ -240,7 +240,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
             return $params;
         }
         if ('query_string' === $prefix) {
-            $queryString = \parse_url($env, \PHP_URL_QUERY) ?: $env;
+            $queryString = \parse_url($env, \PHP_URL_QUERY) ?: (\parse_url($env, \PHP_URL_SCHEME) ? '' : $env);
             \parse_str($queryString, $result);
             return $result;
         }

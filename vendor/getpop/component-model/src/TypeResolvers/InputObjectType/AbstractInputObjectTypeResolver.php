@@ -193,7 +193,7 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
              *      that those values are provided (but they are not!), triggering an error
              *      (eg: "Warning: Undefined property: stdClass::$key in .../meta/src/TypeResolvers/InputObjectType/AbstractMetaQueryInputObjectTypeResolver.php on line 159")
              */
-            if ($inputFieldTypeResolver instanceof \PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface && $this->initializeInputFieldInputObjectValue()) {
+            if ($inputFieldTypeResolver instanceof \PoP\ComponentModel\TypeResolvers\InputObjectType\InputObjectTypeResolverInterface && \get_class($inputFieldTypeResolver) !== \get_class($this) && $this->initializeInputFieldInputObjectValue()) {
                 $inputObjectTypeResolver = $inputFieldTypeResolver;
                 $inputFieldTypeModifiers = $this->getConsolidatedInputFieldTypeModifiers($inputFieldName);
                 $inputFieldTypeModifiersIsMandatory = ($inputFieldTypeModifiers & SchemaTypeModifiers::MANDATORY) === SchemaTypeModifiers::MANDATORY || ($inputFieldTypeModifiers & SchemaTypeModifiers::MANDATORY_BUT_NULLABLE) === SchemaTypeModifiers::MANDATORY_BUT_NULLABLE;

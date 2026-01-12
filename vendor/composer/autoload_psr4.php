@@ -106,6 +106,8 @@ return array(
     'PoPCMSSchema\\MetaMutationsWP\\' => array($vendorDir . '/pop-cms-schema/meta-mutations-wp/src'),
     'PoPCMSSchema\\Menus\\' => array($vendorDir . '/pop-cms-schema/menus/src'),
     'PoPCMSSchema\\MenusWP\\' => array($vendorDir . '/pop-cms-schema/menus-wp/src'),
+    'PoPCMSSchema\\MenuMutations\\' => array($vendorDir . '/pop-cms-schema/menu-mutations/src'),
+    'PoPCMSSchema\\MenuMutationsWP\\' => array($vendorDir . '/pop-cms-schema/menu-mutations-wp/src'),
     'PoPCMSSchema\\Media\\' => array($vendorDir . '/pop-cms-schema/media/src'),
     'PoPCMSSchema\\MediaWP\\' => array($vendorDir . '/pop-cms-schema/media-wp/src'),
     'PoPCMSSchema\\MediaMutations\\' => array($vendorDir . '/pop-cms-schema/media-mutations/src'),

@@ -51,13 +51,15 @@ class PhpFileLoader extends FileLoader
         $load = \Closure::bind(function ($path, $env) use($container, $loader, $resource, $type) {
             return include $path;
         }, $this, ProtectedPhpFileLoader::class);
+        $instanceof = $this->instanceof;
+        $this->instanceof = [];
         try {
             $callback = $load($path, $this->env);
             if (\is_object($callback) && \is_callable($callback)) {
                 $this->executeCallback($callback, new ContainerConfigurator($this->container, $this, $this->instanceof, $path, $resource, $this->env), $path);
             }
         } finally {
-            $this->instanceof = [];
+            $this->instanceof = $instanceof;
             $this->registerAliasesForSinglyImplementedInterfaces();
         }
         return null;

@@ -24,6 +24,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Pfcount
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay11Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay121Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay12Trait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay20Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\SwapdbTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
@@ -55,6 +56,7 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     use Relay11Trait;
     use Relay12Trait;
     use Relay121Trait;
+    use Relay20Trait;
     use SwapdbTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($host = null, $port = 6379, $connect_timeout = 0.0, $command_timeout = 0.0, #[\SensitiveParameter] $context = [], $database = 0)

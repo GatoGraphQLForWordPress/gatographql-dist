@@ -145,11 +145,11 @@ abstract class FileLoader extends BaseFileLoader
                 $this->interfaces[] = $class;
             } else {
                 $this->setDefinition($class, $definition = $getPrototype());
+                $definition->setClass($class);
                 if (null !== $errorMessage) {
                     $definition->addError($errorMessage);
                     continue;
                 }
-                $definition->setClass($class);
                 $interfaces = [];
                 foreach (\class_implements($class, \false) as $interface) {
                     $this->singlyImplemented[$interface] = ($this->singlyImplemented[$interface] ?? $class) !== $class ? \false : $class;

@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.9
-Stable tag: 15.2.0
+Stable tag: 16.0.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -221,6 +221,26 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 16.0.0 =
+* Breaking change - Renamed MenuItem fields: title to rawLabel, and rawTitle to titleAttribute (#3251)
+* Breaking change - Renamed MenuItem.classes to cssClasses (#3252)
+* Added - Menu mutations Root.createMenu, Root.updateMenu and Menu.update (#3253)
+* Added - MenuItem.itemType and MenuItem.objectType fields (#3249)
+* Improved - Include/exclude properties in MenuItem.itemDataEntries (#3250)
+* Improved - Trigger a hook action before initializing enum string possible values (#3254)
+* Improved - Support text-only classic-editor CPT for the plugin (#3255)
+* Fixed - Don't initialize an input that includes itself (eg: MenuItemInput) (#3248)
+
+= 15.4.0 =
+
+= 15.3.0 =
+* Added - MetaNamespacer service (#3241)
+* Pass extensions to the response error via FeedbackItemResolution (#3240)
+* Allow to execute Custom Settings bulk action after filtering posts (for standalone plugins) (#3242)
+
+= 15.2.1 =
+* Fixed - Issue in WordPress 6.9 where "\\" in blocks is not serialized properly (#3240)
 
 = 15.2.0 =
 * Added - Field `_urlToCustomPostID` to get the custom post ID from a URL (#3229)

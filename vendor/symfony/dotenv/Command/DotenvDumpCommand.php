@@ -21,6 +21,13 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Dotenv\Dotenv;
 /**
  * A console command to compile .env files into a PHP-optimized file called .env.local.php.
  *
+ * To use this command, first register it explicitly as a service, e.g in your services.yaml file:
+ *
+ *     ```yaml
+ *     services:
+ *         # [...]
+ *         Symfony\Component\Dotenv\Command\DotenvDumpCommand: ~
+ *     ```
  * @internal
  */
 #[Autoconfigure(bind: ['$projectDir' => '%kernel.project_dir%', '$defaultEnv' => '%kernel.environment%'])]

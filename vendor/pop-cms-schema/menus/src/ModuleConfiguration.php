@@ -23,9 +23,9 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = EnvironmentValueHelpers::toInt(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-    public function treatMenuItemRawTitleFieldsAsSensitiveData() : bool
+    public function treatMenuItemRawLabelFieldsAsSensitiveData() : bool
     {
-        $envVariable = \PoPCMSSchema\Menus\Environment::TREAT_MENUITEM_RAW_TITLE_AS_SENSITIVE_DATA;
+        $envVariable = \PoPCMSSchema\Menus\Environment::TREAT_MENUITEM_RAW_LABEL_AS_SENSITIVE_DATA;
         $defaultValue = \true;
         $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);

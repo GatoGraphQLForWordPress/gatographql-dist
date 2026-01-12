@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
+class ComposerStaticInit979b2f23339db55a45f3bcd08c0fbe0a
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -121,6 +121,8 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
             'PoPCMSSchema\\MetaMutationsWP\\' => 29,
             'PoPCMSSchema\\Menus\\' => 19,
             'PoPCMSSchema\\MenusWP\\' => 21,
+            'PoPCMSSchema\\MenuMutations\\' => 27,
+            'PoPCMSSchema\\MenuMutationsWP\\' => 29,
             'PoPCMSSchema\\Media\\' => 19,
             'PoPCMSSchema\\MediaWP\\' => 21,
             'PoPCMSSchema\\MediaMutations\\' => 28,
@@ -612,6 +614,14 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'PoPCMSSchema\\MenusWP\\' =>
         array (
             0 => __DIR__ . '/..' . '/pop-cms-schema/menus-wp/src',
+        ),
+        'PoPCMSSchema\\MenuMutations\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src',
+        ),
+        'PoPCMSSchema\\MenuMutationsWP\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations-wp/src',
         ),
         'PoPCMSSchema\\Media\\' =>
         array (
@@ -1188,10 +1198,12 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis5Proxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis61ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis61ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis62ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis62ProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis63ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis63ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Redis6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/Redis6Proxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster5Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster5Proxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster61ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster61ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster62ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster62ProxyTrait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster63ProxyTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster63ProxyTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisCluster6Proxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisCluster6Proxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisClusterNodeProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterNodeProxy.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\RedisClusterProxy' => __DIR__ . '/..' . '/symfony/cache/Traits/RedisClusterProxy.php',
@@ -1213,6 +1225,7 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay11Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay11Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay121Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay121Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay12Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay12Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay20Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay20Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -1843,6 +1856,7 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'GatoGraphQL\\GatoGraphQL\\Facades\\InternalGraphQLServerContainerCacheConfigurationManagerFacade' => __DIR__ . '/../..' . '/src/Facades/InternalGraphQLServerContainerCacheConfigurationManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\JSONDataOptionSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/JSONDataOptionSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\LogEntryCounterSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/LogEntryCounterSettingsManagerFacade.php',
+        'GatoGraphQL\\GatoGraphQL\\Facades\\Meta\\MetaNamespacerFacade' => __DIR__ . '/../..' . '/src/Facades/Meta/MetaNamespacerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\CustomPostTypeRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/CustomPostTypeRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\EndpointBlockRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/EndpointBlockRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\EndpointSchemaConfigurationExecuterRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/EndpointSchemaConfigurationExecuterRegistryFacade.php',
@@ -1887,6 +1901,8 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialPluginUpdaterServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialExtensionActivatedLicenseObjectProperties' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialExtensionActivatedLicenseObjectProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialPluginUpdatedPluginData' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialPluginUpdatedPluginData.php',
+        'GatoGraphQL\\GatoGraphQL\\Meta\\MetaNamespacer' => __DIR__ . '/../..' . '/src/Meta/MetaNamespacer.php',
+        'GatoGraphQL\\GatoGraphQL\\Meta\\MetaNamespacerInterface' => __DIR__ . '/../..' . '/src/Meta/MetaNamespacerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Module' => __DIR__ . '/../..' . '/src/Module.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleConfiguration' => __DIR__ . '/../..' . '/src/ModuleConfiguration.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\APIKeysFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/APIKeysFunctionalityModuleResolverTrait.php',
@@ -2201,6 +2217,7 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaCustomPostTagMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaCustomPostTagMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaCustomPostsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaCustomPostsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaMediaMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaMediaMutationsBlockSchemaConfigurationExecuter.php',
+        'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaMenuMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaMenuMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaSettingsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaSettingsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaTagMetaMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaTagMetaMutationsBlockSchemaConfigurationExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\Services\\SchemaConfigurationExecuters\\SchemaTagMutationsBlockSchemaConfigurationExecuter' => __DIR__ . '/../..' . '/src/Services/SchemaConfigurationExecuters/SchemaTagMutationsBlockSchemaConfigurationExecuter.php',
@@ -3809,6 +3826,83 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\RootMediaItemPaginationInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/RootMediaItemPaginationInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\InputObjectType\\RootMediaItemsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/InputObjectType/RootMediaItemsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\Media\\TypeResolvers\\ObjectType\\MediaObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/media/src/TypeResolvers/ObjectType/MediaObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutationsWP\\Constants\\HookNames' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations-wp/src/Constants/HookNames.php',
+        'PoPCMSSchema\\MenuMutationsWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations-wp/src/Module.php',
+        'PoPCMSSchema\\MenuMutationsWP\\TypeAPIs\\MenuTypeMutationAPI' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations-wp/src/TypeAPIs/MenuTypeMutationAPI.php',
+        'PoPCMSSchema\\MenuMutations\\Constants\\MenuCRUDHookNames' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Constants/MenuCRUDHookNames.php',
+        'PoPCMSSchema\\MenuMutations\\Constants\\MutationInputProperties' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Constants/MutationInputProperties.php',
+        'PoPCMSSchema\\MenuMutations\\Enums\\MenuItemType' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Enums/MenuItemType.php',
+        'PoPCMSSchema\\MenuMutations\\Environment' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Environment.php',
+        'PoPCMSSchema\\MenuMutations\\Exception\\MenuCRUDMutationException' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Exception/MenuCRUDMutationException.php',
+        'PoPCMSSchema\\MenuMutations\\Facades\\MenuTypeMutationAPIFacade' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Facades/MenuTypeMutationAPIFacade.php',
+        'PoPCMSSchema\\MenuMutations\\FeedbackItemProviders\\MutationErrorFeedbackItemProvider' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FeedbackItemProviders/MutationErrorFeedbackItemProvider.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\MenuMutationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/MenuMutationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\MenuMutationTransientEntityOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/MenuMutationTransientEntityOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\MenuObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/MenuObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\MenuUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/MenuUpdateMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\RootCreateMenuMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/RootCreateMenuMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\FieldResolvers\\ObjectType\\RootUpdateMenuMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/FieldResolvers/ObjectType/RootUpdateMenuMutationPayloadErrorsFieldTransientOperationPayloadObjectTypeFieldResolver.php',
+        'PoPCMSSchema\\MenuMutations\\Module' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/Module.php',
+        'PoPCMSSchema\\MenuMutations\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ModuleConfiguration.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\AbstractCreateOrUpdateMenuMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/AbstractCreateOrUpdateMenuMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\CreateMenuBulkOperationMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/CreateMenuBulkOperationMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\CreateMenuMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/CreateMenuMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\MenuCRUDMutationResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/MenuCRUDMutationResolverTrait.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\PayloadableCreateMenuBulkOperationMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/PayloadableCreateMenuBulkOperationMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\PayloadableCreateMenuMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/PayloadableCreateMenuMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\PayloadableUpdateMenuBulkOperationMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/PayloadableUpdateMenuBulkOperationMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\PayloadableUpdateMenuMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/PayloadableUpdateMenuMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\UpdateMenuBulkOperationMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/UpdateMenuBulkOperationMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\MutationResolvers\\UpdateMenuMutationResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/MutationResolvers/UpdateMenuMutationResolver.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectModels\\LoggedInUserHasNoEditingMenuCapabilityErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectModels/LoggedInUserHasNoEditingMenuCapabilityErrorPayload.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectModels\\LoggedInUserHasNoPermissionToEditMenuErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectModels/LoggedInUserHasNoPermissionToEditMenuErrorPayload.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectModels\\MenuDoesNotExistErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectModels/MenuDoesNotExistErrorPayload.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectModels\\UserHasNoPermissionToCreateMenusErrorPayload' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectModels/UserHasNoPermissionToCreateMenusErrorPayload.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\AbstractLoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/AbstractLoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\AbstractLoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/AbstractLoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\AbstractMenuDoesNotExistErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/AbstractMenuDoesNotExistErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\AbstractUserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/AbstractUserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\CustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/CustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\GenericErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/GenericErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\MenuDoesNotExistErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/MenuDoesNotExistErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\ObjectTypeResolverPickers\\UserIsNotLoggedInErrorPayloadObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/ObjectTypeResolverPickers/UserIsNotLoggedInErrorPayloadObjectTypeResolverPicker.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\ObjectType\\LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/ObjectType/LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\ObjectType\\LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/ObjectType/LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\ObjectType\\MenuDoesNotExistErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/ObjectType/MenuDoesNotExistErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\ObjectType\\UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/ObjectType/UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\UnionType\\MenuUpdateMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/UnionType/MenuUpdateMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\UnionType\\RootCreateMenuMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/UnionType/RootCreateMenuMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\RelationalTypeDataLoaders\\UnionType\\RootUpdateMenuMutationErrorPayloadUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/RelationalTypeDataLoaders/UnionType/RootUpdateMenuMutationErrorPayloadUnionTypeDataLoader.php',
+        'PoPCMSSchema\\MenuMutations\\TypeAPIs\\MenuTypeMutationAPIInterface' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeAPIs/MenuTypeMutationAPIInterface.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\EnumType\\MenuItemTypeEnumTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/EnumType/MenuItemTypeEnumTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\AbstractCreateMenuInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/AbstractCreateMenuInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\AbstractCreateOrUpdateMenuInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/AbstractCreateOrUpdateMenuInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\AbstractUpdateMenuInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/AbstractUpdateMenuInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\CreateMenuInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/CreateMenuInputObjectTypeResolverInterface.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\MenuItemInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/MenuItemInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\MenuItemsByOneofInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/MenuItemsByOneofInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\MenuUpdateInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/MenuUpdateInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\RootCreateMenuInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/RootCreateMenuInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\RootUpdateMenuInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/RootUpdateMenuInputObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\InputObjectType\\UpdateMenuInputObjectTypeResolverInterface' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/InputObjectType/UpdateMenuInputObjectTypeResolverInterface.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\AbstractMenuMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/AbstractMenuMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/LoggedInUserHasNoEditingMenuCapabilityErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/LoggedInUserHasNoPermissionToEditMenuErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\MenuDoesNotExistErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/MenuDoesNotExistErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\MenuUpdateMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/MenuUpdateMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\RootCreateMenuMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/RootCreateMenuMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\RootUpdateMenuMutationPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/RootUpdateMenuMutationPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\ObjectType\\UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/ObjectType/UserHasNoPermissionToCreateMenusErrorPayloadObjectTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\AbstractCreateMenuMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/AbstractCreateMenuMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\AbstractCreateOrUpdateMenuMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/AbstractCreateOrUpdateMenuMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\AbstractUpdateMenuMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/AbstractUpdateMenuMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\MenuUpdateMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/MenuUpdateMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\RootCreateMenuMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/RootCreateMenuMutationErrorPayloadUnionTypeResolver.php',
+        'PoPCMSSchema\\MenuMutations\\TypeResolvers\\UnionType\\RootUpdateMenuMutationErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/menu-mutations/src/TypeResolvers/UnionType/RootUpdateMenuMutationErrorPayloadUnionTypeResolver.php',
         'PoPCMSSchema\\MenusWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/menus-wp/src/Module.php',
         'PoPCMSSchema\\MenusWP\\TypeAPIs\\MenuTypeAPI' => __DIR__ . '/..' . '/pop-cms-schema/menus-wp/src/TypeAPIs/MenuTypeAPI.php',
         'PoPCMSSchema\\Menus\\ComponentProcessors\\MenuFilterInputContainerComponentProcessor' => __DIR__ . '/..' . '/pop-cms-schema/menus/src/ComponentProcessors/MenuFilterInputContainerComponentProcessor.php',
@@ -6238,9 +6332,9 @@ class ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdabe0fc5aec32592a9b483cdf6c715bf::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit979b2f23339db55a45f3bcd08c0fbe0a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit979b2f23339db55a45f3bcd08c0fbe0a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit979b2f23339db55a45f3bcd08c0fbe0a::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -17,6 +17,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\NullAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ParameterNormalizer;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ChildDefinition;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,7 +44,7 @@ class CachePoolPass implements CompilerPassInterface
         $needsMessageHandler = \false;
         $allPools = [];
         $clearers = [];
-        $attributes = ['provider', 'name', 'namespace', 'default_lifetime', 'early_expiration_message_bus', 'reset'];
+        $attributes = ['provider', 'name', 'namespace', 'default_lifetime', 'early_expiration_message_bus', 'reset', 'pruneable'];
         foreach ($container->findTaggedServiceIds('cache.pool') as $id => $tags) {
             $adapter = $pool = $container->getDefinition($id);
             if ($pool->isAbstract()) {
@@ -79,11 +80,12 @@ class CachePoolPass implements CompilerPassInterface
             if (isset($tags[0]['provider'])) {
                 $tags[0]['provider'] = new Reference(static::getServiceProvider($container, $tags[0]['provider']));
             }
+            $pruneable = $tags[0]['pruneable'] ?? $container->getReflectionClass($class, \false)?->implementsInterface(PruneableInterface::class) ?? \false;
             if (ChainAdapter::class === $class) {
                 $adapters = [];
                 foreach ($providers['index_0'] ?? $providers[0] as $provider => $adapter) {
                     if ($adapter instanceof ChildDefinition) {
-                        $chainedPool = $adapter;
+                        $chainedPool = clone $adapter;
                     } else {
                         $chainedPool = $adapter = new ChildDefinition($adapter);
                     }
@@ -128,6 +130,8 @@ class CachePoolPass implements CompilerPassInterface
                     $needsMessageHandler = \true;
                     $pool->addMethodCall('setCallbackWrapper', [(new Definition(EarlyExpirationDispatcher::class))->addArgument(new Reference($tags[0]['early_expiration_message_bus']))->addArgument(new Reference('reverse_container'))->addArgument((new Definition('callable'))->setFactory([new Reference($id), 'setCallbackWrapper'])->addArgument(null))]);
                     $pool->addTag('container.reversible');
+                } elseif ('pruneable' === $attr) {
+                    // no-op
                 } elseif ('namespace' !== $attr || !\in_array($class, [ArrayAdapter::class, NullAdapter::class, TagAwareAdapter::class], \true)) {
                     $argument = $tags[0][$attr];
                     if ('default_lifetime' === $attr && !\is_numeric($argument)) {
@@ -138,11 +142,14 @@ class CachePoolPass implements CompilerPassInterface
                 unset($tags[0][$attr]);
             }
             if (!empty($tags[0])) {
-                throw new InvalidArgumentException(\sprintf('Invalid "cache.pool" tag for service "%s": accepted attributes are "clearer", "provider", "name", "namespace", "default_lifetime", "early_expiration_message_bus" and "reset", found "%s".', $id, \implode('", "', \array_keys($tags[0]))));
+                throw new InvalidArgumentException(\sprintf('Invalid "cache.pool" tag for service "%s": accepted attributes are "clearer", "provider", "name", "namespace", "default_lifetime", "early_expiration_message_bus", "reset" and "pruneable", found "%s".', $id, \implode('", "', \array_keys($tags[0]))));
             }
             if (null !== $clearer) {
                 $clearers[$clearer][$name] = new Reference($id, $container::IGNORE_ON_UNINITIALIZED_REFERENCE);
             }
+            $poolTags = $pool->getTags();
+            $poolTags['cache.pool'][0]['pruneable'] ??= $pruneable;
+            $pool->setTags($poolTags);
             $allPools[$name] = new Reference($id, $container::IGNORE_ON_UNINITIALIZED_REFERENCE);
         }
         if (!$needsMessageHandler) {
