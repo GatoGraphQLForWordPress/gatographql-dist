@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.9
-Stable tag: 16.0.0
+Stable tag: 16.0.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -222,6 +222,9 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 
 == Changelog ==
 
+= 16.0.1 =
+* Fixed - Revalidate commercial license (#3258)
+
 = 16.0.0 =
 * Breaking change - Renamed MenuItem fields: title to rawLabel, and rawTitle to titleAttribute (#3251)
 * Breaking change - Renamed MenuItem.classes to cssClasses (#3252)
@@ -231,8 +234,6 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 * Improved - Trigger a hook action before initializing enum string possible values (#3254)
 * Improved - Support text-only classic-editor CPT for the plugin (#3255)
 * Fixed - Don't initialize an input that includes itself (eg: MenuItemInput) (#3248)
-
-= 15.4.0 =
 
 = 15.3.0 =
 * Added - MetaNamespacer service (#3241)
