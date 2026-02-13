@@ -9,7 +9,6 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFi
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostPaginationInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
@@ -23,7 +22,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 abstract class AbstractCustomPostListObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
     private ?CustomPostPaginationInputObjectTypeResolver $customPostPaginationInputObjectTypeResolver = null;

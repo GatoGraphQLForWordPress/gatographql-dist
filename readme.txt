@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.9
-Stable tag: 16.0.1
+Stable tag: 16.1.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -71,6 +71,8 @@ The available premium extensions are:
 [Elementor](https://gatographql.com/extensions/elementor): Integration with the Elementor plugin, to parse and update data in Elementor pages and templates.
 
 [Events Manager](https://gatographql.com/extensions/events-manager): Integration with the Events Manager plugin, to fetch event data.
+
+[JetEngine](https://gatographql.com/extensions/jetengine): Integration with the JetEngine plugin, to fetch custom content types and related data.
 
 [MultilingualPress](https://gatographql.com/extensions/multilingualpress): Integration with the MultilingualPress plugin, to fetch multilingual data.
 
@@ -221,6 +223,18 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 16.1.0 =
+* Added - The new "All Inclusive" bundle to Extensions (#3269)
+* Added - JetEngine extension for Gato GraphQL (#3264)
+* Added - Support executing bulk actions on users page (#3261)
+* Improved - Print logs in reverse order (#3260)
+* Improved - Allow indicating minimum memory needed by plugin (#3262)
+* Improved - Allow linking to documentation URL to increase memory for plugin (#3263)
+* Fixed - Applying `@objectRemoveProperties` on fields with type `StringValueJSONObject` (#3268)
+
+= 16.0.2 =
+* Fixed - Own Plugin CPT editor: Check that `get_current_screen` exists (eg: it doesn't when editing Bricks templates) (#3259)
 
 = 16.0.1 =
 * Fixed - Revalidate commercial license (#3258)

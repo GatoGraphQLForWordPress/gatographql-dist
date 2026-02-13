@@ -13,7 +13,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPSchema\SchemaCommons\Module::class];
+        return [\PoPSchema\ExtendedSchemaCommons\Module::class];
     }
     /**
      * Initialize services

@@ -10,7 +10,6 @@ use PoPCMSSchema\Media\TypeResolvers\InputObjectType\MediaItemSortInputObjectTyp
 use PoPCMSSchema\Media\TypeResolvers\InputObjectType\RootMediaItemPaginationInputObjectTypeResolver;
 use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
@@ -28,7 +27,6 @@ use PoP\Root\App;
 /** @internal */
 class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?MediaTypeAPIInterface $mediaTypeAPI = null;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;

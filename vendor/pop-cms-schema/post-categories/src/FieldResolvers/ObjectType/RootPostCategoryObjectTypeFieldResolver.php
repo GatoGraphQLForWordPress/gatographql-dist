@@ -10,7 +10,6 @@ use PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType\PostCategoryByOneo
 use PoPCMSSchema\PostCategories\TypeResolvers\InputObjectType\RootPostCategoriesFilterInputObjectTypeResolver;
 use PoPCMSSchema\PostCategories\TypeResolvers\ObjectType\PostCategoryObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPCMSSchema\Taxonomies\TypeResolvers\InputObjectType\TaxonomySortInputObjectTypeResolver;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
@@ -27,7 +26,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class RootPostCategoryObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?StringScalarTypeResolver $stringScalarTypeResolver = null;
     private ?PostCategoryObjectTypeResolver $postCategoryObjectTypeResolver = null;

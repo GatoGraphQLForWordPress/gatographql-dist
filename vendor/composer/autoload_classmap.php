@@ -3658,7 +3658,6 @@ return array(
     'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\OverridingUnionTypeResolverTrait' => $vendorDir . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/OverridingUnionTypeResolverTrait.php',
     'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\SingleCallUnionTypeResolverTrait' => $vendorDir . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/SingleCallUnionTypeResolverTrait.php',
     'PoPCMSSchema\\SchemaCommons\\RelationalTypeDataLoaders\\ObjectType\\ObjectTypeQueryableDataLoaderTrait' => $vendorDir . '/pop-cms-schema/schema-commons/src/RelationalTypeDataLoaders/ObjectType/ObjectTypeQueryableDataLoaderTrait.php',
-    'PoPCMSSchema\\SchemaCommons\\Resolvers\\WithLimitFieldArgResolverTrait' => $vendorDir . '/pop-cms-schema/schema-commons/src/Resolvers/WithLimitFieldArgResolverTrait.php',
     'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\EnumType\\OrderEnumTypeResolver' => $vendorDir . '/pop-cms-schema/schema-commons/src/TypeResolvers/EnumType/OrderEnumTypeResolver.php',
     'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\InputObjectType\\AbstractObjectsFilterInputObjectTypeResolver' => $vendorDir . '/pop-cms-schema/schema-commons/src/TypeResolvers/InputObjectType/AbstractObjectsFilterInputObjectTypeResolver.php',
     'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\InputObjectType\\DateQueryInputObjectTypeResolver' => $vendorDir . '/pop-cms-schema/schema-commons/src/TypeResolvers/InputObjectType/DateQueryInputObjectTypeResolver.php',

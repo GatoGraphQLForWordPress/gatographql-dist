@@ -17,7 +17,6 @@ use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\Module as CustomPostsModule;
 use PoPCMSSchema\CustomPosts\ModuleConfiguration as CustomPostsModuleConfiguration;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Component\Component;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
@@ -35,7 +34,6 @@ use PoP\Root\App;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?CommentTypeAPIInterface $commentTypeAPI = null;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;

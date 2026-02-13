@@ -11,7 +11,6 @@ use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostByOneofInpu
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostPaginationInputObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostSortInputObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
@@ -30,7 +29,6 @@ use PoP\Root\App;
 /** @internal */
 class RootQueryableObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?CustomPostTypeAPIInterface $customPostTypeAPI = null;
     private ?CustomPostByOneofInputObjectTypeResolver $customPostByOneofInputObjectTypeResolver = null;

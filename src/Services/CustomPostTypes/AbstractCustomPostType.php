@@ -26,6 +26,7 @@ use WP_Taxonomy;
 
 use function add_action;
 use function add_filter;
+use function get_current_screen;
 use function get_taxonomy;
 use function is_object_in_taxonomy;
 use function wp_dropdown_categories;
@@ -373,24 +374,17 @@ abstract class AbstractCustomPostType extends AbstractAutomaticallyInstantiatedS
      */
     protected function isEditingThisCustomPostType(): bool
     {
-        $screen = \get_current_screen();
-        if ($screen !== null && $screen->post_type === $this->getCustomPostType()) {
-            return true;
+        // When editing a Bricks template, this method is not loaded
+        if (!function_exists('get_current_screen')) {
+            return false;
         }
 
-        // Fallback: check global $post
-        global $post;
-        if ($post && isset($post->post_type) && $post->post_type === $this->getCustomPostType()) {
-            return true;
+        $screen = get_current_screen();
+        if ($screen === null) {
+            return false;
         }
 
-        // Fallback: check global $typenow
-        global $typenow;
-        if ($typenow && $typenow === $this->getCustomPostType()) {
-            return true;
-        }
-
-        return false;
+        return $screen->post_type === $this->getCustomPostType();
     }
 
     /**

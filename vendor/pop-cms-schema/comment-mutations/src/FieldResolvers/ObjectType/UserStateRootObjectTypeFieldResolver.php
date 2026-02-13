@@ -11,7 +11,6 @@ use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\CommentSortInputObjectTy
 use PoPCMSSchema\Comments\TypeResolvers\InputObjectType\RootCommentPaginationInputObjectTypeResolver;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Checkpoints\CheckpointInterface;
@@ -30,7 +29,6 @@ use PoP\Root\App;
 /** @internal */
 class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?CommentTypeAPIInterface $commentTypeAPI = null;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?CommentObjectTypeResolver $commentObjectTypeResolver = null;

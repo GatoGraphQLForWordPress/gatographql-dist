@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit841afde05147cc485b1384c28a888418
+class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -4619,7 +4619,6 @@ class ComposerStaticInit841afde05147cc485b1384c28a888418
         'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\OverridingUnionTypeResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/OverridingUnionTypeResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\Overrides\\TypeResolvers\\SingleCallUnionTypeResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Overrides/TypeResolvers/SingleCallUnionTypeResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\RelationalTypeDataLoaders\\ObjectType\\ObjectTypeQueryableDataLoaderTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/RelationalTypeDataLoaders/ObjectType/ObjectTypeQueryableDataLoaderTrait.php',
-        'PoPCMSSchema\\SchemaCommons\\Resolvers\\WithLimitFieldArgResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/Resolvers/WithLimitFieldArgResolverTrait.php',
         'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\EnumType\\OrderEnumTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/TypeResolvers/EnumType/OrderEnumTypeResolver.php',
         'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\InputObjectType\\AbstractObjectsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/TypeResolvers/InputObjectType/AbstractObjectsFilterInputObjectTypeResolver.php',
         'PoPCMSSchema\\SchemaCommons\\TypeResolvers\\InputObjectType\\DateQueryInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/schema-commons/src/TypeResolvers/InputObjectType/DateQueryInputObjectTypeResolver.php',
@@ -6332,9 +6331,9 @@ class ComposerStaticInit841afde05147cc485b1384c28a888418
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit841afde05147cc485b1384c28a888418::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit841afde05147cc485b1384c28a888418::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit841afde05147cc485b1384c28a888418::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$classMap;
 
         }, null, ClassLoader::class);
     }

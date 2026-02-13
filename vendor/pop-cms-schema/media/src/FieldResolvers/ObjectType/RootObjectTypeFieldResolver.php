@@ -10,7 +10,6 @@ use PoPCMSSchema\Media\TypeResolvers\InputObjectType\RootMediaItemPaginationInpu
 use PoPCMSSchema\Media\TypeResolvers\InputObjectType\RootMediaItemsFilterInputObjectTypeResolver;
 use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
@@ -25,7 +24,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class RootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?MediaTypeAPIInterface $mediaTypeAPI = null;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?MediaObjectTypeResolver $mediaObjectTypeResolver = null;

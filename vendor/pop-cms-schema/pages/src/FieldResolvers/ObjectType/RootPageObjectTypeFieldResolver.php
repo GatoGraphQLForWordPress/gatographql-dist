@@ -14,7 +14,6 @@ use PoPCMSSchema\Pages\TypeResolvers\InputObjectType\PagePaginationInputObjectTy
 use PoPCMSSchema\Pages\TypeResolvers\InputObjectType\RootPagesFilterInputObjectTypeResolver;
 use PoPCMSSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\DataLoading\ReturnTypes;
-use PoPCMSSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
 use PoPSchema\SchemaCommons\Constants\QueryOptions;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Component\Component;
@@ -32,7 +31,6 @@ use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 /** @internal */
 class RootPageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use WithLimitFieldArgResolverTrait;
     private ?IntScalarTypeResolver $intScalarTypeResolver = null;
     private ?PageObjectTypeResolver $pageObjectTypeResolver = null;
     private ?PageTypeAPIInterface $pageTypeAPI = null;
