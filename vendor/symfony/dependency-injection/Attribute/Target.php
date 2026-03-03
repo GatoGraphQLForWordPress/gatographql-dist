@@ -18,7 +18,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Except
  * @author Nicolas Grekas <p@tchwork.com>
  * @internal
  */
-#[\Attribute(\Attribute::TARGET_PARAMETER)]
+#[\Attribute(\Attribute::TARGET_PARAMETER | \Attribute::TARGET_PROPERTY)]
 final class Target
 {
     public function __construct(public ?string $name = null)

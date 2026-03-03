@@ -10,6 +10,9 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler;
 
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Autowire;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Target;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ContainerInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Definition;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\TypedReference;
@@ -49,7 +52,7 @@ class AutowireRequiredPropertiesPass extends AbstractRecursivePass
                 continue;
             }
             $type = $type->getName();
-            $value->setProperty($name, new TypedReference($type, $type, ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $name));
+            $value->setProperty($name, new TypedReference($type, $type, ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, $name, \array_map(static fn($a) => $a->newInstance(), \array_merge($reflectionProperty->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF), $reflectionProperty->getAttributes(AutowireDecorated::class), $reflectionProperty->getAttributes(Target::class)))));
         }
         return $value;
     }

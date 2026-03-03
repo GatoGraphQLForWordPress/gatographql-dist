@@ -141,8 +141,15 @@ trait RedisTrait
             throw new InvalidArgumentException('Invalid Redis DSN: path and query "dbindex" parameters mismatch.');
         }
         $params += $query + $options + self::$defaultConnectionOptions;
-        $params['auth'] ??= $auth;
-        if (isset($params['redis_sentinel']) && !\class_exists(\GatoExternalPrefixByGatoGraphQL\Predis\Client::class) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
+        $booleanStreamOptions = ['allow_self_signed', 'capture_peer_cert', 'capture_peer_cert_chain', 'disable_compression', 'SNI_enabled', 'verify_peer', 'verify_peer_name'];
+        foreach ($params['ssl'] ?? [] as $streamOption => $value) {
+            if (\in_array($streamOption, $booleanStreamOptions, \true) && \is_string($value)) {
+                $params['ssl'][$streamOption] = \filter_var($value, \FILTER_VALIDATE_BOOL);
+            }
+        }
+        if (!isset($params['redis_sentinel'])) {
+            $params['auth'] ??= $auth;
+        } elseif (!\class_exists(\GatoExternalPrefixByGatoGraphQL\Predis\Client::class) && !\class_exists(\RedisSentinel::class) && !\class_exists(Sentinel::class)) {
             throw new CacheException('Redis Sentinel support requires one of: "predis/predis", "ext-redis >= 5.2", "ext-relay".');
         }
         if (isset($params['lazy'])) {
@@ -192,6 +199,9 @@ trait RedisTrait
                             if ($passAuth) {
                                 $options['auth'] = $params['auth'];
                             }
+                            if (null !== $params['ssl'] && \version_compare(\phpversion('redis'), '6.2.0', '>=')) {
+                                $options['ssl'] = $params['ssl'];
+                            }
                             $sentinel = new \RedisSentinel($options);
                         } else {
                             $extra = $passAuth ? [$params['auth']] : [];
@@ -208,12 +218,6 @@ trait RedisTrait
                 }
                 try {
                     $extra = ['stream' => $params['ssl'] ?? null];
-                    $booleanStreamOptions = ['allow_self_signed', 'capture_peer_cert', 'capture_peer_cert_chain', 'disable_compression', 'SNI_enabled', 'verify_peer', 'verify_peer_name'];
-                    foreach ($extra['stream'] ?? [] as $streamOption => $value) {
-                        if (\in_array($streamOption, $booleanStreamOptions, \true) && \is_string($value)) {
-                            $extra['stream'][$streamOption] = \filter_var($value, \FILTER_VALIDATE_BOOL);
-                        }
-                    }
                     if (null !== $params['auth']) {
                         $extra['auth'] = $params['auth'];
                     }
@@ -303,12 +307,12 @@ trait RedisTrait
             if ($params['dbindex']) {
                 $params['parameters']['database'] = $params['dbindex'];
             }
-            if (\is_array($params['auth'])) {
+            if (\is_array($auth)) {
                 // ACL
-                $params['parameters']['username'] = $params['auth'][0];
-                $params['parameters']['password'] = $params['auth'][1];
-            } elseif (null !== $params['auth']) {
-                $params['parameters']['password'] = $params['auth'];
+                $params['parameters']['username'] = $auth[0];
+                $params['parameters']['password'] = $auth[1];
+            } elseif (null !== $auth) {
+                $params['parameters']['password'] = $auth;
             }
             if (isset($params['ssl'])) {
                 foreach ($hosts as $i => $host) {

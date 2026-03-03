@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
+class ComposerStaticInit62d6e448fdaef32a73c3940a1aed6e4c
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1770,8 +1770,6 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\ConditionalOnContext\\PluginOwnUse\\SchemaServices\\FieldResolvers\\ObjectType\\AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/ConditionalOnContext/PluginOwnUse/SchemaServices/FieldResolvers/ObjectType/AbstractForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\ConditionalOnContext\\PluginOwnUse\\SchemaServices\\FieldResolvers\\ObjectType\\AbstractListOfCPTEntitiesRootObjectTypeFieldResolver' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/ConditionalOnContext/PluginOwnUse/SchemaServices/FieldResolvers/ObjectType/AbstractListOfCPTEntitiesRootObjectTypeFieldResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\ConditionalOnContext\\PluginOwnUse\\SchemaServices\\FieldResolvers\\ObjectType\\ForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/ConditionalOnContext/PluginOwnUse/SchemaServices/FieldResolvers/ObjectType/ForPluginOwnUseListOfCPTEntitiesRootObjectTypeFieldResolver.php',
-        'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\ConditionalOnContext\\UseGraphiQLExplorer\\Overrides\\Services\\MenuPages\\GraphiQLMenuPage' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/ConditionalOnContext/UseGraphiQLExplorer/Overrides/Services/MenuPages/GraphiQLMenuPage.php',
-        'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\Services\\Clients\\AdminGraphiQLWithExplorerClient' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/Services/Clients/AdminGraphiQLWithExplorerClient.php',
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\Services\\EndpointExecuters\\AdminEndpointExecuter' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/Services/EndpointExecuters/AdminEndpointExecuter.php',
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\Services\\EndpointExecuters\\AdminEndpointExecuterServiceTagInterface' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/Services/EndpointExecuters/AdminEndpointExecuterServiceTagInterface.php',
         'GatoGraphQL\\GatoGraphQL\\ConditionalOnContext\\Admin\\Services\\State\\AdminGraphQLEndpointExecuterAppStateProvider' => __DIR__ . '/../..' . '/src/ConditionalOnContext/Admin/Services/State/AdminGraphQLEndpointExecuterAppStateProvider.php',
@@ -1813,6 +1811,8 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterEndpointExecuterCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterEndpointExecuterCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterEndpointSchemaConfigurationExecuterCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterEndpointSchemaConfigurationExecuterCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterGraphQLEndpointPathProviderCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterGraphQLEndpointPathProviderCompilerPass.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterMarketplaceProviderCommercialExtensionActivationServiceCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterMarketplaceProviderCommercialExtensionActivationServiceCompilerPass.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterMarketplaceProviderCommercialPluginUpdaterServiceCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterMarketplaceProviderCommercialPluginUpdaterServiceCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterModuleTypeResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterModuleTypeResolverCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterSchemaConfigBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterSchemaConfigBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterTaxonomyCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterTaxonomyCompilerPass.php',
@@ -1887,18 +1887,30 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\Internal\\Caching\\CacheNameSpaceTrait' => __DIR__ . '/../..' . '/src/Log/Controllers/Internal/Caching/CacheNameSpaceTrait.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\Internal\\Utilities\\FilesystemUtil' => __DIR__ . '/../..' . '/src/Log/Controllers/Internal/Utilities/FilesystemUtil.php',
         'GatoGraphQL\\GatoGraphQL\\Log\\Controllers\\PageController' => __DIR__ . '/../..' . '/src/Log/Controllers/PageController.php',
-        'GatoGraphQL\\GatoGraphQL\\Marketplace\\AbstractMarketplaceProviderCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/AbstractMarketplaceProviderCommercialPluginUpdaterService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\AbstractMarketplaceProviderCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/AbstractMarketplaceProviderCommercialExtensionActivationService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\AbstractMarketplaceProviderCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/AbstractMarketplaceProviderCommercialPluginUpdaterService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\FluentCartCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/FluentCartCommercialExtensionActivationService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\FluentCartCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/FluentCartCommercialPluginUpdaterService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\FluentCartMarketplaceProviderServiceTrait' => __DIR__ . '/../..' . '/src/MarketplaceProviders/FluentCartMarketplaceProviderServiceTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\LemonSqueezyCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/LemonSqueezyCommercialExtensionActivationService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\LemonSqueezyCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/MarketplaceProviders/LemonSqueezyCommercialPluginUpdaterService.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\LemonSqueezyMarketplaceProviderServiceTrait' => __DIR__ . '/../..' . '/src/MarketplaceProviders/LemonSqueezyMarketplaceProviderServiceTrait.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\MarketplaceProviderCommercialExtensionActivationServiceInterface' => __DIR__ . '/../..' . '/src/MarketplaceProviders/MarketplaceProviderCommercialExtensionActivationServiceInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\MarketplaceProviders\\MarketplaceProviderCommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/MarketplaceProviders/MarketplaceProviderCommercialPluginUpdaterServiceInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\CommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/CommercialPluginUpdaterServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseProperties' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\LicenseStatus' => __DIR__ . '/../..' . '/src/Marketplace/Constants/LicenseStatus.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\MarketplaceLicensePrefixes' => __DIR__ . '/../..' . '/src/Marketplace/Constants/MarketplaceLicensePrefixes.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\Constants\\MarketplaceVersion' => __DIR__ . '/../..' . '/src/Marketplace/Constants/MarketplaceVersion.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\DelegatingCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/DelegatingCommercialPluginUpdaterService.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\DelegatingCommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/DelegatingCommercialPluginUpdaterServiceInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\HTTPRequestNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/HTTPRequestNotSuccessfulException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\LicenseDomainNotValidException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/LicenseDomainNotValidException.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\Exception\\LicenseOperationNotSuccessfulException' => __DIR__ . '/../..' . '/src/Marketplace/Exception/LicenseOperationNotSuccessfulException.php',
-        'GatoGraphQL\\GatoGraphQL\\Marketplace\\LemonSqueezyCommercialExtensionActivationService' => __DIR__ . '/../..' . '/src/Marketplace/LemonSqueezyCommercialExtensionActivationService.php',
-        'GatoGraphQL\\GatoGraphQL\\Marketplace\\LemonSqueezyCommercialPluginUpdaterService' => __DIR__ . '/../..' . '/src/Marketplace/LemonSqueezyCommercialPluginUpdaterService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationService' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationService.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\LicenseValidationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/LicenseValidationServiceInterface.php',
-        'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialExtensionActivationServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialExtensionActivationServiceInterface.php',
-        'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderCommercialPluginUpdaterServiceInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderCommercialPluginUpdaterServiceInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderManager' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Marketplace\\MarketplaceProviderManagerInterface' => __DIR__ . '/../..' . '/src/Marketplace/MarketplaceProviderManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialExtensionActivatedLicenseObjectProperties' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialExtensionActivatedLicenseObjectProperties.php',
         'GatoGraphQL\\GatoGraphQL\\Marketplace\\ObjectModels\\CommercialPluginUpdatedPluginData' => __DIR__ . '/../..' . '/src/Marketplace/ObjectModels/CommercialPluginUpdatedPluginData.php',
         'GatoGraphQL\\GatoGraphQL\\Meta\\MetaNamespacer' => __DIR__ . '/../..' . '/src/Meta/MetaNamespacer.php',
@@ -1912,7 +1924,6 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ClientFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/ClientFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ClientFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ClientFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\CommonModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/CommonModuleResolverTrait.php',
-        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\DeprecatedClientFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/DeprecatedClientFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\EndpointConfigurationFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/EndpointConfigurationFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\EndpointConfigurationFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/EndpointConfigurationFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\EndpointFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/EndpointFunctionalityModuleResolver.php',
@@ -2029,6 +2040,10 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GatoGraphQL\\GatoGraphQL\\Registries\\EndpointSchemaConfigurationExecuterRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/EndpointSchemaConfigurationExecuterRegistryInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\GraphQLEndpointPathProviderRegistry' => __DIR__ . '/../..' . '/src/Registries/GraphQLEndpointPathProviderRegistry.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\GraphQLEndpointPathProviderRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/GraphQLEndpointPathProviderRegistryInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Registries\\MarketplaceProviderCommercialExtensionActivationServiceRegistry' => __DIR__ . '/../..' . '/src/Registries/MarketplaceProviderCommercialExtensionActivationServiceRegistry.php',
+        'GatoGraphQL\\GatoGraphQL\\Registries\\MarketplaceProviderCommercialExtensionActivationServiceRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/MarketplaceProviderCommercialExtensionActivationServiceRegistryInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\Registries\\MarketplaceProviderCommercialPluginUpdaterServiceRegistry' => __DIR__ . '/../..' . '/src/Registries/MarketplaceProviderCommercialPluginUpdaterServiceRegistry.php',
+        'GatoGraphQL\\GatoGraphQL\\Registries\\MarketplaceProviderCommercialPluginUpdaterServiceRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/MarketplaceProviderCommercialPluginUpdaterServiceRegistryInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\ModuleRegistry' => __DIR__ . '/../..' . '/src/Registries/ModuleRegistry.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\ModuleRegistryInterface' => __DIR__ . '/../..' . '/src/Registries/ModuleRegistryInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\ModuleRegistryTokens' => __DIR__ . '/../..' . '/src/Registries/ModuleRegistryTokens.php',
@@ -2296,8 +2311,6 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
         'GraphQLByPoP\\GraphQLClientsForWP\\Clients\\GraphiQLClient' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Clients/GraphiQLClient.php',
         'GraphQLByPoP\\GraphQLClientsForWP\\Clients\\VoyagerClient' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Clients/VoyagerClient.php',
         'GraphQLByPoP\\GraphQLClientsForWP\\Clients\\WPClientTrait' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Clients/WPClientTrait.php',
-        'GraphQLByPoP\\GraphQLClientsForWP\\ConditionalOnContext\\UseGraphiQLExplorer\\Overrides\\Services\\Clients\\GraphiQLWithExplorerClient' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/ConditionalOnContext/UseGraphiQLExplorer/Overrides/Services/Clients/GraphiQLWithExplorerClient.php',
-        'GraphQLByPoP\\GraphQLClientsForWP\\ConditionalOnContext\\UseGraphiQLExplorer\\Overrides\\Services\\Clients\\GraphiQLWithExplorerClientTrait' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/ConditionalOnContext/UseGraphiQLExplorer/Overrides/Services/Clients/GraphiQLWithExplorerClientTrait.php',
         'GraphQLByPoP\\GraphQLClientsForWP\\Constants\\CustomHeaders' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Constants/CustomHeaders.php',
         'GraphQLByPoP\\GraphQLClientsForWP\\Environment' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Environment.php',
         'GraphQLByPoP\\GraphQLClientsForWP\\Module' => __DIR__ . '/..' . '/graphql-by-pop/graphql-clients-for-wp/src/Module.php',
@@ -6331,9 +6344,9 @@ class ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0b83d1baf9b74983e765590d4a8a84ff::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit62d6e448fdaef32a73c3940a1aed6e4c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit62d6e448fdaef32a73c3940a1aed6e4c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit62d6e448fdaef32a73c3940a1aed6e4c::$classMap;
 
         }, null, ClassLoader::class);
     }

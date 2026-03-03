@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 6.9
-Stable tag: 16.1.0
+Stable tag: 17.0.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -223,6 +223,12 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 17.0.0 =
+* Breaking changes - Update GraphiQL to v5 (#3270)
+* Improved - Support multiple e-commerce providers to validate plugin license (#3271)
+* Improved - Validate plugin license against Gato's new FluentCart-powered shop (#3278)
+* Fixed - Extensions: Show new version updates when clicking on the Show details link in Plugin updates (#0be1eb0)
 
 = 16.1.0 =
 * Added - The new "All Inclusive" bundle to Extensions (#3269)

@@ -11,6 +11,7 @@
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource;
 
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Form\FormTypeExtensionInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ServiceSubscriberInterface;
 /**
@@ -176,6 +177,12 @@ class ReflectionClassResource implements SelfCheckingResourceInterface
         if (\interface_exists(ServiceSubscriberInterface::class, \false) && $class->isSubclassOf(ServiceSubscriberInterface::class)) {
             (yield ServiceSubscriberInterface::class);
             (yield \print_r($class->name::getSubscribedServices(), \true));
+        }
+        if (\interface_exists(FormTypeExtensionInterface::class, \false) && $class->isSubclassOf(FormTypeExtensionInterface::class)) {
+            (yield FormTypeExtensionInterface::class);
+            foreach ($class->name::getExtendedTypes() as $key => $value) {
+                (yield $key . \print_r($value, \true));
+            }
         }
     }
 }
