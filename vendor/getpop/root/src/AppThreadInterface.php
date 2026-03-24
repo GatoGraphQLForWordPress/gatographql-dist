@@ -86,6 +86,10 @@ interface AppThreadInterface
     public function getModule(string $moduleClass) : ModuleInterface;
     /**
      * Shortcut function.
+     */
+    public function isStateInitialized() : bool;
+    /**
+     * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
      */
     public function getState(string|array $keyOrPath) : mixed;

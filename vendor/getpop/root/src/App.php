@@ -149,6 +149,13 @@ class App implements \PoP\Root\AppInterface
     }
     /**
      * Shortcut function.
+     */
+    public static final function isStateInitialized() : bool
+    {
+        return self::$appThread->isStateInitialized();
+    }
+    /**
+     * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values
      */
     public static final function hasState(string|array $keyOrPath) : mixed

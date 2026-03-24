@@ -271,6 +271,10 @@ class AppThread implements \PoP\Root\AppThreadInterface
         $key = $keyOrPath;
         return $appStateManager->get($key);
     }
+    public final function isStateInitialized() : bool
+    {
+        return $this->appStateManager->isStateInitialized();
+    }
     /**
      * Shortcut function.
      * @param string|string[] $keyOrPath The property key, or a property path for array values

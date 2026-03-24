@@ -23,9 +23,14 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
      * @var array<string,mixed>
      */
     protected array $state;
+    protected bool $isStateInitialized = \false;
     protected final function getTranslationAPI() : TranslationAPIInterface
     {
         return TranslationAPIFacade::getInstance();
+    }
+    public function isStateInitialized() : bool
+    {
+        return $this->isStateInitialized;
     }
     /**
      * Called by the AppLoader to initialize the state.
@@ -37,6 +42,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     public function initializeAppState(array $initialAppState) : void
     {
         App::doAction(HookNames::BEFORE_INITIALIZING_APP_STATE);
+        $this->isStateInitialized = \true;
         $this->state = [];
         $appStateProviderRegistry = AppStateProviderRegistryFacade::getInstance();
         $appStateProviders = $appStateProviderRegistry->getEnabledAppStateProviders();
@@ -109,6 +115,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
      */
     public function setAppState(array $appState) : void
     {
+        $this->isStateInitialized = \true;
         $this->state = $appState;
     }
     /**
