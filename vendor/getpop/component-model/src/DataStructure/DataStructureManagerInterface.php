@@ -9,5 +9,5 @@ interface DataStructureManagerInterface
 {
     public function addDataStructureFormatter(DataStructureFormatterInterface $formatter) : void;
     public function setDefaultDataStructureFormatter(DataStructureFormatterInterface $formatter) : void;
-    public function getDataStructureFormatter(string $name = null) : DataStructureFormatterInterface;
+    public function getDataStructureFormatter(?string $name = null) : DataStructureFormatterInterface;
 }

@@ -24,6 +24,19 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = EnvironmentValueHelpers::toBool(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
+    /**
+     * Persist the parsed Document AST across requests, keyed by the raw query
+     * string. Hot path for persisted queries: a 100-operation document parses
+     * for ~10s on every request without this. With it on, the second-and-onward
+     * requests hit the on-disk cache and skip parsing entirely.
+     */
+    public function useParsedASTCache() : bool
+    {
+        $envVariable = \PoPAPI\API\Environment::USE_PARSED_AST_CACHE;
+        $defaultValue = \false;
+        $callback = EnvironmentValueHelpers::toBool(...);
+        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+    }
     public function skipExposingGlobalFieldsInFullSchema() : bool
     {
         $envVariable = \PoPAPI\API\Environment::SKIP_EXPOSING_GLOBAL_FIELDS_IN_FULL_SCHEMA;

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
+class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1226,6 +1226,8 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay121Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay121Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay12Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay12Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay20Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay20Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay21Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay21Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay22Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay22Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -1403,6 +1405,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckCircularReferencesPass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckCircularReferencesPass.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckDefinitionValidityPass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckDefinitionValidityPass.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckExceptionOnInvalidReferenceBehaviorPass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckFactoryBuilderCircularReferencePass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckFactoryBuilderCircularReferencePass.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckReferenceValidityPass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckReferenceValidityPass.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\CheckTypeDeclarationsPass' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/CheckTypeDeclarationsPass.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\DependencyInjection\\Compiler\\Compiler' => __DIR__ . '/..' . '/symfony/dependency-injection/Compiler/Compiler.php',
@@ -1567,6 +1570,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\Exception\\FormatException' => __DIR__ . '/..' . '/symfony/dotenv/Exception/FormatException.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\Exception\\FormatExceptionContext' => __DIR__ . '/..' . '/symfony/dotenv/Exception/FormatExceptionContext.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\Exception\\PathException' => __DIR__ . '/..' . '/symfony/dotenv/Exception/PathException.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\Exception\\VariableCircularReferenceException' => __DIR__ . '/..' . '/symfony/dotenv/Exception/VariableCircularReferenceException.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\Compiler' => __DIR__ . '/..' . '/symfony/expression-language/Compiler.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\Expression' => __DIR__ . '/..' . '/symfony/expression-language/Expression.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\ExpressionFunction' => __DIR__ . '/..' . '/symfony/expression-language/ExpressionFunction.php',
@@ -1733,6 +1737,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Cache\\TagAwareCacheInterface' => __DIR__ . '/..' . '/symfony/cache-contracts/TagAwareCacheInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ContainerAwareInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ContainerAwareInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
@@ -1921,6 +1926,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\AbstractEndpointFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/AbstractEndpointFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\AbstractFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/AbstractFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\AbstractModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/AbstractModuleResolver.php',
+        'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\CachingFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/CachingFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ClientFunctionalityModuleResolver' => __DIR__ . '/../..' . '/src/ModuleResolvers/ClientFunctionalityModuleResolver.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\ClientFunctionalityModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/ClientFunctionalityModuleResolverTrait.php',
         'GatoGraphQL\\GatoGraphQL\\ModuleResolvers\\CommonModuleResolverTrait' => __DIR__ . '/../..' . '/src/ModuleResolvers/CommonModuleResolverTrait.php',
@@ -2489,6 +2495,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'PoPAPI\\APIMirrorQuery\\DataStructureFormatters\\PropertyMirrorQueryDataStructureFormatter' => __DIR__ . '/..' . '/pop-api/api-mirrorquery/src/DataStructureFormatters/PropertyMirrorQueryDataStructureFormatter.php',
         'PoPAPI\\APIMirrorQuery\\DataStructureFormatters\\XMLMirrorQueryDataStructureFormatter' => __DIR__ . '/..' . '/pop-api/api-mirrorquery/src/DataStructureFormatters/XMLMirrorQueryDataStructureFormatter.php',
         'PoPAPI\\APIMirrorQuery\\Module' => __DIR__ . '/..' . '/pop-api/api-mirrorquery/src/Module.php',
+        'PoPAPI\\APIMirrorQuery\\State\\PreviouslyResolvedFieldsForObjectsStore' => __DIR__ . '/..' . '/pop-api/api-mirrorquery/src/State/PreviouslyResolvedFieldsForObjectsStore.php',
         'PoPAPI\\API\\Cache\\CacheTypes' => __DIR__ . '/..' . '/pop-api/api/src/Cache/CacheTypes.php',
         'PoPAPI\\API\\ComponentProcessors\\AbstractRelationalFieldDataloadComponentProcessor' => __DIR__ . '/..' . '/pop-api/api/src/ComponentProcessors/AbstractRelationalFieldDataloadComponentProcessor.php',
         'PoPAPI\\API\\ComponentProcessors\\AbstractRelationalFieldQueryDataComponentProcessor' => __DIR__ . '/..' . '/pop-api/api/src/ComponentProcessors/AbstractRelationalFieldQueryDataComponentProcessor.php',
@@ -2514,6 +2521,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'PoPAPI\\API\\HelperServices\\ApplicationStateFillerService' => __DIR__ . '/..' . '/pop-api/api/src/HelperServices/ApplicationStateFillerService.php',
         'PoPAPI\\API\\HelperServices\\ApplicationStateFillerServiceInterface' => __DIR__ . '/..' . '/pop-api/api/src/HelperServices/ApplicationStateFillerServiceInterface.php',
         'PoPAPI\\API\\Hooks\\DBEntriesHookSet' => __DIR__ . '/..' . '/pop-api/api/src/Hooks/DBEntriesHookSet.php',
+        'PoPAPI\\API\\Hooks\\MultipleQueryExecutionSequentialHookSet' => __DIR__ . '/..' . '/pop-api/api/src/Hooks/MultipleQueryExecutionSequentialHookSet.php',
         'PoPAPI\\API\\Hooks\\RoutingHookSet' => __DIR__ . '/..' . '/pop-api/api/src/Hooks/RoutingHookSet.php',
         'PoPAPI\\API\\Hooks\\VarsHookSet' => __DIR__ . '/..' . '/pop-api/api/src/Hooks/VarsHookSet.php',
         'PoPAPI\\API\\Module' => __DIR__ . '/..' . '/pop-api/api/src/Module.php',
@@ -2538,6 +2546,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'PoPAPI\\API\\PersistedQueries\\PersistedQueryManager' => __DIR__ . '/..' . '/pop-api/api/src/PersistedQueries/PersistedQueryManager.php',
         'PoPAPI\\API\\PersistedQueries\\PersistedQueryManagerInterface' => __DIR__ . '/..' . '/pop-api/api/src/PersistedQueries/PersistedQueryManagerInterface.php',
         'PoPAPI\\API\\PersistedQueries\\PersistedQueryUtils' => __DIR__ . '/..' . '/pop-api/api/src/PersistedQueries/PersistedQueryUtils.php',
+        'PoPAPI\\API\\QueryParsing\\CachedParsedAST' => __DIR__ . '/..' . '/pop-api/api/src/QueryParsing/CachedParsedAST.php',
         'PoPAPI\\API\\QueryParsing\\GraphQLParserHelperService' => __DIR__ . '/..' . '/pop-api/api/src/QueryParsing/GraphQLParserHelperService.php',
         'PoPAPI\\API\\QueryParsing\\GraphQLParserHelperServiceInterface' => __DIR__ . '/..' . '/pop-api/api/src/QueryParsing/GraphQLParserHelperServiceInterface.php',
         'PoPAPI\\API\\QueryResolution\\QueryASTTransformationService' => __DIR__ . '/..' . '/pop-api/api/src/QueryResolution/QueryASTTransformationService.php',
@@ -5401,30 +5410,56 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'PoPSchema\\SchemaCommons\\TypeResolvers\\UnionType\\AbstractErrorPayloadUnionTypeResolver' => __DIR__ . '/..' . '/pop-schema/schema-commons/src/TypeResolvers/UnionType/AbstractErrorPayloadUnionTypeResolver.php',
         'PoPWPSchema\\BlockContentParser\\BlockContentParser' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/BlockContentParser.php',
         'PoPWPSchema\\BlockContentParser\\BlockContentParserInterface' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/BlockContentParserInterface.php',
+        'PoPWPSchema\\BlockContentParser\\Environment' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/Environment.php',
         'PoPWPSchema\\BlockContentParser\\Exception\\BlockContentParserException' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/Exception/BlockContentParserException.php',
         'PoPWPSchema\\BlockContentParser\\Facades\\BlockContentParserFacade' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/Facades/BlockContentParserFacade.php',
         'PoPWPSchema\\BlockContentParser\\Module' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/Module.php',
+        'PoPWPSchema\\BlockContentParser\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/ModuleConfiguration.php',
         'PoPWPSchema\\BlockContentParser\\ObjectModels\\BlockContentParserPayload' => __DIR__ . '/..' . '/pop-wp-schema/block-content-parser/src/ObjectModels/BlockContentParserPayload.php',
         'PoPWPSchema\\Blocks\\Constants\\HookNames' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/Constants/HookNames.php',
+        'PoPWPSchema\\Blocks\\Enums\\BlockTypeAttributeFieldType' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/Enums/BlockTypeAttributeFieldType.php',
         'PoPWPSchema\\Blocks\\Environment' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/Environment.php',
         'PoPWPSchema\\Blocks\\FieldResolvers\\InterfaceType\\BlockInterfaceTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/InterfaceType/BlockInterfaceTypeFieldResolver.php',
         'PoPWPSchema\\Blocks\\FieldResolvers\\ObjectType\\BlockObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/ObjectType/BlockObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Blocks\\FieldResolvers\\ObjectType\\BlockTypeAttributeObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/ObjectType/BlockTypeAttributeObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Blocks\\FieldResolvers\\ObjectType\\BlockTypeObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/ObjectType/BlockTypeObjectTypeFieldResolver.php',
         'PoPWPSchema\\Blocks\\FieldResolvers\\ObjectType\\CustomPostObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/ObjectType/CustomPostObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Blocks\\FieldResolvers\\ObjectType\\RootObjectTypeFieldResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FieldResolvers/ObjectType/RootObjectTypeFieldResolver.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeAttributeAutoGenerateControlFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeAttributeAutoGenerateControlFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeAttributeFieldTypeFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeAttributeFieldTypeFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeAttributeHasEnumFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeAttributeHasEnumFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeExcludeNamesFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeExcludeNamesFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeHasRenderCallbackFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeHasRenderCallbackFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeNameSearchFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeNameSearchFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeNamesFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeNamesFilterInput.php',
+        'PoPWPSchema\\Blocks\\FilterInputs\\BlockTypeSupportsFilterInput' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/FilterInputs/BlockTypeSupportsFilterInput.php',
         'PoPWPSchema\\Blocks\\Module' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/Module.php',
         'PoPWPSchema\\Blocks\\ModuleConfiguration' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ModuleConfiguration.php',
         'PoPWPSchema\\Blocks\\ObjectModels\\AbstractBlock' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectModels/AbstractBlock.php',
         'PoPWPSchema\\Blocks\\ObjectModels\\BlockInterface' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectModels/BlockInterface.php',
+        'PoPWPSchema\\Blocks\\ObjectModels\\BlockType' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectModels/BlockType.php',
+        'PoPWPSchema\\Blocks\\ObjectModels\\BlockTypeAttribute' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectModels/BlockTypeAttribute.php',
         'PoPWPSchema\\Blocks\\ObjectModels\\GeneralBlock' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectModels/GeneralBlock.php',
         'PoPWPSchema\\Blocks\\ObjectTypeResolverPickers\\AbstractBlockObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectTypeResolverPickers/AbstractBlockObjectTypeResolverPicker.php',
         'PoPWPSchema\\Blocks\\ObjectTypeResolverPickers\\BlockObjectTypeResolverPickerInterface' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectTypeResolverPickers/BlockObjectTypeResolverPickerInterface.php',
         'PoPWPSchema\\Blocks\\ObjectTypeResolverPickers\\GeneralBlockObjectTypeResolverPicker' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/ObjectTypeResolverPickers/GeneralBlockObjectTypeResolverPicker.php',
+        'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\ObjectType\\BlockTypeAttributeObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/ObjectType/BlockTypeAttributeObjectTypeDataLoader.php',
+        'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\ObjectType\\BlockTypeObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/ObjectType/BlockTypeObjectTypeDataLoader.php',
         'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\ObjectType\\GeneralBlockObjectTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/ObjectType/GeneralBlockObjectTypeDataLoader.php',
         'PoPWPSchema\\Blocks\\RelationalTypeDataLoaders\\UnionType\\BlockUnionTypeDataLoader' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/RelationalTypeDataLoaders/UnionType/BlockUnionTypeDataLoader.php',
+        'PoPWPSchema\\Blocks\\TypeAPIs\\BlockTypeTypeAPI' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeAPIs/BlockTypeTypeAPI.php',
+        'PoPWPSchema\\Blocks\\TypeAPIs\\BlockTypeTypeAPIInterface' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeAPIs/BlockTypeTypeAPIInterface.php',
         'PoPWPSchema\\Blocks\\TypeHelpers\\BlockUnionTypeHelpers' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeHelpers/BlockUnionTypeHelpers.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\InputObjectType\\BlockTypeAttributesFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InputObjectType/BlockTypeAttributesFilterInputObjectTypeResolver.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\InputObjectType\\BlockTypeSupportsFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InputObjectType/BlockTypeSupportsFilterInputObjectTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\InputObjectType\\IncludeBlockPropertiesInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InputObjectType/IncludeBlockPropertiesInputObjectTypeResolver.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\InputObjectType\\RootBlockTypesFilterInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InputObjectType/RootBlockTypesFilterInputObjectTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\InterfaceType\\BlockInterfaceTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/InterfaceType/BlockInterfaceTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\AbstractBlockObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/AbstractBlockObjectTypeResolver.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\BlockTypeAttributeObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/BlockTypeAttributeObjectTypeResolver.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\BlockTypeObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/BlockTypeObjectTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\ObjectType\\GeneralBlockObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ObjectType/GeneralBlockObjectTypeResolver.php',
+        'PoPWPSchema\\Blocks\\TypeResolvers\\ScalarType\\BlockTypeAttributeFieldTypeEnumStringScalarTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/ScalarType/BlockTypeAttributeFieldTypeEnumStringScalarTypeResolver.php',
         'PoPWPSchema\\Blocks\\TypeResolvers\\UnionType\\BlockUnionTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/blocks/src/TypeResolvers/UnionType/BlockUnionTypeResolver.php',
         'PoPWPSchema\\CommentMeta\\Hooks\\CommentMetaOrderByQueryHookSet' => __DIR__ . '/..' . '/pop-wp-schema/commentmeta/src/Hooks/CommentMetaOrderByQueryHookSet.php',
         'PoPWPSchema\\CommentMeta\\Module' => __DIR__ . '/..' . '/pop-wp-schema/commentmeta/src/Module.php',
@@ -5538,6 +5573,7 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
         'PoPWPSchema\\Posts\\SchemaHooks\\AddPostPasswordInputFieldsInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/posts/src/SchemaHooks/AddPostPasswordInputFieldsInputObjectTypeHookSet.php',
         'PoPWPSchema\\Posts\\SchemaHooks\\InputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/posts/src/SchemaHooks/InputObjectTypeHookSet.php',
         'PoPWPSchema\\SchemaCommons\\Constants\\Relation' => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src/Constants/Relation.php',
+        'PoPWPSchema\\SchemaCommons\\Enums\\WordPressAIConnectorProvider' => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src/Enums/WordPressAIConnectorProvider.php',
         'PoPWPSchema\\SchemaCommons\\Module' => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src/Module.php',
         'PoPWPSchema\\SchemaCommons\\Overrides\\TypeResolvers\\InputObjectType\\DateQueryInputObjectTypeResolver' => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src/Overrides/TypeResolvers/InputObjectType/DateQueryInputObjectTypeResolver.php',
         'PoPWPSchema\\SchemaCommons\\SchemaHooks\\AbstractConvertDateQueryInputFieldToArrayInputObjectTypeHookSet' => __DIR__ . '/..' . '/pop-wp-schema/schema-commons/src/SchemaHooks/AbstractConvertDateQueryInputFieldToArrayInputObjectTypeHookSet.php',
@@ -6344,9 +6380,9 @@ class ComposerStaticInit3579cf55e75782eb3f5e82c842e00372
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3579cf55e75782eb3f5e82c842e00372::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3579cf55e75782eb3f5e82c842e00372::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3579cf55e75782eb3f5e82c842e00372::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$classMap;
 
         }, null, ClassLoader::class);
     }

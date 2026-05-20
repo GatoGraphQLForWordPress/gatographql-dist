@@ -21,7 +21,7 @@ class ObjectFieldValuePromise implements \PoP\GraphQLParser\ExtendedSpec\Executi
     {
         /** @var SplObjectStorage<FieldInterface,mixed> */
         $objectResolvedFieldValues = App::getState('engine-iteration-object-resolved-field-values');
-        if (!$objectResolvedFieldValues->contains($this->field)) {
+        if (!$objectResolvedFieldValues->offsetExists($this->field)) {
             throw new ObjectFieldValuePromiseException(new FeedbackItemResolution(GraphQLExtendedSpecErrorFeedbackItemProvider::class, GraphQLExtendedSpecErrorFeedbackItemProvider::E11, [$this->field->asFieldOutputQueryString()]), $this->field);
         }
         return $objectResolvedFieldValues[$this->field];

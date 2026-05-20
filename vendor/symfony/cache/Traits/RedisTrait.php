@@ -79,7 +79,7 @@ trait RedisTrait
             throw new CacheException('Cannot find the "redis" extension nor the "relay" extension nor the "predis/predis" package.');
         }
         $auth = null;
-        $params = \preg_replace_callback('#^' . $scheme . ':(//)?(?:(?:(?<user>[^:@]*+):)?(?<password>[^@]*+)@)?#', function ($m) use(&$auth) {
+        $params = \preg_replace_callback('#^' . $scheme . ':(//)?(?:(?:(?<user>[^:@]*+):)?(?<password>[^@]*+)@)?#', static function ($m) use(&$auth) {
             if (isset($m['password'])) {
                 if (\in_array($m['user'], ['', 'default'], \true)) {
                     $auth = \rawurldecode($m['password']);
@@ -222,7 +222,7 @@ trait RedisTrait
                         $extra['auth'] = $params['auth'];
                     }
                     @$redis->{$connect}($host, $port, (float) $params['timeout'], (string) $params['persistent_id'], $params['retry_interval'], $params['read_timeout'], ...\defined('Redis::SCAN_PREFIX') || !$isRedisExt ? [$extra] : []);
-                    \set_error_handler(function ($type, $msg) use(&$error) {
+                    \set_error_handler(static function ($type, $msg) use(&$error) {
                         $error = $msg;
                     });
                     try {
@@ -344,7 +344,7 @@ trait RedisTrait
         }
         $result = [];
         if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface) || $this->redis instanceof RelayCluster) {
-            $values = $this->pipeline(function () use($ids) {
+            $values = $this->pipeline(static function () use($ids) {
                 foreach ($ids as $id) {
                     (yield 'get' => [$id]);
                 }
@@ -436,7 +436,7 @@ trait RedisTrait
         if ($this->redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && ($this->redis->getConnection() instanceof ClusterInterface || $this->redis->getConnection() instanceof Predis2ClusterInterface)) {
             static $del;
             $del ??= \class_exists(UNLINK::class) ? 'unlink' : 'del';
-            $this->pipeline(function () use($ids, $del) {
+            $this->pipeline(static function () use($ids, $del) {
                 foreach ($ids as $id) {
                     (yield $del => [$id]);
                 }
@@ -461,7 +461,7 @@ trait RedisTrait
         if (!($values = $this->marshaller->marshall($values, $failed))) {
             return $failed;
         }
-        $results = $this->pipeline(function () use($values, $lifetime) {
+        $results = $this->pipeline(static function () use($values, $lifetime) {
             foreach ($values as $id => $value) {
                 if (0 >= $lifetime) {
                     (yield 'set' => [$id, $value]);
@@ -525,7 +525,7 @@ trait RedisTrait
         }
         if (!$redis instanceof \GatoExternalPrefixByGatoGraphQL\Predis\ClientInterface && 'eval' === $command && $redis->getLastError()) {
             $e = $redis instanceof Relay ? new \GatoExternalPrefixByGatoGraphQL\Relay\Exception($redis->getLastError()) : new \RedisException($redis->getLastError());
-            $results = \array_map(fn($v) => \false === $v ? $e : $v, (array) $results);
+            $results = \array_map(static fn($v) => \false === $v ? $e : $v, (array) $results);
         }
         if (\is_bool($results)) {
             return;

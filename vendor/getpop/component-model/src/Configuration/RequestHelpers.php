@@ -122,4 +122,14 @@ class RequestHelpers
         }
         return $value;
     }
+    /**
+     * @return mixed[]
+     */
+    public static function getArrayOrEmptyArrayRequestParamValue(mixed $value) : array
+    {
+        if (!\is_array($value)) {
+            return [];
+        }
+        return $value;
+    }
 }

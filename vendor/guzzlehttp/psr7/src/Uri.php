@@ -50,8 +50,6 @@ class Uri implements UriInterface, \JsonSerializable
     private $query = '';
     /** @var string Uri fragment. */
     private $fragment = '';
-    /** @var string|null String representation */
-    private $composedComponents;
     public function __construct(string $uri = '')
     {
         if ($uri !== '') {
@@ -79,6 +77,9 @@ class Uri implements UriInterface, \JsonSerializable
      */
     private static function parse(string $url)
     {
+        if (self::isPathNoSchemeReference($url)) {
+            return self::parsePathNoSchemeReference($url);
+        }
         // If IPv6
         $prefix = '';
         if (\preg_match('%^(.*://\\[[0-9:a-fA-F]+\\])(.*?)$%', $url, $matches)) {
@@ -96,12 +97,34 @@ class Uri implements UriInterface, \JsonSerializable
         }
         return \array_map('urldecode', $result);
     }
+    private static function isPathNoSchemeReference(string $url) : bool
+    {
+        if ($url === '' || $url[0] === '/' || $url[0] === '?' || $url[0] === '#') {
+            return \false;
+        }
+        $firstSegment = \substr($url, 0, \strcspn($url, '/?#'));
+        return \strpos($firstSegment, ':') === \false;
+    }
+    /**
+     * @return array{path: string, query?: string, fragment?: string}
+     */
+    private static function parsePathNoSchemeReference(string $url) : array
+    {
+        $parts = [];
+        if (\false !== ($fragmentPosition = \strpos($url, '#'))) {
+            $parts['fragment'] = \substr($url, $fragmentPosition + 1);
+            $url = \substr($url, 0, $fragmentPosition);
+        }
+        if (\false !== ($queryPosition = \strpos($url, '?'))) {
+            $parts['query'] = \substr($url, $queryPosition + 1);
+            $url = \substr($url, 0, $queryPosition);
+        }
+        $parts['path'] = $url;
+        return $parts;
+    }
     public function __toString() : string
     {
-        if ($this->composedComponents === null) {
-            $this->composedComponents = self::composeComponents($this->scheme, $this->getAuthority(), $this->path, $this->query, $this->fragment);
-        }
-        return $this->composedComponents;
+        return self::composeComponents($this->scheme, $this->getAuthority(), $this->path, $this->query, $this->fragment);
     }
     /**
      * Composes a URI reference string from its various components.
@@ -335,7 +358,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->scheme = $scheme;
-        $new->composedComponents = null;
         $new->removeDefaultPort();
         $new->validateState();
         return $new;
@@ -351,7 +373,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->userInfo = $info;
-        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -363,7 +384,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->host = $host;
-        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -375,7 +395,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->port = $port;
-        $new->composedComponents = null;
         $new->removeDefaultPort();
         $new->validateState();
         return $new;
@@ -388,7 +407,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->path = $path;
-        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -400,7 +418,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->query = $query;
-        $new->composedComponents = null;
         return $new;
     }
     public function withFragment($fragment) : UriInterface
@@ -411,7 +428,6 @@ class Uri implements UriInterface, \JsonSerializable
         }
         $new = clone $this;
         $new->fragment = $fragment;
-        $new->composedComponents = null;
         return $new;
     }
     public function jsonSerialize() : string

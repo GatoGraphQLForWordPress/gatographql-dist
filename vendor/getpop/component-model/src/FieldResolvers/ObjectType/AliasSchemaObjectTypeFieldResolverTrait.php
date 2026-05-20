@@ -68,7 +68,7 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     {
         /** @var SplObjectStorage<FieldInterface,FieldInterface> */
         $this->aliasedFieldCache ??= new SplObjectStorage();
-        if (!$this->aliasedFieldCache->contains($field)) {
+        if (!$this->aliasedFieldCache->offsetExists($field)) {
             $this->aliasedFieldCache[$field] = $field instanceof RelationalField ? new RelationalField($field->getName(), $this->getAliasedFieldName($field->getName()), $field->getArguments(), $field->getFieldsOrFragmentBonds(), $field->getDirectives(), new RuntimeLocation($field)) : new LeafField($field->getName(), $this->getAliasedFieldName($field->getName()), $field->getArguments(), $field->getDirectives(), new RuntimeLocation($field));
         }
         return $this->aliasedFieldCache[$field];
@@ -77,7 +77,7 @@ trait AliasSchemaObjectTypeFieldResolverTrait
     {
         /** @var SplObjectStorage<FieldDataAccessorInterface,FieldDataAccessorInterface> */
         $this->aliasedFieldDataAccessorCache ??= new SplObjectStorage();
-        if (!$this->aliasedFieldDataAccessorCache->contains($fieldDataAccessor)) {
+        if (!$this->aliasedFieldDataAccessorCache->offsetExists($fieldDataAccessor)) {
             $this->aliasedFieldDataAccessorCache[$fieldDataAccessor] = $objectTypeResolver->createFieldDataAccessor($this->getAliasedField($fieldDataAccessor->getField()), $fieldDataAccessor->getFieldArgs());
         }
         return $this->aliasedFieldDataAccessorCache[$fieldDataAccessor];

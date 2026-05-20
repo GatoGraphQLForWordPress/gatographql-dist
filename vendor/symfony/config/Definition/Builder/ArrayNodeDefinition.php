@@ -213,7 +213,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      */
     public function canBeEnabled() : static
     {
-        $this->addDefaultsIfNotSet()->treatFalseLike(['enabled' => \false])->treatTrueLike(['enabled' => \true])->treatNullLike(['enabled' => \true])->beforeNormalization()->ifArray()->then(function (array $v) {
+        $this->addDefaultsIfNotSet()->treatFalseLike(['enabled' => \false])->treatTrueLike(['enabled' => \true])->treatNullLike(['enabled' => \true])->beforeNormalization()->ifArray()->then(static function (array $v) {
             $v['enabled'] ??= \true;
             return $v;
         })->end()->children()->booleanNode('enabled')->defaultFalse();

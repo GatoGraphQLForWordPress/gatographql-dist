@@ -65,7 +65,7 @@ class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\Fie
      */
     public function getFieldArgs(FieldInterface $field, ?ObjectTypeResolverInterface $objectTypeResolver = null, ?object $object = null) : ?array
     {
-        if (!$this->fieldObjectTypeResolverObjectFieldData->contains($field)) {
+        if (!$this->fieldObjectTypeResolverObjectFieldData->offsetExists($field)) {
             return null;
         }
         /** @var SplObjectStorage<ObjectTypeResolverInterface,SplObjectStorage<object,array<string,mixed>>> */
@@ -85,7 +85,7 @@ class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\Fie
             }
             /** @var ObjectTypeResolverInterface */
             $objectTypeResolver = $objectTypeResolvers[0];
-        } elseif (!$objectTypeResolverObjectFieldData->contains($objectTypeResolver)) {
+        } elseif (!$objectTypeResolverObjectFieldData->offsetExists($objectTypeResolver)) {
             return null;
         }
         /** @var SplObjectStorage<object,array<string,mixed>> */
@@ -95,9 +95,9 @@ class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\Fie
          * which contains data for "all objects"
          */
         $isNullObject = $object === null;
-        if ($isNullObject || !$objectFieldData->contains($object)) {
+        if ($isNullObject || !$objectFieldData->offsetExists($object)) {
             $object = \PoP\ComponentModel\QueryResolution\FieldDataAccessWildcardObjectFactory::getWildcardObject();
-            if (!$objectFieldData->contains($object)) {
+            if (!$objectFieldData->offsetExists($object)) {
                 return null;
             }
         }
@@ -110,7 +110,7 @@ class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\Fie
      */
     public function duplicateFieldData(FieldInterface $fromField, FieldInterface $toField) : void
     {
-        if (!$this->fieldObjectTypeResolverObjectFieldData->contains($fromField)) {
+        if (!$this->fieldObjectTypeResolverObjectFieldData->offsetExists($fromField)) {
             return;
         }
         $this->fieldObjectTypeResolverObjectFieldData[$toField] = $this->fieldObjectTypeResolverObjectFieldData[$fromField];

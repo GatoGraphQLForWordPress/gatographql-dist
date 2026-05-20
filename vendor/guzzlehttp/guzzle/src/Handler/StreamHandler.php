@@ -404,8 +404,19 @@ class StreamHandler
     private function add_cert(RequestInterface $request, array &$options, $value, array &$params) : void
     {
         if (\is_array($value)) {
-            $options['ssl']['passphrase'] = $value[1];
+            if (!isset($value[0]) || !\is_string($value[0])) {
+                throw new \InvalidArgumentException('Invalid cert request option');
+            }
+            if (isset($value[1])) {
+                if (!\is_string($value[1])) {
+                    throw new \InvalidArgumentException('Invalid cert request option');
+                }
+                $options['ssl']['passphrase'] = $value[1];
+            }
             $value = $value[0];
+        }
+        if (!\is_string($value)) {
+            throw new \InvalidArgumentException('Invalid cert request option');
         }
         if (!\file_exists($value)) {
             throw new \RuntimeException("SSL certificate not found: {$value}");
@@ -417,6 +428,9 @@ class StreamHandler
      */
     private function add_progress(RequestInterface $request, array &$options, $value, array &$params) : void
     {
+        if (!\is_callable($value)) {
+            throw new \InvalidArgumentException('progress client option must be callable');
+        }
         self::addNotification($params, static function ($code, $a, $b, $c, $transferred, $total) use($value) {
             if ($code == \STREAM_NOTIFY_PROGRESS) {
                 // The upload progress cannot be determined. Use 0 for cURL compatibility:

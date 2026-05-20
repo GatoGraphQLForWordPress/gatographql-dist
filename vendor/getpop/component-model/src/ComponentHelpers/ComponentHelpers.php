@@ -6,11 +6,27 @@ namespace PoP\ComponentModel\ComponentHelpers;
 use PoP\ComponentModel\Component\Component;
 use PoP\Definitions\DefinitionManagerInterface;
 use PoP\Root\Services\AbstractBasicService;
+use WeakMap;
 /** @internal */
 class ComponentHelpers extends AbstractBasicService implements \PoP\ComponentModel\ComponentHelpers\ComponentHelpersInterface
 {
     public final const SEPARATOR_PROCESSORCOMPONENTFULLNAME = "::";
     private ?DefinitionManagerInterface $definitionManager = null;
+    /**
+     * Memoize the (potentially expensive — `serialize($component->atts)`)
+     * full-name string per Component instance. `Component` is `final
+     * readonly`, so the same instance always yields the same name; and
+     * the same instance is queried many times per request across schema
+     * walking, prop propagation and dataloading paths.
+     *
+     * Use `WeakMap` (not an `spl_object_id`-keyed array) so cache entries
+     * are released when the Component is garbage-collected. An int-keyed
+     * cache would hit stale entries when PHP reuses object IDs across
+     * tests / long-running processes.
+     *
+     * @var WeakMap<Component,string>|null
+     */
+    private ?WeakMap $componentFullNameCache = null;
     protected final function getDefinitionManager() : DefinitionManagerInterface
     {
         if ($this->definitionManager === null) {
@@ -22,11 +38,20 @@ class ComponentHelpers extends AbstractBasicService implements \PoP\ComponentMod
     }
     public function getComponentFullName(Component $component) : string
     {
+        if ($this->componentFullNameCache === null) {
+            /** @var WeakMap<Component,string> $cache */
+            $cache = new WeakMap();
+            $this->componentFullNameCache = $cache;
+        }
+        $cache = $this->componentFullNameCache;
+        if (isset($cache[$component])) {
+            return $cache[$component];
+        }
         $componentFullName = $component->processorClass . self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . $component->name;
         if ($component->atts !== []) {
             $componentFullName .= self::SEPARATOR_PROCESSORCOMPONENTFULLNAME . \serialize($component->atts);
         }
-        return $componentFullName;
+        return $cache[$component] = $componentFullName;
     }
     public function getComponentFromFullName(string $componentFullName) : ?Component
     {

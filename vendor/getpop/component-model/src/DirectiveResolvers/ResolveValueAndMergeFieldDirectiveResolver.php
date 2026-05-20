@@ -21,6 +21,29 @@ use SplObjectStorage;
 final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentModel\DirectiveResolvers\AbstractGlobalFieldDirectiveResolver
 {
     private ?TypeSerializationServiceInterface $typeSerializationService = null;
+    /**
+     * Pooled `ObjectTypeFieldResolutionFeedbackStore` reused across
+     * `resolveValueForObject` calls. Each invocation `reset()`s the
+     * store before use, so per-(field,object) allocations of a fresh
+     * store are eliminated (one allocation per request instead of
+     * 12K–22K). Safe because `incorporate*` callers iterate-and-copy
+     * the store's collections — they don't retain references.
+     */
+    private ?ObjectTypeFieldResolutionFeedbackStore $pooledObjectTypeFieldResolutionFeedbackStore = null;
+    /**
+     * Cached `<uniqueID,true>` lookup for the AST list at App state
+     * `document-object-resolved-field-value-referenced-fields`. The
+     * list is determined from the AST and stable for the whole
+     * request, but `setAppStateForFieldValuePromises` is called per
+     * (field, object) — without caching, the lookup map is rebuilt
+     * 14K+ times. Fingerprinted by `count + spl_object_id(first)` so
+     * the cache invalidates safely when a different request reuses
+     * this resolver instance from the container.
+     *
+     * @var array<string,true>
+     */
+    private array $cachedReferencedFieldUniqueIDs = [];
+    private int $cachedReferencedFieldsFingerprint = 0;
     protected final function getTypeSerializationService() : TypeSerializationServiceInterface
     {
         if ($this->typeSerializationService === null) {
@@ -29,6 +52,41 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
             $this->typeSerializationService = $typeSerializationService;
         }
         return $this->typeSerializationService;
+    }
+    /**
+     * @return array<string,true>
+     */
+    private function getDocumentObjectResolvedFieldValueReferencedFieldUniqueIDs() : array
+    {
+        /** @var FieldInterface[] */
+        $referencedFields = App::getState('document-object-resolved-field-value-referenced-fields');
+        if ($referencedFields === []) {
+            // Empty fingerprint == 0 matches initial state; reset cache so
+            // a transition non-empty -> empty -> non-empty rebuilds.
+            if ($this->cachedReferencedFieldsFingerprint !== 0) {
+                $this->cachedReferencedFieldUniqueIDs = [];
+                $this->cachedReferencedFieldsFingerprint = 0;
+            }
+            return [];
+        }
+        /** @var FieldInterface */
+        $first = $referencedFields[\array_key_first($referencedFields)];
+        // Combine count and first-element identity into a single int.
+        // Within one request the field list is stable and built from
+        // request-scoped AST nodes, so this fingerprint stays put;
+        // across requests, the spl_object_id of the new first field
+        // will (overwhelmingly) differ.
+        $fingerprint = \count($referencedFields) << 24 ^ \spl_object_id($first);
+        if ($this->cachedReferencedFieldsFingerprint === $fingerprint) {
+            return $this->cachedReferencedFieldUniqueIDs;
+        }
+        $set = [];
+        foreach ($referencedFields as $referencedField) {
+            $set[$referencedField->getUniqueID()] = \true;
+        }
+        $this->cachedReferencedFieldUniqueIDs = $set;
+        $this->cachedReferencedFieldsFingerprint = $fingerprint;
+        return $set;
     }
     public function getDirectiveName() : string
     {
@@ -101,7 +159,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
                 }
                 // Check if the condition field has value `true`
                 // All 'conditional' fields must have their own key as 'direct', then simply look for this element on $resolvedIDFieldValues
-                if (isset($resolvedIDFieldValues[$id]) && $resolvedIDFieldValues[$id]->contains($conditionField)) {
+                if (isset($resolvedIDFieldValues[$id]) && $resolvedIDFieldValues[$id]->offsetExists($conditionField)) {
                     $conditionSatisfied = (bool) $resolvedIDFieldValues[$id][$conditionField];
                 } else {
                     $conditionSatisfied = \false;
@@ -186,11 +244,24 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
         }
         /**
          * Optimization: Check if the field was referenced in the query,
-         * otherwise can skip
+         * otherwise can skip. Build a uniqueID-keyed set so the membership
+         * test is O(1) and uses string comparison, instead of `in_array`'s
+         * default loose `==` which does recursive property-equality on
+         * `FieldInterface` objects.
+         *
+         * Fast-path the (extremely common) case where the query has no
+         * field-value references at all: skip the foreach + isset checks
+         * entirely. The function is called per (field, object) so even
+         * a few ticks shaved per call adds up over 22K calls.
+         *
+         * The lookup set is memoized per-request — see the property
+         * docblock for why this is safe.
          */
-        /** @var FieldInterface[] */
-        $documentObjectResolvedFieldValueReferencedFields = App::getState('document-object-resolved-field-value-referenced-fields');
-        if (!\in_array($field, $documentObjectResolvedFieldValueReferencedFields) && ($staticField === null || !\in_array($staticField, $documentObjectResolvedFieldValueReferencedFields))) {
+        $documentObjectResolvedFieldValueReferencedFieldUniqueIDs = $this->getDocumentObjectResolvedFieldValueReferencedFieldUniqueIDs();
+        if ($documentObjectResolvedFieldValueReferencedFieldUniqueIDs === []) {
+            return;
+        }
+        if (!isset($documentObjectResolvedFieldValueReferencedFieldUniqueIDs[$field->getUniqueID()]) && ($staticField === null || !isset($documentObjectResolvedFieldValueReferencedFieldUniqueIDs[$staticField->getUniqueID()]))) {
             return;
         }
         /** @var SplObjectStorage<FieldInterface,mixed> */
@@ -205,7 +276,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
             /**
              * If the value was not serialized, it will not be included in the response
              */
-            if (!isset($serializedIDFieldValues[$id]) || !$serializedIDFieldValues[$id]->contains($field)) {
+            if (!isset($serializedIDFieldValues[$id]) || !$serializedIDFieldValues[$id]->offsetExists($field)) {
                 return;
             }
         }
@@ -295,8 +366,11 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
             /** @var ObjectTypeResolverInterface */
             $objectTypeResolver = $relationalTypeResolver;
         }
-        // 1. Resolve the value against the TypeResolver
-        $objectTypeFieldResolutionFeedbackStore = new ObjectTypeFieldResolutionFeedbackStore();
+        // 1. Resolve the value against the TypeResolver. Reuse a pooled
+        //    feedback store across iterations rather than allocating a
+        //    fresh one per (field, object).
+        $objectTypeFieldResolutionFeedbackStore = $this->pooledObjectTypeFieldResolutionFeedbackStore ??= new ObjectTypeFieldResolutionFeedbackStore();
+        $objectTypeFieldResolutionFeedbackStore->reset();
         $fieldArgs = $fieldDataAccessProvider->getFieldArgs($field, $objectTypeResolver, $object);
         if ($fieldArgs === null) {
             // Set the response for the failing field as null
@@ -306,8 +380,13 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
         }
         $fieldDataAccessor = $objectTypeResolver->createFieldDataAccessor($field, $fieldArgs);
         $value = $relationalTypeResolver->resolveValue($object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
-        // 2. Transfer the feedback
-        $engineIterationFeedbackStore->objectResolutionFeedbackStore->incorporateFromObjectTypeFieldResolutionFeedbackStore($objectTypeFieldResolutionFeedbackStore, $relationalTypeResolver, $this->directive, [$id => new EngineIterationFieldSet([$field])]);
+        // 2. Transfer the feedback. On the common path (resolution
+        //    succeeded with no errors/warnings/notices/etc.) the store
+        //    is empty — skip the call and its `[$id => new
+        //    EngineIterationFieldSet([$field])]` allocation entirely.
+        if (!$objectTypeFieldResolutionFeedbackStore->isEmpty()) {
+            $engineIterationFeedbackStore->objectResolutionFeedbackStore->incorporateFromObjectTypeFieldResolutionFeedbackStore($objectTypeFieldResolutionFeedbackStore, $relationalTypeResolver, $this->directive, [$id => new EngineIterationFieldSet([$field])]);
+        }
         /**
          * 3. Add the output in the DB
          *

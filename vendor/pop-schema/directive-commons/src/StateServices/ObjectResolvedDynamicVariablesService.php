@@ -83,7 +83,7 @@ class ObjectResolvedDynamicVariablesService extends AbstractBasicService impleme
              */
             if ($showWarningsOnExportingDuplicateDynamicVariableName) {
                 $addDynamicVariableAlreadySetWarningFeedback = \count($dynamicVariableTargetFields) === 1 || $targetField !== $wildcardField;
-                if ($addDynamicVariableAlreadySetWarningFeedback && $objectResolvedDynamicVariables->contains($targetField) && isset($objectResolvedDynamicVariables[$targetField][$id]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$targetField][$id])) {
+                if ($addDynamicVariableAlreadySetWarningFeedback && $objectResolvedDynamicVariables->offsetExists($targetField) && isset($objectResolvedDynamicVariables[$targetField][$id]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$targetField][$id])) {
                     $this->addDynamicVariableAlreadySetWarningFeedback($targetObjectTypeResolver, $astNode, $directive, $dynamicVariableName, $id, $field, $engineIterationFeedbackStore);
                 }
             }
@@ -92,9 +92,12 @@ class ObjectResolvedDynamicVariablesService extends AbstractBasicService impleme
             $targetFieldObjectResolvedDynamicVariables[$id][$dynamicVariableName] = $value;
             $objectResolvedDynamicVariables[$targetField] = $targetFieldObjectResolvedDynamicVariables;
         }
-        // Override the state
-        $appStateManager = App::getAppStateManager();
-        $appStateManager->override('object-resolved-dynamic-variables', $objectResolvedDynamicVariables);
+        /**
+         * No `override(...)` call needed: `$objectResolvedDynamicVariables`
+         * IS the SplObjectStorage instance already stored in AppState
+         * (retrieved by reference above), so the in-place mutation is
+         * already visible.
+         */
     }
     protected function addDynamicVariableAlreadySetWarningFeedback(ObjectTypeResolverInterface $objectTypeResolver, AstInterface $astNode, Directive $directive, string $dynamicVariableName, string|int $id, FieldInterface $field, EngineIterationFeedbackStore $engineIterationFeedbackStore) : void
     {
@@ -108,29 +111,54 @@ class ObjectResolvedDynamicVariablesService extends AbstractBasicService impleme
      */
     public function copyObjectResolvedDynamicVariablesFromFieldToFieldInAppState(FieldInterface $fromField, FieldInterface $toField) : void
     {
+        $this->copyObjectResolvedDynamicVariablesFromFieldToFieldsInAppState($fromField, [$toField]);
+    }
+    /**
+     * @param FieldInterface[] $toFields
+     */
+    public function copyObjectResolvedDynamicVariablesFromFieldToFieldsInAppState(FieldInterface $fromField, array $toFields) : void
+    {
+        if ($toFields === []) {
+            return;
+        }
         /** @var SplObjectStorage<FieldInterface,array<string|int,array<string,mixed>>> SplObjectStorage<Field, [objectID => [dynamicVariableName => value]]> */
         $objectResolvedDynamicVariables = App::getState('object-resolved-dynamic-variables');
-        if (!$objectResolvedDynamicVariables->contains($fromField)) {
+        if (!$objectResolvedDynamicVariables->offsetExists($fromField)) {
             return;
         }
         /** @var array<string|int,array<string,mixed>> */
         $fromObjectDynamicVariableNameValues = $objectResolvedDynamicVariables[$fromField];
-        /**
-         * Watch out! Do not override any state set in the toField!
-         */
-        if ($objectResolvedDynamicVariables->contains($toField)) {
+        foreach ($toFields as $toField) {
+            /**
+             * Watch out! Do not override any state set in the toField!
+             */
+            if (!$objectResolvedDynamicVariables->offsetExists($toField)) {
+                $objectResolvedDynamicVariables[$toField] = $fromObjectDynamicVariableNameValues;
+                continue;
+            }
             /** @var array<string|int,array<string,mixed>> */
             $toObjectDynamicVariableNameValues = $objectResolvedDynamicVariables[$toField];
             /** @var string|int $objectID */
             foreach ($fromObjectDynamicVariableNameValues as $objectID => $dynamicVariableNameValues) {
-                $toObjectDynamicVariableNameValues[$objectID] = \array_merge($toObjectDynamicVariableNameValues[$objectID] ?? [], $dynamicVariableNameValues);
+                /**
+                 * Avoid array_merge: assign in place to skip the
+                 * intermediate-array allocation per object ID.
+                 */
+                if (!isset($toObjectDynamicVariableNameValues[$objectID])) {
+                    $toObjectDynamicVariableNameValues[$objectID] = $dynamicVariableNameValues;
+                    continue;
+                }
+                foreach ($dynamicVariableNameValues as $dynamicVariableName => $dynamicVariableValue) {
+                    $toObjectDynamicVariableNameValues[$objectID][$dynamicVariableName] = $dynamicVariableValue;
+                }
             }
             $objectResolvedDynamicVariables[$toField] = $toObjectDynamicVariableNameValues;
-        } else {
-            $objectResolvedDynamicVariables[$toField] = $objectResolvedDynamicVariables[$fromField];
         }
-        // Override the state
-        $appStateManager = App::getAppStateManager();
-        $appStateManager->override('object-resolved-dynamic-variables', $objectResolvedDynamicVariables);
+        /**
+         * No `override(...)` call needed: `$objectResolvedDynamicVariables`
+         * IS the SplObjectStorage instance already stored in AppState
+         * (retrieved by reference above), so the in-place mutation is
+         * already visible.
+         */
     }
 }

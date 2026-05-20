@@ -67,7 +67,7 @@ class ObjectResolvedDynamicVariableValuePromise implements \PoP\GraphQLParser\Ex
          * (This allows @underEachArrayItem to export the iterated upon values.)
          */
         $currentField = App::getState('object-resolved-dynamic-variables-current-field');
-        if ($currentField !== null && $objectResolvedDynamicVariables->contains($currentField) && isset($objectResolvedDynamicVariables[$currentField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$currentField][$currentObjectID])) {
+        if ($currentField !== null && $objectResolvedDynamicVariables->offsetExists($currentField) && isset($objectResolvedDynamicVariables[$currentField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$currentField][$currentObjectID])) {
             return $objectResolvedDynamicVariables[$currentField][$currentObjectID][$dynamicVariableName];
         }
         /**
@@ -76,7 +76,7 @@ class ObjectResolvedDynamicVariableValuePromise implements \PoP\GraphQLParser\Ex
          * this is stored under the "wildcard field"
          */
         $wildcardField = ASTNodesFactory::getWildcardField();
-        if ($objectResolvedDynamicVariables->contains($wildcardField) && isset($objectResolvedDynamicVariables[$wildcardField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$wildcardField][$currentObjectID])) {
+        if ($objectResolvedDynamicVariables->offsetExists($wildcardField) && isset($objectResolvedDynamicVariables[$wildcardField][$currentObjectID]) && \array_key_exists($dynamicVariableName, $objectResolvedDynamicVariables[$wildcardField][$currentObjectID])) {
             return $objectResolvedDynamicVariables[$wildcardField][$currentObjectID][$dynamicVariableName];
         }
         // Variable is nowhere defined => Error

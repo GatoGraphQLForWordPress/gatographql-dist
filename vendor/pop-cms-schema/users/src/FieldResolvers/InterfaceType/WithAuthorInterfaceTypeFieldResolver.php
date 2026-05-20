@@ -5,7 +5,6 @@ namespace PoPCMSSchema\Users\FieldResolvers\InterfaceType;
 
 use PoP\ComponentModel\TypeResolvers\InterfaceType\InterfaceTypeResolverInterface;
 use PoP\ComponentModel\FieldResolvers\InterfaceType\AbstractInterfaceTypeFieldResolver;
-use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoPCMSSchema\Users\TypeResolvers\InterfaceType\WithAuthorInterfaceTypeResolver;
 use PoPCMSSchema\Users\TypeResolvers\ObjectType\UserObjectTypeResolver;
@@ -36,14 +35,19 @@ class WithAuthorInterfaceTypeFieldResolver extends AbstractInterfaceTypeFieldRes
     {
         return ['author'];
     }
-    public function getFieldTypeModifiers(string $fieldName) : int
-    {
-        switch ($fieldName) {
-            case 'author':
-                return SchemaTypeModifiers::NON_NULLABLE;
-        }
-        return parent::getFieldTypeModifiers($fieldName);
-    }
+    /**
+     * Allow the custom post author to be null!
+     * Eg: when using AI to create posts, it may not assign an author,
+     * and it'll keep ID 0 in the DB
+     */
+    // public function getFieldTypeModifiers(string $fieldName): int
+    // {
+    //     switch ($fieldName) {
+    //         case 'author':
+    //             return SchemaTypeModifiers::NON_NULLABLE;
+    //     }
+    //     return parent::getFieldTypeModifiers($fieldName);
+    // }
     public function getFieldDescription(string $fieldName) : ?string
     {
         return match ($fieldName) {

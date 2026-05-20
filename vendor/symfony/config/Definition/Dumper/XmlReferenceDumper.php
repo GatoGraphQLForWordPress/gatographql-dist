@@ -53,7 +53,7 @@ class XmlReferenceDumper
         $rootNamespace = $namespace ?: ($root ? 'http://example.org/schema/dic/' . $node->getName() : null);
         // xml remapping
         if ($node->getParent()) {
-            $remapping = \array_filter($node->getParent()->getXmlRemappings(), fn(array $mapping) => $rootName === $mapping[1]);
+            $remapping = \array_filter($node->getParent()->getXmlRemappings(), static fn(array $mapping) => $rootName === $mapping[1]);
             if (\count($remapping)) {
                 [$singular] = \current($remapping);
                 $rootName = $singular;

@@ -74,7 +74,7 @@ class ASTNodeDuplicatorService extends AbstractBasicService implements \PoP\Grap
      */
     public function getExclusiveFragment(FragmentReference $fragmentReference, array $fragments) : ?Fragment
     {
-        if ($this->fragmentReferenceFragments->contains($fragmentReference)) {
+        if ($this->fragmentReferenceFragments->offsetExists($fragmentReference)) {
             return $this->fragmentReferenceFragments[$fragmentReference];
         }
         foreach ($fragments as $fragment) {

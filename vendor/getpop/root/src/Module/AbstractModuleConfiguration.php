@@ -26,8 +26,13 @@ abstract class AbstractModuleConfiguration implements \PoP\Root\Module\ModuleCon
     protected function retrieveConfigurationValueOrUseDefault(string $envVariable, mixed $defaultValue, ?callable $callback = null) : mixed
     {
         // Initialized from configuration? Then use that one directly.
-        if ($this->hasConfigurationValue($envVariable)) {
-            return $this->getConfigurationValue($envVariable);
+        // Inlined fast path: this method is called ~100K times per request
+        // on the AI-translation workload and the steady-state path is just
+        // the cache hit. Bypassing the two delegating method calls
+        // (`hasConfigurationValue` / `getConfigurationValue`) cuts the
+        // per-call overhead roughly in half.
+        if (\array_key_exists($envVariable, $this->configuration)) {
+            return $this->configuration[$envVariable];
         }
         /**
          * Otherwise, initialize from environment.

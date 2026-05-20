@@ -23,7 +23,7 @@ class DataStructureManager implements \PoP\ComponentModel\DataStructure\DataStru
     {
         $this->defaultFormatter = $defaultFormatter;
     }
-    public function getDataStructureFormatter(string $name = null) : DataStructureFormatterInterface
+    public function getDataStructureFormatter(?string $name = null) : DataStructureFormatterInterface
     {
         // Return the formatter if it exists
         if ($name && isset($this->formatters[$name])) {

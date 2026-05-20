@@ -34,7 +34,6 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Expres
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\LazyServiceDumper;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\NullDumper;
-use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Loader\FileLoader;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Parameter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Reference;
@@ -514,21 +513,23 @@ EOF;
                 continue;
             }
             $alreadyGenerated[$asGhostObject][$class] = \true;
-            foreach (\array_column($definition->getTag('proxy'), 'interface') ?: [$class] as $r) {
-                if (!($r = $this->container->getReflectionClass($r))) {
-                    continue;
-                }
-                do {
-                    if ($file = $r->getFileName()) {
-                        if (\str_ends_with($file, ') : eval()\'d code')) {
-                            $file = \substr($file, 0, \strrpos($file, '(', -17));
-                        }
-                        if (\is_file($file)) {
-                            $this->container->addResource(new FileResource($file));
-                        }
+            if ($this->container->isTrackingResources()) {
+                foreach (\array_column($definition->getTag('proxy'), 'interface') ?: [$class] as $r) {
+                    if (!($r = $this->container->getReflectionClass($r))) {
+                        continue;
                     }
-                    $r = $r->getParentClass() ?: null;
-                } while ($r?->isUserDefined());
+                    do {
+                        if ($file = $r->getFileName()) {
+                            if (\str_ends_with($file, ') : eval()\'d code')) {
+                                $file = \substr($file, 0, \strrpos($file, '(', -17));
+                            }
+                            if (\is_file($file)) {
+                                $this->container->addResource(new FileResource($file));
+                            }
+                        }
+                        $r = $r->getParentClass() ?: null;
+                    } while ($r?->isUserDefined());
+                }
             }
             if ("\n" === ($proxyCode = "\n" . $proxyDumper->getProxyCode($definition, $id))) {
                 continue;
@@ -811,7 +812,7 @@ EOF;
             }
             $c = $this->addServiceInclude($id, $definition, null !== $isProxyCandidate);
             if ('' !== $c && $isProxyCandidate && !$definition->isShared()) {
-                $c = \implode("\n", \array_map(fn($line) => $line ? '    ' . $line : $line, \explode("\n", $c)));
+                $c = \implode("\n", \array_map(static fn($line) => $line ? '    ' . $line : $line, \explode("\n", $c)));
                 $code .= "        static \$include = true;\n\n";
                 $code .= "        if (\$include) {\n";
                 $code .= $c;
@@ -822,7 +823,7 @@ EOF;
             }
             $c = $this->addInlineService($id, $definition);
             if (!$isProxyCandidate && !$definition->isShared()) {
-                $c = \implode("\n", \array_map(fn($line) => $line ? '    ' . $line : $line, \explode("\n", $c)));
+                $c = \implode("\n", \array_map(static fn($line) => $line ? '    ' . $line : $line, \explode("\n", $c)));
                 $lazyloadInitialization = $definition->isLazy() ? ', $lazyLoad = true' : '';
                 $c = \sprintf("        %s = function (\$container%s) {\n%s        };\n\n        return %1\$s(\$container);\n", $factory, $lazyloadInitialization, $c);
             }
@@ -1178,7 +1179,7 @@ EOF;
             $ids = \array_keys($ids);
             \sort($ids);
             foreach ($ids as $id) {
-                if (\preg_match(FileLoader::ANONYMOUS_ID_REGEXP, $id)) {
+                if (\preg_match(ContainerBuilder::ANONYMOUS_ID_REGEXP, $id)) {
                     continue;
                 }
                 $code .= '            ' . $this->doExport($id) . " => true,\n";
@@ -1489,7 +1490,7 @@ EOF;
             return $code;
         }
         // re-indent the wrapped code
-        $code = \implode("\n", \array_map(fn($line) => $line ? '    ' . $line : $line, \explode("\n", $code)));
+        $code = \implode("\n", \array_map(static fn($line) => $line ? '    ' . $line : $line, \explode("\n", $code)));
         return \sprintf("        if (%s) {\n%s        }\n", $condition, $code);
     }
     private function getServiceConditionals(mixed $value) : string
@@ -1666,11 +1667,10 @@ EOF;
                 // we do this to deal with non string values (Boolean, integer, ...)
                 // the preg_replace_callback converts them to strings
                 return $this->dumpParameter($match[1]);
-            } else {
-                $replaceParameters = fn($match) => "'." . $this->dumpParameter($match[2]) . ".'";
-                $code = \str_replace('%%', '%', \preg_replace_callback('/(?<!%)(%)([^%]+)\\1/', $replaceParameters, $this->export($value)));
-                return $code;
             }
+            $replaceParameters = fn($match) => "'." . $this->dumpParameter($match[2]) . ".'";
+            $code = \str_replace('%%', '%', \preg_replace_callback('/(?<!%)(%)([^%]+)\\1/', $replaceParameters, $this->export($value)));
+            return $code;
         } elseif ($value instanceof \UnitEnum) {
             return \sprintf('\\%s::%s', $value::class, $value->name);
         } elseif ($value instanceof AbstractArgument) {
@@ -1900,7 +1900,7 @@ EOF;
         }
         if (\is_string($value) && \str_contains($value, "\n")) {
             $cleanParts = \explode("\n", $value);
-            $cleanParts = \array_map(fn($part) => \var_export($part, \true), $cleanParts);
+            $cleanParts = \array_map(static fn($part) => \var_export($part, \true), $cleanParts);
             $export = \implode('."\\n".', $cleanParts);
         } else {
             $export = \var_export($value, \true);

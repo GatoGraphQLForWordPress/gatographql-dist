@@ -17,6 +17,7 @@ use GatoExternalPrefixByGatoGraphQL\Psr\SimpleCache\CacheInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AdapterInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Exception\InvalidArgumentException;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\ProxyTrait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Cache\ItemInterface;
 /**
  * Turns a PSR-6 cache into a PSR-16 one.
  *
@@ -57,6 +58,9 @@ class Psr16Cache implements CacheInterface, PruneableInterface, ResettableInterf
             return $createCacheItem($key, null, $allowInt)->set($value);
         };
         self::$packCacheItem ??= \Closure::bind(static function (CacheItem $item) {
+            if (!isset($item->metadata[ItemInterface::METADATA_CTIME])) {
+                return $item->value;
+            }
             $item->newMetadata = $item->metadata;
             return $item->pack();
         }, null, CacheItem::class);

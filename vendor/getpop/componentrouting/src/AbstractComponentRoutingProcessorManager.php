@@ -23,7 +23,7 @@ abstract class AbstractComponentRoutingProcessorManager implements \PoP\Componen
     /**
      * @return ComponentRoutingProcessorInterface[]
      */
-    public function getComponentRoutingProcessors(string $group = null) : array
+    public function getComponentRoutingProcessors(?string $group = null) : array
     {
         $group ??= $this->getDefaultGroup();
         return $this->processors[$group] ?? array();
@@ -32,7 +32,7 @@ abstract class AbstractComponentRoutingProcessorManager implements \PoP\Componen
     {
         return \PoP\ComponentRouting\ComponentRoutingGroups::ENTRYCOMPONENT;
     }
-    public function getRoutingComponentByMostAllMatchingStateProperties(string $group = null) : ?Component
+    public function getRoutingComponentByMostAllMatchingStateProperties(?string $group = null) : ?Component
     {
         $group ??= $this->getDefaultGroup();
         $nature = App::getState('nature');

@@ -62,8 +62,8 @@ class Filesystem
                 throw new IOException(\sprintf('Failed to copy "%s" to "%s".', $originFile, $targetFile), 0, null, $originFile);
             }
             if ($originIsLocal) {
-                // Like `cp`, preserve executable permission bits
-                self::box('chmod', $targetFile, \fileperms($targetFile) | \fileperms($originFile) & 0111);
+                // Like `cp`, preserve the source mode masked by the umask
+                self::box('chmod', $targetFile, \fileperms($originFile) & 0777 & ~\umask());
                 // Like `cp`, preserve the file modification time
                 self::box('touch', $targetFile, \filemtime($originFile));
                 if ($bytesCopied !== ($bytesOrigin = \filesize($originFile))) {
@@ -413,8 +413,8 @@ class Filesystem
             $endPath = \str_replace('\\', '/', $endPath);
             $startPath = \str_replace('\\', '/', $startPath);
         }
-        $splitDriveLetter = fn($path) => \strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && \ctype_alpha($path[0]) ? [\substr($path, 2), \strtoupper($path[0])] : [$path, null];
-        $splitPath = function ($path) {
+        $splitDriveLetter = static fn($path) => \strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && \ctype_alpha($path[0]) ? [\substr($path, 2), \strtoupper($path[0])] : [$path, null];
+        $splitPath = static function ($path) {
             $result = [];
             foreach (\explode('/', \trim($path, '/')) as $segment) {
                 if ('..' === $segment) {

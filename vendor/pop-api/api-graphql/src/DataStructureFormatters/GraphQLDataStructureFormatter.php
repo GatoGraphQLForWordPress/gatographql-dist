@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPAPI\GraphQLAPI\DataStructureFormatters;
 
 use PoPAPI\APIMirrorQuery\DataStructureFormatters\MirrorQueryDataStructureFormatter;
+use PoPAPI\APIMirrorQuery\State\PreviouslyResolvedFieldsForObjectsStore;
 use PoPAPI\GraphQLAPI\Module;
 use PoPAPI\GraphQLAPI\ModuleConfiguration;
 use PoP\ComponentModel\App;
@@ -349,9 +350,9 @@ class GraphQLDataStructureFormatter extends MirrorQueryDataStructureFormatter
             /** @var ExecutableDocument */
             $executableDocument = App::getState('executable-document-ast');
             $fragments = $executableDocument->getDocument()->getFragments();
-            /** @var array<string,array<string|int,FieldInterface[]>> */
-            $previouslyResolvedFieldsForObjects = App::getState('previously-resolved-fields-for-objects');
-            $previouslyResolvedFieldsForObject = $previouslyResolvedFieldsForObjects[$typeOutputKey][$objectID] ?? [];
+            /** @var PreviouslyResolvedFieldsForObjectsStore */
+            $previouslyResolvedFieldsForObjectsStore = App::getState('previously-resolved-fields-for-objects');
+            $previouslyResolvedFieldsForObject = $previouslyResolvedFieldsForObjectsStore->getForObject($typeOutputKey, $objectID);
             /**
              * Check that the original field is indeed different to this one.
              * To find out, search for the previous fields with the same

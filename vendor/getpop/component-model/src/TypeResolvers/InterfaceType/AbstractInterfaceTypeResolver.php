@@ -32,6 +32,10 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
      */
     protected ?array $interfaceTypeFieldResolvers = null;
     /**
+     * @var InterfaceTypeResolverInterface[]|null
+     */
+    protected ?array $partiallyImplementedInterfaceTypeResolvers = null;
+    /**
      * The list of the fieldNames to implement in the Interface,
      * collected from all the injected InterfaceTypeFieldResolvers
      *
@@ -56,12 +60,20 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
         return \array_values(\array_unique($fieldNamesToImplement));
     }
     /**
-     * Interfaces "partially" implemented by this Interface
+     * Interfaces "partially" implemented by this Interface.
+     *
+     * Memoized at the instance level: the result depends only on the
+     * (stable) field-resolver topology of `$this`, and is consumed on
+     * recursive descents from peer interface resolvers — without the
+     * cache the same subtree is rebuilt many times per request.
      *
      * @return InterfaceTypeResolverInterface[]
      */
     public function getPartiallyImplementedInterfaceTypeResolvers() : array
     {
+        if ($this->partiallyImplementedInterfaceTypeResolvers !== null) {
+            return $this->partiallyImplementedInterfaceTypeResolvers;
+        }
         $implementedInterfaceTypeFieldResolvers = [];
         foreach ($this->getInterfaceTypeFieldResolvers() as $interfaceTypeFieldResolver) {
             // Add under class as to mimic `array_unique` for object
@@ -76,7 +88,7 @@ abstract class AbstractInterfaceTypeResolver extends AbstractTypeResolver implem
                 $implementedInterfaceTypeResolvers[\get_class($partiallyImplementedInterfaceTypeResolver)] = $partiallyImplementedInterfaceTypeResolver;
             }
         }
-        return \array_values($implementedInterfaceTypeResolvers);
+        return $this->partiallyImplementedInterfaceTypeResolvers = \array_values($implementedInterfaceTypeResolvers);
     }
     /**
      * Produce an array of all the attached ObjectTypeFieldResolverInterfaces

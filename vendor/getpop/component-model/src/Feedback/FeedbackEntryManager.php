@@ -263,7 +263,7 @@ class FeedbackEntryManager extends AbstractBasicService implements \PoP\Componen
                 /** @var SplObjectStorage<FieldInterface,mixed> */
                 $idTargetObjectFeedbackEntries = $targetIterationObjectFeedbackEntries[$idTargetObjectTypeResolver] ?? new SplObjectStorage();
                 foreach ($fieldSet->fields as $field) {
-                    if (!$iterationObjectFeedbackEntries->contains($relationalTypeResolver) || !$iterationObjectFeedbackEntries[$relationalTypeResolver]->contains($field)) {
+                    if (!$iterationObjectFeedbackEntries->offsetExists($relationalTypeResolver) || !$iterationObjectFeedbackEntries[$relationalTypeResolver]->offsetExists($field)) {
                         continue;
                     }
                     $idTargetObjectFeedbackEntries[$field] = $iterationObjectFeedbackEntries[$relationalTypeResolver][$field];
