@@ -52,8 +52,8 @@ class IdentifiableObjectInterfaceTypeFieldResolver extends \PoP\ComponentModel\F
     public function getFieldDescription(string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'id' => $this->__('The object\'s unique identifier for its type', 'component-model'),
-            'globalID' => $this->__('The object\'s globally unique identifier', 'component-model'),
+            'id' => $this->__('The object\'s unique identifier for its type', 'gatographql'),
+            'globalID' => $this->__('The object\'s globally unique identifier', 'gatographql'),
             default => parent::getFieldDescription($fieldName),
         };
     }

@@ -25,7 +25,7 @@ class IPv4ScalarTypeResolver extends AbstractScalarTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('IPv4 scalar, such as 192.168.0.1', 'extended-schema-commons');
+        return $this->__('IPv4 scalar, such as 192.168.0.1', 'gatographql');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

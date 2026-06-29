@@ -16,7 +16,7 @@ class CustomPostPaginationInputObjectTypeResolver extends PaginationInputObjectT
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to paginate custom posts', 'customposts');
+        return $this->__('Input to paginate custom posts', 'gatographql');
     }
     protected function getDefaultLimit() : ?int
     {

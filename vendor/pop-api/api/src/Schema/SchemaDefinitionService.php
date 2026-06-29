@@ -348,7 +348,7 @@ class SchemaDefinitionService extends UpstreamSchemaDefinitionService implements
         if ($typeResolver instanceof InputObjectTypeResolverInterface) {
             return new InputObjectTypeSchemaDefinitionProvider($typeResolver);
         }
-        throw new ImpossibleToHappenException(\sprintf($this->__('No type identified for TypeResolver with class \'%s\'', 'api'), \get_class($typeResolver)));
+        throw new ImpossibleToHappenException(\sprintf($this->__('No type identified for TypeResolver with class \'%s\'', 'gatographql'), \get_class($typeResolver)));
     }
     protected function createRootObjectTypeSchemaDefinitionProvider(RootObjectTypeResolver $rootObjectTypeResolver) : RootObjectTypeSchemaDefinitionProvider
     {

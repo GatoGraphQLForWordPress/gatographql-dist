@@ -39,7 +39,7 @@ trait OneofInputObjectTypeResolverTrait
         $inputValueAsArray = (array) $inputValue;
         $inputValueSize = \count($inputValueAsArray);
         if ($inputValueSize > 1) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_6, [$this->getMaybeNamespacedTypeName(), $inputValueSize, \implode($this->getTranslationAPI()->__('\', \'', 'component-model'), \array_keys($inputValueAsArray))]), $astNode));
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_6, [$this->getMaybeNamespacedTypeName(), $inputValueSize, \implode($this->getTranslationAPI()->__('\', \'', 'gatographql'), \array_keys($inputValueAsArray))]), $astNode));
             return;
         }
         if ($inputValueSize === 0) {

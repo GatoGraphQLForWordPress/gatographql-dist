@@ -12,7 +12,7 @@ class RootMyCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\Custo
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter the logged-in user\'s custom posts', 'custompost-mutations');
+        return $this->__('Input to filter the logged-in user\'s custom posts', 'gatographql');
     }
     protected function addCustomPostInputFields() : bool
     {

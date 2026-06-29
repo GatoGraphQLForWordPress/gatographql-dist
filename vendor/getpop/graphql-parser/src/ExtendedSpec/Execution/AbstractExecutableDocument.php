@@ -101,7 +101,7 @@ abstract class AbstractExecutableDocument extends ExecutableDocument implements 
     public function getMultipleOperationsToExecute() : ?array
     {
         if (!$this->isValidatedAndInitialized) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Before executing `%s`, must call `validateAndInitialize`', 'graphql-server'), __FUNCTION__));
+            throw new ShouldNotHappenException(\sprintf($this->__('Before executing `%s`, must call `validateAndInitialize`', 'gatographql'), __FUNCTION__));
         }
         return $this->multipleOperationsToExecute;
     }

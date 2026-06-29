@@ -82,7 +82,7 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
         $enumValues = $this->getConsolidatedEnumValues();
         if (!\in_array($inputValue, $enumValues)) {
             $nonDeprecatedEnumValues = \array_filter($enumValues, fn(string $enumValue) => empty($this->getConsolidatedEnumValueDeprecationMessage($enumValue)));
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_14, [$inputValue, $this->getMaybeNamespacedTypeName(), \implode($this->__('\', \''), $nonDeprecatedEnumValues)]), $astNode));
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::class, InputValueCoercionGraphQLSpecErrorFeedbackItemProvider::E_5_6_1_14, [$inputValue, $this->getMaybeNamespacedTypeName(), \implode($this->__('\', \'', 'gatographql'), $nonDeprecatedEnumValues)]), $astNode));
             return null;
         }
         return $inputValue;
@@ -115,7 +115,7 @@ abstract class AbstractEnumTypeResolver extends AbstractTypeResolver implements 
     {
         /** @var string $inputValue */
         if ($deprecationMessage = $this->getConsolidatedEnumValueDeprecationMessage($inputValue)) {
-            return [\sprintf($this->__('Enum value \'%s\' is deprecated: %s', 'component-model'), $inputValue, $deprecationMessage)];
+            return [\sprintf($this->__('Enum value \'%s\' is deprecated: %s', 'gatographql'), $inputValue, $deprecationMessage)];
         }
         return [];
     }

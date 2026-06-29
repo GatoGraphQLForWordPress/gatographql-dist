@@ -19,7 +19,7 @@ class CheckpointErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     public function getMessagePlaceholder(string $code) : string
     {
         return match ($code) {
-            self::E1 => $this->__('REQUEST_METHOD is not \'POST\'', 'engine'),
+            self::E1 => $this->__('REQUEST_METHOD is not \'POST\'', 'gatographql'),
             default => parent::getMessagePlaceholder($code),
         };
     }

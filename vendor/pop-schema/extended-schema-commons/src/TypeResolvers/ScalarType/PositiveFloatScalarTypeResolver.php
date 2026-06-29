@@ -21,7 +21,7 @@ class PositiveFloatScalarTypeResolver extends AbstractFloatScalarTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('A positive float or 0.', 'extended-schema-commons');
+        return $this->__('A positive float or 0.', 'gatographql');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

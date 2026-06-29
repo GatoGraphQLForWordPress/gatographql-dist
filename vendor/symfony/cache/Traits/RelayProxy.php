@@ -27,6 +27,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay12
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay20Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay21Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay22Trait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay30Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\SwapdbTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
@@ -61,6 +62,7 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     use Relay20Trait;
     use Relay21Trait;
     use Relay22Trait;
+    use Relay30Trait;
     use SwapdbTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($host = null, $port = 6379, $connect_timeout = 0.0, $command_timeout = 0.0, #[\SensitiveParameter] $context = [], $database = 0)
@@ -762,10 +764,6 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     public function wait($replicas, $timeout) : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|false|int
     {
         return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->wait(...\func_get_args());
-    }
-    public function unwatch() : \GatoExternalPrefixByGatoGraphQL\Relay\Relay|bool
-    {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->unwatch(...\func_get_args());
     }
     public function discard() : bool
     {

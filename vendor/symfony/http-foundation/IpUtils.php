@@ -33,6 +33,8 @@ class IpUtils
         // RFC5735
         '240.0.0.0/4',
         // RFC1112
+        '100.64.0.0/10',
+        // RFC6598
         '::1/128',
         // Loopback
         'fc00::/7',
@@ -40,8 +42,18 @@ class IpUtils
         'fe80::/10',
         // Link Local Address
         '::ffff:0:0/96',
-        // IPv4 translations
+        // IPv4-mapped IPv6 addresses (RFC 4291 section 2.5.5.2)
         '::/128',
+        // Unspecified address
+        '::/96',
+        // IPv4-compatible IPv6 addresses (RFC 4291 section 2.5.5.1)
+        '2002::/16',
+        // 6to4 (RFC 3056)
+        '2001::/32',
+        // Teredo tunneling (RFC 4380)
+        '64:ff9b::/96',
+        // NAT64 well-known prefix (RFC 6052)
+        '64:ff9b:1::/48',
     ];
     private static array $checkedIps = [];
     /**

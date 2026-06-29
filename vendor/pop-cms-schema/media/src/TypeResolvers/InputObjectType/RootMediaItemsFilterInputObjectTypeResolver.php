@@ -12,6 +12,6 @@ class RootMediaItemsFilterInputObjectTypeResolver extends \PoPCMSSchema\Media\Ty
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter media items', 'media');
+        return $this->__('Input to filter media items', 'gatographql');
     }
 }

@@ -16,7 +16,7 @@ class TagPaginationInputObjectTypeResolver extends PaginationInputObjectTypeReso
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to paginate tags', 'tags');
+        return $this->__('Input to paginate tags', 'gatographql');
     }
     protected function getDefaultLimit() : ?int
     {

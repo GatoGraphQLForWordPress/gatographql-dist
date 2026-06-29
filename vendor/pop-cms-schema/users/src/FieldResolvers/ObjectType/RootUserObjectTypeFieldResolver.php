@@ -55,8 +55,8 @@ class RootUserObjectTypeFieldResolver extends \PoPCMSSchema\Users\FieldResolvers
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'user' => $this->__('Retrieve a single user', 'pop-users'),
-            'users' => $this->__('Retrieve a list of users', 'pop-users'),
+            'user' => $this->__('Retrieve a single user', 'gatographql'),
+            'users' => $this->__('Retrieve a list of users', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

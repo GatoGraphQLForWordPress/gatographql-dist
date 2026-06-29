@@ -15,7 +15,7 @@ class AnyStringScalarScalarTypeResolver extends \PoP\ComponentModel\TypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Wildcard type representing any of GraphQL\'s scalar types that is represented via a string (including the built-in types, String and ID, and custom types, such as HTML or Email)', 'component-model');
+        return $this->__('Wildcard type representing any of GraphQL\'s scalar types that is represented via a string (including the built-in types, String and ID, and custom types, such as HTML or Email)', 'gatographql');
     }
     /**
      * Accept any string

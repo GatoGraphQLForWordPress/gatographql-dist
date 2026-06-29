@@ -18,6 +18,6 @@ class FloatScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarTy
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('The Float scalar type represents float numbers.', 'component-model');
+        return $this->__('The Float scalar type represents float numbers.', 'gatographql');
     }
 }

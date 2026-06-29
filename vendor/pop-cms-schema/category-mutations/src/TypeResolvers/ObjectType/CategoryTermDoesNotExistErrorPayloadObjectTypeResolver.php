@@ -25,7 +25,7 @@ class CategoryTermDoesNotExistErrorPayloadObjectTypeResolver extends AbstractErr
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Error payload for: "The requested category does not exist"', 'category-mutations');
+        return $this->__('Error payload for: "The requested category does not exist"', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

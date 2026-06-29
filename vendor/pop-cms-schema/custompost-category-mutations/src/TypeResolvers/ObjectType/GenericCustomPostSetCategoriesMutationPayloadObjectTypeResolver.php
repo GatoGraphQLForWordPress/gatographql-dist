@@ -12,6 +12,6 @@ class GenericCustomPostSetCategoriesMutationPayloadObjectTypeResolver extends \P
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of setting categories on a custom post (using nested mutations)', 'postcategory-mutations');
+        return $this->__('Payload of setting categories on a custom post (using nested mutations)', 'gatographql');
     }
 }

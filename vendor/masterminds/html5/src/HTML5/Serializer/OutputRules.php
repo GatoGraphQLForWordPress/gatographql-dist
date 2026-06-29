@@ -309,7 +309,7 @@ class OutputRules implements RulesInterface
      */
     protected function wr($text)
     {
-        \fwrite($this->out, $text);
+        \fwrite($this->out, (string) $text);
         return $this;
     }
     /**

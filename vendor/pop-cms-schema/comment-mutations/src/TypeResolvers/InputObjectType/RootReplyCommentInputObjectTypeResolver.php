@@ -12,7 +12,7 @@ class RootReplyCommentInputObjectTypeResolver extends \PoPCMSSchema\CommentMutat
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to add a comment to a custom post', 'comment-mutations');
+        return $this->__('Input to add a comment to a custom post', 'gatographql');
     }
     protected function addCustomPostInputField() : bool
     {

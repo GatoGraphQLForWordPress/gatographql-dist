@@ -15,7 +15,7 @@ abstract class AbstractListValueJSONObjectScalarTypeResolver extends AbstractJSO
 {
     public function getTypeDescription() : ?string
     {
-        return \sprintf($this->__('Custom scalar representing a JSON Object where values are lists (of anything)%s', 'extended-schema-commons'), $this->canValueBeNullable() ? $this->__(' or null', 'extended-schema-commons') : '');
+        return \sprintf($this->__('Custom scalar representing a JSON Object where values are lists (of anything)%s', 'gatographql'), $this->canValueBeNullable() ? $this->__(' or null', 'gatographql') : '');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

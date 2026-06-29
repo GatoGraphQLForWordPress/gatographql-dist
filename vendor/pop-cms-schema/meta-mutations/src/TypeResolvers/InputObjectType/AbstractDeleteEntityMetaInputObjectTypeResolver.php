@@ -45,7 +45,7 @@ abstract class AbstractDeleteEntityMetaInputObjectTypeResolver extends AbstractI
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to delete an entity\'s meta entry', 'meta-mutations');
+        return $this->__('Input to delete an entity\'s meta entry', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -58,9 +58,9 @@ abstract class AbstractDeleteEntityMetaInputObjectTypeResolver extends AbstractI
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            MutationInputProperties::ID => $this->__('The ID of the entity', 'meta-mutations'),
-            MutationInputProperties::KEY => $this->__('The meta key', 'meta-mutations'),
-            MutationInputProperties::VALUE => $this->__('The specific meta value to delete, to avoid removing duplicate entries for that key', 'meta-mutations'),
+            MutationInputProperties::ID => $this->__('The ID of the entity', 'gatographql'),
+            MutationInputProperties::KEY => $this->__('The meta key', 'gatographql'),
+            MutationInputProperties::VALUE => $this->__('The specific meta value to delete, to avoid removing duplicate entries for that key', 'gatographql'),
             default => parent::getInputFieldDescription($inputFieldName),
         };
     }

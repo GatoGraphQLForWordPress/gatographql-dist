@@ -132,7 +132,7 @@ class Form extends Link implements \ArrayAccess
             if (!empty($qs)) {
                 \parse_str($qs, $expandedValue);
                 $varName = \substr($name, 0, \strlen(\key($expandedValue)));
-                \array_walk_recursive($expandedValue, function (&$value, $key) {
+                \array_walk_recursive($expandedValue, static function (&$value, $key) {
                     if (\ctype_digit($value) && ('size' === $key || 'error' === $key)) {
                         $value = (int) $value;
                     }

@@ -134,7 +134,7 @@ EOT;
          * so we use the Translate service from the System Container
          */
         $translationAPI = SystemTranslationAPIFacade::getInstance();
-        $description = $translationAPI->__('GraphQL introspection query', 'graphql-server');
+        $description = $translationAPI->__('GraphQL introspection query', 'gatographql');
         $persistedQueryManagerDefinition = $containerBuilderWrapper->getDefinition(PersistedQueryManagerInterface::class);
         $persistedQueryManagerDefinition->addMethodCall('addPersistedQuery', ['introspectionQuery', $introspectionPersistedQuery, $description]);
     }

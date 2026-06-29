@@ -16,7 +16,7 @@ class StringListValueJSONObjectScalarTypeResolver extends \PoPSchema\ExtendedSch
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Custom scalar representing a JSON Object where values are lists of strings (`null` values not accepted)', 'extended-schema-commons');
+        return $this->__('Custom scalar representing a JSON Object where values are lists of strings (`null` values not accepted)', 'gatographql');
     }
     protected function canCastJSONObjectPropertyValue(string|int|float|bool $value) : bool
     {

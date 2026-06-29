@@ -36,7 +36,7 @@ class ObjectSerializationManager extends AbstractBasicService implements \PoP\Co
          * for that object class
          */
         if (!\method_exists($object, '__serialize')) {
-            throw new ShouldNotHappenException(\sprintf($this->__('The object of class \'%s\' does not support method \'__serialize\'', 'component-model'), \get_class($object)));
+            throw new ShouldNotHappenException(\sprintf($this->__('The object of class \'%s\' does not support method \'__serialize\'', 'gatographql'), \get_class($object)));
         }
         $serialized = $object->__serialize();
         if (\is_array($serialized)) {

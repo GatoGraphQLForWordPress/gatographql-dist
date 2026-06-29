@@ -132,6 +132,6 @@ abstract class AbstractSetCategoriesOnCustomPostMutationResolver extends Abstrac
     }
     protected function getEntityName() : string
     {
-        return $this->__('custom post', 'custompost-category-mutations');
+        return $this->__('custom post', 'gatographql');
     }
 }

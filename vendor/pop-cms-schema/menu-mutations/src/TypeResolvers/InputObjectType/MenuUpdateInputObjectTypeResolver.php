@@ -16,6 +16,6 @@ class MenuUpdateInputObjectTypeResolver extends \PoPCMSSchema\MenuMutations\Type
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to update a menu (nested mutations)', 'menu-mutations');
+        return $this->__('Input to update a menu (nested mutations)', 'gatographql');
     }
 }

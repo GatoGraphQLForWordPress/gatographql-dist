@@ -12,6 +12,6 @@ class RootCreateGenericCategoryTermMutationPayloadObjectTypeResolver extends \Po
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of creating a category term', 'category-mutations');
+        return $this->__('Payload of creating a category term', 'gatographql');
     }
 }

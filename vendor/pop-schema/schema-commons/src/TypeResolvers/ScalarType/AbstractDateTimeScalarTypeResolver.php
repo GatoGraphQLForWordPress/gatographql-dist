@@ -22,7 +22,7 @@ abstract class AbstractDateTimeScalarTypeResolver extends AbstractScalarTypeReso
 {
     public function getTypeDescription() : ?string
     {
-        return \sprintf($this->__('%s scalar. It follows the ISO 8601 specification, with format "%s")', 'schema-commons'), $this->getTypeName(), $this->getDateTimeFormat());
+        return \sprintf($this->__('%s scalar. It follows the ISO 8601 specification, with format "%s")', 'gatographql'), $this->getTypeName(), $this->getDateTimeFormat());
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

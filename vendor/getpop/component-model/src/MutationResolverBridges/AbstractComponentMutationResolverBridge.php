@@ -92,7 +92,7 @@ abstract class AbstractComponentMutationResolverBridge extends AbstractBasicServ
             if ($moduleConfiguration->logExceptionErrorMessagesAndTraces()) {
                 // @todo: Implement for Log
             }
-            $errorMessage = $moduleConfiguration->sendExceptionErrorMessages() ? $e->getMessage() : $this->__('Resolving the mutation produced an exception, please contact the admin', 'component-model');
+            $errorMessage = $moduleConfiguration->sendExceptionErrorMessages() ? $e->getMessage() : $this->__('Resolving the mutation produced an exception, please contact the admin', 'gatographql');
             $errorTypeKey = ResponseConstants::ERRORSTRINGS;
         }
         // @todo Make DRY! This code was copy/pasted from just above

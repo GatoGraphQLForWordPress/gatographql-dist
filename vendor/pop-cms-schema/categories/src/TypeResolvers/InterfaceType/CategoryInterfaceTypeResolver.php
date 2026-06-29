@@ -13,6 +13,6 @@ class CategoryInterfaceTypeResolver extends AbstractInterfaceTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Entities representing a category', 'categories');
+        return $this->__('Entities representing a category', 'gatographql');
     }
 }

@@ -24,7 +24,7 @@ class RootCreateMediaItemMutationErrorPayloadUnionTypeResolver extends \PoPCMSSc
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when uploading an attachment', 'media-mutations');
+        return $this->__('Union of \'Error Payload\' types when uploading an attachment', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

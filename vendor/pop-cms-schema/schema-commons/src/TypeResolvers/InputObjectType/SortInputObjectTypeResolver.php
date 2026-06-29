@@ -60,7 +60,7 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to sort custom posts', 'customposts');
+        return $this->__('Input to sort custom posts', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -72,8 +72,8 @@ class SortInputObjectTypeResolver extends AbstractQueryableInputObjectTypeResolv
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            'order' => $this->__('Sorting direction', 'schema-commons'),
-            'by' => $this->__('Property to order by', 'schema-commons'),
+            'order' => $this->__('Sorting direction', 'gatographql'),
+            'by' => $this->__('Property to order by', 'gatographql'),
             default => parent::getInputFieldDescription($inputFieldName),
         };
     }

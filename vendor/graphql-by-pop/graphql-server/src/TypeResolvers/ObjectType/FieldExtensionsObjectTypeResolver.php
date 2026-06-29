@@ -12,6 +12,6 @@ class FieldExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\Type
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Extensions (custom metadata) added to the field', 'graphql-server');
+        return $this->__('Extensions (custom metadata) added to the field', 'gatographql');
     }
 }

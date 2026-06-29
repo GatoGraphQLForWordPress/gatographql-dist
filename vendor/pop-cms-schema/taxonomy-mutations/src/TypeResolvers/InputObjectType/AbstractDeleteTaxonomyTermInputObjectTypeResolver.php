@@ -23,7 +23,7 @@ abstract class AbstractDeleteTaxonomyTermInputObjectTypeResolver extends Abstrac
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to delete a taxonomy term', 'taxonomy-mutations');
+        return $this->__('Input to delete a taxonomy term', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -37,7 +37,7 @@ abstract class AbstractDeleteTaxonomyTermInputObjectTypeResolver extends Abstrac
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            MutationInputProperties::ID => $this->__('The ID of the taxonomy to delete', 'taxonomy-mutations'),
+            MutationInputProperties::ID => $this->__('The ID of the taxonomy to delete', 'gatographql'),
             default => parent::getInputFieldDescription($inputFieldName),
         };
     }

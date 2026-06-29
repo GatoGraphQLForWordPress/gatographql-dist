@@ -12,6 +12,6 @@ class PostTagDeleteMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\P
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a delete meta nested mutation on a post\'s tag term', 'tag-mutations');
+        return $this->__('Payload of executing a delete meta nested mutation on a post\'s tag term', 'gatographql');
     }
 }

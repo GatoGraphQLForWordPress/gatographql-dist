@@ -12,7 +12,7 @@ class TaxonomyTaxonomiesFilterInputObjectTypeResolver extends \PoPCMSSchema\Taxo
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter child taxonomies', 'taxonomies');
+        return $this->__('Input to filter child taxonomies', 'gatographql');
     }
     protected function addParentIDInputField() : bool
     {

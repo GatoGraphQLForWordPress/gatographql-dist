@@ -12,6 +12,6 @@ class RootUpdateMediaItemInputObjectTypeResolver extends \PoPCMSSchema\MediaMuta
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to update the metadata for an attachment', 'media-mutations');
+        return $this->__('Input to update the metadata for an attachment', 'gatographql');
     }
 }

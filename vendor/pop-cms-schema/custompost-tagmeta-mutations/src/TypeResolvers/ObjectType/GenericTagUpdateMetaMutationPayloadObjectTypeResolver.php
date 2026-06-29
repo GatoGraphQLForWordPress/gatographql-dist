@@ -12,6 +12,6 @@ class GenericTagUpdateMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchem
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an update meta nested mutation on a tag term', 'tag-mutations');
+        return $this->__('Payload of executing an update meta nested mutation on a tag term', 'gatographql');
     }
 }

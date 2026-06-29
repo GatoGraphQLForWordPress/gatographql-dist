@@ -99,7 +99,7 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
                 $definition = \substr_replace($definition, 'Child', 44, 0);
             }
             /** @var ChildDefinition $definition */
-            $definition = \unserialize($definition);
+            $definition = \unserialize($definition, ['allowed_classes' => \true]);
             $definition->setParent($parent);
             if (null !== $shared && !isset($definition->getChanges()['shared'])) {
                 $definition->setShared($shared);

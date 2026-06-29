@@ -296,10 +296,10 @@ class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements 
         if ($directiveSchemaDefinition[SchemaDefinition::DIRECTIVE_KIND] !== DirectiveKinds::SCHEMA) {
             return;
         }
-        $directiveSchemaDefinition[SchemaDefinition::DESCRIPTION] = \sprintf($this->__('%s %s', 'graphql-server'), \sprintf(
+        $directiveSchemaDefinition[SchemaDefinition::DESCRIPTION] = \sprintf($this->__('%s %s', 'gatographql'), \sprintf(
             '_%s_',
             // Make it italic using markdown
-            $this->__('("Schema" type directive)', 'graphql-server')
+            $this->__('("Schema" type directive)', 'gatographql')
         ), $directiveSchemaDefinition[SchemaDefinition::DESCRIPTION]);
     }
     /**
@@ -313,9 +313,9 @@ class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements 
         $fieldOrDirectiveSchemaDefinition =& SchemaDefinitionHelpers::advancePointerToPath($fullSchemaDefinitionForGraphQL, $fieldOrDirectiveSchemaDefinitionPath);
         if ($schemaFieldVersion = $fieldOrDirectiveSchemaDefinition[SchemaDefinition::VERSION] ?? null) {
             $fieldOrDirectiveSchemaDefinition[SchemaDefinition::DESCRIPTION] .= \sprintf(\sprintf(
-                $this->__(' _%s_', 'graphql-server'),
+                $this->__(' _%s_', 'gatographql'),
                 // Make it italic using markdown
-                $this->__('(Version: %s)', 'graphql-server')
+                $this->__('(Version: %s)', 'gatographql')
             ), $schemaFieldVersion);
         }
     }
@@ -329,7 +329,7 @@ class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements 
     {
         $fieldSchemaDefinition =& SchemaDefinitionHelpers::advancePointerToPath($fullSchemaDefinitionForGraphQL, $fieldSchemaDefinitionPath);
         if ($fieldSchemaDefinition[SchemaDefinition::EXTENSIONS][SchemaDefinition::FIELD_IS_MUTATION]) {
-            $fieldSchemaDefinition[SchemaDefinition::DESCRIPTION] = \sprintf($this->__('[Mutation] %s', 'graphql-server'), $fieldSchemaDefinition[SchemaDefinition::DESCRIPTION]);
+            $fieldSchemaDefinition[SchemaDefinition::DESCRIPTION] = \sprintf($this->__('[Mutation] %s', 'gatographql'), $fieldSchemaDefinition[SchemaDefinition::DESCRIPTION]);
         }
     }
     public function registerSchemaDefinitionReferenceObject(SchemaDefinitionReferenceObjectInterface $schemaDefinitionReferenceObject) : string
@@ -337,7 +337,7 @@ class SchemaDefinitionReferenceRegistry extends AbstractBasicService implements 
         $schemaDefinitionPath = $schemaDefinitionReferenceObject->getSchemaDefinitionPath();
         $schemaDefinitionReferenceObjectID = SchemaDefinitionHelpers::getSchemaDefinitionReferenceObjectID($schemaDefinitionPath);
         if (isset($this->fullSchemaDefinitionReferenceDictionary[$schemaDefinitionReferenceObjectID])) {
-            throw new SchemaReferenceException(\sprintf($this->__('A Schema Definition Reference Object with id \'%s\\s has already been registered', 'graphql-server'), $schemaDefinitionReferenceObjectID));
+            throw new SchemaReferenceException(\sprintf($this->__('A Schema Definition Reference Object with id \'%s\\s has already been registered', 'gatographql'), $schemaDefinitionReferenceObjectID));
         }
         $this->fullSchemaDefinitionReferenceDictionary[$schemaDefinitionReferenceObjectID] = $schemaDefinitionReferenceObject;
         return $schemaDefinitionReferenceObjectID;

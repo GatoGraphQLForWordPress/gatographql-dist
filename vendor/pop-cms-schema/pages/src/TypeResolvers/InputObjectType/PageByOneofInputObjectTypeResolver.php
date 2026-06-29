@@ -26,7 +26,7 @@ class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
     }
     protected function getTypeDescriptionCustomPostEntity() : string
     {
-        return $this->__('a page', 'pages');
+        return $this->__('a page', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -38,7 +38,7 @@ class PageByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            'path' => $this->__('Query by page path', 'pages'),
+            'path' => $this->__('Query by page path', 'gatographql'),
             default => parent::getInputFieldDescription($inputFieldName),
         };
     }

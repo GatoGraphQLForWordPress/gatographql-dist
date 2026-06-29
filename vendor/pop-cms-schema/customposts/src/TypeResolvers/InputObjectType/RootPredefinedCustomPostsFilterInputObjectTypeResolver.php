@@ -12,6 +12,6 @@ class RootPredefinedCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSche
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter predefined custom posts', 'customposts');
+        return $this->__('Input to filter predefined custom posts', 'gatographql');
     }
 }

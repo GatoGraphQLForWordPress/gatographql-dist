@@ -24,7 +24,7 @@ class MenuUpdateMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Menu
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when updating a menu (nested mutations)', 'menu-mutations');
+        return $this->__('Union of \'Error Payload\' types when updating a menu (nested mutations)', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

@@ -78,7 +78,7 @@ class File extends \SplFileInfo
     public function move(string $directory, ?string $name = null) : self
     {
         $target = $this->getTargetFile($directory, $name);
-        \set_error_handler(function ($type, $msg) use(&$error) {
+        \set_error_handler(static function ($type, $msg) use(&$error) {
             $error = $msg;
         });
         try {

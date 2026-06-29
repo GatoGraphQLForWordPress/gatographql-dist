@@ -12,6 +12,6 @@ class IdentifiableObjectInterfaceTypeResolver extends \PoP\ComponentModel\TypeRe
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('An object that can be uniquely identifiable within its type via an \'ID\', and within the whole schema via a \'global ID\'', 'component-model');
+        return $this->__('An object that can be uniquely identifiable within its type via an \'ID\', and within the whole schema via a \'global ID\'', 'gatographql');
     }
 }

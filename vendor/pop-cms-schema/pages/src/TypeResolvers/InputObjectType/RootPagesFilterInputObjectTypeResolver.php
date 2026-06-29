@@ -12,7 +12,7 @@ class RootPagesFilterInputObjectTypeResolver extends \PoPCMSSchema\Pages\TypeRes
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter pages', 'pages');
+        return $this->__('Input to filter pages', 'gatographql');
     }
     protected function addParentInputFields() : bool
     {

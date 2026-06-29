@@ -12,6 +12,6 @@ class RootSetPostCategoryTermMetaMutationPayloadObjectTypeResolver extends \PoPC
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta mutation on a post\'s category term', 'category-mutations');
+        return $this->__('Payload of executing a set meta mutation on a post\'s category term', 'gatographql');
     }
 }

@@ -12,6 +12,6 @@ class RootSetUserMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Use
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta mutation on a user', 'user-mutations');
+        return $this->__('Payload of executing a set meta mutation on a user', 'gatographql');
     }
 }

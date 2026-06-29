@@ -75,8 +75,8 @@ class ExpressionFunction
         if (!$expressionFunctionName && \count($parts) > 1) {
             throw new \InvalidArgumentException(\sprintf('An expression function name must be defined when PHP function "%s" is namespaced.', $phpFunctionName));
         }
-        $compiler = fn(...$args) => \sprintf('\\%s(%s)', $phpFunctionName, \implode(', ', $args));
-        $evaluator = fn($p, ...$args) => $phpFunctionName(...$args);
+        $compiler = static fn(...$args) => \sprintf('\\%s(%s)', $phpFunctionName, \implode(', ', $args));
+        $evaluator = static fn($p, ...$args) => $phpFunctionName(...$args);
         return new self($expressionFunctionName ?: \end($parts), $compiler, $evaluator);
     }
 }

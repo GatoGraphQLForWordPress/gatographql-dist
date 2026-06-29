@@ -12,6 +12,6 @@ class GenericCategoryUpdateMutationPayloadObjectTypeResolver extends \PoPCMSSche
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an update nested mutation on a category', 'category-mutations');
+        return $this->__('Payload of executing an update nested mutation on a category', 'gatographql');
     }
 }

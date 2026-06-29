@@ -12,6 +12,6 @@ class RootSetCommentMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta mutation on a comment', 'comment-mutations');
+        return $this->__('Payload of executing a set meta mutation on a comment', 'gatographql');
     }
 }

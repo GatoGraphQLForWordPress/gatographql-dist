@@ -12,6 +12,6 @@ class RootSetGenericTagTermMetaMutationPayloadObjectTypeResolver extends \PoPCMS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta mutation on a tag term', 'tag-mutations');
+        return $this->__('Payload of executing a set meta mutation on a tag term', 'gatographql');
     }
 }

@@ -12,6 +12,6 @@ class CustomPostRemoveFeaturedImageMutationPayloadObjectTypeResolver extends \Po
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of removing the featured image from a custom post (using nested mutations)', 'custompostmedia-mutations');
+        return $this->__('Payload of removing the featured image from a custom post (using nested mutations)', 'gatographql');
     }
 }

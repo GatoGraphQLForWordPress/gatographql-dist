@@ -24,7 +24,7 @@ class GenericErrorPayloadObjectTypeResolver extends \PoPSchema\SchemaCommons\Typ
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Generic error payload', 'schema-commons');
+        return $this->__('Generic error payload', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

@@ -16,6 +16,6 @@ class MediaUpdateInputObjectTypeResolver extends \PoPCMSSchema\MediaMutations\Ty
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to update the metadata for an attachment (nested mutations)', 'media-mutations');
+        return $this->__('Input to update the metadata for an attachment (nested mutations)', 'gatographql');
     }
 }

@@ -12,6 +12,6 @@ class PostDeleteMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Post
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a delete meta nested mutation on a post', 'custompost-mutations');
+        return $this->__('Payload of executing a delete meta nested mutation on a post', 'gatographql');
     }
 }

@@ -35,7 +35,7 @@ abstract class AbstractCustomPostObjectTypeFieldResolver extends AbstractObjectT
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'setCategories' => \sprintf($this->__('Set categories on the %s', 'custompost-category-mutations'), $this->getEntityName()),
+            'setCategories' => \sprintf($this->__('Set categories on the %s', 'gatographql'), $this->getEntityName()),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

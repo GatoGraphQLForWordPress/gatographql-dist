@@ -74,7 +74,7 @@ abstract class AbstractReflectionPropertyObjectTypeFieldResolver extends \PoP\Co
             // The line is added to the description
             $docCommentDescLines[] = $docCommentLines[$count];
         }
-        return \implode($this->__('. '), $docCommentDescLines);
+        return \implode($this->__('. ', 'gatographql'), $docCommentDescLines);
     }
     /**
      * @return string[]

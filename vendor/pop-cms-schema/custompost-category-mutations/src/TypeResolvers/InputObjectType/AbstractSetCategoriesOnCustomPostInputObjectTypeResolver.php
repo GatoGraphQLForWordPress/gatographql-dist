@@ -56,7 +56,7 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to set categories on a custom post', 'comment-mutations');
+        return $this->__('Input to set categories on a custom post', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -72,10 +72,10 @@ abstract class AbstractSetCategoriesOnCustomPostInputObjectTypeResolver extends 
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            MutationInputProperties::TAXONOMY => $this->__('The category taxonomy', 'custompost-tag-mutations'),
-            MutationInputProperties::CUSTOMPOST_ID => \sprintf($this->__('The ID of the %s', 'custompost-category-mutations'), $this->getEntityName()),
-            MutationInputProperties::CATEGORIES_BY => \sprintf($this->__('The categories to set, of type \'%s\'', 'custompost-category-mutations'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName()),
-            MutationInputProperties::APPEND => $this->__('Append the categories to the existing ones?', 'custompost-category-mutations'),
+            MutationInputProperties::TAXONOMY => $this->__('The category taxonomy', 'gatographql'),
+            MutationInputProperties::CUSTOMPOST_ID => \sprintf($this->__('The ID of the %s', 'gatographql'), $this->getEntityName()),
+            MutationInputProperties::CATEGORIES_BY => \sprintf($this->__('The categories to set, of type \'%s\'', 'gatographql'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName()),
+            MutationInputProperties::APPEND => $this->__('Append the categories to the existing ones?', 'gatographql'),
             default => null,
         };
     }

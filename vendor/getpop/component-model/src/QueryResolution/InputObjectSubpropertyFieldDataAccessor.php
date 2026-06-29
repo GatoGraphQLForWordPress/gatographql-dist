@@ -38,7 +38,7 @@ class InputObjectSubpropertyFieldDataAccessor extends \PoP\ComponentModel\QueryR
         $inputObjectSubpropertyName = $this->getInputObjectSubpropertyName();
         $inputObjectValue = $fieldArgs[$inputObjectSubpropertyName];
         if (!$inputObjectValue instanceof stdClass) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Input value under argument \'%s\' is not an InputObject type'), $inputObjectSubpropertyName));
+            throw new ShouldNotHappenException(\sprintf($this->__('Input value under argument \'%s\' is not an InputObject type', 'gatographql'), $inputObjectSubpropertyName));
         }
         return $inputObjectValue;
     }

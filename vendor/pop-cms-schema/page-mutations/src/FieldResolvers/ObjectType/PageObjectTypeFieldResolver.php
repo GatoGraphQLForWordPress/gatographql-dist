@@ -84,7 +84,7 @@ class PageObjectTypeFieldResolver extends AbstractCustomPostObjectTypeFieldResol
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'update' => $this->__('Update the page', 'page-mutations'),
+            'update' => $this->__('Update the page', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

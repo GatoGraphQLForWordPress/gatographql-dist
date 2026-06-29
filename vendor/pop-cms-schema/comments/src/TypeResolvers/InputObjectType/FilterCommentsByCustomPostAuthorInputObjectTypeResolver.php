@@ -12,7 +12,7 @@ class FilterCommentsByCustomPostAuthorInputObjectTypeResolver extends \PoPCMSSch
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Filter comments by custom post author', 'comments');
+        return $this->__('Filter comments by custom post author', 'gatographql');
     }
     protected function getAuthorIDsFilteringQueryArgName() : string
     {

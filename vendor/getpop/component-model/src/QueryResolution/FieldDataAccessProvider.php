@@ -81,7 +81,7 @@ class FieldDataAccessProvider implements \PoP\ComponentModel\QueryResolution\Fie
             $objectTypeResolvers = \iterator_to_array($objectTypeResolverObjectFieldData);
             $objectTypeResolverCount = \count($objectTypeResolvers);
             if ($objectTypeResolverCount > 1) {
-                throw new ShouldNotHappenException(\sprintf($this->__('When not specifying the ObjectTypeResolver, the FieldDataAccessProvider can contain only 1, but %s were set'), $objectTypeResolverCount));
+                throw new ShouldNotHappenException(\sprintf($this->__('When not specifying the ObjectTypeResolver, the FieldDataAccessProvider can contain only 1, but %s were set', 'gatographql'), $objectTypeResolverCount));
             }
             /** @var ObjectTypeResolverInterface */
             $objectTypeResolver = $objectTypeResolvers[0];

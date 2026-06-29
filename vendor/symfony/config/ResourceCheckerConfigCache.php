@@ -140,7 +140,7 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
             return $prevErrorHandler ? $prevErrorHandler($type, $msg, $file, $line, $context) : \false;
         });
         try {
-            $meta = \unserialize($content);
+            $meta = \unserialize($content, ['allowed_classes' => \true]);
         } catch (\Throwable $e) {
             if ($e !== $signalingException) {
                 throw $e;

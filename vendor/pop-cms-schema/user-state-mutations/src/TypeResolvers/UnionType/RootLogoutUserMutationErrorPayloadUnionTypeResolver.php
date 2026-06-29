@@ -24,7 +24,7 @@ class RootLogoutUserMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when logging a user out', 'user-state-mutations');
+        return $this->__('Union of \'Error Payload\' types when logging a user out', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

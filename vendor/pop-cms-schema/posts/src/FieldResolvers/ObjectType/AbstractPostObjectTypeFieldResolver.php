@@ -108,8 +108,8 @@ abstract class AbstractPostObjectTypeFieldResolver extends AbstractQueryableObje
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'posts' => $this->__('Posts', 'pop-posts'),
-            'postCount' => $this->__('Number of posts', 'pop-posts'),
+            'posts' => $this->__('Posts', 'gatographql'),
+            'postCount' => $this->__('Number of posts', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

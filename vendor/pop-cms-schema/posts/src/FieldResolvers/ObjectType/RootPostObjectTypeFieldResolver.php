@@ -51,7 +51,7 @@ class RootPostObjectTypeFieldResolver extends \PoPCMSSchema\Posts\FieldResolvers
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'post' => $this->__('Retrieve a single post', 'posts'),
+            'post' => $this->__('Retrieve a single post', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

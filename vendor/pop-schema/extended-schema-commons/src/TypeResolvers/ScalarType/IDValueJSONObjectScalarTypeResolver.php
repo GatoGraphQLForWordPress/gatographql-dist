@@ -12,7 +12,7 @@ class IDValueJSONObjectScalarTypeResolver extends \PoPSchema\ExtendedSchemaCommo
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Custom scalar representing a JSON Object where values are IDs (strings or integers)', 'extended-schema-commons');
+        return $this->__('Custom scalar representing a JSON Object where values are IDs (strings or integers)', 'gatographql');
     }
     protected function canCastJSONObjectPropertyValue(string|int|float|bool $value) : bool
     {

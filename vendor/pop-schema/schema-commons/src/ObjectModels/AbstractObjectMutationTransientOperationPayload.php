@@ -17,7 +17,7 @@ abstract class AbstractObjectMutationTransientOperationPayload extends \PoPSchem
     public function __construct(string $status, public readonly string|int|null $objectID, ?array $errors)
     {
         if ($objectID === null && ($errors === null || $errors === [])) {
-            throw new RuntimeException($this->__('Either the object ID or the error(s) must be provided', 'schema-commons'));
+            throw new RuntimeException($this->__('Either the object ID or the error(s) must be provided', 'gatographql'));
         }
         parent::__construct($status, $errors);
     }

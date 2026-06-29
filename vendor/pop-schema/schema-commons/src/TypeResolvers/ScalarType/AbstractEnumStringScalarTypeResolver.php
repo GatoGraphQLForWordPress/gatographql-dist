@@ -40,7 +40,7 @@ abstract class AbstractEnumStringScalarTypeResolver extends AbstractScalarTypeRe
         /** @var string|int|float|bool $inputValue */
         $possibleValues = $this->getConsolidatedPossibleValues();
         if (!\in_array($inputValue, $possibleValues)) {
-            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionErrorFeedbackItemProvider::class, InputValueCoercionErrorFeedbackItemProvider::E2, [$inputValue, $this->getMaybeNamespacedTypeName(), \implode($this->__('\', \''), $possibleValues)]), $astNode));
+            $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(InputValueCoercionErrorFeedbackItemProvider::class, InputValueCoercionErrorFeedbackItemProvider::E2, [$inputValue, $this->getMaybeNamespacedTypeName(), \implode($this->__('\', \'', 'gatographql'), $possibleValues)]), $astNode));
             return null;
         }
         return (string) $inputValue;

@@ -12,6 +12,6 @@ class UserSetMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\UserMet
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta nested mutation on a user', 'user-mutations');
+        return $this->__('Payload of executing a set meta nested mutation on a user', 'gatographql');
     }
 }

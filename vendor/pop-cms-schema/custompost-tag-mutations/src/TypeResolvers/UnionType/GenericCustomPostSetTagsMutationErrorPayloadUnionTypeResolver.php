@@ -24,7 +24,7 @@ class GenericCustomPostSetTagsMutationErrorPayloadUnionTypeResolver extends \PoP
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when setting tags on a custom post (using nested mutations)', 'posttag-mutations');
+        return $this->__('Union of \'Error Payload\' types when setting tags on a custom post (using nested mutations)', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

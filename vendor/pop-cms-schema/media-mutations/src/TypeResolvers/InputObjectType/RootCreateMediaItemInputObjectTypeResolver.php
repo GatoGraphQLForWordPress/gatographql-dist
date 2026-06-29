@@ -12,6 +12,6 @@ class RootCreateMediaItemInputObjectTypeResolver extends \PoPCMSSchema\MediaMuta
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to upload an attachment', 'media-mutations');
+        return $this->__('Input to upload an attachment', 'gatographql');
     }
 }

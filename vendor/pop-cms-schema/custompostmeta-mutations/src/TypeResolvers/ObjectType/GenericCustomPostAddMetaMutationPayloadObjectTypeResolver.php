@@ -12,6 +12,6 @@ class GenericCustomPostAddMetaMutationPayloadObjectTypeResolver extends \PoPCMSS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an add meta nested mutation on a custom post', 'custompost-mutations');
+        return $this->__('Payload of executing an add meta nested mutation on a custom post', 'gatographql');
     }
 }

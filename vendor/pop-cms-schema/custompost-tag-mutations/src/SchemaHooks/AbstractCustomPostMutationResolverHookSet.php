@@ -49,7 +49,7 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
         if ($inputFieldName !== MutationInputProperties::TAGS_BY || !$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        return \sprintf($this->__('The tags to set, of type \'%s\'', 'custompost-tag-mutations'), $this->getTagTypeResolver()->getMaybeNamespacedTypeName());
+        return \sprintf($this->__('The tags to set, of type \'%s\'', 'gatographql'), $this->getTagTypeResolver()->getMaybeNamespacedTypeName());
     }
     protected abstract function getTagTypeResolver() : TagObjectTypeResolverInterface;
 }

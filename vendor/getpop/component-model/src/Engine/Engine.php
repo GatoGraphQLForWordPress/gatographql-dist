@@ -231,7 +231,7 @@ class Engine extends AbstractBasicService implements \PoP\ComponentModel\Engine\
         // Obtain, validate and cache
         $engineState->entryComponent = $this->getEntryComponentManager()->getEntryComponent();
         if ($engineState->entryComponent === null) {
-            throw new ImpossibleToHappenException($this->__('No entry component for this request', 'component-model'));
+            throw new ImpossibleToHappenException($this->__('No entry component for this request', 'gatographql'));
         }
         /**
          * Allow modules to initialize some state related

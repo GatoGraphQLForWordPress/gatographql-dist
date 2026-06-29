@@ -12,6 +12,6 @@ class DirectiveExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Extensions (custom metadata) added to the directive', 'graphql-server');
+        return $this->__('Extensions (custom metadata) added to the directive', 'gatographql');
     }
 }

@@ -126,7 +126,7 @@ class InputObject extends AbstractAst implements \PoP\GraphQLParser\Spec\Parser\
                     }
                     continue;
                 }
-                throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize the type of the object, of class \'%s\'', 'graphql-parser'), \get_class($thisInputObjectElemValue)));
+                throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize the type of the object, of class \'%s\'', 'gatographql'), \get_class($thisInputObjectElemValue)));
             }
             /**
              * The element is a native type (bool, string, int, or float)

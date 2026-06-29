@@ -10,6 +10,6 @@ trait SetCategoriesOnCustomPostObjectTypeFieldResolverTrait
     protected abstract function getTranslationAPI() : TranslationAPIInterface;
     protected function getEntityName() : string
     {
-        return $this->getTranslationAPI()->__('custom post', 'custompost-category-mutations');
+        return $this->getTranslationAPI()->__('custom post', 'gatographql');
     }
 }

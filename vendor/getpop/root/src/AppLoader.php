@@ -215,6 +215,10 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
         $moduleClasses = \array_diff($moduleClasses, $this->initializedModuleClasses);
         $moduleManager = \PoP\Root\App::getModuleManager();
         foreach ($moduleClasses as $moduleClass) {
+            // Make sure the module is not already initialized by someone else in the recursion
+            if (\in_array($moduleClass, $this->initializedModuleClasses, \true)) {
+                continue;
+            }
             $this->initializedModuleClasses[] = $moduleClass;
             // Initialize and register the Module
             $module = $moduleManager->register($moduleClass);
@@ -244,7 +248,7 @@ class AppLoader implements \PoP\Root\AppLoaderInterface
             if ($dependedConditionalModuleClasses = \array_diff($dependedConditionalModuleClasses, $this->initializedModuleClasses)) {
                 $this->addComponentsOrderedForInitialization($dependedConditionalModuleClasses, $isDev);
             }
-            // We reached the bottom of the rung, add the module to the list
+            // We reached the bottom of the rung, add the module to the list.
             $this->orderedModuleClasses[] = $moduleClass;
             /**
              * If this component satisfies the contracts for other

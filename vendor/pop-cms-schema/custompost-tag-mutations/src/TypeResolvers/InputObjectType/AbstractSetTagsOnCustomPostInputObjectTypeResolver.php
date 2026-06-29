@@ -57,7 +57,7 @@ abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends Abstra
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to set tags on a custom post', 'comment-mutations');
+        return $this->__('Input to set tags on a custom post', 'gatographql');
     }
     /**
      * @return array<string,InputTypeResolverInterface>
@@ -73,10 +73,10 @@ abstract class AbstractSetTagsOnCustomPostInputObjectTypeResolver extends Abstra
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            MutationInputProperties::TAXONOMY => $this->__('The tag taxonomy', 'custompost-tag-mutations'),
-            MutationInputProperties::CUSTOMPOST_ID => \sprintf($this->__('The ID of the %s', 'custompost-tag-mutations'), $this->getEntityName()),
-            MutationInputProperties::TAGS_BY => \sprintf($this->__('The tags to set, of type \'%s\'', 'custompost-tag-mutations'), $this->getTagTypeResolver()->getMaybeNamespacedTypeName()),
-            MutationInputProperties::APPEND => $this->__('Append the tags to the existing ones?', 'custompost-tag-mutations'),
+            MutationInputProperties::TAXONOMY => $this->__('The tag taxonomy', 'gatographql'),
+            MutationInputProperties::CUSTOMPOST_ID => \sprintf($this->__('The ID of the %s', 'gatographql'), $this->getEntityName()),
+            MutationInputProperties::TAGS_BY => \sprintf($this->__('The tags to set, of type \'%s\'', 'gatographql'), $this->getTagTypeResolver()->getMaybeNamespacedTypeName()),
+            MutationInputProperties::APPEND => $this->__('Append the tags to the existing ones?', 'gatographql'),
             default => null,
         };
     }

@@ -7,7 +7,6 @@ use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\HandlerStack;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\TransferStats;
-use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Utils;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\StreamInterface;
@@ -132,7 +131,7 @@ class MockHandler implements \Countable
             if ($value instanceof ResponseInterface || $value instanceof \Throwable || $value instanceof PromiseInterface || \is_callable($value)) {
                 $this->queue[] = $value;
             } else {
-                throw new \TypeError('Expected a Response, Promise, Throwable or callable. Found ' . Utils::describeType($value));
+                throw new \TypeError('Expected a Response, Promise, Throwable or callable. Found ' . \get_debug_type($value));
             }
         }
     }

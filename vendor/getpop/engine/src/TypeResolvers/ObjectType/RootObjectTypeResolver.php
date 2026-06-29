@@ -30,7 +30,7 @@ class RootObjectTypeResolver extends AbstractObjectTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return App::applyFilters(self::HOOK_DESCRIPTION, $this->__('Root type, starting from which the query is executed', 'engine'));
+        return App::applyFilters(self::HOOK_DESCRIPTION, $this->__('Root type, starting from which the query is executed', 'gatographql'));
     }
     public function getID(object $object) : string|int|null
     {

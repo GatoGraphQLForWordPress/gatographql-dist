@@ -12,6 +12,6 @@ class CustomPostTagsFilterInputObjectTypeResolver extends \PoPCMSSchema\Tags\Typ
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter tags from a custom post', 'tags');
+        return $this->__('Input to filter tags from a custom post', 'gatographql');
     }
 }

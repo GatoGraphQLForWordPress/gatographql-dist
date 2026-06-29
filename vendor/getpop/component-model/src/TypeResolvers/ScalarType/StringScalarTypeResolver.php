@@ -21,7 +21,7 @@ class StringScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarT
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('The String scalar type represents textual data, represented as UTF-8 character sequences.', 'component-model');
+        return $this->__('The String scalar type represents textual data, represented as UTF-8 character sequences.', 'gatographql');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

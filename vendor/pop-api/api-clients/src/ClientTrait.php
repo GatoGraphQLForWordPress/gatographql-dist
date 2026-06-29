@@ -60,7 +60,7 @@ trait ClientTrait
         $file = $this->getModuleBaseDir() . $assetRelativePath . '/' . $this->getIndexFilename();
         $fileContents = \file_get_contents($file, \true);
         if ($fileContents === \false) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Cannot read the contents of file \'%s\''), $file));
+            throw new ShouldNotHappenException(\sprintf($this->__('Cannot read the contents of file \'%s\'', 'gatographql'), $file));
         }
         $jsFileName = $this->getJSFilename();
         /**
@@ -78,7 +78,7 @@ trait ClientTrait
         // Can pass either URL or path under current domain
         $endpoint = $this->getEndpointURLOrURLPath();
         if ($endpoint === null) {
-            throw new ShouldNotHappenException($this->__('There is no endpoint for the client'));
+            throw new ShouldNotHappenException($this->__('There is no endpoint for the client', 'gatographql'));
         }
         // Add mandatory params from the request, and maybe enable XDebug
         $endpoint = RequestHelpers::addRequestParamsToEndpoint($endpoint);

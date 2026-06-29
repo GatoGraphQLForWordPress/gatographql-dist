@@ -24,7 +24,7 @@ class IDScalarTypeResolver extends \PoP\ComponentModel\TypeResolvers\ScalarType\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('The ID scalar type represents a unique identifier.', 'component-model');
+        return $this->__('The ID scalar type represents a unique identifier.', 'gatographql');
     }
     /**
      * From the GraphQL spec, for section "ID > Input Coercion":

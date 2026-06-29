@@ -24,7 +24,7 @@ class CommentReplyMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Co
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when replying to a comment (using nested mutations)', 'comment-mutations');
+        return $this->__('Union of \'Error Payload\' types when replying to a comment (using nested mutations)', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

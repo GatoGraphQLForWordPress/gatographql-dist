@@ -12,6 +12,6 @@ class RootCreateMenuInputObjectTypeResolver extends \PoPCMSSchema\MenuMutations\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to create a menu', 'menu-mutations');
+        return $this->__('Input to create a menu', 'gatographql');
     }
 }

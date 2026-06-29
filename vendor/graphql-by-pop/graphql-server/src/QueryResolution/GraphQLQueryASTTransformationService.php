@@ -72,7 +72,7 @@ class GraphQLQueryASTTransformationService extends QueryASTTransformationService
         } elseif ($operation instanceof MutationOperation) {
             $superRootField = $enableNestedMutations ? '_rootForMutationRoot' : '_mutationRoot';
         } else {
-            throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize GraphQL Operation AST object, with class \'%s\''), \get_class($operation)));
+            throw new ShouldNotHappenException(\sprintf($this->__('Cannot recognize GraphQL Operation AST object, with class \'%s\'', 'gatographql'), \get_class($operation)));
         }
         $alias = \sprintf('_superRoot_%s_%s_', $superRootField, $operation->getName());
         if (!isset($documentFieldInstanceContainer[$alias])) {

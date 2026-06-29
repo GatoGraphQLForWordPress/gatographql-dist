@@ -12,7 +12,7 @@ abstract class AbstractCategoryTaxonomyEnumStringScalarTypeResolver extends Abst
 {
     public function getEnumStringTypeDescription() : ?string
     {
-        return $this->__('Category taxonomies (available for querying via the API)', 'categories');
+        return $this->__('Category taxonomies (available for querying via the API)', 'gatographql');
     }
     /**
      * Return all the category taxonomies registered for the "post"

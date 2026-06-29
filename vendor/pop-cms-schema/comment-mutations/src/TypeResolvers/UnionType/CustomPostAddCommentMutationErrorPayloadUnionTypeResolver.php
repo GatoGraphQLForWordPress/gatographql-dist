@@ -24,7 +24,7 @@ class CustomPostAddCommentMutationErrorPayloadUnionTypeResolver extends \PoPCMSS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when adding a comment to a custom post (using nested mutations)', 'comment-mutations');
+        return $this->__('Union of \'Error Payload\' types when adding a comment to a custom post (using nested mutations)', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

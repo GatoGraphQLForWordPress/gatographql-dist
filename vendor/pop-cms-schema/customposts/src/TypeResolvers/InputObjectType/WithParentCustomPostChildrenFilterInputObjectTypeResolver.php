@@ -12,7 +12,7 @@ class WithParentCustomPostChildrenFilterInputObjectTypeResolver extends \PoPCMSS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter the custom post children', 'pages');
+        return $this->__('Input to filter the custom post children', 'gatographql');
     }
     protected function addParentInputFields() : bool
     {

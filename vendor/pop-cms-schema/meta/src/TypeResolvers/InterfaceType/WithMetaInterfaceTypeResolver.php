@@ -13,6 +13,6 @@ class WithMetaInterfaceTypeResolver extends AbstractInterfaceTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Fields with meta values', 'custompostmeta');
+        return $this->__('Fields with meta values', 'gatographql');
     }
 }

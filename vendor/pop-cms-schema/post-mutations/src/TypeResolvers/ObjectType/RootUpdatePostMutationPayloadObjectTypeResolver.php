@@ -12,6 +12,6 @@ class RootUpdatePostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Post
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an update mutation on a post', 'post-mutations');
+        return $this->__('Payload of executing an update mutation on a post', 'gatographql');
     }
 }

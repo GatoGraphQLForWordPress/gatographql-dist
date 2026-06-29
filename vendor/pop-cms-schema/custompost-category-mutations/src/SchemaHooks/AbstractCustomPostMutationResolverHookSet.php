@@ -54,7 +54,7 @@ abstract class AbstractCustomPostMutationResolverHookSet extends AbstractHookSet
         if ($inputFieldName !== MutationInputProperties::CATEGORIES_BY || !$this->isInputObjectTypeResolver($inputObjectTypeResolver)) {
             return $inputFieldDescription;
         }
-        return \sprintf($this->__('The categories to set, of type \'%s\'', 'custompost-category-mutations'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName());
+        return \sprintf($this->__('The categories to set, of type \'%s\'', 'gatographql'), $this->getCategoryTypeResolver()->getMaybeNamespacedTypeName());
     }
     protected abstract function getCategoryTypeResolver() : CategoryObjectTypeResolverInterface;
 }

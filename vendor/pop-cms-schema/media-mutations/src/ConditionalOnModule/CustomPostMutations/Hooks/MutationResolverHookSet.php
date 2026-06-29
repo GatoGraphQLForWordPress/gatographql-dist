@@ -126,7 +126,7 @@ class MutationResolverHookSet extends AbstractHookSet
     public function getInputFieldDescription(?string $inputFieldDescription, string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            MutationInputProperties::CUSTOMPOST_ID => $this->__('ID of the custom post under which to upload the attachment', 'media-mutations'),
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('ID of the custom post under which to upload the attachment', 'gatographql'),
             default => $inputFieldDescription,
         };
     }

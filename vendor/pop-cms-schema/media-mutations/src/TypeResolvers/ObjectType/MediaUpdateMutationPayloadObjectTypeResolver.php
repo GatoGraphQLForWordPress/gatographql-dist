@@ -12,6 +12,6 @@ class MediaUpdateMutationPayloadObjectTypeResolver extends \PoPCMSSchema\MediaMu
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of updating the metadata for an attachment (nested mutations)', 'media-mutations');
+        return $this->__('Payload of updating the metadata for an attachment (nested mutations)', 'gatographql');
     }
 }

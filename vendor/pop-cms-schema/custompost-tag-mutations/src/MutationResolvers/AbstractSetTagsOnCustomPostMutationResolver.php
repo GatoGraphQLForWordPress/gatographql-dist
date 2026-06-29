@@ -132,6 +132,6 @@ abstract class AbstractSetTagsOnCustomPostMutationResolver extends AbstractMutat
     }
     protected function getEntityName() : string
     {
-        return $this->__('custom post', 'custompost-tag-mutations');
+        return $this->__('custom post', 'gatographql');
     }
 }

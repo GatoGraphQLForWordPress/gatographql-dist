@@ -12,6 +12,6 @@ class PageUpdateMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Page
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an update meta nested mutation on a page', 'pagemeta-mutations');
+        return $this->__('Payload of executing an update meta nested mutation on a page', 'gatographql');
     }
 }

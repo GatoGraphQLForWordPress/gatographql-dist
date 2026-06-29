@@ -12,6 +12,6 @@ class RootCreateGenericTagTermMutationPayloadObjectTypeResolver extends \PoPCMSS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of creating a tag term', 'tag-mutations');
+        return $this->__('Payload of creating a tag term', 'gatographql');
     }
 }

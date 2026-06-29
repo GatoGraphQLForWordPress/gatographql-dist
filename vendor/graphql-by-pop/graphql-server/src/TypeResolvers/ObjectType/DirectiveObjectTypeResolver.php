@@ -25,7 +25,7 @@ class DirectiveObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('A GraphQL directive in the data graph', 'graphql-server');
+        return $this->__('A GraphQL directive in the data graph', 'gatographql');
     }
     public function getID(object $object) : string|int|null
     {

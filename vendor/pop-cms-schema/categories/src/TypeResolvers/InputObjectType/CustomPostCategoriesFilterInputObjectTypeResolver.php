@@ -12,6 +12,6 @@ class CustomPostCategoriesFilterInputObjectTypeResolver extends \PoPCMSSchema\Ca
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter categories from a custom post', 'categories');
+        return $this->__('Input to filter categories from a custom post', 'gatographql');
     }
 }

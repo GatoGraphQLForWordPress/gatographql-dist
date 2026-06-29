@@ -12,6 +12,6 @@ class RootPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\Posts\TypeRes
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter posts', 'posts');
+        return $this->__('Input to filter posts', 'gatographql');
     }
 }

@@ -63,7 +63,7 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Oneof input to specify the property and data to search users', 'users');
+        return $this->__('Oneof input to specify the property and data to search users', 'gatographql');
     }
     protected function isOneInputValueMandatory() : bool
     {
@@ -92,8 +92,8 @@ class UserSearchByOneofInputObjectTypeResolver extends AbstractOneofQueryableInp
     public function getInputFieldDescription(string $inputFieldName) : ?string
     {
         return match ($inputFieldName) {
-            'name' => $this->__('Search by name', 'users'),
-            'emails' => $this->__('Search by email(s)', 'users'),
+            'name' => $this->__('Search by name', 'gatographql'),
+            'emails' => $this->__('Search by email(s)', 'gatographql'),
             default => parent::getInputFieldDescription($inputFieldName),
         };
     }

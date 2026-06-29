@@ -38,11 +38,11 @@ abstract class AbstractFeedbackItemProvider extends AbstractBasicService impleme
     }
     public function getMessagePlaceholder(string $code) : string
     {
-        throw new MisconfiguredServiceException(\sprintf($this->__('There is no message placeholder for code \'%s\'', 'root'), $code));
+        throw new MisconfiguredServiceException(\sprintf($this->__('There is no message placeholder for code \'%s\'', 'gatographql'), $code));
     }
     public function getCategory(string $code) : string
     {
-        throw new MisconfiguredServiceException(\sprintf($this->__('There is no category for code \'%s\'', 'root'), $code));
+        throw new MisconfiguredServiceException(\sprintf($this->__('There is no category for code \'%s\'', 'gatographql'), $code));
     }
     public function getSpecifiedByURL(string $code) : ?string
     {

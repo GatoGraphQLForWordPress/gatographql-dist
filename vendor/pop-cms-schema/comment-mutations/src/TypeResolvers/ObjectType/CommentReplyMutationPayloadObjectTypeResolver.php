@@ -12,6 +12,6 @@ class CommentReplyMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Commen
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of replying to a comment (using nested mutations)', 'comment-mutations');
+        return $this->__('Payload of replying to a comment (using nested mutations)', 'gatographql');
     }
 }

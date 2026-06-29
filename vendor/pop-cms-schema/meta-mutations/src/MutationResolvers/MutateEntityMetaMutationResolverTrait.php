@@ -74,6 +74,6 @@ trait MutateEntityMetaMutationResolverTrait
             $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E2, [$metaKeys[0]]), $fieldDataAccessor->getField()));
             return;
         }
-        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3, [\implode($this->__('\', \'', 'taxonomymeta-mutations'), $metaKeys)]), $fieldDataAccessor->getField()));
+        $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E3, [\implode($this->__('\', \'', 'gatographql'), $metaKeys)]), $fieldDataAccessor->getField()));
     }
 }

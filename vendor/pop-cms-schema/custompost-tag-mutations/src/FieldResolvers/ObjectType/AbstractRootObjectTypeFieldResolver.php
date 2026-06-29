@@ -52,9 +52,9 @@ abstract class AbstractRootObjectTypeFieldResolver extends AbstractQueryableObje
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            $this->getSetTagsFieldName() => \sprintf($this->__('Set tags on a %s', 'custompost-tag-mutations'), $this->getEntityName()),
-            $this->getBulkOperationSetTagsFieldName() => \sprintf($this->__('Set tags on a %s in bulk', 'custompost-tag-mutations'), $this->getEntityName()),
-            $this->getSetTagsFieldName() . 'MutationPayloadObjects' => \sprintf($this->__('Retrieve the payload objects from a recently-executed `%s` mutation', 'custompost-tag-mutations'), $this->getSetTagsFieldName()),
+            $this->getSetTagsFieldName() => \sprintf($this->__('Set tags on a %s', 'gatographql'), $this->getEntityName()),
+            $this->getBulkOperationSetTagsFieldName() => \sprintf($this->__('Set tags on a %s in bulk', 'gatographql'), $this->getEntityName()),
+            $this->getSetTagsFieldName() . 'MutationPayloadObjects' => \sprintf($this->__('Retrieve the payload objects from a recently-executed `%s` mutation', 'gatographql'), $this->getSetTagsFieldName()),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

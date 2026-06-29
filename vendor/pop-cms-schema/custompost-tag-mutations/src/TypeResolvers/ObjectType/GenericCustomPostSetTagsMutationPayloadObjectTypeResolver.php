@@ -12,6 +12,6 @@ class GenericCustomPostSetTagsMutationPayloadObjectTypeResolver extends \PoPCMSS
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of setting tags on a custom post (using nested mutations)', 'posttag-mutations');
+        return $this->__('Payload of setting tags on a custom post (using nested mutations)', 'gatographql');
     }
 }

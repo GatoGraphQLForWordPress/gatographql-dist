@@ -16,7 +16,7 @@ class CategoryPaginationInputObjectTypeResolver extends PaginationInputObjectTyp
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to paginate categories', 'categories');
+        return $this->__('Input to paginate categories', 'gatographql');
     }
     protected function getDefaultLimit() : ?int
     {

@@ -12,6 +12,6 @@ class RootCreateGenericCustomPostMutationPayloadObjectTypeResolver extends \PoPC
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of creating a custom post', 'custompost-mutations');
+        return $this->__('Payload of creating a custom post', 'gatographql');
     }
 }

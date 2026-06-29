@@ -25,7 +25,7 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
         $statusCode = $response->getStatusCode();
         if (!($statusCode >= 200 && $statusCode <= 203)) {
             $bodyResponse = $response->getBody()->__toString();
-            $errorMessage = !empty($bodyResponse) ? \sprintf($this->__('Response with status code \'%s\': %s', 'guzzle-http'), $statusCode, $bodyResponse) : \sprintf($this->__('Response has status code \'%s\'', 'guzzle-http'), $statusCode);
+            $errorMessage = !empty($bodyResponse) ? \sprintf($this->__('Response with status code \'%s\': %s', 'gatographql'), $statusCode, $bodyResponse) : \sprintf($this->__('Response has status code \'%s\'', 'gatographql'), $statusCode);
             throw new GuzzleHTTPInvalidResponseException($errorMessage);
         }
     }
@@ -44,15 +44,15 @@ class HTTPResponseValidator extends AbstractBasicService implements \PoP\GuzzleH
         $contentType = $response->getHeaderLine('content-type');
         $isJSONContentType = \substr($contentType, 0, \strlen('application/json')) === 'application/json' || \substr($contentType, 0, \strlen('application/')) === 'application/' && \str_contains($contentType, '+json');
         if (!$isJSONContentType) {
-            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The response content type is \'%s\', but \'application/json\' (or one of its JSON variants) is expected', 'guzzle-http'), $contentType));
+            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The response content type is \'%s\', but \'application/json\' (or one of its JSON variants) is expected', 'gatographql'), $contentType));
         }
         $bodyResponse = $response->getBody()->__toString();
         if (!$bodyResponse) {
-            throw new GuzzleHTTPInvalidResponseException($this->__('The body of the response is empty', 'guzzle-http'));
+            throw new GuzzleHTTPInvalidResponseException($this->__('The body of the response is empty', 'gatographql'));
         }
         $decodedJSON = \json_decode($bodyResponse, $associative);
         if (!\is_array($decodedJSON) && !$decodedJSON instanceof stdClass) {
-            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The body of the response could not be JSON-decoded: \'%s\'', 'guzzle-http'), $bodyResponse));
+            throw new GuzzleHTTPInvalidResponseException(\sprintf($this->__('The body of the response could not be JSON-decoded: \'%s\'', 'gatographql'), $bodyResponse));
         }
         return $decodedJSON;
     }

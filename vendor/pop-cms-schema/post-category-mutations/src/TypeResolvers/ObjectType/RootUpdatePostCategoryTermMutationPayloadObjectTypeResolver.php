@@ -12,6 +12,6 @@ class RootUpdatePostCategoryTermMutationPayloadObjectTypeResolver extends \PoPCM
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing an update mutation on a post category term', 'category-mutations');
+        return $this->__('Payload of executing an update mutation on a post category term', 'gatographql');
     }
 }

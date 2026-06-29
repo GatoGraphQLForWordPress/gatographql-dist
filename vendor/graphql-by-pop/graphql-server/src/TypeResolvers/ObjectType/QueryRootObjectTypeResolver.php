@@ -28,7 +28,7 @@ class QueryRootObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolv
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Query type, starting from which the query is executed', 'graphql-server');
+        return $this->__('Query type, starting from which the query is executed', 'gatographql');
     }
     public function getID(object $object) : string|int|null
     {

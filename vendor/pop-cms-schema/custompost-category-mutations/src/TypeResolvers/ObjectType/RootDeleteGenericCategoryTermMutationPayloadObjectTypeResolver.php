@@ -12,6 +12,6 @@ class RootDeleteGenericCategoryTermMutationPayloadObjectTypeResolver extends \Po
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a delete mutation on a category term', 'category-mutations');
+        return $this->__('Payload of executing a delete mutation on a category term', 'gatographql');
     }
 }

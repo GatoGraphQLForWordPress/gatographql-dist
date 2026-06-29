@@ -12,6 +12,6 @@ class UserDeleteMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\User
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a delete meta nested mutation on a user', 'user-mutations');
+        return $this->__('Payload of executing a delete meta nested mutation on a user', 'gatographql');
     }
 }

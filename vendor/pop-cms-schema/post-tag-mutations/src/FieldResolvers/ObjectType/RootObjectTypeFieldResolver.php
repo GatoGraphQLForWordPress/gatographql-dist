@@ -114,7 +114,7 @@ class RootObjectTypeFieldResolver extends AbstractRootObjectTypeFieldResolver
     }
     protected function getEntityName() : string
     {
-        return $this->__('post', 'post-tag-mutations');
+        return $this->__('post', 'gatographql');
     }
     public function getCustomPostSetTagsInputObjectTypeResolver() : AbstractSetTagsOnCustomPostInputObjectTypeResolver
     {

@@ -19,7 +19,16 @@ use function str_pad;
 class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\LoggerInterface
 {
     public const CONTEXT_SEPARATOR = 'CONTEXT: ';
+    /**
+     * When `true`, every log entry is prefixed with "[DRY-RUN]", so that
+     * queries executed as a dry-run are distinguishable in the logs.
+     */
+    private bool $isDryRun = \false;
     private ?\PoPSchema\Logger\Log\SystemLoggerInterface $systemLogger = null;
+    public function setDryRun(bool $isDryRun) : void
+    {
+        $this->isDryRun = $isDryRun;
+    }
     protected final function getSystemLogger() : \PoPSchema\Logger\Log\SystemLoggerInterface
     {
         if ($this->systemLogger === null) {
@@ -64,7 +73,7 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
          */
         $date = \date(DateTimeInterface::ATOM);
         if ($context !== null && $context !== []) {
-            $message .= $this->__(' ', 'logger') . LoggerContext::LOG_ENTRY_CONTEXT_SEPARATOR . json_encode($context, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
+            $message .= $this->__(' ', 'gatographql') . LoggerContext::LOG_ENTRY_CONTEXT_SEPARATOR . json_encode($context, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
         }
         error_log(\sprintf('%s %s' . \PHP_EOL, $date, $message), 3, $logFile);
     }
@@ -82,6 +91,9 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
     {
         if (!\in_array($severity, LoggerSeverity::ALL)) {
             throw new InvalidArgumentException(\sprintf('Invalid severity: "%s"', $severity));
+        }
+        if ($this->isDryRun) {
+            $message = \sprintf($this->__('%s %s', 'gatographql'), '[DRY-RUN]', $message);
         }
         if ($this->addSpacePaddingToLogSeverity()) {
             $padLength = \max(\array_map('strlen', LoggerSeverity::ALL));

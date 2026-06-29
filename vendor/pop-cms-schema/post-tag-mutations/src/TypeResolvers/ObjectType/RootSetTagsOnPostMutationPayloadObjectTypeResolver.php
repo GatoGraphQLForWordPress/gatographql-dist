@@ -12,6 +12,6 @@ class RootSetTagsOnPostMutationPayloadObjectTypeResolver extends \PoPCMSSchema\P
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of setting tags on a post', 'posttag-mutations');
+        return $this->__('Payload of setting tags on a post', 'gatographql');
     }
 }

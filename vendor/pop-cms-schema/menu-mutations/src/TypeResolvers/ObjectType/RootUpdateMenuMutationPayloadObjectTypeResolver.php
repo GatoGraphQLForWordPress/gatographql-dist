@@ -12,6 +12,6 @@ class RootUpdateMenuMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Menu
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of updating a menu', 'menu-mutations');
+        return $this->__('Payload of updating a menu', 'gatographql');
     }
 }

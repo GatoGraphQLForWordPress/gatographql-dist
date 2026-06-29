@@ -36,7 +36,7 @@ class UserObjectTypeResolver extends AbstractObjectTypeResolver implements \PoPC
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Representation of a user', 'users');
+        return $this->__('Representation of a user', 'gatographql');
     }
     public function getID(object $object) : string|int|null
     {

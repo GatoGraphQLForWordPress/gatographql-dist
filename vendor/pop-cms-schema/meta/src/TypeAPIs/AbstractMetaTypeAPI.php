@@ -31,7 +31,7 @@ abstract class AbstractMetaTypeAPI extends AbstractBasicService implements \PoPC
     protected final function assertIsMetaKeyAllowed(string $key) : void
     {
         if (!$this->validateIsMetaKeyAllowed($key)) {
-            throw new MetaKeyNotAllowedException(\sprintf($this->__('There is no meta with key \'%s\'', 'commentmeta'), $key));
+            throw new MetaKeyNotAllowedException(\sprintf($this->__('There is no meta with key \'%s\'', 'gatographql'), $key));
         }
     }
 }

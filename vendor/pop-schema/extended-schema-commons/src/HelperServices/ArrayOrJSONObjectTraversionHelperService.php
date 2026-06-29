@@ -66,14 +66,14 @@ class ArrayOrJSONObjectTraversionHelperService extends AbstractBasicService impl
      */
     protected function throwNoArrayItemUnderPathException(array|stdClass $data, int|string $path) : void
     {
-        throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('Index \'%s\' is not set for array: %s', 'extended-schema-commons'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)) : \sprintf($this->__('Key or path \'%s\' is not reachable for object: %s', 'extended-schema-commons'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)));
+        throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('Index \'%s\' is not set for array: %s', 'gatographql'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)) : \sprintf($this->__('Key or path \'%s\' is not reachable for object: %s', 'gatographql'), $path, $this->getOutputService()->jsonEncodeArrayOrStdClassValue($data)));
     }
     /**
      * @throws RuntimeOperationException
      */
     protected function throwItemUnderPathIsNotArrayException(mixed $dataPointer, int|string $path) : void
     {
-        throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('The item under index \'%s\' (with value \'%s\') is not an array', 'extended-schema-commons'), $path, $dataPointer) : \sprintf($this->__('The item under path \'%s\' (with value \'%s\') is not an array', 'extended-schema-commons'), $path, $dataPointer));
+        throw new RuntimeOperationException(\is_integer($path) ? \sprintf($this->__('The item under index \'%s\' (with value \'%s\') is not an array', 'gatographql'), $path, $dataPointer) : \sprintf($this->__('The item under path \'%s\' (with value \'%s\') is not an array', 'gatographql'), $path, $dataPointer));
     }
     /**
      * @throws RuntimeOperationException If the path cannot be reached under the array

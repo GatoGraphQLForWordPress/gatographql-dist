@@ -21,7 +21,7 @@ class DomainScalarTypeResolver extends AbstractScalarTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Domain scalar, such as https://mysite.com or http://www.mysite.org', 'extended-schema-commons');
+        return $this->__('Domain scalar, such as https://mysite.com or http://www.mysite.org', 'gatographql');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

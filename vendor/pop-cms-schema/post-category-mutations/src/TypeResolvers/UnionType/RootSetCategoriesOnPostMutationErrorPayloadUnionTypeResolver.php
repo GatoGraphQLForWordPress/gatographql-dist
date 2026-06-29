@@ -24,7 +24,7 @@ class RootSetCategoriesOnPostMutationErrorPayloadUnionTypeResolver extends \PoPC
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when setting categories on a post', 'postcategory-mutations');
+        return $this->__('Union of \'Error Payload\' types when setting categories on a post', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

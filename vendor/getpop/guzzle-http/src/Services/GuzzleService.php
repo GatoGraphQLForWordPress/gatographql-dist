@@ -10,6 +10,7 @@ use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\Utils;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7\Request;
 use PoP\ComponentModel\App;
+use PoP\Root\Services\AbstractBasicService;
 use PoP\GuzzleHTTP\Exception\GuzzleHTTPRequestException;
 use PoP\GuzzleHTTP\Module;
 use PoP\GuzzleHTTP\ModuleConfiguration;
@@ -20,7 +21,7 @@ use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\ResponseInterface as UpstreamResponseInterface;
 use Throwable;
 /** @internal */
-class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
+class GuzzleService extends AbstractBasicService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
 {
     protected ?Client $client = null;
     public function setClient(Client $client) : void
@@ -42,7 +43,7 @@ class GuzzleService implements \PoP\GuzzleHTTP\Services\GuzzleServiceInterface
         }
         return new ResponseWrapper($response);
     }
-    protected function getClient() : Client
+    public function getClient() : Client
     {
         if ($this->client === null) {
             $this->client = $this->createClient();

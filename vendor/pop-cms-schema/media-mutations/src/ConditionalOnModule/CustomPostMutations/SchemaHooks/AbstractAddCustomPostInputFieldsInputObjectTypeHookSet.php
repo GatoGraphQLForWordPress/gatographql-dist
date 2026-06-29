@@ -46,7 +46,7 @@ abstract class AbstractAddCustomPostInputFieldsInputObjectTypeHookSet extends Ab
             return $inputFieldDescription;
         }
         return match ($inputFieldName) {
-            MutationInputProperties::CUSTOMPOST_ID => $this->__('Custom post under which to upload the attachment', 'media-mutations'),
+            MutationInputProperties::CUSTOMPOST_ID => $this->__('Custom post under which to upload the attachment', 'gatographql'),
             default => $inputFieldDescription,
         };
     }

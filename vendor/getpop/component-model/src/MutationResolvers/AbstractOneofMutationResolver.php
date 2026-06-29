@@ -50,7 +50,7 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
     {
         $oneofInputObjectFormDataSize = \count((array) $oneofInputObjectFormData);
         if ($oneofInputObjectFormDataSize !== 1) {
-            throw new QueryResolutionException(\sprintf($this->__('Only and exactly 1 input field must be provided to the OneofMutationResolver, but %s were provided', 'component-model'), $oneofInputObjectFormDataSize));
+            throw new QueryResolutionException(\sprintf($this->__('Only and exactly 1 input field must be provided to the OneofMutationResolver, but %s were provided', 'gatographql'), $oneofInputObjectFormDataSize));
         }
         // Retrieve the first (and only) element key
         return (string) \key((array) $oneofInputObjectFormData);
@@ -62,7 +62,7 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
     {
         $inputFieldMutationResolver = $this->getConsolidatedInputFieldNameMutationResolvers()[$inputFieldName] ?? null;
         if ($inputFieldMutationResolver === null) {
-            throw new QueryResolutionException(\sprintf($this->__('There is no MutationResolver for input field with name \'%s\'', 'component-model'), $inputFieldName));
+            throw new QueryResolutionException(\sprintf($this->__('There is no MutationResolver for input field with name \'%s\'', 'gatographql'), $inputFieldName));
         }
         return $inputFieldMutationResolver;
     }
@@ -79,7 +79,7 @@ abstract class AbstractOneofMutationResolver extends \PoP\ComponentModel\Mutatio
         $propertyNames = $fieldDataAccessor->getProperties();
         $formDataSize = \count($propertyNames);
         if ($formDataSize !== 1) {
-            throw new QueryResolutionException(\sprintf($this->__('The OneofMutationResolver expects only 1 argument is passed to the field executing the mutation, but %s were provided: \'%s\'', 'component-model'), $formDataSize, \implode($this->__(', ', 'component-model'), $propertyNames)));
+            throw new QueryResolutionException(\sprintf($this->__('The OneofMutationResolver expects only 1 argument is passed to the field executing the mutation, but %s were provided: \'%s\'', 'gatographql'), $formDataSize, \implode($this->__(', ', 'gatographql'), $propertyNames)));
         }
         return $propertyNames[0];
     }

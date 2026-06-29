@@ -12,6 +12,6 @@ class RootAddPostTagTermMetaMutationPayloadObjectTypeResolver extends \PoPCMSSch
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of adding meta to a posts\'s tag term', 'tag-mutations');
+        return $this->__('Payload of adding meta to a posts\'s tag term', 'gatographql');
     }
 }

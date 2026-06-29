@@ -36,7 +36,7 @@ abstract class AbstractAddTagFilterInputObjectTypeHookSet extends AbstractHookSe
             return $inputFieldDescription;
         }
         return match ($inputFieldName) {
-            'tags' => $this->__('Filter by tags', 'tags'),
+            'tags' => $this->__('Filter by tags', 'gatographql'),
             default => $inputFieldDescription,
         };
     }

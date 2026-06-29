@@ -21,7 +21,7 @@ class AlwaysNullScalarTypeResolver extends AbstractScalarTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('"Always `null`" scalar, to indicate the the field will always be resolved as `null`', 'extended-schema-commons');
+        return $this->__('"Always `null`" scalar, to indicate the the field will always be resolved as `null`', 'gatographql');
     }
     public function coerceValue(string|int|float|bool|stdClass $inputValue, AstInterface $astNode, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : string|int|float|bool|object|null
     {

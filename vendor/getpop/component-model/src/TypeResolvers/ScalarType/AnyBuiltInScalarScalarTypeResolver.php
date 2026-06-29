@@ -15,7 +15,7 @@ class AnyBuiltInScalarScalarTypeResolver extends \PoP\ComponentModel\TypeResolve
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Wildcard type representing any of GraphQL\'s built-in types (String, Int, Boolean, Float or ID)', 'engine');
+        return $this->__('Wildcard type representing any of GraphQL\'s built-in types (String, Int, Boolean, Float or ID)', 'gatographql');
     }
     /**
      * Accept anything and everything, other than arrays and objects

@@ -63,7 +63,7 @@ abstract class AbstractSettingsTypeAPI extends AbstractBasicService implements \
     protected final function assertIsOptionAllowed(string $name) : void
     {
         if (!$this->validateIsOptionAllowed($name)) {
-            throw new OptionNotAllowedException(\sprintf($this->__('There is no option with name \'%s\'', 'settings'), $name));
+            throw new OptionNotAllowedException(\sprintf($this->__('There is no option with name \'%s\'', 'gatographql'), $name));
         }
     }
     /**

@@ -42,16 +42,16 @@ class InputObjectListItemSubpropertyFieldDataAccessor extends \PoP\ComponentMode
         $inputObjectListSubpropertyName = $this->getInputObjectListSubpropertyName();
         $inputObjectListValue = $fieldArgs[$inputObjectListSubpropertyName];
         if (!\is_array($inputObjectListValue)) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Input value under argument \'%s\' is not a List type'), $inputObjectListSubpropertyName));
+            throw new ShouldNotHappenException(\sprintf($this->__('Input value under argument \'%s\' is not a List type', 'gatographql'), $inputObjectListSubpropertyName));
         }
         /** @var mixed[] $inputObjectListValue */
         $inputObjectListItemPosition = $this->getInputObjectListItemPosition();
         if (!\array_key_exists($inputObjectListItemPosition, $inputObjectListValue)) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Input list value under argument \'%s\' has no item on position \'%s\''), $inputObjectListSubpropertyName, $inputObjectListItemPosition));
+            throw new ShouldNotHappenException(\sprintf($this->__('Input list value under argument \'%s\' has no item on position \'%s\'', 'gatographql'), $inputObjectListSubpropertyName, $inputObjectListItemPosition));
         }
         $inputObjectListItemValue = $inputObjectListValue[$inputObjectListItemPosition];
         if (!$inputObjectListItemValue instanceof stdClass) {
-            throw new ShouldNotHappenException(\sprintf($this->__('Input list value under argument \'%s\' and position \'%s\' is not an InputObject type'), $inputObjectListSubpropertyName, $inputObjectListItemPosition));
+            throw new ShouldNotHappenException(\sprintf($this->__('Input list value under argument \'%s\' and position \'%s\' is not an InputObject type', 'gatographql'), $inputObjectListSubpropertyName, $inputObjectListItemPosition));
         }
         return $inputObjectListItemValue;
     }

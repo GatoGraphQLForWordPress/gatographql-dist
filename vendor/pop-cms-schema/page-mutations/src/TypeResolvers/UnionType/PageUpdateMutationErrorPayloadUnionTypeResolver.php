@@ -24,7 +24,7 @@ class PageUpdateMutationErrorPayloadUnionTypeResolver extends \PoPCMSSchema\Page
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Union of \'Error Payload\' types when updating a page (using nested mutations)', 'page-mutations');
+        return $this->__('Union of \'Error Payload\' types when updating a page (using nested mutations)', 'gatographql');
     }
     public function getRelationalTypeDataLoader() : RelationalTypeDataLoaderInterface
     {

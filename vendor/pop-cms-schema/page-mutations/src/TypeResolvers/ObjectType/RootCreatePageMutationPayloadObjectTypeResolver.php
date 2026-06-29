@@ -12,6 +12,6 @@ class RootCreatePageMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Page
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of creating a page', 'page-mutations');
+        return $this->__('Payload of creating a page', 'gatographql');
     }
 }

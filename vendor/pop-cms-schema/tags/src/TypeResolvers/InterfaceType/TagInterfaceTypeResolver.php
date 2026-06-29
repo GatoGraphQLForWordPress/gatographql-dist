@@ -13,6 +13,6 @@ class TagInterfaceTypeResolver extends AbstractInterfaceTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Entities representing a tag', 'tags');
+        return $this->__('Entities representing a tag', 'gatographql');
     }
 }

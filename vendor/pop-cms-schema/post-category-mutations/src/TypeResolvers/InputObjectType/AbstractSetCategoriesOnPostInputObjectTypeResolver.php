@@ -25,7 +25,7 @@ abstract class AbstractSetCategoriesOnPostInputObjectTypeResolver extends Abstra
     }
     protected function getEntityName() : string
     {
-        return $this->__('post', 'postcategory-mutations');
+        return $this->__('post', 'gatographql');
     }
     protected function addTaxonomyInputField() : bool
     {

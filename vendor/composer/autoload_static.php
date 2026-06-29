@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
+class ComposerStaticInitf8c536bd614e531086fd4a6171c73801
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         'b686b8e46447868025a15ce5d0cb2634' => __DIR__ . '/..' . '/symfony/polyfill-php74/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0dcd945be12852345e1baa7d5341bf0e' => __DIR__ . '/..' . '/jrfnl/php-cast-to-type/class.cast-to-type.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -1014,11 +1014,15 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\CurlFactoryInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/CurlFactoryInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\CurlHandler' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/CurlHandler.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\CurlMultiHandler' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/CurlMultiHandler.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\CurlShareHandleState' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/CurlShareHandleState.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\CurlVersion' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/CurlVersion.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\EasyHandle' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/EasyHandle.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\HeaderProcessor' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/HeaderProcessor.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\MockHandler' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/MockHandler.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\Proxy' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/Proxy.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\ProxyEnvironment' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/ProxyEnvironment.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\StreamHandler' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/StreamHandler.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Handler\\TlsVersion' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Handler/TlsVersion.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\MessageFormatter' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/MessageFormatter.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\MessageFormatterInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/MessageFormatterInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Middleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Middleware.php',
@@ -1060,6 +1064,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Query' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Query.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Request' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Request.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Response' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Response.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Rfc3986' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Rfc3986.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Rfc7230' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Rfc7230.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\ServerRequest' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/ServerRequest.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Psr7\\Stream' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/Stream.php',
@@ -1075,6 +1080,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\RequestOptions' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RequestOptions.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\RetryMiddleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RetryMiddleware.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
+        'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\TransportSharing' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransportSharing.php',
         'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Utils' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Utils.php',
         'GatoExternalPrefixByGatoGraphQL\\League\\Pipeline\\FingersCrossedProcessor' => __DIR__ . '/..' . '/league/pipeline/src/FingersCrossedProcessor.php',
         'GatoExternalPrefixByGatoGraphQL\\League\\Pipeline\\InterruptibleProcessor' => __DIR__ . '/..' . '/league/pipeline/src/InterruptibleProcessor.php',
@@ -1228,6 +1234,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay20Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay20Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay21Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay21Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay22Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay22Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay30Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay30Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -1726,6 +1733,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/yaml/Exception/RuntimeException.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Inline' => __DIR__ . '/..' . '/symfony/yaml/Inline.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Parser' => __DIR__ . '/..' . '/symfony/yaml/Parser.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\ParserState' => __DIR__ . '/..' . '/symfony/yaml/ParserState.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Tag\\TaggedValue' => __DIR__ . '/..' . '/symfony/yaml/Tag/TaggedValue.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
@@ -1738,6 +1746,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ContainerAwareInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ContainerAwareInterface.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ContainerProviderInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ContainerProviderInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
@@ -1819,6 +1828,7 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterMarketplaceProviderCommercialExtensionActivationServiceCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterMarketplaceProviderCommercialExtensionActivationServiceCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterMarketplaceProviderCommercialPluginUpdaterServiceCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterMarketplaceProviderCommercialPluginUpdaterServiceCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterModuleTypeResolverCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterModuleTypeResolverCompilerPass.php',
+        'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterRESTControllerCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterRESTControllerCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterSchemaConfigBlockCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterSchemaConfigBlockCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterTaxonomyCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterTaxonomyCompilerPass.php',
         'GatoGraphQL\\GatoGraphQL\\Container\\CompilerPasses\\RegisterUserAuthorizationSchemeCompilerPass' => __DIR__ . '/../..' . '/src/Container/CompilerPasses/RegisterUserAuthorizationSchemeCompilerPass.php',
@@ -2030,6 +2040,13 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginOptions' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginOptions.php',
         'GatoGraphQL\\GatoGraphQL\\PluginStaticHelpers' => __DIR__ . '/../..' . '/src/PluginStaticHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\PluginStaticModuleConfiguration' => __DIR__ . '/../..' . '/src/PluginStaticModuleConfiguration.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Controllers\\AbstractAdminRESTController' => __DIR__ . '/../..' . '/src/RESTAPI/Controllers/AbstractAdminRESTController.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Controllers\\AbstractRESTController' => __DIR__ . '/../..' . '/src/RESTAPI/Controllers/AbstractRESTController.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Controllers\\RESTControllerInterface' => __DIR__ . '/../..' . '/src/RESTAPI/Controllers/RESTControllerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Endpoints\\RESTAPIEndpointManager' => __DIR__ . '/../..' . '/src/RESTAPI/Endpoints/RESTAPIEndpointManager.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Endpoints\\RESTAPIEndpointManagerInterface' => __DIR__ . '/../..' . '/src/RESTAPI/Endpoints/RESTAPIEndpointManagerInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Registries\\RESTControllerRegistry' => __DIR__ . '/../..' . '/src/RESTAPI/Registries/RESTControllerRegistry.php',
+        'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Registries\\RESTControllerRegistryInterface' => __DIR__ . '/../..' . '/src/RESTAPI/Registries/RESTControllerRegistryInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\AbstractBlockRegistry' => __DIR__ . '/../..' . '/src/Registries/AbstractBlockRegistry.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\AbstractEndpointAnnotatorRegistry' => __DIR__ . '/../..' . '/src/Registries/AbstractEndpointAnnotatorRegistry.php',
         'GatoGraphQL\\GatoGraphQL\\Registries\\AbstractEndpointExecuterRegistry' => __DIR__ . '/../..' . '/src/Registries/AbstractEndpointExecuterRegistry.php',
@@ -6380,9 +6397,9 @@ class ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdc1ef0fc974f3022a3170ec7810924cc::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf8c536bd614e531086fd4a6171c73801::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf8c536bd614e531086fd4a6171c73801::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf8c536bd614e531086fd4a6171c73801::$classMap;
 
         }, null, ClassLoader::class);
     }

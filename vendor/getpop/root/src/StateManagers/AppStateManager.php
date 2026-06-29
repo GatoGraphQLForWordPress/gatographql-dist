@@ -138,7 +138,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     public function get(string $key) : mixed
     {
         if (!\array_key_exists($key, $this->state)) {
-            throw new AppStateNotExistsException(\sprintf($this->getTranslationAPI()->__('There is no application state under key \'%s\'', 'root'), $key));
+            throw new AppStateNotExistsException(\sprintf($this->getTranslationAPI()->__('There is no application state under key \'%s\'', 'gatographql'), $key));
         }
         return $this->state[$key] ?? null;
     }
@@ -163,7 +163,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
     protected function assertIsSupportedSplObjectStorageItem(mixed $stateItem) : void
     {
         if (!$stateItem instanceof FieldInterface) {
-            throw new ShouldNotHappenException(\sprintf($this->getTranslationAPI()->__('In the SplObjectStorage stored in the AppState, cannot process item of class \'%s\'', 'root'), \get_class($stateItem)));
+            throw new ShouldNotHappenException(\sprintf($this->getTranslationAPI()->__('In the SplObjectStorage stored in the AppState, cannot process item of class \'%s\'', 'gatographql'), \get_class($stateItem)));
         }
     }
     /**
@@ -172,7 +172,7 @@ class AppStateManager implements \PoP\Root\StateManagers\AppStateManagerInterfac
      */
     protected function throwAppStateNotExistsException(array $path) : void
     {
-        throw new AppStateNotExistsException(\sprintf($this->getTranslationAPI()->__('There is no application state under path \'%s\'', 'root'), \implode($this->getTranslationAPI()->__(',', 'root'), $path)));
+        throw new AppStateNotExistsException(\sprintf($this->getTranslationAPI()->__('There is no application state under path \'%s\'', 'gatographql'), \implode($this->getTranslationAPI()->__(',', 'gatographql'), $path)));
     }
     public function has(string $key) : bool
     {

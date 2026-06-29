@@ -11,7 +11,7 @@ abstract class AbstractTagObjectTypeResolver extends AbstractTaxonomyObjectTypeR
     public abstract function getTagTypeAPI() : TagTypeAPIInterface;
     public function getTypeDescription() : ?string
     {
-        return $this->__('Representation of a tag, added to a custom post', 'tags');
+        return $this->__('Representation of a tag, added to a custom post', 'gatographql');
     }
     public function getID(object $object) : string|int|null
     {

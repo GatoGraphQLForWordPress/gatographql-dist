@@ -13,6 +13,6 @@ class PostByOneofInputObjectTypeResolver extends AbstractCustomPostByOneofInputO
     }
     protected function getTypeDescriptionCustomPostEntity() : string
     {
-        return $this->__('a post', 'posts');
+        return $this->__('a post', 'gatographql');
     }
 }

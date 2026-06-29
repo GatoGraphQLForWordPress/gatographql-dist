@@ -12,6 +12,6 @@ class RootSetPostMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Pos
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a set meta mutation on a post', 'custompost-mutations');
+        return $this->__('Payload of executing a set meta mutation on a post', 'gatographql');
     }
 }

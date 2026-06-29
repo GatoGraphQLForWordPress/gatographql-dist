@@ -12,6 +12,6 @@ class RootAddPageMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\Pag
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of adding meta to a pages\'s custom post', 'pagemeta-mutations');
+        return $this->__('Payload of adding meta to a pages\'s custom post', 'gatographql');
     }
 }

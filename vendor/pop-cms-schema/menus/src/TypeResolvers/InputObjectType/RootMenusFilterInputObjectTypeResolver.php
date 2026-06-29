@@ -12,6 +12,6 @@ class RootMenusFilterInputObjectTypeResolver extends \PoPCMSSchema\Menus\TypeRes
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Input to filter menus', 'menus');
+        return $this->__('Input to filter menus', 'gatographql');
     }
 }

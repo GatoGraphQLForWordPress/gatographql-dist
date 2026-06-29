@@ -12,6 +12,6 @@ class CommentDeleteMetaMutationPayloadObjectTypeResolver extends \PoPCMSSchema\C
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of executing a delete meta nested mutation on a comment', 'comment-mutations');
+        return $this->__('Payload of executing a delete meta nested mutation on a comment', 'gatographql');
     }
 }

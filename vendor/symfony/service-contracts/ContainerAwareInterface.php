@@ -10,12 +10,10 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service;
 
-use GatoExternalPrefixByGatoGraphQL\Psr\Container\ContainerInterface;
 /**
- * Implemented by objects that expose a service container.
+ * @deprecated use ContainerProviderInterface instead
  * @internal
  */
-interface ContainerAwareInterface
+interface ContainerAwareInterface extends ContainerProviderInterface
 {
-    public function getContainer() : ContainerInterface;
 }

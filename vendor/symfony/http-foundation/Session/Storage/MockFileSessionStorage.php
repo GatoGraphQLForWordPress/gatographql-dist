@@ -126,7 +126,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
         } finally {
             \restore_error_handler();
         }
-        $this->data = $data ? \unserialize($data) : [];
+        $this->data = $data ? \unserialize($data, ['allowed_classes' => \true]) : [];
         $this->loadSession();
     }
 }

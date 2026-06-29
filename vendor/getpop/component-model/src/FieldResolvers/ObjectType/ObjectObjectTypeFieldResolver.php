@@ -75,7 +75,7 @@ class ObjectObjectTypeFieldResolver extends \PoP\ComponentModel\FieldResolvers\O
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'self' => $this->__('The same object', 'pop-component-model'),
+            'self' => $this->__('The same object', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

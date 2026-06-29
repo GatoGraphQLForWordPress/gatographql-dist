@@ -12,6 +12,6 @@ class EnumValueExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Extensions (custom metadata) added to the enum value', 'graphql-server');
+        return $this->__('Extensions (custom metadata) added to the enum value', 'gatographql');
     }
 }

@@ -13,6 +13,6 @@ class ErrorPayloadInterfaceTypeResolver extends AbstractInterfaceTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Entities representing an Error payload', 'schema-commons');
+        return $this->__('Entities representing an Error payload', 'gatographql');
     }
 }

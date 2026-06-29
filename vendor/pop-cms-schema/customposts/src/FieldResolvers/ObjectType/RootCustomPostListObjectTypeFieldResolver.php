@@ -67,7 +67,7 @@ class RootCustomPostListObjectTypeFieldResolver extends \PoPCMSSchema\CustomPost
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
-            'customPost' => $this->__('Query a custom post by different properties', 'customposts'),
+            'customPost' => $this->__('Query a custom post by different properties', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }

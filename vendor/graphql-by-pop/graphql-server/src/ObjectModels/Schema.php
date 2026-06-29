@@ -68,7 +68,7 @@ class Schema
             TypeKinds::SCALAR => new \GraphQLByPoP\GraphQLServer\ObjectModels\ScalarType($fullSchemaDefinition, $typeSchemaDefinitionPath),
             TypeKinds::ENUM => new \GraphQLByPoP\GraphQLServer\ObjectModels\EnumType($fullSchemaDefinition, $typeSchemaDefinitionPath),
             TypeKinds::INPUT_OBJECT => new \GraphQLByPoP\GraphQLServer\ObjectModels\InputObjectType($fullSchemaDefinition, $typeSchemaDefinitionPath),
-            default => throw new ImpossibleToHappenException(\sprintf($this->__('Unknown type kind \'%s\'', 'graphql-server'), $typeKind)),
+            default => throw new ImpossibleToHappenException(\sprintf($this->__('Unknown type kind \'%s\'', 'gatographql'), $typeKind)),
         };
     }
     /**

@@ -12,6 +12,6 @@ class SchemaExtensionsObjectTypeResolver extends \GraphQLByPoP\GraphQLServer\Typ
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Extensions (custom metadata) added to the GraphQL schema', 'graphql-server');
+        return $this->__('Extensions (custom metadata) added to the GraphQL schema', 'gatographql');
     }
 }

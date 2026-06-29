@@ -10,6 +10,6 @@ trait SetTagsOnCustomPostObjectTypeFieldResolverTrait
     protected abstract function getTranslationAPI() : TranslationAPIInterface;
     protected function getEntityName() : string
     {
-        return $this->getTranslationAPI()->__('custom post', 'custompost-tag-mutations');
+        return $this->getTranslationAPI()->__('custom post', 'gatographql');
     }
 }

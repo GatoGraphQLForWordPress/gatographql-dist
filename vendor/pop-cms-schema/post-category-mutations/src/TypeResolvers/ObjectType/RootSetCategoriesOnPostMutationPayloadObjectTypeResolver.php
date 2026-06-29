@@ -12,6 +12,6 @@ class RootSetCategoriesOnPostMutationPayloadObjectTypeResolver extends \PoPCMSSc
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Payload of setting categories on a post', 'postcategory-mutations');
+        return $this->__('Payload of setting categories on a post', 'gatographql');
     }
 }

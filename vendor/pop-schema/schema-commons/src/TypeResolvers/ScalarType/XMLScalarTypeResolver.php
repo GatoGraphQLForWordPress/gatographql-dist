@@ -19,7 +19,7 @@ class XMLScalarTypeResolver extends AbstractScalarTypeResolver
     }
     public function getTypeDescription() : ?string
     {
-        return $this->__('Custom scalar representing an XML string', 'engine');
+        return $this->__('Custom scalar representing an XML string', 'gatographql');
     }
     public function getSpecifiedByURL() : ?string
     {
