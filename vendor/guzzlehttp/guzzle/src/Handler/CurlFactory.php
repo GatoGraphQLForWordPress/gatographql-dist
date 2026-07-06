@@ -85,6 +85,7 @@ class CurlFactory implements CurlFactoryInterface
     }
     public function create(RequestInterface $request, array $options) : EasyHandle
     {
+        self::validateRequestUriScheme($request);
         $protocolVersion = $request->getProtocolVersion();
         if ('' === $protocolVersion) {
             \GatoExternalPrefixByGatoGraphQL\trigger_deprecation('guzzlehttp/guzzle', '7.11', 'Sending a request with an empty protocol version is deprecated; guzzlehttp/guzzle 8.0 will reject empty protocol versions.');
@@ -981,12 +982,16 @@ class CurlFactory implements CurlFactoryInterface
      */
     private function getDefaultConf(EasyHandle $easy) : array
     {
-        $conf = ['_headers' => $easy->request->getHeaders(), \CURLOPT_CUSTOMREQUEST => $easy->request->getMethod(), \CURLOPT_URL => (string) $easy->request->getUri()->withFragment(''), \CURLOPT_RETURNTRANSFER => \false, \CURLOPT_HEADER => \false, \CURLOPT_CONNECTTIMEOUT => 300];
+        $uri = $easy->request->getUri();
         $protocols = Utils::normalizeProtocols($easy->options['protocols'] ?? ['http', 'https']);
-        $scheme = $easy->request->getUri()->getScheme();
+        $scheme = $uri->getScheme();
         if (!\in_array($scheme, $protocols, \true)) {
             throw new RequestException(\sprintf('The scheme "%s" is not allowed by the protocols request option.', $scheme), $easy->request);
         }
+        if ($uri->getHost() === '') {
+            throw new RequestException('URI must include a scheme and host. Use an absolute URI, a network-path reference starting with //, or configure a base_uri.', $easy->request);
+        }
+        $conf = ['_headers' => $easy->request->getHeaders(), \CURLOPT_CUSTOMREQUEST => $easy->request->getMethod(), \CURLOPT_URL => (string) $uri->withFragment(''), \CURLOPT_RETURNTRANSFER => \false, \CURLOPT_HEADER => \false, \CURLOPT_CONNECTTIMEOUT => 300];
         if (\defined('CURLOPT_PROTOCOLS')) {
             $conf[\CURLOPT_PROTOCOLS] = self::curlProtocolMask($protocols);
         }
@@ -1030,6 +1035,23 @@ class CurlFactory implements CurlFactoryInterface
     }
     private function applyMethod(EasyHandle $easy, array &$conf) : void
     {
+        if ($easy->request->getMethod() === 'HEAD') {
+            // libcurl stops at HEAD response headers only when CURLOPT_NOBODY
+            // is set; CURLOPT_CUSTOMREQUEST changes only the method string.
+            // NOBODY also suppresses request upload, so strip non-zero body
+            // length, transfer coding, and a 100-continue expectation.
+            $conf[\CURLOPT_CUSTOMREQUEST] = null;
+            $conf[\CURLOPT_NOBODY] = \true;
+            unset($conf[\CURLOPT_WRITEFUNCTION], $conf[\CURLOPT_READFUNCTION], $conf[\CURLOPT_FILE], $conf[\CURLOPT_INFILE]);
+            if (\trim($easy->request->getHeaderLine('Content-Length')) !== '0') {
+                $this->removeHeader('Content-Length', $conf);
+            }
+            $this->removeHeader('Transfer-Encoding', $conf);
+            if (\strcasecmp(\trim($easy->request->getHeaderLine('Expect')), '100-continue') === 0) {
+                $this->removeHeader('Expect', $conf);
+            }
+            return;
+        }
         $body = $easy->request->getBody();
         $size = $body->getSize();
         if ($size === null || $size > 0) {
@@ -1042,9 +1064,6 @@ class CurlFactory implements CurlFactoryInterface
             if (!$easy->request->hasHeader('Content-Length')) {
                 $conf[\CURLOPT_HTTPHEADER][] = 'Content-Length: 0';
             }
-        } elseif ($method === 'HEAD') {
-            $conf[\CURLOPT_NOBODY] = \true;
-            unset($conf[\CURLOPT_WRITEFUNCTION], $conf[\CURLOPT_READFUNCTION], $conf[\CURLOPT_FILE], $conf[\CURLOPT_INFILE]);
         }
     }
     private function applyBody(RequestInterface $request, array $options, array &$conf) : void
@@ -1399,6 +1418,16 @@ class CurlFactory implements CurlFactoryInterface
         }
         throw new \InvalidArgumentException('Invalid crypto_method_max request option: maximum TLS version control is not supported by your version of cURL');
     }
+    private static function validateRequestUriScheme(RequestInterface $request) : void
+    {
+        $scheme = $request->getUri()->getScheme();
+        if ($scheme === '') {
+            throw new RequestException('URI must include a scheme and host. Use an absolute URI, a network-path reference starting with //, or configure a base_uri.', $request);
+        }
+        if (!\in_array($scheme, ['http', 'https'], \true)) {
+            throw new RequestException(\sprintf("The scheme '%s' is not supported.", $scheme), $request);
+        }
+    }
     /**
      * This function ensures that a response was set on a transaction. If one
      * was not set, then the request is retried if possible. This error
@@ -1443,9 +1472,16 @@ class CurlFactory implements CurlFactoryInterface
         } else {
             $onHeaders = null;
         }
-        return static function ($ch, $h) use($onHeaders, $easy, &$startingResponse) {
+        $startingResponse = \false;
+        $collectingTrailers = \false;
+        return static function ($ch, $h) use($onHeaders, $easy, &$startingResponse, &$collectingTrailers) {
             $value = \trim($h);
-            if ($value === '') {
+            if ($h === "\r\n" || $h === "\n" || $h === "\r" || $h === '') {
+                if ($collectingTrailers) {
+                    // A blank line ends the trailer section; the response has
+                    // already been created.
+                    return \strlen($h);
+                }
                 $startingResponse = \true;
                 try {
                     $easy->createResponse();
@@ -1464,9 +1500,17 @@ class CurlFactory implements CurlFactoryInterface
                         return -1;
                     }
                 }
-            } elseif ($startingResponse) {
+            } elseif ($startingResponse || $collectingTrailers) {
+                if ($easy->response !== null && !HeaderProcessor::isStatusLineCandidate($h)) {
+                    // Trailer fields arrive through the header callback after
+                    // the body; a new header block always begins with a status
+                    // line.
+                    $collectingTrailers = \true;
+                } else {
+                    $collectingTrailers = \false;
+                    $easy->headers = [$value];
+                }
                 $startingResponse = \false;
-                $easy->headers = [$value];
             } else {
                 $easy->headers[] = $value;
             }

@@ -3,6 +3,7 @@
 namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\BadResponseException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\TooManyRedirectsException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\PromiseInterface;
 use GatoExternalPrefixByGatoGraphQL\Psr\Http\Message\RequestInterface;
@@ -133,7 +134,11 @@ class RedirectMiddleware
             $uri = Utils::idnUriConvert($uri, $idnOptions);
         }
         $modify['uri'] = $uri;
-        Psr7\Message::rewindBody($request);
+        try {
+            Psr7\Message::rewindBody($request);
+        } catch (\RuntimeException $e) {
+            throw new RequestException('Redirect failed because the request body could not be rewound: ' . $e->getMessage(), $request, $response, $e);
+        }
         // Add the Referer header if it is told to do so and only
         // add the header if we are not redirecting from https to http.
         if ($options['allow_redirects']['referer'] && $modify['uri']->getScheme() === $request->getUri()->getScheme()) {

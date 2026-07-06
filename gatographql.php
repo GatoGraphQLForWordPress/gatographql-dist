@@ -2,9 +2,8 @@
 /*
 Plugin Name: Gato GraphQL
 Plugin URI: https://gatographql.com
-GitHub Plugin URI: https://github.com/GatoGraphQL/GatoGraphQL
 Description: Powerful and flexible GraphQL server for WordPress.
-Version: 19.0.0
+Version: 19.0.1
 Requires at least: 6.1
 Requires PHP: 8.1
 Author: Gato GraphQL
@@ -16,6 +15,8 @@ Domain Path: /languages
 GitHub Plugin URI: GatoGraphQL/gatographql-dist
 */
 
+use GatoGraphQL\GatoGraphQL\Constants\ExtensionDataOptions;
+use GatoGraphQL\GatoGraphQL\Marketplace\Constants\MarketplaceVersion;
 use GatoGraphQL\GatoGraphQL\Plugin;
 use GatoGraphQL\GatoGraphQL\PluginApp;
 use PoPIncludes\GatoGraphQL\Startup;
@@ -40,8 +41,9 @@ if (!defined('ABSPATH')) {
  *
  * @gatographql-readonly-code
  */
-$pluginVersion = '19.0.0';
+$pluginVersion = '19.0.1';
 $pluginName = 'Gato GraphQL';
+$pluginProductName = 'Gato GraphQL';
 
 /**
  * If the plugin is already registered, halt loading
@@ -94,7 +96,7 @@ add_action('init', function (): void {
  *
  * @gatographql-readonly-code
  */
-$commitHash = 'a473d125f7d2b13feb07f094ddb16c24c2d3cdaf';
+$commitHash = '1eccbf0ed9fe90c291629b6d75d35acf0ae9de5d';
 
 // Load Composer’s autoloader
 require_once(__DIR__ . '/vendor/scoper-autoload.php');
@@ -109,3 +111,22 @@ PluginApp::getMainPluginManager()->register(new Plugin(
     $pluginName,
     $commitHash
 ))->setup();
+
+// Validate the license
+$extensionManager = PluginApp::getExtensionManager();
+if (!$extensionManager->assertCommercialLicenseHasBeenActivated(
+    __FILE__,
+    $pluginProductName,
+    $pluginName,
+    $pluginVersion,
+    [
+        ExtensionDataOptions::CHANGELOG_URL => 'https://gatographql.com/changelog',
+        ExtensionDataOptions::HOMEPAGE_URL => 'https://gatographql.com',
+        ExtensionDataOptions::MARKETPLACE_PRODUCT_IDS => [
+            MarketplaceVersion::V2_FLUENTCART => 249,
+        ],
+        ExtensionDataOptions::IS_LICENSE_NEEDED => false,
+    ]
+)) {
+    return;
+}

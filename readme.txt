@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 7.0
-Stable tag: 19.0.0
+Stable tag: 19.0.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -246,6 +246,9 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 19.0.1 =
+* Improved - Distribute Gato GraphQL plugin via the Gato Plugins store (instead of wordpress.org) (#3347)
 
 = 19.0.0 =
 * Added - The ability to register custom WordPress REST API controllers/endpoints via the service container (#3330)
