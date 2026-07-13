@@ -173,7 +173,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     private static function removeInvalidHostHeader(array $headers) : array
     {
         foreach ($headers as $name => $value) {
-            if (\strtolower((string) $name) !== 'host') {
+            if (\strtr((string) $name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') !== 'host') {
                 continue;
             }
             if (Rfc7230::parseHostHeader($value) === null) {
@@ -214,7 +214,7 @@ class ServerRequest extends Request implements ServerRequestInterface
             $uri = $uri->withHost($serverAddr);
         }
         $serverPort = self::getServerParam('SERVER_PORT');
-        if (!$hasPort && $serverPort !== null && \preg_match('/^[+-]?\\d+$/', $serverPort) === 1) {
+        if (!$hasPort && $serverPort !== null && \preg_match('/^[+-]?\\d+$/D', $serverPort) === 1) {
             $uri = $uri->withPort((int) $serverPort);
         }
         $hasQuery = \false;

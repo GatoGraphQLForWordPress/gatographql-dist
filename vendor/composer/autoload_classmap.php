@@ -65,6 +65,7 @@ return array(
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\MessageFormatter' => $vendorDir . '/guzzlehttp/guzzle/src/MessageFormatter.php',
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\MessageFormatterInterface' => $vendorDir . '/guzzlehttp/guzzle/src/MessageFormatterInterface.php',
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Middleware' => $vendorDir . '/guzzlehttp/guzzle/src/Middleware.php',
+    'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Multiplexing' => $vendorDir . '/guzzlehttp/guzzle/src/Multiplexing.php',
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Pool' => $vendorDir . '/guzzlehttp/guzzle/src/Pool.php',
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\PrepareBodyMiddleware' => $vendorDir . '/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php',
     'GatoExternalPrefixByGatoGraphQL\\GuzzleHttp\\Promise\\AggregateException' => $vendorDir . '/guzzlehttp/promises/src/AggregateException.php',

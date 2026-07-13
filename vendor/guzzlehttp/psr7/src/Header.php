@@ -122,7 +122,7 @@ final class Header
                     continue;
                 }
                 if (!$isQuoted && $value[$i] === ',') {
-                    $v = \trim($v);
+                    $v = \trim($v, " \n\r\t\x00\v");
                     if ($v !== '') {
                         $result[] = $v;
                     }
@@ -141,7 +141,7 @@ final class Header
                 }
                 $v .= $value[$i];
             }
-            $v = \trim($v);
+            $v = \trim($v, " \n\r\t\x00\v");
             if ($v !== '') {
                 $result[] = $v;
             }
