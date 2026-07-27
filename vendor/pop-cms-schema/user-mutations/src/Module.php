@@ -17,7 +17,7 @@ class Module extends AbstractModule
      */
     public function getDependedModuleClasses() : array
     {
-        return [\PoPCMSSchema\UserStateMutations\Module::class];
+        return [\PoPCMSSchema\Users\Module::class, \PoPCMSSchema\UserStateMutations\Module::class];
     }
     /**
      * Initialize services

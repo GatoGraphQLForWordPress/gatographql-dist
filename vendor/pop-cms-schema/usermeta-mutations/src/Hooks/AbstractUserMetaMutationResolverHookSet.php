@@ -5,6 +5,7 @@ namespace PoPCMSSchema\UserMetaMutations\Hooks;
 
 use PoPCMSSchema\UserMetaMutations\MutationResolvers\MutateUserMetaMutationResolverTrait;
 use PoPCMSSchema\UserMetaMutations\TypeAPIs\UserMetaTypeMutationAPIInterface;
+use PoPCMSSchema\UserMutations\Constants\UserCRUDHookNames;
 use PoPCMSSchema\UserMeta\TypeAPIs\UserMetaTypeAPIInterface;
 use PoPCMSSchema\MetaMutations\Hooks\AbstractMetaMutationResolverHookSet;
 use PoPCMSSchema\MetaMutations\TypeAPIs\EntityMetaTypeMutationAPIInterface;
@@ -41,9 +42,8 @@ abstract class AbstractUserMetaMutationResolverHookSet extends AbstractMetaMutat
     {
         return $this->getUserMetaTypeAPI();
     }
-    // @todo Re-enable when adding User Mutations
-    // protected function getErrorPayloadHookName(): string
-    // {
-    //     return UserCRUDHookNames::ERROR_PAYLOAD;
-    // }
+    protected function getErrorPayloadHookName() : string
+    {
+        return UserCRUDHookNames::ERROR_PAYLOAD;
+    }
 }

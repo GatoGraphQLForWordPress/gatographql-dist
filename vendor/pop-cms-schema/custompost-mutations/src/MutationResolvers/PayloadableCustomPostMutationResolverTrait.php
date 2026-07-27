@@ -8,7 +8,10 @@ use PoPCMSSchema\CustomPostMutations\FeedbackItemProviders\MutationErrorFeedback
 use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostAncestorRecursionErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotExistErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotHaveExpectedTypeErrorPayload;
+use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostDoesNotSupportTrashErrorPayload;
+use PoPCMSSchema\CustomPostMutations\ObjectModels\CustomPostHasAlreadyBeenTrashedErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoEditingCustomPostCapabilityErrorPayload;
+use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPermissionToDeleteCustomPostErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPermissionToEditCustomPostErrorPayload;
 use PoPCMSSchema\CustomPostMutations\ObjectModels\LoggedInUserHasNoPublishingCustomPostCapabilityErrorPayload;
 use PoPCMSSchema\UserStateMutations\ObjectModels\UserIsNotLoggedInErrorPayload;
@@ -33,6 +36,10 @@ trait PayloadableCustomPostMutationResolverTrait
             [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E11] => new CustomPostAncestorRecursionErrorPayload($feedbackItemResolution->getMessage()),
             [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E12] => new CustomPostAncestorRecursionErrorPayload($feedbackItemResolution->getMessage()),
             [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E5] => new CustomPostDoesNotHaveExpectedTypeErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E13] => new UserIsNotLoggedInErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E14] => new LoggedInUserHasNoPermissionToDeleteCustomPostErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E16] => new CustomPostDoesNotSupportTrashErrorPayload($feedbackItemResolution->getMessage()),
+            [MutationErrorFeedbackItemProvider::class, MutationErrorFeedbackItemProvider::E17] => new CustomPostHasAlreadyBeenTrashedErrorPayload($feedbackItemResolution->getMessage()),
             // Allow components (eg: CustomPostCategoryMutations) to inject their own validations
             default => App::applyFilters(CustomPostCRUDHookNames::ERROR_PAYLOAD, new GenericErrorPayload($feedbackItemResolution->getMessage(), $feedbackItemResolution->getNamespacedCode()), $objectTypeFieldResolutionFeedback),
         };

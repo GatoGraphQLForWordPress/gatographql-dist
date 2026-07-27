@@ -7,15 +7,21 @@ use PoPCMSSchema\MenuMutations\Module;
 use PoPCMSSchema\MenuMutations\ModuleConfiguration;
 use PoPCMSSchema\MenuMutations\MutationResolvers\CreateMenuBulkOperationMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\CreateMenuMutationResolver;
+use PoPCMSSchema\MenuMutations\MutationResolvers\DeleteMenuBulkOperationMutationResolver;
+use PoPCMSSchema\MenuMutations\MutationResolvers\DeleteMenuMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableCreateMenuBulkOperationMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableCreateMenuMutationResolver;
+use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableDeleteMenuBulkOperationMutationResolver;
+use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableDeleteMenuMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableUpdateMenuBulkOperationMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\PayloadableUpdateMenuMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\UpdateMenuBulkOperationMutationResolver;
 use PoPCMSSchema\MenuMutations\MutationResolvers\UpdateMenuMutationResolver;
 use PoPCMSSchema\MenuMutations\TypeResolvers\InputObjectType\RootCreateMenuInputObjectTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\InputObjectType\RootDeleteMenuInputObjectTypeResolver;
 use PoPCMSSchema\MenuMutations\TypeResolvers\InputObjectType\RootUpdateMenuInputObjectTypeResolver;
 use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\RootCreateMenuMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\RootDeleteMenuMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\RootUpdateMenuMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\FieldResolvers\ObjectType\BulkOperationDecoratorObjectTypeFieldResolverTrait;
@@ -30,6 +36,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\Engine\Module as EngineModule;
 use PoP\Engine\ModuleConfiguration as EngineModuleConfiguration;
 use PoP\Engine\TypeResolvers\ObjectType\RootObjectTypeResolver;
@@ -52,6 +59,13 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     private ?RootUpdateMenuMutationPayloadObjectTypeResolver $rootUpdateMenuMutationPayloadObjectTypeResolver = null;
     private ?PayloadableUpdateMenuMutationResolver $payloadableUpdateMenuMutationResolver = null;
     private ?PayloadableUpdateMenuBulkOperationMutationResolver $payloadableUpdateMenuBulkOperationMutationResolver = null;
+    private ?RootDeleteMenuInputObjectTypeResolver $rootDeleteMenuInputObjectTypeResolver = null;
+    private ?RootDeleteMenuMutationPayloadObjectTypeResolver $rootDeleteMenuMutationPayloadObjectTypeResolver = null;
+    private ?DeleteMenuMutationResolver $deleteMenuMutationResolver = null;
+    private ?DeleteMenuBulkOperationMutationResolver $deleteMenuBulkOperationMutationResolver = null;
+    private ?PayloadableDeleteMenuMutationResolver $payloadableDeleteMenuMutationResolver = null;
+    private ?PayloadableDeleteMenuBulkOperationMutationResolver $payloadableDeleteMenuBulkOperationMutationResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getMenuObjectTypeResolver() : MenuObjectTypeResolver
     {
@@ -170,6 +184,69 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableUpdateMenuBulkOperationMutationResolver;
     }
+    protected final function getRootDeleteMenuInputObjectTypeResolver() : RootDeleteMenuInputObjectTypeResolver
+    {
+        if ($this->rootDeleteMenuInputObjectTypeResolver === null) {
+            /** @var RootDeleteMenuInputObjectTypeResolver */
+            $rootDeleteMenuInputObjectTypeResolver = $this->instanceManager->getInstance(RootDeleteMenuInputObjectTypeResolver::class);
+            $this->rootDeleteMenuInputObjectTypeResolver = $rootDeleteMenuInputObjectTypeResolver;
+        }
+        return $this->rootDeleteMenuInputObjectTypeResolver;
+    }
+    protected final function getRootDeleteMenuMutationPayloadObjectTypeResolver() : RootDeleteMenuMutationPayloadObjectTypeResolver
+    {
+        if ($this->rootDeleteMenuMutationPayloadObjectTypeResolver === null) {
+            /** @var RootDeleteMenuMutationPayloadObjectTypeResolver */
+            $rootDeleteMenuMutationPayloadObjectTypeResolver = $this->instanceManager->getInstance(RootDeleteMenuMutationPayloadObjectTypeResolver::class);
+            $this->rootDeleteMenuMutationPayloadObjectTypeResolver = $rootDeleteMenuMutationPayloadObjectTypeResolver;
+        }
+        return $this->rootDeleteMenuMutationPayloadObjectTypeResolver;
+    }
+    protected final function getDeleteMenuMutationResolver() : DeleteMenuMutationResolver
+    {
+        if ($this->deleteMenuMutationResolver === null) {
+            /** @var DeleteMenuMutationResolver */
+            $deleteMenuMutationResolver = $this->instanceManager->getInstance(DeleteMenuMutationResolver::class);
+            $this->deleteMenuMutationResolver = $deleteMenuMutationResolver;
+        }
+        return $this->deleteMenuMutationResolver;
+    }
+    protected final function getDeleteMenuBulkOperationMutationResolver() : DeleteMenuBulkOperationMutationResolver
+    {
+        if ($this->deleteMenuBulkOperationMutationResolver === null) {
+            /** @var DeleteMenuBulkOperationMutationResolver */
+            $deleteMenuBulkOperationMutationResolver = $this->instanceManager->getInstance(DeleteMenuBulkOperationMutationResolver::class);
+            $this->deleteMenuBulkOperationMutationResolver = $deleteMenuBulkOperationMutationResolver;
+        }
+        return $this->deleteMenuBulkOperationMutationResolver;
+    }
+    protected final function getPayloadableDeleteMenuMutationResolver() : PayloadableDeleteMenuMutationResolver
+    {
+        if ($this->payloadableDeleteMenuMutationResolver === null) {
+            /** @var PayloadableDeleteMenuMutationResolver */
+            $payloadableDeleteMenuMutationResolver = $this->instanceManager->getInstance(PayloadableDeleteMenuMutationResolver::class);
+            $this->payloadableDeleteMenuMutationResolver = $payloadableDeleteMenuMutationResolver;
+        }
+        return $this->payloadableDeleteMenuMutationResolver;
+    }
+    protected final function getPayloadableDeleteMenuBulkOperationMutationResolver() : PayloadableDeleteMenuBulkOperationMutationResolver
+    {
+        if ($this->payloadableDeleteMenuBulkOperationMutationResolver === null) {
+            /** @var PayloadableDeleteMenuBulkOperationMutationResolver */
+            $payloadableDeleteMenuBulkOperationMutationResolver = $this->instanceManager->getInstance(PayloadableDeleteMenuBulkOperationMutationResolver::class);
+            $this->payloadableDeleteMenuBulkOperationMutationResolver = $payloadableDeleteMenuBulkOperationMutationResolver;
+        }
+        return $this->payloadableDeleteMenuBulkOperationMutationResolver;
+    }
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
+    {
+        if ($this->booleanScalarTypeResolver === null) {
+            /** @var BooleanScalarTypeResolver */
+            $booleanScalarTypeResolver = $this->instanceManager->getInstance(BooleanScalarTypeResolver::class);
+            $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
+        }
+        return $this->booleanScalarTypeResolver;
+    }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -197,7 +274,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         $addFieldsToQueryPayloadableMenuMutations = $moduleConfiguration->addFieldsToQueryPayloadableMenuMutations();
-        return \array_merge(['createMenu', 'createMenus'], !$disableRedundantRootTypeMutationFields ? ['updateMenu', 'updateMenus'] : [], $addFieldsToQueryPayloadableMenuMutations ? ['createMenuMutationPayloadObjects'] : [], $addFieldsToQueryPayloadableMenuMutations && !$disableRedundantRootTypeMutationFields ? ['updateMenuMutationPayloadObjects'] : []);
+        return \array_merge(['createMenu', 'createMenus'], !$disableRedundantRootTypeMutationFields ? ['updateMenu', 'updateMenus', 'deleteMenu', 'deleteMenus'] : [], $addFieldsToQueryPayloadableMenuMutations ? ['createMenuMutationPayloadObjects'] : [], $addFieldsToQueryPayloadableMenuMutations && !$disableRedundantRootTypeMutationFields ? ['updateMenuMutationPayloadObjects', 'deleteMenuMutationPayloadObjects'] : []);
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
@@ -208,6 +285,9 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             'updateMenus' => $this->__('Update menus', 'gatographql'),
             'createMenuMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `createMenu` mutation', 'gatographql'),
             'updateMenuMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `updateMenu` mutation', 'gatographql'),
+            'deleteMenu' => $this->__('Delete a menu', 'gatographql'),
+            'deleteMenus' => $this->__('Delete menus', 'gatographql'),
+            'deleteMenuMutationPayloadObjects' => $this->__('Retrieve the payload objects from a recently-executed `deleteMenu` mutation', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }
@@ -219,16 +299,18 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         if (!$usePayloadableMenuMutations) {
             return match ($fieldName) {
                 'createMenu', 'updateMenu' => SchemaTypeModifiers::NONE,
+                'deleteMenu' => SchemaTypeModifiers::NON_NULLABLE,
                 'createMenus', 'updateMenus' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
+                'deleteMenus' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
                 default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
             };
         }
-        if (\in_array($fieldName, ['createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects'])) {
+        if (\in_array($fieldName, ['createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects', 'deleteMenuMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldTypeModifiers();
         }
         return match ($fieldName) {
-            'createMenu', 'updateMenu' => SchemaTypeModifiers::NON_NULLABLE,
-            'createMenus', 'updateMenus' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
+            'createMenu', 'updateMenu', 'deleteMenu' => SchemaTypeModifiers::NON_NULLABLE,
+            'createMenus', 'updateMenus', 'deleteMenus' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
             default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
         };
     }
@@ -242,26 +324,28 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             'createMenus' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootCreateMenuInputObjectTypeResolver()),
             'updateMenu' => ['input' => $this->getRootUpdateMenuInputObjectTypeResolver()],
             'updateMenus' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootUpdateMenuInputObjectTypeResolver()),
-            'createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
+            'deleteMenu' => ['input' => $this->getRootDeleteMenuInputObjectTypeResolver()],
+            'deleteMenus' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getRootDeleteMenuInputObjectTypeResolver()),
+            'createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects', 'deleteMenuMutationPayloadObjects' => $this->getMutationPayloadObjectsFieldArgNameTypeResolvers(),
             default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
         };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
-        if (\in_array($fieldName, ['createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects'])) {
+        if (\in_array($fieldName, ['createMenuMutationPayloadObjects', 'updateMenuMutationPayloadObjects', 'deleteMenuMutationPayloadObjects'])) {
             return $this->getMutationPayloadObjectsFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
-        if (\in_array($fieldName, ['createMenus', 'updateMenus'])) {
+        if (\in_array($fieldName, ['createMenus', 'updateMenus', 'deleteMenus'])) {
             return $this->getBulkOperationFieldArgTypeModifiers($fieldArgName) ?? parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName);
         }
         return match ([$fieldName => $fieldArgName]) {
-            ['createMenu' => 'input'], ['updateMenu' => 'input'] => SchemaTypeModifiers::MANDATORY,
+            ['createMenu' => 'input'], ['updateMenu' => 'input'], ['deleteMenu' => 'input'] => SchemaTypeModifiers::MANDATORY,
             default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
         };
     }
     public function getFieldArgDefaultValue(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : mixed
     {
-        if (\in_array($fieldName, ['createMenus', 'updateMenus'])) {
+        if (\in_array($fieldName, ['createMenus', 'updateMenus', 'deleteMenus'])) {
             return $this->getBulkOperationFieldArgDefaultValue($fieldArgName) ?? parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
         }
         return parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName);
@@ -276,6 +360,8 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             'createMenus' => $usePayloadableMenuMutations ? $this->getPayloadableCreateMenuBulkOperationMutationResolver() : $this->getCreateMenuBulkOperationMutationResolver(),
             'updateMenu' => $usePayloadableMenuMutations ? $this->getPayloadableUpdateMenuMutationResolver() : $this->getUpdateMenuMutationResolver(),
             'updateMenus' => $usePayloadableMenuMutations ? $this->getPayloadableUpdateMenuBulkOperationMutationResolver() : $this->getUpdateMenuBulkOperationMutationResolver(),
+            'deleteMenu' => $usePayloadableMenuMutations ? $this->getPayloadableDeleteMenuMutationResolver() : $this->getDeleteMenuMutationResolver(),
+            'deleteMenus' => $usePayloadableMenuMutations ? $this->getPayloadableDeleteMenuBulkOperationMutationResolver() : $this->getDeleteMenuBulkOperationMutationResolver(),
             default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
         };
     }
@@ -288,11 +374,13 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             return match ($fieldName) {
                 'createMenu', 'createMenus', 'createMenuMutationPayloadObjects' => $this->getRootCreateMenuMutationPayloadObjectTypeResolver(),
                 'updateMenu', 'updateMenus', 'updateMenuMutationPayloadObjects' => $this->getRootUpdateMenuMutationPayloadObjectTypeResolver(),
+                'deleteMenu', 'deleteMenus', 'deleteMenuMutationPayloadObjects' => $this->getRootDeleteMenuMutationPayloadObjectTypeResolver(),
                 default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
             };
         }
         return match ($fieldName) {
             'createMenu', 'createMenus', 'updateMenu', 'updateMenus' => $this->getMenuObjectTypeResolver(),
+            'deleteMenu', 'deleteMenus' => $this->getBooleanScalarTypeResolver(),
             default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
         };
     }
@@ -319,6 +407,8 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             case 'createMenus':
             case 'updateMenu':
             case 'updateMenus':
+            case 'deleteMenu':
+            case 'deleteMenus':
                 $validationCheckpoints[] = $this->getUserLoggedInCheckpoint();
                 break;
         }
@@ -330,6 +420,7 @@ class RootObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         switch ($fieldName) {
             case 'createMenuMutationPayloadObjects':
             case 'updateMenuMutationPayloadObjects':
+            case 'deleteMenuMutationPayloadObjects':
                 return $this->resolveMutationPayloadObjectsValue($objectTypeResolver, $fieldDataAccessor);
         }
         return parent::resolveValue($objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);

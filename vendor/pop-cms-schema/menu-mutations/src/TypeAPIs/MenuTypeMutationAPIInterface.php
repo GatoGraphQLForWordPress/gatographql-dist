@@ -17,6 +17,11 @@ interface MenuTypeMutationAPIInterface
      * @param array<string,mixed> $menuData
      */
     public function updateMenu(string|int $menuID, array $menuData) : void;
+    /**
+     * @throws MenuCRUDMutationException In case of error
+     */
+    public function deleteMenu(string|int $menuID) : void;
     public function canUserEditMenus(string|int $userID) : bool;
     public function canUserEditMenu(string|int $userID, string|int $menuID) : bool;
+    public function canUserDeleteMenu(string|int $userID, string|int $menuID) : bool;
 }

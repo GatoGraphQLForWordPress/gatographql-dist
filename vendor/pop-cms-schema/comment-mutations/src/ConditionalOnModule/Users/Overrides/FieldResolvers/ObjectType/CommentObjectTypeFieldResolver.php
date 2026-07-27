@@ -41,6 +41,14 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
         if (\in_array($field->getName(), ['replyWithComments'])) {
             return $this->prepareBulkOperationAddCommentFieldArgs($fieldArgs);
         }
-        return $this->prepareAddCommentFieldArgs($fieldArgs);
+        if (\in_array($field->getName(), ['reply'])) {
+            return $this->prepareAddCommentFieldArgs($fieldArgs);
+        }
+        /**
+         * Any other field (such as updating or deleting the comment) must not
+         * have the logged-in user's data injected into its input, as that
+         * would override the comment's own author.
+         */
+        return parent::prepareFieldArgs($fieldArgs, $objectTypeResolver, $field, $objectTypeFieldResolutionFeedbackStore);
     }
 }

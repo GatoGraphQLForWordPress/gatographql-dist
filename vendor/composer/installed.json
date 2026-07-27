@@ -87,7 +87,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GatoGraphQLForWP\/packages\/external-dependency-wrappers",
-                "reference": "80315b48e2e139e7cfb8f61f2dcd97d81ac5284e"
+                "reference": "0c16a1637f84bfb39fe1c18bca0246710fb931ce"
             },
             "require": {
                 "composer\/semver": "^3.2",
@@ -103,7 +103,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -163,7 +163,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GatoGraphQLForWP\/packages\/plugin-utils",
-                "reference": "dd155fcbda003212518dcf0a6aab1c4480fa0b13"
+                "reference": "32156343ab0edff396036d5ebe06c6138ca5a863"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -178,7 +178,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -238,7 +238,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/component-model",
-                "reference": "dbf22928776ecd4a750610ea9f99bd58a826f6ae"
+                "reference": "df78ab04ca236ae8c5e78553137c68e3900bb398"
             },
             "require": {
                 "composer\/semver": "^3.2",
@@ -262,7 +262,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -322,7 +322,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/componentrouting",
-                "reference": "f30d51241749b834831f506013fc50b52e41770f"
+                "reference": "cfd2da5a63e8d43b32fb44549b8c947c76983e1b"
             },
             "require": {
                 "getpop\/root": "dev-master",
@@ -337,7 +337,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -397,7 +397,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/definitions",
-                "reference": "8185ba4ffad1d5dabcb7413a513ff741cf03b29d"
+                "reference": "a23c9f712b65fbc493b375eb58410b3c030f102d"
             },
             "require": {
                 "getpop\/root": "dev-master",
@@ -412,7 +412,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -472,7 +472,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/dom-crawler",
-                "reference": "638e10f8ca7868b9580c412c02ec7dcd105e0187"
+                "reference": "56b9f007ddcc1a142246099c4ffe8ec6103ad08f"
             },
             "require": {
                 "getpop\/component-model": "dev-master",
@@ -490,7 +490,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -550,7 +550,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/engine",
-                "reference": "2f163704396794fedf9310a7eb3135a022623469"
+                "reference": "cdd78273d2f55f0826ca90c14c97b3120982e00f"
             },
             "require": {
                 "getpop\/component-model": "dev-master",
@@ -567,7 +567,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -627,7 +627,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/engine-wp",
-                "reference": "638cace14d395498d12f197e40eaccb1382f98e7"
+                "reference": "8dd1719f6d6ed5cdc6246cb7c626d2e51f06a7ae"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -647,7 +647,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -708,7 +708,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/graphql-parser",
-                "reference": "8add6da46198430c4aa6e1ddcc045c1f0df1505e"
+                "reference": "a40147f026a798a9aa30de63578bb3a03d7eb0cd"
             },
             "require": {
                 "getpop\/root": "dev-master",
@@ -723,7 +723,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -785,7 +785,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/guzzle-http",
-                "reference": "16dbcd7817318c5ca692e68da5693ed0d952cea0"
+                "reference": "fb8b8f93b8eaa146f39b45b0e44a47f4b7665790"
             },
             "require": {
                 "getpop\/component-model": "dev-master",
@@ -801,7 +801,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -861,7 +861,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/loosecontracts",
-                "reference": "ed224fdbf792d585d463e363f3a53e6f56b13a19"
+                "reference": "ca3b82676788355662b680093f0e322e8d080b0d"
             },
             "require": {
                 "getpop\/root": "dev-master",
@@ -876,7 +876,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -936,7 +936,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/mandatory-directives-by-configuration",
-                "reference": "cb1aaa263da04154333a6006c7ce44c06edd2acc"
+                "reference": "16a9fd6b3f9859c6afbba3cc6dcfb85898765b13"
             },
             "require": {
                 "getpop\/component-model": "dev-master",
@@ -951,7 +951,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1011,7 +1011,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/markdown-convertor",
-                "reference": "1866805696350b0f7bfd892e52ceb52423fb269f"
+                "reference": "56b64c6e12ad3d7b9416bb2aee19ec85c99fbc65"
             },
             "require": {
                 "getpop\/component-model": "dev-master",
@@ -1027,7 +1027,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1087,7 +1087,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/root",
-                "reference": "162792a244e2b6b81e14f8706637dccc918d1692"
+                "reference": "65c40a65b5596de92403bbe3cbf4bd4b0d6eee83"
             },
             "require": {
                 "ext-mbstring": "*",
@@ -1110,7 +1110,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1170,7 +1170,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Engine\/packages\/root-wp",
-                "reference": "fb8bc6c34f08a857ad99c20dcc3ba920b69d02c2"
+                "reference": "e62ad8d7248782f78998284613594a7d2771b837"
             },
             "require": {
                 "getpop\/root": "dev-master",
@@ -1189,7 +1189,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1250,7 +1250,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GraphQLByPoP\/packages\/graphql-clients-for-wp",
-                "reference": "0c18217cca79dc2823efe48c14f56c13e21f4625"
+                "reference": "48bc7b58183fbe48633e8f6d3e1bb528eee2d7d7"
             },
             "require": {
                 "php": "^8.1",
@@ -1270,7 +1270,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1331,7 +1331,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GraphQLByPoP\/packages\/graphql-endpoint-for-wp",
-                "reference": "972fff27ecbad728d51526e1ec519b96fe4e0fb9"
+                "reference": "6a629d702bd91f37a56bb2b9513c5f473d9fa458"
             },
             "require": {
                 "php": "^8.1",
@@ -1351,7 +1351,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1411,7 +1411,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GraphQLByPoP\/packages\/graphql-request",
-                "reference": "d87241c093dc04736b4fbedf947e8e4da0dec23d"
+                "reference": "4444d18724193e7d7ee50cce38eeb11e0f3c9378"
             },
             "require": {
                 "php": "^8.1",
@@ -1426,7 +1426,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1486,7 +1486,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/GraphQLByPoP\/packages\/graphql-server",
-                "reference": "d668caad1c8753f53804b892168ef36eb0c044d1"
+                "reference": "da0f919a05a3bd256e4d2280f7cf65fd5b3ab262"
             },
             "require": {
                 "graphql-by-pop\/graphql-request": "dev-master",
@@ -1507,7 +1507,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -1563,23 +1563,23 @@
         },
         {
             "name": "guzzlehttp\/guzzle",
-            "version": "7.14.1",
-            "version_normalized": "7.14.1.0",
+            "version": "7.15.2",
+            "version_normalized": "7.15.2.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/guzzle\/guzzle.git",
-                "reference": "6b1d2429a2c312474c523aa9017fba0c07b5f4a0"
+                "reference": "744101956d78b7c1384d0cbf379db13e859167bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/guzzle\/guzzle\/zipball\/6b1d2429a2c312474c523aa9017fba0c07b5f4a0",
-                "reference": "6b1d2429a2c312474c523aa9017fba0c07b5f4a0",
+                "url": "https:\/\/api.github.com\/repos\/guzzle\/guzzle\/zipball\/744101956d78b7c1384d0cbf379db13e859167bf",
+                "reference": "744101956d78b7c1384d0cbf379db13e859167bf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp\/promises": "^2.5.1",
-                "guzzlehttp\/psr7": "^2.12.5",
+                "guzzlehttp\/psr7": "^2.13",
                 "php": "^7.2.5 || ^8.0",
                 "psr\/http-client": "^1.0",
                 "symfony\/deprecation-contracts": "^2.5 || ^3.0",
@@ -1592,7 +1592,7 @@
                 "bamarni\/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "guzzle\/client-integration-tests": "3.0.3",
-                "guzzlehttp\/test-server": "^0.6",
+                "guzzlehttp\/test-server": "^0.7",
                 "php-http\/message-factory": "^1.1",
                 "phpunit\/phpunit": "^8.5.52 || ^9.6.34",
                 "psr\/log": "^1.1 || ^2.0 || ^3.0"
@@ -1602,7 +1602,7 @@
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr\/log": "Required for using the Log middleware"
             },
-            "time": "2026-07-13T01:32:54+00:00",
+            "time": "2026-07-26T23:23:20+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1674,7 +1674,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/guzzle\/guzzle\/issues",
-                "source": "https:\/\/github.com\/guzzle\/guzzle\/tree\/7.14.1"
+                "source": "https:\/\/github.com\/guzzle\/guzzle\/tree\/7.15.2"
             },
             "funding": [
                 {
@@ -1781,17 +1781,17 @@
         },
         {
             "name": "guzzlehttp\/psr7",
-            "version": "2.12.5",
-            "version_normalized": "2.12.5.0",
+            "version": "2.13.0",
+            "version_normalized": "2.13.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/guzzle\/psr7.git",
-                "reference": "9365d578a9fd1552ad6ca9c3cb530708526feb09"
+                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/guzzle\/psr7\/zipball\/9365d578a9fd1552ad6ca9c3cb530708526feb09",
-                "reference": "9365d578a9fd1552ad6ca9c3cb530708526feb09",
+                "url": "https:\/\/api.github.com\/repos\/guzzle\/psr7\/zipball\/dad89620b7a6edb60c15858442eb2e408b45d8f4",
+                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4",
                 "shasum": ""
             },
             "require": {
@@ -1815,7 +1815,7 @@
             "suggest": {
                 "laminas\/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2026-07-13T01:27:20+00:00",
+            "time": "2026-07-16T22:23:49+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1883,7 +1883,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/guzzle\/psr7\/issues",
-                "source": "https:\/\/github.com\/guzzle\/psr7\/tree\/2.12.5"
+                "source": "https:\/\/github.com\/guzzle\/psr7\/tree\/2.13.0"
             },
             "funding": [
                 {
@@ -2155,7 +2155,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api",
-                "reference": "6f5a0f178a0749994fce1af04cb12873d3fff2b3"
+                "reference": "9c47866e6731cff87068d0194a524b73d3f1f553"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -2176,7 +2176,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2236,7 +2236,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api-clients",
-                "reference": "0984f5468cde5a36b42ff15ee336cb7da1f7db1a"
+                "reference": "6f56ef1a24074cd24ba18bc763f2f3fecd95ed68"
             },
             "require": {
                 "php": "^8.1",
@@ -2251,7 +2251,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2308,7 +2308,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api-endpoints",
-                "reference": "3be2600b782ca0d347b8066d8910b7f313e2e235"
+                "reference": "64606a41e750591a7138c35de57b8b77072e3355"
             },
             "require": {
                 "php": "^8.1",
@@ -2323,7 +2323,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2380,7 +2380,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api-endpoints-for-wp",
-                "reference": "a9160e281df051beb9d3feb6d77d44d2f583ac69"
+                "reference": "786c65d2442d85a59efbf1854b389646f784681b"
             },
             "require": {
                 "php": "^8.1",
@@ -2399,7 +2399,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2459,7 +2459,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api-graphql",
-                "reference": "e10f6485e846064216cddfad0cfa15079a90c702"
+                "reference": "908675cad767e1dcbfbb262573e52a0196e9b313"
             },
             "require": {
                 "php": "^8.1",
@@ -2474,7 +2474,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2535,7 +2535,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/API\/packages\/api-mirrorquery",
-                "reference": "dbdd38f3879c82796b556c1cc5e43be53cbeaf00"
+                "reference": "54ef34649a1aab7ae2fad5b6b8e68e2c5c019574"
             },
             "require": {
                 "php": "^8.1",
@@ -2550,7 +2550,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2610,12 +2610,12 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Backbone\/packages\/php-hooks",
-                "reference": "0a7bd5db93bcdcd48a5580d66e41b1b5d13f436f"
+                "reference": "f80953985e35903404f6967e92ed8694f38f334c"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2658,7 +2658,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/categories",
-                "reference": "a415da4bfedfc2fee5ae1dc274a2bc2134c30be5"
+                "reference": "d67425e7ae8e48591bfc6ea9691e302fbd7c9a15"
             },
             "require": {
                 "php": "^8.1",
@@ -2677,7 +2677,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2737,7 +2737,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/categories-wp",
-                "reference": "a36ec9e34b14b2b418823c4f0f61a641574b0472"
+                "reference": "35c8ae5c6190f87d46720b3e531d72bcce6de2f3"
             },
             "require": {
                 "php": "^8.1",
@@ -2757,7 +2757,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2817,7 +2817,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/category-mutations",
-                "reference": "00da88427d17db627aed72629258368069844fbf"
+                "reference": "71362327632b09982f036f7ef67e17e3f3f13a5d"
             },
             "require": {
                 "php": "^8.1",
@@ -2833,7 +2833,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2893,7 +2893,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/category-mutations-wp",
-                "reference": "4b2c1c20541c00a78f7f8abb2552d83bff8c36e7"
+                "reference": "0d9e5bb34f7c51bbb389b9665cb2e09eed556f43"
             },
             "require": {
                 "php": "^8.1",
@@ -2914,7 +2914,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -2974,7 +2974,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/categorymeta-mutations",
-                "reference": "de793ad410afeb66c7bf6863c599b932d689e27c"
+                "reference": "7a12c3aaac184f4928c57113e32e88f82952735b"
             },
             "require": {
                 "php": "^8.1",
@@ -2990,7 +2990,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3050,7 +3050,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/categorymeta-mutations-wp",
-                "reference": "ef3c4fd919aad1a5000d16d8e2efb81127076419"
+                "reference": "4b92ce1aaa9bd211a8c05bb2e41dcb5fbc800513"
             },
             "require": {
                 "php": "^8.1",
@@ -3071,7 +3071,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3131,7 +3131,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/comment-mutations",
-                "reference": "abe6e9ec09d2bd83e3331139d0a38fbe54aa147d"
+                "reference": "195006366d43ec5bedd7d9ffcb45774068a48d03"
             },
             "require": {
                 "php": "^8.1",
@@ -3148,7 +3148,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3208,11 +3208,12 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/comment-mutations-wp",
-                "reference": "6d02963e89324876db6bc5c3bc01ae3509fac0b8"
+                "reference": "d64fbe6145328c7771c5038a8cfe8bd0f35144c3"
             },
             "require": {
                 "php": "^8.1",
                 "pop-cms-schema\/comment-mutations": "dev-master",
+                "pop-cms-schema\/comments": "dev-master",
                 "pop-cms-schema\/comments-wp": "dev-master",
                 "pop-cms-schema\/customposts-wp": "dev-master",
                 "pop-cms-schema\/user-state-mutations-wp": "dev-master"
@@ -3230,7 +3231,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3290,7 +3291,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/commentmeta",
-                "reference": "cf77d230df1dcc687c9ecc29b0e9221fdc01b525"
+                "reference": "0f744e4723318a6ff88c8342193518b7b2f1da78"
             },
             "require": {
                 "php": "^8.1",
@@ -3306,7 +3307,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3366,7 +3367,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/commentmeta-mutations",
-                "reference": "4c9f96e299d387461a2903f71dce4497c526a270"
+                "reference": "bfe9fe38fc4499f61739940c9edc56b56042f4c5"
             },
             "require": {
                 "php": "^8.1",
@@ -3383,7 +3384,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3443,7 +3444,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/commentmeta-mutations-wp",
-                "reference": "73e4223e9f1789015cd998d0350d696a77a49875"
+                "reference": "c972710125b5f739534608061e398de7ae57a602"
             },
             "require": {
                 "php": "^8.1",
@@ -3464,7 +3465,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3524,7 +3525,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/commentmeta-wp",
-                "reference": "ecd321362152a9a3853209284ec7ae0b4adb05e6"
+                "reference": "5a237b706090d25ffc28ecac12ee5b7b4fec16d1"
             },
             "require": {
                 "php": "^8.1",
@@ -3545,7 +3546,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3605,7 +3606,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/comments",
-                "reference": "d392fed9121bffcc0fe17f2093abf46595df6cbd"
+                "reference": "60557669ff1d6c51f0933bd9d6ffb253715357d4"
             },
             "require": {
                 "php": "^8.1",
@@ -3624,7 +3625,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3684,7 +3685,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/comments-wp",
-                "reference": "da7cf6e51109ce7d64fd7a35535a657d098fe85c"
+                "reference": "08dc35881d4b4f849dda09dadc640e07ad2f049f"
             },
             "require": {
                 "php": "^8.1",
@@ -3704,7 +3705,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3764,7 +3765,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-categories-wp",
-                "reference": "e6ce118f6b8a0dce4203ae4aa5f201cf83b6ae6a"
+                "reference": "678d875d3a683fce74e937708912a467a58be9fb"
             },
             "require": {
                 "php": "^8.1",
@@ -3784,7 +3785,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3844,7 +3845,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-category-mutations",
-                "reference": "13b2d21b886421b1b95d9e33edf1faa184faf033"
+                "reference": "bbb31a3b85401cff6c3e57a187499d43efd5d93a"
             },
             "require": {
                 "php": "^8.1",
@@ -3861,7 +3862,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -3921,7 +3922,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-category-mutations-wp",
-                "reference": "6700d49eb448c74ba448bbf8442bf5e4d11a6271"
+                "reference": "22a62c529155e8bf18caf00fe6ef217874ca0eaf"
             },
             "require": {
                 "php": "^8.1",
@@ -3943,7 +3944,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4003,7 +4004,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-categorymeta-mutations",
-                "reference": "128bddc5aa3ca3536713282b4b85c889636558d8"
+                "reference": "5a541cc7d65c7c916f5c2b4e4774e3dbd4b65a20"
             },
             "require": {
                 "php": "^8.1",
@@ -4019,7 +4020,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4079,7 +4080,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-mutations",
-                "reference": "2b4b57835e6ce46434e99f24659f46556a76391c"
+                "reference": "b47a4740fcf245aea982f45bbc68d15da6e209c9"
             },
             "require": {
                 "php": "^8.1",
@@ -4097,7 +4098,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4157,7 +4158,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-mutations-wp",
-                "reference": "53a69c6561c90c75fb32e4f0df4fc1ea11729b2d"
+                "reference": "7ec9edbdd981ab1ea8030b0214f081b07987265c"
             },
             "require": {
                 "php": "^8.1",
@@ -4179,7 +4180,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4239,7 +4240,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-tag-mutations",
-                "reference": "e134d89e545137fcb024a0611186b6b7e8dc8251"
+                "reference": "4fe793ad0778b6f502982193d1ad13ea2f49a99d"
             },
             "require": {
                 "php": "^8.1",
@@ -4256,7 +4257,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4316,7 +4317,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-tag-mutations-wp",
-                "reference": "900a24c261070706a5e70b179aeb192e88d2ae27"
+                "reference": "5615b984d3a17c2bb78207707555f3b84f89eb93"
             },
             "require": {
                 "php": "^8.1",
@@ -4338,7 +4339,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4398,7 +4399,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-tagmeta-mutations",
-                "reference": "21a39a56af07df8abb188972e6d64be415391029"
+                "reference": "fa063d3f8bdba0f99c21b24f6442804f94e29da1"
             },
             "require": {
                 "php": "^8.1",
@@ -4414,7 +4415,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4474,7 +4475,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-tags-wp",
-                "reference": "e16fc134b0a7914557574b6eb782ade9d1bf6e02"
+                "reference": "7f4d803c8e52c0fffcfc9aed5e3a80ba25fb6ef5"
             },
             "require": {
                 "php": "^8.1",
@@ -4494,7 +4495,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4554,7 +4555,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-user-mutations",
-                "reference": "eebe9b18704cb957497df6b52fd388d36516550a"
+                "reference": "36c8915e8e2236aba12457c3cf2cbbb8b2a3af5f"
             },
             "require": {
                 "php": "^8.1",
@@ -4570,7 +4571,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4630,7 +4631,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompost-user-mutations-wp",
-                "reference": "3dbf1ffaa2daad053bac91084920eb3080821810"
+                "reference": "1d5afd606c5a066ba882acd6189c99b7a37d594f"
             },
             "require": {
                 "php": "^8.1",
@@ -4651,7 +4652,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4711,7 +4712,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmedia",
-                "reference": "a81af097074f7d503b382d2a5372bbbf472e4166"
+                "reference": "074b20d0f1a825f185cef722d8540f107433bf16"
             },
             "require": {
                 "php": "^8.1",
@@ -4727,7 +4728,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4787,7 +4788,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmedia-mutations",
-                "reference": "4d688fbd791126bd2142676d307dc08450d1359f"
+                "reference": "190a9249c161ebdeed3bd8b8f3afd3bf84a3abc6"
             },
             "require": {
                 "php": "^8.1",
@@ -4804,7 +4805,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4864,7 +4865,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmedia-mutations-wp",
-                "reference": "51d12a5fcfe6069530a3f2dc91168b2f4b238202"
+                "reference": "b3d1fc90d93032f6a6f8104d662679a04377441c"
             },
             "require": {
                 "php": "^8.1",
@@ -4887,7 +4888,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -4947,7 +4948,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmedia-wp",
-                "reference": "b1bf0140cb361341a4321d2f5461f409b3364b1f"
+                "reference": "907ccc95a3acf43215da7701108f062927f9b1e6"
             },
             "require": {
                 "php": "^8.1",
@@ -4968,7 +4969,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5028,7 +5029,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmeta",
-                "reference": "8849ad26f8310dc9249495e1fa83354a43d86769"
+                "reference": "4a249f15feb0ed270107d3e63f59b07749cea3d9"
             },
             "require": {
                 "php": "^8.1",
@@ -5044,7 +5045,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5104,7 +5105,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmeta-mutations",
-                "reference": "072e0a0531292e17d4bcf66ee7ab6eeabc2ae1b8"
+                "reference": "05512103a0a1c59e91bcac40980d8361aa1abbe6"
             },
             "require": {
                 "php": "^8.1",
@@ -5120,7 +5121,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5180,7 +5181,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmeta-mutations-wp",
-                "reference": "f2c46ce2cc71e704944d811d52184f5cc8984376"
+                "reference": "82037bfdb60188c0486e1f19e63cc0633e975798"
             },
             "require": {
                 "php": "^8.1",
@@ -5201,7 +5202,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5261,7 +5262,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/custompostmeta-wp",
-                "reference": "4fa7d003350bfef416eebabc94158421f69a64c0"
+                "reference": "689938cfccdf9877587b4b2c07f53eddc9f2932c"
             },
             "require": {
                 "php": "^8.1",
@@ -5282,7 +5283,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5342,7 +5343,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/customposts",
-                "reference": "ccc2a0d2b21507ef2a91c61fdb9ecb6daa947970"
+                "reference": "c461ac6d71edfdd44204030c0c5799400ad97c22"
             },
             "require": {
                 "php": "^8.1",
@@ -5363,7 +5364,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5423,7 +5424,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/customposts-wp",
-                "reference": "548488bbbf68bb0f3f73e4d5041cda9ca2f03056"
+                "reference": "b2b00061ed67ee6beab44d392eef3e3d011ba8cb"
             },
             "require": {
                 "php": "^8.1",
@@ -5443,7 +5444,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5503,7 +5504,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/media",
-                "reference": "7f4503c67681d7792954bdf7d5030a99062595c8"
+                "reference": "af7e930c00cc72be8e52ed3b13ae4cd99c776597"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -5523,7 +5524,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5583,7 +5584,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/media-mutations",
-                "reference": "7dd95769b32fd8a1d08b6a3e107fcead552041d0"
+                "reference": "c8ef1b8da9f0a2ce832ffb4e941c64e94aa202d0"
             },
             "require": {
                 "php": "^8.1",
@@ -5601,7 +5602,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5661,7 +5662,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/media-mutations-wp",
-                "reference": "81ebe76f9e01337046dd2b90702bd7366dc6f9a1"
+                "reference": "18e0754cfb28f7e9988b1ea60635471ffac4f030"
             },
             "require": {
                 "php": "^8.1",
@@ -5683,7 +5684,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5743,7 +5744,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/media-wp",
-                "reference": "90c9c6d9d573e51df3b1e26adaf7b4e00a483f81"
+                "reference": "f5a21d7d08cf8f1a1aa515d49eb6152a559aa0fc"
             },
             "require": {
                 "php": "^8.1",
@@ -5763,7 +5764,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5823,7 +5824,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/menu-mutations",
-                "reference": "f8493ecb16364e2503fa958d24643549e0747f7e"
+                "reference": "b08f5f903f89a20994d500031d1efedb26c613b7"
             },
             "require": {
                 "php": "^8.1",
@@ -5841,7 +5842,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5901,7 +5902,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/menu-mutations-wp",
-                "reference": "85672e1575f9f3fe60d373218de7b356bec267a0"
+                "reference": "2a0e200d0a51d5a56404030e0b5d3de1f6ac3d1e"
             },
             "require": {
                 "php": "^8.1",
@@ -5923,7 +5924,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -5983,7 +5984,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/menus",
-                "reference": "f89188228e47cf53f23169bf378a0f7a2ceb53d1"
+                "reference": "7b4b9f5e59ccf639ccf8228fb3156e42dd8e12a6"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -5999,7 +6000,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6059,7 +6060,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/menus-wp",
-                "reference": "29b2752f7d522f5429b1ffea33a52144fc48004d"
+                "reference": "80b554ecfbd7284b9a1e628869c4cd8b7ce1c8f3"
             },
             "require": {
                 "php": "^8.1",
@@ -6079,7 +6080,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6139,7 +6140,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/meta",
-                "reference": "aeafb3ac01b55f762da39c95daf499595dc72d5d"
+                "reference": "0fd41ce2dff75d4e8f12ea1697036425585cea7d"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -6156,7 +6157,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6216,7 +6217,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/meta-mutations",
-                "reference": "5082225b07392e8a88fcac043f2ca355077010f1"
+                "reference": "67e40fb1848e8c2ccde6fc97a9b6cf191aee00f1"
             },
             "require": {
                 "php": "^8.1",
@@ -6231,7 +6232,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6291,7 +6292,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/meta-mutations-wp",
-                "reference": "888e8522b06682ff8cd1329658c977e91fef4bf2"
+                "reference": "69d89e944846bbe2faa6bcd7d12578ef7c6cb0d9"
             },
             "require": {
                 "php": "^8.1",
@@ -6312,7 +6313,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6372,7 +6373,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/metaquery-wp",
-                "reference": "f544483ba52835b146920647f7c029e32e8f6e66"
+                "reference": "bd2297fb420b7f4723763de732be483e64c951d1"
             },
             "require": {
                 "php": "^8.1",
@@ -6391,7 +6392,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6451,7 +6452,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/page-mutations",
-                "reference": "59fd01e7f159ad410254837564fe8d7127095e75"
+                "reference": "53f893726a9ea39e34250466b8f90f59b7790ab8"
             },
             "require": {
                 "php": "^8.1",
@@ -6475,7 +6476,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6535,7 +6536,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/page-mutations-wp",
-                "reference": "d49573685dd987b862a7101c1f8d4302d4f1f288"
+                "reference": "6d3545f21fc8f8d0ed1427e30cbb662b3cefdfb6"
             },
             "require": {
                 "php": "^8.1",
@@ -6557,7 +6558,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6617,7 +6618,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/pagemedia-mutations",
-                "reference": "eab678fd0de379865d5f869cf2189a2de21ac83f"
+                "reference": "50f315f5b22afc82ae3d57e754a77612935bbbf4"
             },
             "require": {
                 "php": "^8.1",
@@ -6633,7 +6634,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6693,7 +6694,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/pagemeta-mutations",
-                "reference": "4a1bf0bfae130efa20f99951450e9594e0f218ed"
+                "reference": "989b8cc4d3081094b2c176caa5ac9727897c895b"
             },
             "require": {
                 "php": "^8.1",
@@ -6709,7 +6710,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6769,7 +6770,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/pages",
-                "reference": "482f22864b7c2707e897f72111911af7b7abef69"
+                "reference": "344feb9f3c49cec89cfb68c63700fb0b1aa69c6b"
             },
             "require": {
                 "php": "^8.1",
@@ -6794,7 +6795,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6854,7 +6855,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/pages-wp",
-                "reference": "050dd323ef5876f0727dc741004b03b96a2acc23"
+                "reference": "1333ba1b4d8c4da5833ba1bd8c9e99df0b861242"
             },
             "require": {
                 "php": "^8.1",
@@ -6874,7 +6875,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -6934,7 +6935,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-categories",
-                "reference": "7594124d46da1fe33defac959966d479674f019c"
+                "reference": "66841cbe64387549a94e6a3df012fb3b77583e01"
             },
             "require": {
                 "php": "^8.1",
@@ -6956,7 +6957,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7016,7 +7017,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-categories-wp",
-                "reference": "48e236a8dd2ce133e1febd80b339071c473ceadc"
+                "reference": "fd85b6997483ba7473fe8af319f4edda2649e663"
             },
             "require": {
                 "php": "^8.1",
@@ -7036,7 +7037,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7096,7 +7097,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-category-mutations",
-                "reference": "967e17339b9151b46e25018e6c8de78fc9df52e6"
+                "reference": "7b3c35fed034168feb2094c0edd06f855f528424"
             },
             "require": {
                 "php": "^8.1",
@@ -7114,7 +7115,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7174,7 +7175,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-categorymeta-mutations",
-                "reference": "2f2e34c754421868c4c3f2e609e34ca361f379d1"
+                "reference": "3ab590ec92429b70cd62853dc5b3a2434128eca2"
             },
             "require": {
                 "php": "^8.1",
@@ -7192,7 +7193,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7252,7 +7253,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-mutations",
-                "reference": "c1310527026263709cc3cf5403afab0a79d8bc88"
+                "reference": "c4d15758056787ece18d2b1baabeee844e186e16"
             },
             "require": {
                 "php": "^8.1",
@@ -7276,7 +7277,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7336,7 +7337,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-tag-mutations",
-                "reference": "c6b672ebe13c4f7332f3be4df48eb0fb5cb31cf4"
+                "reference": "6c574b16d2b8d8b27a07f56c22193e58a14b9f81"
             },
             "require": {
                 "php": "^8.1",
@@ -7354,7 +7355,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7414,7 +7415,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-tagmeta-mutations",
-                "reference": "198a64a35ad82e92832f7a0e76d8def746abe40b"
+                "reference": "9d72b04610f6d7a2410d380b5621270a1177aa15"
             },
             "require": {
                 "php": "^8.1",
@@ -7432,7 +7433,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7492,7 +7493,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-tags",
-                "reference": "51e60ad668bef35ad9214d2d5cc9993e9cbfbf09"
+                "reference": "9026b26b3895156c408aee773234b18954df3480"
             },
             "require": {
                 "php": "^8.1",
@@ -7514,7 +7515,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7574,7 +7575,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/post-tags-wp",
-                "reference": "ebf57820532c438fef54cb2d1650b508cdf8fc07"
+                "reference": "91ca5b7362238298dba7c4842a070596a695f3d3"
             },
             "require": {
                 "php": "^8.1",
@@ -7594,7 +7595,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7654,7 +7655,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/postmedia-mutations",
-                "reference": "b4c5533362a9f0ddf7515549a69b9d6390acf406"
+                "reference": "4d202d2e59f80042171134dc215eeb587fbf2d35"
             },
             "require": {
                 "php": "^8.1",
@@ -7670,7 +7671,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7730,7 +7731,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/postmeta-mutations",
-                "reference": "6ece903423738d44889b5103bb130f94be29108d"
+                "reference": "acb42b4ec031e79fca6be66eca7ad8f3fb14cd29"
             },
             "require": {
                 "php": "^8.1",
@@ -7746,7 +7747,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7806,7 +7807,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/posts",
-                "reference": "e64f1c61a348424a6ab3b6a555319475b4e87491"
+                "reference": "012c5c5031369736e164b19eae47204502ac8a29"
             },
             "require": {
                 "php": "^8.1",
@@ -7833,7 +7834,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7893,7 +7894,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/posts-wp",
-                "reference": "0f9dbdf494ee63943ef68eb97a339fae1b1541d9"
+                "reference": "6890e2f7d1df96bf48e95a387828477dd5f3b5d7"
             },
             "require": {
                 "php": "^8.1",
@@ -7913,7 +7914,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -7973,7 +7974,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/queriedobject",
-                "reference": "6b933742d7033cbde85040ee8f6acd33435cafd8"
+                "reference": "13982dbb1fcc005605c44ed437814821ff50ec05"
             },
             "require": {
                 "php": "^8.1",
@@ -7988,7 +7989,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8048,7 +8049,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/queriedobject-wp",
-                "reference": "2e9000a69a152ef98657e5fecd3195ddc9437e71"
+                "reference": "f6994d8fad1dcdb88c96f94a6c762d42082eba44"
             },
             "require": {
                 "php": "^8.1",
@@ -8068,7 +8069,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8128,7 +8129,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/schema-commons",
-                "reference": "e9277f3c54939ba9d9251acddfff07a76bc65b2c"
+                "reference": "f9ccf0830cfcd177c0f10813a2742dae37815942"
             },
             "require": {
                 "php": "^8.1",
@@ -8143,7 +8144,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8203,7 +8204,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/schema-commons-wp",
-                "reference": "890d3a0b25d9c1d556696d00a2d0baf8b323577c"
+                "reference": "21a87cf81e38e58b53eea5e907a3dc070ced8ae5"
             },
             "require": {
                 "getpop\/engine-wp": "dev-master",
@@ -8223,7 +8224,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8283,7 +8284,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/settings",
-                "reference": "15214e137dc4563d43f28b06b0ef9463873b6303"
+                "reference": "6d6358bf68dff832067acc3f4b14cef858b0edc9"
             },
             "require": {
                 "php": "^8.1",
@@ -8298,7 +8299,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8358,7 +8359,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/settings-wp",
-                "reference": "0805ca090693e9a94a6f087fa5ff08b2dc0387f4"
+                "reference": "0f55a5aff3a76cf0a1da67196aa8ec1ab319e284"
             },
             "require": {
                 "php": "^8.1",
@@ -8378,7 +8379,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8438,7 +8439,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tag-mutations",
-                "reference": "19893147adf5d860c0cec0d49bb9f5d9341c67cd"
+                "reference": "c5d2144418ddba7616190050607e5e403a945540"
             },
             "require": {
                 "php": "^8.1",
@@ -8454,7 +8455,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8514,7 +8515,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tag-mutations-wp",
-                "reference": "5630da8772354cf8640c223b02c5a4e972178f4e"
+                "reference": "40dd2eaab16fbc9140bcbdf043dc64d741f1334a"
             },
             "require": {
                 "php": "^8.1",
@@ -8535,7 +8536,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8595,7 +8596,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tagmeta-mutations",
-                "reference": "ba85227baf043eaa3afa922be068e0638afa5056"
+                "reference": "e165fce9199408c585892b2731e98a09c8075cbf"
             },
             "require": {
                 "php": "^8.1",
@@ -8611,7 +8612,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8671,7 +8672,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tagmeta-mutations-wp",
-                "reference": "1d57be33aaa45e0e850a34a6c3c046f208100da1"
+                "reference": "034d180eb2b1eee9924546b6befcf768107717fd"
             },
             "require": {
                 "php": "^8.1",
@@ -8692,7 +8693,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8752,7 +8753,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tags",
-                "reference": "333c0cca2bae5cd439e879d0c63755d64fba7579"
+                "reference": "e8f72204fd3a58e2da159f41dd73751bce9e3437"
             },
             "require": {
                 "php": "^8.1",
@@ -8771,7 +8772,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8831,7 +8832,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/tags-wp",
-                "reference": "dd30bc14c67c77510f43ec2e521a51fc74a4313f"
+                "reference": "7527e3f46461d3973b2a09133a046b61059615a6"
             },
             "require": {
                 "php": "^8.1",
@@ -8851,7 +8852,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8911,7 +8912,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomies",
-                "reference": "4ae0071d0cb6d0ab1bf642a47b8f3e0f40930ce7"
+                "reference": "7956df97fb1eef70d2fef9463e442f4d4835a8ee"
             },
             "require": {
                 "php": "^8.1",
@@ -8926,7 +8927,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -8986,7 +8987,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomies-wp",
-                "reference": "7877d652562c898529a7a5ebf01ae06239bde188"
+                "reference": "c7a996ac82fc74e0cc04364d029c49703f2bb7f1"
             },
             "require": {
                 "php": "^8.1",
@@ -9006,7 +9007,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9066,7 +9067,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomy-mutations",
-                "reference": "9a7453c7d44b8dd35b976d7e315453971f263f62"
+                "reference": "a5a33c6a31e65ab81f5587cea0bd69c2d0f41c58"
             },
             "require": {
                 "php": "^8.1",
@@ -9083,7 +9084,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9143,7 +9144,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomy-mutations-wp",
-                "reference": "8320b497a3df53304690c64f94ec9b037639ac6b"
+                "reference": "9c56600fa0f7b3d67c6b85eaf098d757a546b12c"
             },
             "require": {
                 "php": "^8.1",
@@ -9165,7 +9166,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9225,7 +9226,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomymeta",
-                "reference": "30e42bfee8339b43f4b3a3abec172f0544852a8c"
+                "reference": "b5472e921216e7e596055b6f3aac456b61453b03"
             },
             "require": {
                 "php": "^8.1",
@@ -9241,7 +9242,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9301,7 +9302,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomymeta-mutations",
-                "reference": "e284955547810c0e1e72f003d7480091a131e475"
+                "reference": "465f5a8778e983f44d1b9e571d3efdde442544e6"
             },
             "require": {
                 "php": "^8.1",
@@ -9317,7 +9318,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9377,7 +9378,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomymeta-mutations-wp",
-                "reference": "6d139565f5f0b2727e48185b3e9106211d5a6511"
+                "reference": "414aa9f2f8995bf5c22a15fdce1bbc29558a51d6"
             },
             "require": {
                 "php": "^8.1",
@@ -9398,7 +9399,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9458,7 +9459,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomymeta-wp",
-                "reference": "109640265c74ca37320821801013ae13ca275f02"
+                "reference": "ac619610651fb7b06910b7da834cb7cd5513f82f"
             },
             "require": {
                 "php": "^8.1",
@@ -9479,7 +9480,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9539,7 +9540,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomyquery",
-                "reference": "166bb86ee5b9453b4305dbf0cb46f008a6866bcd"
+                "reference": "6b419aafc904108ce02c23b9ee0c651b99e9e565"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -9554,7 +9555,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9614,7 +9615,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/taxonomyquery-wp",
-                "reference": "d8cccd46ccf84d8ba39b9726c684f49f241a08df"
+                "reference": "f68b6bbccd59990be6abb13c9ef6aeb11e3f0908"
             },
             "require": {
                 "php": "^8.1",
@@ -9634,7 +9635,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9694,7 +9695,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-avatars",
-                "reference": "f4286d72bdbe5d618a904a7594bcc6010f4f0c62"
+                "reference": "1f4b41247b32f4a205a94f9bcc79fb9b1e04d8a8"
             },
             "require": {
                 "php": "^8.1",
@@ -9709,7 +9710,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9769,7 +9770,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-avatars-wp",
-                "reference": "edef5e31dfa0996a63943da556f75ce7a29d5b33"
+                "reference": "59b3e9a8465db69d272c57e62b8e758fc39e07dd"
             },
             "require": {
                 "php": "^8.1",
@@ -9792,7 +9793,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9852,7 +9853,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-mutations",
-                "reference": "fc2e6247892786e3e0da772837b64c976ccaa06c"
+                "reference": "cb86fadc60f967253bd0f35f2769f09103a19a34"
             },
             "require": {
                 "php": "^8.1",
@@ -9867,7 +9868,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -9927,7 +9928,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-mutations-wp",
-                "reference": "bb0465a0110dc918c2e49eb012f81b7e1094def4"
+                "reference": "d3ccc0bf1be2d378b3120444a7c14a56c4a4efb2"
             },
             "require": {
                 "php": "^8.1",
@@ -9947,7 +9948,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10007,7 +10008,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-roles",
-                "reference": "50607507126089f483fc92cfbb1844743b5e93e1"
+                "reference": "833aa2914d90dff44e3a3122f68f69624fc8e03e"
             },
             "require": {
                 "php": "^8.1",
@@ -10022,7 +10023,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10082,7 +10083,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-roles-wp",
-                "reference": "49a870990f32b8f57be3dfea8ef24dc96b0fe6c9"
+                "reference": "3afa71c63af66d3dda6f1ffeb1b929bca9796f3e"
             },
             "require": {
                 "php": "^8.1",
@@ -10105,7 +10106,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10165,7 +10166,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-state",
-                "reference": "eb77b7f01071cb70103dfbee5486b3102996902c"
+                "reference": "da44d9ca3a8728264d84c9baac56000d487d698d"
             },
             "require": {
                 "php": "^8.1",
@@ -10181,7 +10182,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10241,7 +10242,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-state-mutations",
-                "reference": "9d827c927eb1199fd4702463a2c5a66007d9df73"
+                "reference": "33d60323101dfa959c09912b143f4ff0e5f05923"
             },
             "require": {
                 "php": "^8.1",
@@ -10256,7 +10257,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10316,7 +10317,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-state-mutations-wp",
-                "reference": "0fe6d6383747fb8be677093ee14e485ec138f094"
+                "reference": "7738448284c7b0ecc75cb39697b49fae6a6320d3"
             },
             "require": {
                 "php": "^8.1",
@@ -10336,7 +10337,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10396,7 +10397,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/user-state-wp",
-                "reference": "9a9ee71235a3ba5cff4a00e1a67d39b2fc257b84"
+                "reference": "578c608ba6f373471151174acb22fa2804db4b4f"
             },
             "require": {
                 "php": "^8.1",
@@ -10416,7 +10417,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10476,7 +10477,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/usermeta",
-                "reference": "d6d624af17e5f0213623f5da04a7a850e561c7ed"
+                "reference": "fa6d07c7056c41475eb21adabbe44373c304bfd8"
             },
             "require": {
                 "php": "^8.1",
@@ -10492,7 +10493,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10552,7 +10553,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/usermeta-mutations",
-                "reference": "a0d1b7642cdfd198fe23a2d2ee938da7f49d8092"
+                "reference": "136f201f923603644f1812a5a0476adfd6544766"
             },
             "require": {
                 "php": "^8.1",
@@ -10568,7 +10569,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10628,7 +10629,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/usermeta-mutations-wp",
-                "reference": "e4e2eca78b62eca44125c4647ef96fdd86391b41"
+                "reference": "50efde40da7f024ab7e0d5b84107caaa6669dcda"
             },
             "require": {
                 "php": "^8.1",
@@ -10649,7 +10650,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10709,7 +10710,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/usermeta-wp",
-                "reference": "5c41373ee1b0e8084ac68a1b18b3944ea4827a39"
+                "reference": "9e4e2706e096c33132a2954fd7bec75d5512e89f"
             },
             "require": {
                 "php": "^8.1",
@@ -10730,7 +10731,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10790,7 +10791,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/users",
-                "reference": "4b73e0c7bddc26b70f5fa2f00942caa61925a0ad"
+                "reference": "b3c731a15e34b78390fc5d6bce7dae918da93627"
             },
             "require": {
                 "php": "^8.1",
@@ -10813,7 +10814,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10873,7 +10874,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/CMSSchema\/packages\/users-wp",
-                "reference": "c2a2c3e85c7167027cc6f2bd9672b279fc6d817d"
+                "reference": "1d255debf43c43cca87f516cb896aac817452436"
             },
             "require": {
                 "php": "^8.1",
@@ -10896,7 +10897,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -10956,7 +10957,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Schema\/packages\/directive-commons",
-                "reference": "462df55f1137394ddb6e46c37f08e02bf5bf3811"
+                "reference": "41332fac918ad3dbf6de52d07df37568fcad5592"
             },
             "require": {
                 "php": "^8.1",
@@ -10971,7 +10972,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11029,7 +11030,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Schema\/packages\/extended-schema-commons",
-                "reference": "4cfcd2dc45320227f7a3cfb6174ed82eef40452b"
+                "reference": "f27205c83ba3b15d2e969efc2ff64beddc8015aa"
             },
             "require": {
                 "php": "^8.1",
@@ -11044,7 +11045,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11102,7 +11103,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Schema\/packages\/http-requests",
-                "reference": "cf5e0219c0eaa034862ccec0b034169bf16cb8e7"
+                "reference": "bba9e0365d012e047c6d2975543ea4c2bfa8f151"
             },
             "require": {
                 "php": "^8.1",
@@ -11117,7 +11118,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11175,7 +11176,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Schema\/packages\/logger",
-                "reference": "d22e8cf78c655a45359e3d7bb7a3d0286e9c2ad0"
+                "reference": "c6473a1adc587f727fab3283e7a9a75093811f28"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -11190,7 +11191,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11248,7 +11249,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/Schema\/packages\/schema-commons",
-                "reference": "e7e6e7b31cd264e440fd68567f1174ea7a0607f3"
+                "reference": "496398ff38cb45416b583c66c8e7eaa24a819b53"
             },
             "require": {
                 "getpop\/engine": "dev-master",
@@ -11263,7 +11264,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11323,7 +11324,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/block-content-parser",
-                "reference": "74090d1cac53523f092c405eed0e729a48a87e4d"
+                "reference": "22091853a73f75c17b7cf711f1265d71201d5c2e"
             },
             "require": {
                 "getpop\/dom-crawler": "dev-master",
@@ -11343,7 +11344,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11404,7 +11405,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/blocks",
-                "reference": "d9d2ab0f8d4e3063d96644db2693372086609c4e"
+                "reference": "a2893ebafc5cabd87f5dde5db4d4ce637cb6bc92"
             },
             "require": {
                 "php": "^8.1",
@@ -11424,7 +11425,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11485,7 +11486,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/commentmeta",
-                "reference": "d415767374dbcc5cbfac63ec97310ce63c12bc8a"
+                "reference": "240b523b8e047df0d63fd3207132b5c2c2695044"
             },
             "require": {
                 "php": "^8.1",
@@ -11506,7 +11507,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11567,7 +11568,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/comments",
-                "reference": "947b1106b8fe473170457242d3b41f738294ba7d"
+                "reference": "afaeb3ca4fde1b6c32717f450f3155fc85fb2045"
             },
             "require": {
                 "php": "^8.1",
@@ -11587,7 +11588,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11648,7 +11649,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/custompostmeta",
-                "reference": "2cd46d4c4d28fdbe92973eda43853fb88f8965fe"
+                "reference": "e4433cb8d0c39ad705ab2dbd90e2f721a0d64a77"
             },
             "require": {
                 "php": "^8.1",
@@ -11669,7 +11670,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11730,7 +11731,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/customposts",
-                "reference": "f93ce7bc4d3f52bbd377e15ded149200d2961059"
+                "reference": "828c1f9e7a2a1478417601d588552df44bfa7f7e"
             },
             "require": {
                 "php": "^8.1",
@@ -11750,7 +11751,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11811,7 +11812,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/media",
-                "reference": "59e6e231ffcd05669eb3cf8107186e40388f7c71"
+                "reference": "aadeca129f03b22a421956dca2b7ca14a3ceb5e0"
             },
             "require": {
                 "php": "^8.1",
@@ -11832,7 +11833,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11893,7 +11894,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/menus",
-                "reference": "3f9a88683779f5a601ce1d75438d6beda37401ca"
+                "reference": "6c7719431312b9498c6201039d0a697fc9d953c4"
             },
             "require": {
                 "php": "^8.1",
@@ -11913,7 +11914,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -11974,7 +11975,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/meta",
-                "reference": "d43f1b42197cd8cad628886f57028984688d9f14"
+                "reference": "f6c13cc6349b03f1c532200f1d620f17461da5db"
             },
             "require": {
                 "php": "^8.1",
@@ -11994,7 +11995,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12055,7 +12056,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/multisite",
-                "reference": "567fce8cc7f21c943f8e1d0d435b6a8d56fa123b"
+                "reference": "c63fb9b7f58981308e9cc964866490b8f3370fa5"
             },
             "require": {
                 "php": "^8.1",
@@ -12074,7 +12075,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12135,7 +12136,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/pagebuilder",
-                "reference": "a25e720073872e36f528e4cc0a60a05f05f5b035"
+                "reference": "93e5ac92443e301fa5f3e49c5263999c41cc5e2d"
             },
             "require": {
                 "php": "^8.1",
@@ -12154,7 +12155,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12215,7 +12216,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/pages",
-                "reference": "35e41e4185d9501e7c7eb57aacf18516bbf2b94e"
+                "reference": "12d7ca8182526a507d234b394762dad9feac11c0"
             },
             "require": {
                 "php": "^8.1",
@@ -12235,7 +12236,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12296,7 +12297,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/posts",
-                "reference": "1ea67aa047773791aefc68eb93743bd85d1780ac"
+                "reference": "6b93b409f1ff5be616193c531d296888110c0dc7"
             },
             "require": {
                 "php": "^8.1",
@@ -12316,7 +12317,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12377,7 +12378,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/schema-commons",
-                "reference": "a3eebaf9ad533d55a289d58cc899948d939cbd2a"
+                "reference": "b8f576f237af9c7be02741944d14e44afbba13f4"
             },
             "require": {
                 "php": "^8.1",
@@ -12396,7 +12397,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12457,7 +12458,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/settings",
-                "reference": "f7c1aaa7882b5769447f4c3b7760e11de5843584"
+                "reference": "2eea7f909ee3c8c09a9082500d96e083e8564e51"
             },
             "require": {
                 "php": "^8.1",
@@ -12477,7 +12478,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12538,7 +12539,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/site",
-                "reference": "6d460d62245e119143fb3cd13656c7a2607eac16"
+                "reference": "f224e7253ae1356b5be143e7206bd8bcae817489"
             },
             "require": {
                 "php": "^8.1",
@@ -12557,7 +12558,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12618,7 +12619,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/taxonomymeta",
-                "reference": "a7e78f7725d779e944309a84e97eafb3c2af1e6d"
+                "reference": "44058b1f9a2b729712ae26c9890705cb21e87640"
             },
             "require": {
                 "php": "^8.1",
@@ -12638,7 +12639,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12699,7 +12700,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/usermeta",
-                "reference": "8095ff5b7fdde74546f9c29048fdf4e0e1f1a3ab"
+                "reference": "f6d1ad27716bf7772a5375d4e275e560265b6799"
             },
             "require": {
                 "php": "^8.1",
@@ -12720,7 +12721,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -12781,7 +12782,7 @@
             "dist": {
                 "type": "path",
                 "url": "..\/..\/..\/..\/layers\/WPSchema\/packages\/users",
-                "reference": "f39e5f103e96853139be2221144db0fadada66ec"
+                "reference": "8c214c67c7cc6b4e57cc5325810504ebad19614a"
             },
             "require": {
                 "php": "^8.1",
@@ -12801,7 +12802,7 @@
             "extra": {
                 "wordpress-install-dir": "vendor\/wordpress\/wordpress",
                 "branch-alias": {
-                    "dev-master": "19.0-dev"
+                    "dev-master": "19.1-dev"
                 }
             },
             "installation-source": "dist",

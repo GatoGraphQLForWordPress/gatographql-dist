@@ -8,10 +8,18 @@ use PoPCMSSchema\CommentMutations\Module;
 use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
+use PoPCMSSchema\CommentMutations\MutationResolvers\DeleteCommentMutationResolver;
 use PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableAddCommentToCustomPostBulkOperationMutationResolver;
 use PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableAddCommentToCustomPostMutationResolver;
+use PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableDeleteCommentMutationResolver;
+use PoPCMSSchema\CommentMutations\MutationResolvers\PayloadableUpdateCommentMutationResolver;
+use PoPCMSSchema\CommentMutations\MutationResolvers\UpdateCommentMutationResolver;
+use PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentDeleteInputObjectTypeResolver;
 use PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentReplyInputObjectTypeResolver;
+use PoPCMSSchema\CommentMutations\TypeResolvers\InputObjectType\CommentUpdateInputObjectTypeResolver;
+use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentDeleteMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentReplyMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\CommentUpdateMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
 use PoPCMSSchema\Comments\TypeResolvers\ObjectType\CommentObjectTypeResolver;
 use PoPCMSSchema\SchemaCommons\Constants\MutationInputProperties as SchemaCommonsMutationInputProperties;
@@ -23,6 +31,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use stdClass;
 /** @internal */
@@ -37,6 +46,15 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     private ?CommentReplyMutationPayloadObjectTypeResolver $commentReplyMutationPayloadObjectTypeResolver = null;
     private ?PayloadableAddCommentToCustomPostMutationResolver $payloadableAddCommentToCustomPostMutationResolver = null;
     private ?PayloadableAddCommentToCustomPostBulkOperationMutationResolver $payloadableAddCommentToCustomPostBulkOperationMutationResolver = null;
+    private ?CommentUpdateInputObjectTypeResolver $commentUpdateInputObjectTypeResolver = null;
+    private ?CommentDeleteInputObjectTypeResolver $commentDeleteInputObjectTypeResolver = null;
+    private ?CommentUpdateMutationPayloadObjectTypeResolver $commentUpdateMutationPayloadObjectTypeResolver = null;
+    private ?CommentDeleteMutationPayloadObjectTypeResolver $commentDeleteMutationPayloadObjectTypeResolver = null;
+    private ?UpdateCommentMutationResolver $updateCommentMutationResolver = null;
+    private ?PayloadableUpdateCommentMutationResolver $payloadableUpdateCommentMutationResolver = null;
+    private ?DeleteCommentMutationResolver $deleteCommentMutationResolver = null;
+    private ?PayloadableDeleteCommentMutationResolver $payloadableDeleteCommentMutationResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     protected final function getCommentTypeAPI() : CommentTypeAPIInterface
     {
         if ($this->commentTypeAPI === null) {
@@ -109,9 +127,87 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->payloadableAddCommentToCustomPostBulkOperationMutationResolver;
     }
-    /**
-     * @return array<class-string<ObjectTypeResolverInterface>>
-     */
+    protected final function getCommentUpdateInputObjectTypeResolver() : CommentUpdateInputObjectTypeResolver
+    {
+        if ($this->commentUpdateInputObjectTypeResolver === null) {
+            /** @var CommentUpdateInputObjectTypeResolver */
+            $commentUpdateInputObjectTypeResolver = $this->instanceManager->getInstance(CommentUpdateInputObjectTypeResolver::class);
+            $this->commentUpdateInputObjectTypeResolver = $commentUpdateInputObjectTypeResolver;
+        }
+        return $this->commentUpdateInputObjectTypeResolver;
+    }
+    protected final function getCommentDeleteInputObjectTypeResolver() : CommentDeleteInputObjectTypeResolver
+    {
+        if ($this->commentDeleteInputObjectTypeResolver === null) {
+            /** @var CommentDeleteInputObjectTypeResolver */
+            $commentDeleteInputObjectTypeResolver = $this->instanceManager->getInstance(CommentDeleteInputObjectTypeResolver::class);
+            $this->commentDeleteInputObjectTypeResolver = $commentDeleteInputObjectTypeResolver;
+        }
+        return $this->commentDeleteInputObjectTypeResolver;
+    }
+    protected final function getCommentUpdateMutationPayloadObjectTypeResolver() : CommentUpdateMutationPayloadObjectTypeResolver
+    {
+        if ($this->commentUpdateMutationPayloadObjectTypeResolver === null) {
+            /** @var CommentUpdateMutationPayloadObjectTypeResolver */
+            $commentUpdateMutationPayloadObjectTypeResolver = $this->instanceManager->getInstance(CommentUpdateMutationPayloadObjectTypeResolver::class);
+            $this->commentUpdateMutationPayloadObjectTypeResolver = $commentUpdateMutationPayloadObjectTypeResolver;
+        }
+        return $this->commentUpdateMutationPayloadObjectTypeResolver;
+    }
+    protected final function getCommentDeleteMutationPayloadObjectTypeResolver() : CommentDeleteMutationPayloadObjectTypeResolver
+    {
+        if ($this->commentDeleteMutationPayloadObjectTypeResolver === null) {
+            /** @var CommentDeleteMutationPayloadObjectTypeResolver */
+            $commentDeleteMutationPayloadObjectTypeResolver = $this->instanceManager->getInstance(CommentDeleteMutationPayloadObjectTypeResolver::class);
+            $this->commentDeleteMutationPayloadObjectTypeResolver = $commentDeleteMutationPayloadObjectTypeResolver;
+        }
+        return $this->commentDeleteMutationPayloadObjectTypeResolver;
+    }
+    protected final function getUpdateCommentMutationResolver() : UpdateCommentMutationResolver
+    {
+        if ($this->updateCommentMutationResolver === null) {
+            /** @var UpdateCommentMutationResolver */
+            $updateCommentMutationResolver = $this->instanceManager->getInstance(UpdateCommentMutationResolver::class);
+            $this->updateCommentMutationResolver = $updateCommentMutationResolver;
+        }
+        return $this->updateCommentMutationResolver;
+    }
+    protected final function getPayloadableUpdateCommentMutationResolver() : PayloadableUpdateCommentMutationResolver
+    {
+        if ($this->payloadableUpdateCommentMutationResolver === null) {
+            /** @var PayloadableUpdateCommentMutationResolver */
+            $payloadableUpdateCommentMutationResolver = $this->instanceManager->getInstance(PayloadableUpdateCommentMutationResolver::class);
+            $this->payloadableUpdateCommentMutationResolver = $payloadableUpdateCommentMutationResolver;
+        }
+        return $this->payloadableUpdateCommentMutationResolver;
+    }
+    protected final function getDeleteCommentMutationResolver() : DeleteCommentMutationResolver
+    {
+        if ($this->deleteCommentMutationResolver === null) {
+            /** @var DeleteCommentMutationResolver */
+            $deleteCommentMutationResolver = $this->instanceManager->getInstance(DeleteCommentMutationResolver::class);
+            $this->deleteCommentMutationResolver = $deleteCommentMutationResolver;
+        }
+        return $this->deleteCommentMutationResolver;
+    }
+    protected final function getPayloadableDeleteCommentMutationResolver() : PayloadableDeleteCommentMutationResolver
+    {
+        if ($this->payloadableDeleteCommentMutationResolver === null) {
+            /** @var PayloadableDeleteCommentMutationResolver */
+            $payloadableDeleteCommentMutationResolver = $this->instanceManager->getInstance(PayloadableDeleteCommentMutationResolver::class);
+            $this->payloadableDeleteCommentMutationResolver = $payloadableDeleteCommentMutationResolver;
+        }
+        return $this->payloadableDeleteCommentMutationResolver;
+    }
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
+    {
+        if ($this->booleanScalarTypeResolver === null) {
+            /** @var BooleanScalarTypeResolver */
+            $booleanScalarTypeResolver = $this->instanceManager->getInstance(BooleanScalarTypeResolver::class);
+            $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
+        }
+        return $this->booleanScalarTypeResolver;
+    }
     public function getObjectTypeResolverClassesToAttachTo() : array
     {
         return [CommentObjectTypeResolver::class];
@@ -121,13 +217,15 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      */
     public function getFieldNamesToResolve() : array
     {
-        return ['reply', 'replyWithComments'];
+        return ['reply', 'replyWithComments', 'update', 'delete'];
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
             'reply' => $this->__('Reply a comment with another comment', 'gatographql'),
             'replyWithComments' => $this->__('Reply a comment with other comments', 'gatographql'),
+            'update' => $this->__('Update the comment', 'gatographql'),
+            'delete' => $this->__('Delete the comment', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }
@@ -138,13 +236,14 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $usePayloadableCommentMutations = $moduleConfiguration->usePayloadableCommentMutations();
         if (!$usePayloadableCommentMutations) {
             return match ($fieldName) {
-                'reply' => SchemaTypeModifiers::NONE,
+                'reply', 'update' => SchemaTypeModifiers::NONE,
+                'delete' => SchemaTypeModifiers::NON_NULLABLE,
                 'replyWithComments' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY,
                 default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
             };
         }
         return match ($fieldName) {
-            'reply' => SchemaTypeModifiers::NON_NULLABLE,
+            'reply', 'update', 'delete' => SchemaTypeModifiers::NON_NULLABLE,
             'replyWithComments' => SchemaTypeModifiers::NON_NULLABLE | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
             default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
         };
@@ -157,13 +256,15 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         return match ($fieldName) {
             'reply' => [MutationInputProperties::INPUT => $this->getCommentReplyInputObjectTypeResolver()],
             'replyWithComments' => $this->getBulkOperationFieldArgNameTypeResolvers($this->getCommentReplyInputObjectTypeResolver()),
+            'update' => [MutationInputProperties::INPUT => $this->getCommentUpdateInputObjectTypeResolver()],
+            'delete' => [MutationInputProperties::INPUT => $this->getCommentDeleteInputObjectTypeResolver()],
             default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
         };
     }
     public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
     {
         return match ([$fieldName => $fieldArgName]) {
-            ['reply' => MutationInputProperties::INPUT] => SchemaTypeModifiers::MANDATORY,
+            ['reply' => MutationInputProperties::INPUT], ['update' => MutationInputProperties::INPUT] => SchemaTypeModifiers::MANDATORY,
             ['replyWithComments' => SchemaCommonsMutationInputProperties::INPUTS] => SchemaTypeModifiers::MANDATORY | SchemaTypeModifiers::IS_ARRAY | SchemaTypeModifiers::IS_NON_NULLABLE_ITEMS_IN_ARRAY,
             default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
         };
@@ -176,7 +277,7 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
     {
         return match ($fieldName) {
-            'reply', 'replyWithComments' => \true,
+            'reply', 'replyWithComments', 'update', 'delete' => \true,
             default => parent::validateMutationOnObject($objectTypeResolver, $fieldName),
         };
     }
@@ -205,6 +306,19 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                     $input->{MutationInputProperties::PARENT_COMMENT_ID} = $parentCommentID;
                 }
                 break;
+            case 'update':
+                $fieldArgsForMutationForObject[MutationInputProperties::INPUT]->{MutationInputProperties::ID} = $objectTypeResolver->getID($comment);
+                break;
+            case 'delete':
+                /**
+                 * The "input" is optional, as it only carries the `force`
+                 * input field. Hence create it if it was not provided.
+                 */
+                if (!isset($fieldArgsForMutationForObject[MutationInputProperties::INPUT])) {
+                    $fieldArgsForMutationForObject[MutationInputProperties::INPUT] = new stdClass();
+                }
+                $fieldArgsForMutationForObject[MutationInputProperties::INPUT]->{MutationInputProperties::ID} = $objectTypeResolver->getID($comment);
+                break;
         }
         return $fieldArgsForMutationForObject;
     }
@@ -216,6 +330,8 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         return match ($fieldName) {
             'reply' => $usePayloadableCommentMutations ? $this->getPayloadableAddCommentToCustomPostMutationResolver() : $this->getAddCommentToCustomPostMutationResolver(),
             'replyWithComments' => $usePayloadableCommentMutations ? $this->getPayloadableAddCommentToCustomPostBulkOperationMutationResolver() : $this->getAddCommentToCustomPostBulkOperationMutationResolver(),
+            'update' => $usePayloadableCommentMutations ? $this->getPayloadableUpdateCommentMutationResolver() : $this->getUpdateCommentMutationResolver(),
+            'delete' => $usePayloadableCommentMutations ? $this->getPayloadableDeleteCommentMutationResolver() : $this->getDeleteCommentMutationResolver(),
             default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
         };
     }
@@ -226,6 +342,8 @@ class CommentObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $usePayloadableCommentMutations = $moduleConfiguration->usePayloadableCommentMutations();
         return match ($fieldName) {
             'reply', 'replyWithComments' => $usePayloadableCommentMutations ? $this->getCommentReplyMutationPayloadObjectTypeResolver() : $this->getCommentObjectTypeResolver(),
+            'update' => $usePayloadableCommentMutations ? $this->getCommentUpdateMutationPayloadObjectTypeResolver() : $this->getCommentObjectTypeResolver(),
+            'delete' => $usePayloadableCommentMutations ? $this->getCommentDeleteMutationPayloadObjectTypeResolver() : $this->getBooleanScalarTypeResolver(),
             default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
         };
     }

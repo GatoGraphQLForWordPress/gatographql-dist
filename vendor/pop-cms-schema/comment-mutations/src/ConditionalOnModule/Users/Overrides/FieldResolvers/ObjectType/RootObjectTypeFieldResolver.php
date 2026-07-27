@@ -38,12 +38,17 @@ class RootObjectTypeFieldResolver extends UpstreamRootObjectTypeFieldResolver
      */
     public function prepareFieldArgs(array $fieldArgs, ObjectTypeResolverInterface $objectTypeResolver, FieldInterface $field, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : ?array
     {
-        if (\in_array($field->getName(), ['addCommentToCustomPostMutationPayloadObjects', 'replyCommentMutationPayloadObjects'])) {
-            return parent::prepareFieldArgs($fieldArgs, $objectTypeResolver, $field, $objectTypeFieldResolutionFeedbackStore);
-        }
         if (\in_array($field->getName(), ['addCommentToCustomPosts', 'replyComments'])) {
             return $this->prepareBulkOperationAddCommentFieldArgs($fieldArgs);
         }
-        return $this->prepareAddCommentFieldArgs($fieldArgs);
+        if (\in_array($field->getName(), ['addCommentToCustomPost', 'replyComment'])) {
+            return $this->prepareAddCommentFieldArgs($fieldArgs);
+        }
+        /**
+         * Any other field (such as updating or deleting a comment) must not
+         * have the logged-in user's data injected into its input, as that
+         * would override the comment's own author.
+         */
+        return parent::prepareFieldArgs($fieldArgs, $objectTypeResolver, $field, $objectTypeFieldResolutionFeedbackStore);
     }
 }

@@ -3,7 +3,9 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\ObjectModels;
 
-use PoP\ComponentModel\Schema\SchemaDefinition;
+use GraphQLByPoP\GraphQLServer\Schema\GraphQLSchemaHelpers;
+use PoPAPI\API\Schema\SchemaDefinition;
+use PoPAPI\API\Schema\TypeKinds;
 /** @internal */
 class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchemaDefinitionReferenceObject
 {
@@ -29,7 +31,8 @@ class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchema
         return $this->schemaDefinition[SchemaDefinition::DESCRIPTION] ?? null;
     }
     /**
-     * The default value must be returned as a JSON encoded string.
+     * The default value must be returned encoded using the GraphQL language,
+     * and not as JSON.
      *
      * From the GraphQL spec:
      *
@@ -46,7 +49,7 @@ class InputValue extends \GraphQLByPoP\GraphQLServer\ObjectModels\AbstractSchema
         if ($defaultValue === null) {
             return null;
         }
-        return (string) \json_encode($defaultValue);
+        return GraphQLSchemaHelpers::encodeValueUsingGraphQLLanguage($defaultValue, ($this->schemaDefinition[SchemaDefinition::TYPE_KIND] ?? null) === TypeKinds::ENUM);
     }
     public function getExtensions() : \GraphQLByPoP\GraphQLServer\ObjectModels\InputValueExtensions
     {

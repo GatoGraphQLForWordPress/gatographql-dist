@@ -16,6 +16,16 @@ final class CurlVersion
     // dropped that default, which 7.65.2 restored, so 7.65.2 is the floor at
     // which PIPEWAIT is reliably effective.
     private const MULTIPLEX_VERSION = '7.65.2';
+    // libcurl's connection matcher refuses to hand a transfer wanting
+    // HTTP/1.x a pooled connection that already negotiated HTTP/2 or newer
+    // from 7.77.0: ConnectionExists() in lib/url.c gained the check between
+    // the 7.76.0 and 7.77.0 releases. The HTTP/2 branch of the check
+    // regressed to a debug log in 8.11.0 (curl commit 433d730) and was
+    // restored in 8.13.0 via the negotiation mask (curl commit db72b8d), so
+    // 8.11.0 through 8.12.1 are vulnerable again.
+    private const HTTP_VERSION_REUSE_MATCH_VERSION = '7.77.0';
+    private const HTTP_VERSION_REUSE_MATCH_REGRESSION = '8.11.0';
+    private const HTTP_VERSION_REUSE_MATCH_RESTORED = '8.13.0';
     // CURL_HTTP_VERSION_2_PRIOR_KNOWLEDGE restricts the ALPN offer to h2 only
     // since libcurl 8.10.0, and connection reuse matching stopped handing
     // lower-version connections to prior-knowledge transfers in 8.14.0; below
@@ -29,6 +39,10 @@ final class CurlVersion
     private const HTTPS_PROXY_VERSION = '7.52.0';
     private const HANDLER_SHARING_VERSION = '7.35.0';
     private const SSL_SESSION_SHARING_VERSION = '8.6.0';
+    // curl 7.57.0 added share-handle connection caches through
+    // CURL_LOCK_DATA_CONNECT; older share objects can only hold DNS, TLS
+    // session, and cookie data, never connections.
+    private const SHARE_CONNECTION_CACHE_VERSION = '7.57.0';
     // curl 7.83.1 added proxy TLS-SRP to the connection-reuse match
     // (CVE-2022-27782); the proxy client certificate was matched from 7.52.0,
     // so proxy TLS credentials are trusted from 7.83.1 onwards.
@@ -73,6 +87,14 @@ final class CurlVersion
     {
         $version = self::getVersion();
         return \defined('CURLOPT_PIPEWAIT') && $version !== null && \version_compare($version, self::MULTIPLEX_VERSION, '>=');
+    }
+    public static function supportsHttpVersionReuseMatching() : bool
+    {
+        $version = self::getVersion();
+        if ($version === null || \version_compare($version, self::HTTP_VERSION_REUSE_MATCH_VERSION, '<')) {
+            return \false;
+        }
+        return \version_compare($version, self::HTTP_VERSION_REUSE_MATCH_REGRESSION, '<') || \version_compare($version, self::HTTP_VERSION_REUSE_MATCH_RESTORED, '>=');
     }
     public static function supportsConnectionCaps() : bool
     {
@@ -128,6 +150,13 @@ final class CurlVersion
         if (!self::supportsSslSessionSharing()) {
             throw new \InvalidArgumentException(\sprintf('The "transport_sharing" option requires libcurl %s or higher with SSL support for SSL session sharing.', self::SSL_SESSION_SHARING_VERSION));
         }
+    }
+    public static function supportsShareConnectionCaches() : bool
+    {
+        $version = self::getVersion();
+        // An undetectable libcurl version is treated as capable so the
+        // opaque share safeguards fail closed.
+        return $version === null || \version_compare($version, self::SHARE_CONNECTION_CACHE_VERSION, '>=');
     }
     public static function supportsProxyTlsCredentialAwareConnectionReuse() : bool
     {

@@ -4,6 +4,7 @@ namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler;
 
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\ConnectException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\RequestException;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Exception\TransferException;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Multiplexing;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise as P;
 use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Promise\FulfilledPromise;
@@ -105,7 +106,9 @@ class StreamHandler
             \usleep($options['delay'] * 1000);
         }
         $multiplex = $options['multiplex'] ?? null;
-        if (null !== $multiplex && !\in_array($multiplex, [Multiplexing::EAGER, Multiplexing::WAIT, Multiplexing::REQUIRE_EAGER, Multiplexing::REQUIRE_WAIT], \true)) {
+        // Multiplexing::NONE is trivially satisfied: the stream handler sends
+        // one HTTP/1.x request per connection and never multiplexes.
+        if (null !== $multiplex && !\in_array($multiplex, [Multiplexing::NONE, Multiplexing::EAGER, Multiplexing::WAIT, Multiplexing::REQUIRE_EAGER, Multiplexing::REQUIRE_WAIT], \true)) {
             throw new \InvalidArgumentException(\sprintf('The "multiplex" option must be null or a GuzzleHttp\\Multiplexing::* constant; received %s.', \get_debug_type($multiplex)));
         }
         if (\in_array($multiplex, [Multiplexing::REQUIRE_EAGER, Multiplexing::REQUIRE_WAIT], \true)) {
@@ -134,18 +137,15 @@ class StreamHandler
             $request = $request->withoutHeader('Expect');
             // Append a content-length header if body size is zero to match
             // the behavior of `CurlHandler`
-            if ((0 === \strcasecmp('PUT', $request->getMethod()) || 0 === \strcasecmp('POST', $request->getMethod())) && 0 === $request->getBody()->getSize()) {
+            if ((Psr7\Utils::caselessEquals('PUT', $request->getMethod()) || Psr7\Utils::caselessEquals('POST', $request->getMethod())) && 0 === $request->getBody()->getSize()) {
                 $request = $request->withHeader('Content-Length', '0');
             }
             return $this->createResponse($request, $options, $this->createStream($request, $options), $startTime);
         } catch (\InvalidArgumentException $e) {
             throw $e;
         } catch (\Exception $e) {
-            // Determine if the error was a networking error.
-            if (self::isConnectionError($e->getMessage())) {
-                $e = new ConnectException($e->getMessage(), $request, $e);
-            } else {
-                $e = $e instanceof RequestException ? $e : new RequestException($e->getMessage(), $request, null, $e);
+            if (!$e instanceof TransferException) {
+                $e = self::isConnectionError($e->getMessage()) ? new ConnectException($e->getMessage(), $request, $e) : new RequestException($e->getMessage(), $request, null, $e);
             }
             $this->invokeStats($options, $request, $startTime, null, $e);
             return P\Create::rejectionFor($e);
@@ -182,7 +182,7 @@ class StreamHandler
         [$stream, $headers] = $this->checkDecode($options, $headers, $stream);
         $stream = Psr7\Utils::streamFor($stream);
         $sink = $stream;
-        if (\strcasecmp('HEAD', $request->getMethod())) {
+        if (!Psr7\Utils::caselessEquals('HEAD', $request->getMethod())) {
             $sink = $this->createSink($stream, $options);
         }
         try {
@@ -321,6 +321,7 @@ class StreamHandler
         if ($uri->getHost() === '') {
             throw new RequestException('URI must include a scheme and host. Use an absolute URI, a network-path reference starting with //, or configure a base_uri.', $request);
         }
+        HostValidator::assertRequestHost($request);
         // HTTP/1.1 streams using the PHP stream wrapper require a
         // Connection: close header
         if ($request->getProtocolVersion() === '1.1' && !$request->hasHeader('Connection')) {
@@ -336,10 +337,15 @@ class StreamHandler
             throw new \InvalidArgumentException('on_headers must be callable');
         }
         self::assertTlsVersionRangeForOptions($options);
+        $proxyAuthorizationAdded = \false;
         if (!empty($options)) {
             foreach ($options as $key => $value) {
                 $method = "add_{$key}";
                 if (isset($methods[$method])) {
+                    if ($method === 'add_proxy') {
+                        $proxyAuthorizationAdded = $this->add_proxy($request, $context, $value, $params);
+                        continue;
+                    }
                     $this->{$method}($request, $context, $value, $params);
                 }
             }
@@ -347,6 +353,9 @@ class StreamHandler
         if (isset($options['stream_context'])) {
             if (!\is_array($options['stream_context'])) {
                 throw new \InvalidArgumentException('stream_context must be an array');
+            }
+            if ($proxyAuthorizationAdded && isset($options['stream_context']['http']) && \is_array($options['stream_context']['http']) && \array_key_exists('proxy', $options['stream_context']['http'])) {
+                throw new \InvalidArgumentException('stream_context.http.proxy cannot override a proxy after the stream handler has generated a Proxy-Authorization header; configure the final proxy with the "proxy" request option.');
             }
             self::triggerConflictingStreamContextOptionDeprecations($options['stream_context']);
             self::triggerUnsupportedStreamContextOptionDeprecations($options['stream_context']);
@@ -406,6 +415,16 @@ class StreamHandler
     {
         $headers = '';
         foreach ($request->getHeaders() as $name => $value) {
+            // A first-class Proxy-Authorization header is proxy-scoped. Keep
+            // it out of the origin context; add_proxy() adds one
+            // validated canonical line only when Guzzle selects a proxy; PHP
+            // extracts that line for CONNECT and removes it before sending the
+            // tunneled origin request. The caselessEquals() helper is
+            // locale-independent, unlike strcasecmp(), so a locale cannot
+            // make this match miss and re-leak the credential.
+            if (Psr7\Utils::caselessEquals((string) $name, 'Proxy-Authorization')) {
+                continue;
+            }
             foreach ($value as $val) {
                 $headers .= "{$name}: {$val}\r\n";
             }
@@ -519,7 +538,7 @@ class StreamHandler
         if (!\defined('CURLOPT_HTTPAUTH') || !\defined('CURLOPT_USERPWD')) {
             return \false;
         }
-        $type = \strtr($options['auth'][2], 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        $type = Psr7\Utils::asciiToLower($options['auth'][2]);
         if ($type === 'digest') {
             $httpAuth = \defined('CURLAUTH_DIGEST') ? \constant('CURLAUTH_DIGEST') : null;
         } elseif ($type === 'ntlm') {
@@ -572,14 +591,14 @@ class StreamHandler
         if (!\is_string($value) || $value === '') {
             throw new \InvalidArgumentException(\sprintf('%s must be a non-empty string', $option));
         }
-        if (\strtoupper($value) !== 'PEM') {
+        if (Psr7\Utils::asciiToUpper($value) !== 'PEM') {
             throw new \InvalidArgumentException(\sprintf('The stream handler only supports "PEM" for the %s request option.', $option));
         }
     }
     /**
      * @param mixed $value as passed via Request transfer options.
      */
-    private function add_proxy(RequestInterface $request, array &$options, $value, array &$params) : void
+    private function add_proxy(RequestInterface $request, array &$options, $value, array &$params) : bool
     {
         $uri = null;
         if (!\is_array($value)) {
@@ -593,16 +612,33 @@ class StreamHandler
             }
         }
         if (!$uri) {
-            return;
+            return \false;
         }
         $parsed = $this->parse_proxy($uri);
-        $options['http']['proxy'] = $parsed['proxy'];
-        if ($parsed['auth']) {
-            if (!isset($options['http']['header'])) {
-                $options['http']['header'] = '';
-            }
-            $options['http']['header'] .= "\r\nProxy-Authorization: {$parsed['auth']}";
+        // PHP extracts and removes only one Proxy-Authorization line for a
+        // CONNECT tunnel. Serialize exactly one validated first-class value;
+        // more than one could leave a credential in the tunneled origin
+        // request. A first-class value, including an empty one, is
+        // authoritative over Basic credentials embedded in the proxy URI.
+        $managed = $request->getHeader('Proxy-Authorization');
+        if (\count($managed) > 1) {
+            throw new \InvalidArgumentException('The stream handler supports exactly one Proxy-Authorization request header value when a proxy is selected.');
         }
+        if ($managed !== [] && \strpbrk($managed[0], "\r\n") !== \false) {
+            throw new \InvalidArgumentException('Proxy-Authorization request header values must not contain a carriage return or line feed.');
+        }
+        $options['http']['proxy'] = $parsed['proxy'];
+        if (($managed !== [] || $parsed['auth']) && !isset($options['http']['header'])) {
+            $options['http']['header'] = '';
+        }
+        if ($managed !== []) {
+            $options['http']['header'] .= "\r\nProxy-Authorization: {$managed[0]}";
+            return \true;
+        } elseif ($parsed['auth']) {
+            $options['http']['header'] .= "\r\nProxy-Authorization: {$parsed['auth']}";
+            return \true;
+        }
+        return \false;
     }
     /**
      * Parses the given proxy URL to make it compatible with the format PHP's stream context expects.
@@ -620,7 +656,7 @@ class StreamHandler
                 $parsed = \parse_url('http://' . $url);
             }
         }
-        if (\is_array($parsed) && isset($parsed['scheme']) && \strcasecmp($parsed['scheme'], 'http') === 0) {
+        if (\is_array($parsed) && isset($parsed['scheme']) && Psr7\Utils::caselessEquals($parsed['scheme'], 'http')) {
             if (isset($parsed['host'], $parsed['port'])) {
                 $user = $parsed['user'] ?? '';
                 $pass = $parsed['pass'] ?? '';

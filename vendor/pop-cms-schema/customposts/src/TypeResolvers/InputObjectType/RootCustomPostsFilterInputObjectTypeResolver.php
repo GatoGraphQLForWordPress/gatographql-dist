@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType;
 
 /** @internal */
-class RootCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractCustomPostsFilterInputObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInputObjectTypeResolverInterface
+class RootCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\AbstractWithParentCustomPostsFilterInputObjectTypeResolver implements \PoPCMSSchema\CustomPosts\TypeResolvers\InputObjectType\CustomPostsFilterInputObjectTypeResolverInterface
 {
     public function getTypeName() : string
     {
@@ -15,6 +15,10 @@ class RootCustomPostsFilterInputObjectTypeResolver extends \PoPCMSSchema\CustomP
         return $this->__('Input to filter custom posts', 'gatographql');
     }
     protected function addCustomPostInputFields() : bool
+    {
+        return \true;
+    }
+    protected function addParentInputFields() : bool
     {
         return \true;
     }

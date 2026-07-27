@@ -3,7 +3,7 @@ Contributors: gatographql, leoloso
 Tags: decoupled, GraphQL, headless, webhook, api, wp-cli, rest, rest-api, react, vue, tailwind, astro, wpgraphql, nextjs
 Requires at least: 6.1
 Tested up to: 7.0
-Stable tag: 19.0.2
+Stable tag: 19.1.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -80,7 +80,7 @@ The available premium extensions are:
 
 [Translation](https://gatographql.com/extensions/translation): Translate a field value using the service provider of your choice, among ChatGPT, Claude, Gemini, DeepSeek, Mistral AI, OpenRouter, self-hosted LLM (eg: via Ollama), DeepL, and Google Translate.
 
-[WooCommerce](https://gatographql.com/extensions/woocommerce): Integration with WooCommerce, to fetch product data.
+[WooCommerce](https://gatographql.com/extensions/woocommerce): Integration with WooCommerce, to fetch and mutate product data.
 
 == Built with Gato GraphQL ==
 
@@ -246,6 +246,22 @@ The JavaScript source code for the blocks is under [layers/GatoGraphQLForWP/plug
 16. The Tutorial section explains how to achieve many objectives, exploring all the elements from the GraphQL schema
 
 == Changelog ==
+
+= 19.1.0 =
+* Added - Filter custom posts by their parent: the `customPosts` query gains the `parentID`, `parentIDs` and `excludeParentIDs` filter inputs (as already available on the `pages` query), mapping to WordPress' `post_parent`, `post_parent__in` and `post_parent__not_in` query args (#3366)
+* Added - Fields to query the site's options (i.e. the settings) in bulk: `optionNames` returns the list of the allowed option names stored in the DB (with a `filterBy` input to include/exclude the names containing some string), and `options` returns a JSON object with the option name and value for the provided (allowed) option names (#3364)
+* Added - Mutations to create, update and delete users: `createUser`, `updateUser` and `deleteUser` (and their bulk versions `createUsers`, `updateUsers` and `deleteUsers`), and the nested `update` and `delete` fields on the `User` type; `createUser` and `updateUser` (and their nested and bulk versions) also accept a `meta` input to set the user's custom meta; the "payload types for mutations" schema configuration also applies to them (#3362)
+* Added - Mutations to delete posts, pages and custom posts: `deletePost`, `deletePage` and `deleteCustomPost` (and their bulk versions), and the nested `delete` field on the `Post`, `Page` and `GenericCustomPost` types (#3358)
+* Added - Mutations to delete media items: `deleteMediaItem` and `deleteMediaItems`, and the nested `delete` field on the `Media` type (#3358)
+* Added - Mutations to delete menus: `deleteMenu` and `deleteMenus`, and the nested `delete` field on the `Menu` type (#3358)
+* Added - Mutations to update and moderate comments: `updateComment` and `updateComments`, and the nested `update` field on the `Comment` type. The comment is moderated via the `status` input, which can approve it, hold it for moderation, mark it as spam, or send it to the trash (#3358)
+* Added - Mutations to delete comments: `deleteComment` and `deleteComments`, and the nested `delete` field on the `Comment` type (#3358)
+* Improved - The collapsible "Show details" descriptions in the plugin settings are now printed using the native HTML `<details>`/`<summary>` elements, instead of a JavaScript-driven show/hide link (#3368)
+* Improved - Updated WooCommerce docs with mutations (#3356)
+* Fixed - The `defaultValue` of input values (field and directive arguments, and input object fields) in the introspection query is now encoded using the GraphQL language, as required by the GraphQL spec, and not as JSON. Enum default values were previously quoted as strings (eg: `["approve"]` instead of `[approve]`), so GraphQL clients (such as GraphiQL) discarded the default value and, for non-nullable arguments, wrongly reported that the argument is required (#3367)
+* Fixed - Corrected the `parentID` and `parentIDs` filter input descriptions (on the custom posts and pages filters), which had the singular/plural wording swapped (#3366)
+* Fixed - The "payload types for mutations" schema configuration (its "Do not use payload types for mutations" and "Use payload types for mutations, and add fields to query those payload objects" options) now also applies to the meta, taxonomy term (category and tag) and menu mutations; previously only the post, page, custom post, media, comment and user-state mutations honored it, so meta/taxonomy/menu mutations always used payload types and never exposed their `...MutationPayloadObjects` query fields (#3359)
+* Fixed - Made the ordering of taxonomy terms (eg: categories and tags) deterministic by adding a stable secondary sort by term ID, so that terms sharing the same primary sort value (eg: a duplicate name) are always returned in a consistent order when sorting and paginating (#3354)
 
 = 19.0.1 =
 * Improved - Distribute Gato GraphQL plugin via the Gato Plugins store (instead of wordpress.org) (#3347)

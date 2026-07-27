@@ -19,12 +19,15 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
     public final const E9 = 'e9';
     public final const E10 = 'e10';
     public final const E11 = 'e11';
+    public final const E12 = 'e12';
+    public final const E13 = 'e13';
+    public final const E14 = 'e14';
     /**
      * @return string[]
      */
     public function getCodes() : array
     {
-        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9, self::E10, self::E11];
+        return [self::E1, self::E2, self::E3, self::E4, self::E5, self::E6, self::E7, self::E8, self::E9, self::E10, self::E11, self::E12, self::E13, self::E14];
     }
     public function getMessagePlaceholder(string $code) : string
     {
@@ -40,6 +43,9 @@ class MutationErrorFeedbackItemProvider extends AbstractFeedbackItemProvider
             self::E9 => $this->__('Comments are not open for custom post with ID \'%s\'', 'gatographql'),
             self::E10 => $this->__('There is no comment with ID \'%s\'', 'gatographql'),
             self::E11 => $this->__('The logged-in user doesn\'t have the ability to edit comment with ID \'%s\'', 'gatographql'),
+            self::E12 => $this->__('The logged-in user doesn\'t have the ability to delete comment with ID \'%s\'', 'gatographql'),
+            self::E13 => $this->__('The comment with ID \'%s\' does not support being sent to the trash. Provide \'true\' in the \'force\' input to permanently delete it', 'gatographql'),
+            self::E14 => $this->__('The comment with ID \'%s\' has already been sent to the trash. Provide \'true\' in the \'force\' input to permanently delete it', 'gatographql'),
             default => parent::getMessagePlaceholder($code),
         };
     }

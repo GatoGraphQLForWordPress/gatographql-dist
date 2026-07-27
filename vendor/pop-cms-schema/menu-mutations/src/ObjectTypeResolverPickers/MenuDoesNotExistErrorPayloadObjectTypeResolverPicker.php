@@ -5,6 +5,7 @@ namespace PoPCMSSchema\MenuMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\MenuMutations\ObjectTypeResolverPickers\AbstractMenuDoesNotExistErrorPayloadObjectTypeResolverPicker;
 use PoPCMSSchema\MenuMutations\TypeResolvers\UnionType\AbstractCreateMenuMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\UnionType\AbstractDeleteMenuMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\MenuMutations\TypeResolvers\UnionType\AbstractUpdateMenuMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 /** @internal */
@@ -15,6 +16,6 @@ class MenuDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractMenuD
      */
     public function getUnionTypeResolverClassesToAttachTo() : array
     {
-        return [AbstractCreateMenuMutationErrorPayloadUnionTypeResolver::class, AbstractUpdateMenuMutationErrorPayloadUnionTypeResolver::class];
+        return [AbstractCreateMenuMutationErrorPayloadUnionTypeResolver::class, AbstractUpdateMenuMutationErrorPayloadUnionTypeResolver::class, AbstractDeleteMenuMutationErrorPayloadUnionTypeResolver::class];
     }
 }

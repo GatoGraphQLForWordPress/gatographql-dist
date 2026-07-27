@@ -3,7 +3,9 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\CustomPostMutations\FieldResolvers\ObjectType;
 
-use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\AbstractGenericCustomPostMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\GenericCustomPostUpdateMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\RootCreateGenericCustomPostMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\CustomPostMutations\TypeResolvers\ObjectType\RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\CustomPosts\TypeResolvers\ObjectType\GenericCustomPostObjectTypeResolver;
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractObjectMutationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
@@ -26,7 +28,7 @@ class GenericCustomPostMutationPayloadObjectTypeFieldResolver extends AbstractOb
      */
     public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [AbstractGenericCustomPostMutationPayloadObjectTypeResolver::class];
+        return [RootCreateGenericCustomPostMutationPayloadObjectTypeResolver::class, RootUpdateGenericCustomPostMutationPayloadObjectTypeResolver::class, GenericCustomPostUpdateMutationPayloadObjectTypeResolver::class];
     }
     protected function getObjectFieldName() : string
     {

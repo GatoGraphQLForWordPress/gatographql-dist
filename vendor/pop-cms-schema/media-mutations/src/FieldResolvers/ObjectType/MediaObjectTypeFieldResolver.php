@@ -8,9 +8,13 @@ use PoPCMSSchema\MediaMutations\Module as MediaMutationsModule;
 use PoPCMSSchema\MediaMutations\Module;
 use PoPCMSSchema\MediaMutations\ModuleConfiguration as MediaMutationsModuleConfiguration;
 use PoPCMSSchema\MediaMutations\ModuleConfiguration;
+use PoPCMSSchema\MediaMutations\MutationResolvers\DeleteMediaItemMutationResolver;
+use PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableDeleteMediaItemMutationResolver;
 use PoPCMSSchema\MediaMutations\MutationResolvers\PayloadableUpdateMediaItemMutationResolver;
 use PoPCMSSchema\MediaMutations\MutationResolvers\UpdateMediaItemMutationResolver;
+use PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\MediaDeleteInputObjectTypeResolver;
 use PoPCMSSchema\MediaMutations\TypeResolvers\InputObjectType\MediaUpdateInputObjectTypeResolver;
+use PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\MediaDeleteMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\MediaMutations\TypeResolvers\ObjectType\MediaUpdateMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Media\TypeResolvers\ObjectType\MediaObjectTypeResolver;
 use PoPCMSSchema\UserState\Checkpoints\UserLoggedInCheckpoint;
@@ -23,6 +27,7 @@ use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
+use PoP\ComponentModel\TypeResolvers\ScalarType\BooleanScalarTypeResolver;
 use PoP\GraphQLParser\Spec\Parser\Ast\FieldInterface;
 use stdClass;
 /** @internal */
@@ -33,6 +38,11 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     private ?UpdateMediaItemMutationResolver $updateMediaItemMutationResolver = null;
     private ?PayloadableUpdateMediaItemMutationResolver $payloadableUpdateMediaItemMutationResolver = null;
     private ?MediaUpdateInputObjectTypeResolver $mediaUpdateInputObjectTypeResolver = null;
+    private ?MediaDeleteMutationPayloadObjectTypeResolver $mediaDeleteMutationPayloadObjectTypeResolver = null;
+    private ?DeleteMediaItemMutationResolver $deleteMediaItemMutationResolver = null;
+    private ?PayloadableDeleteMediaItemMutationResolver $payloadableDeleteMediaItemMutationResolver = null;
+    private ?MediaDeleteInputObjectTypeResolver $mediaDeleteInputObjectTypeResolver = null;
+    private ?BooleanScalarTypeResolver $booleanScalarTypeResolver = null;
     private ?UserLoggedInCheckpoint $userLoggedInCheckpoint = null;
     protected final function getMediaObjectTypeResolver() : MediaObjectTypeResolver
     {
@@ -79,6 +89,51 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         return $this->mediaUpdateInputObjectTypeResolver;
     }
+    protected final function getMediaDeleteMutationPayloadObjectTypeResolver() : MediaDeleteMutationPayloadObjectTypeResolver
+    {
+        if ($this->mediaDeleteMutationPayloadObjectTypeResolver === null) {
+            /** @var MediaDeleteMutationPayloadObjectTypeResolver */
+            $mediaDeleteMutationPayloadObjectTypeResolver = $this->instanceManager->getInstance(MediaDeleteMutationPayloadObjectTypeResolver::class);
+            $this->mediaDeleteMutationPayloadObjectTypeResolver = $mediaDeleteMutationPayloadObjectTypeResolver;
+        }
+        return $this->mediaDeleteMutationPayloadObjectTypeResolver;
+    }
+    protected final function getDeleteMediaItemMutationResolver() : DeleteMediaItemMutationResolver
+    {
+        if ($this->deleteMediaItemMutationResolver === null) {
+            /** @var DeleteMediaItemMutationResolver */
+            $deleteMediaItemMutationResolver = $this->instanceManager->getInstance(DeleteMediaItemMutationResolver::class);
+            $this->deleteMediaItemMutationResolver = $deleteMediaItemMutationResolver;
+        }
+        return $this->deleteMediaItemMutationResolver;
+    }
+    protected final function getPayloadableDeleteMediaItemMutationResolver() : PayloadableDeleteMediaItemMutationResolver
+    {
+        if ($this->payloadableDeleteMediaItemMutationResolver === null) {
+            /** @var PayloadableDeleteMediaItemMutationResolver */
+            $payloadableDeleteMediaItemMutationResolver = $this->instanceManager->getInstance(PayloadableDeleteMediaItemMutationResolver::class);
+            $this->payloadableDeleteMediaItemMutationResolver = $payloadableDeleteMediaItemMutationResolver;
+        }
+        return $this->payloadableDeleteMediaItemMutationResolver;
+    }
+    protected final function getMediaDeleteInputObjectTypeResolver() : MediaDeleteInputObjectTypeResolver
+    {
+        if ($this->mediaDeleteInputObjectTypeResolver === null) {
+            /** @var MediaDeleteInputObjectTypeResolver */
+            $mediaDeleteInputObjectTypeResolver = $this->instanceManager->getInstance(MediaDeleteInputObjectTypeResolver::class);
+            $this->mediaDeleteInputObjectTypeResolver = $mediaDeleteInputObjectTypeResolver;
+        }
+        return $this->mediaDeleteInputObjectTypeResolver;
+    }
+    protected final function getBooleanScalarTypeResolver() : BooleanScalarTypeResolver
+    {
+        if ($this->booleanScalarTypeResolver === null) {
+            /** @var BooleanScalarTypeResolver */
+            $booleanScalarTypeResolver = $this->instanceManager->getInstance(BooleanScalarTypeResolver::class);
+            $this->booleanScalarTypeResolver = $booleanScalarTypeResolver;
+        }
+        return $this->booleanScalarTypeResolver;
+    }
     protected final function getUserLoggedInCheckpoint() : UserLoggedInCheckpoint
     {
         if ($this->userLoggedInCheckpoint === null) {
@@ -100,12 +155,13 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
      */
     public function getFieldNamesToResolve() : array
     {
-        return ['update'];
+        return ['update', 'delete'];
     }
     public function getFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : ?string
     {
         return match ($fieldName) {
             'update' => $this->__('Update the media item', 'gatographql'),
+            'delete' => $this->__('Delete the media item', 'gatographql'),
             default => parent::getFieldDescription($objectTypeResolver, $fieldName),
         };
     }
@@ -117,11 +173,12 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         if (!$usePayloadableMediaMutations) {
             return match ($fieldName) {
                 'update' => SchemaTypeModifiers::NONE,
+                'delete' => SchemaTypeModifiers::NON_NULLABLE,
                 default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
             };
         }
         return match ($fieldName) {
-            'update' => SchemaTypeModifiers::NON_NULLABLE,
+            'update', 'delete' => SchemaTypeModifiers::NON_NULLABLE,
             default => parent::getFieldTypeModifiers($objectTypeResolver, $fieldName),
         };
     }
@@ -132,6 +189,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     {
         return match ($fieldName) {
             'update' => ['input' => $this->getMediaUpdateInputObjectTypeResolver()],
+            'delete' => ['input' => $this->getMediaDeleteInputObjectTypeResolver()],
             default => parent::getFieldArgNameTypeResolvers($objectTypeResolver, $fieldName),
         };
     }
@@ -150,7 +208,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
     public function validateMutationOnObject(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName) : bool
     {
         return match ($fieldName) {
-            'update' => \true,
+            'update', 'delete' => \true,
             default => parent::validateMutationOnObject($objectTypeResolver, $fieldName),
         };
     }
@@ -168,6 +226,16 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
                 $input =& $fieldArgsForMutationForObject['input'];
                 $input->{MutationInputProperties::ID} = $objectTypeResolver->getID($mediaItem);
                 break;
+            case 'delete':
+                /**
+                 * The "input" is optional, as it only carries the `force`
+                 * input field. Hence create it if it was not provided.
+                 */
+                if (!isset($fieldArgsForMutationForObject['input'])) {
+                    $fieldArgsForMutationForObject['input'] = new stdClass();
+                }
+                $fieldArgsForMutationForObject['input']->{MutationInputProperties::ID} = $objectTypeResolver->getID($mediaItem);
+                break;
         }
         return $fieldArgsForMutationForObject;
     }
@@ -178,6 +246,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
         return match ($fieldName) {
             'update' => $usePayloadableMediaMutations ? $this->getPayloadableUpdateMediaItemMutationResolver() : $this->getUpdateMediaItemMutationResolver(),
+            'delete' => $usePayloadableMediaMutations ? $this->getPayloadableDeleteMediaItemMutationResolver() : $this->getDeleteMediaItemMutationResolver(),
             default => parent::getFieldMutationResolver($objectTypeResolver, $fieldName),
         };
     }
@@ -188,6 +257,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         $usePayloadableMediaMutations = $moduleConfiguration->usePayloadableMediaMutations();
         return match ($fieldName) {
             'update' => $usePayloadableMediaMutations ? $this->getMediaUpdateMutationPayloadObjectTypeResolver() : $this->getMediaObjectTypeResolver(),
+            'delete' => $usePayloadableMediaMutations ? $this->getMediaDeleteMutationPayloadObjectTypeResolver() : $this->getBooleanScalarTypeResolver(),
             default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
         };
     }
@@ -211,6 +281,7 @@ class MediaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
         }
         switch ($fieldDataAccessor->getFieldName()) {
             case 'update':
+            case 'delete':
                 $validationCheckpoints[] = $this->getUserLoggedInCheckpoint();
                 break;
         }

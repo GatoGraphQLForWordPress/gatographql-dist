@@ -3,7 +3,9 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\MenuMutations\FieldResolvers\ObjectType;
 
-use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\AbstractMenuMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\MenuUpdateMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\RootCreateMenuMutationPayloadObjectTypeResolver;
+use PoPCMSSchema\MenuMutations\TypeResolvers\ObjectType\RootUpdateMenuMutationPayloadObjectTypeResolver;
 use PoPCMSSchema\Menus\TypeResolvers\ObjectType\MenuObjectTypeResolver;
 use PoPSchema\SchemaCommons\FieldResolvers\ObjectType\AbstractObjectMutationPayloadObjectTypeFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
@@ -26,7 +28,7 @@ class MenuMutationPayloadObjectTypeFieldResolver extends AbstractObjectMutationP
      */
     public function getObjectTypeResolverClassesToAttachTo() : array
     {
-        return [AbstractMenuMutationPayloadObjectTypeResolver::class];
+        return [RootCreateMenuMutationPayloadObjectTypeResolver::class, RootUpdateMenuMutationPayloadObjectTypeResolver::class, MenuUpdateMutationPayloadObjectTypeResolver::class];
     }
     protected function getObjectFieldName() : string
     {

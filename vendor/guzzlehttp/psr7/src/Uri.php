@@ -530,7 +530,7 @@ class Uri implements UriInterface, \JsonSerializable
         if (!\is_string($scheme)) {
             throw new \InvalidArgumentException('Scheme must be a string');
         }
-        $scheme = \strtr($scheme, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        $scheme = Utils::asciiToLower($scheme);
         if ($scheme !== '' && !\preg_match('/^[a-z][a-z0-9.+-]*$/D', $scheme)) {
             \GatoExternalPrefixByGatoGraphQL\trigger_deprecation('guzzlehttp/psr7', '2.11', 'Passing "%s" as a URI scheme is deprecated; guzzlehttp/psr7 3.0 requires URI schemes to match RFC 3986 syntax and begin with a letter.', $scheme);
         }
@@ -558,7 +558,7 @@ class Uri implements UriInterface, \JsonSerializable
         if (!\is_string($host)) {
             throw new \InvalidArgumentException('Host must be a string');
         }
-        $host = \strtr($host, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        $host = Utils::asciiToLower($host);
         self::assertValidHost($host);
         return $host;
     }

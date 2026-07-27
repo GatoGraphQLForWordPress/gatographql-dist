@@ -2,6 +2,8 @@
 
 namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Cookie;
 
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Handler\HostValidator;
+use GatoExternalPrefixByGatoGraphQL\GuzzleHttp\Psr7;
 /**
  * Set-Cookie object
  * @internal
@@ -16,6 +18,10 @@ class SetCookie
      * @var array Cookie data
      */
     private $data;
+    /**
+     * @var bool Whether this cookie was set without a Domain attribute
+     */
+    private $hostOnly = \false;
     /**
      * Create a new SetCookie object from a string.
      *
@@ -44,7 +50,7 @@ class SetCookie
                 $data['Value'] = $value;
             } else {
                 foreach (\array_keys(self::$defaults) as $search) {
-                    if (\strtr($search, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') === \strtr($key, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) {
+                    if (Psr7\Utils::caselessEquals($search, $key)) {
                         if ($search === 'Max-Age') {
                             if (\is_numeric($value)) {
                                 $data[$search] = (int) $value;
@@ -59,6 +65,9 @@ class SetCookie
                         continue 2;
                     }
                 }
+                if (Psr7\Utils::caselessEquals('HostOnly', $key)) {
+                    continue;
+                }
                 $data[$key] = $value;
             }
         }
@@ -70,6 +79,13 @@ class SetCookie
     public function __construct(array $data = [])
     {
         $this->data = self::$defaults;
+        if (\array_key_exists('HostOnly', $data)) {
+            if (!\is_bool($data['HostOnly'])) {
+                throw new \InvalidArgumentException('Cookie field "HostOnly" must be a boolean');
+            }
+            $this->setHostOnly($data['HostOnly']);
+            unset($data['HostOnly']);
+        }
         if (isset($data['Name'])) {
             $this->setName($data['Name']);
         }
@@ -124,6 +140,9 @@ class SetCookie
     {
         $str = $this->data['Name'] . '=' . ($this->data['Value'] ?? '') . '; ';
         foreach ($this->data as $k => $v) {
+            if ($k === 'Domain' && $this->getHostOnly()) {
+                continue;
+            }
             if ($k !== 'Name' && $k !== 'Value' && $v !== null && $v !== \false) {
                 if ($k === 'Expires') {
                     $str .= 'Expires=' . \gmdate('D, d M Y H:i:s \\G\\M\\T', $v) . '; ';
@@ -136,7 +155,11 @@ class SetCookie
     }
     public function toArray() : array
     {
-        return $this->data;
+        $data = $this->data;
+        if ($this->getHostOnly()) {
+            $data['HostOnly'] = \true;
+        }
+        return $data;
     }
     /**
      * Get the cookie name.
@@ -200,6 +223,24 @@ class SetCookie
             \GatoExternalPrefixByGatoGraphQL\trigger_deprecation('guzzlehttp/guzzle', '7.4', 'Not passing a string or null to %s::%s() is deprecated and will cause an error in 8.0.', __CLASS__, __FUNCTION__);
         }
         $this->data['Domain'] = null === $domain ? null : (string) $domain;
+    }
+    /**
+     * Get whether this cookie is scoped to the origin host only.
+     *
+     * @return bool
+     */
+    public function getHostOnly()
+    {
+        return $this->hostOnly;
+    }
+    /**
+     * Set whether this cookie is scoped to the origin host only.
+     *
+     * @param bool $hostOnly Set to true for host-only cookies
+     */
+    public function setHostOnly(bool $hostOnly) : void
+    {
+        $this->hostOnly = $hostOnly;
     }
     /**
      * Get the path.
@@ -377,11 +418,14 @@ class SetCookie
     {
         $cookieDomain = $this->getDomain();
         if (null === $cookieDomain) {
-            return \true;
+            return !$this->getHostOnly();
+        }
+        if ($this->getHostOnly()) {
+            return Psr7\Utils::asciiToLower($domain) === Psr7\Utils::asciiToLower($cookieDomain);
         }
         // Remove the leading '.' as per spec in RFC 6265.
         // https://datatracker.ietf.org/doc/html/rfc6265#section-5.2.3
-        $cookieDomain = \strtr($cookieDomain, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        $cookieDomain = Psr7\Utils::asciiToLower($cookieDomain);
         if ($cookieDomain !== '' && $cookieDomain[0] === '.') {
             /** @var string */
             $cookieDomain = \substr($cookieDomain, 1);
@@ -389,9 +433,14 @@ class SetCookie
         if ('' === $cookieDomain) {
             return \false;
         }
-        $domain = \strtr($domain, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+        $domain = Psr7\Utils::asciiToLower($domain);
         if ($domain === $cookieDomain) {
             return \true;
+        }
+        // A percent-escaped cookie domain can decode to another host spelling.
+        // Keep it exact-match-only to avoid extending that host's cookie scope.
+        if (\strpos($cookieDomain, '%') !== \false) {
+            return \false;
         }
         // IP literals and numeric hosts are exact-match-only per RFC 6265.
         // Only the exact match above may succeed for those cookie domains.
@@ -422,7 +471,13 @@ class SetCookie
         // those private/internal hosts as exact-match-only too.
         $labels = \explode('.', $host);
         $last = (string) \end($labels);
-        return $last !== '' && \ctype_digit($last);
+        if ($last !== '' && \ctype_digit($last)) {
+            return \true;
+        }
+        // Apply the transport's decimal, octal and hexadecimal inet_aton-style
+        // grammar. Omitting range checks conservatively holds some names to an
+        // exact match.
+        return HostValidator::isNumericIpv4Host(\rtrim($host, '.'));
     }
     /**
      * Check if the cookie is expired.

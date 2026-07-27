@@ -1,0 +1,17 @@
+<?php
+
+declare (strict_types=1);
+namespace PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType;
+
+/** @internal */
+class RootUpdateCommentMutationPayloadObjectTypeResolver extends \PoPCMSSchema\CommentMutations\TypeResolvers\ObjectType\AbstractCommentMutationPayloadObjectTypeResolver
+{
+    public function getTypeName() : string
+    {
+        return 'RootUpdateCommentMutationPayload';
+    }
+    public function getTypeDescription() : ?string
+    {
+        return $this->__('Payload of updating a comment', 'gatographql');
+    }
+}
