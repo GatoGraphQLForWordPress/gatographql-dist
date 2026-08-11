@@ -29,8 +29,9 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('ComposerAutoloaderInit7e0ef3f2c04ccca8709714793e87b538', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit7e0ef3f2c04ccca8709714793e87b538');
+humbug_phpscoper_expose_class('ComposerAutoloaderInite8c0ba45d5643a859735db9ba8cc9460', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInite8c0ba45d5643a859735db9ba8cc9460');
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
+humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
 humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
 humbug_phpscoper_expose_class('Override', 'GatoExternalPrefixByGatoGraphQL\Override');
 humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
@@ -44,7 +45,6 @@ humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefi
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('©', 'GatoExternalPrefixByGatoGraphQL\©');
 humbug_phpscoper_expose_class('PhpToken', 'GatoExternalPrefixByGatoGraphQL\PhpToken');
-humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
 humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
 humbug_phpscoper_expose_class('Attribute', 'GatoExternalPrefixByGatoGraphQL\Attribute');
 humbug_phpscoper_expose_class('Stringable', 'GatoExternalPrefixByGatoGraphQL\Stringable');

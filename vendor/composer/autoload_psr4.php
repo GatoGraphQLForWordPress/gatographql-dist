@@ -172,6 +172,7 @@ return array(
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\VarExporter\\' => array($vendorDir . '/symfony/var-exporter'),
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
+    'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\' => array($vendorDir . '/symfony/expression-language'),
     'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\' => array($vendorDir . '/symfony/dotenv'),

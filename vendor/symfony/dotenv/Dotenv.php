@@ -25,7 +25,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Process\Process;
  */
 final class Dotenv
 {
-    public const VARNAME_REGEX = '(?i:_?[A-Z][A-Z0-9_]*+)';
+    public const VARNAME_REGEX = '(?i:_*[A-Z][A-Z0-9_]*+)';
     public const STATE_VARNAME = 0;
     public const STATE_VALUE = 1;
     private string $path;
@@ -510,18 +510,26 @@ final class Dotenv
                 throw $this->createFormatException('Unclosed braces on variable expansion');
             }
             $name = $matches['name'];
+            $isExternal = \false;
             if (isset($loadedVars[$name]) && isset($this->values[$name])) {
                 $value = $this->values[$name];
             } elseif (isset($_ENV[$name])) {
                 $value = $_ENV[$name];
+                $isExternal = \true;
             } elseif (isset($_SERVER[$name]) && !\str_starts_with($name, 'HTTP_')) {
                 $value = $_SERVER[$name];
+                $isExternal = \true;
             } elseif (isset($this->values[$name])) {
                 $value = $this->values[$name];
             } else {
                 $value = (string) \getenv($name);
+                $isExternal = \true;
             }
             if ('' !== $value && !isset($loadedVars[$name])) {
+                if ($isExternal) {
+                    // unlike values parsed from a .env file, external ones are not escaped yet
+                    $value = \str_replace('\\', '\\\\', $value);
+                }
                 $value = \str_replace('$', "\x00", $value);
             }
             if ('' === $value && isset($matches['default_value']) && '' !== $matches['default_value']) {
@@ -566,10 +574,16 @@ final class Dotenv
             $values = $this->parseRaw($data, $path);
             $loadedVars = \array_flip(\explode(',', $_SERVER['SYMFONY_DOTENV_VARS'] ?? $_ENV['SYMFONY_DOTENV_VARS'] ?? ''));
             unset($loadedVars['']);
-            foreach ($values as $name => $_) {
+            foreach ($values as $name => $value) {
                 $alreadyExternal = isset($_ENV[$name]) || isset($_SERVER[$name]) && !\str_starts_with($name, 'HTTP_');
-                if (!isset($this->overriddenValues[$name]) && $alreadyExternal) {
-                    $this->overriddenValues[$name] = $_ENV[$name] ?? $_SERVER[$name];
+                if (!isset($this->overriddenValues[$name])) {
+                    if ($alreadyExternal) {
+                        $this->overriddenValues[$name] = $_ENV[$name] ?? $_SERVER[$name];
+                    } elseif ($this->isSelfReferencing($name, $value) && \false !== ($external = \getenv($name, \true))) {
+                        // the OS provides the value but neither $_ENV nor $_SERVER is populated;
+                        // $localOnly skips the request-scoped SAPI env and its HTTP_* vars
+                        $this->overriddenValues[$name] = $external;
+                    }
                 }
                 if (isset($loadedVars[$name]) || $overrideExistingVars || !$alreadyExternal) {
                     $this->loadedRawVars[$name] = \true;
@@ -577,6 +591,14 @@ final class Dotenv
             }
             $this->populate($values, $overrideExistingVars);
         }
+    }
+    /**
+     * Tells whether a raw value references the variable it defines
+     * (e.g. MY_VAR="${MY_VAR:-default}").
+     */
+    private function isSelfReferencing(string $name, string $value) : bool
+    {
+        return \str_contains($value, '$') && \preg_match('/\\$\\{?' . \preg_quote($name, '/') . '(?![A-Za-z0-9_])/', $value);
     }
     /**
      * Eagerly resolves a raw env key value so that loadEnv() can determine
@@ -630,12 +652,11 @@ final class Dotenv
         $this->end = 0;
         try {
             // Detect variables that were originally defined as self-referencing
-            // (e.g. MY_VAR="${MY_VAR:-default}") so their own raw value is hidden
-            // during resolution, allowing the default to trigger correctly.
+            // so their own raw value is hidden during resolution, allowing the
+            // external value or the default to trigger correctly.
             $selfReferencingVars = [];
             foreach ($rawVars as $name => $_) {
-                $value = $_ENV[$name] ?? '';
-                if (\str_contains($value, '$') && \preg_match('/\\$\\{?' . \preg_quote($name, '/') . '(?![A-Za-z0-9_])/', $value)) {
+                if ($this->isSelfReferencing($name, $_ENV[$name] ?? '')) {
                     $selfReferencingVars[$name] = \true;
                 }
             }
@@ -649,7 +670,7 @@ final class Dotenv
                         $envBackup = $_ENV[$name] ?? null;
                         $serverBackup = $_SERVER[$name] ?? null;
                         if (isset($this->overriddenValues[$name])) {
-                            $_ENV[$name] = \str_replace('$', "\x00", $this->overriddenValues[$name]);
+                            $_ENV[$name] = \str_replace(['\\\\', '$'], ['\\\\\\\\', "\x00"], $this->overriddenValues[$name]);
                             $_SERVER[$name] = $_ENV[$name];
                         } else {
                             unset($_ENV[$name], $_SERVER[$name]);

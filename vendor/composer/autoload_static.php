@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
+class ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -190,6 +190,7 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Yaml\\' => 55,
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\VarExporter\\' => 62,
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\' => 65,
+            'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\' => 57,
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\' => 61,
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\ExpressionLanguage\\' => 69,
             'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Dotenv\\' => 57,
@@ -879,6 +880,10 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
@@ -1237,6 +1242,7 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay21Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay21Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay22Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay22Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay30Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay30Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay40Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay40Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -1611,6 +1617,29 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/filesystem/Exception/RuntimeException.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\Filesystem' => __DIR__ . '/..' . '/symfony/filesystem/Filesystem.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Filesystem\\Path' => __DIR__ . '/..' . '/symfony/filesystem/Path.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Comparator\\Comparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/Comparator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Comparator\\DateComparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/DateComparator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Comparator\\NumberComparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/NumberComparator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Exception\\AccessDeniedException' => __DIR__ . '/..' . '/symfony/finder/Exception/AccessDeniedException.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Exception\\DirectoryNotFoundException' => __DIR__ . '/..' . '/symfony/finder/Exception/DirectoryNotFoundException.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Finder' => __DIR__ . '/..' . '/symfony/finder/Finder.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Gitignore' => __DIR__ . '/..' . '/symfony/finder/Gitignore.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Glob' => __DIR__ . '/..' . '/symfony/finder/Glob.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\CustomFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/CustomFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\DateRangeFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/DateRangeFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\DepthRangeFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/DepthRangeFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\ExcludeDirectoryFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\FileTypeFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FileTypeFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\FilecontentFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FilecontentFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\FilenameFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/FilenameFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\LazyIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/LazyIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\MultiplePcreFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/MultiplePcreFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\PathFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/PathFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\RecursiveDirectoryIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/RecursiveDirectoryIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\SizeRangeFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/SizeRangeFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\SortableIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/SortableIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\Iterator\\VcsIgnoredFilterIterator' => __DIR__ . '/..' . '/symfony/finder/Iterator/VcsIgnoredFilterIterator.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Finder\\SplFileInfo' => __DIR__ . '/..' . '/symfony/finder/SplFileInfo.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\AcceptHeader' => __DIR__ . '/..' . '/symfony/http-foundation/AcceptHeader.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\AcceptHeaderItem' => __DIR__ . '/..' . '/symfony/http-foundation/AcceptHeaderItem.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\HttpFoundation\\BinaryFileResponse' => __DIR__ . '/..' . '/symfony/http-foundation/BinaryFileResponse.php',
@@ -6433,6 +6462,7 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
         'PoP\\GraphQLParser\\Exception\\Parser\\UnsupportedSyntaxErrorParserException' => __DIR__ . '/..' . '/getpop/graphql-parser/src/Exception/Parser/UnsupportedSyntaxErrorParserException.php',
         'PoP\\GraphQLParser\\Exception\\RuntimeVariableReferenceException' => __DIR__ . '/..' . '/getpop/graphql-parser/src/Exception/RuntimeVariableReferenceException.php',
         'PoP\\GraphQLParser\\ExtendedSpec\\Constants\\QuerySyntax' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ExtendedSpec/Constants/QuerySyntax.php',
+        'PoP\\GraphQLParser\\ExtendedSpec\\Constants\\ReservedDirectiveNames' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ExtendedSpec/Constants/ReservedDirectiveNames.php',
         'PoP\\GraphQLParser\\ExtendedSpec\\Execution\\AbstractExecutableDocument' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ExtendedSpec/Execution/AbstractExecutableDocument.php',
         'PoP\\GraphQLParser\\ExtendedSpec\\Execution\\DocumentDynamicVariableValuePromise' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ExtendedSpec/Execution/DocumentDynamicVariableValuePromise.php',
         'PoP\\GraphQLParser\\ExtendedSpec\\Execution\\ExecutableDocumentInterface' => __DIR__ . '/..' . '/getpop/graphql-parser/src/ExtendedSpec/Execution/ExecutableDocumentInterface.php',
@@ -6685,9 +6715,9 @@ class ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7e0ef3f2c04ccca8709714793e87b538::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$classMap;
 
         }, null, ClassLoader::class);
     }

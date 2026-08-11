@@ -31,7 +31,7 @@ class RedisCluster6Proxy extends \RedisCluster implements ResetInterface, LazyOb
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function __construct($name, $seeds = null, $timeout = 0, $read_timeout = 0, $persistent = \false, #[\SensitiveParameter] $auth = null, $context = null)
     {
-        return ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->__construct(...\func_get_args());
+        ($this->lazyObjectState->realInstance ??= ($this->lazyObjectState->initializer)())->__construct(...\func_get_args());
     }
     public function _compress($value) : string
     {
