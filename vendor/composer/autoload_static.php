@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460
+class ComposerStaticInit560ec7e15ad2596a127a015318561525
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1113,7 +1113,6 @@ class ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\Tokenizer' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Parser/Tokenizer.php',
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\TreeBuildingRules' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Parser/TreeBuildingRules.php',
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\UTF8Utils' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Parser/UTF8Utils.php',
-        'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\HTML5Entities' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/HTML5Entities.php',
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\OutputRules' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/OutputRules.php',
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\RulesInterface' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/RulesInterface.php',
         'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\Traverser' => __DIR__ . '/..' . '/masterminds/html5/src/HTML5/Serializer/Traverser.php',
@@ -6715,9 +6714,9 @@ class ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite8c0ba45d5643a859735db9ba8cc9460::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit560ec7e15ad2596a127a015318561525::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit560ec7e15ad2596a127a015318561525::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit560ec7e15ad2596a127a015318561525::$classMap;
 
         }, null, ClassLoader::class);
     }

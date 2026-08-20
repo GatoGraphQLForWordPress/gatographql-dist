@@ -147,7 +147,6 @@ return array(
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\Tokenizer' => $vendorDir . '/masterminds/html5/src/HTML5/Parser/Tokenizer.php',
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\TreeBuildingRules' => $vendorDir . '/masterminds/html5/src/HTML5/Parser/TreeBuildingRules.php',
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Parser\\UTF8Utils' => $vendorDir . '/masterminds/html5/src/HTML5/Parser/UTF8Utils.php',
-    'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\HTML5Entities' => $vendorDir . '/masterminds/html5/src/HTML5/Serializer/HTML5Entities.php',
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\OutputRules' => $vendorDir . '/masterminds/html5/src/HTML5/Serializer/OutputRules.php',
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\RulesInterface' => $vendorDir . '/masterminds/html5/src/HTML5/Serializer/RulesInterface.php',
     'GatoExternalPrefixByGatoGraphQL\\Masterminds\\HTML5\\Serializer\\Traverser' => $vendorDir . '/masterminds/html5/src/HTML5/Serializer/Traverser.php',
