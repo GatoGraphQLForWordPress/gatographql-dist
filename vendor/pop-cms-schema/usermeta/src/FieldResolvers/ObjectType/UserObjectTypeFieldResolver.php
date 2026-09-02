@@ -62,21 +62,29 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
                 $userMetaTypeAPI = $this->getUserMetaTypeAPI();
                 $allUserMetaKeys = $userMetaTypeAPI->getUserMetaKeys($user);
                 foreach ($allUserMetaKeys as $key) {
-                    if (!$userMetaTypeAPI->validateIsMetaKeyAllowed($key)) {
+                    if (!$userMetaTypeAPI->validateIsMetaKeyAllowed($key) || $userMetaTypeAPI->isMetaKeyProtectedFromReading($key)) {
                         continue;
                     }
                     $metaKeys[] = $key;
                 }
                 return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
-                $metaValue = $this->getUserMetaTypeAPI()->getUserMeta($user, $fieldDataAccessor->getValue('key'), \true);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValue = $this->getUserMetaTypeAPI()->getUserMeta($user, $key, \true);
                 // If it's an array, it must be a JSON object
                 if (\is_array($metaValue)) {
                     return MethodHelpers::recursivelyConvertAssociativeArrayToStdClass($metaValue);
                 }
                 return $metaValue;
             case 'metaValues':
-                $metaValues = $this->getUserMetaTypeAPI()->getUserMeta($user, $fieldDataAccessor->getValue('key'), \false);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValues = $this->getUserMetaTypeAPI()->getUserMeta($user, $key, \false);
                 if (!\is_array($metaValues)) {
                     return $metaValues;
                 }
@@ -95,6 +103,9 @@ class UserObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldResolve
                 $keys = $fieldDataAccessor->getValue('keys');
                 foreach ($keys as $key) {
                     if (!\array_key_exists($key, $allMeta)) {
+                        continue;
+                    }
+                    if (!$this->isMetaKeyReadable($key)) {
                         continue;
                     }
                     $meta[$key] = $allMeta[$key];

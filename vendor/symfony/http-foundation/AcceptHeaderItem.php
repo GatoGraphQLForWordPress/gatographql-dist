@@ -45,7 +45,7 @@ class AcceptHeaderItem
     public function __toString() : string
     {
         $string = $this->value . ($this->quality < 1 ? ';q=' . $this->quality : '');
-        if (\count($this->attributes) > 0) {
+        if ($this->attributes) {
             $string .= '; ' . HeaderUtils::toString($this->attributes, ';');
         }
         return $string;

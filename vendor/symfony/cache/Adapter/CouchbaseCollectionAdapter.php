@@ -135,7 +135,7 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
             } catch (DocumentNotFoundException) {
             }
         }
-        return 0 === \count($idsErrors);
+        return !$idsErrors;
     }
     protected function doSave(array $values, $lifetime) : array|bool
     {
@@ -152,6 +152,6 @@ class CouchbaseCollectionAdapter extends AbstractAdapter
                 $ko[$key] = '';
             }
         }
-        return [] === $ko ? \true : $ko;
+        return !$ko ? \true : $ko;
     }
 }

@@ -169,6 +169,8 @@ class Parser
                     $data[] = $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(null, \true) ?? '', $flags);
                 } elseif (null !== ($subTag = $this->getLineTag(\ltrim($values['value'], ' '), $flags))) {
                     $data[] = new TaggedValue($subTag, $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(null, \true), $flags));
+                } elseif (self::preg_match('/^' . self::TAG_PATTERN . ' +' . self::BLOCK_SCALAR_HEADER_PATTERN . '$/', $values['value'])) {
+                    $data[] = $this->parseValue($values['value'], $flags, $context);
                 } else {
                     if (isset($values['leadspaces']) && ('!' === $values['value'][0] || self::preg_match('#^(?P<key>' . Inline::REGEX_QUOTED_STRING . '|[^ \'"\\{\\[].*?) *\\:(\\s+(?P<value>.+?))?\\s*$#u', $this->trimTag($values['value']), $matches))) {
                         $block = $values['value'];
@@ -211,6 +213,10 @@ class Parser
                     $allowOverwrite = \true;
                     if (isset($values['value'][0]) && '*' === $values['value'][0]) {
                         $refName = \substr(\rtrim($values['value']), 1);
+                        // remove comments
+                        if (self::preg_match('/[ \\t]+#/', $refName, $match, \PREG_OFFSET_CAPTURE)) {
+                            $refName = \substr($refName, 0, $match[0][1]);
+                        }
                         if (!\array_key_exists($refName, $this->refs)) {
                             if (\false !== ($pos = \array_search($refName, $this->refsBeingParsed, \true))) {
                                 throw new ParseException(\sprintf('Circular reference [%s] detected for reference "%s".', \implode(', ', \array_merge(\array_slice($this->refsBeingParsed, $pos), [$refName])), $refName), $this->currentLineNb + 1, $this->currentLine, $this->filename);
@@ -610,10 +616,10 @@ class Parser
     private function parseValue(string $value, int $flags, string $context) : mixed
     {
         if (\str_starts_with($value, '*')) {
-            if (\false !== ($pos = \strpos($value, '#'))) {
-                $value = \substr($value, 1, $pos - 2);
-            } else {
-                $value = \substr($value, 1);
+            $value = \substr($value, 1);
+            // remove comments
+            if (self::preg_match('/[ \\t]+#/', $value, $match, \PREG_OFFSET_CAPTURE)) {
+                $value = \substr($value, 0, $match[0][1]);
             }
             if (!\array_key_exists($value, $this->refs)) {
                 if (\false !== ($pos = \array_search($value, $this->refsBeingParsed, \true))) {
@@ -1014,6 +1020,16 @@ class Parser
         return $this->lexInlineStructure($cursor, ']', $consumeUntilEol);
     }
     private function lexInlineStructure(int &$cursor, string $closingTag, bool $consumeUntilEol = \true) : string
+    {
+        $state = $this->getState();
+        $state->enterNestingLevel($this->getRealCurrentLineNb() + 1, $this->currentLine, $this->filename);
+        try {
+            return $this->doLexInlineStructure($cursor, $closingTag, $consumeUntilEol);
+        } finally {
+            $state->leaveNestingLevel();
+        }
+    }
+    private function doLexInlineStructure(int &$cursor, string $closingTag, bool $consumeUntilEol = \true) : string
     {
         $value = $this->currentLine[$cursor];
         ++$cursor;

@@ -167,6 +167,7 @@ class Inline
                 $doubleQuoted = Escaper::escapeWithDoubleQuotes($value);
                 return \strlen($doubleQuoted) < \strlen($singleQuoted) ? $doubleQuoted : $singleQuoted;
             case Parser::preg_match('{^[0-9]+[_0-9]*$}', $value):
+            case Parser::preg_match('{^[+-]?0o[0-7_]++$}', $value):
             case Parser::preg_match(self::getHexRegex(), $value):
             case Parser::preg_match(self::getTimestampRegex(), $value):
                 return Escaper::escapeWithSingleQuotes($value);
@@ -562,10 +563,10 @@ class Inline
         $isQuotedString = \false;
         $scalar = \trim($scalar);
         if (\str_starts_with($scalar, '*')) {
-            if (\false !== ($pos = \strpos($scalar, '#'))) {
-                $value = \substr($scalar, 1, $pos - 2);
-            } else {
-                $value = \substr($scalar, 1);
+            $value = \substr($scalar, 1);
+            // remove comments
+            if (Parser::preg_match('/[ \\t]+#/', $value, $match, \PREG_OFFSET_CAPTURE)) {
+                $value = \substr($value, 0, $match[0][1]);
             }
             // an unquoted *
             if (\false === $value || '' === $value) {
@@ -805,6 +806,6 @@ EOF;
      */
     private static function getHexRegex() : string
     {
-        return '~^0x[0-9a-f_]++$~i';
+        return '~^0x[0-9a-fA-F_]++$~';
     }
 }

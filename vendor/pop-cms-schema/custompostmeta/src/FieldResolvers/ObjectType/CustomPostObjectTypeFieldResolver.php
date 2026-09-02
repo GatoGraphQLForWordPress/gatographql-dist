@@ -66,21 +66,29 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
                 $customPostMetaTypeAPI = $this->getLogicalCustomPostMetaTypeAPI();
                 $allCustomPostMetaKeys = $customPostMetaTypeAPI->getCustomPostMetaKeys($customPost);
                 foreach ($allCustomPostMetaKeys as $key) {
-                    if (!$customPostMetaTypeAPI->validateIsMetaKeyAllowed($key)) {
+                    if (!$customPostMetaTypeAPI->validateIsMetaKeyAllowed($key) || $customPostMetaTypeAPI->isMetaKeyProtectedFromReading($key)) {
                         continue;
                     }
                     $metaKeys[] = $key;
                 }
                 return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
-                $metaValue = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \true);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValue = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $key, \true);
                 // If it's an array, it must be a JSON object
                 if (\is_array($metaValue)) {
                     return MethodHelpers::recursivelyConvertAssociativeArrayToStdClass($metaValue);
                 }
                 return $metaValue;
             case 'metaValues':
-                $metaValues = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $fieldDataAccessor->getValue('key'), \false);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValues = $this->getLogicalCustomPostMetaTypeAPI()->getCustomPostMeta($customPost, $key, \false);
                 if (!\is_array($metaValues)) {
                     return $metaValues;
                 }
@@ -99,6 +107,9 @@ class CustomPostObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldR
                 $keys = $fieldDataAccessor->getValue('keys');
                 foreach ($keys as $key) {
                     if (!\array_key_exists($key, $allMeta)) {
+                        continue;
+                    }
+                    if (!$this->isMetaKeyReadable($key)) {
                         continue;
                     }
                     $meta[$key] = $allMeta[$key];

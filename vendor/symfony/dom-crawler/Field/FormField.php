@@ -10,6 +10,7 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Field;
 
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DomCrawler\Crawler;
 /**
  * FormField is the abstract class for all form fields.
  *
@@ -59,7 +60,7 @@ abstract class FormField
     {
         $xpath = new \DOMXPath($this->node->ownerDocument);
         if ($this->node->hasAttribute('id')) {
-            $labels = $xpath->query(\sprintf('descendant::label[@for="%s"]', $this->node->getAttribute('id')));
+            $labels = $xpath->query(\sprintf('descendant::label[@for=%s]', Crawler::xpathLiteral($this->node->getAttribute('id'))));
             if ($labels->length > 0) {
                 return $labels->item(0);
             }

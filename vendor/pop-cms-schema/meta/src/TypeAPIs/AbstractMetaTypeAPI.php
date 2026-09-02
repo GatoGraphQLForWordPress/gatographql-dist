@@ -5,6 +5,7 @@ namespace PoPCMSSchema\Meta\TypeAPIs;
 
 use PoP\Root\Services\AbstractBasicService;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
+use PoPSchema\SchemaCommons\Constants\Behaviors;
 use PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface;
 /** @internal */
 abstract class AbstractMetaTypeAPI extends AbstractBasicService implements \PoPCMSSchema\Meta\TypeAPIs\MetaTypeAPIInterface
@@ -22,6 +23,30 @@ abstract class AbstractMetaTypeAPI extends AbstractBasicService implements \PoPC
     public final function validateIsMetaKeyAllowed(string $key) : bool
     {
         return $this->getAllowOrDenySettingsService()->isEntryAllowed($key, $this->getAllowOrDenyMetaEntries(), $this->getAllowOrDenyMetaBehavior());
+    }
+    protected final function isMetaKeyExplicitlyAllowed(string $key) : bool
+    {
+        if ($this->getAllowOrDenyMetaBehavior() !== Behaviors::ALLOW) {
+            return \false;
+        }
+        foreach ($this->getAllowOrDenyMetaEntries() as $entry) {
+            $entry = \trim($entry);
+            if (\str_starts_with($entry, '/') && \str_ends_with($entry, '/') || \str_starts_with($entry, '#') && \str_ends_with($entry, '#')) {
+                continue;
+            }
+            if ($entry === $key) {
+                return \true;
+            }
+        }
+        return \false;
+    }
+    public function isMetaKeyProtected(string $key) : bool
+    {
+        return \false;
+    }
+    public function isMetaKeyProtectedFromReading(string $key) : bool
+    {
+        return \false;
     }
     /**
      * If the allow/denylist validation fails, throw an exception.

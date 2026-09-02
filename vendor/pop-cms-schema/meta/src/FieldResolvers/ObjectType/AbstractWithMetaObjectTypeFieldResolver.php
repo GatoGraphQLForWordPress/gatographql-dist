@@ -42,6 +42,20 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
     }
     protected abstract function getMetaTypeAPI() : MetaTypeAPIInterface;
     /**
+     * Whether the meta key can be read: it must be allowed by the
+     * allow/denylist and not be protected from reading.
+     *
+     * This is enforced during validation, and again while resolving the
+     * value as a fail-closed safety net, so that protected meta is never
+     * returned even if the value is resolved without going through the
+     * field validation.
+     */
+    protected function isMetaKeyReadable(string $key) : bool
+    {
+        $metaTypeAPI = $this->getMetaTypeAPI();
+        return $metaTypeAPI->validateIsMetaKeyAllowed($key) && !$metaTypeAPI->isMetaKeyProtectedFromReading($key);
+    }
+    /**
      * Custom validations
      */
     public function validateFieldKeyValues(ObjectTypeResolverInterface $objectTypeResolver, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
@@ -51,7 +65,7 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
             case 'metaValue':
             case 'metaValues':
                 $key = $fieldDataAccessor->getValue('key');
-                if (!$this->getMetaTypeAPI()->validateIsMetaKeyAllowed($key)) {
+                if (!$this->getMetaTypeAPI()->validateIsMetaKeyAllowed($key) || $this->getMetaTypeAPI()->isMetaKeyProtectedFromReading($key)) {
                     $field = $fieldDataAccessor->getField();
                     $objectTypeFieldResolutionFeedbackStore->addError(new ObjectTypeFieldResolutionFeedback(new FeedbackItemResolution(FeedbackItemProvider::class, FeedbackItemProvider::E1, [$key]), $field->getArgument('key') ?? $field));
                 }
@@ -62,7 +76,7 @@ abstract class AbstractWithMetaObjectTypeFieldResolver extends AbstractObjectTyp
                 /** @var string[] */
                 $keys = $fieldDataAccessor->getValue('keys');
                 foreach ($keys as $key) {
-                    if ($metaTypeAPI->validateIsMetaKeyAllowed($key)) {
+                    if ($metaTypeAPI->validateIsMetaKeyAllowed($key) && !$metaTypeAPI->isMetaKeyProtectedFromReading($key)) {
                         continue;
                     }
                     $nonAllowedKeys[] = $key;

@@ -123,13 +123,13 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
         $key = \strtr($key, self::UPPER, self::LOWER);
         if (\is_array($values)) {
             $values = \array_values($values);
-            if (\true === $replace || !isset($this->headers[$key])) {
+            if ($replace || !isset($this->headers[$key])) {
                 $this->headers[$key] = $values;
             } else {
                 $this->headers[$key] = \array_merge($this->headers[$key], $values);
             }
         } else {
-            if (\true === $replace || !isset($this->headers[$key])) {
+            if ($replace || !isset($this->headers[$key])) {
                 $this->headers[$key] = [$values];
             } else {
                 $this->headers[$key][] = $values;

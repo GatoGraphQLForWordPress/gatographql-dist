@@ -134,7 +134,7 @@ class Crawler implements \Countable, \IteratorAggregate
         $charset = \preg_match('//u', $content) ? 'UTF-8' : 'ISO-8859-1';
         // http://www.w3.org/TR/encoding/#encodings
         // http://www.w3.org/TR/REC-xml/#NT-EncName
-        $content = \preg_replace_callback('/(charset *= *["\']?)([a-zA-Z\\-0-9_:.]+)/i', function ($m) use(&$charset) {
+        $content = \preg_replace_callback('/(<meta[^>]+charset *= *["\']?)([a-zA-Z\\-0-9_:.]+)/i', function ($m) use(&$charset) {
             if ('charset=' === $this->convertToHtmlEntities('charset=', $m[2])) {
                 $charset = $m[2];
             }
@@ -358,9 +358,13 @@ class Crawler implements \Countable, \IteratorAggregate
         if (!$this->nodes) {
             return \false;
         }
-        $converter = $this->createCssSelectorConverter();
-        $xpath = $converter->toXPath($selector, 'self::');
-        return 0 !== $this->filterRelativeXPath($xpath)->count();
+        $node = $this->getNode(0);
+        foreach ($this->matchingNodes($selector, $this->rootNode($node)) as $candidate) {
+            if ($candidate->isSameNode($node)) {
+                return \true;
+            }
+        }
+        return \false;
     }
     /**
      * Return first parents (heading toward the document root) of the Element that matches the provided selector.
@@ -375,12 +379,14 @@ class Crawler implements \Countable, \IteratorAggregate
             throw new \InvalidArgumentException('The current node list is empty.');
         }
         $domNode = $this->getNode(0);
+        $matching = $this->matchingNodes($selector, $this->rootNode($domNode));
         while (null !== $domNode && \XML_ELEMENT_NODE === $domNode->nodeType) {
-            $node = $this->createSubCrawler($domNode);
-            if ($node->matches($selector)) {
-                return $node;
+            foreach ($matching as $candidate) {
+                if ($candidate->isSameNode($domNode)) {
+                    return $this->createSubCrawler($domNode);
+                }
             }
-            $domNode = $node->getNode(0)->parentNode;
+            $domNode = $domNode->parentNode;
         }
         return null;
     }
@@ -439,9 +445,21 @@ class Crawler implements \Countable, \IteratorAggregate
             throw new \InvalidArgumentException('The current node list is empty.');
         }
         if (null !== $selector) {
-            $converter = $this->createCssSelectorConverter();
-            $xpath = $converter->toXPath($selector, 'child::');
-            return $this->filterRelativeXPath($xpath);
+            $parents = [];
+            $roots = [];
+            foreach ($this->nodes as $node) {
+                $parents[\spl_object_id($node)] = \true;
+                $roots[\spl_object_id($root = $this->rootNode($node))] = $root;
+            }
+            $crawler = $this->createSubCrawler(null);
+            foreach ($roots as $root) {
+                foreach ($this->matchingNodes($selector, $root) as $candidate) {
+                    if (null !== $candidate->parentNode && isset($parents[\spl_object_id($candidate->parentNode)])) {
+                        $crawler->add($candidate);
+                    }
+                }
+            }
+            return $crawler;
         }
         $node = $this->getNode(0)->firstChild;
         return $this->createSubCrawler($node ? $this->sibling($node) : []);
@@ -1036,6 +1054,35 @@ class Crawler implements \Countable, \IteratorAggregate
             throw new \LogicException('To filter with a CSS selector, install the CssSelector component ("composer require symfony/css-selector"). Or use filterXpath instead.');
         }
         return new CssSelectorConverter($this->isHtml);
+    }
+    /**
+     * Returns every node matching the selector in the tree the given node belongs to.
+     *
+     * The whole tree is searched because a selector can constrain the ancestors or
+     * the siblings of the node it selects. The root is the topmost ancestor rather
+     * than the document, so that a node detached from the document still matches.
+     *
+     * @return \DOMNode[]
+     */
+    private function matchingNodes(string $selector, \DOMNode $root) : array
+    {
+        if (null === $this->document) {
+            return [];
+        }
+        $converter = $this->createCssSelectorConverter();
+        $xpath = $converter->toXPath($selector);
+        $domxpath = $this->createDOMXPath($this->document, $this->findNamespacePrefixes($xpath));
+        return \iterator_to_array($domxpath->query($xpath, $root), \false);
+    }
+    /**
+     * Returns the topmost ancestor of the node, which is the document unless the node is detached from it.
+     */
+    private function rootNode(\DOMNode $node) : \DOMNode
+    {
+        while (null !== ($parent = $node->parentNode)) {
+            $node = $parent;
+        }
+        return $node;
     }
     /**
      * Parse string into DOMDocument object using HTML5 parser if the content is HTML5 and the library is available.

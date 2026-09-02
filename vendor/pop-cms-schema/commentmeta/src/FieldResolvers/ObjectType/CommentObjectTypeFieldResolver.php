@@ -62,21 +62,29 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
                 $commentMetaTypeAPI = $this->getCommentMetaTypeAPI();
                 $allCommentMetaKeys = $commentMetaTypeAPI->getCommentMetaKeys($comment);
                 foreach ($allCommentMetaKeys as $key) {
-                    if (!$commentMetaTypeAPI->validateIsMetaKeyAllowed($key)) {
+                    if (!$commentMetaTypeAPI->validateIsMetaKeyAllowed($key) || $commentMetaTypeAPI->isMetaKeyProtectedFromReading($key)) {
                         continue;
                     }
                     $metaKeys[] = $key;
                 }
                 return $this->resolveMetaKeysValue($metaKeys, $objectTypeResolver, $object, $fieldDataAccessor, $objectTypeFieldResolutionFeedbackStore);
             case 'metaValue':
-                $metaValue = $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $fieldDataAccessor->getValue('key'), \true);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValue = $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $key, \true);
                 // If it's an array, it must be a JSON object
                 if (\is_array($metaValue)) {
                     return MethodHelpers::recursivelyConvertAssociativeArrayToStdClass($metaValue);
                 }
                 return $metaValue;
             case 'metaValues':
-                $metaValues = $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $fieldDataAccessor->getValue('key'), \false);
+                $key = $fieldDataAccessor->getValue('key');
+                if (!$this->isMetaKeyReadable($key)) {
+                    return null;
+                }
+                $metaValues = $this->getCommentMetaTypeAPI()->getCommentMeta($comment, $key, \false);
                 if (!\is_array($metaValues)) {
                     return $metaValues;
                 }
@@ -95,6 +103,9 @@ class CommentObjectTypeFieldResolver extends AbstractWithMetaObjectTypeFieldReso
                 $keys = $fieldDataAccessor->getValue('keys');
                 foreach ($keys as $key) {
                     if (!\array_key_exists($key, $allMeta)) {
+                        continue;
+                    }
+                    if (!$this->isMetaKeyReadable($key)) {
                         continue;
                     }
                     $meta[$key] = $allMeta[$key];

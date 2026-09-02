@@ -50,8 +50,8 @@ class Parser implements ParserInterface
                 throw SyntaxErrorException::stringAsFunctionArgument();
             }
         }
-        $joined = \trim(\implode('', \array_map(fn(Token $token) => $token->getValue(), $tokens)));
-        $int = function ($string) {
+        $joined = \trim(\implode('', \array_map(static fn(Token $token) => $token->getValue(), $tokens)));
+        $int = static function ($string) {
             if (!\is_numeric($string)) {
                 throw SyntaxErrorException::stringAsFunctionArgument();
             }

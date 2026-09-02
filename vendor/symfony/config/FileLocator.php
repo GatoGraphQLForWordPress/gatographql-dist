@@ -51,7 +51,7 @@ class FileLocator implements FileLocatorInterface
         $filepaths = $notfound = [];
         foreach ($paths as $path) {
             if (@\file_exists($file = $path . \DIRECTORY_SEPARATOR . $name)) {
-                if (\true === $first) {
+                if ($first) {
                     return $file;
                 }
                 $filepaths[] = $file;

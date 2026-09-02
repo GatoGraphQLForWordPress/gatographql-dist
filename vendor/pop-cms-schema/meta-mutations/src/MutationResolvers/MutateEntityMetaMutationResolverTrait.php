@@ -66,7 +66,7 @@ trait MutateEntityMetaMutationResolverTrait
     protected function validateAreMetaKeysAllowed(array $metaKeys, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : void
     {
         $taxonomyMetaTypeAPI = $this->getMetaTypeAPI();
-        $nonAllowedMetaKeys = \array_filter($metaKeys, fn(string $metaKey) => !$taxonomyMetaTypeAPI->validateIsMetaKeyAllowed($metaKey));
+        $nonAllowedMetaKeys = \array_filter($metaKeys, fn(string $metaKey) => !$taxonomyMetaTypeAPI->validateIsMetaKeyAllowed($metaKey) || $taxonomyMetaTypeAPI->isMetaKeyProtected($metaKey));
         if ($nonAllowedMetaKeys === []) {
             return;
         }
