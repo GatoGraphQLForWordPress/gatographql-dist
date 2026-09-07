@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit560ec7e15ad2596a127a015318561525
+class ComposerStaticInit526f7d0b976495ec47c95700862368fe
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -2020,6 +2020,7 @@ class ComposerStaticInit560ec7e15ad2596a127a015318561525
         'GatoGraphQL\\GatoGraphQL\\ObjectModels\\NullableGraphQLQueryVariablesEntry' => __DIR__ . '/../..' . '/src/ObjectModels/NullableGraphQLQueryVariablesEntry.php',
         'GatoGraphQL\\GatoGraphQL\\Overrides\\ConfigurationCache\\OperationalCacheConfigurationManager' => __DIR__ . '/../..' . '/src/Overrides/ConfigurationCache/OperationalCacheConfigurationManager.php',
         'GatoGraphQL\\GatoGraphQL\\Overrides\\Logger\\Log\\Logger' => __DIR__ . '/../..' . '/src/Overrides/Logger/Log/Logger.php',
+        'GatoGraphQL\\GatoGraphQL\\Overrides\\Services\\AllowOrDenySettingsService' => __DIR__ . '/../..' . '/src/Overrides/Services/AllowOrDenySettingsService.php',
         'GatoGraphQL\\GatoGraphQL\\Overrides\\State\\GraphQLEndpointHandlerAppStateProvider' => __DIR__ . '/../..' . '/src/Overrides/State/GraphQLEndpointHandlerAppStateProvider.php',
         'GatoGraphQL\\GatoGraphQL\\Plugin' => __DIR__ . '/../..' . '/src/Plugin.php',
         'GatoGraphQL\\GatoGraphQL\\PluginApp' => __DIR__ . '/../..' . '/src/PluginApp.php',
@@ -6714,9 +6715,9 @@ class ComposerStaticInit560ec7e15ad2596a127a015318561525
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit560ec7e15ad2596a127a015318561525::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit560ec7e15ad2596a127a015318561525::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit560ec7e15ad2596a127a015318561525::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$classMap;
 
         }, null, ClassLoader::class);
     }

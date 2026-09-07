@@ -1054,6 +1054,7 @@ return array(
     'GatoGraphQL\\GatoGraphQL\\ObjectModels\\NullableGraphQLQueryVariablesEntry' => $baseDir . '/src/ObjectModels/NullableGraphQLQueryVariablesEntry.php',
     'GatoGraphQL\\GatoGraphQL\\Overrides\\ConfigurationCache\\OperationalCacheConfigurationManager' => $baseDir . '/src/Overrides/ConfigurationCache/OperationalCacheConfigurationManager.php',
     'GatoGraphQL\\GatoGraphQL\\Overrides\\Logger\\Log\\Logger' => $baseDir . '/src/Overrides/Logger/Log/Logger.php',
+    'GatoGraphQL\\GatoGraphQL\\Overrides\\Services\\AllowOrDenySettingsService' => $baseDir . '/src/Overrides/Services/AllowOrDenySettingsService.php',
     'GatoGraphQL\\GatoGraphQL\\Overrides\\State\\GraphQLEndpointHandlerAppStateProvider' => $baseDir . '/src/Overrides/State/GraphQLEndpointHandlerAppStateProvider.php',
     'GatoGraphQL\\GatoGraphQL\\Plugin' => $baseDir . '/src/Plugin.php',
     'GatoGraphQL\\GatoGraphQL\\PluginApp' => $baseDir . '/src/PluginApp.php',

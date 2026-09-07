@@ -18,19 +18,24 @@ class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\Al
         if ($entries === []) {
             return $behavior === Behaviors::DENY;
         }
-        $matchResults = \array_filter(\array_map(function (string $termOrRegex) use($name) : bool {
+        $normalizedName = $this->normalizeEntryName($name);
+        $matchResults = \array_filter(\array_map(function (string $termOrRegex) use($name, $normalizedName) : bool {
             // Remove whitespaces at either end of the string
             $termOrRegex = \trim($termOrRegex);
             // Check if it is a regex expression
             if (\str_starts_with($termOrRegex, '/') && \str_ends_with($termOrRegex, '/') || \str_starts_with($termOrRegex, '#') && \str_ends_with($termOrRegex, '#')) {
-                return \preg_match($termOrRegex, $name) === 1;
+                return \preg_match($termOrRegex . 'i', $name) === 1 || \preg_match($termOrRegex . 'i', $normalizedName) === 1;
             }
             // Check it's a full match
-            return $termOrRegex === $name;
+            return $this->normalizeEntryName($termOrRegex) === $normalizedName;
         }, $entries));
         if ($behavior === Behaviors::ALLOW && \count($matchResults) === 0 || $behavior === Behaviors::DENY && \count($matchResults) > 0) {
             return \false;
         }
         return \true;
+    }
+    protected function normalizeEntryName(string $name) : string
+    {
+        return \strtolower(\trim($name));
     }
 }
