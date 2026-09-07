@@ -3229,6 +3229,7 @@ return array(
     'PoPCMSSchema\\MetaMutations\\TypeResolvers\\ObjectType\\EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver' => $vendorDir . '/pop-cms-schema/meta-mutations/src/TypeResolvers/ObjectType/EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver.php',
     'PoPCMSSchema\\MetaQueryWP\\Helpers\\MetaQueryHelpers' => $vendorDir . '/pop-cms-schema/metaquery-wp/src/Helpers/MetaQueryHelpers.php',
     'PoPCMSSchema\\MetaQueryWP\\Module' => $vendorDir . '/pop-cms-schema/metaquery-wp/src/Module.php',
+    'PoPCMSSchema\\MetaQueryWP\\TypeAPIs\\ProtectedMetaKeyResolverTrait' => $vendorDir . '/pop-cms-schema/metaquery-wp/src/TypeAPIs/ProtectedMetaKeyResolverTrait.php',
     'PoPCMSSchema\\Meta\\Environment' => $vendorDir . '/pop-cms-schema/meta/src/Environment.php',
     'PoPCMSSchema\\Meta\\Exception\\MetaKeyNotAllowedException' => $vendorDir . '/pop-cms-schema/meta/src/Exception/MetaKeyNotAllowedException.php',
     'PoPCMSSchema\\Meta\\FeedbackItemProviders\\FeedbackItemProvider' => $vendorDir . '/pop-cms-schema/meta/src/FeedbackItemProviders/FeedbackItemProvider.php',

@@ -4195,6 +4195,7 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'PoPCMSSchema\\MetaMutations\\TypeResolvers\\ObjectType\\EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver' => __DIR__ . '/..' . '/pop-cms-schema/meta-mutations/src/TypeResolvers/ObjectType/EntityMetaKeyWithValueDoesNotExistErrorPayloadObjectTypeResolver.php',
         'PoPCMSSchema\\MetaQueryWP\\Helpers\\MetaQueryHelpers' => __DIR__ . '/..' . '/pop-cms-schema/metaquery-wp/src/Helpers/MetaQueryHelpers.php',
         'PoPCMSSchema\\MetaQueryWP\\Module' => __DIR__ . '/..' . '/pop-cms-schema/metaquery-wp/src/Module.php',
+        'PoPCMSSchema\\MetaQueryWP\\TypeAPIs\\ProtectedMetaKeyResolverTrait' => __DIR__ . '/..' . '/pop-cms-schema/metaquery-wp/src/TypeAPIs/ProtectedMetaKeyResolverTrait.php',
         'PoPCMSSchema\\Meta\\Environment' => __DIR__ . '/..' . '/pop-cms-schema/meta/src/Environment.php',
         'PoPCMSSchema\\Meta\\Exception\\MetaKeyNotAllowedException' => __DIR__ . '/..' . '/pop-cms-schema/meta/src/Exception/MetaKeyNotAllowedException.php',
         'PoPCMSSchema\\Meta\\FeedbackItemProviders\\FeedbackItemProvider' => __DIR__ . '/..' . '/pop-cms-schema/meta/src/FeedbackItemProviders/FeedbackItemProvider.php',
