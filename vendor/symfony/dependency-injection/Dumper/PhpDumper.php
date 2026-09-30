@@ -694,7 +694,7 @@ EOF;
             $witherAssignation = '';
             if ($call[2] ?? \false) {
                 if (null !== $sharedNonLazyId && $lastWitherIndex === $k && 'instance' === $variableName) {
-                    $witherAssignation = \sprintf('$container->%s[\'%s\'] = ', $definition->isPublic() ? 'services' : 'privates', $sharedNonLazyId);
+                    $witherAssignation = \sprintf('$container->%s[%s] = ', $definition->isPublic() ? 'services' : 'privates', $this->doExport($sharedNonLazyId));
                     $this->sharesBeforeSetup = \true;
                 }
                 $witherAssignation .= \sprintf('$%s = ', $variableName);
@@ -777,7 +777,7 @@ EOF;
      *
      * {$return}
 EOF;
-        $code = \str_replace('*/', ' ', $code) . <<<EOF
+        $code = \str_replace('*/', '*\\/', $code) . <<<EOF
 
      */
     protected static function {$methodName}(\$container{$lazyInitialization})
@@ -1296,12 +1296,14 @@ EOF;
             $packageExported = $this->export($deprecation['package']);
             $versionExported = $this->export($deprecation['version']);
             $messageExported = $this->export($deprecation['message']);
+            $aliasComment = \str_replace('*/', '*\\/', $alias);
+            $idComment = \str_replace('*/', '*\\/', $id);
             $code .= <<<EOF
 
     /*{$this->docStar}
-     * Gets the {$public} '{$alias}' alias.
+     * Gets the {$public} '{$aliasComment}' alias.
      *
-     * @return object The "{$id}" service.
+     * @return object The "{$idComment}" service.
      */
     protected static function {$methodNameAlias}(\$container)
     {

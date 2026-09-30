@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit526f7d0b976495ec47c95700862368fe
+class ComposerStaticInit58bb0f82893309c6ce74db90fd4d708c
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1242,6 +1242,8 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay22Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay22Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay30Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay30Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay40Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay40Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay502Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay502Trait.php',
+        'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\Relay50Trait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/Relay50Trait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Cache\\Traits\\Relay\\SwapdbTrait' => __DIR__ . '/..' . '/symfony/cache/Traits/Relay/SwapdbTrait.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ClassBuilder' => __DIR__ . '/..' . '/symfony/config/Builder/ClassBuilder.php',
         'GatoExternalPrefixByGatoGraphQL\\Symfony\\Component\\Config\\Builder\\ConfigBuilderGenerator' => __DIR__ . '/..' . '/symfony/config/Builder/ConfigBuilderGenerator.php',
@@ -1914,6 +1916,7 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\TaxonomyRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/TaxonomyRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Registries\\UserAuthorizationSchemeRegistryFacade' => __DIR__ . '/../..' . '/src/Facades/Registries/UserAuthorizationSchemeRegistryFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Request\\PrematureRequestServiceFacade' => __DIR__ . '/../..' . '/src/Facades/Request/PrematureRequestServiceFacade.php',
+        'GatoGraphQL\\GatoGraphQL\\Facades\\Settings\\InstalledDataSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/Settings/InstalledDataSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\Settings\\OptionNamespacerFacade' => __DIR__ . '/../..' . '/src/Facades/Settings/OptionNamespacerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\TimestampSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/TimestampSettingsManagerFacade.php',
         'GatoGraphQL\\GatoGraphQL\\Facades\\TransientSettingsManagerFacade' => __DIR__ . '/../..' . '/src/Facades/TransientSettingsManagerFacade.php',
@@ -2058,10 +2061,12 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\ExtensionInfoInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/ExtensionInfoInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\ExtensionInitializationConfigurationInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/ExtensionInitializationConfigurationInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\ExtensionInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/ExtensionInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\FeatureInstallerInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/FeatureInstallerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\GatoGraphQLExtensionTrait' => __DIR__ . '/../..' . '/src/PluginSkeleton/GatoGraphQLExtensionTrait.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\MainPluginInfoInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/MainPluginInfoInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\MainPluginInitializationConfigurationInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/MainPluginInitializationConfigurationInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\MainPluginInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/MainPluginInterface.php',
+        'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginDataNaming' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginDataNaming.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginInfoInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginInfoInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginInitializationConfigurationInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginInitializationConfigurationInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginInterface.php',
@@ -2069,6 +2074,7 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginLifecyclePriorities' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginLifecyclePriorities.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginModuleInterface' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginModuleInterface.php',
         'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginOptions' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginOptions.php',
+        'GatoGraphQL\\GatoGraphQL\\PluginSkeleton\\PluginUninstaller' => __DIR__ . '/../..' . '/src/PluginSkeleton/PluginUninstaller.php',
         'GatoGraphQL\\GatoGraphQL\\PluginStaticHelpers' => __DIR__ . '/../..' . '/src/PluginStaticHelpers.php',
         'GatoGraphQL\\GatoGraphQL\\PluginStaticModuleConfiguration' => __DIR__ . '/../..' . '/src/PluginStaticModuleConfiguration.php',
         'GatoGraphQL\\GatoGraphQL\\RESTAPI\\Controllers\\AbstractAdminRESTController' => __DIR__ . '/../..' . '/src/RESTAPI/Controllers/AbstractAdminRESTController.php',
@@ -2320,6 +2326,8 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'GatoGraphQL\\GatoGraphQL\\SettingsCategoryResolvers\\SettingsCategoryResolver' => __DIR__ . '/../..' . '/src/SettingsCategoryResolvers/SettingsCategoryResolver.php',
         'GatoGraphQL\\GatoGraphQL\\SettingsCategoryResolvers\\SettingsCategoryResolverInterface' => __DIR__ . '/../..' . '/src/SettingsCategoryResolvers/SettingsCategoryResolverInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\AbstractSettingsManager' => __DIR__ . '/../..' . '/src/Settings/AbstractSettingsManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\InstalledDataSettingsManager' => __DIR__ . '/../..' . '/src/Settings/InstalledDataSettingsManager.php',
+        'GatoGraphQL\\GatoGraphQL\\Settings\\InstalledDataSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/InstalledDataSettingsManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\JSONDataOptionSettingsManager' => __DIR__ . '/../..' . '/src/Settings/JSONDataOptionSettingsManager.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\JSONDataOptionSettingsManagerInterface' => __DIR__ . '/../..' . '/src/Settings/JSONDataOptionSettingsManagerInterface.php',
         'GatoGraphQL\\GatoGraphQL\\Settings\\LogEntryCounterSettingsManager' => __DIR__ . '/../..' . '/src/Settings/LogEntryCounterSettingsManager.php',
@@ -6695,6 +6703,7 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
         'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceInterface.php',
         'PoP\\Root\\Services\\AutomaticallyInstantiatedServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/AutomaticallyInstantiatedServiceTrait.php',
         'PoP\\Root\\Services\\BasicServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/BasicServiceInterface.php',
+        'PoP\\Root\\Services\\ProcessScopedStateServiceInterface' => __DIR__ . '/..' . '/getpop/root/src/Services/ProcessScopedStateServiceInterface.php',
         'PoP\\Root\\Services\\StandaloneServiceTrait' => __DIR__ . '/..' . '/getpop/root/src/Services/StandaloneServiceTrait.php',
         'PoP\\Root\\StateManagers\\AppStateManager' => __DIR__ . '/..' . '/getpop/root/src/StateManagers/AppStateManager.php',
         'PoP\\Root\\StateManagers\\AppStateManagerInterface' => __DIR__ . '/..' . '/getpop/root/src/StateManagers/AppStateManagerInterface.php',
@@ -6716,9 +6725,9 @@ class ComposerStaticInit526f7d0b976495ec47c95700862368fe
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit526f7d0b976495ec47c95700862368fe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit58bb0f82893309c6ce74db90fd4d708c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit58bb0f82893309c6ce74db90fd4d708c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit58bb0f82893309c6ce74db90fd4d708c::$classMap;
 
         }, null, ClassLoader::class);
     }

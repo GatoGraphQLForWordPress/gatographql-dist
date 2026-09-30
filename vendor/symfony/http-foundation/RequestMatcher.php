@@ -157,7 +157,7 @@ class RequestMatcher implements RequestMatcherInterface
                 return \false;
             }
         }
-        if (null !== $this->path && !\preg_match('{' . $this->path . '}', \rawurldecode($request->getPathInfo()))) {
+        if (null !== $this->path && !\preg_match('{' . $this->path . '}s', \rawurldecode($request->getPathInfo()))) {
             return \false;
         }
         if (null !== $this->host && !\preg_match('{' . $this->host . '}i', $request->getHost())) {
